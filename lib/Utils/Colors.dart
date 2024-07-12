@@ -27,4 +27,7 @@ class Colorutils {
   static const svguicolour2= Color(0xFFDE6A32);
   static const buttoncolor= Color(0xFFB7DCD8);
   static const whitebottom= Color(0xFF999999);
+  static const bordercolor= Color(0xFF8E8E);
+  static const timecolortopics= Color(0xFF1E1E1E);
+  static const chatcolor= Color(0xFFB6DCD7);
 }

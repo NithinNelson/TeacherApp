@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../Utils/Colors.dart';
+import '../../../Utils/Colors.dart';
 
 class mychat extends StatelessWidget {
   const mychat({super.key});

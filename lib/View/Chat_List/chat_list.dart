@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 
 import '../Home_Page/Home_Widjets/bottom_navigationbar.dart';
-import 'my_chat.dart';
+import 'Mychat/my_chat.dart';
 
 class ChatWithParentsPage extends StatefulWidget {
   const ChatWithParentsPage({super.key});

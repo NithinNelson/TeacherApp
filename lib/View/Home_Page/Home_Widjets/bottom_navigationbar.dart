@@ -7,6 +7,8 @@ import 'package:teacherapp/Utils/Colors.dart';
 
 import '../../Bottom_Sheet/bottom_sheet.dart';
 import '../../Chat_List/chat_list.dart';
+import '../../Chat_View/Chat_view.dart';
+import '../../Chat_View/Chat_widgets/chatnew.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   @override
@@ -71,7 +73,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 onTap: (){
                   Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => ChatWithParentsPage()));
+                      MaterialPageRoute(builder: (context) => ChatScreen()));
+                //   chatview
+                //   ChatWithParentsPage
+
                 },
                 child: CircleAvatar(
                   radius: 25,

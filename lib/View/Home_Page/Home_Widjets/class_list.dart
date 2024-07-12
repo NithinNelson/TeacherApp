@@ -34,14 +34,17 @@ class Classlist extends StatelessWidget {
 
                   right:0,
                   top: 0,
-                  child: Container(
-                    height: 58.w,
-                    width: 95.w,
-                    child: SvgPicture.asset(
-                     index%2==0? 'assets/images/svggui.svg':"assets/images/svgui2.svg",
-                      color: index%2==0? Colorutils.svguicolour:Colorutils.svguicolour2,
-                      fit: BoxFit
-                          .fill, // Make sure the SVG file is located in the assets folder
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(topRight: Radius.circular(30)),
+                    child: Container(
+                      height: 58.w,
+                      width: 95.w,
+                      child: SvgPicture.asset(
+                       index%2==0? 'assets/images/svggui.svg':"assets/images/svgui2.svg",
+                        color: index%2==0? Colorutils.svguicolour:Colorutils.svguicolour2,
+                        fit: BoxFit
+                            .fill, // Make sure the SVG file is located in the assets folder
+                      ),
                     ),
                   ),
                 ),

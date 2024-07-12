@@ -10,14 +10,20 @@ class BottomSheetContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colorutils.whitebottom.withOpacity(0.3),
-      padding: EdgeInsets.all(16),
+      color: Colorutils.whitebottom.withOpacity(0.01),
+      padding: EdgeInsets.only(left: 16,right: 16,bottom: 16),
       height: MediaQuery
           .of(context)
           .size
-          .height * 0.85,
+          .height * 0.80,
       child: Column(
         children: [
+          Divider(
+            thickness: 3,
+            color: Colors.grey,
+            indent: 130,
+            endIndent: 130,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -31,8 +37,8 @@ class BottomSheetContent extends StatelessWidget {
                   style: GoogleFonts.inter(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
-                    fontSize: 18.0,
-
+                    fontSize: 15.0,
+                    decoration: TextDecoration.underline,
 
                   ),
                 ),
@@ -52,23 +58,33 @@ class BottomSheetContent extends StatelessWidget {
             ],
           ),
           SizedBox(height: 16),
-           TextField(
+          TextField(
             decoration: InputDecoration(
+              fillColor: Colors.white,
+              filled: true,
+              hintText: 'Search name..',
 
-              fillColor: Colors.red,
-              hintText: 'Search name...',
-              prefixIcon:Container(
-                height: 27.w,
-                width: 27.w,
-                child: SvgPicture.asset(
-                  'assets/images/MagnifyingGlass.svg',
-                  width: 200,
-                  height: 200,
+              hintStyle: TextStyle(color: Colors.grey),
+              prefixIcon: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: SvgPicture.asset(
+                    'assets/images/MagnifyingGlass.svg',
+                    color: Colors.grey,
+                  ),
                 ),
               ),
-              border: InputBorder.none, // Removes the outline border
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.0), // Border radius
+                borderSide: BorderSide.none, // Removes the outline border
+              ),              contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             ),
+            style: TextStyle(color: Colors.black), // Text color
+            cursorColor: Colors.black, // Cursor color
           ),
+
 
           SizedBox(height: 16),
           SingleChildScrollView(
@@ -110,16 +126,39 @@ class BottomSheetContent extends StatelessWidget {
             child: ListView(
               children: List.generate(10, (index) {
                 return ListTile(
+
                   leading: CircleAvatar(
+                    radius: 24,
                     backgroundImage: AssetImage(
-                        'assets/user.png'), // Change to your image asset
+                        'assets/images/profile image.png'),
                   ),
-                  title: Text('Person $index'),
-                  subtitle: Text('Subtitle $index'),
+                  title:Text(
+                    'Ali Bin Omar',
+                    style: TextStyle(
+                      fontSize: 18.0, // Adjust the font size as needed
+                      color: Colorutils.bottomiconcolor, // Choose your desired color
+
+                    ),
+                  ),
+                  subtitle: Text(
+                    'Son of Alibin omar',
+                    style: TextStyle(
+                      fontSize: 14.0, // Adjust the font size as needed
+                      color: Colorutils.topicbackground, // Choose your desired color
+
+                    ),
+                  ),
                   trailing: index % 3 == 0
                       ? TextButton(
                     onPressed: () {},
-                    child: Text('Invite'),
+                    child:Text(
+                      'invite',
+                      style: TextStyle(
+                        fontSize: 14.0, // Adjust the font size as needed
+                        color: Colorutils.topicbackground, // Choose your desired color
+
+                      ),
+                    ),
                   )
                       : null,
                 );
