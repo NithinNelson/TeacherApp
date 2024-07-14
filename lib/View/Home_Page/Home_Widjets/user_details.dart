@@ -1,20 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
-import 'package:google_fonts/google_fonts.dart';
-
+import 'package:teacherapp/Utils/font_util.dart';
 import '../../../Utils/Colors.dart';
 
 class UserDetails extends StatelessWidget {
-  final ZoomDrawerController   zoomDrawerController;
+  final ZoomDrawerController zoomDrawerController;
   const UserDetails({super.key, required this.zoomDrawerController});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(top:5,left: 10,right: 10,bottom: 3),
+        padding: const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 3),
         child: Container(
           height: 90.w,
           decoration: BoxDecoration(
@@ -23,69 +21,59 @@ class UserDetails extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 12),
-                child: GestureDetector(
-                  onTap: (){ ZoomDrawer.of(context)?.toggle();},
-                  child: Container(
-                    height: 45.w,
+              SizedBox(width: 12.w),
+              GestureDetector(
+                onTap: () {
+                  ZoomDrawer.of(context)?.toggle();
+                },
+                child: Container(
+                  height: 45.w,
+                  width: 45.w,
+                  padding: const EdgeInsets.symmetric(horizontal: 9).w,
+                  decoration: BoxDecoration(
+                    color: Colorutils.Whitecolor.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(8).r,
+                  ),
+                  child: SvgPicture.asset(
                     width: 45.w,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/menu.png'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                    "assets/images/menu_icon.svg",
+                    fit: BoxFit.fitWidth,
                   ),
                 ),
               ),
-              Container(
-                height: 50.w,
-                width: 155.w,
-                margin: EdgeInsets.only(left: 10, top: 5),
+              SizedBox(width: 12.w),
+              Expanded(
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Welcome',
-
-                      style: GoogleFonts.inter(
-                        color: Colorutils.Whitecolor.withOpacity(0.6),
-                        fontSize: 15.0,
-
-
-                      ),
+                      style: TeacherAppFonts.interW400_14sp_textWhiteOp60,
                     ),
-
-                    Text(
-                      'Fathima Nourin',
-                      style: GoogleFonts.inter(
-                        color: Colorutils.Whitecolor,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          Text(
+                            'Fathima Nourin',
+                            style: TeacherAppFonts.interW600_18sp_textWhite,
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
+              SizedBox(width: 12.w),
               Stack(
                 children: [
-                  Container(
-                    width: 40.w,
-                    height: 40.w,
-                    padding: const EdgeInsets.all(7).w,
-                    decoration: const BoxDecoration(
-
-                      //
-                      // image: DecorationImage(
-                      //   image: AssetImage('assets/images/bell 1.png'),
-                      //   fit: BoxFit.cover,
-                      // ),
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5, top: 5).w,
                     child: SvgPicture.asset(
                       'assets/images/bell 1.svg',
-                      width: 200,
-                      height: 200,
+                      width: 30.w,
+                      fit: BoxFit.fitWidth,
                     ),
                   ),
                   Positioned(
@@ -102,25 +90,24 @@ class UserDetails extends StatelessWidget {
                       child: FittedBox(
                         child: Text(
                           "4",
-                          style: const TextStyle(
-                            color: Colorutils.userdetailcolor,
-                          ),
+                          style: TeacherAppFonts.interW500_11sp_userdetailcolor,
                         ),
                       ),
                     ),
                   ),
                 ],
               ),
-              SizedBox(width: 10,),
+              SizedBox(width: 12.w),
               CircleAvatar(
-                radius: 25.0,
+                radius: 25.r,
                 backgroundColor: Colorutils.Whitecolor,
                 child: CircleAvatar(
-                  radius: 24.0,
+                  radius: 24.r,
                   backgroundImage:
                       AssetImage('assets/images/profile image.png'),
                 ),
               ),
+              SizedBox(width: 12.w),
             ],
           ),
         ));

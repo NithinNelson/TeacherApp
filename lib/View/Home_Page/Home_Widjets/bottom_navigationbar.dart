@@ -11,6 +11,8 @@ import '../../Chat_View/Chat_view.dart';
 import '../../Chat_View/Chat_widgets/chatnew.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
+  const CustomBottomNavigationBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(

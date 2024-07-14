@@ -12,7 +12,7 @@ import 'Home_Widjets/topics.dart';
 import 'Home_Widjets/user_details.dart';
 
 class Homepage extends StatelessWidget {
-  final ZoomDrawerController   zoomDrawerController;
+  final ZoomDrawerController zoomDrawerController;
   const Homepage({super.key, required this.zoomDrawerController});
 
   @override
@@ -21,21 +21,32 @@ class Homepage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(4.0),
         child: SafeArea(
-          child: Column(
-            children: [
-              UserDetails(zoomDrawerController: zoomDrawerController,),
-              Myclass(),
-              Classlist(),
-              subjectlist(),
-          
-              TimeTable(),
-          
-              topic()
-                ],
+          child: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                UserDetails(
+                  zoomDrawerController: zoomDrawerController,
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  child: ListView(
+                    padding: const EdgeInsets.only(bottom: 50).w,
+                    children: const [
+                      MyClass(),
+                      ClassList(),
+                      SubjectList(),
+                      TimeTable(),
+                      Topic(),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar()   ,
+      bottomNavigationBar: const CustomBottomNavigationBar(),
     );
   }
 }

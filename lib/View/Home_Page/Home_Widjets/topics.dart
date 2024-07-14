@@ -5,15 +5,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 
-class topic extends StatelessWidget {
-  const topic({super.key});
+class Topic extends StatelessWidget {
+  const Topic({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-
         alignment: Alignment.topCenter,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(26),
@@ -21,7 +20,6 @@ class topic extends StatelessWidget {
         ),
         width: double.infinity,
         height: 180,
-
         child: Column(
           children: [
             Container(
@@ -66,7 +64,8 @@ class topic extends StatelessWidget {
                                   height: 70.w,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Mathematics',
@@ -143,22 +142,16 @@ class topic extends StatelessWidget {
                                         radius: 15,
                                       ),
                                     ),
-
                                   ],
                                 ),
-
                               ),
                               Text(
                                 'Students',
                                 style: GoogleFonts.inter(
-                                  fontSize: 14.0,
-                                  color:Colors.black
-                                ),
+                                    fontSize: 14.0, color: Colors.black),
                               ),
                             ],
                           ),
-
-
                         ],
                       ),
                     ),
@@ -176,10 +169,8 @@ class topic extends StatelessWidget {
               '8.0AM - 12.0PM',
               style: GoogleFonts.inter(
                   fontSize: 12.0,
-                  color:Colorutils.timecolortopics,
-                fontWeight: FontWeight.w600
-
-              ),
+                  color: Colorutils.timecolortopics,
+                  fontWeight: FontWeight.w600),
             ),
           ],
         ),

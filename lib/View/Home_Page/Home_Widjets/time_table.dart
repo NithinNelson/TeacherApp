@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:teacherapp/Utils/Colors.dart';
+import 'package:teacherapp/Utils/font_util.dart';
 
 class TimeTable extends StatelessWidget {
   const TimeTable({super.key});
@@ -10,42 +11,36 @@ class TimeTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 12, right: 12),
-      child: Container(
-        height: 38.w,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              child: Text(
-                'Timetable',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: 'Roboto',
-                ),
-              ),
-            ),
-            SizedBox(width: 70,),
-            TextButton(onPressed: () {}, child: Row(
-
+      padding: const EdgeInsets.only(left: 12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Timetable',
+            style: TeacherAppFonts.interW500_18sp_black,
+          ),
+          TextButton(
+            onPressed: () {},
+            child: Row(
               children: [
                 Text(
-                  '5 Classes Today',
-                  style: TextStyle(
-                    fontSize: 15.0,
-
-                    color: Colorutils.letters1,
-                    fontFamily: 'Roboto',
-                  ),
+                  '5 ',
+                  style: TeacherAppFonts.interW700_16sp_letters1,
                 ),
-               SizedBox(width: 5,),
-               Icon(Icons.arrow_forward_ios_outlined, color: Colorutils.letters1,size: 15,)
-
+                Text(
+                  'Classes Today',
+                  style: TeacherAppFonts.interW400_16sp_letters1,
+                ),
+                SizedBox(width: 5.w),
+                Icon(
+                  Icons.arrow_forward_ios_outlined,
+                  color: Colorutils.letters1,
+                  size: 15.w,
+                )
               ],
-            ))
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }

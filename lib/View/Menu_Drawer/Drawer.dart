@@ -8,13 +8,15 @@ import 'menu_page.dart';
 class HomeScreen extends StatelessWidget {
   final ZoomDrawerController _drawerController = ZoomDrawerController();
 
+  HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ZoomDrawer(
       menuScreenWidth: double.infinity,
       controller: _drawerController,
       style: DrawerStyle.defaultStyle,
-      menuScreen: MenuScreen(),
+      menuScreen: const MenuScreen(),
       mainScreen: Homepage(
         zoomDrawerController: _drawerController,
       ),
@@ -24,6 +26,7 @@ class HomeScreen extends StatelessWidget {
       angle: 0,
       menuBackgroundColor: Colors.teal,
       slideWidth: MediaQuery.of(context).size.width * 0.65,
+      shadowLayer2Color: Colors.transparent,
     );
   }
 }
