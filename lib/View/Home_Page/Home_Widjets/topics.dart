@@ -105,40 +105,35 @@ class Topic extends StatelessWidget {
                                     Positioned(
                                       left: 0,
                                       child: CircleAvatar(
-                                        child: SvgPicture.asset(
-                                          'assets/images/profile image.png',
-                                          fit: BoxFit.contain,
-                                        ),
+                                        child: Image.asset('assets/images/profile2.png'),
                                         radius: 15,
                                       ),
                                     ),
                                     Positioned(
                                       left: 20,
                                       child: CircleAvatar(
-                                        child: SvgPicture.asset(
-                                          'assets/images/profile image.png',
-                                          fit: BoxFit.contain,
-                                        ),
+                                        child: Image.asset('assets/images/profile2.png'),
                                         radius: 15,
                                       ),
                                     ),
                                     Positioned(
                                       left: 40,
                                       child: CircleAvatar(
-                                        child: SvgPicture.asset(
-                                          'assets/images/profile image.png',
-                                          fit: BoxFit.contain,
-                                        ),
+                                        child: Image.asset('assets/images/profile2.png'),
                                         radius: 15,
                                       ),
                                     ),
                                     Positioned(
                                       left: 60,
                                       child: CircleAvatar(
-                                        child: SvgPicture.asset(
-                                          'assets/images/profile image.png',
-                                          fit: BoxFit.contain,
-                                        ),
+                                         backgroundColor:  Colorutils.userdetailcolor,
+                                        child: Text('+23',style: TextStyle(
+                                          color: Colorutils.Whitecolor,
+                                          fontSize: 12,
+
+
+
+                                        ),),
                                         radius: 15,
                                       ),
                                     ),

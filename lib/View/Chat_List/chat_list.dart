@@ -2,14 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 
+import '../Chat_View/Chat_widgets/chatnew.dart';
 import '../Home_Page/Home_Widjets/bottom_navigationbar.dart';
 import 'Mychat/my_chat.dart';
 
 class ChatWithParentsPage extends StatefulWidget {
-  const ChatWithParentsPage({super.key});
+  final ZoomDrawerController zoomDrawerController;
+
+  const ChatWithParentsPage({super.key, required this.zoomDrawerController});
 
   @override
   State<ChatWithParentsPage> createState() => _ChatWithParentsPageState();
@@ -56,84 +60,76 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
           Container(
             color: Colorutils.userdetailcolor,
             child: TabBar(
-
-
-tabAlignment: TabAlignment.center,
-
+              tabAlignment: TabAlignment.center,
               controller: _tabcontroller,
               indicatorColor: Colors.white,
               indicatorSize: TabBarIndicatorSize.label,
-
               isScrollable: true,
               tabs: <Widget>[
-
                 Container(
-                    // width: 100,
-                    height: 50,
+                  // width: 100,
+                  height: 50,
 
-                    child: Row(mainAxisAlignment: MainAxisAlignment.center,
-
-                      children: [
-                        Text(
-                          'Chatlist',
-
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Chatlist',
+                        style: GoogleFonts.inter(
+                          color: Colorutils.Whitecolor,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 10,
+                        child: Text(
+                          "6",
                           style: GoogleFonts.inter(
-                            color: Colorutils.Whitecolor,
-                            fontWeight: FontWeight.w600,
-
-                            fontSize: 16.0,
-
-
-                          ),
+                              fontSize: 13.0,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.green),
                         ),
-                        SizedBox(width: 8,),
-                        CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 10,
-                          child: Text(
-                            "6",
-                            style: GoogleFonts.inter(
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.green),
-                          ),
-                        ),
-                      ],
-                    ),
-
+                      ),
+                    ],
+                  ),
                 ),
                 Container(
-                    // width: 100,
-                    height: 50,
+                  // width: 100,
+                  height: 50,
 
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Chat',
-
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Chat',
+                        style: GoogleFonts.inter(
+                          color: Colorutils.Whitecolor,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 10,
+                        child: Text(
+                          "3",
                           style: GoogleFonts.inter(
-                            color: Colorutils.Whitecolor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16.0,
-
-
-                          ),
+                              fontSize: 13.0,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.green),
                         ),
-                        SizedBox(width: 8,),
-                        CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 10,
-                          child: Text(
-                            "3",
-                            style: GoogleFonts.inter(
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.green),
-                          ),
-                        ),
-                      ],
-                    ),),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -148,6 +144,7 @@ tabAlignment: TabAlignment.center,
                     time: '10:53 am',
                     unreadMessages: 6,
                     classs: '4A',
+                    zoomDrawerController: widget.zoomDrawerController,
                   ),
                   Divider(
                     thickness: 0.3,
@@ -160,6 +157,7 @@ tabAlignment: TabAlignment.center,
                     time: '08:22 am',
                     unreadMessages: 3,
                     classs: '5A',
+                    zoomDrawerController: widget.zoomDrawerController,
                   ),
                   Divider(
                     thickness: 0.3,
@@ -172,6 +170,7 @@ tabAlignment: TabAlignment.center,
                     time: 'Yesterday',
                     unreadMessages: 1,
                     classs: '6A',
+                    zoomDrawerController: widget.zoomDrawerController,
                   ),
                   Divider(
                     thickness: 0.3,
@@ -184,6 +183,7 @@ tabAlignment: TabAlignment.center,
                     time: '11:30 pm',
                     unreadMessages: 0,
                     classs: '7B',
+                    zoomDrawerController: widget.zoomDrawerController,
                   ),
                   Divider(
                     thickness: 0.3,
@@ -195,7 +195,7 @@ tabAlignment: TabAlignment.center,
                     message: '',
                     time: '20-04-2024',
                     unreadMessages: 0,
-                    classs: '8A',
+                    classs: '8A', zoomDrawerController: widget.zoomDrawerController,
                   ),
                   Divider(
                     thickness: 0.3,
@@ -209,12 +209,16 @@ tabAlignment: TabAlignment.center,
           ),
         ],
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        zoomDrawerController: widget.zoomDrawerController,
+      ),
     );
   }
 }
 
 class ChatItem extends StatelessWidget {
+  final ZoomDrawerController zoomDrawerController;
+
   final String className;
   final String message;
   final String time;
@@ -226,49 +230,65 @@ class ChatItem extends StatelessWidget {
     required this.message,
     required this.time,
     required this.unreadMessages,
-    required this.classs,
+    required this.classs, required this.zoomDrawerController,
   });
+
+
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 60,
-      child: ListTile(
-        leading: CircleAvatar(
-          radius: 25,
-          child: Text(
-            classs,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ChatScreen(
+                        zoomDrawerController: zoomDrawerController,
+                      )));
+        },
+        child: ListTile(
+          leading: CircleAvatar(
+            radius: 25,
+            child: Text(
+              classs,
+              style: GoogleFonts.inter(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black),
+            ),
+          ),
+          title: Text(
+            className,
             style: GoogleFonts.inter(
                 fontSize: 16.0,
                 fontWeight: FontWeight.w500,
                 color: Colors.black),
           ),
-        ),
-        title: Text(
-          className,
-          style: GoogleFonts.inter(
-              fontSize: 16.0, fontWeight: FontWeight.w500, color: Colors.black),
-        ),
-        subtitle: Text(
-          message,
-          style: GoogleFonts.inter(
-              fontSize: 13.0, fontWeight: FontWeight.w400, color: Colors.black),
-        ),
-        trailing: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(time),
-            SizedBox(height: 5),
-            if (unreadMessages > 0)
-              CircleAvatar(
-                radius: 10,
-                backgroundColor: Colorutils.userdetailcolor,
-                child: Text(
-                  unreadMessages.toString(),
-                  style: TextStyle(color: Colors.white, fontSize: 12),
+          subtitle: Text(
+            message,
+            style: GoogleFonts.inter(
+                fontSize: 13.0,
+                fontWeight: FontWeight.w400,
+                color: Colors.black),
+          ),
+          trailing: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(time),
+              SizedBox(height: 5),
+              if (unreadMessages > 0)
+                CircleAvatar(
+                  radius: 10,
+                  backgroundColor: Colorutils.userdetailcolor,
+                  child: Text(
+                    unreadMessages.toString(),
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );

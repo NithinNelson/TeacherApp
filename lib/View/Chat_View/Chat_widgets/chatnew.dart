@@ -4,79 +4,88 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 
 import '../../../Controller/chat_controller.dart';
+import '../../Chat_List/Mychat/Chat_seen.dart';
 import '../../Chat_List/Mychat/my_chat.dart';
+import '../../Chat_List/chat_list.dart';
+import 'Grouped_view.dart';
 
 class ChatScreen extends StatefulWidget {
-  ChatScreen({super.key});
+  final ZoomDrawerController zoomDrawerController;
+
+  ChatScreen({super.key, required this.zoomDrawerController});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver, SingleTickerProviderStateMixin {
+class _ChatScreenState extends State<ChatScreen> with  SingleTickerProviderStateMixin {
   TextEditingController messageCtr = TextEditingController();
-  late bool isKeboardOpen;
-  late double keybordHeight;
 
-  late double screenHeight;
+  // late bool isKeboardOpen;
+  // late double keybordHeight;
+  //
+  // late double screenHeight;
   TabController? _tabcontroller;
+
+
 
 
   @override
   void initState() {
     super.initState();
     _tabcontroller = TabController(length: 2, vsync: this);
-    WidgetsBinding.instance.addObserver(this);
-    screenHeight = ScreenUtil().screenHeight;
-    isKeboardOpen = false;
-    keybordHeight = 0;
+    // WidgetsBinding.instance.addObserver(this);
+    // screenHeight = ScreenUtil().screenHeight;
+    // isKeboardOpen = false;
+    // keybordHeight = 0;
     Get.find<MessageController>().isReplay.value = false;
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    // WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
-  @override
-  void didChangeMetrics() async {
-    super.didChangeMetrics();
-
-    double bottomInset = MediaQuery.of(context).viewInsets.bottom;
-    if (keybordHeight < bottomInset) {
-      keybordHeight = bottomInset;
-      screenHeight = ScreenUtil().screenHeight;
-      print(keybordHeight);
-    }
-
-    bool isCurrentlyFocused = Get.find<MessageController>().focusNode.hasFocus;
-    if (isKeboardOpen) {
-      // If the keyboard was open and now the focus is lost
-      if (!isCurrentlyFocused) {
-        setState(() {
-          print("close");
-          isKeboardOpen = false;
-          screenHeight = ScreenUtil().screenHeight;
-        });
-      }
-    } else {
-      // If the keyboard was closed and now the focus is gained
-      if (isCurrentlyFocused) {
-        setState(() {
-          print("open");
-          isKeboardOpen = true;
-          screenHeight = screenHeight - keybordHeight;
-        });
-      }
-    }
-    print("Screen height = ${ScreenUtil().screenHeight}");
-  }
+  // @override
+  // void didChangeMetrics() async {
+  //   super.didChangeMetrics();
+  //
+  //   double bottomInset = MediaQuery.of(context).viewInsets.bottom;
+  //   if (keybordHeight < bottomInset) {
+  //     keybordHeight = bottomInset;
+  //     screenHeight = ScreenUtil().screenHeight;
+  //     print(keybordHeight);
+  //   }
+  //
+  //   bool isCurrentlyFocused = Get.find<MessageController>().focusNode.hasFocus;
+  //   if (isKeboardOpen) {
+  //     // If the keyboard was open and now the focus is lost
+  //     if (!isCurrentlyFocused) {
+  //       setState(() {
+  //         print("close");
+  //         isKeboardOpen = false;
+  //         screenHeight = ScreenUtil().screenHeight;
+  //       });
+  //     }
+  //   } else {
+  //     // If the keyboard was closed and now the focus is gained
+  //     if (isCurrentlyFocused) {
+  //       setState(() {
+  //         print("open");
+  //         isKeboardOpen = true;
+  //         screenHeight = screenHeight - keybordHeight;
+  //       });
+  //     }
+  //   }
+  //   print("Screen height = ${ScreenUtil().screenHeight}");
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +96,11 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver, Si
         padding: const EdgeInsets.all(4.0),
         child: Row(
           children: [
-            IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back_ios,color: Colors.white,)),
+            IconButton(onPressed: (){
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  ChatWithParentsPage(zoomDrawerController: widget.zoomDrawerController,)));
+            }, icon: Icon(Icons.arrow_back_ios,color: Colors.white,)),
             CircleAvatar(radius: 20,backgroundColor: Colors.white,),
             SizedBox(width: 10,),
             Text(
@@ -114,13 +127,16 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver, Si
       ],
     ),
       body: SizedBox(
-        height: screenHeight,
+        // height: screenHeight,
+
         child: Column(
           children: [
             Container(
               color: Colorutils.userdetailcolor,
               child: TabBar(
-
+                onTap: (_) {
+                  setState(() {});
+                },
 
                 tabAlignment: TabAlignment.center,
 
@@ -202,7 +218,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver, Si
               ),
             ),
             Expanded(
-              child: TabBarView(controller: _tabcontroller, children: [
+              child: TabBarView(
+                  controller: _tabcontroller, children: [
                 Container(
                   decoration: const BoxDecoration(
                     image: DecorationImage(
@@ -213,197 +230,220 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver, Si
                     ),
                   ),
                   child: const ChatList(),
-                )
+
+                ),
+                grouped_view(),
+
+
 
               ]),
 
             ),
-            GetX<MessageController>(
-              builder: (controller) {
-                return Container(
-                  width: double.infinity,
-                  color:Colorutils.Whitecolor,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.h),
-                    child: Column(
-                      children: [
-                        SizedBox(width: 10.h,),
+            if(_tabcontroller?.index== 0)
+              GetX<MessageController>(
+                builder: (controller) {
+                  return Container(
+                    width: double.infinity,
+                    color: Colorutils.Whitecolor,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.h),
+                      child: Column(
+                        children: [
+                          SizedBox(width: 10.h,),
 
-                        controller!.isReplay.value
-                            ? IntrinsicHeight(
-                          child: Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10.h),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 7.w,
-                                  decoration: BoxDecoration(
-                                    color: Colors.green,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(10.h),
-                                      bottomLeft: Radius.circular(10.h),
+                          controller!.isReplay.value
+                              ? IntrinsicHeight(
+                            child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.h),
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 7.w,
+                                    decoration: BoxDecoration(
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10.h),
+                                        bottomLeft: Radius.circular(10.h),
+                                      ),
                                     ),
                                   ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.all(5.w),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: double.infinity,
+                                            child: Text(
+                                              controller.replayName.value,
+
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: double.infinity,
+                                            child: Text(
+                                              controller
+                                                  .replayMessage.value,
+                                              maxLines: 3,
+                                              overflow:
+                                              TextOverflow.ellipsis,
+
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  IconButton(
+                                      onPressed: () {
+                                        Get
+                                            .find<MessageController>()
+                                            .isReplay
+                                            .value = false;
+                                      },
+                                      icon: const Icon(Icons.close))
+                                ],
+                              ),
+                            ),
+                          )
+                              : const SizedBox(),
+                          SizedBox(width: 10.h,),
+                          Container(
+                            height: 60.w,
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  icon: SvgPicture.asset(
+                                    'assets/images/Attachment.svg',
+                                    width: 24,
+                                    height: 24,
+                                  ),
+                                  onPressed: () {
+                                    FocusScope.of(context).requestFocus(
+                                        Get.find<MessageController>().focusNode);
+                                    // Handle attachment button press
+                                  },
                                 ),
                                 Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(5.w),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                        width: 0.2,
+                                      ),
+                                    ),
+                                    child: Row(
                                       children: [
-                                        SizedBox(
-                                          width: double.infinity,
-                                          child: Text(
-                                            controller.replayName.value,
+                                        Expanded(
+                                          child: TextField(
 
+                                            focusNode: controller.focusNode,
+                                            controller: messageCtr,
+                                            decoration: InputDecoration(
+                                              prefix: SizedBox(width: 10.w,),
+
+                                              border: InputBorder.none,
+                                              contentPadding: const EdgeInsets
+                                                  .all(0),
+                                              isDense: true,
+                                              hintText: "Message",
+
+                                            ),
+                                            onChanged: (value) {
+                                              setState(() {
+
+                                              });
+                                              controller.ontype.value = value;
+                                            },
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: double.infinity,
-                                          child: Text(
-                                            controller
-                                                .replayMessage.value,
-                                            maxLines: 3,
-                                            overflow:
-                                            TextOverflow.ellipsis,
-
+                                        IconButton(
+                                          icon: SvgPicture.asset(
+                                            'assets/images/profileplus.svg',
+                                            width: 24,
+                                            height: 24,
                                           ),
+                                          onPressed: () {
+                                            // Handle profile plus button press
+                                          },
                                         ),
                                       ],
                                     ),
                                   ),
                                 ),
                                 IconButton(
-                                    onPressed: () {
-                                      Get.find<MessageController>()
-                                          .isReplay
-                                          .value = false;
-                                    },
-                                    icon: const Icon(Icons.close))
+                                  icon: SvgPicture.asset(
+                                    'assets/images/Camera.svg',
+                                    width: 24,
+                                    height: 24,
+
+                                  ),
+                                  onPressed: () {
+                                    // Handle camera button press
+                                  },
+                                ),
+
+                                messageCtr.text.isEmpty
+                               ? Icon(Icons.mic,color: Colorutils.userdetailcolor,size:30,)
+                                :
+                                IconButton(
+                                  icon:Icon(Icons.send,color: Colorutils.userdetailcolor,),
+
+
+                                  // SvgPicture.asset(
+                                  //   'assets/images/mic.svg',
+                                  //   width: 24,
+                                  //   height: 24,
+                                  // ),
+                                  onPressed: () {
+                                    setState(() {
+
+                                    });
+                                    Get.find<MessageController>()
+                                        .sentMsg(messageCtr.text);
+                                    //delaying for completing the message tile update after rebuild//
+                                    Future.delayed(
+                                        const Duration(milliseconds: 50), () {
+                                      Get
+                                          .find<MessageController>()
+                                          .chatListscrollController
+                                          .value
+                                          .animateTo(
+                                        controller
+                                            .chatListscrollController
+                                            .value
+                                            .position
+                                            .maxScrollExtent,
+                                        duration: const Duration(
+                                            milliseconds: 200),
+                                        curve: Curves.easeOut,
+                                      );
+                                    });
+                                    messageCtr.clear();
+                                    controller.ontype.value = "";
+                                  },
+                                )
                               ],
                             ),
                           ),
-                        )
-                            : const SizedBox(),
-                        SizedBox(width: 10.h,),
-                        Container(
-                          height: 60.w,
-                          child: Row(
-                            children: [
-                              IconButton(
-                                icon: SvgPicture.asset(
-                                  'assets/images/Attachment.svg',
-                                  width: 24,
-                                  height: 24,
-                                ),
-                                onPressed: () {
-                                  // Handle attachment button press
-                                },
-                              ),
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 0.2,
-                                    ),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child:  TextField(
-                                          focusNode: controller.focusNode,
-                                          controller: messageCtr,
-                                          decoration: InputDecoration(
-                                          prefix:                       SizedBox(width: 10.w,),
 
-                                          border: InputBorder.none,
-                                          contentPadding: const EdgeInsets.all(0),
-                                          isDense: true,
-                                          hintText: "Message",
-
-                                          ),
-                                          onChanged: (value) {
-                                          controller.ontype.value = value;
-                                          },
-                                          ),
-                                      ),
-                                      IconButton(
-                                        icon: SvgPicture.asset(
-                                          'assets/images/profileplus.svg',
-                                          width: 24,
-                                          height: 24,
-                                        ),
-                                        onPressed: () {
-                                          // Handle profile plus button press
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              IconButton(
-                                icon: SvgPicture.asset(
-                                  'assets/images/Camera.svg',
-                                  width: 24,
-                                  height: 24,
-
-                                ),
-                                onPressed: () {
-                                  // Handle camera button press
-                                },
-                              ),
-                              IconButton(
-                                icon:
-
-
-                                SvgPicture.asset(
-                                  'assets/images/mic.svg',
-                                  width: 24,
-                                  height: 24,
-                                ),
-                                onPressed: () {
-                                          Get.find<MessageController>()
-                                              .sentMsg(messageCtr.text);
-                                          //delaying for completing the message tile update after rebuild//
-                                          Future.delayed(
-                                          const Duration(milliseconds: 50), () {
-                                          Get.find<MessageController>()
-                                              .chatListscrollController
-                                              .value
-                                              .animateTo(
-                                          controller
-                                              .chatListscrollController
-                                              .value
-                                              .position
-                                              .maxScrollExtent,
-                                          duration: const Duration(
-                                          milliseconds: 200),
-                                          curve: Curves.easeOut,
-                                          );
-                                          });
-                                          messageCtr.clear();
-                                          controller.ontype.value = "";
-                                          },
-                              ),
-                            ],
-                          ),
-                        ),
-
-                       SizedBox(width: 35.w,)
-                      ],
+                          SizedBox(width: 35.w,)
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
+                  );
+                },
+              ),
+
           ],
         ),
       ),
@@ -419,7 +459,7 @@ class ChatList extends StatelessWidget {
     return GetX<MessageController>(
       builder: (controller) {
         return ListView.separated(
-          padding: EdgeInsets.only(top: 10.h, bottom: 10.h),
+          padding: EdgeInsets.only(top: 5.h, bottom: 5.h),
           controller: controller.chatListscrollController.value,
           itemBuilder: (context, index) {
             return index % 2 == 0
@@ -457,12 +497,14 @@ class ChatList extends StatelessWidget {
             );
           },
           separatorBuilder: (context, index) {
-            return SizedBox(width: 10.w,);
+            return SizedBox(height: 5.h,);
           },
           itemCount: Get.find<MessageController>().messageList.length,
         );
+
       },
     );
+
   }
 }
 
@@ -482,7 +524,7 @@ class SentMessageBubble extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: Padding(
-        padding: EdgeInsets.only(right: 20.h),
+        padding: EdgeInsets.only(right: 5.h),
         child: Stack(
           children: [
             Positioned(
@@ -491,8 +533,9 @@ class SentMessageBubble extends StatelessWidget {
               child: SizedBox(
                   width: 15.h,
                   child: SvgPicture.asset(
-                    "assets/svg/MessageBubbleShape.svg",
+                    "assets/images/MessageBubbleShape.svg",
                     fit: BoxFit.contain,
+                    color:Colorutils.chatcolor,
                   )),
             ),
             Row(
@@ -516,7 +559,7 @@ class SentMessageBubble extends StatelessWidget {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.cyan,
+                          color:Colorutils.chatcolor,
                           borderRadius: BorderRadius.circular(10.h)),
                       child: Padding(
                         padding: EdgeInsets.all(10.h),
@@ -535,7 +578,7 @@ class SentMessageBubble extends StatelessWidget {
 
                                   ),
                                 ),
-                                SizedBox(width: 5.h,),
+                                SizedBox(height: 5.h,),
 
                               ],
                             ),
@@ -545,15 +588,17 @@ class SentMessageBubble extends StatelessWidget {
                               children: [
                                 Text(
                                   "17:47",
+                                  style: TextStyle(fontSize: 12,
+                                  color: Colors.grey),
 
                                 ),
                                 SizedBox(width: 5.h,),
 
                                 SizedBox(
-                                  height: 21.h,
-                                  width: 21.h,
+                                  height: 18.h,
+                                  width: 18.h,
                                   child:
-                                  SvgPicture.asset("assets/svg/Checks.svg"),
+                                  SvgPicture.asset("assets/images/Checks.svg"),
                                 ),
                               ],
                             )
@@ -581,89 +626,120 @@ class ReceiveMessageBubble extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: Padding(
-        padding: EdgeInsets.only(left: 20.h),
-        child: Stack(
-          children: [
-            Positioned(
-              bottom: 0,
-              left: 0,
-              child: SizedBox(
-                  width: 15.h,
-                  child: SvgPicture.asset(
-                    "assets/svg/MessageBubbleShape2.svg",
-                    fit: BoxFit.contain,
-                  )),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 10.w),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.cyan,
-                    borderRadius: BorderRadius.circular(10.h)),
-                child: Padding(
-                  padding: EdgeInsets.all(10.h),
-                  child: Stack(
-                    children: [
-                      IntrinsicWidth(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "~ Ali bin",
-                                  overflow: TextOverflow.ellipsis,
+        padding: EdgeInsets.only(left: 5.h),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
 
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CircleAvatar(
+                  radius: 15.h, // Adjust the radius as needed
+                  backgroundImage: AssetImage('assets/images/profile image.png'), // Replace with your avatar image
+                ),
+              ],
+            ),
+            SizedBox(width: 2.w),
+            Stack(
+              children: [
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  child: Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.identity()..scale(-1.0, 1.0),
+                    child: SizedBox(
+                        width: 15.h,
+                        child: SvgPicture.asset(
+                          "assets/images/MessageBubbleShape.svg",
+                          fit: BoxFit.contain,
+                          color: Colors.white,
+                        )),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 10.w),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color:Colorutils.Whitecolor,
+                        borderRadius: BorderRadius.circular(10.h)),
+                    child: Padding(
+                      padding: EdgeInsets.all(10.h),
+                      child: Stack(
+                        children: [
+                          IntrinsicWidth(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "~ Ali bin",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: Colorutils.userdetailcolor,
+                                          fontSize: 12.w
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w,),
+
+                                    Text(
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.right,
+                                      "Arabic",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12.w
+
+                                      ),
+                                      // "9189079hfudshfudsh",
+
+                                    ),
+                                  ],
                                 ),
                                 SizedBox(width: 10.h,),
 
-                                Text(
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.right,
-                                  "Arabic",
-                                  // "9189079hfudshfudsh",
-
-                                ),
-                              ],
-                            ),
-                            SizedBox(width: 10.h,),
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Column(
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    ConstrainedBox(
-                                      constraints: BoxConstraints(
-                                        maxWidth: 200.w,
-                                      ),
-                                      child: Text(
-                                        message,
-                                        maxLines: 10,
+                                    Column(
+                                      children: [
+                                        ConstrainedBox(
+                                          constraints: BoxConstraints(
+                                            maxWidth: 200.w,
+                                          ),
+                                          child: Text(
+                                            message,
+                                            maxLines: 10,
 
-                                      ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 10.h,),
+
+                                      ],
                                     ),
-                                    SizedBox(width: 10.h,),
+                                    SizedBox(width: 20.h,),
 
+                                    Text(
+                                      "17:47",
+                                      style: TextStyle(fontSize: 12,
+                                      color: Colors.grey),
+
+                                    ),
                                   ],
                                 ),
-                                SizedBox(width: 20.h,),
-
-                                Text(
-                                  "17:47",
-
-                                )
                               ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
           ],
         ),
@@ -672,6 +748,61 @@ class ReceiveMessageBubble extends StatelessWidget {
   }
 }
 
+// messageMoreShowDialog(
+//     BuildContext context, Widget widget, Offset position, Offset tapPosition) {
+//   double safeAreaVerticalPadding = MediaQuery.of(context).padding.top +
+//       MediaQuery.of(context).padding.bottom;
+//
+//   showDialog(
+//     context: context,
+//     builder: (context) {
+//       return BackdropFilter(
+//         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+//         child: Padding(
+//           padding: EdgeInsets.symmetric(horizontal: 20.h),
+//           child: Stack(
+//             children: [
+//               Positioned(
+//                 top: position.dy - safeAreaVerticalPadding,
+//                 left: 0,
+//                 right: 0,
+//                 child: Container(child: widget),
+//               ),
+//               Positioned(
+//                 top: tapPosition.dy -
+//                     safeAreaVerticalPadding -
+//                     ((ScreenUtil().screenHeight / 1.7) > tapPosition.dy
+//                         ? 100.h
+//                         : 420.h),
+//                 right: 0,
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.end,
+//                   children: [
+//                     ScreenUtil().screenHeight / 1.7 < tapPosition.dy
+//                         ? MessageMoreContainer(
+//                       widget: widget,
+//                     )
+//                         : const SizedBox(),
+//                     SizedBox(width: 20.h,),
+//
+//                     const ReactionContainerWidget(),
+//                     SizedBox(width: 80.h,),
+//
+//                     ScreenUtil().screenHeight / 1.7 > tapPosition.dy
+//                         ? MessageMoreContainer(
+//                       widget: widget,
+//                     )
+//                         : const SizedBox(),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       );
+//     },
+//   );
+// }
 messageMoreShowDialog(
     BuildContext context, Widget widget, Offset position, Offset tapPosition) {
   double safeAreaVerticalPadding = MediaQuery.of(context).padding.top +
@@ -707,11 +838,9 @@ messageMoreShowDialog(
                       widget: widget,
                     )
                         : const SizedBox(),
-                    SizedBox(width: 20.h,),
-
+                    SizedBox(height:20.h),
                     const ReactionContainerWidget(),
-                    SizedBox(width: 80.h,),
-
+                    SizedBox(height:80.h),
                     ScreenUtil().screenHeight / 1.7 > tapPosition.dy
                         ? MessageMoreContainer(
                       widget: widget,
@@ -736,37 +865,37 @@ class ReactionContainerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8.h),
+      padding: EdgeInsets.all(2.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(100.h),
+        borderRadius: BorderRadius.circular(20.h),
         boxShadow: const [
           BoxShadow(
             color: Colors.black26,
-            blurRadius: 10,
+            blurRadius: 5,
           ),
         ],
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("👍", style: TextStyle(fontSize: 30.h)),
+          Text("👍", style: TextStyle(fontSize: 25.h)),
           SizedBox(width: 5.h,),
 
-          Text("🥰", style: TextStyle(fontSize: 30.h)),
+          Text("🥰", style: TextStyle(fontSize: 25.h)),
           SizedBox(width: 5.h,),
-          Text("😁", style: TextStyle(fontSize: 30.h)),
+          Text("😁", style: TextStyle(fontSize: 25.h)),
           SizedBox(width: 5.h,),
-          Text("😂", style: TextStyle(fontSize: 30.h)),
+          Text("😂", style: TextStyle(fontSize: 25.h)),
           SizedBox(width: 5.h,),
-          Text("🔥", style: TextStyle(fontSize: 30.h)),
+          Text("🔥", style: TextStyle(fontSize: 25.h)),
           SizedBox(width: 5.h,),
-          Text("🙏", style: TextStyle(fontSize: 30.h)),
+          Text("🙏", style: TextStyle(fontSize: 25.h)),
           SizedBox(width: 5.h,),
           SizedBox(
             height: 32.h,
             width: 32.h,
-            child: SvgPicture.asset("assets/svg/Add.svg"),
+            child: SvgPicture.asset("assets/images/Group 137.svg"),
           )
         ],
       ),
@@ -784,91 +913,115 @@ class MessageMoreContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 260.w,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15.h),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 10,
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 5.h),
-        child: Column(
-          children: [
-            MessageMoreSettingsTile(
-              function: () {},
-              text: "Copy",
-              icon: "assets/svg/Copy.svg",
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Container(
+        width: 260.w,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15.h),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 10,
             ),
-            const Divider(
-              color: Colors.black,
-              height: 0,
-            ),
-            MessageMoreSettingsTile(
-              function: () {},
-              text: "View Chat",
-              icon: "assets/svg/View_chat.svg",
-            ),
-            const Divider(
-              color: Colors.cyan,
-              height: 0,
-            ),
-            MessageMoreSettingsTile(
-              function: () {},
-              text: "Reply",
-              icon: "assets/svg/ArrowBendUpLeft.svg",
-            ),
-            const Divider(
-              color: Colors.cyan,
-              height: 0,
-            ),
-            MessageMoreSettingsTile(
-              function: () {},
-              text: "Forward",
-              icon: "assets/svg/ArrowBendUpRight.svg",
-            ),
-            const Divider(
-              color: Colors.cyan,
-              height: 0,
-            ),
-            MessageMoreSettingsTile(
-              function: () {
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => MessageInfoScreen(widget: widget),
-                //     ));
-              },
-              text: "Message info",
-              icon: "assets/svg/Info.svg",
-            ),
-            const Divider(
-              color: Colors.cyan,
-              height: 0,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 10.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Delete Chat",
-
-                  ),
-                  SizedBox(
-                    height: 26.h,
-                    width: 26.h,
-                    child: SvgPicture.asset("assets/svg/Trash.svg"),
-                  )
-                ],
-              ),
-            )
           ],
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 5.h),
+          child: Column(
+            children: [
+              MessageMoreSettingsTile(
+                function: () {},
+                text: "Copy",
+                icon: "assets/images/Frame 72.svg",
+              ),
+              const Divider(
+                color: Colors.grey,
+                height: 0,
+              ),
+              MessageMoreSettingsTile(
+                function: () {},
+                text: "View Chat",
+                icon: "assets/images/ChatCircleDots.svg",
+              ),
+              const Divider(
+                color: Colors.grey,
+                height: 0,
+              ),
+              MessageMoreSettingsTile(
+                function: () {},
+                text: "Reply",
+                icon: "assets/images/ArrowBendUpLeft.svg",
+              ),
+              const Divider(
+                color: Colors.grey,
+                height: 0,
+              ),
+              MessageMoreSettingsTile(
+                function: () {},
+                text: "Forward",
+                icon: "assets/images/ArrowBendUpRight.svg",
+              ),
+              const Divider(
+                color: Colors.grey,
+                height: 0,
+              ),
+
+
+              GestureDetector(
+                onTap: (){
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                    ),
+                    builder: (context) => SeenByBottomSheet(),
+                  );
+                },
+                child: MessageMoreSettingsTile(
+                function: (){
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                    ),
+                    builder: (context) => SeenByBottomSheet(),
+                  );
+                },
+                  text: "Message info",
+                  icon: "assets/images/Info.svg",
+                ),
+              ),
+              const Divider(
+                color: Colors.grey,
+                height: 0,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 10.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Delete Chat",
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 16
+                      ),
+
+                    ),
+                    SizedBox(
+                      height: 26.h,
+                      width: 26.h,
+                      child: SvgPicture.asset("assets/images/Trash.svg"),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -897,7 +1050,10 @@ class MessageMoreSettingsTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              text,
+              text,style: TextStyle(
+              color: Colors.black,
+              fontSize: 16
+            ),
 
 
             ),

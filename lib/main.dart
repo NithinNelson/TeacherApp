@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:teacherapp/Controller/chat_controller.dart';
 
 import 'View/Home_Page/home_page.dart';
+import 'View/Login_page/Loginsplash.dart';
+import 'View/Login_page/login.dart';
 import 'View/Menu_Drawer/Drawer.dart';
 
 void main() {
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Teacher App',
         debugShowCheckedModeBanner: false,
-        home: HomeScreen(),
+        home: SplashScreen(),
       ),
     );
   }

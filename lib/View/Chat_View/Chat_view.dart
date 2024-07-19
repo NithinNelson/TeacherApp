@@ -8,24 +8,23 @@ import 'package:intl/intl.dart';
 import '../../Utils/Colors.dart';
 
 class chatview extends StatefulWidget {
-
   const chatview({super.key});
 
   @override
   State<chatview> createState() => _chatviewState();
 }
 
-class _chatviewState extends State<chatview> with SingleTickerProviderStateMixin{
+class _chatviewState extends State<chatview>
+    with SingleTickerProviderStateMixin {
   TabController? _tabcontroller1;
   TextEditingController _messageController = TextEditingController();
-
-
 
   @override
   void initState() {
     _tabcontroller1 = TabController(length: 2, vsync: this);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,13 +35,25 @@ class _chatviewState extends State<chatview> with SingleTickerProviderStateMixin
           padding: const EdgeInsets.all(4.0),
           child: Row(
             children: [
-              IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back_ios,color: Colors.white,)),
-              CircleAvatar(radius: 20,backgroundColor: Colors.white,),
-              SizedBox(width: 10,),
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.white,
+                  )),
+              CircleAvatar(
+                radius: 20,
+                backgroundColor: Colors.white,
+              ),
+              SizedBox(
+                width: 10,
+              ),
               Text(
                 'My Class',
                 style: GoogleFonts.inter(
-                    fontSize: 20.0, fontWeight: FontWeight.w600, color: Colors.white),
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white),
               ),
             ],
           ),
@@ -67,37 +78,30 @@ class _chatviewState extends State<chatview> with SingleTickerProviderStateMixin
           Container(
             color: Colorutils.userdetailcolor,
             child: TabBar(
-
-
               tabAlignment: TabAlignment.center,
-
               controller: _tabcontroller1,
               indicatorColor: Colors.white,
               indicatorSize: TabBarIndicatorSize.label,
-
               isScrollable: true,
               tabs: <Widget>[
-
                 Container(
                   // width: 100,
                   height: 50,
 
-                  child: Row(mainAxisAlignment: MainAxisAlignment.center,
-
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'Feeded View',
-
                         style: GoogleFonts.inter(
                           color: Colorutils.Whitecolor,
                           fontWeight: FontWeight.w600,
-
                           fontSize: 16.0,
-
-
                         ),
                       ),
-                      SizedBox(width: 8,),
+                      SizedBox(
+                        width: 8,
+                      ),
                       CircleAvatar(
                         backgroundColor: Colors.white,
                         radius: 10,
@@ -111,7 +115,6 @@ class _chatviewState extends State<chatview> with SingleTickerProviderStateMixin
                       ),
                     ],
                   ),
-
                 ),
                 Container(
                   // width: 100,
@@ -122,16 +125,15 @@ class _chatviewState extends State<chatview> with SingleTickerProviderStateMixin
                     children: [
                       Text(
                         'Grouped View',
-
                         style: GoogleFonts.inter(
                           color: Colorutils.Whitecolor,
                           fontWeight: FontWeight.w600,
                           fontSize: 16.0,
-
-
                         ),
                       ),
-                      SizedBox(width: 8,),
+                      SizedBox(
+                        width: 8,
+                      ),
                       CircleAvatar(
                         backgroundColor: Colors.white,
                         radius: 10,
@@ -144,19 +146,15 @@ class _chatviewState extends State<chatview> with SingleTickerProviderStateMixin
                         ),
                       ),
                     ],
-                  ),),
+                  ),
+                ),
               ],
             ),
           ),
-
-
         ],
       ),
-
       bottomNavigationBar: Container(
         height: 60,
-
-
         child: Row(
           children: [
             IconButton(
@@ -223,9 +221,7 @@ class _chatviewState extends State<chatview> with SingleTickerProviderStateMixin
                 width: 24,
                 height: 24,
               ),
-              onPressed: () {
-    }
-              ,
+              onPressed: () {},
             ),
           ],
         ),
@@ -237,7 +233,9 @@ class _chatviewState extends State<chatview> with SingleTickerProviderStateMixin
 class MessageBubble extends StatelessWidget {
   // final Message message;
 
-  const MessageBubble({Key? key, }) : super(key: key);
+  const MessageBubble({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -247,7 +245,6 @@ class MessageBubble extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
-
             radius: 16,
           ),
           SizedBox(width: 5),
@@ -283,7 +280,7 @@ class MessageBubble extends StatelessWidget {
                       ),
                       SizedBox(width: 5),
                       Text(
-                       " message.senderSubtitle",
+                        " message.senderSubtitle",
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.grey,
@@ -293,7 +290,7 @@ class MessageBubble extends StatelessWidget {
                   ),
                   SizedBox(height: 5),
                   Text(
-                   " message.messageContent",
+                    " message.messageContent",
                     style: TextStyle(fontSize: 16),
                   ),
                   Align(

@@ -175,6 +175,7 @@ class MenuItem extends StatelessWidget {
           title: Text(
             title,
             style: TeacherAppFonts.interW500_16sp_textWhiteOp60,
+
           ),
         ),
     );

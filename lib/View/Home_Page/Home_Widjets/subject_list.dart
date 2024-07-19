@@ -7,6 +7,7 @@ import 'package:teacherapp/Utils/font_util.dart';
 class SubjectList extends StatelessWidget {
   const SubjectList({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     int itemLength = 4;
@@ -14,6 +15,7 @@ class SubjectList extends StatelessWidget {
       height: 70.w * (itemLength % 2 == 1 ? ((itemLength - 1)/2) : (itemLength/2)) + (itemLength % 2 == 1 ? 70.w : 0.w),
       padding: const EdgeInsets.only(top: 8, left: 8, right: 8).w,
       child: GridView.builder(
+
         physics: const NeverScrollableScrollPhysics(),
         itemCount: itemLength,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -24,11 +26,25 @@ class SubjectList extends StatelessWidget {
           mainAxisExtent: 55.w,
         ),
         itemBuilder: (context, index) {
+          List<Color> colors = [
+            Colorutils.Subjectcolor1,
+            Colorutils.Subjectcolor2,
+            Colorutils.Subjectcolor3,
+            Colorutils.Subjectcolor4,
+          ];
+          Color color = colors[index % colors.length];
+          List<Color> colors1 = [
+            Colorutils.Subjectcolor11,
+            Colorutils.Subjectcolor22,
+            Colorutils.Subjectcolor33,
+            Colorutils.Subjectcolor44,
+          ];
+          Color color1 = colors1[index % colors.length];
           return Container(
             // height: 50.w,
             padding: const EdgeInsets.symmetric(horizontal: 5).w,
             decoration: BoxDecoration(
-              color: Colorutils.Subjectcolor1,
+              color: color,
               borderRadius: BorderRadius.circular(13.0).r,
             ),
             child: Row(
@@ -38,7 +54,7 @@ class SubjectList extends StatelessWidget {
                   height: 45.w,
                   width: 45.w,
                   decoration: BoxDecoration(
-                    color: Colorutils.Subjectcolor11,
+                    color:color1,
                     borderRadius: BorderRadius.circular(8.0).r,
                   ),
                   child: Center(

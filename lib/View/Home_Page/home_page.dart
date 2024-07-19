@@ -46,7 +46,7 @@ class Homepage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const CustomBottomNavigationBar(),
+      bottomNavigationBar:  CustomBottomNavigationBar(zoomDrawerController: zoomDrawerController,),
     );
   }
 }
