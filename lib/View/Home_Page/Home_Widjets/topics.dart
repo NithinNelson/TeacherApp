@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teacherapp/Utils/Colors.dart';
+import 'package:teacherapp/Utils/font_util.dart';
 
 class Topic extends StatelessWidget {
   const Topic({super.key});
@@ -17,13 +18,17 @@ class Topic extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(26),
           color: Colorutils.topicbackground2,
+          border: Border.all(
+              color: Colorutils.letters1.withOpacity(0.3),
+            width: 1.w,
+          ),
         ),
         width: double.infinity,
-        height: 180,
+        height: 190.h,
         child: Column(
           children: [
             Container(
-              height: 160,
+              height: 160.h,
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(26),
@@ -34,124 +39,95 @@ class Topic extends StatelessWidget {
               //     bottom:
               //         23),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                    height: 160,
-                    width: 200,
-                    child: Container(
-                      height: 80,
-                      padding: const EdgeInsets.only(left: 16).w,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Row(
-                            children: [
-                              Container(
-                                height: 70.w,
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      'assets/images/calculator 1.svg',
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 16),
-                                child: Container(
-                                  height: 70.w,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Mathematics',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          color: Colors.black,
-                                          fontFamily: 'Roboto',
-                                        ),
-                                      ),
-                                      Text(
-                                        '4A',
-                                        style: TextStyle(
-                                          fontSize: 25.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                          fontFamily: 'Roboto',
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
+                          SvgPicture.asset(
+                            height: 55.h,
+                            'assets/images/calculator 1.svg',
+                            fit: BoxFit.fitHeight,
                           ),
-                          Text('Linear Algebra Equations'),
-                          SizedBox(
-                            height: 3,
-                          ),
-                          Row(
+                          SizedBox(width: 5.w),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                height: 50.w,
-                                width: 100.w,
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Positioned(
-                                      left: 0,
-                                      child: CircleAvatar(
-                                        child: Image.asset('assets/images/profile2.png'),
-                                        radius: 15,
-                                      ),
-                                    ),
-                                    Positioned(
-                                      left: 20,
-                                      child: CircleAvatar(
-                                        child: Image.asset('assets/images/profile2.png'),
-                                        radius: 15,
-                                      ),
-                                    ),
-                                    Positioned(
-                                      left: 40,
-                                      child: CircleAvatar(
-                                        child: Image.asset('assets/images/profile2.png'),
-                                        radius: 15,
-                                      ),
-                                    ),
-                                    Positioned(
-                                      left: 60,
-                                      child: CircleAvatar(
-                                         backgroundColor:  Colorutils.userdetailcolor,
-                                        child: Text('+23',style: TextStyle(
-                                          color: Colorutils.Whitecolor,
-                                          fontSize: 12,
-
-
-
-                                        ),),
-                                        radius: 15,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                              Text(
+                                'Mathematics',
+                                style: TeacherAppFonts.interW400_18sp_timecolortopics,
                               ),
                               Text(
-                                'Students',
-                                style: GoogleFonts.inter(
-                                    fontSize: 14.0, color: Colors.black),
+                                '4A',
+                                style: TeacherAppFonts.interW500_24sp_timecolortopics,
                               ),
                             ],
+                          )
+                        ],
+                      ),
+                      Text(
+                          'Linear Algebra Equations',
+                        style: TeacherAppFonts.interW400_14sp_timecolortopicsOp80,
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            height: 50.w,
+                            width: 100.w,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Positioned(
+                                  left: 0,
+                                  child: CircleAvatar(
+                                    radius: 15,
+                                    child: Image.asset('assets/images/profile2.png'),
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 20,
+                                  child: CircleAvatar(
+                                    radius: 15,
+                                    child: Image.asset('assets/images/profile2.png'),
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 40,
+                                  child: CircleAvatar(
+                                    radius: 15,
+                                    child: Image.asset('assets/images/profile2.png'),
+                                  ),
+                                ),
+                                const Positioned(
+                                  left: 60,
+                                  child: CircleAvatar(
+                                     backgroundColor:  Colorutils.userdetailcolor,
+                                    radius: 15,
+                                    child: Text('+23',style: TextStyle(
+                                      color: Colorutils.Whitecolor,
+                                      fontSize: 12,
+                                    ),),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Text(
+                            'Students',
+                            style: TeacherAppFonts.interW600_12sp_timecolortopicsOp80,
                           ),
                         ],
                       ),
-                    ),
+                    ],
                   ),
-                  Container(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5).w,
                     child: Image.asset(
                       "assets/images/book2.png",
                       fit: BoxFit.fitWidth,
@@ -160,13 +136,12 @@ class Topic extends StatelessWidget {
                 ],
               ),
             ),
+            const Spacer(),
             Text(
               '8.0AM - 12.0PM',
-              style: GoogleFonts.inter(
-                  fontSize: 12.0,
-                  color: Colorutils.timecolortopics,
-                  fontWeight: FontWeight.w600),
+              style: TeacherAppFonts.interW600_14sp_timecolortopics,
             ),
+            const Spacer(),
           ],
         ),
       ),

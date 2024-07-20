@@ -9,16 +9,15 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 
-import '../../../Controller/chat_controller.dart';
+import '../../../Controller/ui_controllers/chat_controller.dart';
 import '../../Chat_List/Mychat/Chat_seen.dart';
 import '../../Chat_List/Mychat/my_chat.dart';
 import '../../Chat_List/chat_list.dart';
 import 'Grouped_view.dart';
 
 class ChatScreen extends StatefulWidget {
-  final ZoomDrawerController zoomDrawerController;
 
-  ChatScreen({super.key, required this.zoomDrawerController});
+  const ChatScreen({super.key});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -99,7 +98,7 @@ class _ChatScreenState extends State<ChatScreen> with  SingleTickerProviderState
             IconButton(onPressed: (){
               Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) =>  ChatWithParentsPage(zoomDrawerController: widget.zoomDrawerController,)));
+                  MaterialPageRoute(builder: (context) =>  ChatWithParentsPage()));
             }, icon: Icon(Icons.arrow_back_ios,color: Colors.white,)),
             CircleAvatar(radius: 20,backgroundColor: Colors.white,),
             SizedBox(width: 10,),

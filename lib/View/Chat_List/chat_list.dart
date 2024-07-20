@@ -11,9 +11,7 @@ import '../Home_Page/Home_Widjets/bottom_navigationbar.dart';
 import 'Mychat/my_chat.dart';
 
 class ChatWithParentsPage extends StatefulWidget {
-  final ZoomDrawerController zoomDrawerController;
-
-  const ChatWithParentsPage({super.key, required this.zoomDrawerController});
+  const ChatWithParentsPage({super.key});
 
   @override
   State<ChatWithParentsPage> createState() => _ChatWithParentsPageState();
@@ -144,7 +142,6 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                     time: '10:53 am',
                     unreadMessages: 6,
                     classs: '4A',
-                    zoomDrawerController: widget.zoomDrawerController,
                   ),
                   Divider(
                     thickness: 0.3,
@@ -157,7 +154,6 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                     time: '08:22 am',
                     unreadMessages: 3,
                     classs: '5A',
-                    zoomDrawerController: widget.zoomDrawerController,
                   ),
                   Divider(
                     thickness: 0.3,
@@ -170,7 +166,6 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                     time: 'Yesterday',
                     unreadMessages: 1,
                     classs: '6A',
-                    zoomDrawerController: widget.zoomDrawerController,
                   ),
                   Divider(
                     thickness: 0.3,
@@ -183,7 +178,6 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                     time: '11:30 pm',
                     unreadMessages: 0,
                     classs: '7B',
-                    zoomDrawerController: widget.zoomDrawerController,
                   ),
                   Divider(
                     thickness: 0.3,
@@ -195,7 +189,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                     message: '',
                     time: '20-04-2024',
                     unreadMessages: 0,
-                    classs: '8A', zoomDrawerController: widget.zoomDrawerController,
+                    classs: '8A',
                   ),
                   Divider(
                     thickness: 0.3,
@@ -209,16 +203,14 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
           ),
         ],
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        zoomDrawerController: widget.zoomDrawerController,
-      ),
+      // bottomNavigationBar: CustomBottomNavigationBar(
+      //   zoomDrawerController: widget.zoomDrawerController,
+      // ),
     );
   }
 }
 
 class ChatItem extends StatelessWidget {
-  final ZoomDrawerController zoomDrawerController;
-
   final String className;
   final String message;
   final String time;
@@ -230,7 +222,7 @@ class ChatItem extends StatelessWidget {
     required this.message,
     required this.time,
     required this.unreadMessages,
-    required this.classs, required this.zoomDrawerController,
+    required this.classs,
   });
 
 
@@ -244,9 +236,7 @@ class ChatItem extends StatelessWidget {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => ChatScreen(
-                        zoomDrawerController: zoomDrawerController,
-                      )));
+                  builder: (context) => const ChatScreen()));
         },
         child: ListTile(
           leading: CircleAvatar(

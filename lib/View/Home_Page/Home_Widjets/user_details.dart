@@ -6,8 +6,7 @@ import 'package:teacherapp/Utils/font_util.dart';
 import '../../../Utils/Colors.dart';
 
 class UserDetails extends StatelessWidget {
-  final ZoomDrawerController zoomDrawerController;
-  const UserDetails({super.key, required this.zoomDrawerController});
+  const UserDetails({super.key});
 
   @override
   Widget build(BuildContext context) {

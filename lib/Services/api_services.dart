@@ -1,0 +1,70 @@
+
+import 'dart:convert';
+
+import '../Utils/api_constants.dart';
+import 'package:http/http.dart' as http;
+
+class ApiServices {
+  static final ApiServices _instance = ApiServices._internal();
+
+  ApiServices._internal();
+
+  factory ApiServices() {
+    return _instance;
+  }
+
+  static Future<Map<String, dynamic>> userLogin({
+    required String userName,
+    required String psw,
+  }) async {
+    String url = "${ApiConstants.baseUrl}${ApiConstants.login}";
+    print(url);
+    Map apiBody = {
+      "username": userName,
+      "password": psw,
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+  static Future<Map<String, dynamic>> getHosList({
+    required String userId,
+    required String acYr,
+  }) async {
+    String url = "${ApiConstants.baseUrl}${ApiConstants.hosList}";
+    print(url);
+    Map apiBody = {
+      "user_id": userId,
+      "academic_year": acYr,
+      "hos": false
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+}

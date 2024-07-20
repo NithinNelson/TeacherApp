@@ -17,6 +17,7 @@ class TeacherAppFonts {
   }
 
   static const _interFont = 'Inter';
+  static const _poppinsFont = 'Poppins';
 
   static final TextStyle interW600_20sp_textWhite = TextStyle(
     fontFamily: _interFont,
@@ -109,10 +110,59 @@ class TeacherAppFonts {
     color: Colorutils.Whitecolor,
   );
 
+  static final TextStyle interW400_18sp_timecolortopics = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w400,
+    fontSize: 18.sp,
+    color: Colorutils.timecolortopics,
+  );
+
+  static final TextStyle interW500_24sp_timecolortopics = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w500,
+    fontSize: 24.sp,
+    color: Colorutils.timecolortopics,
+  );
+
+  static final TextStyle interW600_14sp_timecolortopics = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w600,
+    fontSize: 14.sp,
+    color: Colorutils.timecolortopics,
+  );
+
   static final TextStyle interW400_14sp_textWhiteOp75 = TextStyle(
     fontFamily: _interFont,
     fontWeight: FontWeight.w400,
     fontSize: 14.sp,
     color: Colorutils.Whitecolor.withOpacity(0.75),
+  );
+
+  static final TextStyle interW400_14sp_timecolortopicsOp80 = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w400,
+    fontSize: 14.sp,
+    color: Colorutils.timecolortopics.withOpacity(0.8),
+  );
+
+  static final TextStyle interW600_12sp_timecolortopicsOp80 = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w600,
+    fontSize: 12.sp,
+    color: Colorutils.timecolortopics.withOpacity(0.8),
+  );
+
+  static final TextStyle poppinsW400_12sp_bottomiconcolor = TextStyle(
+    fontFamily: _poppinsFont,
+    fontWeight: FontWeight.w400,
+    fontSize: 12.sp,
+    color: Colorutils.bottomiconcolor,
+  );
+
+  static final TextStyle poppinsW500_13sp_letters1 = TextStyle(
+    fontFamily: _poppinsFont,
+    fontWeight: FontWeight.w500,
+    fontSize: 13.sp,
+    color: Colorutils.letters1,
   );
 }
