@@ -7,7 +7,7 @@ class ApiConstants {
     return _instance;
   }
 
-  static String appVersion = "1.0.0";
+  static String appVersion = "Version : 1.0.0";
   static Map<String, String> headers = {
     'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
     'Content-Type': 'application/json'
@@ -25,4 +25,6 @@ class ApiConstants {
 
   static String login = "/v1/login_auth";
   static String hosList = "/v2/lesson_observation/init/data";
+  static String workLoad = "/v2/get/workloads/from/credentials";
+  static String timeTable = "/v2/timetable/mobile";
 }

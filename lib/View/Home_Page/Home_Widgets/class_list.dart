@@ -4,16 +4,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
+import '../../../Models/api_models/time_table_api_model.dart';
 
 class ClassList extends StatelessWidget {
-  const ClassList({super.key});
+  final List<TimeTable> todaySubjects;
+  const ClassList({super.key, required this.todaySubjects});
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: List.generate(10, (index) {
+        children: List.generate(todaySubjects.length, (index) {
           List<Color> colors = [
             Colorutils.Classcolour1,
             Colorutils.Classcolour2,
@@ -37,7 +39,7 @@ class ClassList extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '4A',
+                        todaySubjects[index].batchName ?? '--',
                         style: TeacherAppFonts.interW500_32sp_textWhite,
                       ),
                       const Spacer(),
@@ -46,7 +48,7 @@ class ClassList extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              'Mathematics',
+                              todaySubjects[index].subject ?? '--',
                               style: TeacherAppFonts.interW400_18sp_textWhite,
                             ),
                           ],

@@ -1,12 +1,9 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
-
 import '../../Utils/Colors.dart';
 import '../../Utils/font_util.dart';
-import '../Home_Page/Home_Widjets/user_details.dart';
 import 'Lesson_obs2.dart';
 
 class lessonobs extends StatefulWidget {

@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
-import '../Chat_List/chat_list.dart';
-import '../Home_Page/Home_Widjets/bottom_navigationbar.dart';
-import '../Home_Page/home_page.dart';
+import '../Home_Page/Home_Widgets/bottom_navigationbar.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -16,13 +14,14 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
 
-  Widget getScreen({required int pageIndex}) {
-    switch(pageIndex) {
-      case 0: return const Homepage();
-      case 2: return const ChatWithParentsPage();
-      default: return const Homepage();
-    }
-  }
+  // Widget getScreen({required int pageIndex}) {
+  //   switch(pageIndex) {
+  //     case 0: return const Homepage();
+  //     case 2: return const ChatWithParentsPage();
+  //     case 8: return const Leader();
+  //     default: return const Homepage();
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +34,10 @@ class _MainScreenState extends State<MainScreen> {
       child: Scaffold(
         body: GetX<PageIndexController>(
             builder: (PageIndexController controller) {
-              return getScreen(
-                  pageIndex: controller.pageIndex.value,
-              );
+              return controller.menuItemsPerRole[controller.pageIndex.value].page;
+              // return getScreen(
+              //     pageIndex: controller.pageIndex.value,
+              // );
             },
         ),
         bottomNavigationBar: const CustomBottomNavigationBar(),

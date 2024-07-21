@@ -1,12 +1,12 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:teacherapp/Utils/Colors.dart';
+import '../../../Models/api_models/time_table_api_model.dart';
 import 'package:teacherapp/Utils/font_util.dart';
 
-class TimeTable extends StatelessWidget {
-  const TimeTable({super.key});
+class AllTimeTable extends StatelessWidget {
+  final List<TimeTable> todaySubjects;
+  const AllTimeTable({super.key, required this.todaySubjects});
 
   @override
   Widget build(BuildContext context) {
@@ -21,22 +21,25 @@ class TimeTable extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {},
+            style: const ButtonStyle(
+              splashFactory: NoSplash.splashFactory,
+            ),
             child: Row(
               children: [
                 Text(
-                  '5 ',
+                  '${todaySubjects.length} ',
                   style: TeacherAppFonts.interW700_16sp_letters1,
                 ),
                 Text(
-                  'Classes Today',
+                  todaySubjects.length == 1 || todaySubjects.isEmpty ? 'Class Today' : 'Classes Today',
                   style: TeacherAppFonts.interW400_16sp_letters1,
                 ),
                 SizedBox(width: 5.w),
-                Icon(
-                  Icons.arrow_forward_ios_outlined,
-                  color: Colorutils.letters1,
-                  size: 15.w,
-                )
+                // Icon(
+                //   Icons.arrow_forward_ios_outlined,
+                //   color: Colorutils.letters1,
+                //   size: 15.w,
+                // )
               ],
             ),
           ),

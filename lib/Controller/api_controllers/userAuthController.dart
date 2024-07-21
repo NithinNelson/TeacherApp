@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
 import 'package:teacherapp/Services/shared_preferences.dart';
 import '../../Models/api_models/hos_listing_api_model.dart';
 import '../../Models/api_models/login_api_model.dart';
@@ -54,6 +55,7 @@ class UserAuthController extends GetxController {
       }
     } catch (e) {
       isLoaded.value = false;
+      print("-----------login error-----------");
       TeacherAppPopUps.submitFailed(
         title: "Failed",
         message: "Something went wrong.",
@@ -145,6 +147,12 @@ class UserAuthController extends GetxController {
         userRole.value = UserRole.teacher;
       }
     }
+
+    if(userRole.value == UserRole.principal || userRole.value == UserRole.hos) {
+      Get.find<PageIndexController>().setMenuItems(UserRole.principal);
+    } else {
+      Get.find<PageIndexController>().setMenuItems(UserRole.teacher);
+    }
   }
 
   Future<void> fetchHosList() async {
@@ -158,7 +166,9 @@ class UserAuthController extends GetxController {
           HosListApiModel hosListApi = HosListApiModel.fromJson(resp);
           hosList.value = hosListApi.data?.details?.response?.list ?? [];
         }
-      } catch (e) {} finally {}
+      } catch (e) {
+        print("---------hos list error---------");
+      } finally {}
     }
   }
 }

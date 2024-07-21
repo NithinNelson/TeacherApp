@@ -7,6 +7,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:teacherapp/Controller/ui_controllers/chat_controller.dart';
 import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
 import 'package:teacherapp/Utils/Colors.dart';
+import 'Controller/api_controllers/timeTableController.dart';
 import 'Controller/api_controllers/userAuthController.dart';
 import 'Services/shared_preferences.dart';
 import 'View/splash_screen.dart';
@@ -29,8 +30,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(MessageController());
-    Get.put(PageIndexController());
     Get.put(UserAuthController());
+    Get.put(PageIndexController());
+    Get.put(TimeTableController());
     double _width = MediaQuery.of(context).size.width;
     double _height = MediaQuery.of(context).size.height;
     return GlobalLoaderOverlay(

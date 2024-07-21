@@ -3,12 +3,17 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
 import 'package:teacherapp/Utils/Colors.dart';
-import 'package:teacherapp/View/Login_page/Leadership.dart';
+import 'package:teacherapp/View/CWidgets/AppBarBackground.dart';
+import 'package:teacherapp/View/Home_Page/leader_home.dart';
 
+import '../../Controller/api_controllers/userAuthController.dart';
 import '../CWidgets/TeacherAppPopUps.dart';
 import '../Menu/drawer.dart';
+import '../Menu/main_page.dart';
 
 class ChoicePage extends StatefulWidget {
   const ChoicePage({super.key});
@@ -20,7 +25,7 @@ class ChoicePage extends StatefulWidget {
 class _ChoicePageState extends State<ChoicePage> {
   TextEditingController? _usernameController;
   TextEditingController? _passwordController;
-
+  PageIndexController pageIndexController = Get.find<PageIndexController>();
   bool isSpinner = false;
   bool googleSignIn = false;
   FocusNode? _usernameFocusNode;
@@ -77,101 +82,7 @@ class _ChoicePageState extends State<ChoicePage> {
             child: SingleChildScrollView(
               child: Stack(
                 children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 180.h,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(12.w),
-                            bottomRight: Radius.circular(12.w)),
-                        color: Colorutils.userdetailcolor,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 0,
-                    top: 40,
-                    child: SvgPicture.asset(
-                      'assets/images/pencil2.svg',
-                      width: 100.w,
-                      color: Colorutils.Whitecolor.withOpacity(0.1),
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                  Positioned(
-                    left: 240,
-                    top: 25,
-                    child: Transform.rotate(
-                      angle: 0.5,
-                      child: SvgPicture.asset(
-                        'assets/images/stars1.svg',
-                        width: 20.w,
-                        color: Colorutils.Whitecolor.withOpacity(0.5),
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 220,
-                    top: 65,
-                    child: SvgPicture.asset(
-                      'assets/images/graduation-cap-icon.svg',
-                      width: 30.w,
-                      color: Colorutils.Whitecolor.withOpacity(0.07),
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                  Positioned(
-                    left: 140,
-                    top: 10,
-                    child: SvgPicture.asset(
-                      'assets/images/read-book-icon.svg',
-                      width: 30.w,
-                      color: Colorutils.Whitecolor.withOpacity(0.07),
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                  Positioned(
-                    left: 115,
-                    top: 65,
-                    child: SvgPicture.asset(
-                      'assets/images/stars1.svg',
-                      width: 20.w,
-                      color: Colorutils.Whitecolor.withOpacity(0.5),
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                  Positioned(
-                    left: 5,
-                    top: 10,
-                    child: SvgPicture.asset(
-                      'assets/images/stars1.svg',
-                      width: 20.w,
-                      color: Colorutils.Whitecolor.withOpacity(0.5),
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                  Positioned(
-                    right: 10,
-                    top: 140,
-                    child: SvgPicture.asset(
-                      'assets/images/stars1.svg',
-                      color: Colorutils.Whitecolor.withOpacity(0.9),
-                      width: 25.w,
-                      fit: BoxFit.fitHeight,
-                    ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    top: -90,
-                    child: SvgPicture.asset(
-                      'assets/images/pencil3.svg',
-                      color: Colorutils.Whitecolor.withOpacity(0.2),
-                      height: 180.w,
-                      fit: BoxFit.fitHeight,
-                    ),
-                  ),
+                  const AppBarBackground(),
                   Container(
                     margin: EdgeInsets.only(left: 20.w, top: 100.h, right: 20.w, bottom: 20.w),
                     // width: 550.w,
@@ -217,20 +128,24 @@ class _ChoicePageState extends State<ChoicePage> {
                               //     ? Text("")
                               GestureDetector(
                                   onTap: () async {
+                                    pageIndexController.changePage(currentPage: 0);
+                                    pageIndexController.setMenuItems(UserRole.teacher);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                DrawerScreen()));
+                                                const DrawerScreen()));
                                   },
                                   child: SvgPicture.asset(
                                       "assets/images/hoslogin.svg")),
                               GestureDetector(
                                   onTap: () {
-                                    Navigator.pushReplacement(
+                                    pageIndexController.changePage(currentPage: 0);
+                                    pageIndexController.setMenuItems(UserRole.principal);
+                                    Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => leader()));
+                                            builder: (context) => const DrawerScreen()));
                                   },
                                   child: SvgPicture.asset(
                                       "assets/images/teacherLogin.svg")),

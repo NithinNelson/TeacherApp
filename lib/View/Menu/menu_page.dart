@@ -5,9 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
+import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
+import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});
@@ -22,177 +24,225 @@ class MenuScreen extends StatelessWidget {
         statusBarBrightness: Brightness.light, // iOS
       ),
       child: Scaffold(
-        backgroundColor: Colors.teal,
-        body: Stack(
-          children: [
-            Positioned(
-              left: 0,
-              top: 0,
-              child: SvgPicture.asset(
-                'assets/images/pencil1.svg',
-                width: 400.w,
-                color: Colorutils.Whitecolor,
-                fit: BoxFit.fitWidth,
-              ),
+        backgroundColor: Colors.transparent,
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFF118376),
+                  Color(0xFF067B6D),
+                  Color(0xFF138376),
+                ],
             ),
-            Positioned(
-              left: 0,
-              bottom: 0,
-              child: SvgPicture.asset(
-                'assets/images/pencil2.svg',
-                width: 170.w,
-                color: Colorutils.Whitecolor.withOpacity(0.06),
-                fit: BoxFit.fitWidth,
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                left: 0,
+                top: 0,
+                child: SvgPicture.asset(
+                  'assets/images/pencil1.svg',
+                  width: 400.w,
+                  color: Colorutils.Whitecolor,
+                  fit: BoxFit.fitWidth,
+                ),
               ),
-            ),
-            Positioned(
-              right:0,
-              bottom: 0,
-              child: SvgPicture.asset(
-                'assets/images/pencil3.svg',
-                color: Colorutils.Whitecolor.withOpacity(0.06),
-                width: 130.w,
-                fit: BoxFit.fitWidth,
+              Positioned(
+                left: 0,
+                bottom: 0,
+                child: SvgPicture.asset(
+                  'assets/images/pencil2.svg',
+                  width: 170.w,
+                  color: Colorutils.Whitecolor.withOpacity(0.06),
+                  fit: BoxFit.fitWidth,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 28, top: 45).w,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: 35.w,
-                        backgroundImage: AssetImage('assets/images/profile2.png'),
-                      ),
-                      SizedBox(
-                        width: 110.w,
-                        child: Row(
-                          children: [
-                            const ClassIndicator(className: '4A', isActive: true),
-                            SizedBox(width: 8.w),
-                            const ClassIndicator(className: '4B', isActive: false),
-                          ],
+              Positioned(
+                right:0,
+                bottom: 0,
+                child: SvgPicture.asset(
+                  'assets/images/pencil3.svg',
+                  color: Colorutils.Whitecolor.withOpacity(0.06),
+                  width: 130.w,
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 28, top: 45).w,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          radius: 35.w,
+                          backgroundImage: AssetImage('assets/images/profile2.png'),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 15.w),
-                  Text(
-                    'Fathima Nourin',
-                    style: TeacherAppFonts.interW600_20sp_textWhite,
-                  ),
-                  Text(
-                    'fathima@school.com',
-                    style: TeacherAppFonts.interW400_14sp_textWhiteOp60,
-                  ),
-
-                  SizedBox(height: 20.w),
-                  InkWell(
-                    onTap: () {
-                      ZoomDrawer.of(context)?.toggle();
-                      pageIndexController.changePage(currentPage: 0);
-                    },
-                    child: const MenuItem(icon: "assets/images/house-bottom.svg", title: 'Home'),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      ZoomDrawer.of(context)?.toggle();
-                      pageIndexController.changePage(currentPage: 6);
-                    },
-                    child: const MenuItem(icon: "assets/images/classes.svg", title: 'Classes'),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      ZoomDrawer.of(context)?.toggle();
-                      pageIndexController.changePage(currentPage: 7);
-                    },
-                    child: const MenuItem(icon: "assets/images/timetable.svg", title: 'Timetable'),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      ZoomDrawer.of(context)?.toggle();
-                      pageIndexController.changePage(currentPage: 1);
-                    },
-                    child: const MenuItem(icon: "assets/images/clock-three 1.svg", title: 'Leave'),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      ZoomDrawer.of(context)?.toggle();
-                      pageIndexController.changePage(currentPage: 3);
-                    },
-                    child: const MenuItem(icon: "assets/images/chart-pie-alt.svg", title: 'OBS Result'),
-                  ),
-                  Divider(
-                    color: Colorutils.Whitecolor.withOpacity(0.2),
-                    endIndent: 180.w,
-                    height: 20.w,
-                  ),
-                  const MenuItem(icon:"assets/images/logout.svg", title: 'Logout'),
-                  SizedBox(height: 10.w),
-                  InkWell(
-                    onTap: () {
-                      ZoomDrawer.of(context)?.toggle();
-                      pageIndexController.changePage(currentPage: 2);
-                    },
-                    child: Container(
-                      width: 160.w,
-                      height: 40.w,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Center(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset(
-                              'assets/images/newchat.png',
-                              width: 22.w,
-                              fit: BoxFit.fitWidth,
-                            ),
-                            SizedBox(width: 5.w),
-                            SizedBox(
-                              width: 110.w,
-                              height: 40.w,
-                              child: FittedBox(
-                                child: Text(
-                                  'Chat with Parents',
-                                  style: TeacherAppFonts.interW600_14sp_letters1,
+                        SizedBox(
+                          width: 110.w,
+                          child: Row(
+                            children: [
+                              const ClassIndicator(className: '4A', isActive: true),
+                              SizedBox(width: 8.w),
+                              const ClassIndicator(className: '4B', isActive: false),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 15.w),
+                    GetX<UserAuthController>(
+                      builder: (UserAuthController controller) {
+                        return SizedBox(
+                          width: 180.w,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      controller.userData.value.name ?? '--',
+                                      style: TeacherAppFonts.interW600_20sp_textWhite,
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ),
-                          ],
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      controller.userData.value.username ?? '--',
+                                      style: TeacherAppFonts.interW400_14sp_textWhiteOp60,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: 20.w),
+                    for(int i = 5; i < pageIndexController.menuItemsPerRole.length; i++)
+                      InkWell(
+                        onTap: () {
+                          pageIndexController.changePage(currentPage: pageIndexController.menuItemsPerRole[i].index);
+                          ZoomDrawer.of(context)?.toggle();
+                        },
+                        child: MenuItem(
+                            icon: pageIndexController.menuItemsPerRole[i].svg,
+                            title: pageIndexController.menuItemsPerRole[i].title,
+                        ),
+                      ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     ZoomDrawer.of(context)?.toggle();
+                    //     pageIndexController.changePage(currentPage: 6);
+                    //   },
+                    //   child: const MenuItem(icon: "assets/images/classes.svg", title: 'Classes'),
+                    // ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     ZoomDrawer.of(context)?.toggle();
+                    //     pageIndexController.changePage(currentPage: 7);
+                    //   },
+                    //   child: const MenuItem(icon: "assets/images/timetable.svg", title: 'Timetable'),
+                    // ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     ZoomDrawer.of(context)?.toggle();
+                    //     pageIndexController.changePage(currentPage: 1);
+                    //   },
+                    //   child: const MenuItem(icon: "assets/images/clock-three 1.svg", title: 'Leave'),
+                    // ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     ZoomDrawer.of(context)?.toggle();
+                    //     pageIndexController.changePage(currentPage: 3);
+                    //   },
+                    //   child: const MenuItem(icon: "assets/images/chart-pie-alt.svg", title: 'OBS Result'),
+                    // ),
+                    Divider(
+                      color: Colorutils.Whitecolor.withOpacity(0.2),
+                      endIndent: 180.w,
+                      height: 20.w,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        TeacherAppPopUps.logOutPopUp(context: context);
+                      },
+                        child: const MenuItem(icon:"assets/images/logout.svg", title: 'Logout'),
+                    ),
+                    SizedBox(height: 10.w),
+                    InkWell(
+                      onTap: () {
+                        ZoomDrawer.of(context)?.toggle();
+                        pageIndexController.changePage(currentPage: 2);
+                      },
+                      child: Container(
+                        width: 160.w,
+                        height: 40.w,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Center(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset(
+                                'assets/images/newchat.png',
+                                width: 22.w,
+                                fit: BoxFit.fitWidth,
+                              ),
+                              SizedBox(width: 5.w),
+                              SizedBox(
+                                width: 110.w,
+                                height: 40.w,
+                                child: FittedBox(
+                                  child: Text(
+                                    'Chat with Parents',
+                                    style: TeacherAppFonts.interW600_14sp_letters1,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-              // ElevatedButton.icon(
-              //   onPressed: () {},
-              //   icon: Image.asset(
-              //     'assets/images/newchat.png',
-              //     width: 25.w,
-              //     fit: BoxFit.fitWidth,
-              //   ),
-              //   label: Text(
-              //       'Chat with Parents',
-              //     style: TeacherAppFonts.interW600_14sp_letters1,
-              //   ),
-              //   style: ElevatedButton.styleFrom(
-              //     foregroundColor: Colors.teal,
-              //     backgroundColor: Colors.white,
-              //     shape: RoundedRectangleBorder(
-              //       borderRadius: BorderRadius.circular(12), // set your desired border radius
-              //     ),
-              //   ),
-              // )
-                ],
+                // ElevatedButton.icon(
+                //   onPressed: () {},
+                //   icon: Image.asset(
+                //     'assets/images/newchat.png',
+                //     width: 25.w,
+                //     fit: BoxFit.fitWidth,
+                //   ),
+                //   label: Text(
+                //       'Chat with Parents',
+                //     style: TeacherAppFonts.interW600_14sp_letters1,
+                //   ),
+                //   style: ElevatedButton.styleFrom(
+                //     foregroundColor: Colors.teal,
+                //     backgroundColor: Colors.white,
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(12), // set your desired border radius
+                //     ),
+                //   ),
+                // )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

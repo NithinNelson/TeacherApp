@@ -1,13 +1,10 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teacherapp/Utils/Colors.dart';
-
 import '../Chat_View/Chat_widgets/chatnew.dart';
-import '../Home_Page/Home_Widjets/bottom_navigationbar.dart';
 import 'Mychat/my_chat.dart';
 
 class ChatWithParentsPage extends StatefulWidget {

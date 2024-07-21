@@ -4,13 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
 
-class SubjectList extends StatelessWidget {
-  const SubjectList({super.key});
+import '../../../Models/api_models/time_table_api_model.dart';
 
+class SubjectList extends StatelessWidget {
+  final List<TeacherSubject> teacherSubjects;
+  const SubjectList({super.key, required this.teacherSubjects});
 
   @override
   Widget build(BuildContext context) {
-    int itemLength = 4;
+    int itemLength = teacherSubjects.length;
     return Container(
       height: 70.w * (itemLength % 2 == 1 ? ((itemLength - 1)/2) : (itemLength/2)) + (itemLength % 2 == 1 ? 70.w : 0.w),
       padding: const EdgeInsets.only(top: 8, left: 8, right: 8).w,
@@ -59,7 +61,7 @@ class SubjectList extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      '4A',
+                      "${teacherSubjects[index].classs}${teacherSubjects[index].batch}",
                       style: TeacherAppFonts.interW600_16sp_letters1,
                     ),
                   ),
@@ -71,7 +73,7 @@ class SubjectList extends StatelessWidget {
                     child: Row(
                       children: [
                         Text(
-                          'Mathematics',
+                          teacherSubjects[index].sub ?? '--',
                           style: TeacherAppFonts.interW500_16sp_letters1,
                         ),
                       ],
