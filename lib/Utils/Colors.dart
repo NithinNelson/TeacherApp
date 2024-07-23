@@ -12,10 +12,18 @@ class Colorutils {
   static const Subjectcolor2= Color(0xFFE6DEF8);
   static const Subjectcolor3= Color(0xFFFFEBDC);
   static const Subjectcolor4= Color(0xFFF8DEDE);
+
+
+
+
   static const Subjectcolor11= Color(0xFFB8D7D3);
+
+  static const searchcolor= Color(0xFFB8D7D3);
   static const Subjectcolor22= Color(0xFFDBCEF7);
   static const Subjectcolor33= Color(0xFFF7DECA);
+
   static const Subjectcolor44= Color(0xFFF2CDCD);
+
   static const letters1= Color(0xFF118376);
   static const letters2= Color(0xFF462B7E);
   static const letters3= Color(0xFF775537);

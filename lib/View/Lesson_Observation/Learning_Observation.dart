@@ -220,7 +220,7 @@ class  _lessonobsState extends State<lessonobs> {
                   Container(
                     margin: EdgeInsets.only(left: 20.w, top: 85.h, right: 20.w),
                     // width: 550.w,
-                    height: 545.h,
+                    height: 600.h,
                     decoration: BoxDecoration(
                       color: Colorutils.Whitecolor,
                       // Container color
@@ -434,12 +434,12 @@ child: Column(
             padding:
             const EdgeInsets.only(left: 75, right: 75),
             child: Container(
-                height: 40.h,
+                height: 50.h,
                 width: 220.w,
                 decoration: BoxDecoration(
                   color: Colorutils.userdetailcolor,
                   borderRadius:
-                  BorderRadius.all(Radius.circular(12)),
+                  BorderRadius.all(Radius.circular(15)),
                 ),
                 child: Center(
                   child: Text(

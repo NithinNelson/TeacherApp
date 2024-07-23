@@ -15,11 +15,11 @@ class ApiConstants {
 
   //-----------------live url------------------
 
-  static String baseUrl = "https://nims3000.educore.guru";
+  // static String baseUrl = "https://nims3000.educore.guru";
 
   //-----------------test url------------------
 
-  // static String baseUrl = "https://teamsqa3000.educore.guru";
+  static String baseUrl = "https://teamsqa3000.educore.guru";
 
   //----------------commons--------------------
 

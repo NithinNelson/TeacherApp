@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../Utils/Colors.dart';
 import '../../Utils/font_util.dart';
+import 'Learningwalk_apply.dart';
 
 class lessonwalk extends StatefulWidget {
 
@@ -385,7 +386,9 @@ class  _lessonwalkState extends State<lessonwalk> {
                           Padding(
                             padding: EdgeInsets.only(top: 25.h),
                             child: GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => lessonwalkapply()));
+                              },
                               child: Padding(
                                 padding:
                                 const EdgeInsets.only(left: 75, right: 75),

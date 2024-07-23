@@ -254,7 +254,7 @@ class _Lessonobs2State extends State<Lessonobs2> {
                           //crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(30, 20, 0, 0),
+                              padding:  EdgeInsets.fromLTRB(30, 20, 0, 0),
                               child: Text(
                                 'Lesson Observation',
                                 style: TextStyle(
