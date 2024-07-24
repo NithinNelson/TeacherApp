@@ -1,9 +1,12 @@
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teacherapp/Utils/Colors.dart';
+import 'package:teacherapp/View/Chat_List/chat_widgets.dart';
 import '../Chat_View/Chat_widgets/chatnew.dart';
 import 'Mychat/my_chat.dart';
 
@@ -28,32 +31,13 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colorutils.userdetailcolor,
-        title: Text(
-          'Chat with parents',
-          style: GoogleFonts.inter(
-              fontSize: 25.0, fontWeight: FontWeight.w600, color: Colors.white),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: Container(
-              height: 27.w,
-              width: 27.w,
-              child: SvgPicture.asset(
-                'assets/images/MagnifyingGlass.svg',
-                width: 200,
-                height: 200,
-              ),
-            ),
-          )
-        ],
-      ),
+      appBar: const ChatAppBar(),
       body: Column(
         children: [
           Container(
+            height: 50.w,
             color: Colorutils.userdetailcolor,
+            alignment: Alignment.bottomCenter,
             child: TabBar(
               tabAlignment: TabAlignment.center,
               controller: _tabcontroller,
@@ -62,14 +46,20 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
               isScrollable: true,
               tabs: <Widget>[
                 Container(
-                  // width: 100,
-                  height: 50,
-
+                  width: 150.w,
+                  height: 30.w,
+                  alignment: Alignment.center,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
+                      SvgPicture.asset(
+                          "assets/images/chatting_icon.svg",
+                      ),
+                      SizedBox(
+                          width: 5.w
+                      ),
                       Text(
-                        'Chatlist',
+                        "Class List",
                         style: GoogleFonts.inter(
                           color: Colorutils.Whitecolor,
                           fontWeight: FontWeight.w600,
@@ -77,7 +67,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                         ),
                       ),
                       SizedBox(
-                        width: 8,
+                        width: 8.w
                       ),
                       CircleAvatar(
                         backgroundColor: Colors.white,
@@ -94,14 +84,14 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                   ),
                 ),
                 Container(
-                  // width: 100,
-                  height: 50,
-
+                  width: 150.w,
+                  height: 30.w,
+                  alignment: Alignment.center,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'Chat',
+                        "Chats",
                         style: GoogleFonts.inter(
                           color: Colorutils.Whitecolor,
                           fontWeight: FontWeight.w600,
@@ -109,7 +99,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                         ),
                       ),
                       SizedBox(
-                        width: 8,
+                        width: 8.w
                       ),
                       CircleAvatar(
                         backgroundColor: Colors.white,
@@ -226,8 +216,11 @@ class ChatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final random = Random();
+    int randomIndex = random.nextInt(Colorutils.chatLeadingColors.length);
+    Color randomElement = Colorutils.chatLeadingColors[randomIndex];
     return Container(
-      height: 60,
+      height: 60.w,
       child: GestureDetector(
         onTap: () {
           Navigator.pushReplacement(
@@ -237,7 +230,8 @@ class ChatItem extends StatelessWidget {
         },
         child: ListTile(
           leading: CircleAvatar(
-            radius: 25,
+            backgroundColor: randomElement,
+            radius: 25.r,
             child: Text(
               classs,
               style: GoogleFonts.inter(
