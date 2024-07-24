@@ -18,14 +18,14 @@ class monday extends StatelessWidget {
             itemBuilder: (context, index) {
               List<Color> colors = [
 
-                Colorutils.userdetailcolor.withOpacity(0.9),
-                Colorutils.Classcolour1.withOpacity(0.9),
+                Colorutils.userdetailcolor.withOpacity(0.2),
+                Colorutils.Classcolour1.withOpacity(0.4),
                 Colorutils.Classcolour3.withOpacity(0.9),
                 Colorutils.svguicolour2.withOpacity(0.9),
               ];
               Color color = colors[index % colors.length];
               List<Color> colors1 = [
-                Colorutils.userdetailcolor.withOpacity(0.8),
+                Colorutils.userdetailcolor.withOpacity(0.4),
                 Colorutils.Classcolour1.withOpacity(0.6),
                 Colorutils.Classcolour3.withOpacity(0.8),
                 Colorutils.svguicolour2.withOpacity(0.8),

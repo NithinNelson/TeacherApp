@@ -51,34 +51,45 @@ class _MyTimeTableState extends State<MyTimeTable> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     List<CardItem> items = [
       IconTitleCardItem(
-        text: "Monday",
-        selectedBgColor: Colorutils.chatcolor,
+        text: "MON",
+        selectedBgColor: Colors.blue,
         noSelectedBgColor: Colors.white,
+        noSelectedIconTextColor: Colors.black
+
       ),
       IconTitleCardItem(
-        text: "Tuesday",
+        text: "TUE",
         selectedBgColor: Colorutils.chatcolor,
         noSelectedBgColor: Colors.white,
+        noSelectedIconTextColor: Colors.black
+
       ),
       IconTitleCardItem(
-        text: "Wednesday",
+        text: "WED",
         selectedBgColor: Colorutils.chatcolor,
         noSelectedBgColor: Colors.white,
+        noSelectedIconTextColor: Colors.black
+
       ),
       IconTitleCardItem(
-        text: "Thursday",
+        text: "THU",
         selectedBgColor: Colorutils.chatcolor,
         noSelectedBgColor: Colors.white,
+        noSelectedIconTextColor: Colors.black
       ),
       IconTitleCardItem(
-        text: "Friday",
+        text: "FRI",
         selectedBgColor: Colorutils.chatcolor,
         noSelectedBgColor: Colors.white,
+        noSelectedIconTextColor: Colors.black
+
       ),
       IconTitleCardItem(
-        text: "sat",
+        text: "SAT",
         selectedBgColor: Colorutils.chatcolor,
         noSelectedBgColor: Colors.white,
+        noSelectedIconTextColor: Colors.black
+
       ),
     ];
     final List<Widget> tabViews = [
