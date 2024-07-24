@@ -74,7 +74,7 @@ class SubjectList extends StatelessWidget {
                       children: [
                         Text(
                           teacherSubjects[index].sub ?? '--',
-                          style: TeacherAppFonts.interW500_14sp_letters1,
+                          style: TeacherAppFonts.interW500_16sp_letters1,
                         ),
                       ],
                     ),
