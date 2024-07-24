@@ -54,6 +54,13 @@ class TeacherAppFonts {
     color: Colorutils.letters1,
   );
 
+  static final TextStyle interW500_14sp_letters1 = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w500,
+    fontSize: 14.sp,
+    color: Colorutils.letters1,
+  );
+
   static final TextStyle interW700_16sp_letters1 = TextStyle(
     fontFamily: _interFont,
     fontWeight: FontWeight.w700,

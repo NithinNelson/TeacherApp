@@ -39,7 +39,7 @@ class ClassList extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        todaySubjects[index].batchName ?? '--',
+                        todaySubjects[index].batchName?.replaceAll(" ", "") ?? '--',
                         style: TeacherAppFonts.interW500_32sp_textWhite,
                       ),
                       const Spacer(),
