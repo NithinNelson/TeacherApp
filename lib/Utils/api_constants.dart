@@ -15,11 +15,13 @@ class ApiConstants {
 
   //-----------------live url------------------
 
-  // static String baseUrl = "https://nims3000.educore.guru";
+  static String baseUrl = "https://nims3000.educore.guru";
+  static String chat = "https://chat.bmark.in/api";
 
   //-----------------test url------------------
 
-  static String baseUrl = "https://teamsqa3000.educore.guru";
+  // static String baseUrl = "https://teamsqa3000.educore.guru";
+  // static String chat = "https://chat.bmark.in/api";
 
   //----------------commons--------------------
 
@@ -27,4 +29,5 @@ class ApiConstants {
   static String hosList = "/v2/lesson_observation/init/data";
   static String workLoad = "/v2/get/workloads/from/credentials";
   static String timeTable = "/v2/timetable/mobile";
+  static String classGroup = "/classgroup";
 }

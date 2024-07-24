@@ -119,4 +119,29 @@ class ApiServices {
       throw Exception("Service Error");
     }
   }
+
+  static Future<Map<String, dynamic>> getClassGroupList({
+    required String teacherId,
+  }) async {
+    String url = "${ApiConstants.chat}${ApiConstants.classGroup}";
+    print(url);
+    Map apiBody = {
+      "teacher_id": teacherId,
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
 }
