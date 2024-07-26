@@ -13,6 +13,7 @@ class ApiConstants {
     'Content-Type': 'application/json'
   };
 
+
   //-----------------live url------------------
 
   // static String baseUrl = "https://nims3000.educore.guru";
@@ -29,5 +30,6 @@ class ApiConstants {
   static String hosList = "/v2/lesson_observation/init/data";
   static String workLoad = "/v2/get/workloads/from/credentials";
   static String timeTable = "/v2/timetable/mobile";
+  static String lessonObservation= "/v2/lesson_observation/init/data";
   static String classGroup = "/classgroup";
 }

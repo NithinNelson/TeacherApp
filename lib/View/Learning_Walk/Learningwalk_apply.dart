@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:teacherapp/Models/api_models/learning_observation_api_model.dart';
 import '../../Utils/Colors.dart';
 import '../../Utils/font_util.dart';
 
 class lessonwalkapply extends StatefulWidget {
+  final String teacherDetails;
+  final String subjectDetail;
+  final String teacherDetail;
   const lessonwalkapply({
-    super.key,
+    super.key, required this.teacherDetails, required this.subjectDetail, required this.teacherDetail,
   });
 
   @override
@@ -16,7 +20,9 @@ class lessonwalkapply extends StatefulWidget {
 }
 
 class _lessonwalkapplyState extends State<lessonwalkapply> {
+
   bool isChecked = true;
+  String? _selectedValue = '';
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +31,7 @@ class _lessonwalkapplyState extends State<lessonwalkapply> {
           backgroundColor: Colors.white,
           body: SingleChildScrollView(
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.99,
+              height: MediaQuery.of(context).size.height,
               child: Stack(
                 children: [
                   SizedBox(
@@ -228,7 +234,7 @@ class _lessonwalkapplyState extends State<lessonwalkapply> {
                   Container(
                     margin: EdgeInsets.only(left: 10.w, top: 85.h, right: 10.w),
                     width: 550.w,
-                    height: 700.h,
+                   height: MediaQuery.of(context).size.height,
                     decoration: BoxDecoration(
                       color: Colorutils.Whitecolor,
                       // Container color
@@ -249,670 +255,811 @@ class _lessonwalkapplyState extends State<lessonwalkapply> {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            width: 550.w,
-                            height: 640.h,
-                            child: ListView(
-                                //crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(25, 20, 0, 5),
-                                    child: Text(
-                                      'Learning Walk',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 20.w,
-                                        top: 5.h,
-                                        right: 20.w,
-                                        bottom: 5),
-                                    child: Container(
-                                      height: 80.h,
-                                      width: 280.w,
-                                      decoration: BoxDecoration(
-                                          color: Colorutils.userdetailcolor,
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 15, top: 10),
-                                            child: Row(
-                                              children: [
-                                                Container(
-                                                  width: 50.w,
-                                                  height: 50.h,
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    border: Border.all(
-                                                        color:
-                                                            Color(0xFFD6E4FA)),
-                                                    color: Colors.white,
-                                                    // image: DecorationImage(
-                                                    //     image: NetworkImage(widget.teacherImage == ""
-                                                    //         ? "https://raw.githubusercontent.com/abdulmanafpfassal/image/master/profile.jpg"
-                                                    //         : ApiConstants.IMAGE_BASE_URL +
-                                                    //         "${widget.teacherImage}"),
-                                                    //     fit: BoxFit.cover),
-                                                  ),
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            100),
-                                                    child: CachedNetworkImage(
-                                                      width: 50,
-                                                      height: 50,
-                                                      fit: BoxFit.fill,
-                                                      imageUrl: "nhh",
-                                                      placeholder:
-                                                          (context, url) =>
-                                                              Center(
-                                                        child: Text(
-                                                          'bennn',
-                                                          style: TextStyle(
-                                                              color: Color(
-                                                                  0xFFB1BFFF),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 20),
-                                                        ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 50),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height,
+                                // height: 800.h,
+                                child: ListView(
+                                    //crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            25, 20, 0, 5),
+                                        child: Text(
+                                          'Learning Walk',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 20.w,
+                                            top: 5.h,
+                                            right: 20.w,
+                                            bottom: 5),
+                                        child: Container(
+                                          height: 80.h,
+                                          width: 280.w,
+                                          decoration: BoxDecoration(
+                                              color: Colorutils.userdetailcolor,
+                                              borderRadius:
+                                                  BorderRadius.circular(15)),
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 15, top: 10),
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      width: 50.w,
+                                                      height: 50.h,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        border: Border.all(
+                                                            color: Color(
+                                                                0xFFD6E4FA)),
+                                                        color: Colors.white,
+                                                        // image: DecorationImage(
+                                                        //     image: NetworkImage(widget.teacherImage == ""
+                                                        //         ? "https://raw.githubusercontent.com/abdulmanafpfassal/image/master/profile.jpg"
+                                                        //         : ApiConstants.IMAGE_BASE_URL +
+                                                        //         "${widget.teacherImage}"),
+                                                        //     fit: BoxFit.cover),
                                                       ),
-                                                      errorWidget: (context,
-                                                              url, error) =>
-                                                          Center(
-                                                        child: Text(
-                                                          'ben',
-                                                          style: TextStyle(
-                                                              color: Color(
-                                                                  0xFFB1BFFF),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 20),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 10.w),
-                                                  child: Container(
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Container(
-                                                          width: 170,
-                                                          child: SingleChildScrollView(
-                                                            scrollDirection: Axis.horizontal,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(100),
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          width: 50,
+                                                          height: 50,
+                                                          fit: BoxFit.fill,
+                                                          imageUrl: "nhh",
+                                                          placeholder:
+                                                              (context, url) =>
+                                                                  Center(
                                                             child: Text(
-                                                              "Mohammad Noufal Azad ",
+                                                              'bennn',
                                                               style: TextStyle(
                                                                   color: Color(
-                                                                      0xffFFFFFF),
-                                                                  fontSize:
-                                                                      15.sp,
+                                                                      0xFFB1BFFF),
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .w400),
+                                                                          .bold,
+                                                                  fontSize: 20),
                                                             ),
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 2.h,
-                                                        ),
-                                                        SingleChildScrollView(
-                                                          scrollDirection: Axis.horizontal,
-
-                                                          child: Text(
-                                                            "9D",
-                                                            style: TextStyle(
-                                                                color: Colors.white,
-                                                                fontSize: 14.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 2.h,
-                                                        ),
-                                                        Container(
-                                                          width: 200.w,
-                                                          child: SingleChildScrollView(
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              Center(
                                                             child: Text(
-                                                              "Mathematics",
+                                                              'ben',
                                                               style: TextStyle(
-                                                                  color: Colors.white,
-                                                                  fontSize: 14.sp,
+                                                                  color: Color(
+                                                                      0xFFB1BFFF),
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .w400),
+                                                                          .bold,
+                                                                  fontSize: 20),
                                                             ),
                                                           ),
-                                                        )
-                                                      ],
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                    const EdgeInsets.fromLTRB(25, 5, 0, 5),
-
-                                    child: Text(
-                                      'Criteria',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                  Column(
-                                    children: [
-                                      Expanded(
-                                        flex: 0,
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 20.w,
-                                              top: 5.h,
-                                              right: 20.w,
-                                              bottom: 5),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    color: Colors.black26,
-                                                    blurRadius: 1),
-                                              ],
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              color: Colors.white,
-                                            ),
-                                            child: FormField(
-                                              // validator: (value) {
-                                              //   //print(value);
-                                              //   if (value != true) {
-                                              //     isvalid = false;
-                                              //     print('isvalid learning= false $isvalid');
-                                              //     return null;
-                                              //   } else {
-                                              //     isvalid = true;
-                                              //     print('isvalid learning= true $isvalid');
-                                              //   }
-                                              //   // return null;
-                                              // },
-                                              builder: (FormFieldState<bool>
-                                                      state) =>
-                                                  Column(
-                                                children: [
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                      left: 10.w,
-                                                      right: 5,
-                                                      top: 15.h,
-                                                      bottom: 20.h,
-                                                    ),
-                                                    child: Row(
-                                                      children: [
-                                                        Container(
-                                                          height: 20.h,
-                                                          width: 20.h,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.black,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        100),
-                                                          ),
-                                                          child: Center(
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 10.w),
+                                                      child: Container(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Container(
+                                                              width: 170,
+                                                              child:
+                                                                  SingleChildScrollView(
+                                                                scrollDirection:
+                                                                    Axis.horizontal,
+                                                                child: Text(
+                                                                  "${widget.teacherDetails}",
+                                                                  style: TextStyle(
+                                                                      color: Color(
+                                                                          0xffFFFFFF),
+                                                                      fontSize:
+                                                                          15.sp,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 2.h,
+                                                            ),
+                                                            SingleChildScrollView(
+                                                              scrollDirection:
+                                                                  Axis.horizontal,
                                                               child: Text(
-                                                            (1).toString(),
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white),
-                                                          )),
+                                                                "${widget.teacherDetail}",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                        14.sp,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 2.h,
+                                                            ),
+                                                            Container(
+                                                              width: 200.w,
+                                                              child:
+                                                                  SingleChildScrollView(
+                                                                child: Text(
+                                                                  "${widget.subjectDetail}",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          14.sp,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
                                                         ),
-                                                        SizedBox(
-                                                          width: 8.w,
-                                                        ),
-                                                        Expanded(
-                                                          child: Text("ahhahqweeeeedfffffffffffffsdfaaaaaaaaaaaaaaaaaaadF QWUIDFGIUS XASJUDCHASOI CXUIASXCVGB ASVBJMXC ASIXCYAS CXS"),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Row(
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            25, 5, 0, 5),
+                                        child: Text(
+                                          'Criteria',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                      Column(
+                                        children: [
+                                          Expanded(
+                                            flex: 0,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 20.w,
+                                                  top: 5.h,
+                                                  right: 20.w,
+                                                  bottom: 5),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: Colors.black26,
+                                                        blurRadius: 1),
+                                                  ],
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  color: Colors.white,
+                                                ),
+                                                child: FormField(
+                                                  // validator: (value) {
+                                                  //   //print(value);
+                                                  //   if (value != true) {
+                                                  //     isvalid = false;
+                                                  //     print('isvalid learning= false $isvalid');
+                                                  //     return null;
+                                                  //   } else {
+                                                  //     isvalid = true;
+                                                  //     print('isvalid learning= true $isvalid');
+                                                  //   }
+                                                  //   // return null;
+                                                  // },
+                                                  builder: (FormFieldState<bool>
+                                                          state) =>
+                                                      Column(
                                                     children: [
                                                       Padding(
                                                         padding:
                                                             EdgeInsets.only(
-                                                                left: 10.w,
-                                                                right: 10.w),
-                                                        child: Container(
-                                                          // height: 170.h,
-                                                          width: 135.w,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        24),
-                                                            color: Color(
-                                                                    0xffFEE68B)
-                                                                .withOpacity(
-                                                                    0.2),
-                                                          ),
-                                                          child: Padding(
+                                                          left: 10.w,
+                                                          right: 5,
+                                                          top: 15.h,
+                                                          bottom: 20.h,
+                                                        ),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Container(
+                                                              height: 20.h,
+                                                              width: 20.h,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors
+                                                                    .black,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            100),
+                                                              ),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  (1).toString(),
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width: 8.w,
+                                                            ),
+                                                            Expanded(
+                                                              child: Text(
+                                                                  "eeeeedfffffffffffffsdfaaaaaaaaaaaaaaaaaaadF QWUIDFGIUS XASJUDCHASOI CXUIASXCVGB ASVBJMXC ASIXCYAS CXS"),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Padding(
                                                             padding:
                                                                 EdgeInsets.only(
-                                                                    top: 15.h),
-                                                            child: Column(
-                                                              children: [
-                                                                Row(
+                                                                    left: 10.w,
+                                                                    right:
+                                                                        10.w),
+                                                            child: Container(
+                                                              // height: 170.h,
+                                                              width: 135.w,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            24),
+                                                                color: Color(
+                                                                        0xffFEE68B)
+                                                                    .withOpacity(
+                                                                        0.2),
+                                                              ),
+                                                              child: Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        top: 15
+                                                                            .h),
+                                                                child: Column(
                                                                   children: [
-                                                                    Checkbox(
+                                                                    Row(
+                                                                      children: [
+                                                                        Theme(
 
-                                                                      shape: CircleBorder(
+                                                                          data: ThemeData(
+                                                                            unselectedWidgetColor: Colors.red,
+                                                                          ),
+                                                                          child: Radio<String>(
+                                                                            fillColor: MaterialStateProperty.resolveWith(
+                                                                                  (states) {
+                                                                                if (states.contains(MaterialState.selected)) {
+                                                                                  return Colorutils.userdetailcolor;
+                                                                                }
+                                                                                return Colors.red;
+                                                                              },
+                                                                            ),
+                                                                            focusColor:
+                                                                            Colorutils.userdetailcolor,
+                                                                            activeColor:
+                                                                            Colorutils.userdetailcolor,
 
-
-                                                                      ),
-
-
-                                                                      activeColor: Colorutils.userdetailcolor,
-                                                                      hoverColor: Colorutils.userdetailcolor,
-                                                                      value: isChecked,
-                                                                      onChanged: (value) {
-                                                                        setState(() {
-                                                                          isChecked = value ?? false;
-                                                                        });
-                                                                      },
+                                                                            // Color for the check mark
+                                                                            hoverColor:
+                                                                            Colorutils.userdetailcolor,
+                                                                            value: 'Option 1',
+                                                                            groupValue: _selectedValue,
+                                                                            onChanged: (String? value) {
+                                                                              setState(() {
+                                                                                _selectedValue = value;
+                                                                              });
+                                                                            },
+                                                                          ),
+                                                                        ),
+                                                                        const Text(
+                                                                            "N/A"),
+                                                                      ],
                                                                     ),
-                                                                    const Text(
-                                                                        "N/A"),
+                                                                    Row(
+                                                                      children: [
+                                                                        Theme(
+
+                                                                          data: ThemeData(
+                                                                            unselectedWidgetColor: Colors.red,
+                                                                          ),
+                                                                          child: Radio<String>(
+                                                                            fillColor: MaterialStateProperty.resolveWith(
+                                                                                  (states) {
+                                                                                if (states.contains(MaterialState.selected)) {
+                                                                                  return Colorutils.userdetailcolor;
+                                                                                }
+                                                                                return Colors.orange;
+                                                                              },
+                                                                            ),
+                                                                            focusColor:
+                                                                            Colorutils.userdetailcolor,
+                                                                            activeColor:
+                                                                            Colorutils.userdetailcolor,
+
+                                                                            // Color for the check mark
+                                                                            hoverColor:
+                                                                            Colorutils.userdetailcolor,
+                                                                            value: 'Option 1',
+                                                                            groupValue: _selectedValue,
+                                                                            onChanged: (String? value) {
+                                                                              setState(() {
+                                                                                _selectedValue = value;
+                                                                              });
+                                                                            },
+                                                                          ),
+                                                                        ),
+                                                                        const Text(
+                                                                            "Weak"),
+                                                                      ],
+                                                                    ),
+                                                                    Row(
+                                                                      children: [
+                                                                        Theme(
+
+                                                                          data: ThemeData(
+                                                                            unselectedWidgetColor: Colors.red,
+                                                                          ),
+                                                                          child: Radio<String>(
+                                                                            fillColor: MaterialStateProperty.resolveWith(
+                                                                                  (states) {
+                                                                                if (states.contains(MaterialState.selected)) {
+                                                                                  return Colorutils.userdetailcolor;
+                                                                                }
+                                                                                return Colors.yellow;
+                                                                              },
+                                                                            ),
+                                                                            focusColor:
+                                                                            Colorutils.userdetailcolor,
+                                                                            activeColor:
+                                                                            Colorutils.userdetailcolor,
+
+                                                                            // Color for the check mark
+                                                                            hoverColor:
+                                                                            Colorutils.userdetailcolor,
+                                                                            value: 'Option 1',
+                                                                            groupValue: _selectedValue,
+                                                                            onChanged: (String? value) {
+                                                                              setState(() {
+                                                                                _selectedValue = value;
+                                                                              });
+                                                                            },
+                                                                          ),
+                                                                        ),
+                                                                        const Text(
+                                                                            "Acceptable"),
+                                                                      ],
+                                                                    ),
                                                                   ],
                                                                 ),
-                                                                Row(
-                                                                  children: [
-                                                                    Checkbox(
-                                                                      shape:RoundedRectangleBorder(side: BorderSide(color: Colorutils.userdetailcolor)),
-
-                                                                      focusColor: Colorutils.userdetailcolor,
-                                                                      activeColor: Colorutils.userdetailcolor,
-                                                                      checkColor: Colors.white, // Color for the check mark
-                                                                      hoverColor: Colorutils.userdetailcolor,
-                                                                      value: isChecked,side: BorderSide(color: Colorutils.userdetailcolor),
-                                                                      onChanged: (value) {
-                                                                        setState(() {
-                                                                          isChecked = value!;
-                                                                        });
-                                                                      },
-                                                                    ),
-
-                                                                    const Text(
-                                                                        "Weak"),
-                                                                  ],
-                                                                ),
-                                                                Row(
-                                                                  children: [
-                                                                    Checkbox(
-
-                                                                      shape: CircleBorder(
-
-                                                                      ),
-                                                                      activeColor: Colorutils.userdetailcolor,
-                                                                      hoverColor: Colorutils.userdetailcolor,
-                                                                      value: isChecked,
-                                                                      onChanged: (value) {
-                                                                        setState(() {
-                                                                          isChecked = !isChecked;
-                                                                        });
-                                                                      },
-                                                                    ),
-                                                                    const Text(
-                                                                        "Acceptable"),
-                                                                  ],
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        // height: 170.h,
-                                                        width: 135.w,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(24),
-                                                          color: Color(
-                                                                  0xff79CF62)
-                                                              .withOpacity(0.2),
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  top: 15.h),
-                                                          child: Column(
-                                                            children: [
-                                                              Row(
-                                                                children: [
-                                                                  Checkbox(
-
-                                                                    shape: CircleBorder(
-
-                                                                    ),
-                                                                    activeColor: Colorutils.userdetailcolor,
-                                                                    hoverColor: Colorutils.userdetailcolor,
-                                                                    value: isChecked,
-                                                                    onChanged: (value) {
-                                                                      setState(() {
-                                                                        isChecked = !isChecked;
-                                                                      });
-                                                                    },
-                                                                  ),
-                                                                  const Text(
-                                                                      "Good"),
-                                                                ],
-                                                              ),
-                                                              Row(
-                                                                children: [
-                                                                  Checkbox(
-
-                                                                    shape: CircleBorder(
-
-                                                                    ),
-                                                                    activeColor: Colorutils.userdetailcolor,
-                                                                    hoverColor: Colorutils.userdetailcolor,
-                                                                    value: isChecked,
-                                                                    onChanged: (value) {
-                                                                      setState(() {
-                                                                        isChecked = !isChecked;
-                                                                      });
-                                                                    },
-                                                                  ),
-                                                                  const Text(
-                                                                      "Very good"),
-                                                                ],
-                                                              ),
-                                                              Row(
-                                                                children: [
-                                                                  Checkbox(
-
-                                                                    shape: CircleBorder(
-
-                                                                    ),
-                                                                    activeColor: Colorutils.userdetailcolor,
-                                                                    hoverColor: Colorutils.userdetailcolor,
-                                                                    value: isChecked,
-                                                                    onChanged: (value) {
-                                                                      setState(() {
-                                                                        isChecked = !isChecked;
-                                                                      });
-                                                                    },
-                                                                  ),
-                                                                  const Text(
-                                                                      "Outstanding"),
-                                                                ],
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 12.w, top: 10.h),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              bottom: 10),
-                                                      child: Row(
-                                                        children: [
-                                                          Icon(
-                                                            Icons.info_outline,
-                                                            color: Colors.grey,
-                                                          ),
-                                                          SizedBox(
-                                                            width: 15.w,
-                                                          ),
-                                                          GestureDetector(
-                                                            onTap: () {},
-                                                            child: Text(
-                                                              'Rubrics',
-                                                              style: TextStyle(
-                                                                color:
-                                                                    Colors.grey,
                                                               ),
                                                             ),
                                                           ),
-                                                          SizedBox(
-                                                            width: 5.w,
-                                                          ),
-                                                          GestureDetector(
-                                                            onTap: () {},
-                                                            child: Icon(
-                                                              Icons
-                                                                  .arrow_forward_ios,
-                                                              size: 12,
-                                                              color:
-                                                                  Colors.grey,
+                                                          Container(
+                                                            // height: 170.h,
+                                                            width: 135.w,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          24),
+                                                              color: Color(
+                                                                      0xff79CF62)
+                                                                  .withOpacity(
+                                                                      0.2),
+                                                            ),
+                                                            child: Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top:
+                                                                          15.h),
+                                                              child: Column(
+                                                                children: [
+                                                                  Row(
+                                                                    children: [
+                                                                      Theme(
+
+                                                                        data: ThemeData(
+                                                                          unselectedWidgetColor: Colors.red,
+                                                                        ),
+                                                                        child: Radio<String>(
+                                                                          fillColor: MaterialStateProperty.resolveWith(
+                                                                                (states) {
+                                                                              if (states.contains(MaterialState.selected)) {
+                                                                                return Colorutils.userdetailcolor;
+                                                                              }
+                                                                              return Colors.green[200];
+                                                                            },
+                                                                          ),
+                                                                          focusColor:
+                                                                          Colorutils.userdetailcolor,
+                                                                          activeColor:
+                                                                          Colorutils.userdetailcolor,
+
+                                                                          // Color for the check mark
+                                                                          hoverColor:
+                                                                          Colorutils.userdetailcolor,
+                                                                          value: 'Option 1',
+                                                                          groupValue: _selectedValue,
+                                                                          onChanged: (String? value) {
+                                                                            setState(() {
+                                                                              _selectedValue = value;
+                                                                            });
+                                                                          },
+                                                                        ),
+                                                                      ),
+                                                                      const Text(
+                                                                          "Good"),
+                                                                    ],
+                                                                  ),
+                                                                  Row(
+                                                                    children: [
+                                                                      Theme(
+
+                                                                        data: ThemeData(
+                                                                          unselectedWidgetColor: Colors.red,
+                                                                        ),
+                                                                        child: Radio<String>(
+                                                                          fillColor: MaterialStateProperty.resolveWith(
+                                                                                (states) {
+                                                                              if (states.contains(MaterialState.selected)) {
+                                                                                return Colorutils.userdetailcolor;
+                                                                              }
+                                                                              return Colors.green[500];
+                                                                            },
+                                                                          ),
+                                                                          focusColor:
+                                                                          Colorutils.userdetailcolor,
+                                                                          activeColor:
+                                                                          Colorutils.userdetailcolor,
+
+                                                                          // Color for the check mark
+                                                                          hoverColor:
+                                                                          Colorutils.userdetailcolor,
+                                                                          value: 'Option 1',
+                                                                          groupValue: _selectedValue,
+                                                                          onChanged: (String? value) {
+                                                                            setState(() {
+                                                                              _selectedValue = value;
+                                                                            });
+                                                                          },
+                                                                        ),
+                                                                      ),
+                                                                      const Text(
+                                                                          "Very Good"),
+                                                                    ],
+                                                                  ),
+                                                                  Row(
+                                                                    children: [
+                                                                      Theme(
+
+                                                                        data: ThemeData(
+                                                                          unselectedWidgetColor: Colors.red,
+                                                                        ),
+                                                                        child: Radio<String>(
+                                                                          fillColor: MaterialStateProperty.resolveWith(
+                                                                                (states) {
+                                                                              if (states.contains(MaterialState.selected)) {
+                                                                                return Colorutils.userdetailcolor;
+                                                                              }
+                                                                              return Colors.green[700];
+                                                                            },
+                                                                          ),
+                                                                          focusColor:
+                                                                          Colorutils.userdetailcolor,
+                                                                          activeColor:
+                                                                          Colorutils.userdetailcolor,
+
+                                                                          // Color for the check mark
+                                                                          hoverColor:
+                                                                          Colorutils.userdetailcolor,
+                                                                          value: 'Option 1',
+                                                                          groupValue: _selectedValue,
+                                                                          onChanged: (String? value) {
+                                                                            setState(() {
+                                                                              _selectedValue = value;
+                                                                            });
+                                                                          },
+                                                                        ),
+                                                                      ),
+                                                                      const Text(
+                                                                          "Outstanding"),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ),
                                                             ),
                                                           ),
                                                         ],
                                                       ),
-                                                    ),
-                                                  )
-                                                ],
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 12.w,
+                                                                top: 10.h),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  bottom: 10),
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .info_outline,
+                                                                color:
+                                                                    Colors.grey,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 15.w,
+                                                              ),
+                                                              GestureDetector(
+                                                                onTap: () {},
+                                                                child: Text(
+                                                                  'Rubrics',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 5.w,
+                                                              ),
+                                                              GestureDetector(
+                                                                onTap: () {},
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios,
+                                                                  size: 12,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 20.w,
+                                            top: 10.h,
+                                            right: 20.w,
+                                            bottom: 5),
+                                        child: TextFormField(
+                                          maxLength: 1000,
+                                          validator: (val) => val!.isEmpty
+                                              ? '  *Fill the Field to Submit'
+                                              : null,
+                                          decoration: InputDecoration(
+                                              hintStyle: TextStyle(
+                                                  color: Colors.black26),
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      vertical: 10.0,
+                                                      horizontal: 20.0),
+                                              hintText: " Summary  ",
+                                              counterText: "00/1000",
+                                              border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0),
+                                                ),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color.fromRGBO(
+                                                        230, 236, 254, 8),
+                                                    width: 1.0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(22)),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color.fromRGBO(
+                                                        230, 236, 254, 8),
+                                                    width: 1.0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(30.0)),
+                                              ),
+                                              fillColor: Colorutils.chatcolor
+                                                  .withOpacity(0.3),
+                                              filled: true),
+                                          maxLines: 5,
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 20.w,
-                                        top: 10.h,
-                                        right: 20.w,
-                                        bottom: 5),
-                                    child: TextFormField(
-                                      maxLength: 1000,
-                                      validator: (val) => val!.isEmpty
-                                          ? '  *Fill the Field to Submit'
-                                          : null,
-                                      decoration: InputDecoration(
-                                          hintStyle:
-                                              TextStyle(color: Colors.black26),
-                                          contentPadding: EdgeInsets.symmetric(
-                                              vertical: 10.0, horizontal: 20.0),
-                                          hintText: " Summary  ",
-                                          counterText: "00/1000",
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0),
-                                            ),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    230, 236, 254, 8),
-                                                width: 1.0),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(22)),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    230, 236, 254, 8),
-                                                width: 1.0),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(30.0)),
-                                          ),
-                                          fillColor:
-                                             Colorutils.chatcolor.withOpacity(0.3),
-                                          filled: true),
-                                      maxLines: 5,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 20.w,
-                                        top: 5.h,
-                                        right: 20.w,
-                                        bottom: 5),
-                                    child: TextFormField(
-                                      maxLength: 1000,
-                                      validator: (val) => val!.isEmpty
-                                          ? '  *Fill the Field to Submit'
-                                          : null,
-                                      decoration: InputDecoration(
-                                          hintStyle:
-                                              TextStyle(color: Colors.black26),
-                                          contentPadding: EdgeInsets.symmetric(
-                                              vertical: 10.0, horizontal: 20.0),
-                                          hintText: " What went well   ",
-                                          counterText: "00/1000",
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0),
-                                            ),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    230, 236, 254, 8),
-                                                width: 1.0),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(22)),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    230, 236, 254, 8),
-                                                width: 1.0),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(30.0)),
-                                          ),
-                                          fillColor:
-                                          Colorutils.chatcolor.withOpacity(0.3),
-                                          filled: true),
-                                      maxLines: 5,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 20.w,
-                                        top: 5.h,
-                                        right: 20.w,
-                                        ),
-                                    child: TextFormField(
-                                      maxLength: 1000,
-                                      validator: (val) => val!.isEmpty
-                                          ? '  *Fill the Field to Submit'
-                                          : null,
-                                      decoration: InputDecoration(
-                                          hintStyle:
-                                              TextStyle(color: Colors.black26),
-                                          contentPadding: EdgeInsets.symmetric(
-                                              vertical: 10.0, horizontal: 20.0),
-                                          hintText: " Even better if   ",
-                                          counterText: "000/1000",
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0),
-                                            ),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    230, 236, 254, 8),
-                                                width: 1.0),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(22)),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    230, 236, 254, 8),
-                                                width: 1.0),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(30.0)),
-                                          ),
-                                          fillColor:
-                                          Colorutils.chatcolor.withOpacity(0.3),
-                                          filled: true),
-                                      maxLines: 5,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                    child: Row(
-                                      children: [
-                                        Checkbox(
-                                          activeColor: Colorutils.userdetailcolor,
-                                          value: isChecked,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              isChecked = !isChecked;
-                                            });
-                                          },
-                                        ),
-                                        Text(
-                                          'Joined Observation',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(35, 20, 35, 0),
-                                    child: GestureDetector(
-                                      onTap: () async {},
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 55, right: 55),
-                                        child: Container(
-                                          height: 40.h,
-                                          // width: 180.w,
-                                          decoration: BoxDecoration(
-                                              color: Colorutils.userdetailcolor,
-                                              borderRadius:
-                                                  BorderRadius.circular(30)),
-                                          child: Center(
-                                              child: Text(
-                                            'SUBMIT',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.white),
-                                          )),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 20.w,
+                                            top: 5.h,
+                                            right: 20.w,
+                                            bottom: 5),
+                                        child: TextFormField(
+                                          maxLength: 1000,
+                                          validator: (val) => val!.isEmpty
+                                              ? '  *Fill the Field to Submit'
+                                              : null,
+                                          decoration: InputDecoration(
+                                              hintStyle: TextStyle(
+                                                  color: Colors.black26),
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      vertical: 10.0,
+                                                      horizontal: 20.0),
+                                              hintText: " What went well   ",
+                                              counterText: "00/1000",
+                                              border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0),
+                                                ),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color.fromRGBO(
+                                                        230, 236, 254, 8),
+                                                    width: 1.0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(22)),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color.fromRGBO(
+                                                        230, 236, 254, 8),
+                                                    width: 1.0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(30.0)),
+                                              ),
+                                              fillColor: Colorutils.chatcolor
+                                                  .withOpacity(0.3),
+                                              filled: true),
+                                          maxLines: 5,
                                         ),
                                       ),
-                                    ),
-                                  ),
-
-                                ]),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          left: 20.w,
+                                          top: 5.h,
+                                          right: 20.w,
+                                        ),
+                                        child: TextFormField(
+                                          maxLength: 1000,
+                                          validator: (val) => val!.isEmpty
+                                              ? '  *Fill the Field to Submit'
+                                              : null,
+                                          decoration: InputDecoration(
+                                              hintStyle: TextStyle(
+                                                  color: Colors.black26),
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      vertical: 10.0,
+                                                      horizontal: 20.0),
+                                              hintText: " Even better if   ",
+                                              counterText: "000/1000",
+                                              border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0),
+                                                ),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color.fromRGBO(
+                                                        230, 236, 254, 8),
+                                                    width: 1.0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(22)),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color.fromRGBO(
+                                                        230, 236, 254, 8),
+                                                    width: 1.0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(30.0)),
+                                              ),
+                                              fillColor: Colorutils.chatcolor
+                                                  .withOpacity(0.3),
+                                              filled: true),
+                                          maxLines: 5,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            10, 0, 0, 0),
+                                        child: Row(
+                                          children: [
+                                            Checkbox(
+                                              activeColor:
+                                                  Colorutils.userdetailcolor,
+                                              value: isChecked,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  isChecked = !isChecked;
+                                                });
+                                              },
+                                            ),
+                                            Text(
+                                              'Joined Observation',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(35, 20, 35, 0),
+                                        child: GestureDetector(
+                                          onTap: () async {},
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 55, right: 55),
+                                            child: Container(
+                                              height: 40.h,
+                                              // width: 180.w,
+                                              decoration: BoxDecoration(
+                                                  color: Colorutils
+                                                      .userdetailcolor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30)),
+                                              child: Center(
+                                                  child: Text(
+                                                'SUBMIT',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.white),
+                                              )),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ]),
+                              ),
+                            ),
                           )
                         ]),
                   ),

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,21 +6,19 @@ import '../../Utils/font_util.dart';
 import 'Lesson_obs2.dart';
 
 class lessonobs extends StatefulWidget {
-
-  const lessonobs({super.key, });
+  const lessonobs({
+    super.key,
+  });
 
   @override
   State<lessonobs> createState() => _lessonobsState();
 }
 
-class  _lessonobsState extends State<lessonobs> {
-
+class _lessonobsState extends State<lessonobs> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-
       child: Scaffold(
-
           backgroundColor: Colors.white,
           body: SingleChildScrollView(
             child: Container(
@@ -40,7 +37,6 @@ class  _lessonobsState extends State<lessonobs> {
                       ),
                     ),
                   ),
-
                   Positioned(
                     left: 0,
                     top: 40,
@@ -128,7 +124,8 @@ class  _lessonobsState extends State<lessonobs> {
                     left: 0,
                     top: 0,
                     child: Padding(
-                        padding: const EdgeInsets.only( left: 7, right: 10, bottom: 3),
+                        padding: const EdgeInsets.only(
+                            left: 7, right: 10, bottom: 3),
                         child: Container(
                           height: 80.w,
                           width: 330,
@@ -142,9 +139,12 @@ class  _lessonobsState extends State<lessonobs> {
                               Container(
                                 height: 45.w,
                                 width: 45.w,
-                                padding: const EdgeInsets.symmetric(horizontal: 9).w,
-
-                                child: Icon(Icons.arrow_back_ios,color: Colors.white,),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 9).w,
+                                child: Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Colors.white,
+                                ),
                               ),
                               SizedBox(width: 12.w),
                               Expanded(
@@ -154,7 +154,8 @@ class  _lessonobsState extends State<lessonobs> {
                                   children: [
                                     Text(
                                       'Hello!',
-                                      style: TeacherAppFonts.interW400_14sp_textWhiteOp60,
+                                      style: TeacherAppFonts
+                                          .interW400_14sp_textWhiteOp60,
                                     ),
                                     SingleChildScrollView(
                                       scrollDirection: Axis.horizontal,
@@ -162,7 +163,8 @@ class  _lessonobsState extends State<lessonobs> {
                                         children: [
                                           Text(
                                             'Fathima Nourin',
-                                            style: TeacherAppFonts.interW600_18sp_textWhite,
+                                            style: TeacherAppFonts
+                                                .interW600_18sp_textWhite,
                                           ),
                                         ],
                                       ),
@@ -174,7 +176,9 @@ class  _lessonobsState extends State<lessonobs> {
                               Stack(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(right: 5, top: 5).w,
+                                    padding:
+                                        const EdgeInsets.only(right: 5, top: 5)
+                                            .w,
                                     child: SvgPicture.asset(
                                       'assets/images/bell 1.svg',
                                       width: 30.w,
@@ -195,7 +199,8 @@ class  _lessonobsState extends State<lessonobs> {
                                       child: FittedBox(
                                         child: Text(
                                           "4",
-                                          style: TeacherAppFonts.interW500_11sp_userdetailcolor,
+                                          style: TeacherAppFonts
+                                              .interW500_11sp_userdetailcolor,
                                         ),
                                       ),
                                     ),
@@ -208,8 +213,8 @@ class  _lessonobsState extends State<lessonobs> {
                                 backgroundColor: Colorutils.Whitecolor,
                                 child: CircleAvatar(
                                   radius: 24.r,
-                                  backgroundImage:
-                                  AssetImage('assets/images/profile image.png'),
+                                  backgroundImage: AssetImage(
+                                      'assets/images/profile image.png'),
                                 ),
                               ),
                               SizedBox(width: 12.w),
@@ -236,221 +241,214 @@ class  _lessonobsState extends State<lessonobs> {
                         ),
                       ],
                     ),
-child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Padding(
-        padding: const EdgeInsets.only(left: 20, top: 30),
-        child: Text(
-          "Lesson Observation",
-          style: TextStyle(
-              fontSize: 16, fontWeight: FontWeight.w600),
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(
-            left: 20.w, right: 20.w, top: 30.h),
-        child: DropdownButtonFormField(
-          validator: (dynamic value) =>
-          value == null ? 'Field Required' : null,
-
-          isExpanded: true,
-          onChanged: (dynamic newVal) {
-            setState(() {});
-          },
-          decoration: InputDecoration(
-
-              hintStyle: TextStyle(
-                  color: Colors.black.withOpacity(0.5)),
-              contentPadding: EdgeInsets.symmetric(
-                  vertical: 15.0, horizontal: 20.0),
-              hintText: " Teacher",
-              counterText: "",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10.0),
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Color.fromRGBO(230, 236, 254, 8),
-                    width: 1.0),
-                borderRadius:
-                BorderRadius.all(Radius.circular(10)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Color.fromRGBO(230, 236, 254, 8),
-                    width: 1.0),
-                borderRadius:
-                BorderRadius.all(Radius.circular(10.0)),
-              ),
-              fillColor: Color.fromRGBO(230, 236, 254, 8),
-              filled: true), items: [],
-
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(
-            left: 20.w, right: 20.w, top: 20.h),
-        child: DropdownButtonFormField(
-          validator: (dynamic value) =>
-          value == null ? 'Field Required' : null,
-
-          isExpanded: true,
-          onChanged: (dynamic newVal) {
-            setState(() {});
-          },
-          decoration: InputDecoration(
-              hintStyle: TextStyle(
-                  color: Colors.black.withOpacity(0.5)),
-              contentPadding: EdgeInsets.symmetric(
-                  vertical: 15.0, horizontal: 20.0),
-              hintText: " Class",
-              counterText: "",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10.0),
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Color.fromRGBO(230, 236, 254, 8),
-                    width: 1.0),
-                borderRadius:
-                BorderRadius.all(Radius.circular(10)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Color.fromRGBO(230, 236, 254, 8),
-                    width: 1.0),
-                borderRadius:
-                BorderRadius.all(Radius.circular(10.0)),
-              ),
-              fillColor: Color.fromRGBO(230, 236, 254, 8),
-              filled: true), items: [],
-
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(
-            left: 20.w, right: 20.w, top: 20.h),
-        child: DropdownButtonFormField(
-          validator: (dynamic value) =>
-          value == null ? 'Field Required' : null,
-
-          isExpanded: true,
-          onChanged: (dynamic newVal) {
-            setState(() {});
-          },
-          decoration: InputDecoration(
-              hintStyle: TextStyle(
-                  color: Colors.black.withOpacity(0.5)),
-              contentPadding: EdgeInsets.symmetric(
-                  vertical: 15.0, horizontal: 20.0),
-              hintText: " Subject",
-              counterText: "",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10.0),
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Color.fromRGBO(230, 236, 254, 8),
-                    width: 1.0),
-                borderRadius:
-                BorderRadius.all(Radius.circular(10)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Color.fromRGBO(230, 236, 254, 8),
-                    width: 1.0),
-                borderRadius:
-                BorderRadius.all(Radius.circular(10.0)),
-              ),
-              fillColor: Color.fromRGBO(230, 236, 254, 8),
-              filled: true), items: [],
-
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(
-            left: 20.w, right: 20.w, top: 20.h),
-        child: TextFormField(
-          decoration: InputDecoration(
-              hintStyle: TextStyle(
-                  color: Colors.black.withOpacity(0.5)),
-              contentPadding: EdgeInsets.symmetric(
-                  vertical: 15.0, horizontal: 20.0),
-              hintText: " Topics",
-              counterText: "0/100",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10.0),
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Color.fromRGBO(230, 236, 254, 8),
-                    width: 1.0),
-
-
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Color.fromRGBO(230, 236, 254, 8),
-                    width: 1.0),
-                borderRadius:
-                BorderRadius.all(Radius.circular(10.0)),
-              ),
-              fillColor: Color.fromRGBO(230, 236, 254, 8),
-              filled: true),
-
-
-          cursorColor: Colors.grey,
-          keyboardType: TextInputType.text,
-          maxLength: 100,
-
-          maxLines: 5,
-
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(left: 280, top: 2),
-        child: Text(
-          '',
-          style: TextStyle(
-              fontSize: 11, fontWeight: FontWeight.w400),
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(top: 25.h),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Lessonobs2()));
-          },
-          child: Padding(
-            padding:
-            const EdgeInsets.only(left: 75, right: 75),
-            child: Container(
-                height: 50.h,
-                width: 220.w,
-                decoration: BoxDecoration(
-                  color: Colorutils.userdetailcolor,
-                  borderRadius:
-                  BorderRadius.all(Radius.circular(15)),
-                ),
-                child: Center(
-                  child: Text(
-                    'Continue',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )),
-          ),
-        ),
-      ),
-    ]),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20, top: 30),
+                            child: Text(
+                              "Lesson Observation",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 20.w, right: 20.w, top: 30.h),
+                            child: DropdownButtonFormField(
+                              validator: (dynamic value) =>
+                                  value == null ? 'Field Required' : null,
+                              isExpanded: true,
+                              onChanged: (dynamic newVal) {
+                                setState(() {});
+                              },
+                              decoration: InputDecoration(
+                                  hintStyle: TextStyle(
+                                      color: Colors.black.withOpacity(0.5)),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 15.0, horizontal: 20.0),
+                                  hintText: " Teacher",
+                                  counterText: "",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10.0),
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(230, 236, 254, 8),
+                                        width: 1.0),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(230, 236, 254, 8),
+                                        width: 1.0),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10.0)),
+                                  ),
+                                  fillColor: Color.fromRGBO(230, 236, 254, 8),
+                                  filled: true),
+                              items: [],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 20.w, right: 20.w, top: 20.h),
+                            child: DropdownButtonFormField(
+                              validator: (dynamic value) =>
+                                  value == null ? 'Field Required' : null,
+                              isExpanded: true,
+                              onChanged: (dynamic newVal) {
+                                setState(() {});
+                              },
+                              decoration: InputDecoration(
+                                  hintStyle: TextStyle(
+                                      color: Colors.black.withOpacity(0.5)),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 15.0, horizontal: 20.0),
+                                  hintText: " Class",
+                                  counterText: "",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10.0),
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(230, 236, 254, 8),
+                                        width: 1.0),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(230, 236, 254, 8),
+                                        width: 1.0),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10.0)),
+                                  ),
+                                  fillColor: Color.fromRGBO(230, 236, 254, 8),
+                                  filled: true),
+                              items: [],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 20.w, right: 20.w, top: 20.h),
+                            child: DropdownButtonFormField(
+                              validator: (dynamic value) =>
+                                  value == null ? 'Field Required' : null,
+                              isExpanded: true,
+                              onChanged: (dynamic newVal) {
+                                setState(() {});
+                              },
+                              decoration: InputDecoration(
+                                  hintStyle: TextStyle(
+                                      color: Colors.black.withOpacity(0.5)),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 15.0, horizontal: 20.0),
+                                  hintText: " Subject",
+                                  counterText: "",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10.0),
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(230, 236, 254, 8),
+                                        width: 1.0),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(230, 236, 254, 8),
+                                        width: 1.0),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10.0)),
+                                  ),
+                                  fillColor: Color.fromRGBO(230, 236, 254, 8),
+                                  filled: true),
+                              items: [],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 20.w, right: 20.w, top: 20.h),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                  hintStyle: TextStyle(
+                                      color: Colors.black.withOpacity(0.5)),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 15.0, horizontal: 20.0),
+                                  hintText: " Topics",
+                                  counterText: "0/100",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10.0),
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(230, 236, 254, 8),
+                                        width: 1.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color.fromRGBO(230, 236, 254, 8),
+                                        width: 1.0),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10.0)),
+                                  ),
+                                  fillColor: Color.fromRGBO(230, 236, 254, 8),
+                                  filled: true),
+                              cursorColor: Colors.grey,
+                              keyboardType: TextInputType.text,
+                              maxLength: 100,
+                              maxLines: 5,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 280, top: 2),
+                            child: Text(
+                              '',
+                              style: TextStyle(
+                                  fontSize: 11, fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 25.h),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Lessonobs2()));
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 75, right: 75),
+                                child: Container(
+                                    height: 50.h,
+                                    width: 220.w,
+                                    decoration: BoxDecoration(
+                                      color: Colorutils.userdetailcolor,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(15)),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Continue',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    )),
+                              ),
+                            ),
+                          ),
+                        ]),
                   ),
                 ],
               ),

@@ -148,7 +148,7 @@ class _LeaderState extends State<Leader> {
                         onTap: () {
                           Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => lessonwalk()));
+                              MaterialPageRoute(builder: (context) => const LessonWalk()));
                         },
                         child: Container(
                           height: 120.h,

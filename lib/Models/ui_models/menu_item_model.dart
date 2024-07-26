@@ -1,13 +1,14 @@
 
 import 'package:flutter/material.dart';
-import 'package:teacherapp/View/Home_Page/teacher_home.dart';
 import 'package:teacherapp/View/Leave_Page/leave_approval.dart';
-import 'package:teacherapp/View/ObsResult/obs_result.dart';
+
 import '../../View/Chat_List/chat_list.dart';
-import '../../View/Leave_Page/leave_apply.dart';
 import '../../View/Home_Page/leader_home.dart';
+import '../../View/Home_Page/teacher_home.dart';
+import '../../View/Leave_Page/leave_apply.dart';
 import '../../View/MorePage/more_page.dart';
 import '../../View/MyTimeTable/TimeTableScreen.dart';
+import '../../View/ObsResult/obs_result.dart';
 import '../../View/Reports/report_page.dart';
 
 class MenuItemsModel {
