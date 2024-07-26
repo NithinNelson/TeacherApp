@@ -48,6 +48,7 @@ dependencies:
   badges: ^3.1.2
   swipe_to: ^1.0.6
   horizontal_card_pager: ^1.1.1
+  dropdown_button2: ^2.3.9
 
 
   # The following adds the Cupertino Icons font to your application.

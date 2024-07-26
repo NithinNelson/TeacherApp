@@ -91,6 +91,37 @@ class ApiServices {
     }
   }
 
+  //brineshleadership
+
+  static Future<Map<String, dynamic>> getLeadership({
+    required String userId,
+    required String academicYear,
+    required bool  hosStatus
+  }) async {
+    String url = "${ApiConstants.baseUrl}${ApiConstants.lessonObservation}";
+    print(url);
+    Map apiBody = {
+      "user_id": userId,
+      "academic_year": academicYear,
+      "hos": false
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
   static Future<Map<String, dynamic>> getTimeTable({
     required String userId,
     required String academicYear,
@@ -110,6 +141,7 @@ class ApiServices {
       request.headers.addAll(ApiConstants.headers);
       http.StreamedResponse response = await request.send();
       var respString = await response.stream.bytesToString();
+
       if (response.statusCode == 200) {
         return json.decode(respString);
       } else {

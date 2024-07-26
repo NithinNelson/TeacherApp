@@ -52,7 +52,8 @@ class _MyTimeTableState extends State<MyTimeTable> with SingleTickerProviderStat
     List<CardItem> items = [
       IconTitleCardItem(
         text: "MON",
-        selectedBgColor: Colors.blue,
+        selectedBgColor: Colorutils.chatcolor,
+
         noSelectedBgColor: Colors.white,
         noSelectedIconTextColor: Colors.black
 
