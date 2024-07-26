@@ -104,12 +104,12 @@ class ClassTeacherGroup {
 
 class LastMessage {
   LastMessage({
-    required this.type,
-    required this.message,
-    required this.messageFile,
-    required this.fileName,
-    required this.messageAudio,
-    required this.sandAt,
+    this.type,
+    this.message,
+    this.messageFile,
+    this.fileName,
+    this.messageAudio,
+    this.sandAt,
   });
 
   final String? type;

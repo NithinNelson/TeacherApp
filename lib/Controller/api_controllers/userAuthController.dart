@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:teacherapp/Controller/api_controllers/chatClassGroupController.dart';
 import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
 import 'package:teacherapp/Services/shared_preferences.dart';
 import '../../Models/api_models/hos_listing_api_model.dart';
@@ -74,6 +75,7 @@ class UserAuthController extends GetxController {
     userData.value = loginApi?.data?.data?.first ?? UserData();
     String? userId = userData.value.userId;
     if (userId != null) {
+      // await Get.find<ChatClassGroupController>().fetchClassGroupList();
       isLoaded.value = true;
     } else {
       isLoaded.value = false;

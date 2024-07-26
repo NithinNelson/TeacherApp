@@ -40,6 +40,20 @@ class TeacherAppFonts {
     color: Colorutils.letters1,
   );
 
+  static final TextStyle interW600_14sp_textWhite = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w600,
+    fontSize: 14.sp,
+    color: Colorutils.Whitecolor,
+  );
+
+  static final TextStyle interW700_16sp_black = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w700,
+    fontSize: 16.sp,
+    color: Colors.black,
+  );
+
   static final TextStyle interW600_16sp_letters1 = TextStyle(
     fontFamily: _interFont,
     fontWeight: FontWeight.w600,
@@ -101,6 +115,20 @@ class TeacherAppFonts {
     fontWeight: FontWeight.w400,
     fontSize: 14.sp,
     color: Colorutils.Whitecolor.withOpacity(0.6),
+  );
+
+  static final TextStyle interW400_14sp_chatSubTitleOp80 = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w400,
+    fontSize: 14.sp,
+    color: Colorutils.chatSubTitle.withOpacity(0.8),
+  );
+
+  static final TextStyle interW400_12sp_topicbackground = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w400,
+    fontSize: 12.sp,
+    color: Colorutils.topicbackground,
   );
 
   static final TextStyle interW500_32sp_textWhite = TextStyle(

@@ -30,11 +30,17 @@ class Colorutils {
   static const bordercolor= Color(0xFF8E8E);
   static const timecolortopics= Color(0xFF1E1E1E);
   static const chatcolor= Color(0xFFB6DCD7);
+  static const chatSubTitle= Color(0xFF282828);
+  static const lightBrown= Color(0xFFA9946D);
+  static const lightBlue= Color(0xFF4E77AB);
+  static const lightPink= Color(0xFF966492);
+  static const lightGreen= Color(0xFF62C8BC);
 
   static List<Color> chatLeadingColors = [
-    Colorutils.Subjectcolor1,
-    Colorutils.Subjectcolor2,
-    Colorutils.Subjectcolor3,
-    Colorutils.Subjectcolor4,
+    Colorutils.topicbackground,
+    Colorutils.lightBrown,
+    Colorutils.lightBlue,
+    Colorutils.lightPink,
+    Colorutils.lightGreen,
   ];
 }
