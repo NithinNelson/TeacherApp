@@ -9,6 +9,7 @@ class ChatClassGroupController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isLoaded = false.obs;
   RxBool isError = false.obs;
+  var currentChatTab = 0.obs;
   RxList<ClassTeacherGroup> classGroupList = <ClassTeacherGroup>[].obs;
 
   void resetStatus() {
@@ -35,5 +36,9 @@ class ChatClassGroupController extends GetxController {
     } finally {
       resetStatus();
     }
+  }
+
+  void setCurrentChatTab(int index) {
+    currentChatTab.value = index;
   }
 }

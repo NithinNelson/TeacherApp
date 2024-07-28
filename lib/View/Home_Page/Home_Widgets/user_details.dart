@@ -9,8 +9,9 @@ import 'package:teacherapp/Utils/font_util.dart';
 import '../../../Utils/Colors.dart';
 
 class UserDetails extends StatelessWidget {
-  final bool isLeaderHome;
-  const UserDetails({super.key, required this.isLeaderHome});
+  final bool shoBackgroundColor;
+  final bool isWelcome;
+  const UserDetails({super.key, required this.shoBackgroundColor, required this.isWelcome});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class UserDetails extends StatelessWidget {
             return Container(
               height: 90.w,
               decoration: BoxDecoration(
-                color: isLeaderHome
+                color: shoBackgroundColor
                     ? Colorutils.userdetailcolor
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(17.0),
@@ -29,25 +30,46 @@ class UserDetails extends StatelessWidget {
               child: Row(
                 children: [
                   SizedBox(width: 12.w),
-                  GestureDetector(
-                    onTap: () {
-                      ZoomDrawer.of(context)?.toggle();
-                    },
-                    child: Container(
-                      height: 45.w,
-                      width: 45.w,
-                      padding: const EdgeInsets.symmetric(horizontal: 9).w,
-                      decoration: BoxDecoration(
-                        color: Colorutils.Whitecolor.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(8).r,
-                      ),
-                      child: SvgPicture.asset(
+                  if(isWelcome)
+                    GestureDetector(
+                      onTap: () {
+                        ZoomDrawer.of(context)?.toggle();
+                      },
+                      child: Container(
+                        height: 45.w,
                         width: 45.w,
-                        "assets/images/menu_icon.svg",
-                        fit: BoxFit.fitWidth,
+                        padding: const EdgeInsets.symmetric(horizontal: 9).w,
+                        decoration: BoxDecoration(
+                          color: Colorutils.Whitecolor.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(8).r,
+                        ),
+                        child: SvgPicture.asset(
+                          width: 45.w,
+                          "assets/images/menu_icon.svg",
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                    )
+                  else
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Container(
+                        height: 45.w,
+                        width: 45.w,
+                        padding: const EdgeInsets.only(top: 8, bottom: 8, left: 5, right: 8).w,
+                        decoration: BoxDecoration(
+                          color: Colorutils.Whitecolor.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(8).r,
+                        ),
+                        child: SvgPicture.asset(
+                          height: 45.w,
+                          "assets/images/back.svg",
+                          fit: BoxFit.fitHeight,
+                        ),
                       ),
                     ),
-                  ),
                   SizedBox(width: 12.w),
                   Expanded(
                     child: Column(
@@ -55,7 +77,7 @@ class UserDetails extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Welcome',
+                          isWelcome ? 'Welcome' : 'Hello,',
                           style: TeacherAppFonts.interW400_14sp_textWhiteOp60,
                         ),
                         SingleChildScrollView(

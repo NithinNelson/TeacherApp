@@ -1,10 +1,11 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 
 class SeenByBottomSheet extends StatelessWidget {
+  SeenByBottomSheet({super.key});
   final List<Map<String, String>> seenByData = [
     {
       'name': 'Fatima bint Mohammed',
@@ -27,7 +28,6 @@ class SeenByBottomSheet extends StatelessWidget {
       'time': '5:32PM',
       'image': 'assets/aisha.png'
     },
-    // Add more entries here...
   ];
 
   @override

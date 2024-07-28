@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
+import '../../Utils/constants.dart';
 import '../Home_Page/Home_Widgets/bottom_navigationbar.dart';
 
 class MainScreen extends StatefulWidget {
@@ -26,11 +27,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent, // transparent status bar
-        statusBarIconBrightness: Brightness.dark, // dark icons
-        statusBarBrightness: Brightness.light, // iOS
-      ),
+      value: systemUiOverlayStyleDark,
       child: Scaffold(
         body: GetX<PageIndexController>(
             builder: (PageIndexController controller) {

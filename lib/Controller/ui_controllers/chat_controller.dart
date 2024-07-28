@@ -26,4 +26,6 @@ class MessageController extends GetxController {
     messageList.add(msg);
     // messageList.insert(0, msg);
   }
+
+
 }

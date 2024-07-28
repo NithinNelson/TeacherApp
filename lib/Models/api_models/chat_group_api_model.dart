@@ -1,8 +1,8 @@
 
 class ClassGroupApiModel {
   ClassGroupApiModel({
-    required this.status,
-    required this.data,
+    this.status,
+    this.data,
   });
 
   final Status? status;
@@ -23,14 +23,14 @@ class ClassGroupApiModel {
 
 class Data {
   Data({
-    required this.message,
-    required this.classTeacher,
-    required this.data,
+    this.message,
+    this.classTeacher,
+    this.data,
   });
 
   final String? message;
-  final List<ClassTeacherGroup> classTeacher;
-  final List<ClassTeacherGroup> data;
+  final List<ClassTeacherGroup>? classTeacher;
+  final List<ClassTeacherGroup>? data;
 
   factory Data.fromJson(Map<String, dynamic> json) {
     return Data(
@@ -48,21 +48,21 @@ class Data {
 
   Map<String, dynamic> toJson() => {
         "message": message,
-        "class_teacher": classTeacher.map((x) => x.toJson()).toList(),
-        "data": data.map((x) => x.toJson()).toList(),
+        "class_teacher": classTeacher?.map((x) => x.toJson()).toList(),
+        "data": data?.map((x) => x.toJson()).toList(),
       };
 }
 
 class ClassTeacherGroup {
   ClassTeacherGroup({
-    required this.classTeacherClass,
-    required this.batch,
-    required this.subjectId,
-    required this.subjectName,
-    required this.isClassTeacher,
-    required this.unreadCount,
-    required this.type,
-    required this.lastMessage,
+    this.classTeacherClass,
+    this.batch,
+    this.subjectId,
+    this.subjectName,
+    this.isClassTeacher,
+    this.unreadCount,
+    this.type,
+    this.lastMessage,
   });
 
   final String? classTeacherClass;
@@ -72,7 +72,7 @@ class ClassTeacherGroup {
   final bool? isClassTeacher;
   final int? unreadCount;
   final String? type;
-  final List<LastMessage> lastMessage;
+  final List<LastMessage>? lastMessage;
 
   factory ClassTeacherGroup.fromJson(Map<String, dynamic> json) {
     return ClassTeacherGroup(
@@ -98,7 +98,7 @@ class ClassTeacherGroup {
         "is_class_teacher": isClassTeacher,
         "unread_count": unreadCount,
         "type": type,
-        "last_message": lastMessage.map((x) => x.toJson()).toList(),
+        "last_message": lastMessage?.map((x) => x.toJson()).toList(),
       };
 }
 
@@ -142,8 +142,8 @@ class LastMessage {
 
 class Status {
   Status({
-    required this.code,
-    required this.message,
+    this.code,
+    this.message,
   });
 
   final int? code;

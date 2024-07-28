@@ -1,7 +1,7 @@
 class LessonObservationData {
   LessonObservationData({
-    required this.status,
-    required this.data,
+    this.status,
+    this.data,
   });
 
   final Status? status;
@@ -23,8 +23,8 @@ class LessonObservationData {
 
 class Data {
   Data({
-    required this.message,
-    required this.details,
+    this.message,
+    this.details,
   });
 
   final String? message;
@@ -46,13 +46,13 @@ class Data {
 
 class Details {
   Details({
-    required this.response,
-    required this.lessonObservations,
-    required this.learningWalk,
-    required this.keyAreaStrength,
+    this.response,
+    this.lessonObservations,
+    this.learningWalk,
+    this.keyAreaStrength,
   });
 
-  final List<TeacherData> response;
+  final List<TeacherData>? response;
   final LearningWalk? lessonObservations;
   final LearningWalk? learningWalk;
   final KeyAreaStrength? keyAreaStrength;
@@ -67,7 +67,7 @@ class Details {
   }
 
   Map<String, dynamic> toJson() => {
-    "response": response.map((x) => x?.toJson()).toList(),
+    "response": response?.map((x) => x.toJson()).toList(),
     "lesson_observations": lessonObservations?.toJson(),
     "learning_walk": learningWalk?.toJson(),
     "key_area_strength": keyAreaStrength?.toJson(),
@@ -77,12 +77,12 @@ class Details {
 
 class KeyAreaStrength {
   KeyAreaStrength({
-    required this.strengths,
-    required this.areasForImprovement,
+    this.strengths,
+    this.areasForImprovement,
   });
 
-  final List<AreasForImprovement> strengths;
-  final List<AreasForImprovement> areasForImprovement;
+  final List<AreasForImprovement>? strengths;
+  final List<AreasForImprovement>? areasForImprovement;
 
   factory KeyAreaStrength.fromJson(Map<String, dynamic> json){
     return KeyAreaStrength(
@@ -92,16 +92,16 @@ class KeyAreaStrength {
   }
 
   Map<String, dynamic> toJson() => {
-    "strengths": strengths.map((x) => x.toJson()).toList(),
-    "areas_for_improvement": areasForImprovement.map((x) => x.toJson()).toList(),
+    "strengths": strengths?.map((x) => x.toJson()).toList(),
+    "areas_for_improvement": areasForImprovement?.map((x) => x.toJson()).toList(),
   };
 
 }
 
 class AreasForImprovement {
   AreasForImprovement({
-    required this.id,
-    required this.name,
+    this.id,
+    this.name,
   });
 
   final String? id;
@@ -123,18 +123,18 @@ class AreasForImprovement {
 
 class LearningWalk {
   LearningWalk({
-    required this.id,
-    required this.list,
-    required this.updatedOn,
-    required this.addedOn,
-    required this.schoolId,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.updatedBy,
+    this.id,
+    this.list,
+    this.updatedOn,
+    this.addedOn,
+    this.schoolId,
+    this.createdAt,
+    this.updatedAt,
+    this.updatedBy,
   });
 
   final String? id;
-  final List<ListElement> list;
+  final List<ListElement>? list;
   final DateTime? updatedOn;
   final DateTime? addedOn;
   final String? schoolId;
@@ -157,7 +157,7 @@ class LearningWalk {
 
   Map<String, dynamic> toJson() => {
     "_id": id,
-    "list": list.map((x) => x.toJson()).toList(),
+    "list": list?.map((x) => x.toJson()).toList(),
     "updated_on": updatedOn?.toIso8601String(),
     "added_on": addedOn?.toIso8601String(),
     "school_id": schoolId,
@@ -170,14 +170,14 @@ class LearningWalk {
 
 class ListElement {
   ListElement({
-    required this.indicator,
-    required this.rubrix,
-    required this.index,
-    required this.id,
+    this.indicator,
+    this.rubrix,
+    this.index,
+    this.id,
   });
 
   final String? indicator;
-  final List<Rubrix> rubrix;
+  final List<Rubrix>? rubrix;
   final int? index;
   final String? id;
 
@@ -192,7 +192,7 @@ class ListElement {
 
   Map<String, dynamic> toJson() => {
     "indicator": indicator,
-    "rubrix": rubrix.map((x) => x.toJson()).toList(),
+    "rubrix": rubrix?.map((x) => x.toJson()).toList(),
     "_index": index,
     "_id": id,
   };
@@ -201,13 +201,13 @@ class ListElement {
 
 class Rubrix {
   Rubrix({
-    required this.name,
-    required this.parameter,
-    required this.className,
-    required this.index,
-    required this.alias,
-    required this.dbKey,
-    required this.id,
+    this.name,
+    this.parameter,
+    this.className,
+    this.index,
+    this.alias,
+    this.dbKey,
+    this.id,
   });
 
   final String? name;
@@ -244,14 +244,14 @@ class Rubrix {
 
 class TeacherData {
   TeacherData({
-    required this.teacherId,
-    required this.teacherName,
-    required this.details,
+    this.teacherId,
+    this.teacherName,
+    this.details,
   });
 
   final String? teacherId;
   final String? teacherName;
-  final List<TeacherDetails> details;
+  final List<TeacherDetails>? details;
 
   factory TeacherData.fromJson(Map<String, dynamic> json){
     return TeacherData(
@@ -264,34 +264,34 @@ class TeacherData {
   Map<String, dynamic> toJson() => {
     "teacher_id": teacherId,
     "teacher_name": teacherName,
-    "details": details.map((x) => x.toJson()).toList(),
+    "details": details?.map((x) => x.toJson()).toList(),
   };
 
 }
 
 class TeacherDetails {
   TeacherDetails({
-    required this.sessionId,
-    required this.classId,
-    required this.batchId,
-    required this.curriculumId,
-    required this.subjects,
-    required this.subjectDetails,
-    required this.className,
-    required this.batchName,
-    required this.mainSubjects,
-    required this.isClassTeacher,
+    this.sessionId,
+    this.classId,
+    this.batchId,
+    this.curriculumId,
+    this.subjects,
+    this.subjectDetails,
+    this.className,
+    this.batchName,
+    this.mainSubjects,
+    this.isClassTeacher,
   });
 
   final String? sessionId;
   final String? classId;
   final String? batchId;
   final String? curriculumId;
-  final List<String> subjects;
-  final List<SubjectDetail> subjectDetails;
+  final List<String>? subjects;
+  final List<SubjectDetail>? subjectDetails;
   final String? className;
   final String? batchName;
-  final List<String> mainSubjects;
+  final List<String>? mainSubjects;
   final bool? isClassTeacher;
 
   factory TeacherDetails.fromJson(Map<String, dynamic> json){
@@ -314,11 +314,11 @@ class TeacherDetails {
     "class_id": classId,
     "batch_id": batchId,
     "curriculum_id": curriculumId,
-    "subjects": subjects.map((x) => x).toList(),
-    "subject_details": subjectDetails.map((x) => x.toJson()).toList(),
+    "subjects": subjects?.map((x) => x).toList(),
+    "subject_details": subjectDetails?.map((x) => x.toJson()).toList(),
     "class_name": className,
     "batch_name": batchName,
-    "main_subjects": mainSubjects.map((x) => x).toList(),
+    "main_subjects": mainSubjects?.map((x) => x).toList(),
     "is_class_teacher": isClassTeacher,
   };
 
@@ -326,8 +326,8 @@ class TeacherDetails {
 
 class SubjectDetail {
   SubjectDetail({
-    required this.subjectId,
-    required this.subjectName,
+    this.subjectId,
+    this.subjectName,
   });
 
   final String? subjectId;
@@ -349,8 +349,8 @@ class SubjectDetail {
 
 class Status {
   Status({
-    required this.code,
-    required this.message,
+    this.code,
+    this.message,
   });
 
   final int? code;

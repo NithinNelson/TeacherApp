@@ -43,7 +43,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                             child: SvgPicture.asset(
                               currentIndex == menuItems[i].index ? "assets/images/chat_selected_icon.svg" : "assets/images/chat_icon.svg",
                               alignment: Alignment.center,
-                              height: 21.w,
+                              height: 20.w,
                               fit: BoxFit.fitHeight,
                             ),
                           ),
@@ -61,7 +61,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                           children: [
                             SvgPicture.asset(
                               menuItems[i].svg,
-                              height: 26.w,
+                              height: 20.w,
                               fit: BoxFit.fitHeight,
                               color: currentIndex == menuItems[i].index ? Colorutils.letters1 : Colorutils.bottomiconcolor,
                             ),

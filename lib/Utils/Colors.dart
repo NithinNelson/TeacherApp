@@ -35,6 +35,11 @@ class Colorutils {
   static const lightBlue= Color(0xFF4E77AB);
   static const lightPink= Color(0xFF966492);
   static const lightGreen= Color(0xFF62C8BC);
+  static const lightGreenForParent= Color(0xFF5EA099);
+  static const unselectedTab= Color(0xFFE4E4E4);
+  static const newChatBottom= Color(0xFF5C5C5C);
+  static const dividerSheet1= Color(0xFF7F7F7F);
+  static const dividerSheet2= Color(0xFF3D3D3D);
 
   static List<Color> chatLeadingColors = [
     Colorutils.topicbackground,

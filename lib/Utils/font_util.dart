@@ -18,6 +18,7 @@ class TeacherAppFonts {
 
   static const _interFont = 'Inter';
   static const _poppinsFont = 'Poppins';
+  static const _sfProItalic = 'SF-Pro';
 
   static final TextStyle interW600_20sp_textWhite = TextStyle(
     fontFamily: _interFont,
@@ -47,9 +48,23 @@ class TeacherAppFonts {
     color: Colorutils.Whitecolor,
   );
 
+  static final TextStyle interW600_14sp_black = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w600,
+    fontSize: 14.sp,
+    color: Colors.black,
+  );
+
   static final TextStyle interW700_16sp_black = TextStyle(
     fontFamily: _interFont,
     fontWeight: FontWeight.w700,
+    fontSize: 16.sp,
+    color: Colors.black,
+  );
+
+  static final TextStyle interW600_16sp_black = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w600,
     fontSize: 16.sp,
     color: Colors.black,
   );
@@ -115,6 +130,13 @@ class TeacherAppFonts {
     fontWeight: FontWeight.w400,
     fontSize: 14.sp,
     color: Colorutils.Whitecolor.withOpacity(0.6),
+  );
+
+  static final TextStyle interW400_14sp_textWhite = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w400,
+    fontSize: 14.sp,
+    color: Colorutils.Whitecolor,
   );
 
   static final TextStyle interW400_14sp_chatSubTitleOp80 = TextStyle(
@@ -187,6 +209,20 @@ class TeacherAppFonts {
     color: Colorutils.timecolortopics.withOpacity(0.8),
   );
 
+  static final TextStyle interW500_12sp_textWhite = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w500,
+    fontSize: 12.sp,
+    color: Colorutils.Whitecolor,
+  );
+
+  static final TextStyle interW700_16sp_textWhite = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w700,
+    fontSize: 16.sp,
+    color: Colorutils.Whitecolor,
+  );
+
   static final TextStyle poppinsW400_12sp_bottomiconcolor = TextStyle(
     fontFamily: _poppinsFont,
     fontWeight: FontWeight.w400,
@@ -199,5 +235,19 @@ class TeacherAppFonts {
     fontWeight: FontWeight.w500,
     fontSize: 13.sp,
     color: Colorutils.letters1,
+  );
+
+  static final TextStyle poppinsW400_12sp_lightGreenForParent = TextStyle(
+    fontFamily: _sfProItalic,
+    fontWeight: FontWeight.w400,
+    fontSize: 12.sp,
+    color: Colorutils.lightGreenForParent,
+  );
+
+  static final TextStyle poppinsW500_12sp_lightGreenForParent = TextStyle(
+    fontFamily: _sfProItalic,
+    fontWeight: FontWeight.w500,
+    fontSize: 12.sp,
+    color: Colorutils.lightGreenForParent,
   );
 }

@@ -9,6 +9,7 @@ import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'Controller/api_controllers/lessonObservationController.dart';
 import 'Controller/api_controllers/chatClassGroupController.dart';
+import 'Controller/api_controllers/parentChatListController.dart';
 import 'Controller/api_controllers/timeTableController.dart';
 import 'Controller/api_controllers/userAuthController.dart';
 import 'Services/shared_preferences.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
     Get.put(TimeTableController());
     Get.put(ChatClassGroupController());
     Get.put(LessonObservationController());
+    Get.put(ParentChatListController());
     double _width = MediaQuery.of(context).size.width;
     double _height = MediaQuery.of(context).size.height;
     return GlobalLoaderOverlay(

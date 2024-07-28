@@ -96,14 +96,14 @@ class ApiServices {
   static Future<Map<String, dynamic>> getLeadership({
     required String userId,
     required String academicYear,
-    required bool  hosStatus
+    required bool hosStatus
   }) async {
     String url = "${ApiConstants.baseUrl}${ApiConstants.lessonObservation}";
     print(url);
     Map apiBody = {
       "user_id": userId,
       "academic_year": academicYear,
-      "hos": false
+      "hos": hosStatus
     };
     try {
       var request = http.Request('POST', Uri.parse(url));
@@ -159,6 +159,35 @@ class ApiServices {
     print(url);
     Map apiBody = {
       "teacher_id": teacherId,
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+  static Future<Map<String, dynamic>> getParentChatList({
+    required String teacherId,
+    required String teacherEmail,
+  }) async {
+    String url = "${ApiConstants.chat}${ApiConstants.parentChatList}";
+    print(url);
+    Map apiBody = {
+      "teacher_id": teacherId,
+      "email": teacherEmail,
+      "offset": 0,
+      "limit": 500
     };
     try {
       var request = http.Request('POST', Uri.parse(url));

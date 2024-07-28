@@ -7,6 +7,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 import 'package:teacherapp/View/Login_page/login.dart';
+import 'package:teacherapp/View/Menu/drawer.dart';
 import '../../Utils/Colors.dart';
 
 class HosListing extends StatefulWidget {
@@ -18,6 +19,7 @@ class HosListing extends StatefulWidget {
 
 class _HosListingState extends State<HosListing> {
   String? _hosNameSelected;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -156,178 +158,149 @@ class _HosListingState extends State<HosListing> {
                       ),
                     ],
                   ),
-                  child: Column(
-                    children: [
-                      const Spacer(),
-                      const Center(
-                          child: Text(
-                            'Select HOS',
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.w800),
-                          )),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: 20.w, right: 20.w, top: 20.h),
-                        child: GetX<UserAuthController>(
-                          builder: (UserAuthController controller) {
-                            return DropdownButtonFormField(
-                              validator: (dynamic value) =>
-                              value == null ? 'Field Required' : null,
-                              value: _hosNameSelected,
-                              isExpanded: true,
-                              onChanged: (dynamic newVal) {
-                                setState(() async {
-                                  _hosNameSelected = newVal;
-                                  //
-                                  // _hosListSelectedIndex =
-                                  //     int.parse(newVal.toString());
-                                  // hosname =
-                                  // _hosnameSelected.toString().split('-')[0];
-                                  // hosId =
-                                  // _hosnameSelected.toString().split('-')[1];
-                                  // await getUserLoginCredentials();
-                                  // hosId = hosdata![
-                                  // _hosListSelectedIndex!]['user_id'];
-                                  // print(teacherName);
-                                  // print(
-                                  //     'hosId---------------------------------->$hosId');
-                                  print(
-                                      'newVal---------------------------------->$newVal');
-                                  // print(
-                                  //     'hosname---------------------------------->$hosname');
-                                  setState(() {});
-                                });
-                              },
-                              decoration: InputDecoration(
-                                  hintStyle: TextStyle(
-                                      color: Colors.black.withOpacity(0.3)),
-                                  contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 25, top: 20).w,
-                                  hintText: " Select a HOS ",
-                                  counterText: "",
-                                  border: const OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        const Spacer(),
+                        const Center(
+                            child: Text(
+                              'Select HOS',
+                              style: TextStyle(
+                                  fontSize: 25, fontWeight: FontWeight.w800),
+                            )),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 20.w, right: 20.w, top: 20.h),
+                          child: GetX<UserAuthController>(
+                            builder: (UserAuthController controller) {
+                              return DropdownButtonFormField(
+                                validator: (dynamic value) =>
+                                value == null ? 'Field Required' : null,
+                                value: _hosNameSelected,
+                                isExpanded: true,
+                                onChanged: (dynamic newVal) {
+                                  setState(() async {
+                                    _hosNameSelected = newVal;
+                                    //
+                                    // _hosListSelectedIndex =
+                                    //     int.parse(newVal.toString());
+                                    // hosname =
+                                    // _hosnameSelected.toString().split('-')[0];
+                                    // hosId =
+                                    // _hosnameSelected.toString().split('-')[1];
+                                    // await getUserLoginCredentials();
+                                    // hosId = hosdata![
+                                    // _hosListSelectedIndex!]['user_id'];
+                                    // print(teacherName);
+                                    // print(
+                                    //     'hosId---------------------------------->$hosId');
+                                    print(
+                                        'newVal---------------------------------->$newVal');
+                                    // print(
+                                    //     'hosname---------------------------------->$hosname');
+                                    setState(() {});
+                                  });
+                                },
+                                decoration: InputDecoration(
+                                    hintStyle: TextStyle(
+                                        color: Colors.black.withOpacity(0.3)),
+                                    contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 25, top: 20).w,
+                                    hintText: " Select a HOS ",
+                                    counterText: "",
+                                    border: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0),
+                                      ),
                                     ),
-                                  ),
-                                  enabledBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromRGBO(230, 236, 254, 8),
-                                        width: 1.0),
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(22)),
-                                  ),
-                                  focusedBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromRGBO(230, 236, 254, 8),
-                                        width: 1.0),
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(22)),
-                                  ),
-                                  fillColor: const Color.fromRGBO(230, 236, 254, 8),
-                                  filled: true),
-                              items: controller.hosList
-                                  .map<DropdownMenuItem<dynamic>>((item) {
-                                return DropdownMenuItem<dynamic>(
-                                  value: '${item.hosName}-${item.userId.toString()}',
-                                  child: Text(
-                                    item.hosName ?? '--',
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                                );
-                              }).toList(),
-                            );
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 75, right: 75, top: 20),
-                        child: GestureDetector(
-                          onTap: () async {
-                            // // await getUserLoginCredentials();
-                            // if (_formKey.currentState!.validate()) {
-                            //   print('validation success');
-                            //   // if (_formKey.currentState!.validate()) {
-                            //   //   print('validation success');
-                            //   if (lessonData != null) {
-                            //     Navigator.push(
-                            //         context,
-                            //         MaterialPageRoute(
-                            //             builder: (context) =>
-                            //                 DrawerPageForHos(
-                            //                   loginname: loginname,
-                            //                   userId: hosId,
-                            //                   HOSID: hosId,
-                            //                   HOSNAME: hosname,
-                            //                   loginedUserEmployeeNo:
-                            //                   widget.loginEmployeeID,
-                            //                   designation: widget.designation,
-                            //                   schoolId: widget.schoolID,
-                            //                   loginedUserName: widget.name,
-                            //                   images: widget.images,
-                            //                   academic_year:
-                            //                   widget.academic_year,
-                            //                   roleUnderHos: employeeUnderHOS,
-                            //                   Empcodee: employeeUnderHOS,
-                            //                   isAClassTeacher: newTeacherData,
-                            //                   role_id:
-                            //                   widget.role_id ?? roles,
-                            //                 )));
-                            //   } else {
-                            //     // setState(() {
-                            //     //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cannot fetch teacher data')));
-                            //     // });
-                            //     ScaffoldMessenger.of(context).showSnackBar(
-                            //         SnackBar(
-                            //             content: Text(
-                            //                 'Cannot fetch teacher data')));
-                            //   }
-                            //   // } else {
-                            //   //   print('validation failed');
-                            //   // }
-                            // } else {
-                            //   print('validation failed');
-                            // }
-                          },
-                          child: Container(
-                              height: 60.h,
-                              width: 220.w,
-                              decoration: BoxDecoration(
-                                color: Color(0xff42C614),
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(10)),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Continue',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 16.sp),
-                                ),
-                              )),
-                        ),
-                      ),
-                      const Spacer(),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 15, right: 15).w,
-                          child: FloatingActionButton(
-                            backgroundColor: Colors.white,
-                            elevation: 0,
-                            child: Center(
-                              child: SvgPicture.asset(
-                                "assets/images/logout.svg",
-                                color: Colors.red,
-                              ),
-                            ),
-                            onPressed: () {
-                              TeacherAppPopUps.logOutPopUp(context: context);
+                                    enabledBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color.fromRGBO(230, 236, 254, 8),
+                                          width: 1.0),
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(22)),
+                                    ),
+                                    focusedBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color.fromRGBO(230, 236, 254, 8),
+                                          width: 1.0),
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(22)),
+                                    ),
+                                    fillColor: const Color.fromRGBO(230, 236, 254, 8),
+                                    filled: true),
+                                items: controller.hosList
+                                    .map<DropdownMenuItem<dynamic>>((item) {
+                                  return DropdownMenuItem<dynamic>(
+                                    value: '${item.hosName}-${item.userId.toString()}',
+                                    child: Text(
+                                      item.hosName ?? '--',
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                  );
+                                }).toList(),
+                              );
                             },
                           ),
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 75, right: 75, top: 20),
+                          child: GestureDetector(
+                            onTap: () async {
+                              // await getUserLoginCredentials();
+                              if (_formKey.currentState!.validate()) {
+                                print('validation success');
+                                // if (_formKey.currentState!.validate()) {
+                                //   print('validation success');
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => DrawerScreen()));
+                                // } else {
+                                //   print('validation failed');
+                                // }
+                              } else {
+                                print('validation failed');
+                              }
+                            },
+                            child: Container(
+                                height: 60.h,
+                                width: 220.w,
+                                decoration: BoxDecoration(
+                                  color: Color(0xff42C614),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Continue',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 16.sp),
+                                  ),
+                                )),
+                          ),
+                        ),
+                        const Spacer(),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 15, right: 15).w,
+                            child: FloatingActionButton(
+                              backgroundColor: Colors.white,
+                              elevation: 0,
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  "assets/images/logout.svg",
+                                  color: Colors.red,
+                                ),
+                              ),
+                              onPressed: () {
+                                TeacherAppPopUps.logOutPopUp(context: context);
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
