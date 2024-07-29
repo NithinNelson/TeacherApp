@@ -154,7 +154,7 @@ class ChatItem extends StatelessWidget {
                                             image: DecorationImage(
                                               fit: BoxFit.fill,
                                               image: AssetImage(
-                                                  "assets/png/new-document.png"),
+                                                  "assets/images/new-document.png"),
                                             ),
                                           ),
                                           child: Center(
@@ -210,7 +210,7 @@ class ChatItem extends StatelessWidget {
                                           width: 22,
                                           height: 15.h,
                                           child: SvgPicture.asset(
-                                              "assets/svg/Record Audio.svg"),
+                                              "assets/images/Record Audio.svg"),
                                         ),
                                         SizedBox(width: 1.w),
                                         Expanded(
