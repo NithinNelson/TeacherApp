@@ -26,6 +26,7 @@ class ApiConstants {
   //----------------commons--------------------
 
   static String login = "/v1/login_auth";
+  static String googleSignIn = "/v1/gsuit_login_lessonapp";
   static String hosList = "/v2/lesson_observation/init/data";
   static String workLoad = "/v2/get/workloads/from/credentials";
   static String timeTable = "/v2/timetable/mobile";

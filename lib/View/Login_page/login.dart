@@ -9,11 +9,13 @@ import 'package:lottie/lottie.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/api_constants.dart';
+import 'package:teacherapp/View/CWidgets/AppBarBackground.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 import 'package:teacherapp/View/RoleNavigation/choice_page.dart';
 
 import '../Menu/drawer.dart';
 import '../RoleNavigation/hos_listing.dart';
+import 'google_signin_api.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -23,6 +25,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  UserAuthController userAuthController = Get.find<UserAuthController>();
   TextEditingController? _usernameController;
   TextEditingController? _passwordController;
   FocusNode? _usernameFocusNode;
@@ -47,6 +50,35 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
+  Future signIn() async {
+    // SharedPreferences preferences = await SharedPreferences.getInstance();
+    // preferences.setString('GoogleUser', Guser.email.toString());
+    // //  print(preferences.getString('GoogleUser'));
+    // GoogleUser = preferences.getString('GoogleUser');
+
+    try {
+      if (await GoogleSignInApi.isSignedIn()) {
+        await GoogleSignInApi.logout();
+      }
+      final gUser = await GoogleSignInApi.login();
+      print(gUser?.email);
+      if (gUser!.email.isEmpty) {
+        print("No User found");
+        TeacherAppPopUps.submitFailed(
+            title: 'Failed',
+            message: 'Something went wrong.',
+            actionName: 'Try again',
+            iconData: Icons.error_outline,
+            iconColor: Colorutils.svguicolour2,
+        );
+      } else {
+        await userAuthController.googleSignInUser(username: gUser.email);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -59,105 +91,106 @@ class _LoginPageState extends State<LoginPage> {
             child: SingleChildScrollView(
               child: Stack(
                 children: [
-                  SizedBox(
-                    width: ScreenUtil().screenWidth,
-                    height: 180.h,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(12),
-                          bottomRight: Radius.circular(12),
-                        ).r,
-                        color: Colorutils.userdetailcolor,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 0,
-                    top: 40,
-                    child: SvgPicture.asset(
-                      'assets/images/pencil2.svg',
-                      width: 100.w,
-                      color: Colorutils.Whitecolor.withOpacity(0.1),
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                  Positioned(
-                    left: 240,
-                    top: 25,
-                    child: Transform.rotate(
-                      angle: 0.5,
-                      child: SvgPicture.asset(
-                        'assets/images/stars1.svg',
-                        width: 20.w,
-                        color: Colorutils.Whitecolor.withOpacity(0.5),
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 220,
-                    top: 65,
-                    child: SvgPicture.asset(
-                      'assets/images/graduation-cap-icon.svg',
-                      width: 30.w,
-                      color: Colorutils.Whitecolor.withOpacity(0.07),
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                  Positioned(
-                    left: 140,
-                    top: 10,
-                    child: SvgPicture.asset(
-                      'assets/images/read-book-icon.svg',
-                      width: 30.w,
-                      color: Colorutils.Whitecolor.withOpacity(0.07),
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                  Positioned(
-                    left: 115,
-                    top: 65,
-                    child: SvgPicture.asset(
-                      'assets/images/stars1.svg',
-                      width: 20.w,
-                      color: Colorutils.Whitecolor.withOpacity(0.5),
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                  Positioned(
-                    left: 5,
-                    top: 10,
-                    child: SvgPicture.asset(
-                      'assets/images/stars1.svg',
-                      width: 20.w,
-                      color: Colorutils.Whitecolor.withOpacity(0.5),
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                  Positioned(
-                    right: 10,
-                    top: 140,
-                    child: SvgPicture.asset(
-                      'assets/images/stars1.svg',
-                      color: Colorutils.Whitecolor.withOpacity(0.9),
-                      width: 25.w,
-                      fit: BoxFit.fitHeight,
-                    ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    top: -90,
-                    child: SvgPicture.asset(
-                      'assets/images/pencil3.svg',
-                      color: Colorutils.Whitecolor.withOpacity(0.2),
-                      height: 180.w,
-                      fit: BoxFit.fitHeight,
-                    ),
-                  ),
+                  const AppBarBackground(),
+                  // SizedBox(
+                  //   width: ScreenUtil().screenWidth,
+                  //   height: 180.h,
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: const BorderRadius.only(
+                  //         bottomLeft: Radius.circular(12),
+                  //         bottomRight: Radius.circular(12),
+                  //       ).r,
+                  //       color: Colorutils.userdetailcolor,
+                  //     ),
+                  //   ),
+                  // ),
+                  // Positioned(
+                  //   left: 0,
+                  //   top: 40,
+                  //   child: SvgPicture.asset(
+                  //     'assets/images/pencil2.svg',
+                  //     width: 100.w,
+                  //     color: Colorutils.Whitecolor.withOpacity(0.1),
+                  //     fit: BoxFit.fitWidth,
+                  //   ),
+                  // ),
+                  // Positioned(
+                  //   left: 240,
+                  //   top: 25,
+                  //   child: Transform.rotate(
+                  //     angle: 0.5,
+                  //     child: SvgPicture.asset(
+                  //       'assets/images/stars1.svg',
+                  //       width: 20.w,
+                  //       color: Colorutils.Whitecolor.withOpacity(0.5),
+                  //       fit: BoxFit.fitWidth,
+                  //     ),
+                  //   ),
+                  // ),
+                  // Positioned(
+                  //   left: 220,
+                  //   top: 65,
+                  //   child: SvgPicture.asset(
+                  //     'assets/images/graduation-cap-icon.svg',
+                  //     width: 30.w,
+                  //     color: Colorutils.Whitecolor.withOpacity(0.07),
+                  //     fit: BoxFit.fitWidth,
+                  //   ),
+                  // ),
+                  // Positioned(
+                  //   left: 140,
+                  //   top: 10,
+                  //   child: SvgPicture.asset(
+                  //     'assets/images/read-book-icon.svg',
+                  //     width: 30.w,
+                  //     color: Colorutils.Whitecolor.withOpacity(0.07),
+                  //     fit: BoxFit.fitWidth,
+                  //   ),
+                  // ),
+                  // Positioned(
+                  //   left: 115,
+                  //   top: 65,
+                  //   child: SvgPicture.asset(
+                  //     'assets/images/stars1.svg',
+                  //     width: 20.w,
+                  //     color: Colorutils.Whitecolor.withOpacity(0.5),
+                  //     fit: BoxFit.fitWidth,
+                  //   ),
+                  // ),
+                  // Positioned(
+                  //   left: 5,
+                  //   top: 10,
+                  //   child: SvgPicture.asset(
+                  //     'assets/images/stars1.svg',
+                  //     width: 20.w,
+                  //     color: Colorutils.Whitecolor.withOpacity(0.5),
+                  //     fit: BoxFit.fitWidth,
+                  //   ),
+                  // ),
+                  // Positioned(
+                  //   right: 10,
+                  //   top: 140,
+                  //   child: SvgPicture.asset(
+                  //     'assets/images/stars1.svg',
+                  //     color: Colorutils.Whitecolor.withOpacity(0.9),
+                  //     width: 25.w,
+                  //     fit: BoxFit.fitHeight,
+                  //   ),
+                  // ),
+                  // Positioned(
+                  //   right: 0,
+                  //   top: -90,
+                  //   child: SvgPicture.asset(
+                  //     'assets/images/pencil3.svg',
+                  //     color: Colorutils.Whitecolor.withOpacity(0.2),
+                  //     height: 180.w,
+                  //     fit: BoxFit.fitHeight,
+                  //   ),
+                  // ),
                   Container(
                     margin: EdgeInsets.only(
-                        left: 20.w, top: 100.h, right: 20.w, bottom: 20.w),
+                        left: 20.w, top: 120.h, right: 20.w, bottom: 10.w),
                     // width: 550.w,
                     height: ScreenUtil().screenHeight * 0.8,
                     decoration: BoxDecoration(
@@ -288,7 +321,6 @@ class _LoginPageState extends State<LoginPage> {
                             padding: const EdgeInsets.symmetric(horizontal: 30).w,
                             child: GestureDetector(
                               onTap: () async {
-                                UserAuthController userAuthController = Get.find<UserAuthController>();
                                 String? user = _usernameController?.text != "" ? _usernameController?.text : null;
                                 String? psw = _passwordController?.text != "" ? _passwordController?.text : null;
                                 if(user != null && psw != null) {
@@ -385,7 +417,10 @@ class _LoginPageState extends State<LoginPage> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 30).w,
                               child: GestureDetector(
-                                onTap: () {},
+                                onTap: () async {
+                                  context.loaderOverlay.show();
+                                  await signIn().then((_) => context.loaderOverlay.hide());
+                                },
                                 child: Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30.r),

@@ -1,4 +1,4 @@
-package com.example.teacherapp
+package com.educore.bmteacher
 
 import io.flutter.embedding.android.FlutterActivity
 

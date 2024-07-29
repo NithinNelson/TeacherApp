@@ -69,6 +69,47 @@ class UserAuthController extends GetxController {
     }
   }
 
+  Future<void> googleSignInUser({required String username}) async {
+    isLoading.value = true;
+    isLoaded.value = false;
+    try {
+      Map<String, dynamic> resp = await ApiServices.googleSignInApi(user: username);
+      if (resp['status']['code'] == 200) {
+        LoginApiModel loginApi = LoginApiModel.fromJson(resp);
+        List<UserData> list = loginApi.data?.data ?? [];
+        if (list.isNotEmpty) {
+          userData.value = loginApi.data?.data?.first ?? UserData();
+          String? schoolId = userData.value.schoolId;
+          if (schoolId != null) {
+            setSchoolTokenAndRoll(schoolId);
+          }
+          await SharedPrefs().setLoginData(loginApi);
+          isLoaded.value = true;
+        }
+      } else {
+        TeacherAppPopUps.submitFailed(
+          title: "Failed",
+          message: "Something went wrong.",
+          actionName: "Try again",
+          iconData: Icons.error_outline,
+          iconColor: Colorutils.svguicolour2,
+        );
+      }
+    } catch (e) {
+      isLoaded.value = false;
+      print("-----------google login error-----------");
+      TeacherAppPopUps.submitFailed(
+        title: "Failed",
+        message: "Something went wrong.",
+        actionName: "Try again",
+        iconData: Icons.error_outline,
+        iconColor: Colorutils.svguicolour2,
+      );
+    } finally {
+      resetStatus();
+    }
+  }
+
   Future<void> getUserData() async {
     isLoading.value = true;
     LoginApiModel? loginApi = await SharedPrefs().getLoginData();
