@@ -32,6 +32,9 @@ class ParentChatListController extends GetxController {
       if (resp['status']['code'] == 200) {
         ParentChatListApiModel parentChatListApiModel = ParentChatListApiModel.fromJson(resp);
         allParentChatList.value = parentChatListApiModel.data?.data ?? [];
+        for (var parent in allParentChatList) {
+          print("--------bhgdhg--------${parent.lastMessage?.sandAt}");
+        }
         setClassList();
         setChatList();
         isLoaded.value = true;

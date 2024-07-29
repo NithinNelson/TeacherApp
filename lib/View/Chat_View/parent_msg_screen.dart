@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import '../../../Controller/ui_controllers/chat_controller.dart';
+import '../../Utils/font_util.dart';
 import '../Chat_List/Mychat/Chat_seen.dart';
 import 'Chat_widgets/message_info_screen.dart';
 
@@ -108,215 +109,564 @@ class _ParentMsgScreenState extends State<ParentMsgScreen> {
               builder: (controller) {
                 return Container(
                   width: double.infinity,
-                  color: Colorutils.Whitecolor,
+                  color: Color(0xffF6F6F6),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5.h),
+                    padding: EdgeInsets.symmetric(horizontal: 20.h),
                     child: Column(
                       children: [
-                        SizedBox(
-                          width: 10.h,
-                        ),
                         controller.isReplay.value
-                            ? IntrinsicHeight(
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10.h),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 7.w,
-                                        decoration: BoxDecoration(
-                                          color: Colors.green,
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(10.h),
-                                            bottomLeft: Radius.circular(10.h),
-                                          ),
+                            ? Column(
+                          children: [
+                            IntrinsicHeight(
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius:
+                                  BorderRadius.circular(10.h),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 7.w,
+                                      decoration: BoxDecoration(
+                                        color: Colors.green,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10.h),
+                                          bottomLeft:
+                                          Radius.circular(10.h),
                                         ),
                                       ),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: EdgeInsets.all(5.w),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                width: double.infinity,
-                                                child: Text(
-                                                  controller.replayName.value,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: double.infinity,
-                                                child: Text(
-                                                  controller
-                                                      .replayMessage.value,
-                                                  maxLines: 3,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      IconButton(
-                                          onPressed: () {
-                                            Get.find<MessageController>()
-                                                .isReplay
-                                                .value = false;
-                                          },
-                                          icon: const Icon(Icons.close))
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : const SizedBox(),
-                        SizedBox(
-                          width: 10.h,
-                        ),
-                        Container(
-                          height: 60.w,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10)
-                                        .w,
-                                child: InkWell(
-                                  child: SvgPicture.asset(
-                                    'assets/images/Attachment.svg',
-                                    height: 20.w,
-                                    fit: BoxFit.fitHeight,
-                                  ),
-                                  onTap: () {
-                                    FocusScope.of(context).requestFocus(
-                                        Get.find<MessageController>()
-                                            .focusNode);
-                                    // Handle attachment button press
-                                  },
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 0.2,
                                     ),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: TextField(
-                                          focusNode: controller.focusNode,
-                                          controller: messageCtr,
-                                          decoration: InputDecoration(
-                                            prefix: SizedBox(
-                                              width: 10.w,
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsets.all(5.w),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: double.infinity,
+                                              child: Text(
+                                                controller
+                                                    .replayName.value,
+                                                style: TeacherAppFonts.interW600_16sp_black,
+                                              ),
                                             ),
-
-                                            border: InputBorder.none,
-                                            // contentPadding: const EdgeInsets
-                                            //     .all(0),
-                                            isDense: true,
-                                            hintText: "Message",
-                                          ),
-                                          onChanged: (value) {
-                                            setState(() {});
-                                            controller.ontype.value = value;
-                                          },
+                                            SizedBox(
+                                              width: double.infinity,
+                                              child: Text(
+                                                controller
+                                                    .replayMessage.value,
+                                                maxLines: 3,
+                                                overflow:
+                                                TextOverflow.ellipsis,
+                                                style: TeacherAppFonts.interW400_16sp_letters1.copyWith(
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      // IconButton(
-                                      //   icon: SvgPicture.asset(
-                                      //     'assets/images/profileplus.svg',
-                                      //     width: 24,
-                                      //     height: 24,
-                                      //   ),
-                                      //   onPressed: () {
-                                      //     // Handle profile plus button press
-                                      //   },
-                                      // ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 5).w,
-                                child: InkWell(
-                                  child: SvgPicture.asset(
-                                    'assets/images/Camera.svg',
-                                    height: 20.w,
-                                    fit: BoxFit.fitHeight,
-                                  ),
-                                  onTap: () {
-                                    // Handle camera button press
-                                  },
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 5, right: 10).w,
-                                child: messageCtr.text.isEmpty
-                                    ? InkWell(
-                                        onTap: () {},
-                                        child: Icon(
-                                          Icons.mic,
-                                          color: Colorutils.userdetailcolor,
-                                          size: 24,
-                                        ),
-                                      )
-                                    : InkWell(
-                                        child: Icon(
-                                          Icons.send,
-                                          color: Colorutils.userdetailcolor,
-                                        ),
-                                        onTap: () {
-                                          setState(() {});
+                                    ),
+                                    IconButton(
+                                        onPressed: () {
                                           Get.find<MessageController>()
-                                              .sentMsg(messageCtr.text);
-                                          Future.delayed(
-                                              const Duration(milliseconds: 50),
-                                              () {
-                                            Get.find<MessageController>()
-                                                .chatListscrollController
-                                                .value
-                                                .animateTo(
-                                                  controller
-                                                      .chatListscrollController
-                                                      .value
-                                                      .position
-                                                      .maxScrollExtent,
-                                                  duration: const Duration(
-                                                      milliseconds: 200),
-                                                  curve: Curves.easeOut,
-                                                );
-                                          });
-                                          messageCtr.clear();
-                                          controller.ontype.value = "";
+                                              .isReplay
+                                              .value = false;
                                         },
-                                      ),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: 35.w,
+                                        icon: const Icon(Icons.close))
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10.w),
+                          ],
                         )
+                            : const SizedBox(),
+                        Row(
+                          children: [
+                            InkWell(
+                              onTap: () async {},
+                              child: SizedBox(
+                                height: 25.w,
+                                width: 25.w,
+                                child: SvgPicture.asset(
+                                    "assets/images/Attachment.svg"),
+                              ),
+                            ),
+                            SizedBox(width: 20.h),
+                            Expanded(
+                              child: Container(
+                                height: 40.w,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                    BorderRadius.circular(50.h),
+                                    border: Border.all(
+                                      width: 0.5.w,
+                                      color: Color(0xff8E8E93),
+                                    )),
+                                child: Center(
+                                  child: TextField(
+                                    focusNode: controller.focusNode,
+                                    controller: messageCtr,
+                                    decoration: InputDecoration(
+                                      prefix: SizedBox(width: 15.w),
+                                      border: InputBorder.none,
+                                      contentPadding:
+                                      const EdgeInsets.all(0),
+                                      isDense: true,
+                                      hintText: "Message",
+                                      hintStyle: TeacherAppFonts.interW400_16sp_letters1
+                                          .copyWith(
+                                          color: Colors.black
+                                              .withOpacity(0.2)),
+                                    ),
+                                    onChanged: (value) {
+                                      controller.ontype.value = value;
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 20.w),
+                            InkWell(
+                              onTap: () async {
+                                // bool permission =
+                                // await Get.find<MessageController>()
+                                //     .permissionCheck(context);
+                                // if (permission) {
+                                //   Navigator.of(context).push(
+                                //     MaterialPageRoute(
+                                //       builder: (context) {
+                                //         return CameraScreen(
+                                //           setImgPath: (String image) {
+                                //             setState(() {
+                                //               // _selectedFile = image;
+                                //               // _ismessageIconEnabled =
+                                //               //     true;
+                                //             });
+                                //           },
+                                //         );
+                                //       },
+                                //     ),
+                                //   );
+                                // }
+                              },
+                              child: SizedBox(
+                                height: 25.w,
+                                width: 25.w,
+                                child: SvgPicture.asset(
+                                    "assets/images/Camera.svg"),
+                              ),
+                            ),
+                            SizedBox(width: 20.w),
+                            controller.ontype.value == ""
+                                ? InkWell(
+                              onTap: () {
+                                // Get.find<MessageController>()
+                                //     .sentMsg(messageCtr.text);
+                                // //delaying for completing the message tile update after rebuild//
+                                // Future.delayed(
+                                //     const Duration(milliseconds: 50), () {
+                                //   Get.find<MessageController>()
+                                //       .chatListscrollController
+                                //       .value
+                                //       .animateTo(
+                                //         controller
+                                //             .chatListscrollController
+                                //             .value
+                                //             .position
+                                //             .maxScrollExtent,
+                                //         duration: const Duration(
+                                //             milliseconds: 200),
+                                //         curve: Curves.easeOut,
+                                //       );
+                                // });
+                              },
+                              child: GestureDetector(
+                                onLongPress: () async {
+                                  // await Permission.microphone
+                                  //     .request();
+                                  //
+                                  // if (await Permission.microphone
+                                  //     .status.isGranted) {
+                                  //   // if (!_ismessageIconEnabled) {
+                                  //   // final provider =
+                                  //   //     Provider.of<ChatProvider>(
+                                  //   //         context,
+                                  //   //         listen: false);
+                                  //   HapticFeedback.vibrate();
+                                  //   Get.find<MessageController>()
+                                  //       .showAudioWidget
+                                  //       .value = true;
+                                  //   // }
+                                  // } else {
+                                  //   ShowWarnDialog().showWarn(
+                                  //       context: context,
+                                  //       message:
+                                  //       "Enable microphone permission.",
+                                  //       iconData: Icons.mic_none);
+                                  // }
+                                },
+                                child: SizedBox(
+                                  height: 25.w,
+                                  width: 25.w,
+                                  child: SvgPicture.asset(
+                                      "assets/images/Record Audio.svg"),
+                                ),
+                              ),
+                            )
+                                : InkWell(
+                              onTap: () async {
+                                // await checkInternet(
+                                //   context: context,
+                                //   function: () async {
+                                //     if (Get.find<MessageController>()
+                                //         .audioPath
+                                //         .value !=
+                                //         null ||
+                                //         Get.find<MessageController>()
+                                //             .filePath
+                                //             .value !=
+                                //             null) {
+                                //       await Get.find<
+                                //           MessageController>()
+                                //           .sendAttach(
+                                //         classs: widget.studentClass,
+                                //         batch: widget.batch,
+                                //         subId: widget.subId,
+                                //         parentId: Get.find<
+                                //             StudentController>()
+                                //             .parentId,
+                                //         sub: widget.subName,
+                                //         studentId: Get.find<
+                                //             StudentController>()
+                                //             .studentList[Get.find<
+                                //             StudentController>()
+                                //             .currentStudentIndex
+                                //             .value]
+                                //             .userId!,
+                                //         studentName: Get.find<
+                                //             StudentController>()
+                                //             .studentList[Get.find<
+                                //             StudentController>()
+                                //             .currentStudentIndex
+                                //             .value]
+                                //             .name!,
+                                //         teacherId: widget.teacherId,
+                                //         context: context,
+                                //         filePath: Get.find<
+                                //             MessageController>()
+                                //             .audioPath
+                                //             .value ??
+                                //             Get.find<
+                                //                 MessageController>()
+                                //                 .filePath
+                                //                 .value,
+                                //         message: messageCtr
+                                //             .text.isNotEmpty
+                                //             ? messageCtr.text
+                                //             : null,
+                                //       );
+                                //     } else {
+                                //       if (messageCtr
+                                //           .text.isNotEmpty) {
+                                //         await Get.find<
+                                //             MessageController>()
+                                //             .sendAttachMsg(
+                                //           classs:
+                                //           widget.studentClass,
+                                //           batch: widget.batch,
+                                //           subId: widget.subId,
+                                //           parentId: Get.find<
+                                //               StudentController>()
+                                //               .parentId,
+                                //           sub: widget.subName,
+                                //           studentId: Get.find<
+                                //               StudentController>()
+                                //               .studentList[Get.find<
+                                //               StudentController>()
+                                //               .currentStudentIndex
+                                //               .value]
+                                //               .userId!,
+                                //           studentName: Get.find<
+                                //               StudentController>()
+                                //               .studentList[Get.find<
+                                //               StudentController>()
+                                //               .currentStudentIndex
+                                //               .value]
+                                //               .name!,
+                                //           teacherId:
+                                //           widget.teacherId,
+                                //           context: context,
+                                //           fileName: null,
+                                //           orgName: null,
+                                //           extension: null,
+                                //           msgText: messageCtr.text,
+                                //         );
+                                //       }
+                                //     }
+                                //   },
+                                // );
+
+                                //delaying for completing the message tile update after rebuild//
+                                Future.delayed(
+                                    const Duration(
+                                        milliseconds: 50), () {
+                                  Get.find<MessageController>()
+                                      .chatListscrollController
+                                      .value
+                                      .animateTo(
+                                    controller
+                                        .chatListscrollController
+                                        .value
+                                        .position
+                                        .maxScrollExtent,
+                                    duration: const Duration(
+                                        milliseconds: 200),
+                                    curve: Curves.easeOut,
+                                  );
+                                });
+                                print("clear worked");
+                                messageCtr.clear();
+                                controller.ontype.value = "";
+                              },
+                              child: SizedBox(
+                                  height: 25.w,
+                                  width: 25.w,
+                                  child: const Icon(
+                                    Icons.send,
+                                    color: Color(0xff118376),
+                                  )
+                                // SvgPicture.asset(
+                                //     "assets/svg/Record Audio.svg"),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 35.w),
                       ],
                     ),
                   ),
                 );
               },
             ),
+            // GetX<MessageController>(
+            //   builder: (controller) {
+            //     return Container(
+            //       width: double.infinity,
+            //       color: Colorutils.Whitecolor,
+            //       child: Padding(
+            //         padding: EdgeInsets.symmetric(horizontal: 5.h),
+            //         child: Column(
+            //           children: [
+            //             SizedBox(
+            //               width: 10.h,
+            //             ),
+            //             controller.isReplay.value
+            //                 ? IntrinsicHeight(
+            //                     child: Container(
+            //                       width: double.infinity,
+            //                       decoration: BoxDecoration(
+            //                         color: Colors.white,
+            //                         borderRadius: BorderRadius.circular(10.h),
+            //                       ),
+            //                       child: Row(
+            //                         children: [
+            //                           Container(
+            //                             width: 7.w,
+            //                             decoration: BoxDecoration(
+            //                               color: Colors.green,
+            //                               borderRadius: BorderRadius.only(
+            //                                 topLeft: Radius.circular(10.h),
+            //                                 bottomLeft: Radius.circular(10.h),
+            //                               ),
+            //                             ),
+            //                           ),
+            //                           Expanded(
+            //                             child: Padding(
+            //                               padding: EdgeInsets.all(5.w),
+            //                               child: Column(
+            //                                 crossAxisAlignment:
+            //                                     CrossAxisAlignment.start,
+            //                                 children: [
+            //                                   SizedBox(
+            //                                     width: double.infinity,
+            //                                     child: Text(
+            //                                       controller.replayName.value,
+            //                                     ),
+            //                                   ),
+            //                                   SizedBox(
+            //                                     width: double.infinity,
+            //                                     child: Text(
+            //                                       controller
+            //                                           .replayMessage.value,
+            //                                       maxLines: 3,
+            //                                       overflow:
+            //                                           TextOverflow.ellipsis,
+            //                                     ),
+            //                                   ),
+            //                                 ],
+            //                               ),
+            //                             ),
+            //                           ),
+            //                           IconButton(
+            //                               onPressed: () {
+            //                                 Get.find<MessageController>()
+            //                                     .isReplay
+            //                                     .value = false;
+            //                               },
+            //                               icon: const Icon(Icons.close))
+            //                         ],
+            //                       ),
+            //                     ),
+            //                   )
+            //                 : const SizedBox(),
+            //             SizedBox(
+            //               width: 10.h,
+            //             ),
+            //             Container(
+            //               height: 60.w,
+            //               child: Row(
+            //                 crossAxisAlignment: CrossAxisAlignment.center,
+            //                 children: [
+            //                   Padding(
+            //                     padding:
+            //                         const EdgeInsets.symmetric(horizontal: 10)
+            //                             .w,
+            //                     child: InkWell(
+            //                       child: SvgPicture.asset(
+            //                         'assets/images/Attachment.svg',
+            //                         height: 20.w,
+            //                         fit: BoxFit.fitHeight,
+            //                       ),
+            //                       onTap: () {
+            //                         FocusScope.of(context).requestFocus(
+            //                             Get.find<MessageController>()
+            //                                 .focusNode);
+            //                         // Handle attachment button press
+            //                       },
+            //                     ),
+            //                   ),
+            //                   Expanded(
+            //                     child: Container(
+            //                       padding: EdgeInsets.symmetric(horizontal: 10),
+            //                       decoration: BoxDecoration(
+            //                         borderRadius: BorderRadius.circular(30),
+            //                         border: Border.all(
+            //                           color: Colors.grey,
+            //                           width: 0.2,
+            //                         ),
+            //                       ),
+            //                       child: Row(
+            //                         children: [
+            //                           Expanded(
+            //                             child: TextField(
+            //                               focusNode: controller.focusNode,
+            //                               controller: messageCtr,
+            //                               decoration: InputDecoration(
+            //                                 prefix: SizedBox(
+            //                                   width: 10.w,
+            //                                 ),
+            //
+            //                                 border: InputBorder.none,
+            //                                 // contentPadding: const EdgeInsets
+            //                                 //     .all(0),
+            //                                 isDense: true,
+            //                                 hintText: "Message",
+            //                               ),
+            //                               onChanged: (value) {
+            //                                 setState(() {});
+            //                                 controller.ontype.value = value;
+            //                               },
+            //                             ),
+            //                           ),
+            //                           // IconButton(
+            //                           //   icon: SvgPicture.asset(
+            //                           //     'assets/images/profileplus.svg',
+            //                           //     width: 24,
+            //                           //     height: 24,
+            //                           //   ),
+            //                           //   onPressed: () {
+            //                           //     // Handle profile plus button press
+            //                           //   },
+            //                           // ),
+            //                         ],
+            //                       ),
+            //                     ),
+            //                   ),
+            //                   Padding(
+            //                     padding:
+            //                         const EdgeInsets.only(left: 10, right: 5).w,
+            //                     child: InkWell(
+            //                       child: SvgPicture.asset(
+            //                         'assets/images/Camera.svg',
+            //                         height: 20.w,
+            //                         fit: BoxFit.fitHeight,
+            //                       ),
+            //                       onTap: () {
+            //                         // Handle camera button press
+            //                       },
+            //                     ),
+            //                   ),
+            //                   Padding(
+            //                     padding:
+            //                         const EdgeInsets.only(left: 5, right: 10).w,
+            //                     child: messageCtr.text.isEmpty
+            //                         ? InkWell(
+            //                             onTap: () {},
+            //                             child: Icon(
+            //                               Icons.mic,
+            //                               color: Colorutils.userdetailcolor,
+            //                               size: 24,
+            //                             ),
+            //                           )
+            //                         : InkWell(
+            //                             child: Icon(
+            //                               Icons.send,
+            //                               color: Colorutils.userdetailcolor,
+            //                             ),
+            //                             onTap: () {
+            //                               setState(() {});
+            //                               Get.find<MessageController>()
+            //                                   .sentMsg(messageCtr.text);
+            //                               Future.delayed(
+            //                                   const Duration(milliseconds: 50),
+            //                                   () {
+            //                                 Get.find<MessageController>()
+            //                                     .chatListscrollController
+            //                                     .value
+            //                                     .animateTo(
+            //                                       controller
+            //                                           .chatListscrollController
+            //                                           .value
+            //                                           .position
+            //                                           .maxScrollExtent,
+            //                                       duration: const Duration(
+            //                                           milliseconds: 200),
+            //                                       curve: Curves.easeOut,
+            //                                     );
+            //                               });
+            //                               messageCtr.clear();
+            //                               controller.ontype.value = "";
+            //                             },
+            //                           ),
+            //                   )
+            //                 ],
+            //               ),
+            //             ),
+            //             SizedBox(
+            //               width: 35.w,
+            //             )
+            //           ],
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // ),
           ],
         ),
       ),

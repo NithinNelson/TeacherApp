@@ -16,7 +16,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Container(
       height: preferredSize.height,
-      color: Colorutils.letters1,
+      color: Colorutils.userdetailcolor,
       padding: const EdgeInsets.symmetric(horizontal: 16).w,
       alignment: Alignment.bottomLeft,
       child: Row(
@@ -24,7 +24,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
           Text(
             'Chat with parents',
             style: GoogleFonts.inter(
-              fontSize: 25.0,
+              fontSize: 25.h,
               fontWeight: FontWeight.w600,
               color: Colors.white,
             ),
@@ -32,7 +32,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
           const Spacer(),
           SvgPicture.asset(
             'assets/images/MagnifyingGlass.svg',
-            width: 27.w,
+            width: 27.h,
             fit: BoxFit.fitWidth,
           ),
           GetX<ChatClassGroupController>(
@@ -78,5 +78,5 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(90.w);
+  Size get preferredSize => Size.fromHeight(100.h);
 }

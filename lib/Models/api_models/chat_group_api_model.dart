@@ -24,11 +24,13 @@ class ClassGroupApiModel {
 class Data {
   Data({
     this.message,
+    this.unreadCount,
     this.classTeacher,
     this.data,
   });
 
   final String? message;
+  final int? unreadCount;
   final List<ClassTeacherGroup>? classTeacher;
   final List<ClassTeacherGroup>? data;
 
@@ -43,11 +45,13 @@ class Data {
           ? []
           : List<ClassTeacherGroup>.from(
               json["data"]!.map((x) => ClassTeacherGroup.fromJson(x))),
+      unreadCount: json['unread_count']
     );
   }
 
   Map<String, dynamic> toJson() => {
         "message": message,
+        "unread_count": unreadCount,
         "class_teacher": classTeacher?.map((x) => x.toJson()).toList(),
         "data": data?.map((x) => x.toJson()).toList(),
       };
@@ -109,15 +113,21 @@ class LastMessage {
     this.messageFile,
     this.fileName,
     this.messageAudio,
+    this.messageFromId,
+    this.messageFrom,
     this.sandAt,
+    this.read,
   });
 
   final String? type;
   final String? message;
-  final dynamic messageFile;
-  final dynamic fileName;
-  final dynamic messageAudio;
+  final String? messageFile;
+  final String? fileName;
+  final String? messageAudio;
+  final String? messageFromId;
+  final String? messageFrom;
   final DateTime? sandAt;
+  final bool? read;
 
   factory LastMessage.fromJson(Map<String, dynamic> json) {
     return LastMessage(
@@ -126,7 +136,11 @@ class LastMessage {
       messageFile: json["message_file"],
       fileName: json["file_name"],
       messageAudio: json["message_audio"],
-      sandAt: DateTime.tryParse(json["sand_at"] ?? ""),
+      messageFromId: json["message_from_id"],
+      messageFrom: json["message_from"],
+      read: json["read"],
+      sandAt: DateTime.tryParse(json["sand_at"] ?? "",
+      ),
     );
   }
 
@@ -136,6 +150,9 @@ class LastMessage {
         "message_file": messageFile,
         "file_name": fileName,
         "message_audio": messageAudio,
+        "message_from_id": messageFromId,
+        "message_from": messageFrom,
+        "read": read,
         "sand_at": sandAt?.toIso8601String(),
       };
 }

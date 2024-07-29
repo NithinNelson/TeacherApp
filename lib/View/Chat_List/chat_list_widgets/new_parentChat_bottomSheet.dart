@@ -232,7 +232,7 @@ class _NewParentChatState extends State<NewParentChat> {
                         title: Padding(
                           padding: const EdgeInsets.only(right: 16).w,
                           child: Text(
-                            filteredChatList[index].studentName ?? '--',
+                            filteredChatList[index].parentName ?? '--',
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
@@ -244,7 +244,7 @@ class _NewParentChatState extends State<NewParentChat> {
                         subtitle: Padding(
                           padding: const EdgeInsets.only(right: 16).w,
                           child: Text(
-                            filteredChatList[index].parentName ?? '--',
+                            filteredChatList[index].studentName ?? '--',
                             overflow: TextOverflow.ellipsis,
                             style: TeacherAppFonts.poppinsW500_12sp_lightGreenForParent,
                           ),

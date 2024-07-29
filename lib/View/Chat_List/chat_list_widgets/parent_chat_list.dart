@@ -116,13 +116,14 @@ class ParentChatList extends StatelessWidget {
         GetX<ParentChatListController>(
           builder: (ParentChatListController controller) {
             List<Datum> chatParentList = controller.parentChatList.value;
+            print("---------sentTime----------${controller.parentChatList.value.first.lastMessage?.sandAt}");
             return Expanded(
               child: ListView.separated(
                 shrinkWrap: true,
                 itemCount: chatParentList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  LastMessage? lastMsg = chatParentList[index].lastMessage == null ? chatParentList[index].lastMessage : LastMessage();
-                  DateTime? sentTime = lastMsg?.sandAt;
+                  LastMessage? lastMsg = chatParentList[index].lastMessage ?? LastMessage();
+                  DateTime? sentTime = lastMsg.sandAt;
                   String? formattedDate;
                   try {
                     formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
@@ -137,7 +138,7 @@ class ParentChatList extends StatelessWidget {
                       );
                     },
                     child: ChatItem(
-                      className: chatParentList[index].subjectName ?? '--',
+                      className: chatParentList[index].parentName ?? '--',
                       time: formattedDate ?? '',
                       unreadMessages: chatParentList[index].unreadCount,
                       classs: '${chatParentList[index].datumClass}${chatParentList[index].batch}',

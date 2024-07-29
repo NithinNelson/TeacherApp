@@ -15,7 +15,7 @@ class AppBarBackground extends StatelessWidget {
       children: [
         SizedBox(
           width: MediaQuery.of(context).size.width,
-          height: 180.h,
+          height: 200.h,
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(

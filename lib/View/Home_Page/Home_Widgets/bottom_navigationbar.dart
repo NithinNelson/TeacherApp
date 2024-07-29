@@ -13,7 +13,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 65.w,
+      height: 80.h,
       child: Theme(
         data: Theme.of(context).copyWith(splashFactory: NoSplash.splashFactory),
         child: GetX<PageIndexController>(
@@ -38,12 +38,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
                             controller.changePage(currentPage: menuItems[i].index);
                           },
                           child: CircleAvatar(
-                            radius: 25.r,
+                            radius: 30.r,
                             backgroundColor: Colorutils.userdetailcolor,
                             child: SvgPicture.asset(
                               currentIndex == menuItems[i].index ? "assets/images/chat_selected_icon.svg" : "assets/images/chat_icon.svg",
                               alignment: Alignment.center,
-                              height: 20.w,
+                              height: 25.h,
                               fit: BoxFit.fitHeight,
                             ),
                           ),
@@ -61,7 +61,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                           children: [
                             SvgPicture.asset(
                               menuItems[i].svg,
-                              height: 20.w,
+                              height: 25.h,
                               fit: BoxFit.fitHeight,
                               color: currentIndex == menuItems[i].index ? Colorutils.letters1 : Colorutils.bottomiconcolor,
                             ),

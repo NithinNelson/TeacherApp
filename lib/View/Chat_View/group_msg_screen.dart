@@ -87,7 +87,7 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colorutils.userdetailcolor,
-        leadingWidth: 40.w,
+        leadingWidth: 50.w,
         titleSpacing: 5,
         leading: InkWell(
           onTap: () {
@@ -105,12 +105,12 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
         ),
         title: Row(
           children: [
-            CircleAvatar(radius: 20.r, backgroundColor: Colors.white),
+            CircleAvatar(radius: 23.r, backgroundColor: Colors.white),
             SizedBox(width: 10.w),
             Text(
               'My Class',
               style: GoogleFonts.inter(
-                  fontSize: 20.0,
+                  fontSize: 18.0,
                   fontWeight: FontWeight.w600,
                   color: Colors.white),
             ),
@@ -133,9 +133,9 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
       ),
       body: SizedBox(
         // height: screenHeight,
-
         child: Column(
           children: [
+            Container(height: 10.h, color: Colorutils.userdetailcolor),
             Container(
               color: Colorutils.userdetailcolor,
               child: TabBar(
@@ -150,8 +150,7 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
                 tabs: <Widget>[
                   Container(
                     // width: 150,
-                    height: 50,
-
+                    height: 40.h,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -178,7 +177,7 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
                   ),
                   Container(
                     // width: 160,
-                    height: 50,
+                    height: 40.h,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

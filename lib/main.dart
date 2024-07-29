@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
         );
       },
       child: ScreenUtilInit(
-        designSize: Size(_width, _height),
+        designSize: Size(430, 930),
         minTextAdapt: true,
         splitScreenMode: true,
         child: const GetMaterialApp(

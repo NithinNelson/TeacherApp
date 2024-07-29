@@ -42,13 +42,13 @@ class _LeaderState extends State<Leader> {
       child: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.93,
+          height: ScreenUtil().screenHeight * 0.9,
           child: Stack(
             children: [
               const AppBarBackground(),
               Positioned(
                 left: 0,
-                top: 15,
+                top: 0,
                 child: Container(
                   // height: 100.w,
                   width: ScreenUtil().screenWidth,
@@ -60,7 +60,7 @@ class _LeaderState extends State<Leader> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 20.w, top: 120.h, right: 20.w, bottom: 20.w),
+                margin: EdgeInsets.only(left: 20.w, top: 140.h, right: 20.w, bottom: 20.w),
                 // width: 550.w,
                 // height: 545.h,
                 height: ScreenUtil().screenHeight * 0.8,
@@ -121,7 +121,7 @@ class _LeaderState extends State<Leader> {
                                   MaterialPageRoute(builder: (context) => LessonObservation()));
                             },
                             child: Container(
-                              height: 120.h,
+                              height: 130.h,
 
 
                               decoration: BoxDecoration(
@@ -131,8 +131,8 @@ class _LeaderState extends State<Leader> {
                               child: Row(
                                 children: [
                                   Container(
-                                    height: 60.h,
-                                    width: 75.w,
+                                    height: 65.h,
+                                    width: 80.w,
                                     decoration: BoxDecoration(
                                       border: Border.all(
                                           color: Colors.transparent),
@@ -172,7 +172,7 @@ class _LeaderState extends State<Leader> {
                                 MaterialPageRoute(builder: (context) => const LearningWalk()));
                           },
                           child: Container(
-                            height: 120.h,
+                            height: 130.h,
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
@@ -181,8 +181,8 @@ class _LeaderState extends State<Leader> {
                             child: Row(
                               children: [
                                 Container(
-                                  height: 60.h,
-                                  width: 80.w,
+                                  height: 65.h,
+                                  width: 85.w,
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                         color: Colors.transparent),

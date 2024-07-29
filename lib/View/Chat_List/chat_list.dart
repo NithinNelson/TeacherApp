@@ -13,6 +13,7 @@ import 'package:teacherapp/View/Chat_List/chat_list_widgets/parent_chat_list.dar
 import 'package:teacherapp/View/Chat_List/chat_list_widgets/chat_appBar.dart';
 import '../../Controller/api_controllers/chatClassGroupController.dart';
 import '../../Utils/constants.dart';
+import 'chat_list_widgets/new_parentChat_bottomSheet.dart';
 
 class ChatWithParentsPage extends StatefulWidget {
   const ChatWithParentsPage({super.key});
@@ -49,11 +50,73 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage> with TickerPr
       value: systemUiOverlayStyleLight,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: const ChatAppBar(),
+        // appBar: const ChatAppBar(),
         body: Column(
           children: [
             Container(
-              height: 50.w,
+              height: 100.h,
+              color: Colorutils.userdetailcolor,
+              padding: const EdgeInsets.symmetric(horizontal: 16).w,
+              alignment: Alignment.bottomLeft,
+              child: Row(
+                children: [
+                  Text(
+                    'Chat with parents',
+                    style: GoogleFonts.inter(
+                      fontSize: 25.h,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const Spacer(),
+                  SvgPicture.asset(
+                    'assets/images/MagnifyingGlass.svg',
+                    width: 27.h,
+                    fit: BoxFit.fitWidth,
+                  ),
+                  GetX<ChatClassGroupController>(
+                    builder: (ChatClassGroupController controller) {
+                      if(controller.currentChatTab.value == 1) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 6).w,
+                          child: InkWell(
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                backgroundColor: Colors.transparent,
+                                isScrollControlled: true,
+                                builder: (context) {
+                                  return const NewParentChat();
+                                },
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(4.0).w,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(100).w
+                              ),
+                              child: Icon(
+                                Icons.add,
+                                color: Colorutils.letters1,
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Container(
+                          width: 0,
+                          height: 0,
+                          color: Colorutils.userdetailcolor,
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: 55.h,
               color: Colorutils.userdetailcolor,
               alignment: Alignment.bottomCenter,
               child: TabBar(
@@ -70,8 +133,8 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage> with TickerPr
                 isScrollable: true,
                 tabs: <Widget>[
                   Container(
-                    width: 140.w,
-                    height: 30.w,
+                    width: 180.w,
+                    height: 40.h,
                     alignment: Alignment.center,
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -85,27 +148,36 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage> with TickerPr
                           style: GoogleFonts.inter(
                             color: Colorutils.Whitecolor,
                             fontWeight: FontWeight.w600,
-                            fontSize: 16.0,
+                            fontSize: 18.h,
                           ),
                         ),
                         SizedBox(width: 8.w),
-                        CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 10,
-                          child: Text(
-                            "6",
-                            style: GoogleFonts.inter(
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.green),
-                          ),
+                        GetX<ChatClassGroupController>(
+                          builder: (ChatClassGroupController controller) {
+                            int count = controller.unreadCount.value;
+                            if(count != 0) {
+                              return CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 10,
+                                child: Text(
+                                  count.toString(),
+                                  style: GoogleFonts.inter(
+                                      fontSize: 13.h,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.green),
+                                ),
+                              );
+                            } else {
+                              return Container();
+                            }
+                          },
                         ),
                       ],
                     ),
                   ),
                   Container(
-                    width: 140.w,
-                    height: 30.w,
+                    width: 180.w,
+                    height: 40.w,
                     alignment: Alignment.center,
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -115,7 +187,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage> with TickerPr
                           style: GoogleFonts.inter(
                             color: Colorutils.Whitecolor,
                             fontWeight: FontWeight.w600,
-                            fontSize: 16.0,
+                            fontSize: 18.h,
                           ),
                         ),
                         SizedBox(width: 8.w),
@@ -125,7 +197,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage> with TickerPr
                           child: Text(
                             "3",
                             style: GoogleFonts.inter(
-                                fontSize: 13.0,
+                                fontSize: 13.h,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.green),
                           ),

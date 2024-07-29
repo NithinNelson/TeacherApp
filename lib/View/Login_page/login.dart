@@ -172,265 +172,267 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Center(
-                          child: Container(
-                            width: 200.w,
-                            // height: 180.h,
-                            child: Lottie.asset(
-                              "assets/images/loginimage.json",
-                              fit: BoxFit.fitWidth,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 15.h),
-                        Container(
-                          margin: EdgeInsets.only(left: 30.w),
-                          child: Text(
-                            'Hello !',
-                            style: GoogleFonts.roboto(
-                                color: Colors.black,
-                                fontSize: 25.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 30.w),
-                          child: Text(
-                            'Sign in to your account',
-                            style: GoogleFonts.roboto(
-                                color: Colors.grey,
-                                fontSize: 10.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        SizedBox(height: 5.h),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 30.w, vertical: 2.w),
-                          child: TextFormField(
-                            cursorColor: Colorutils.userdetailcolor,
-                            controller: _usernameController,
-                            autofillHints: const [AutofillHints.username],
-                            textInputAction: TextInputAction.next,
-                            decoration: const InputDecoration(
-                                focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colorutils.userdetailcolor,
-                                        width: 2)),
-                                enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colorutils.userdetailcolor)),
-                                // border: UnderlineInputBorder(),
-                                labelText: 'Username',
-                                labelStyle: TextStyle(
-                                    color: Colorutils.userdetailcolor)),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 30.w, vertical: 5.w),
-                          child: TextFormField(
-                            cursorColor: Colorutils.userdetailcolor,
-                            textInputAction: TextInputAction.done,
-                            obscureText: _obscureText,
-                            controller: _passwordController,
-                            autofillHints: const [AutofillHints.password],
-                            onEditingComplete: () =>
-                                TextInput.finishAutofillContext(),
-                            decoration: InputDecoration(
-                                focusedBorder: const UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colorutils.userdetailcolor,
-                                        width: 2)),
-                                enabledBorder: const UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colorutils.userdetailcolor)),
-                                // border: UnderlineInputBorder(borderSide: BorderSide(color: Colorutils.userdetailcolor)),
-                                labelText: 'Password',
-                                labelStyle: const TextStyle(
-                                    color: Colorutils.userdetailcolor),
-                                suffixIcon: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        _obscureText = !_obscureText;
-                                      });
-                                    },
-                                    child: Icon(_obscureText
-                                        ? Icons.visibility_off
-                                        : Icons.visibility))),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 5)
-                              .w,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              InkWell(
-                                onTap: () {},
-                                child: Text(
-                                  "Forgot Password?",
-                                  style: TextStyle(fontSize: 10.sp),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 15.h),
-                        Center(
-                            child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30).w,
-                          child: GestureDetector(
-                            onTap: () async {
-                              UserAuthController userAuthController = Get.find<UserAuthController>();
-                              String? user = _usernameController?.text != "" ? _usernameController?.text : null;
-                              String? psw = _passwordController?.text != "" ? _passwordController?.text : null;
-                              if(user != null && psw != null) {
-                                context.loaderOverlay.show();
-                                await userAuthController.fetchUserData(
-                                    username: user,
-                                  password: psw,
-                                );
-                                context.loaderOverlay.hide();
-                                if(userAuthController.isLoaded.value) {
-                                  UserRole? userRole = userAuthController.userRole.value;
-                                  if(userRole != null) {
-                                    if(userRole == UserRole.principal) {
-                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HosListing()));
-                                    }
-                                    if(userRole == UserRole.hos) {
-                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ChoicePage()));
-                                    }
-                                    if(userRole == UserRole.teacher) {
-                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const DrawerScreen()));
-                                    }
-                                  } else {
-                                    TeacherAppPopUps.submitFailed(
-                                      title: "Error",
-                                      message: "Not fined role",
-                                      actionName: "Close",
-                                      iconData: Icons.cancel_outlined,
-                                      iconColor: Colors.red,
-                                    );
-                                  }
-                                }
-                              } else {
-                                TeacherAppPopUps.submitFailed(
-                                    title: "Failed",
-                                    message: "Invalid Username/Password! Please Try Again",
-                                    actionName: "Try again",
-                                  iconData: Icons.error_outline,
-                                  iconColor: Colorutils.svguicolour2,
-                                );
-                              }
-                            },
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Center(
                             child: Container(
-                              decoration: BoxDecoration(
-                                color: Colorutils.userdetailcolor,
-                                borderRadius: BorderRadius.circular(30.r),
-                              ),
-                              // width: 250.w,
-                              height: 50.h,
-                              child: Center(
-                                child: Text(
-                                  'Login',
-                                  style: GoogleFonts.inter(
-                                      color: Colors.white,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                              width: 200.w,
+                              // height: 180.h,
+                              child: Lottie.asset(
+                                "assets/images/loginimage.json",
+                                fit: BoxFit.fitWidth,
                               ),
                             ),
                           ),
-                        )),
-                        SizedBox(height: 10.h),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Divider(
-                                indent: 30.w,
-                                thickness: 0.5,
-                                color: Colors.grey[400],
-                              ),
+                          SizedBox(height: 15.h),
+                          Container(
+                            margin: EdgeInsets.only(left: 30.w),
+                            child: Text(
+                              'Hello !',
+                              style: GoogleFonts.roboto(
+                                  color: Colors.black,
+                                  fontSize: 25.0,
+                                  fontWeight: FontWeight.bold),
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Text(
-                                'or',
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 12.sp,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 30.w),
+                            child: Text(
+                              'Sign in to your account',
+                              style: GoogleFonts.roboto(
+                                  color: Colors.grey,
+                                  fontSize: 10.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          SizedBox(height: 5.h),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 30.w, vertical: 2.w),
+                            child: TextFormField(
+                              cursorColor: Colorutils.userdetailcolor,
+                              controller: _usernameController,
+                              autofillHints: const [AutofillHints.username],
+                              textInputAction: TextInputAction.next,
+                              decoration: const InputDecoration(
+                                  focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colorutils.userdetailcolor,
+                                          width: 2)),
+                                  enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colorutils.userdetailcolor)),
+                                  // border: UnderlineInputBorder(),
+                                  labelText: 'Username',
+                                  labelStyle: TextStyle(
+                                      color: Colorutils.userdetailcolor)),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 30.w, vertical: 5.w),
+                            child: TextFormField(
+                              cursorColor: Colorutils.userdetailcolor,
+                              textInputAction: TextInputAction.done,
+                              obscureText: _obscureText,
+                              controller: _passwordController,
+                              autofillHints: const [AutofillHints.password],
+                              onEditingComplete: () =>
+                                  TextInput.finishAutofillContext(),
+                              decoration: InputDecoration(
+                                  focusedBorder: const UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colorutils.userdetailcolor,
+                                          width: 2)),
+                                  enabledBorder: const UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colorutils.userdetailcolor)),
+                                  // border: UnderlineInputBorder(borderSide: BorderSide(color: Colorutils.userdetailcolor)),
+                                  labelText: 'Password',
+                                  labelStyle: const TextStyle(
+                                      color: Colorutils.userdetailcolor),
+                                  suffixIcon: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _obscureText = !_obscureText;
+                                        });
+                                      },
+                                      child: Icon(_obscureText
+                                          ? Icons.visibility_off
+                                          : Icons.visibility))),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                    horizontal: 30, vertical: 5)
+                                .w,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                InkWell(
+                                  onTap: () {},
+                                  child: Text(
+                                    "Forgot Password?",
+                                    style: TextStyle(fontSize: 10.sp),
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                            Expanded(
-                              child: Divider(
-                                thickness: 0.5,
-                                color: Colors.grey[400],
-                                endIndent: 30.w,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10.h),
-                        Center(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 30).w,
+                          ),
+                          SizedBox(height: 15.h),
+                          Center(
+                              child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30).w,
                             child: GestureDetector(
-                              onTap: () {},
+                              onTap: () async {
+                                UserAuthController userAuthController = Get.find<UserAuthController>();
+                                String? user = _usernameController?.text != "" ? _usernameController?.text : null;
+                                String? psw = _passwordController?.text != "" ? _passwordController?.text : null;
+                                if(user != null && psw != null) {
+                                  context.loaderOverlay.show();
+                                  await userAuthController.fetchUserData(
+                                      username: user,
+                                    password: psw,
+                                  );
+                                  context.loaderOverlay.hide();
+                                  if(userAuthController.isLoaded.value) {
+                                    UserRole? userRole = userAuthController.userRole.value;
+                                    if(userRole != null) {
+                                      if(userRole == UserRole.principal) {
+                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HosListing()));
+                                      }
+                                      if(userRole == UserRole.hos) {
+                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ChoicePage()));
+                                      }
+                                      if(userRole == UserRole.teacher) {
+                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const DrawerScreen()));
+                                      }
+                                    } else {
+                                      TeacherAppPopUps.submitFailed(
+                                        title: "Error",
+                                        message: "Not fined role",
+                                        actionName: "Close",
+                                        iconData: Icons.cancel_outlined,
+                                        iconColor: Colors.red,
+                                      );
+                                    }
+                                  }
+                                } else {
+                                  TeacherAppPopUps.submitFailed(
+                                      title: "Failed",
+                                      message: "Invalid Username/Password! Please Try Again",
+                                      actionName: "Try again",
+                                    iconData: Icons.error_outline,
+                                    iconColor: Colorutils.svguicolour2,
+                                  );
+                                }
+                              },
                               child: Container(
                                 decoration: BoxDecoration(
+                                  color: Colorutils.userdetailcolor,
                                   borderRadius: BorderRadius.circular(30.r),
-                                  border: Border.all(
-                                    color: Colorutils.userdetailcolor,
-                                    width: 0.8,
-                                  ),
                                 ),
                                 // width: 250.w,
                                 height: 50.h,
                                 child: Center(
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Image.asset(
-                                        height: 25.w,
-                                        "assets/images/google_logo.png",
-                                        fit: BoxFit.fitHeight,
-                                      ),
-                                      SizedBox(width: 8.w),
-                                      Text(
-                                        'Sign in with Google',
-                                        style: GoogleFonts.inter(
-                                          fontSize: 16.sp,
+                                  child: Text(
+                                    'Login',
+                                    style: GoogleFonts.inter(
+                                        color: Colors.white,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )),
+                          SizedBox(height: 10.h),
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Divider(
+                                  indent: 30.w,
+                                  thickness: 0.5,
+                                  color: Colors.grey[400],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Text(
+                                  'or',
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 12.sp,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Divider(
+                                  thickness: 0.5,
+                                  color: Colors.grey[400],
+                                  endIndent: 30.w,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10.h),
+                          Center(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30).w,
+                              child: GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30.r),
+                                    border: Border.all(
+                                      color: Colorutils.userdetailcolor,
+                                      width: 0.8,
+                                    ),
+                                  ),
+                                  // width: 250.w,
+                                  height: 50.h,
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Image.asset(
+                                          height: 25.w,
+                                          "assets/images/google_logo.png",
+                                          fit: BoxFit.fitHeight,
                                         ),
-                                      ),
-                                    ],
+                                        SizedBox(width: 8.w),
+                                        Text(
+                                          'Sign in with Google',
+                                          style: GoogleFonts.inter(
+                                            fontSize: 16.sp,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 30.h),
-                        const Spacer(),
-                        Center(
-                          child: Text(
-                            ApiConstants.appVersion,
-                            style: TextStyle(
-                              color: Colors.blueGrey,
-                              fontSize: 10.sp,
+                          SizedBox(height: 30.h),
+                          // const Spacer(),
+                          Center(
+                            child: Text(
+                              ApiConstants.appVersion,
+                              style: TextStyle(
+                                color: Colors.blueGrey,
+                                fontSize: 10.sp,
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 20.h),
-                      ],
+                          SizedBox(height: 20.h),
+                        ],
+                      ),
                     ),
                   )
                 ],
