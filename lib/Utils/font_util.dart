@@ -26,6 +26,14 @@ class TeacherAppFonts {
     fontSize: 20.sp,
     color: Colorutils.Whitecolor,
   );
+
+  static final TextStyle interW400_12sp_textWhite_italic = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w600,
+    fontStyle: FontStyle.italic,
+    fontSize: 12.sp,
+    color: Colorutils.Whitecolor,
+  );
   //ben
   static final TextStyle interW600_24sp_textWhite = TextStyle(
     fontFamily: _interFont,

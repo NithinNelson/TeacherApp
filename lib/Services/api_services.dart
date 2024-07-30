@@ -1,6 +1,8 @@
 
 import 'dart:convert';
 
+import '../Models/api_models/chat_feed_view_model.dart';
+import '../Models/api_models/sent_msg_by_teacher_model.dart';
 import '../Utils/api_constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -228,6 +230,127 @@ class ApiServices {
       }
     } catch (e) {
       throw Exception("Service Error");
+    }
+  }
+
+  static Future<Map<String, dynamic>> sentMsgByTeacher({
+    required SentMsgByTeacherModel teacherMsg,
+  }) async {
+    String url = "${ApiConstants.chat}${ApiConstants.sentMsgByTeacher}";
+    print(url);
+    Map apiBody = teacherMsg.toJson();
+    // Map apiBody = {
+    //   "class": teacherMsg.classs,
+    //   "batch": teacherMsg.batch,
+    //   "subject_id": teacherMsg.subjectId,
+    //   "subject": teacherMsg.subject,
+    //   "message_from": teacherMsg.messageFrom,
+    //   "message": teacherMsg.message,
+    //   "reply_id" : teacherMsg.replyId,
+    //   "parents": teacherMsg.parents,
+    //   "file_data": {
+    //     "name": teacherMsg.fileData?.name,
+    //     "org_name": teacherMsg.fileData?.orgName,
+    //     "extension": teacherMsg.fileData?.extension,
+    //   }
+    // };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+  static Future<Map<String, dynamic>> getChatFeedView({
+    required ChatFeedViewReqModel reqBodyData,
+  }) async {
+    String url = "${ApiConstants.chat}${ApiConstants.teacherMsgList}";
+    print(url);
+    Map apiBody = {
+      "class": reqBodyData.classs,
+      "batch": reqBodyData.batch,
+      "subject_id": reqBodyData.subjectId,
+      "teacher_id": reqBodyData.teacherId,
+      "school_id": reqBodyData.schoolId,
+      "offset": reqBodyData.offset,
+      "limit": reqBodyData.limit,
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+  static Future<dynamic> sendAttachment({
+    required String filePath,
+  }) async {
+    String url = ApiConstants.chat + ApiConstants.fileUpload;
+    print("--url--$url");
+    try {
+      Map<String, String> apiHeader = {
+        'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
+        'Content-Type': 'application/json',
+      };
+
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      var file = await http.MultipartFile.fromPath('file', filePath);
+      request.files.add(file);
+      request.headers.addAll(apiHeader);
+      http.StreamedResponse response = await request.send();
+      String respString = await response.stream.bytesToString();
+      return json.decode(respString);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static Future<dynamic> deleteSenderMsg({
+    required int msgId,
+    required String teacherId,
+  }) async {
+    String url = ApiConstants.chat + ApiConstants.deleteMsg;
+    print("--url--$url");
+    try {
+      Map<String, String> apiHeader = {
+        'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
+        'Content-Type': 'application/json',
+      };
+
+      Map<String, dynamic> apiBody = {
+        "message_id": msgId,
+        "teacher_id": teacherId
+      };
+
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = json.encode(apiBody);
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(apiHeader);
+      http.StreamedResponse response = await request.send();
+      String respString = await response.stream.bytesToString();
+      return json.decode(respString);
+    } catch (e) {
+      print(e);
     }
   }
 }

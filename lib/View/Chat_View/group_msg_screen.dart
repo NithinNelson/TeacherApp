@@ -1,21 +1,40 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:teacherapp/Controller/api_controllers/feedViewController.dart';
+import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
+import 'package:teacherapp/Models/api_models/sent_msg_by_teacher_model.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
 import 'package:teacherapp/View/Chat_View/Chat_widgets/parent_select_bottomSheet.dart';
 import '../../../Controller/ui_controllers/chat_controller.dart';
+import '../../Models/api_models/chat_feed_view_model.dart';
+import '../../Models/api_models/chat_group_api_model.dart';
+import '../../Services/check_connectivity.dart';
+import '../../Services/dialog_box.dart';
+import '../../Services/snackBar.dart';
 import '../Chat_List/Mychat/Chat_seen.dart';
-import '../Chat_List/chat_list.dart';
 import 'Chat_widgets/Grouped_view.dart';
+import 'Chat_widgets/camera_screen.dart';
+import 'Chat_widgets/chat_audioPlaying_widget.dart';
+import 'Chat_widgets/chat_audioRecording_widget.dart';
 import 'Chat_widgets/message_info_screen.dart';
+import 'Chat_widgets/more_option_widget.dart';
+import 'Chat_widgets/reaction_widget.dart';
+import 'Chat_widgets/receive_bubble_widget.dart';
+import 'Chat_widgets/sent_bubble_widget.dart';
+import 'Chat_widgets/swape_to.dart';
 
 class GroupMsgScreen extends StatefulWidget {
-  const GroupMsgScreen({super.key});
+  final ClassTeacherGroup? msgData;
+  const GroupMsgScreen({super.key, this.msgData});
 
   @override
   State<GroupMsgScreen> createState() => _GroupMsgScreenState();
@@ -24,6 +43,8 @@ class GroupMsgScreen extends StatefulWidget {
 class _GroupMsgScreenState extends State<GroupMsgScreen>
     with SingleTickerProviderStateMixin {
   TextEditingController messageCtr = TextEditingController();
+  FeedViewController feedViewController = Get.find<FeedViewController>();
+  UserAuthController userAuthController = Get.find<UserAuthController>();
 
   // late bool isKeboardOpen;
   // late double keybordHeight;
@@ -35,17 +56,34 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
   void initState() {
     super.initState();
     _tabcontroller = TabController(length: 2, vsync: this);
+    initialize();
     // WidgetsBinding.instance.addObserver(this);
     // screenHeight = ScreenUtil().screenHeight;
     // isKeboardOpen = false;
     // keybordHeight = 0;
-    Get.find<MessageController>().isReplay.value = false;
+    Get.find<FeedViewController>().isReplay.value = null;
   }
 
   @override
   void dispose() {
     // WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  Future<void> initialize() async {
+    context.loaderOverlay.show();
+    ChatFeedViewReqModel chatFeedViewReqModel = ChatFeedViewReqModel(
+      teacherId: userAuthController.userData.value.userId,
+      schoolId: userAuthController.userData.value.schoolId,
+      classs: widget.msgData?.classTeacherClass,
+      batch: widget.msgData?.batch,
+      subjectId: widget.msgData?.subjectId,
+      offset: 0,
+      limit: 100,
+    );
+    await feedViewController.fetchFeedViewMsgList(chatFeedViewReqModel);
+    if(!mounted) return;
+    context.loaderOverlay.hide();
   }
 
   // @override
@@ -59,7 +97,7 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
   //     print(keybordHeight);
   //   }
   //
-  //   bool isCurrentlyFocused = Get.find<MessageController>().focusNode.hasFocus;
+  //   bool isCurrentlyFocused = Get.find<FeedViewController>().focusNode.hasFocus;
   //   if (isKeboardOpen) {
   //     // If the keyboard was open and now the focus is lost
   //     if (!isCurrentlyFocused) {
@@ -105,10 +143,24 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
         ),
         title: Row(
           children: [
-            CircleAvatar(radius: 23.r, backgroundColor: Colors.white),
+            Container(
+                width: 44.w,
+                height: 44.w,
+              padding: const EdgeInsets.all(10).w,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: FittedBox(
+                child: Text(
+                  "${widget.msgData?.classTeacherClass}${widget.msgData?.batch}",
+                  style: TeacherAppFonts.interW600_16sp_black,
+                ),
+              ),
+            ),
             SizedBox(width: 10.w),
             Text(
-              'My Class',
+              widget.msgData?.subjectName ?? '--',
               style: GoogleFonts.inter(
                   fontSize: 18.0,
                   fontWeight: FontWeight.w600,
@@ -149,7 +201,7 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
                 isScrollable: true,
                 tabs: <Widget>[
                   Container(
-                    // width: 150,
+                    width: 180.w,
                     height: 40.h,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -161,33 +213,39 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
                         SizedBox(
                           width: 8,
                         ),
-                        CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 10,
-                          child: Text(
-                            "6",
-                            style: GoogleFonts.inter(
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.green),
-                          ),
+                        GetX<FeedViewController>(
+                          builder: (FeedViewController controller) {
+                            if(controller.feedUnreadCount.value != 0) {
+                              return CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 11.r,
+                                child: FittedBox(
+                                  child: Text(
+                                    controller.feedUnreadCount.value.toString(),
+                                    style: GoogleFonts.inter(
+                                        fontSize: 13.0,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.green),
+                                  ),
+                                ),
+                              );
+                            } else {
+                              return Container();
+                            }
+                          },
                         ),
                       ],
                     ),
                   ),
                   Container(
-                    // width: 160,
+                    width: 180.w,
                     height: 40.h,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           'Grouped View',
-                          style: GoogleFonts.inter(
-                            color: Colorutils.Whitecolor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16.0,
-                          ),
+                          style: TeacherAppFonts.interW700_16sp_textWhite,
                         ),
                         SizedBox(
                           width: 8,
@@ -233,223 +291,608 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
               ]),
             ),
             if (_tabcontroller?.index == 0)
-              GetX<MessageController>(
-                builder: (controller) {
+              GetX<FeedViewController>(
+                builder: (FeedViewController controller) {
                   return Container(
                     width: double.infinity,
-                    color: Colorutils.Whitecolor,
+                    color: Colorutils.bgcolor9,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.h),
+                      padding: EdgeInsets.symmetric(horizontal: 20.h),
                       child: Column(
                         children: [
-                          SizedBox(
-                            width: 10.h,
-                          ),
-                          controller.isReplay.value
-                              ? IntrinsicHeight(
-                                  child: Container(
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10.h),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          width: 7.w,
-                                          decoration: BoxDecoration(
-                                            color: Colors.green,
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(10.h),
-                                              bottomLeft: Radius.circular(10.h),
-                                            ),
-                                          ),
+                          controller.filePath.value == null
+                              ? const SizedBox()
+                              : Padding(
+                            padding: EdgeInsets.only(top: 10.h),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.h),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 35.w,
+                                      height: 40.w,
+                                      decoration: const BoxDecoration(
+                                        image: DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: AssetImage(
+                                              "assets/images/new-document.png"),
                                         ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: EdgeInsets.all(5.w),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  width: double.infinity,
-                                                  child: Text(
-                                                    controller.replayName.value,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: double.infinity,
-                                                  child: Text(
-                                                    controller
-                                                        .replayMessage.value,
-                                                    maxLines: 3,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ),
-                                                ),
-                                              ],
+                                      ),
+                                      child: Center(
+                                          child: Text(
+                                            Get.find<FeedViewController>()
+                                                .filePath
+                                                .value!
+                                                .split(".")
+                                                .last,
+                                            style: TeacherAppFonts.interW500_12sp_textWhite.copyWith(
+                                              fontSize: 10.sp,
+                                              color: Colors.black,
                                             ),
-                                          ),
-                                        ),
-                                        IconButton(
-                                            onPressed: () {
-                                              Get.find<MessageController>()
-                                                  .isReplay
-                                                  .value = false;
-                                            },
-                                            icon: const Icon(Icons.close))
-                                      ],
+                                          )),
                                     ),
-                                  ),
-                                )
-                              : const SizedBox(),
-                          SizedBox(
-                            width: 10.h,
-                          ),
-                          Container(
-                            height: 60.w,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 10)
-                                          .w,
-                                  child: InkWell(
-                                    child: SvgPicture.asset(
-                                      'assets/images/Attachment.svg',
-                                      height: 20.w,
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                    onTap: () {
-                                      FocusScope.of(context).requestFocus(
-                                          Get.find<MessageController>()
-                                              .focusNode);
-                                      // Handle attachment button press
-                                    },
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30),
-                                      border: Border.all(
-                                        color: Colors.grey,
-                                        width: 0.2,
+                                    SizedBox(width: 5.w),
+                                    Expanded(
+                                      child: Text(
+                                        Get.find<FeedViewController>()
+                                            .filePath
+                                            .value!
+                                            .split("/")
+                                            .last,
+                                        style: TeacherAppFonts.interW400_16sp_letters1
+                                            .copyWith(
+                                            color: Colors.black),
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: TextField(
-                                            focusNode: controller.focusNode,
-                                            controller: messageCtr,
-                                            decoration: InputDecoration(
-                                              prefix: SizedBox(
-                                                width: 10.w,
-                                              ),
-
-                                              border: InputBorder.none,
-                                              // contentPadding: const EdgeInsets
-                                              //     .all(0),
-                                              isDense: true,
-                                              hintText: "Message",
-                                            ),
-                                            onChanged: (value) {
-                                              setState(() {});
-                                              controller.ontype.value = value;
-                                            },
+                                    InkWell(
+                                      onTap: () {
+                                        Get.find<FeedViewController>()
+                                            .filePath
+                                            .value = null;
+                                      },
+                                      child: SizedBox(
+                                        width: 25.w,
+                                        height: 40.w,
+                                        child: const Icon(
+                                          Icons.close,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          controller.showAudioPlayingWidget.value == true
+                              ? const ChatAudioPlayingWidget()
+                              : const SizedBox(),
+                          SizedBox(height: 10.w),
+                          controller.isReplay.value != null
+                              ? Column(
+                            children: [
+                              IntrinsicHeight(
+                                child: Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                    BorderRadius.circular(10.h),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        width: 7.w,
+                                        decoration: BoxDecoration(
+                                          color: Colorutils.letters1,
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10.h),
+                                            bottomLeft:
+                                            Radius.circular(10.h),
                                           ),
                                         ),
-                                        InkWell(
+                                      ),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: EdgeInsets.all(5.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                width: double.infinity,
+                                                child: Text(
+                                                  controller
+                                                      .replayName.value,
+                                                  style: TeacherAppFonts
+                                                      .interW600_16sp_letters1,
+                                                ),
+                                              ),
+                                              SizedBox(height: 5.h),
+                                              Builder(
+                                                builder: (context) {
+                                                  if (Get.find<
+                                                      FeedViewController>()
+                                                      .replayMessage
+                                                      .type ==
+                                                      "file") {
+                                                    return Row(
+                                                      children: [
+                                                        Container(
+                                                          width: 17,
+                                                          height: 18,
+                                                          decoration:
+                                                          const BoxDecoration(
+                                                            image:
+                                                            DecorationImage(
+                                                              fit: BoxFit
+                                                                  .fill,
+                                                              image: AssetImage(
+                                                                  "assets/images/new-document.png"),
+                                                            ),
+                                                          ),
+                                                          child: Center(
+                                                            child: SizedBox(
+                                                              height: 8,
+                                                              width: 12,
+                                                              child:
+                                                              FittedBox(
+                                                                child: Text(
+                                                                  Get.find<
+                                                                      FeedViewController>()
+                                                                      .replayMessage
+                                                                      .fileName!
+                                                                      .split(
+                                                                      ".")
+                                                                      .last,
+                                                                  style: TeacherAppFonts
+                                                                      .interW400_14sp_textWhite.copyWith(
+                                                                    fontSize: 8.sp,
+                                                                    color: Colors.black,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 5.h),
+                                                        Expanded(
+                                                          child: Text(
+                                                            Get.find<
+                                                                FeedViewController>()
+                                                                .replayMessage
+                                                                .fileName!,
+                                                            style: TeacherAppFonts
+                                                                .interW400_14sp_textWhite
+                                                                .copyWith(
+                                                              color: Colorutils.fontColor6
+                                                                  .withOpacity(
+                                                                  0.8),
+                                                            ),
+                                                            overflow:
+                                                            TextOverflow
+                                                                .ellipsis,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    );
+                                                  } else if (Get.find<
+                                                      FeedViewController>()
+                                                      .replayMessage
+                                                      .type ==
+                                                      "text") {
+                                                    return Text(
+                                                      // "Can you pls share the pdf adsdaddsf.",
+                                                      Get.find<FeedViewController>()
+                                                          .replayMessage
+                                                          .message ??
+                                                          "",
+                                                      overflow: TextOverflow
+                                                          .ellipsis,
+
+                                                      style: TeacherAppFonts
+                                                          .interW400_14sp_textWhite
+                                                          .copyWith(
+                                                          color: Colorutils
+                                                              .fontColor6
+                                                              .withOpacity(
+                                                              0.8)),
+                                                    );
+                                                  } else if (Get.find<
+                                                      FeedViewController>()
+                                                      .replayMessage
+                                                      .type ==
+                                                      "audio") {
+                                                    return Row(
+                                                      children: [
+                                                        SizedBox(
+                                                          width: 22,
+                                                          height: 15.h,
+                                                          child: SvgPicture
+                                                              .asset(
+                                                              "assets/images/Record Audio.svg"),
+                                                        ),
+                                                        SizedBox(width: 1.w),
+                                                        Expanded(
+                                                          child: Text(
+                                                            "Audio",
+                                                            style: TeacherAppFonts
+                                                                .interW400_14sp_textWhite
+                                                                .copyWith(
+                                                              color: Colorutils
+                                                                  .fontColor6
+                                                                  .withOpacity(
+                                                                  0.8),
+                                                            ),
+                                                            overflow:
+                                                            TextOverflow
+                                                                .ellipsis,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    );
+                                                  } else if (Get.find<
+                                                      FeedViewController>()
+                                                      .replayMessage
+                                                      .type ==
+                                                      "text_file" ||
+                                                      Get.find<FeedViewController>()
+                                                          .replayMessage
+                                                          .type ==
+                                                          "text_audio") {
+                                                    return Text(
+                                                      // "Can you pls share the pdf adsdaddsf.",
+                                                      Get.find<FeedViewController>()
+                                                          .replayMessage
+                                                          .message ??
+                                                          "",
+
+                                                      overflow: TextOverflow
+                                                          .ellipsis,
+
+                                                      style: TeacherAppFonts
+                                                          .interW400_14sp_textWhite
+                                                          .copyWith(
+                                                          color: Colorutils
+                                                              .fontColor6
+                                                              .withOpacity(
+                                                              0.8)),
+                                                    );
+                                                  }
+
+                                                  return const SizedBox();
+                                                },
+                                              ),
+                                              // SizedBox(
+                                              //   width: double.infinity,
+                                              //   child: Text(
+                                              //     controller
+                                              //         .replayMessage.value,
+                                              //     maxLines: 3,
+                                              //     overflow:
+                                              //         TextOverflow.ellipsis,
+                                              //     style: FontsStyle()
+                                              //         .interW400_16sp
+                                              //         .copyWith(
+                                              //             color: ColorUtil
+                                              //                 .black),
+                                              //   ),
+                                              // ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Get.find<FeedViewController>()
+                                              .isReplay
+                                              .value = null;
+                                        },
+                                        child: SizedBox(
+                                          width: 25.w,
+                                          height: 40.w,
+                                          child: const Icon(
+                                            Icons.close,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 5.w)
+                                      // InkWell(
+                                      //   onTap: () {},
+                                      //   child: const Icon(
+                                      //     Icons.close,
+                                      //     color: ColorUtil.grey,
+                                      //   ),
+                                      // )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 10.h),
+                            ],
+                          )
+                              : const SizedBox(),
+                          controller.showAudioRecordWidget.value
+                              ? const ChatAudioRecordingWidget()
+                              : Row(
+                            children: [
+                              controller.audioPath.value == null
+                                  ? InkWell(
+                                onTap: () async {
+                                  Get.find<FeedViewController>()
+                                      .selectAttachment(
+                                      context: context);
+
+                                  // Get.find<FeedViewController>()
+                                  //     .selectAttachment(context: context);
+                                },
+                                child: SizedBox(
+                                  height: 25.w,
+                                  width: 25.w,
+                                  child: SvgPicture.asset(
+                                      "assets/images/Attachment.svg"),
+                                ),
+                              )
+                                  : const SizedBox(),
+                              SizedBox(width: 20.w,),
+                              Expanded(
+                                child: Container(
+                                  height: 40.w,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius:
+                                      BorderRadius.circular(50.h),
+                                      border: Border.all(
+                                        width: 0.5.w,
+                                        color: Colorutils.bordercolor1,
+                                      )),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: TextField(
+                                          focusNode: controller.focusNode.value,
+                                          controller: messageCtr,
+                                          decoration: InputDecoration(
+                                            prefix:  SizedBox(width: 15.w,),
+                                            border: InputBorder.none,
+                                            contentPadding:
+                                            const EdgeInsets.all(0),
+                                            isDense: true,
+                                            hintText: "Message",
+                                            hintStyle: TeacherAppFonts
+                                                .interW400_16sp_letters1
+                                                .copyWith(
+                                                color: Colors.black
+                                                    .withOpacity(0.2)),
+                                          ),
+                                          onChanged: (value) {
+                                            controller.ontype.value = value;
+                                          },
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 8).w,
+                                        child: InkWell(
                                           child: SvgPicture.asset(
                                             'assets/images/profileplus.svg',
-                                            height: 20.w,
+                                            height: 24.w,
                                             fit: BoxFit.fitHeight,
                                           ),
                                           onTap: () {
                                             showModalBottomSheet(
-                                                context: context,
+                                              context: context,
                                               backgroundColor: Colors.transparent,
                                               isScrollControlled: true,
-                                                builder: (context) {
-                                                  return ParentSelectionBottomSheet();
-                                                },
+                                              builder: (context) {
+                                                return ParentSelectionBottomSheet();
+                                              },
                                             );
                                           },
                                         ),
-                                      ],
-                                    ),
+                                      )
+                                    ],
                                   ),
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 10, right: 5)
-                                          .w,
-                                  child: InkWell(
-                                    child: SvgPicture.asset(
-                                      'assets/images/Camera.svg',
-                                      height: 20.w,
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                    onTap: () {
-                                      // Handle camera button press
+                              ),
+                              SizedBox(width: 20.w,),
+                              controller.audioPath.value == null
+                                  ? InkWell(
+                                onTap: () async {
+                                  bool permission = await Get.find<
+                                      FeedViewController>()
+                                      .permissionCheck(context);
+                                  if (permission) {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return const CameraScreen();
+                                        },
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: SizedBox(
+                                  height: 25.w,
+                                  width: 25.w,
+                                  child: SvgPicture.asset(
+                                      "assets/images/Camera.svg"),
+                                ),
+                              )
+                                  : const SizedBox(),
+                              SizedBox(width: 20.w,),
+                              controller.ontype.value == "" &&
+                                  controller.audioPath.value == null &&
+                                  controller.filePath.value == null
+                                  ? GestureDetector(
+                                onLongPress: () async {
+                                  await Permission.microphone
+                                      .request();
+
+                                  if (await Permission
+                                      .microphone.status.isGranted) {
+                                    HapticFeedback.vibrate();
+                                    Get.find<FeedViewController>()
+                                        .showAudioRecordWidget
+                                        .value = true;
+                                  } else {
+                                    ShowWarnDialog().showWarn(
+                                        context: context,
+                                        message:
+                                        "Enable microphone permission.",
+                                        iconData: Icons.mic_none);
+                                  }
+                                },
+                                child: SizedBox(
+                                  height: 25.w,
+                                  width: 25.w,
+                                  child: SvgPicture.asset(
+                                      "assets/images/Record Audio.svg"),
+                                ),
+                              )
+                                  : controller.isSentLoading.value == true
+                                  ? SizedBox(
+                                height: 25.w,
+                                width: 25.w,
+                                child:
+                                CircularProgressIndicator(),
+                              )
+                                  : InkWell(
+                                onTap: () async {
+                                  controller.isSentLoading.value =
+                                  true;
+                                  await checkInternet(
+                                    context: context,
+                                    function: () async {
+                                      if (Get.find<FeedViewController>()
+                                          .audioPath
+                                          .value !=
+                                          null ||
+                                          Get.find<FeedViewController>()
+                                              .filePath
+                                              .value !=
+                                              null) {
+                                        await Get.find<
+                                            FeedViewController>()
+                                            .sendAttach(
+                                          classs: widget.msgData?.classTeacherClass ?? '--',
+                                          batch: widget.msgData?.batch ?? '--',
+                                          subId: widget.msgData?.subjectId ?? '--',
+                                          sub: widget.msgData?.subjectName ?? '--',
+                                          teacherId: userAuthController.userData.value.userId ?? '--',
+                                          context: context,
+                                          filePath: Get.find<
+                                              FeedViewController>()
+                                              .audioPath
+                                              .value ??
+                                              Get.find<
+                                                  FeedViewController>()
+                                                  .filePath
+                                                  .value,
+                                          message: messageCtr
+                                              .text.isNotEmpty
+                                              ? messageCtr.text
+                                              : null,
+                                        );
+                                      } else {
+                                        if (messageCtr
+                                            .text.isNotEmpty) {
+                                          SentMsgByTeacherModel sentMsgData = SentMsgByTeacherModel(
+                                            subjectId: widget.msgData?.subjectId ?? '--',
+                                            batch: widget.msgData?.batch ?? '--',
+                                            classs: widget.msgData?.classTeacherClass ?? '--',
+                                            message: messageCtr
+                                                .text.isNotEmpty
+                                                ? messageCtr.text
+                                                : null,
+                                            messageFrom: userAuthController.userData.value.userId ?? '--',
+                                            parents: [],
+                                            subject: widget.msgData?.subjectName ?? '--',
+                                            replyId: controller.isReplay.value,
+                                            fileData: FileData(
+                                              name: null,
+                                              orgName: null,
+                                              extension: null,
+                                            ),
+                                          );
+                                          await Get.find<
+                                              FeedViewController>()
+                                              .sendAttachMsg(
+                                            sentMsgData: sentMsgData,
+                                            context: context,
+                                          );
+                                        }
+                                      }
                                     },
+                                  );
+                                  controller.isSentLoading.value = false;
+
+                                  //delaying for completing the message tile update after rebuild//
+                                  Future.delayed(
+                                      const Duration(
+                                          milliseconds: 50), () {
+                                    Get.find<FeedViewController>()
+                                        .chatFeedViewScrollController
+                                        .value
+                                        .animateTo(
+                                      controller
+                                          .chatFeedViewScrollController
+                                          .value
+                                          .position
+                                          .maxScrollExtent,
+                                      duration:
+                                      const Duration(
+                                          milliseconds:
+                                          200),
+                                      curve: Curves.easeOut,
+                                    );
+                                  });
+                                  print("clear worked");
+                                  messageCtr.clear();
+                                  controller.ontype.value = "";
+
+                                  //delaying for completing the message tile update after rebuild//
+                                  Future.delayed(
+                                    const Duration(
+                                        milliseconds: 50),
+                                        () {
+                                      Get.find<
+                                          FeedViewController>()
+                                          .chatFeedViewScrollController
+                                          .value
+                                          .animateTo(
+                                        controller
+                                            .chatFeedViewScrollController
+                                            .value
+                                            .position
+                                            .maxScrollExtent,
+                                        duration:
+                                        const Duration(
+                                            milliseconds:
+                                            200),
+                                        curve: Curves.easeOut,
+                                      );
+                                    },
+                                  );
+                                },
+                                child: SizedBox(
+                                  height: 25.w,
+                                  width: 25.w,
+                                  child: const Icon(
+                                    Icons.send,
+                                    color: Colorutils.bgcolor13,
                                   ),
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 5, right: 10)
-                                          .w,
-                                  child: messageCtr.text.isEmpty
-                                      ? InkWell(
-                                          onTap: () {},
-                                          child: Icon(
-                                            Icons.mic,
-                                            color: Colorutils.userdetailcolor,
-                                            size: 24,
-                                          ),
-                                        )
-                                      : InkWell(
-                                          child: Icon(
-                                            Icons.send,
-                                            color: Colorutils.userdetailcolor,
-                                          ),
-                                          onTap: () {
-                                            setState(() {});
-                                            Get.find<MessageController>()
-                                                .sentMsg(messageCtr.text);
-                                            Future.delayed(
-                                                const Duration(
-                                                    milliseconds: 50), () {
-                                              Get.find<MessageController>()
-                                                  .chatListscrollController
-                                                  .value
-                                                  .animateTo(
-                                                    controller
-                                                        .chatListscrollController
-                                                        .value
-                                                        .position
-                                                        .maxScrollExtent,
-                                                    duration: const Duration(
-                                                        milliseconds: 200),
-                                                    curve: Curves.easeOut,
-                                                  );
-                                            });
-                                            messageCtr.clear();
-                                            controller.ontype.value = "";
-                                          },
-                                        ),
-                                )
-                              ],
-                            ),
+                              )
+                            ],
                           ),
-                          SizedBox(
-                            width: 35.w,
-                          )
+                          SizedBox(height: 35.w,),
                         ],
                       ),
                     ),
@@ -468,353 +911,82 @@ class ChatList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<MessageController>(
-      builder: (controller) {
+    String userId = Get.find<UserAuthController>().userData.value.userId ?? '--';
+    return GetX<FeedViewController>(
+      builder: (FeedViewController controller) {
+        List<MsgData> msgList = controller.chatMsgList.value;
         return ListView.separated(
           padding: EdgeInsets.only(top: 5.h, bottom: 5.h),
-          controller: controller.chatListscrollController.value,
+          controller: controller.chatFeedViewScrollController.value,
           itemBuilder: (context, index) {
-            return index % 2 == 0
-                ? SwapeToWidget(
-                    function: () {
-                      FocusScope.of(context).requestFocus(
-                          Get.find<MessageController>().focusNode);
-                      Get.find<MessageController>().isReplay.value = true;
-                      Get.find<MessageController>().replayName.value = "You";
-                      Get.find<MessageController>().replayMessage.value =
-                          Get.find<MessageController>().messageList[index];
-                    },
-                    iconWidget:
-                        SvgPicture.asset("assets/svg/ArrowBendUpLeft.svg"),
-                    child: SentMessageBubble(
-                      message: Get.find<MessageController>().messageList[index],
-                      replay: true,
-                    ),
-                  )
-                : SwapeToWidget(
-                    function: () {
-                      FocusScope.of(context).requestFocus(
-                          Get.find<MessageController>().focusNode);
-                      Get.find<MessageController>().isReplay.value = true;
-                      Get.find<MessageController>().replayName.value =
-                          "~ Ali bin";
-                      Get.find<MessageController>().replayMessage.value =
-                          Get.find<MessageController>().messageList[index];
-                    },
-                    iconWidget:
-                        SvgPicture.asset("assets/svg/ArrowBendUpLeft.svg"),
-                    child: ReceiveMessageBubble(
-                      message: Get.find<MessageController>().messageList[index],
-                    ),
-                  );
+            final messageData = msgList[index];
+            return "${messageData.messageFromId}" == userId
+                ? Column(
+              children: [
+                SwapeToWidget(
+                  function: () {
+                    controller.focusTextField();
+                    // FocusScope.of(context).requestFocus(controller.focusNode);
+                    controller.isReplay.value = messageData.messageId;
+                    controller.replayName.value = "You";
+                    controller.replayMessage = messageData;
+                  },
+                  iconWidget: SvgPicture.asset(
+                      "assets/images/ArrowBendUpLeft.svg"),
+                  child: SentMessageBubble(
+                    message: messageData.message ?? '',
+                    time: messageData.sendAt,
+                    replay: true,
+                    audio: messageData.messageAudio,
+                    fileName: messageData.fileName,
+                    fileLink: messageData.messageFile,
+                    messageData: messageData,
+                  ),
+                ),
+              ],
+            )
+                : Column(
+              children: [
+                SwapeToWidget(
+                  function: () {
+                    controller.focusTextField();
+                    // FocusScope.of(context)
+                    //     .requestFocus(controller.focusNode);
+                    controller.isReplay.value =
+                        messageData.messageId;
+                    controller.replayName.value = messageData.messageFrom ??
+                        "";
+                    controller.replayMessage = messageData;
+                  },
+                  iconWidget: SvgPicture.asset(
+                      "assets/images/ArrowBendUpLeft.svg"),
+                  child: ReceiveMessageBubble(
+                    senderName: messageData.messageFrom,
+                    message: messageData.message,
+                    time: messageData.sendAt,
+                    replay: true,
+                    audio: messageData.messageAudio,
+                    fileName: messageData.fileName,
+                    fileLink: messageData.messageFile,
+                    subject: messageData.subjectName,
+                    messageData: messageData,
+                  ),
+                ),
+              ],
+            );
           },
           separatorBuilder: (context, index) {
             return SizedBox(
               height: 5.h,
             );
           },
-          itemCount: Get.find<MessageController>().messageList.length,
+          itemCount: msgList.length,
         );
       },
     );
   }
 }
 
-class SentMessageBubble extends StatelessWidget {
-  SentMessageBubble({
-    super.key,
-    required this.message,
-    required this.replay,
-  });
-
-  late Offset _tapPosition;
-  final String message;
-  final bool replay;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Padding(
-        padding: EdgeInsets.only(right: 5.h),
-        child: Stack(
-          children: [
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: SizedBox(
-                  width: 15.h,
-                  child: SvgPicture.asset(
-                    "assets/images/MessageBubbleShape.svg",
-                    fit: BoxFit.contain,
-                    color: Colorutils.chatcolor,
-                  )),
-            ),
-            Row(
-              children: [
-                const Spacer(),
-                Padding(
-                  padding: EdgeInsets.only(right: 10.w),
-                  child: GestureDetector(
-                    onTapDown: (TapDownDetails details) {
-                      _tapPosition = details.globalPosition;
-                      print(_tapPosition);
-                      print(ScreenUtil().screenHeight);
-                    },
-                    onLongPress: () {
-                      final renderObject =
-                          context.findRenderObject() as RenderBox;
-                      final position = renderObject.localToGlobal(Offset.zero);
-
-                      messageMoreShowDialog(
-                          context, this, position, _tapPosition);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colorutils.chatcolor,
-                          borderRadius: BorderRadius.circular(10.h)),
-                      child: Padding(
-                        padding: EdgeInsets.all(10.h),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Column(
-                              children: [
-                                ConstrainedBox(
-                                  constraints: BoxConstraints(
-                                    maxWidth: 180.w,
-                                  ),
-                                  child: Text(
-                                    message,
-                                    maxLines: 100,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 5.h,
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              width: 20.h,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  "17:47",
-                                  style: TextStyle(
-                                      fontSize: 12, color: Colors.grey),
-                                ),
-                                SizedBox(
-                                  width: 5.h,
-                                ),
-                                SizedBox(
-                                  height: 18.h,
-                                  width: 18.h,
-                                  child: SvgPicture.asset(
-                                      "assets/images/Checks.svg"),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ReceiveMessageBubble extends StatelessWidget {
-  const ReceiveMessageBubble({super.key, required this.message});
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Padding(
-        padding: EdgeInsets.only(left: 5.h),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CircleAvatar(
-                  radius: 15.h, // Adjust the radius as needed
-                  backgroundImage: AssetImage(
-                      'assets/images/profile image.png'), // Replace with your avatar image
-                ),
-              ],
-            ),
-            SizedBox(width: 2.w),
-            Stack(
-              children: [
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child: Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.identity()..scale(-1.0, 1.0),
-                    child: SizedBox(
-                        width: 15.h,
-                        child: SvgPicture.asset(
-                          "assets/images/MessageBubbleShape.svg",
-                          fit: BoxFit.contain,
-                          color: Colors.white,
-                        )),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 10.w),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colorutils.Whitecolor,
-                        borderRadius: BorderRadius.circular(10.h)),
-                    child: Padding(
-                      padding: EdgeInsets.all(10.h),
-                      child: Stack(
-                        children: [
-                          IntrinsicWidth(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "~ Ali bin",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color: Colorutils.userdetailcolor,
-                                          fontSize: 12.w),
-                                    ),
-                                    SizedBox(
-                                      width: 10.w,
-                                    ),
-                                    Text(
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.right,
-                                      "Arabic",
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 12.w),
-                                      // "9189079hfudshfudsh",
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 10.h,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        ConstrainedBox(
-                                          constraints: BoxConstraints(
-                                            maxWidth: 200.w,
-                                          ),
-                                          child: Text(
-                                            message,
-                                            maxLines: 10,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 10.h,
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 20.h,
-                                    ),
-                                    Text(
-                                      "17:47",
-                                      style: TextStyle(
-                                          fontSize: 12, color: Colors.grey),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// messageMoreShowDialog(
-//     BuildContext context, Widget widget, Offset position, Offset tapPosition) {
-//   double safeAreaVerticalPadding = MediaQuery.of(context).padding.top +
-//       MediaQuery.of(context).padding.bottom;
-//
-//   showDialog(
-//     context: context,
-//     builder: (context) {
-//       return BackdropFilter(
-//         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-//         child: Padding(
-//           padding: EdgeInsets.symmetric(horizontal: 20.h),
-//           child: Stack(
-//             children: [
-//               Positioned(
-//                 top: position.dy - safeAreaVerticalPadding,
-//                 left: 0,
-//                 right: 0,
-//                 child: Container(child: widget),
-//               ),
-//               Positioned(
-//                 top: tapPosition.dy -
-//                     safeAreaVerticalPadding -
-//                     ((ScreenUtil().screenHeight / 1.7) > tapPosition.dy
-//                         ? 100.h
-//                         : 420.h),
-//                 right: 0,
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.end,
-//                   children: [
-//                     ScreenUtil().screenHeight / 1.7 < tapPosition.dy
-//                         ? MessageMoreContainer(
-//                       widget: widget,
-//                     )
-//                         : const SizedBox(),
-//                     SizedBox(width: 20.h,),
-//
-//                     const ReactionContainerWidget(),
-//                     SizedBox(width: 80.h,),
-//
-//                     ScreenUtil().screenHeight / 1.7 > tapPosition.dy
-//                         ? MessageMoreContainer(
-//                       widget: widget,
-//                     )
-//                         : const SizedBox(),
-//                   ],
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       );
-//     },
-//   );
-// }
 messageMoreShowDialog(
     BuildContext context, Widget widget, Offset position, Offset tapPosition) {
   double safeAreaVerticalPadding = MediaQuery.of(context).padding.top +
@@ -869,302 +1041,26 @@ messageMoreShowDialog(
   );
 }
 
-class ReactionContainerWidget extends StatelessWidget {
-  const ReactionContainerWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(2.h),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.h),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 5,
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text("👍", style: TextStyle(fontSize: 25.h)),
-          SizedBox(
-            width: 5.h,
-          ),
-          Text("🥰", style: TextStyle(fontSize: 25.h)),
-          SizedBox(
-            width: 5.h,
-          ),
-          Text("😁", style: TextStyle(fontSize: 25.h)),
-          SizedBox(
-            width: 5.h,
-          ),
-          Text("😂", style: TextStyle(fontSize: 25.h)),
-          SizedBox(
-            width: 5.h,
-          ),
-          Text("🔥", style: TextStyle(fontSize: 25.h)),
-          SizedBox(
-            width: 5.h,
-          ),
-          Text("🙏", style: TextStyle(fontSize: 25.h)),
-          SizedBox(
-            width: 5.h,
-          ),
-          SizedBox(
-            height: 32.h,
-            width: 32.h,
-            child: SvgPicture.asset("assets/images/Group 137.svg"),
-          )
-        ],
-      ),
-    );
+Future<void> checkInternet(
+    {required BuildContext context, required Function() function}) async {
+  bool connected = await CheckConnectivity().check();
+  bool isConnectionGood = await CheckConnectivity().goodConnection();
+  print("internect connection is $connected");
+  print("internect Good connection is $isConnectionGood");
+  if (connected) {
+    if (isConnectionGood) {
+      function();
+    } else {
+      snackBar(
+          context: context,
+          message: "Something went wrong.",
+          color: Colors.red);
+    }
+  } else {
+    snackBar(
+        context: context,
+        message: "No Internet Connection.",
+        color: Colors.red);
   }
 }
 
-class MessageMoreContainer extends StatelessWidget {
-  const MessageMoreContainer({
-    super.key,
-    required this.widget,
-  });
-
-  final Widget widget;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8),
-      child: Container(
-        width: 260.w,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15.h),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 10,
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 5.h),
-          child: Column(
-            children: [
-              MessageMoreSettingsTile(
-                function: () {},
-                text: "Copy",
-                icon: "assets/images/Frame 72.svg",
-              ),
-              const Divider(
-                color: Colors.grey,
-                height: 0,
-              ),
-              MessageMoreSettingsTile(
-                function: () {},
-                text: "View Chat",
-                icon: "assets/images/ChatCircleDots.svg",
-              ),
-              const Divider(
-                color: Colors.grey,
-                height: 0,
-              ),
-              MessageMoreSettingsTile(
-                function: () {},
-                text: "Reply",
-                icon: "assets/images/ArrowBendUpLeft.svg",
-              ),
-              const Divider(
-                color: Colors.grey,
-                height: 0,
-              ),
-              MessageMoreSettingsTile(
-                function: () {},
-                text: "Forward",
-                icon: "assets/images/ArrowBendUpRight.svg",
-              ),
-              const Divider(
-                color: Colors.grey,
-                height: 0,
-              ),
-              GestureDetector(
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20)),
-                    ),
-                    builder: (context) => SeenByBottomSheet(),
-                  );
-                },
-                child: MessageMoreSettingsTile(
-                  function: () {
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(20)),
-                      ),
-                      builder: (context) => MessageInfoScreen(widget: widget),
-                    );
-                  },
-                  text: "Message info",
-                  icon: "assets/images/Info.svg",
-                ),
-              ),
-              const Divider(
-                color: Colors.grey,
-                height: 0,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 10.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Delete Chat",
-                      style: TextStyle(color: Colors.red, fontSize: 16),
-                    ),
-                    SizedBox(
-                      height: 26.h,
-                      width: 26.h,
-                      child: SvgPicture.asset("assets/images/Trash.svg"),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class MessageMoreSettingsTile extends StatelessWidget {
-  const MessageMoreSettingsTile({
-    super.key,
-    required this.text,
-    required this.icon,
-    required this.function,
-  });
-
-  final String text;
-  final String icon;
-  final Function() function;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 10.h),
-      child: GestureDetector(
-        onTap: function,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              text,
-              style: TextStyle(color: Colors.black, fontSize: 16),
-            ),
-            SizedBox(
-              height: 26.h,
-              width: 26.h,
-              child: SvgPicture.asset(icon),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SwapeToWidget extends StatefulWidget {
-  const SwapeToWidget({
-    super.key,
-    required this.child,
-    required this.function,
-    required this.iconWidget,
-  });
-  final Widget child;
-  final Widget iconWidget;
-
-  final Function function;
-
-  @override
-  State<SwapeToWidget> createState() => _SwapeToWidgetState();
-}
-
-class _SwapeToWidgetState extends State<SwapeToWidget> {
-  late ValueNotifier<double> value;
-
-  @override
-  void initState() {
-    value = ValueNotifier(0.0);
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return GestureDetector(
-      onHorizontalDragEnd: (details) {
-        if (details.primaryVelocity! > 0) {
-          widget.function();
-        }
-
-        Timer.periodic(const Duration(milliseconds: 5), (timer) {
-          if (value.value <= 0) {
-            value.value += 10;
-            if (value.value >= 0) {
-              timer.cancel();
-              value.value = 0;
-            }
-          } else {
-            value.value -= 10;
-            if (value.value <= 0) {
-              timer.cancel();
-              value.value = 0;
-            }
-          }
-        });
-      },
-      onHorizontalDragUpdate: (details) {
-        if (value.value >= 0 && value.value <= size.width / 8) {
-          value.value = value.value + details.delta.dx;
-          print(value);
-        } else {
-          value.value = value.value + details.delta.dx / 5;
-        }
-      },
-      child: ValueListenableBuilder(
-        valueListenable: value,
-        builder: (context, value, child) {
-          return Transform.translate(
-            offset: Offset(value, 0),
-            child: IntrinsicHeight(
-              child: Stack(
-                children: [
-                  Transform.translate(
-                    offset: const Offset(-50, 0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [widget.iconWidget],
-                    ),
-                  ),
-                  widget.child,
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
