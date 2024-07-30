@@ -26,6 +26,13 @@ class TeacherAppFonts {
     fontSize: 20.sp,
     color: Colorutils.Whitecolor,
   );
+  //ben
+  static final TextStyle interW600_24sp_textWhite = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w600,
+    fontSize: 24.sp,
+    color: Colorutils.Whitecolor,
+  );
 
   static final TextStyle interW600_18sp_textWhite = TextStyle(
     fontFamily: _interFont,
@@ -38,6 +45,12 @@ class TeacherAppFonts {
     fontFamily: _interFont,
     fontWeight: FontWeight.w600,
     fontSize: 14.sp,
+    color: Colorutils.letters1,
+  );
+  static final TextStyle interW600_18sp_letters1 = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w600,
+    fontSize: 18.sp,
     color: Colorutils.letters1,
   );
 
@@ -111,7 +124,12 @@ class TeacherAppFonts {
     color: Colorutils.userdetailcolor,
   );
 
-  static final TextStyle interW500_16sp_textWhiteOp60 = TextStyle(
+  static final TextStyle interW500_20sp_textWhiteOp60 = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w500,
+    fontSize: 20.sp,
+    color: Colorutils.Whitecolor.withOpacity(0.6),
+  );static final TextStyle interW500_16sp_textWhiteOp60 = TextStyle(
     fontFamily: _interFont,
     fontWeight: FontWeight.w500,
     fontSize: 16.sp,
@@ -250,4 +268,12 @@ class TeacherAppFonts {
     fontSize: 12.sp,
     color: Colorutils.lightGreenForParent,
   );
+
+  static final TextStyle p24color = TextStyle(
+    fontFamily: _sfProItalic,
+    fontWeight: FontWeight.w500,
+    fontSize: 12.sp,
+    color: Colorutils.lightGreenForParent,
+  );
+
 }

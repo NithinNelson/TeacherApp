@@ -86,19 +86,16 @@ class _ChoicePageState extends State<ChoicePage> {
                   Container(
                     margin: EdgeInsets.only(left: 20.w, top: 100.h, right: 20.w, bottom: 20.w),
                     // width: 550.w,
-                    height: ScreenUtil().screenHeight * 0.8,
+                    height: ScreenUtil().screenHeight * 0.85,
                     decoration: BoxDecoration(
                       color: Colorutils.Whitecolor,
-                      // Container color
                       borderRadius: BorderRadius.circular(20.r),
-                      // Border radius
                       boxShadow: [
                         BoxShadow(
-                          color: Colorutils.userdetailcolor.withOpacity(0.3),
-                          // Shadow color
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 3), // Shadow position
+                          color: Colorutils.userdetailcolor.withOpacity(0.15),
+                          spreadRadius: 1,
+                          blurRadius: 1,
+                          offset: const Offset(0, 1),
                         ),
                       ],
                     ),
@@ -149,6 +146,7 @@ class _ChoicePageState extends State<ChoicePage> {
                                   },
                                   child: SvgPicture.asset(
                                       "assets/images/teacherLogin.svg")),
+                              SizedBox(height: 30.w,),
                               Align(
                                 alignment: Alignment.bottomRight,
                                 child: Padding(
@@ -226,9 +224,9 @@ Widget _Loader() {
           ),
         ),
       ),
-      SizedBox(height: 10.h),
+      SizedBox(height: 20.h),
       Padding(
-        padding: const EdgeInsets.only(right: 30, top: 20).w,
+        padding: const EdgeInsets.only(right: 40, top: 20).w,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [

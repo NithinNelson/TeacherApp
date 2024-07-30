@@ -93,116 +93,21 @@ class _LoginPageState extends State<LoginPage> {
               child: Stack(
                 children: [
                   const AppBarBackground(),
-                  // SizedBox(
-                  //   width: ScreenUtil().screenWidth,
-                  //   height: 180.h,
-                  //   child: Container(
-                  //     decoration: BoxDecoration(
-                  //       borderRadius: const BorderRadius.only(
-                  //         bottomLeft: Radius.circular(12),
-                  //         bottomRight: Radius.circular(12),
-                  //       ).r,
-                  //       color: Colorutils.userdetailcolor,
-                  //     ),
-                  //   ),
-                  // ),
-                  // Positioned(
-                  //   left: 0,
-                  //   top: 40,
-                  //   child: SvgPicture.asset(
-                  //     'assets/images/pencil2.svg',
-                  //     width: 100.w,
-                  //     color: Colorutils.Whitecolor.withOpacity(0.1),
-                  //     fit: BoxFit.fitWidth,
-                  //   ),
-                  // ),
-                  // Positioned(
-                  //   left: 240,
-                  //   top: 25,
-                  //   child: Transform.rotate(
-                  //     angle: 0.5,
-                  //     child: SvgPicture.asset(
-                  //       'assets/images/stars1.svg',
-                  //       width: 20.w,
-                  //       color: Colorutils.Whitecolor.withOpacity(0.5),
-                  //       fit: BoxFit.fitWidth,
-                  //     ),
-                  //   ),
-                  // ),
-                  // Positioned(
-                  //   left: 220,
-                  //   top: 65,
-                  //   child: SvgPicture.asset(
-                  //     'assets/images/graduation-cap-icon.svg',
-                  //     width: 30.w,
-                  //     color: Colorutils.Whitecolor.withOpacity(0.07),
-                  //     fit: BoxFit.fitWidth,
-                  //   ),
-                  // ),
-                  // Positioned(
-                  //   left: 140,
-                  //   top: 10,
-                  //   child: SvgPicture.asset(
-                  //     'assets/images/read-book-icon.svg',
-                  //     width: 30.w,
-                  //     color: Colorutils.Whitecolor.withOpacity(0.07),
-                  //     fit: BoxFit.fitWidth,
-                  //   ),
-                  // ),
-                  // Positioned(
-                  //   left: 115,
-                  //   top: 65,
-                  //   child: SvgPicture.asset(
-                  //     'assets/images/stars1.svg',
-                  //     width: 20.w,
-                  //     color: Colorutils.Whitecolor.withOpacity(0.5),
-                  //     fit: BoxFit.fitWidth,
-                  //   ),
-                  // ),
-                  // Positioned(
-                  //   left: 5,
-                  //   top: 10,
-                  //   child: SvgPicture.asset(
-                  //     'assets/images/stars1.svg',
-                  //     width: 20.w,
-                  //     color: Colorutils.Whitecolor.withOpacity(0.5),
-                  //     fit: BoxFit.fitWidth,
-                  //   ),
-                  // ),
-                  // Positioned(
-                  //   right: 10,
-                  //   top: 140,
-                  //   child: SvgPicture.asset(
-                  //     'assets/images/stars1.svg',
-                  //     color: Colorutils.Whitecolor.withOpacity(0.9),
-                  //     width: 25.w,
-                  //     fit: BoxFit.fitHeight,
-                  //   ),
-                  // ),
-                  // Positioned(
-                  //   right: 0,
-                  //   top: -90,
-                  //   child: SvgPicture.asset(
-                  //     'assets/images/pencil3.svg',
-                  //     color: Colorutils.Whitecolor.withOpacity(0.2),
-                  //     height: 180.w,
-                  //     fit: BoxFit.fitHeight,
-                  //   ),
-                  // ),
+
                   Container(
                     margin: EdgeInsets.only(
                         left: 20.w, top: 120.h, right: 20.w, bottom: 10.w),
                     // width: 550.w,
-                    height: ScreenUtil().screenHeight * 0.8,
+                    height: ScreenUtil().screenHeight * 0.85,
                     decoration: BoxDecoration(
                       color: Colorutils.Whitecolor,
                       borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
-                          color: Colorutils.userdetailcolor.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
+                          color: Colorutils.userdetailcolor.withOpacity(0.15),
+                          spreadRadius: 1,
+                          blurRadius: 1,
+                          offset: const Offset(0, 1),
                         ),
                       ],
                     ),
@@ -212,16 +117,19 @@ class _LoginPageState extends State<LoginPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Center(
-                            child: Container(
-                              width: 200.w,
-                              // height: 180.h,
-                              child: Lottie.asset(
-                                "assets/images/loginimage.json",
-                                fit: BoxFit.fitWidth,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Container(
+                                width: 200.w,
+                                // height: 180.h,
+                                child: Lottie.asset(
+                                  "assets/images/loginimage.json",
+                                  fit: BoxFit.fitWidth,
+                                ),
                               ),
                             ),
                           ),
-                          SizedBox(height: 15.h),
+                          SizedBox(height: 25.h),
                           Container(
                             margin: EdgeInsets.only(left: 30.w),
                             child: Text(
@@ -311,13 +219,13 @@ class _LoginPageState extends State<LoginPage> {
                                   },
                                   child: Text(
                                     "Forgot Password?",
-                                    style: TextStyle(fontSize: 10.sp),
+                                    style: TextStyle(fontSize: 10.sp,color: Colors.blue[900],fontStyle:FontStyle.italic),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(height: 15.h),
+                          SizedBox(height: 30.h),
                           Center(
                               child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 30).w,
@@ -352,17 +260,22 @@ class _LoginPageState extends State<LoginPage> {
                                         iconData: Icons.cancel_outlined,
                                         iconColor: Colors.red,
                                       );
+
                                     }
                                   }
                                 } else {
                                   TeacherAppPopUps.submitFailed(
+
                                       title: "Failed",
                                       message: "Invalid Username/Password! Please Try Again",
                                       actionName: "Try again",
                                     iconData: Icons.error_outline,
                                     iconColor: Colorutils.svguicolour2,
                                   );
+
                                 }
+                                _usernameController?.clear();
+                                _passwordController?.clear();
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -383,7 +296,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                           )),
-                          SizedBox(height: 10.h),
+                          SizedBox(height: 20.h),
                           Row(
                             children: <Widget>[
                               Expanded(
@@ -413,7 +326,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 10.h),
+                          SizedBox(height: 20.h),
                           Center(
                             child: Padding(
                               padding:

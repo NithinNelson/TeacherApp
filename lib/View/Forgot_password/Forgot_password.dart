@@ -160,8 +160,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20)
                                 ),
-                                  width: 250.w,
-                                  height: 60.h,
+                                  width: 300.w,
+                                  height: 70.h,
                                   margin: EdgeInsets.only(top: 100.h),
                                   child: Image.asset(
                                       "assets/images/submitbutton.png")))),
