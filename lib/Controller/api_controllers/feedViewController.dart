@@ -5,9 +5,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:teacherapp/Models/api_models/sent_msg_by_teacher_model.dart';
 import 'package:teacherapp/Services/api_services.dart';
 import '../../Models/api_models/chat_feed_view_model.dart';
-import '../../Models/api_models/sent_msg_by_teacher_model.dart';
+import '../../Models/api_models/parent_list_api_model.dart';
 import '../../Services/check_connectivity.dart';
 import '../../Services/dialog_box.dart';
 import '../../Services/snackBar.dart';
@@ -17,7 +18,11 @@ class FeedViewController extends GetxController {
   RxBool isLoaded = false.obs;
   RxBool isError = false.obs;
   Rx<ChatFeedViewModel> chatFeedData = ChatFeedViewModel().obs;
+  Rx<ParentListApiModel> parentListApiData = ParentListApiModel().obs;
   RxList<MsgData> chatMsgList = <MsgData>[].obs;
+  RxList<ParentData> parentDataList = <ParentData>[].obs;
+  RxList<ParentData> selectedParentDataList = <ParentData>[].obs;
+  RxList<ParentData> finalParentDataList = <ParentData>[].obs;
   RxInt feedUnreadCount = 0.obs;
   Rx<ScrollController> chatFeedViewScrollController = ScrollController().obs;
   Rx<FocusNode> focusNode = FocusNode().obs;
@@ -48,6 +53,12 @@ class FeedViewController extends GetxController {
         chatMsgList.value = chatFeedData.value.data?.data ?? [];
         chatMsgList.sort((a, b) => a.sendAt!.compareTo(b.sendAt!));
       }
+      await fetchParentList(
+        classs: reqBody.classs ?? '--',
+        batch: reqBody.batch ?? '--',
+        subId: reqBody.subjectId ?? '--',
+        schoolId: reqBody.schoolId ?? '--',
+      );
       isLoaded.value = true;
     } catch(e) {
       isLoaded.value = false;
@@ -312,7 +323,45 @@ class FeedViewController extends GetxController {
   }
 
   void focusTextField() {
+    if(focusNode.value.hasFocus) {
+      focusNode.value = FocusNode();
+    }
     focusNode.value.requestFocus();
   }
 
+  Future<void> fetchParentList({required String classs, required String batch, required String subId, required String schoolId}) async {
+    try {
+      Map<String, dynamic> resp = await ApiServices.getParentList(
+          classs: classs,
+          batch: batch,
+          subId: subId,
+          schoolId: schoolId,
+      );
+      if(resp['status']['code'] == 200) {
+        parentListApiData.value = ParentListApiModel.fromJson(resp);
+        parentDataList.value = parentListApiData.value.data?.parentData ?? [];
+      }
+    } catch(e) {
+      print("----------parent list error---------");
+    }
+  }
+
+  void addParentList(ParentData parent) {
+    List<ParentData> parents = selectedParentDataList.where((emp) => emp.sId == parent.sId).toList();
+    if(parents.isEmpty) {
+      selectedParentDataList.add(parent);
+    }
+  }
+
+  void removeParentList(ParentData parent) {
+    selectedParentDataList.remove(parent);
+  }
+
+  void setFinalParentList() {
+    finalParentDataList.value = selectedParentDataList;
+  }
+
+  bool showSelectionIcon(ParentData parent) {
+    return selectedParentDataList.contains(parent);
+  }
 }

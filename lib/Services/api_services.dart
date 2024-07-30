@@ -308,15 +308,10 @@ class ApiServices {
     String url = ApiConstants.chat + ApiConstants.fileUpload;
     print("--url--$url");
     try {
-      Map<String, String> apiHeader = {
-        'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
-        'Content-Type': 'application/json',
-      };
-
       var request = http.MultipartRequest('POST', Uri.parse(url));
       var file = await http.MultipartFile.fromPath('file', filePath);
       request.files.add(file);
-      request.headers.addAll(apiHeader);
+      request.headers.addAll(ApiConstants.headers);
       http.StreamedResponse response = await request.send();
       String respString = await response.stream.bytesToString();
       return json.decode(respString);
@@ -332,11 +327,6 @@ class ApiServices {
     String url = ApiConstants.chat + ApiConstants.deleteMsg;
     print("--url--$url");
     try {
-      Map<String, String> apiHeader = {
-        'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
-        'Content-Type': 'application/json',
-      };
-
       Map<String, dynamic> apiBody = {
         "message_id": msgId,
         "teacher_id": teacherId
@@ -345,7 +335,35 @@ class ApiServices {
       var request = http.Request('POST', Uri.parse(url));
       request.body = json.encode(apiBody);
       print('Api body---------------------->${request.body}');
-      request.headers.addAll(apiHeader);
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      String respString = await response.stream.bytesToString();
+      return json.decode(respString);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static Future<dynamic> getParentList({
+    required String classs,
+    required String batch,
+    required String subId,
+    required String schoolId,
+  }) async {
+    String url = ApiConstants.chat + ApiConstants.parentList;
+    print("--url--$url");
+    try {
+      Map<String, dynamic> apiBody = {
+        "class": classs,
+        "batch": batch,
+        "subject_id": subId,
+        "school_id": schoolId,
+      };
+
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = json.encode(apiBody);
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
       http.StreamedResponse response = await request.send();
       String respString = await response.stream.bytesToString();
       return json.decode(respString);

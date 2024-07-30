@@ -37,4 +37,5 @@ class ApiConstants {
   static String sentMsgByTeacher = "/sendmessageteacher";
   static String fileUpload = "/upload";
   static String deleteMsg = "/deletemessage";
+  static String parentList = "/getparents";
 }

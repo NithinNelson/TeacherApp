@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teacherapp/Controller/api_controllers/feedViewController.dart';
 
+import '../../../Utils/Colors.dart';
+
 class ChatAudioPlayingWidget extends StatefulWidget {
   // final Function(bool) removeAudioPath;
   const ChatAudioPlayingWidget({
@@ -88,11 +90,12 @@ class _ChatAudioPlayingWidgetState extends State<ChatAudioPlayingWidget> {
         width: double.infinity,
         child: Row(
           children: [
-            SizedBox(
-              width: 25,
-              child: IconButton(
-                onPressed: () => _playAudio(_audioPath!),
-                icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
+            InkWell(
+              onTap: () => _playAudio(_audioPath!),
+              child: SizedBox(
+                width: 25,
+                height: 25,
+                child: Center(child: Icon(_isPlaying ? Icons.pause : Icons.play_arrow)),
               ),
             ),
             Expanded(
@@ -109,6 +112,8 @@ class _ChatAudioPlayingWidgetState extends State<ChatAudioPlayingWidget> {
                     await player.seek(position);
                     await player.resume();
                   },
+                  thumbColor: Colorutils.userdetailcolor,
+                  activeColor: Colorutils.userdetailcolor,
                 ),
               ),
             ),
