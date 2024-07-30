@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Utils/font_util.dart';
 import '../../../Utils/Colors.dart';
+import '../../Notification/Notification.dart';
 
 class UserDetails extends StatelessWidget {
   final bool shoBackgroundColor;
@@ -96,37 +97,42 @@ class UserDetails extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 12.w),
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 5, top: 5).w,
-                          child: SvgPicture.asset(
-                            'assets/images/bell 1.svg',
-                            width: 30.h,
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: Container(
-                            width: 18.w,
-                            height: 18.w,
-                            padding: const EdgeInsets.all(2).w,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colorutils.Whitecolor,
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Notificationscreen()));
+                      },
+                      child: Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 5, top: 5).w,
+                            child: SvgPicture.asset(
+                              'assets/images/bell 1.svg',
+                              width: 30.h,
+                              fit: BoxFit.fitWidth,
                             ),
-                            child: FittedBox(
-                              child: Text(
-                                "4",
-                                style: TeacherAppFonts
-                                    .interW500_11sp_userdetailcolor,
+                          ),
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: Container(
+                              width: 18.w,
+                              height: 18.w,
+                              padding: const EdgeInsets.all(2).w,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colorutils.Whitecolor,
+                              ),
+                              child: FittedBox(
+                                child: Text(
+                                  "4",
+                                  style: TeacherAppFonts
+                                      .interW500_11sp_userdetailcolor,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     SizedBox(width: 12.w),
                     CircleAvatar(

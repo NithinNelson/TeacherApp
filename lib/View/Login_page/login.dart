@@ -13,6 +13,7 @@ import 'package:teacherapp/View/CWidgets/AppBarBackground.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 import 'package:teacherapp/View/RoleNavigation/choice_page.dart';
 
+import '../Forgot_password/Forgot_password.dart';
 import '../Menu/drawer.dart';
 import '../RoleNavigation/hos_listing.dart';
 import 'google_signin_api.dart';
@@ -306,7 +307,8 @@ class _LoginPageState extends State<LoginPage> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassword() ));
+                                  },
                                   child: Text(
                                     "Forgot Password?",
                                     style: TextStyle(fontSize: 10.sp),

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 
+import '../../Utils/api_constants.dart';
+
 class ApprovedLeave extends StatefulWidget {
   const ApprovedLeave({super.key});
 
@@ -302,21 +304,214 @@ class _ApprovedLeaveState extends State<ApprovedLeave> {
                             ),
                             Flexible(flex: 1, child: Container()),
                             (mypendings == true)
-                                ? Container(
-                                height: 30.h,
-                                width: 70.w,
-                                decoration: BoxDecoration(
-                                    color: Colors.blue,
-                                    borderRadius:
-                                    BorderRadius.circular(10)),
-                                child: Center(
-                                    child: Text(
-                                      'Details',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12.sp,
-                                          color: Colors.white),
-                                    )))
+                                ? GestureDetector(
+                              onTap: ()
+                              async {
+                                showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                        title: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child:
+                                              Text(
+                                                'Leave Approval Details',
+                                                style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.bold),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        content: Container(
+                                          height: attchIconsize(type: document.toString().split(".").last),
+                                          // width: 300.w,
+                                          child: SingleChildScrollView(
+                                            child: ListBody(
+                                              children: <Widget>[
+                                                Row(
+                                                  children: [
+                                                    Container(width: 80,child: Text('NAME',style: TextStyle(fontWeight: FontWeight.bold),),),
+                                                    Container(width: 10,child: Text(':',style: TextStyle(fontWeight: FontWeight.bold),),),
+
+                                                    Container(
+                                                      width: 140.w,
+                                                      child: SingleChildScrollView(
+                                                        child: Text("brineshben",
+                                                            style: TextStyle(
+                                                                fontSize: 15.sp)),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 5.h,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Container(width: 80,child: Text('CLASS',style: TextStyle(fontWeight: FontWeight.bold),),),
+                                                    Container(width: 10,child: Text(':',style: TextStyle(fontWeight: FontWeight.bold),),),
+
+                                                    Text("3 B",
+                                                        style: TextStyle(
+                                                            fontSize: 15.sp)),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 5.h,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    Column(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Container(width: 80,child: Text('REASON',style: TextStyle(fontWeight: FontWeight.bold),),),
+                                                      ],
+                                                    ),
+                                                    Container(width: 10,child: Text(':',style: TextStyle(fontWeight: FontWeight.bold),),),
+
+                                                    Container(
+                                                      width: 140,
+                                                      child: Text("AGHSGHUIKAS ASOIKDASJFKSWD CFFFSWDBDWEUO  JHASDHKJS DHIASDGAQS ASJIKDAS DDHIASDH ASDIKASH   FJHUK CSDAFUOI9UJCD"
+                                                          ,
+                                                          style: TextStyle(
+                                                              fontSize: 12.sp)),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 5.h,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Container(width: 80,child: Text('APPLIED ON',style: TextStyle(fontWeight: FontWeight.bold),),),
+                                                    Container(width: 10,child: Text(':',style: TextStyle(fontWeight: FontWeight.bold),),),
+
+                                                    Text("30-08-1999",
+                                                        style: TextStyle(
+                                                            fontSize: 15.sp)),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 5.h,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Container(width: 80,child: Text('FROM DATE',style: TextStyle(fontWeight: FontWeight.bold),),),
+                                                    Container(width: 10,child: Text(':',style: TextStyle(fontWeight: FontWeight.bold),),),
+
+                                                    Text("30-08-1999",
+                                                        style: TextStyle(
+                                                            fontSize: 15.sp)),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 5.h,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Container(width: 80,child: Text('TO DATE',style: TextStyle(fontWeight: FontWeight.bold),),),
+                                                    Container(width: 10,child: Text(':',style: TextStyle(fontWeight: FontWeight.bold),),),
+
+                                                    Text("30-08-1999",
+                                                        style: TextStyle(
+                                                            fontSize: 15.sp)),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 10.h,
+                                                ),
+                                                (document != null)
+                                                    ?
+                                                Row(
+                                                  children: [
+                                                    Container(width: 80,child: Text('DOCUMENT',style: TextStyle(fontWeight: FontWeight.bold),),),
+                                                    Container(width: 10,child: Text(':',style: TextStyle(fontWeight: FontWeight.bold),),),
+                                                    Container(width: 10,child: GestureDetector(
+                                                      onTap: () async {
+
+
+                                                      },
+                                                      child: attchIcon(
+                                                          type: document
+                                                              .toString()
+                                                              .split(".")
+                                                              .last,
+                                                          document: document
+                                                              .toString()),
+                                                    ),
+                                                    ),
+                                                  ],
+                                                )
+                                                    :Container(),
+                                                SizedBox(
+                                                  height: 50.w,
+                                                ),
+                                                GestureDetector(
+                                                  onTap: (){
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Center(
+                                                    child: Container(
+                                                      height: 30.h,
+                                                      width: 50.w,
+                                                      child: Center(child: Text('OK')
+
+
+                                                      ),
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.red,
+                                                          borderRadius: BorderRadius.circular(15)
+                                                      ),
+
+                                                    ),
+                                                  ),
+                                                )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                );
+                              },
+                              child: Container(
+                                  height: 30.h,
+                                  width: 70.w,
+                                  decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius:
+                                      BorderRadius.circular(10)),
+                                  child: Center(
+                                      child: Text(
+                                        'Details',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12.sp,
+                                            color: Colors.white),
+                                      ))),
+                            )
                                 : GestureDetector(
                               onTap: () async {
                                 showDialog(
@@ -457,6 +652,31 @@ class _ApprovedLeaveState extends State<ApprovedLeave> {
         return Colors.yellow.shade800;
       default:
         return Colors.grey;
+    }
+  }
+  Widget attchIcon({String? type, String? document}) {
+    if (type == 'jpg' || type == 'jpeg' || type == 'png') {
+      return Container(
+        height: 100.h,
+        width: 100.w,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: NetworkImage("ben")),
+            borderRadius: BorderRadius.circular(10)),
+      );
+    } else if (type == 'pdf') {
+      return const Icon(Icons.picture_as_pdf, color: Colors.red,);
+    } else {
+      return Icon(Icons.attach_file, color: Colors.lightBlue.shade100,);
+    }
+  }
+  double attchIconsize({String? type, String? document}) {
+    if (type == 'jpg' || type == 'jpeg' || type == 'png') {
+      return 500.h;
+    } else if (type == 'pdf') {
+      return 400.h;
+    } else {
+      return 400.h;
     }
   }
 }
