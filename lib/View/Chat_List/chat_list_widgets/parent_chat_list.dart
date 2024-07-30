@@ -1,7 +1,5 @@
 
 import 'dart:math';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:teacherapp/Controller/api_controllers/parentChatListController.dart';
 import 'package:teacherapp/View/Chat_View/parent_msg_screen.dart';
+import '../../../Controller/api_controllers/userAuthController.dart';
 import '../../../Models/api_models/parent_chat_list_api_model.dart';
 import '../../../Utils/Colors.dart';
 import '../../../Utils/font_util.dart';
@@ -128,6 +127,7 @@ class ParentChatList extends StatelessWidget {
                   try {
                     formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
                   } catch(e) {}
+                  String? userId = Get.find<UserAuthController>().userData.value.userId;
                   return GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -138,12 +138,14 @@ class ParentChatList extends StatelessWidget {
                       );
                     },
                     child: ChatItem(
-                      className: chatParentList[index].parentName ?? '--',
+                      parentName: chatParentList[index].parentName ?? '--',
                       time: formattedDate ?? '',
                       unreadMessages: chatParentList[index].unreadCount,
                       classs: '${chatParentList[index].datumClass}${chatParentList[index].batch}',
                       lastMessage: chatParentList[index].lastMessage,
                       studentName: chatParentList[index].studentName ?? '',
+                      relation: chatParentList[index].relation,
+                      userId: userId,
                     ),
                   );
                 },
@@ -164,22 +166,26 @@ class ParentChatList extends StatelessWidget {
 }
 
 class ChatItem extends StatelessWidget {
-  final String className;
+  final String parentName;
   final String studentName;
+  final String? relation;
   final String time;
   final String? unreadMessages;
   final String classs;
   final LastMessage? lastMessage;
+  final String? userId;
   // final String Parentdetail;
   // final String classsdetail;
 
   const ChatItem({super.key,
-    required this.className,
+    required this.parentName,
     required this.studentName,
+    required this.relation,
     required this.time,
     required this.unreadMessages,
     required this.classs,
     required this.lastMessage,
+    required this.userId,
     // required this.Parentdetail,
     // required this.classsdetail,
   });
@@ -236,7 +242,7 @@ class ChatItem extends StatelessWidget {
                                 maxWidth: 120),
                             child: Text(
                               // "English",
-                              className,
+                              studentName,
                               style: TeacherAppFonts.interW700_16sp_black,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -248,30 +254,133 @@ class ChatItem extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                                studentName,
+                              relation != null ? "$relation of $parentName" : parentName,
                               overflow: TextOverflow.ellipsis,
                               style: TeacherAppFonts.poppinsW400_12sp_lightGreenForParent,
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 5.h),
+                      if(userId != null && lastMessage != null)
+                        if(userId == lastMessage!.messageFromId)
+                          SizedBox(width: 5.h),
                       Row(
                         children: [
-                          SizedBox(
-                            height: 21.h,
-                            width: 21.h,
-                            child: SvgPicture.asset(
-                                "assets/images/Checks.svg"),
-                          ),
-                          SizedBox(width: 5.h),
+                          if(userId != null && lastMessage != null)
+                            if(userId == lastMessage!.messageFromId)
+                              SizedBox(
+                                height: 21.h,
+                                width: 21.h,
+                                child: SvgPicture.asset(
+                                  "assets/images/Checks.svg",
+                                  color: lastMessage!.read! ? Colors.green : Colors.grey,
+                                ),
+                              ),
+                          if(userId != null && lastMessage != null)
+                            if(userId == lastMessage!.messageFromId)
+                              SizedBox(width: 5.h),
                           Expanded(
-                            child: Text(
-                              overflow: TextOverflow.ellipsis,
-                              lastMessage?.message ?? '',
-                              style: TeacherAppFonts.interW400_14sp_chatSubTitleOp80,
-                            ),
-                          )
+                            child: Builder(builder: (context) {
+                              if (lastMessage != null) {
+                                if (lastMessage!.type == "file") {
+                                  return Row(
+                                    children: [
+                                      Container(
+                                        width: 17,
+                                        height: 18,
+                                        decoration:
+                                        const BoxDecoration(
+                                          image: DecorationImage(
+                                            fit: BoxFit.fill,
+                                            image: AssetImage(
+                                                "assets/images/new-document.png"),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: SizedBox(
+                                            height: 8,
+                                            width: 12,
+                                            child: FittedBox(
+                                              child: Text(
+                                                lastMessage!.fileName!
+                                                    .split(".")
+                                                    .last,
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 5.w),
+                                      Expanded(
+                                        child: Text(
+                                          lastMessage!
+                                              .fileName!,
+                                          style: TeacherAppFonts.interW400_14sp_textWhite.copyWith(
+                                            color: Color(0xff535353).withOpacity(0.8),
+                                          ),
+                                          overflow: TextOverflow
+                                              .ellipsis,
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                } else if (lastMessage!
+                                    .type ==
+                                    "text") {
+                                  return Text(
+                                    // "Can you pls share the pdf adsdaddsf.",
+                                    lastMessage?.message ?? "--",
+                                    overflow:
+                                    TextOverflow.ellipsis,
+
+                                    style: TeacherAppFonts.interW400_14sp_textWhite.copyWith(
+                                      color: Color(0xff535353).withOpacity(0.8),
+                                    ),
+                                  );
+                                } else if (lastMessage!.type ==
+                                    "audio") {
+                                  return Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 22,
+                                        height: 15.h,
+                                        child: SvgPicture.asset(
+                                            "assets/images/Record Audio.svg"),
+                                      ),
+                                      SizedBox(width: 1.w),
+                                      Expanded(
+                                        child: Text(
+                                          "Audio",
+                                          style: TeacherAppFonts.interW400_14sp_textWhite.copyWith(
+                                            color: Color(0xff535353).withOpacity(0.8),
+                                          ),
+                                          overflow: TextOverflow
+                                              .ellipsis,
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                } else if (lastMessage!.type ==
+                                    "text_file" || lastMessage!.type == "text_audio") {
+                                  return Text(
+                                    // "Can you pls share the pdf adsdaddsf.",
+                                    lastMessage!.message ?? "--",
+                                    overflow:
+                                    TextOverflow.ellipsis,
+
+                                    style: TeacherAppFonts.interW400_14sp_textWhite.copyWith(
+                                      color: Color(0xff535353).withOpacity(0.8),
+                                    ),
+                                  );
+                                }
+                              }
+                              return const SizedBox();
+                            }),
+                          ),
                         ],
                       )
                     ],

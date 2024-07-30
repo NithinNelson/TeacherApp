@@ -24,21 +24,25 @@ class ParentChatListApiModel {
 class Data {
   Data({
     this.message,
+    this.unreadCount,
     this.data,
   });
 
   final String? message;
+  final int? unreadCount;
   final List<Datum>? data;
 
   factory Data.fromJson(Map<String, dynamic> json){
     return Data(
       message: json["message"],
+      unreadCount: json["unread_count"],
       data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
     );
   }
 
   Map<String, dynamic> toJson() => {
     "message": message,
+    "unread_count": unreadCount,
     "data": data?.map((x) => x.toJson()).toList(),
   };
 
@@ -53,6 +57,7 @@ class Datum {
     this.parentId,
     this.parentName,
     this.studentName,
+    this.relation,
     this.unreadCount,
     this.lastMessage,
   });
@@ -64,6 +69,7 @@ class Datum {
   final String? parentId;
   final String? parentName;
   final String? studentName;
+  final String? relation;
   final String? unreadCount;
   final LastMessage? lastMessage;
 
@@ -76,6 +82,7 @@ class Datum {
       parentId: json["parent_id"],
       parentName: json["parent_name"],
       studentName: json["student_name"],
+      relation: json["relation"],
       unreadCount: json["unread_count"],
       lastMessage: json["last_message"] == null ? null : LastMessage.fromJson(json["last_message"]),
     );
@@ -89,6 +96,7 @@ class Datum {
     "parent_id": parentId,
     "parent_name": parentName,
     "student_name": studentName,
+    "relation": relation,
     "unread_count": unreadCount,
     "last_message": lastMessage?.toJson(),
   };
@@ -103,15 +111,17 @@ class LastMessage {
     this.fileName,
     this.messageAudio,
     this.messageFromId,
+    this.read,
     this.sandAt,
   });
 
   final String? type;
   final String? message;
-  final dynamic messageFile;
-  final dynamic fileName;
-  final dynamic messageAudio;
+  final String? messageFile;
+  final String? fileName;
+  final String? messageAudio;
   final String? messageFromId;
+  final bool? read;
   final DateTime? sandAt;
 
   factory LastMessage.fromJson(Map<String, dynamic> json){
@@ -122,6 +132,7 @@ class LastMessage {
       fileName: json["file_name"],
       messageAudio: json["message_audio"],
       messageFromId: json["message_from_id"],
+      read: json["read"],
       sandAt: DateTime.tryParse(json["sand_at"] ?? ""),
     );
   }
@@ -133,6 +144,7 @@ class LastMessage {
     "file_name": fileName,
     "message_audio": messageAudio,
     "message_from_id": messageFromId,
+    "read": read,
     "sand_at": sandAt?.toIso8601String(),
   };
 

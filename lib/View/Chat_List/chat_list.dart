@@ -191,16 +191,25 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage> with TickerPr
                           ),
                         ),
                         SizedBox(width: 8.w),
-                        CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 10,
-                          child: Text(
-                            "3",
-                            style: GoogleFonts.inter(
-                                fontSize: 13.h,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.green),
-                          ),
+                        GetX<ParentChatListController>(
+                          builder: (ParentChatListController controller) {
+                            int count = controller.unreadCount.value;
+                            if(count != 0) {
+                              return CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 10,
+                                child: Text(
+                                  count.toString(),
+                                  style: GoogleFonts.inter(
+                                      fontSize: 13.h,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.green),
+                                ),
+                              );
+                            } else {
+                              return Container();
+                            }
+                          },
                         ),
                       ],
                     ),
