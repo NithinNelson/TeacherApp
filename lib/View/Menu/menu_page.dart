@@ -1,4 +1,5 @@
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -69,6 +70,22 @@ class MenuScreen extends StatelessWidget {
                   fit: BoxFit.fitWidth,
                 ),
               ),
+              Positioned(
+                bottom: 25.h,
+                left: 20.h,
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  width: 190.w,
+                  // height: 50.h,
+                  child: CachedNetworkImage(
+
+                      imageUrl:
+                      'https://alpha.docme.cloud/schooldiary-logo/CPpbKPQTcuG97i3kv.png',
+
+                      placeholder: (context, url) => const SizedBox(),
+                      errorWidget: (context, url, error) => const SizedBox()),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 28, top: 50).h,
                 child: Column(
@@ -83,7 +100,7 @@ class MenuScreen extends StatelessWidget {
                           backgroundImage: AssetImage('assets/images/profile2.png'),
                         ),
                         SizedBox(
-                          width: 110.w,
+                          width: 120.w,
                           child: Row(
                             children: [
                               const ClassIndicator(className: '4A', isActive: true),
@@ -109,7 +126,7 @@ class MenuScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       controller.userData.value.name ?? '--',
-                                      style: TeacherAppFonts.interW600_20sp_textWhite,
+                                      style: TeacherAppFonts.interW600_24sp_textWhite,
                                     ),
                                   ],
                                 ),
@@ -171,8 +188,8 @@ class MenuScreen extends StatelessWidget {
                     //   child: const MenuItem(icon: "assets/images/chart-pie-alt.svg", title: 'OBS Result'),
                     // ),
                     Divider(
-                      color: Colorutils.Whitecolor.withOpacity(0.2),
-                      endIndent: 180.w,
+                      color: Colorutils.Whitecolor.withOpacity(0.15),
+                      endIndent: 225.w,
                       height: 20.w,
                     ),
                     InkWell(
@@ -181,15 +198,15 @@ class MenuScreen extends StatelessWidget {
                       },
                         child: const MenuItem(icon:"assets/images/logout.svg", title: 'Logout'),
                     ),
-                    SizedBox(height: 10.w),
+                    SizedBox(height: 20.w),
                     InkWell(
                       onTap: () {
                         ZoomDrawer.of(context)?.toggle();
                         pageIndexController.changePage(currentPage: 2);
                       },
                       child: Container(
-                        width: 160.w,
-                        height: 40.w,
+                        width: 180.w,
+                        height: 45.w,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
@@ -200,10 +217,10 @@ class MenuScreen extends StatelessWidget {
                             children: [
                               Image.asset(
                                 'assets/images/newchat.png',
-                                width: 22.w,
+                                width: 30.w,
                                 fit: BoxFit.fitWidth,
                               ),
-                              SizedBox(width: 5.w),
+                              SizedBox(width: 10.w),
                               SizedBox(
                                 width: 110.w,
                                 height: 40.w,
@@ -272,7 +289,7 @@ class MenuItem extends StatelessWidget {
           ),
           title: Text(
             title,
-            style: TeacherAppFonts.interW500_16sp_textWhiteOp60,
+            style: TeacherAppFonts.interW500_20sp_textWhiteOp60,
 
           ),
         ),

@@ -34,7 +34,7 @@ class _NotificationscreenState extends State<Notificationscreen> {
                 AppBarBackground(),
                 Positioned(
                   left: 0,
-                  top: 15,
+                  top: -20,
                   child: Container(
                     // height: 100.w,
                     width: ScreenUtil().screenWidth,

@@ -20,19 +20,19 @@ class Teacher extends StatefulWidget {
 class _TeacherState extends State<Teacher> {
   TimeTableController timeTableController = Get.find<TimeTableController>();
 
-  // @override
-  // void initState() {
-  //   initialize();
-  //   super.initState();
-  // }
-  //
-  // Future<void> initialize() async {
-  //   context.loaderOverlay.show();
-  //   await timeTableController.fetchTimeTable();
-  //   await timeTableController.fetchWorkLoad();
-  //   if(!mounted) return;
-  //   context.loaderOverlay.hide();
-  // }
+  @override
+  void initState() {
+    initialize();
+    super.initState();
+  }
+
+  Future<void> initialize() async {
+    context.loaderOverlay.show();
+    await timeTableController.fetchTimeTable();
+    await timeTableController.fetchWorkLoad();
+    if(!mounted) return;
+    context.loaderOverlay.hide();
+  }
 
   @override
   Widget build(BuildContext context) {
