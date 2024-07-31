@@ -6,6 +6,7 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Utils/font_util.dart';
+import 'package:text_scroll/text_scroll.dart';
 import '../../../Utils/Colors.dart';
 import '../../Notification/Notification.dart';
 
@@ -82,17 +83,40 @@ class UserDetails extends StatelessWidget {
                             isWelcome ? 'Welcome' : 'Hello,',
                             style: TeacherAppFonts.interW400_14sp_textWhiteOp60,
                           ),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                Text(
-                                  controller.userData.value.name ?? "--",
-                                  style: TeacherAppFonts.interW600_18sp_textWhite,
-                                ),
-                              ],
+                          Container(
+                            child: TextScroll(
+                              controller.userData.value.name ?? "--",                              mode: TextScrollMode.bouncing,
+                              velocity: Velocity(pixelsPerSecond: Offset(50, 0)),
+                              delayBefore: Duration(seconds: 1),
+                              pauseBetween: Duration(seconds: 2),
+                              style: TeacherAppFonts.interW600_18sp_textWhite,
+                              textAlign: TextAlign.center,
+
+                              selectable: true,
                             ),
                           ),
+                          // TextScroll(
+                          //   'This is the sample text for Flutter TextScroll widget. ',
+                          //   mode: TextScrollMode.bouncing,
+                          //   velocity: Velocity(pixelsPerSecond: Offset(150, 0)),
+                          //   delayBefore: Duration(milliseconds: 500),
+                          //   numberOfReps: 5,
+                          //   pauseBetween: Duration(milliseconds: 50),
+                          //   style: TextStyle(color: Colors.green),
+                          //   textAlign: TextAlign.right,
+                          //   selectable: true,
+                          // )
+                          // SingleChildScrollView(
+                          //   scrollDirection: Axis.horizontal,
+                          //   child: Row(
+                          //     children: [
+                          //       Text(
+                          //         controller.userData.value.name ?? "--",
+                          //         style: TeacherAppFonts.interW600_18sp_textWhite,
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
