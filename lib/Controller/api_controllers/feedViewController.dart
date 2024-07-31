@@ -265,6 +265,7 @@ class FeedViewController extends GetxController {
         filePath.value = null;
         showAudioRecordWidget.value = false; // for hiding the audio recording widget //
         showAudioPlayingWidget.value = false; // for hiding the audio playing widget //
+        isReplay.value = null;
       }
       isSentLoading.value = false;
       print("------msg-------$resp");
