@@ -6,6 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:teacherapp/Controller/api_controllers/feedViewController.dart';
@@ -25,6 +27,7 @@ import 'Chat_widgets/Grouped_view.dart';
 import 'Chat_widgets/camera_screen.dart';
 import 'Chat_widgets/chat_audioPlaying_widget.dart';
 import 'Chat_widgets/chat_audioRecording_widget.dart';
+import 'Chat_widgets/chat_date_widget.dart';
 import 'Chat_widgets/message_info_screen.dart';
 import 'Chat_widgets/more_option_widget.dart';
 import 'Chat_widgets/reaction_widget.dart';
@@ -45,6 +48,7 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
   TextEditingController messageCtr = TextEditingController();
   FeedViewController feedViewController = Get.find<FeedViewController>();
   UserAuthController userAuthController = Get.find<UserAuthController>();
+  Timer? chatUpdate;
 
   // late bool isKeboardOpen;
   // late double keybordHeight;
@@ -61,12 +65,13 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
     // screenHeight = ScreenUtil().screenHeight;
     // isKeboardOpen = false;
     // keybordHeight = 0;
-    Get.find<FeedViewController>().isReplay.value = null;
+    feedViewController.isReplay.value = null;
   }
 
   @override
   void dispose() {
     // WidgetsBinding.instance.removeObserver(this);
+    chatUpdate!.cancel();
     super.dispose();
   }
 
@@ -82,8 +87,23 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
       limit: 100,
     );
     await feedViewController.fetchFeedViewMsgList(chatFeedViewReqModel);
-    if(!mounted) return;
+    if (!mounted) return;
     context.loaderOverlay.hide();
+    await Future.delayed(const Duration(milliseconds: 50), () {
+      feedViewController.chatFeedViewScrollController.value.animateTo(
+        feedViewController
+            .chatFeedViewScrollController.value.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
+      );
+    });
+    chatUpdate = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) async {
+        await feedViewController
+            .fetchFeedViewMsgListPeriodically(chatFeedViewReqModel);
+      },
+    );
   }
 
   // @override
@@ -97,7 +117,7 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
   //     print(keybordHeight);
   //   }
   //
-  //   bool isCurrentlyFocused = Get.find<FeedViewController>().focusNode.hasFocus;
+  //   bool isCurrentlyFocused = feedViewController.focusNode.hasFocus;
   //   if (isKeboardOpen) {
   //     // If the keyboard was open and now the focus is lost
   //     if (!isCurrentlyFocused) {
@@ -144,8 +164,8 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
         title: Row(
           children: [
             Container(
-                width: 44.w,
-                height: 44.w,
+              width: 44.w,
+              height: 44.w,
               padding: const EdgeInsets.all(10).w,
               decoration: const BoxDecoration(
                 color: Colors.white,
@@ -215,17 +235,20 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
                         ),
                         GetX<FeedViewController>(
                           builder: (FeedViewController controller) {
-                            if(controller.feedUnreadCount.value != 0) {
+                            if (controller.feedUnreadCount.value != 0) {
                               return CircleAvatar(
                                 backgroundColor: Colors.white,
                                 radius: 11.r,
                                 child: FittedBox(
-                                  child: Text(
-                                    controller.feedUnreadCount.value.toString(),
-                                    style: GoogleFonts.inter(
-                                        fontSize: 13.0,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.green),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0).w,
+                                    child: Text(
+                                      controller.feedUnreadCount.value.toString(),
+                                      style: GoogleFonts.inter(
+                                          fontSize: 13.0,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.green),
+                                    ),
                                   ),
                                 ),
                               );
@@ -252,13 +275,18 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
                         ),
                         CircleAvatar(
                           backgroundColor: Colors.white,
-                          radius: 10,
-                          child: Text(
-                            "3",
-                            style: GoogleFonts.inter(
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.green),
+                          radius: 11.r,
+                          child: FittedBox(
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0).w,
+                              child: Text(
+                                "3",
+                                style: GoogleFonts.inter(
+                                    fontSize: 13.0,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.green),
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -303,596 +331,659 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
                           controller.filePath.value == null
                               ? const SizedBox()
                               : Padding(
-                            padding: EdgeInsets.only(top: 10.h),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10.h),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: 35.w,
-                                      height: 40.w,
-                                      decoration: const BoxDecoration(
-                                        image: DecorationImage(
-                                          fit: BoxFit.fill,
-                                          image: AssetImage(
-                                              "assets/images/new-document.png"),
-                                        ),
-                                      ),
-                                      child: Center(
-                                          child: Text(
-                                            Get.find<FeedViewController>()
-                                                .filePath
-                                                .value!
-                                                .split(".")
-                                                .last,
-                                            style: TeacherAppFonts.interW500_12sp_textWhite.copyWith(
-                                              fontSize: 10.sp,
-                                              color: Colors.black,
+                                  padding: EdgeInsets.only(top: 10.h),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10.h),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 35.w,
+                                            height: 30.w,
+                                            decoration: const BoxDecoration(
+                                              image: DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: AssetImage(
+                                                    "assets/images/new-document.png"),
+                                              ),
                                             ),
-                                          )),
-                                    ),
-                                    SizedBox(width: 5.w),
-                                    Expanded(
-                                      child: Text(
-                                        Get.find<FeedViewController>()
-                                            .filePath
-                                            .value!
-                                            .split("/")
-                                            .last,
-                                        style: TeacherAppFonts.interW400_16sp_letters1
-                                            .copyWith(
-                                            color: Colors.black),
-                                        overflow: TextOverflow.ellipsis,
+                                            child: Center(
+                                                child: Text(
+                                              feedViewController.filePath.value!
+                                                  .split(".")
+                                                  .last,
+                                              style: TeacherAppFonts
+                                                  .interW500_12sp_textWhite
+                                                  .copyWith(
+                                                fontSize: 10.sp,
+                                                color: Colors.black,
+                                              ),
+                                            )),
+                                          ),
+                                          SizedBox(width: 5.w),
+                                          Expanded(
+                                            child: Text(
+                                              feedViewController.filePath.value!
+                                                  .split("/")
+                                                  .last,
+                                              style: TeacherAppFonts
+                                                  .interW400_16sp_letters1
+                                                  .copyWith(
+                                                      color: Colors.black),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              feedViewController
+                                                  .filePath.value = null;
+                                            },
+                                            child: SizedBox(
+                                              width: 25.w,
+                                              height: 40.w,
+                                              child: const Icon(
+                                                Icons.close,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    InkWell(
-                                      onTap: () {
-                                        Get.find<FeedViewController>()
-                                            .filePath
-                                            .value = null;
-                                      },
-                                      child: SizedBox(
-                                        width: 25.w,
-                                        height: 40.w,
-                                        child: const Icon(
-                                          Icons.close,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ),
                           controller.showAudioPlayingWidget.value == true
                               ? const ChatAudioPlayingWidget()
                               : const SizedBox(),
                           SizedBox(height: 10.w),
                           controller.isReplay.value != null
                               ? Column(
-                            children: [
-                              IntrinsicHeight(
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                    BorderRadius.circular(10.h),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 7.w,
+                                  children: [
+                                    IntrinsicHeight(
+                                      child: Container(
+                                        width: double.infinity,
                                         decoration: BoxDecoration(
-                                          color: Colorutils.letters1,
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(10.h),
-                                            bottomLeft:
-                                            Radius.circular(10.h),
-                                          ),
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10.h),
                                         ),
-                                      ),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: EdgeInsets.all(5.w),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                width: double.infinity,
-                                                child: Text(
-                                                  controller
-                                                      .replayName.value,
-                                                  style: TeacherAppFonts
-                                                      .interW600_16sp_letters1,
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: 7.w,
+                                              decoration: BoxDecoration(
+                                                color: Colorutils.letters1,
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft:
+                                                      Radius.circular(10.h),
+                                                  bottomLeft:
+                                                      Radius.circular(10.h),
                                                 ),
                                               ),
-                                              SizedBox(height: 5.h),
-                                              Builder(
-                                                builder: (context) {
-                                                  if (Get.find<
-                                                      FeedViewController>()
-                                                      .replayMessage
-                                                      .type ==
-                                                      "file") {
-                                                    return Row(
-                                                      children: [
-                                                        Container(
-                                                          width: 17,
-                                                          height: 18,
-                                                          decoration:
-                                                          const BoxDecoration(
-                                                            image:
-                                                            DecorationImage(
-                                                              fit: BoxFit
-                                                                  .fill,
-                                                              image: AssetImage(
-                                                                  "assets/images/new-document.png"),
-                                                            ),
-                                                          ),
-                                                          child: Center(
-                                                            child: SizedBox(
-                                                              height: 8,
-                                                              width: 12,
-                                                              child:
-                                                              FittedBox(
-                                                                child: Text(
-                                                                  Get.find<
-                                                                      FeedViewController>()
-                                                                      .replayMessage
-                                                                      .fileName!
-                                                                      .split(
-                                                                      ".")
-                                                                      .last,
-                                                                  style: TeacherAppFonts
-                                                                      .interW400_14sp_textWhite.copyWith(
-                                                                    fontSize: 8.sp,
-                                                                    color: Colors.black,
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: EdgeInsets.all(5.w),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: double.infinity,
+                                                      child: Text(
+                                                        controller
+                                                            .replayName.value,
+                                                        style: TeacherAppFonts
+                                                            .interW600_16sp_letters1,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 5.h),
+                                                    Builder(
+                                                      builder: (context) {
+                                                        if (Get.find<
+                                                                    FeedViewController>()
+                                                                .replayMessage
+                                                                .type ==
+                                                            "file") {
+                                                          return Row(
+                                                            children: [
+                                                              Container(
+                                                                width: 17,
+                                                                height: 18,
+                                                                decoration:
+                                                                    const BoxDecoration(
+                                                                  image:
+                                                                      DecorationImage(
+                                                                    fit: BoxFit
+                                                                        .fill,
+                                                                    image: AssetImage(
+                                                                        "assets/images/new-document.png"),
+                                                                  ),
+                                                                ),
+                                                                child: Center(
+                                                                  child:
+                                                                      SizedBox(
+                                                                    height: 8,
+                                                                    width: 12,
+                                                                    child:
+                                                                        FittedBox(
+                                                                      child:
+                                                                          Text(
+                                                                        Get.find<FeedViewController>()
+                                                                            .replayMessage
+                                                                            .fileName!
+                                                                            .split(".")
+                                                                            .last,
+                                                                        style: TeacherAppFonts
+                                                                            .interW400_14sp_textWhite
+                                                                            .copyWith(
+                                                                          fontSize:
+                                                                              8.sp,
+                                                                          color:
+                                                                              Colors.black,
+                                                                        ),
+                                                                      ),
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: 5.h),
-                                                        Expanded(
-                                                          child: Text(
-                                                            Get.find<
-                                                                FeedViewController>()
+                                                              SizedBox(
+                                                                  width: 5.h),
+                                                              Expanded(
+                                                                child: Text(
+                                                                  Get.find<
+                                                                          FeedViewController>()
+                                                                      .replayMessage
+                                                                      .fileName!,
+                                                                  style: TeacherAppFonts
+                                                                      .interW400_14sp_textWhite
+                                                                      .copyWith(
+                                                                    color: Colorutils
+                                                                        .fontColor6
+                                                                        .withOpacity(
+                                                                            0.8),
+                                                                  ),
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                ),
+                                                              )
+                                                            ],
+                                                          );
+                                                        } else if (Get.find<
+                                                                    FeedViewController>()
                                                                 .replayMessage
-                                                                .fileName!,
+                                                                .type ==
+                                                            "text") {
+                                                          return Text(
+                                                            // "Can you pls share the pdf adsdaddsf.",
+                                                            feedViewController
+                                                                    .replayMessage
+                                                                    .message ??
+                                                                "",
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+
                                                             style: TeacherAppFonts
                                                                 .interW400_14sp_textWhite
                                                                 .copyWith(
-                                                              color: Colorutils.fontColor6
-                                                                  .withOpacity(
-                                                                  0.8),
-                                                            ),
-                                                            overflow:
-                                                            TextOverflow
-                                                                .ellipsis,
-                                                          ),
-                                                        )
-                                                      ],
-                                                    );
-                                                  } else if (Get.find<
-                                                      FeedViewController>()
-                                                      .replayMessage
-                                                      .type ==
-                                                      "text") {
-                                                    return Text(
-                                                      // "Can you pls share the pdf adsdaddsf.",
-                                                      Get.find<FeedViewController>()
-                                                          .replayMessage
-                                                          .message ??
-                                                          "",
-                                                      overflow: TextOverflow
-                                                          .ellipsis,
+                                                                    color: Colorutils
+                                                                        .fontColor6
+                                                                        .withOpacity(
+                                                                            0.8)),
+                                                          );
+                                                        } else if (Get.find<
+                                                                    FeedViewController>()
+                                                                .replayMessage
+                                                                .type ==
+                                                            "audio") {
+                                                          return Row(
+                                                            children: [
+                                                              SizedBox(
+                                                                width: 22,
+                                                                height: 15.h,
+                                                                child: SvgPicture
+                                                                    .asset(
+                                                                        "assets/images/Record Audio.svg"),
+                                                              ),
+                                                              SizedBox(
+                                                                  width: 1.w),
+                                                              Expanded(
+                                                                child: Text(
+                                                                  "Audio",
+                                                                  style: TeacherAppFonts
+                                                                      .interW400_14sp_textWhite
+                                                                      .copyWith(
+                                                                    color: Colorutils
+                                                                        .fontColor6
+                                                                        .withOpacity(
+                                                                            0.8),
+                                                                  ),
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                ),
+                                                              )
+                                                            ],
+                                                          );
+                                                        } else if (Get.find<
+                                                                        FeedViewController>()
+                                                                    .replayMessage
+                                                                    .type ==
+                                                                "text_file" ||
+                                                            feedViewController
+                                                                    .replayMessage
+                                                                    .type ==
+                                                                "text_audio") {
+                                                          return Text(
+                                                            // "Can you pls share the pdf adsdaddsf.",
+                                                            feedViewController
+                                                                    .replayMessage
+                                                                    .message ??
+                                                                "",
 
-                                                      style: TeacherAppFonts
-                                                          .interW400_14sp_textWhite
-                                                          .copyWith(
-                                                          color: Colorutils
-                                                              .fontColor6
-                                                              .withOpacity(
-                                                              0.8)),
-                                                    );
-                                                  } else if (Get.find<
-                                                      FeedViewController>()
-                                                      .replayMessage
-                                                      .type ==
-                                                      "audio") {
-                                                    return Row(
-                                                      children: [
-                                                        SizedBox(
-                                                          width: 22,
-                                                          height: 15.h,
-                                                          child: SvgPicture
-                                                              .asset(
-                                                              "assets/images/Record Audio.svg"),
-                                                        ),
-                                                        SizedBox(width: 1.w),
-                                                        Expanded(
-                                                          child: Text(
-                                                            "Audio",
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+
                                                             style: TeacherAppFonts
                                                                 .interW400_14sp_textWhite
                                                                 .copyWith(
-                                                              color: Colorutils
-                                                                  .fontColor6
-                                                                  .withOpacity(
-                                                                  0.8),
-                                                            ),
-                                                            overflow:
-                                                            TextOverflow
-                                                                .ellipsis,
-                                                          ),
-                                                        )
-                                                      ],
-                                                    );
-                                                  } else if (Get.find<
-                                                      FeedViewController>()
-                                                      .replayMessage
-                                                      .type ==
-                                                      "text_file" ||
-                                                      Get.find<FeedViewController>()
-                                                          .replayMessage
-                                                          .type ==
-                                                          "text_audio") {
-                                                    return Text(
-                                                      // "Can you pls share the pdf adsdaddsf.",
-                                                      Get.find<FeedViewController>()
-                                                          .replayMessage
-                                                          .message ??
-                                                          "",
+                                                                    color: Colorutils
+                                                                        .fontColor6
+                                                                        .withOpacity(
+                                                                            0.8)),
+                                                          );
+                                                        }
 
-                                                      overflow: TextOverflow
-                                                          .ellipsis,
-
-                                                      style: TeacherAppFonts
-                                                          .interW400_14sp_textWhite
-                                                          .copyWith(
-                                                          color: Colorutils
-                                                              .fontColor6
-                                                              .withOpacity(
-                                                              0.8)),
-                                                    );
-                                                  }
-
-                                                  return const SizedBox();
-                                                },
+                                                        return const SizedBox();
+                                                      },
+                                                    ),
+                                                    // SizedBox(
+                                                    //   width: double.infinity,
+                                                    //   child: Text(
+                                                    //     controller
+                                                    //         .replayMessage.value,
+                                                    //     maxLines: 3,
+                                                    //     overflow:
+                                                    //         TextOverflow.ellipsis,
+                                                    //     style: FontsStyle()
+                                                    //         .interW400_16sp
+                                                    //         .copyWith(
+                                                    //             color: ColorUtil
+                                                    //                 .black),
+                                                    //   ),
+                                                    // ),
+                                                  ],
+                                                ),
                                               ),
-                                              // SizedBox(
-                                              //   width: double.infinity,
-                                              //   child: Text(
-                                              //     controller
-                                              //         .replayMessage.value,
-                                              //     maxLines: 3,
-                                              //     overflow:
-                                              //         TextOverflow.ellipsis,
-                                              //     style: FontsStyle()
-                                              //         .interW400_16sp
-                                              //         .copyWith(
-                                              //             color: ColorUtil
-                                              //                 .black),
-                                              //   ),
-                                              // ),
-                                            ],
-                                          ),
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                feedViewController
+                                                    .isReplay.value = null;
+                                              },
+                                              child: SizedBox(
+                                                width: 25.w,
+                                                height: 40.w,
+                                                child: const Icon(
+                                                  Icons.close,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 5.w)
+                                            // InkWell(
+                                            //   onTap: () {},
+                                            //   child: const Icon(
+                                            //     Icons.close,
+                                            //     color: ColorUtil.grey,
+                                            //   ),
+                                            // )
+                                          ],
                                         ),
                                       ),
-                                      InkWell(
-                                        onTap: () {
-                                          Get.find<FeedViewController>()
-                                              .isReplay
-                                              .value = null;
-                                        },
-                                        child: SizedBox(
-                                          width: 25.w,
-                                          height: 40.w,
-                                          child: const Icon(
-                                            Icons.close,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 5.w)
-                                      // InkWell(
-                                      //   onTap: () {},
-                                      //   child: const Icon(
-                                      //     Icons.close,
-                                      //     color: ColorUtil.grey,
-                                      //   ),
-                                      // )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10.h),
-                            ],
-                          )
+                                    ),
+                                    SizedBox(height: 10.h),
+                                  ],
+                                )
                               : const SizedBox(),
                           controller.showAudioRecordWidget.value
                               ? const ChatAudioRecordingWidget()
                               : Row(
-                            children: [
-                              controller.audioPath.value == null
-                                  ? InkWell(
-                                onTap: () async {
-                                  Get.find<FeedViewController>()
-                                      .selectAttachment(
-                                      context: context);
+                                  children: [
+                                    controller.audioPath.value == null
+                                        ? InkWell(
+                                            onTap: () async {
+                                              await feedViewController
+                                                  .selectAttachment(
+                                                      context: context);
 
-                                  // Get.find<FeedViewController>()
-                                  //     .selectAttachment(context: context);
-                                },
-                                child: SizedBox(
-                                  height: 25.w,
-                                  width: 25.w,
-                                  child: SvgPicture.asset(
-                                      "assets/images/Attachment.svg"),
-                                ),
-                              )
-                                  : const SizedBox(),
-                              SizedBox(width: 20.w,),
-                              Expanded(
-                                child: Container(
-                                  height: 40.w,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius:
-                                      BorderRadius.circular(50.h),
-                                      border: Border.all(
-                                        width: 0.5.w,
-                                        color: Colorutils.bordercolor1,
-                                      )),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: TextField(
-                                          focusNode: controller.focusNode.value,
-                                          controller: messageCtr,
-                                          decoration: InputDecoration(
-                                            prefix:  SizedBox(width: 15.w,),
-                                            border: InputBorder.none,
-                                            contentPadding:
-                                            const EdgeInsets.all(0),
-                                            isDense: true,
-                                            hintText: "Message",
-                                            hintStyle: TeacherAppFonts
-                                                .interW400_16sp_letters1
-                                                .copyWith(
-                                                color: Colors.black
-                                                    .withOpacity(0.2)),
-                                          ),
-                                          onChanged: (value) {
-                                            controller.ontype.value = value;
-                                          },
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 8).w,
-                                        child: InkWell(
-                                          child: SvgPicture.asset(
-                                            'assets/images/profileplus.svg',
-                                            height: 24.w,
-                                            fit: BoxFit.fitHeight,
-                                          ),
-                                          onTap: () {
-                                            showModalBottomSheet(
-                                              context: context,
-                                              backgroundColor: Colors.transparent,
-                                              isScrollControlled: true,
-                                              builder: (context) {
-                                                return ParentSelectionBottomSheet();
-                                              },
-                                            );
-                                          },
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 20.w,),
-                              controller.audioPath.value == null
-                                  ? InkWell(
-                                onTap: () async {
-                                  bool permission = await Get.find<
-                                      FeedViewController>()
-                                      .permissionCheck(context);
-                                  if (permission) {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return const CameraScreen();
-                                        },
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: SizedBox(
-                                  height: 25.w,
-                                  width: 25.w,
-                                  child: SvgPicture.asset(
-                                      "assets/images/Camera.svg"),
-                                ),
-                              )
-                                  : const SizedBox(),
-                              SizedBox(width: 20.w,),
-                              controller.ontype.value == "" &&
-                                  controller.audioPath.value == null &&
-                                  controller.filePath.value == null
-                                  ? GestureDetector(
-                                onLongPress: () async {
-                                  await Permission.microphone
-                                      .request();
-
-                                  if (await Permission
-                                      .microphone.status.isGranted) {
-                                    HapticFeedback.vibrate();
-                                    Get.find<FeedViewController>()
-                                        .showAudioRecordWidget
-                                        .value = true;
-                                  } else {
-                                    ShowWarnDialog().showWarn(
-                                        context: context,
-                                        message:
-                                        "Enable microphone permission.",
-                                        iconData: Icons.mic_none);
-                                  }
-                                },
-                                child: SizedBox(
-                                  height: 25.w,
-                                  width: 25.w,
-                                  child: SvgPicture.asset(
-                                      "assets/images/Record Audio.svg"),
-                                ),
-                              )
-                                  : controller.isSentLoading.value == true
-                                  ? SizedBox(
-                                height: 25.w,
-                                width: 25.w,
-                                child:
-                                CircularProgressIndicator(),
-                              )
-                                  : InkWell(
-                                onTap: () async {
-                                  controller.isSentLoading.value =
-                                  true;
-                                  await checkInternet(
-                                    context: context,
-                                    function: () async {
-                                      if (Get.find<FeedViewController>()
-                                          .audioPath
-                                          .value !=
-                                          null ||
-                                          Get.find<FeedViewController>()
-                                              .filePath
-                                              .value !=
-                                              null) {
-                                        await Get.find<
-                                            FeedViewController>()
-                                            .sendAttach(
-                                          classs: widget.msgData?.classTeacherClass ?? '--',
-                                          batch: widget.msgData?.batch ?? '--',
-                                          subId: widget.msgData?.subjectId ?? '--',
-                                          sub: widget.msgData?.subjectName ?? '--',
-                                          teacherId: userAuthController.userData.value.userId ?? '--',
-                                          context: context,
-                                          filePath: Get.find<
-                                              FeedViewController>()
-                                              .audioPath
-                                              .value ??
-                                              Get.find<
-                                                  FeedViewController>()
-                                                  .filePath
-                                                  .value,
-                                          message: messageCtr
-                                              .text.isNotEmpty
-                                              ? messageCtr.text
-                                              : null,
-                                        );
-                                      } else {
-                                        if (messageCtr
-                                            .text.isNotEmpty) {
-                                          SentMsgByTeacherModel sentMsgData = SentMsgByTeacherModel(
-                                            subjectId: widget.msgData?.subjectId ?? '--',
-                                            batch: widget.msgData?.batch ?? '--',
-                                            classs: widget.msgData?.classTeacherClass ?? '--',
-                                            message: messageCtr
-                                                .text.isNotEmpty
-                                                ? messageCtr.text
-                                                : null,
-                                            messageFrom: userAuthController.userData.value.userId ?? '--',
-                                            parents: [],
-                                            subject: widget.msgData?.subjectName ?? '--',
-                                            replyId: controller.isReplay.value,
-                                            fileData: FileData(
-                                              name: null,
-                                              orgName: null,
-                                              extension: null,
+                                              // feedViewController
+                                              //     .selectAttachment(context: context);
+                                            },
+                                            child: SizedBox(
+                                              height: 25.w,
+                                              width: 25.w,
+                                              child: SvgPicture.asset(
+                                                  "assets/images/Attachment.svg"),
                                             ),
-                                          );
-                                          await Get.find<
-                                              FeedViewController>()
-                                              .sendAttachMsg(
-                                            sentMsgData: sentMsgData,
-                                            context: context,
-                                          );
-                                        }
-                                      }
-                                    },
-                                  );
-                                  controller.isSentLoading.value = false;
+                                          )
+                                        : const SizedBox(),
+                                    SizedBox(
+                                      width: 20.w,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        height: 40.w,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(50.h),
+                                            border: Border.all(
+                                              width: 0.5.w,
+                                              color: Colorutils.bordercolor1,
+                                            )),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: TextField(
+                                                focusNode:
+                                                    controller.focusNode.value,
+                                                controller: messageCtr,
+                                                decoration: InputDecoration(
+                                                  prefix: SizedBox(
+                                                    width: 15.w,
+                                                  ),
+                                                  border: InputBorder.none,
+                                                  contentPadding:
+                                                      const EdgeInsets.all(0),
+                                                  isDense: true,
+                                                  hintText: "Message",
+                                                  hintStyle: TeacherAppFonts
+                                                      .interW400_16sp_letters1
+                                                      .copyWith(
+                                                          color: Colors.black
+                                                              .withOpacity(
+                                                                  0.2)),
+                                                ),
+                                                onChanged: (value) {
+                                                  controller.ontype.value =
+                                                      value;
+                                                },
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                      right: 8)
+                                                  .w,
+                                              child: InkWell(
+                                                child: SvgPicture.asset(
+                                                  'assets/images/profileplus.svg',
+                                                  height: 24.w,
+                                                  fit: BoxFit.fitHeight,
+                                                ),
+                                                onTap: () {
+                                                  showModalBottomSheet(
+                                                    context: context,
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    isScrollControlled: true,
+                                                    builder: (context) {
+                                                      return ParentSelectionBottomSheet();
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 20.w,
+                                    ),
+                                    controller.audioPath.value == null
+                                        ? InkWell(
+                                            onTap: () async {
+                                              bool permission = await Get.find<
+                                                      FeedViewController>()
+                                                  .permissionCheck(context);
+                                              if (permission) {
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                    builder: (context) {
+                                                      return const CameraScreen();
+                                                    },
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                            child: SizedBox(
+                                              height: 25.w,
+                                              width: 25.w,
+                                              child: SvgPicture.asset(
+                                                  "assets/images/Camera.svg"),
+                                            ),
+                                          )
+                                        : const SizedBox(),
+                                    SizedBox(
+                                      width: 20.w,
+                                    ),
+                                    controller.ontype.value == "" &&
+                                            controller.audioPath.value ==
+                                                null &&
+                                            controller.filePath.value == null
+                                        ? GestureDetector(
+                                            onLongPress: () async {
+                                              await Permission.microphone
+                                                  .request();
 
-                                  //delaying for completing the message tile update after rebuild//
-                                  Future.delayed(
-                                      const Duration(
-                                          milliseconds: 50), () {
-                                    Get.find<FeedViewController>()
-                                        .chatFeedViewScrollController
-                                        .value
-                                        .animateTo(
-                                      controller
-                                          .chatFeedViewScrollController
-                                          .value
-                                          .position
-                                          .maxScrollExtent,
-                                      duration:
-                                      const Duration(
-                                          milliseconds:
-                                          200),
-                                      curve: Curves.easeOut,
-                                    );
-                                  });
-                                  print("clear worked");
-                                  messageCtr.clear();
-                                  controller.ontype.value = "";
+                                              if (await Permission.microphone
+                                                  .status.isGranted) {
+                                                HapticFeedback.vibrate();
+                                                feedViewController
+                                                    .showAudioRecordWidget
+                                                    .value = true;
+                                              } else {
+                                                ShowWarnDialog().showWarn(
+                                                    context: context,
+                                                    message:
+                                                        "Enable microphone permission.",
+                                                    iconData: Icons.mic_none);
+                                              }
+                                            },
+                                            child: SizedBox(
+                                              height: 25.w,
+                                              width: 25.w,
+                                              child: SvgPicture.asset(
+                                                  "assets/images/Record Audio.svg"),
+                                            ),
+                                          )
+                                        : controller.isSentLoading.value == true
+                                            ? SizedBox(
+                                                height: 25.w,
+                                                width: 25.w,
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              )
+                                            : InkWell(
+                                                onTap: () async {
+                                                  controller.isSentLoading
+                                                      .value = true;
+                                                  await checkInternet(
+                                                    context: context,
+                                                    function: () async {
+                                                      if (feedViewController
+                                                                  .audioPath
+                                                                  .value !=
+                                                              null ||
+                                                          feedViewController
+                                                                  .filePath
+                                                                  .value !=
+                                                              null) {
+                                                        await Get.find<
+                                                                FeedViewController>()
+                                                            .sendAttach(
+                                                          classs: widget.msgData
+                                                                  ?.classTeacherClass ??
+                                                              '--',
+                                                          batch: widget.msgData
+                                                                  ?.batch ??
+                                                              '--',
+                                                          subId: widget.msgData
+                                                                  ?.subjectId ??
+                                                              '--',
+                                                          sub: widget.msgData
+                                                                  ?.subjectName ??
+                                                              '--',
+                                                          teacherId:
+                                                              userAuthController
+                                                                      .userData
+                                                                      .value
+                                                                      .userId ??
+                                                                  '--',
+                                                          context: context,
+                                                          filePath: Get.find<
+                                                                      FeedViewController>()
+                                                                  .audioPath
+                                                                  .value ??
+                                                              Get.find<
+                                                                      FeedViewController>()
+                                                                  .filePath
+                                                                  .value,
+                                                          message: messageCtr
+                                                                  .text
+                                                                  .isNotEmpty
+                                                              ? messageCtr.text
+                                                              : null,
+                                                        );
+                                                      } else {
+                                                        if (messageCtr
+                                                            .text.isNotEmpty) {
+                                                          SentMsgByTeacherModel
+                                                              sentMsgData =
+                                                              SentMsgByTeacherModel(
+                                                            subjectId: widget
+                                                                    .msgData
+                                                                    ?.subjectId ??
+                                                                '--',
+                                                            batch: widget
+                                                                    .msgData
+                                                                    ?.batch ??
+                                                                '--',
+                                                            classs: widget
+                                                                    .msgData
+                                                                    ?.classTeacherClass ??
+                                                                '--',
+                                                            message: messageCtr
+                                                                    .text
+                                                                    .isNotEmpty
+                                                                ? messageCtr
+                                                                    .text
+                                                                : null,
+                                                            messageFrom:
+                                                                userAuthController
+                                                                        .userData
+                                                                        .value
+                                                                        .userId ??
+                                                                    '--',
+                                                            parents:
+                                                                feedViewController
+                                                                    .finalParentDataList
+                                                                    .value,
+                                                            subject: widget
+                                                                    .msgData
+                                                                    ?.subjectName ??
+                                                                '--',
+                                                            replyId: controller
+                                                                .isReplay.value,
+                                                            fileData: FileData(
+                                                              name: null,
+                                                              orgName: null,
+                                                              extension: null,
+                                                            ),
+                                                          );
+                                                          await feedViewController
+                                                              .sendAttachMsg(
+                                                            sentMsgData:
+                                                                sentMsgData,
+                                                            context: context,
+                                                          );
+                                                        }
+                                                      }
+                                                    },
+                                                  );
+                                                  controller.isSentLoading
+                                                      .value = false;
 
-                                  //delaying for completing the message tile update after rebuild//
-                                  Future.delayed(
-                                    const Duration(
-                                        milliseconds: 50),
-                                        () {
-                                      Get.find<
-                                          FeedViewController>()
-                                          .chatFeedViewScrollController
-                                          .value
-                                          .animateTo(
-                                        controller
-                                            .chatFeedViewScrollController
-                                            .value
-                                            .position
-                                            .maxScrollExtent,
-                                        duration:
-                                        const Duration(
-                                            milliseconds:
-                                            200),
-                                        curve: Curves.easeOut,
-                                      );
-                                    },
-                                  );
-                                },
-                                child: SizedBox(
-                                  height: 25.w,
-                                  width: 25.w,
-                                  child: const Icon(
-                                    Icons.send,
-                                    color: Colorutils.bgcolor13,
-                                  ),
+                                                  //delaying for completing the message tile update after rebuild//
+                                                  Future.delayed(
+                                                      const Duration(
+                                                          milliseconds: 50),
+                                                      () {
+                                                    feedViewController
+                                                        .chatFeedViewScrollController
+                                                        .value
+                                                        .animateTo(
+                                                      controller
+                                                          .chatFeedViewScrollController
+                                                          .value
+                                                          .position
+                                                          .maxScrollExtent,
+                                                      duration: const Duration(
+                                                          milliseconds: 200),
+                                                      curve: Curves.easeOut,
+                                                    );
+                                                  });
+                                                  print("clear worked");
+                                                  messageCtr.clear();
+                                                  controller.ontype.value = "";
+
+                                                  //delaying for completing the message tile update after rebuild//
+                                                  Future.delayed(
+                                                    const Duration(
+                                                        milliseconds: 50),
+                                                    () {
+                                                      Get.find<
+                                                              FeedViewController>()
+                                                          .chatFeedViewScrollController
+                                                          .value
+                                                          .animateTo(
+                                                            controller
+                                                                .chatFeedViewScrollController
+                                                                .value
+                                                                .position
+                                                                .maxScrollExtent,
+                                                            duration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        200),
+                                                            curve:
+                                                                Curves.easeOut,
+                                                          );
+                                                    },
+                                                  );
+                                                },
+                                                child: SizedBox(
+                                                  height: 25.w,
+                                                  width: 25.w,
+                                                  child: const Icon(
+                                                    Icons.send,
+                                                    color: Colorutils.bgcolor13,
+                                                  ),
+                                                ),
+                                              )
+                                  ],
                                 ),
-                              )
-                            ],
+                          SizedBox(
+                            height: 35.w,
                           ),
-                          SizedBox(height: 35.w,),
                         ],
                       ),
                     ),
@@ -911,76 +1002,95 @@ class ChatList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String userId = Get.find<UserAuthController>().userData.value.userId ?? '--';
+    String userId =
+        Get.find<UserAuthController>().userData.value.userId ?? '--';
     return GetX<FeedViewController>(
       builder: (FeedViewController controller) {
+        print("------------bvjsdfv=========");
         List<MsgData> msgList = controller.chatMsgList.value;
-        return ListView.separated(
+        return GroupedListView<MsgData, String>(
+          useStickyGroupSeparators: true,
+          cacheExtent: 1000,
+          floatingHeader: true,
           padding: EdgeInsets.only(top: 5.h, bottom: 5.h),
           controller: controller.chatFeedViewScrollController.value,
-          itemBuilder: (context, index) {
-            final messageData = msgList[index];
+          groupBy: (element) {
+            try {
+              return DateFormat('yyyy-MM-dd')
+                  .format(DateTime.parse(element.sendAt!));
+            } catch (e) {
+              return "--";
+            }
+          },
+          elements: msgList,
+          groupSeparatorBuilder: (String groupByValue) {
+            return ChatDateWidget(date: groupByValue);
+          },
+          itemBuilder: (context, messageData) {
+            // final messageData = msgList[index];
             return "${messageData.messageFromId}" == userId
                 ? Column(
-              children: [
-                SwapeToWidget(
-                  function: () {
-                    controller.focusTextField();
-                    // FocusScope.of(context).requestFocus(controller.focusNode);
-                    controller.isReplay.value = messageData.messageId;
-                    controller.replayName.value = "You";
-                    controller.replayMessage = messageData;
-                  },
-                  iconWidget: SvgPicture.asset(
-                      "assets/images/ArrowBendUpLeft.svg"),
-                  child: SentMessageBubble(
-                    message: messageData.message ?? '',
-                    time: messageData.sendAt,
-                    replay: true,
-                    audio: messageData.messageAudio,
-                    fileName: messageData.fileName,
-                    fileLink: messageData.messageFile,
-                    messageData: messageData,
-                  ),
-                ),
-              ],
-            )
+                    children: [
+                      SwapeToWidget(
+                        function: () {
+                          controller.focusTextField();
+                          // FocusScope.of(context).requestFocus(controller.focusNode);
+                          controller.isReplay.value = messageData.messageId;
+                          controller.replayName.value = "You";
+                          controller.replayMessage = messageData;
+                        },
+                        iconWidget: SvgPicture.asset(
+                            "assets/images/ArrowBendUpLeft.svg"),
+                        child: SentMessageBubble(
+                          message: messageData.message ?? '',
+                          time: messageData.sendAt,
+                          replay: true,
+                          audio: messageData.messageAudio,
+                          fileName: messageData.fileName,
+                          fileLink: messageData.messageFile,
+                          messageData: messageData,
+                        ),
+                      ),
+                    ],
+                  )
                 : Column(
-              children: [
-                SwapeToWidget(
-                  function: () {
-                    controller.focusTextField();
-                    // FocusScope.of(context)
-                    //     .requestFocus(controller.focusNode);
-                    controller.isReplay.value =
-                        messageData.messageId;
-                    controller.replayName.value = messageData.messageFrom ??
-                        "";
-                    controller.replayMessage = messageData;
-                  },
-                  iconWidget: SvgPicture.asset(
-                      "assets/images/ArrowBendUpLeft.svg"),
-                  child: ReceiveMessageBubble(
-                    senderName: messageData.messageFrom,
-                    message: messageData.message,
-                    time: messageData.sendAt,
-                    replay: true,
-                    audio: messageData.messageAudio,
-                    fileName: messageData.fileName,
-                    fileLink: messageData.messageFile,
-                    subject: messageData.subjectName,
-                    messageData: messageData,
-                  ),
-                ),
-              ],
-            );
+                    children: [
+                      SwapeToWidget(
+                        function: () {
+                          controller.focusTextField();
+                          // FocusScope.of(context)
+                          //     .requestFocus(controller.focusNode);
+                          controller.isReplay.value = messageData.messageId;
+                          controller.replayName.value =
+                              messageData.messageFrom ?? "";
+                          controller.replayMessage = messageData;
+                        },
+                        iconWidget: SvgPicture.asset(
+                            "assets/images/ArrowBendUpLeft.svg"),
+                        child: ReceiveMessageBubble(
+                          senderName: messageData.messageFrom,
+                          message: messageData.message,
+                          time: messageData.sendAt,
+                          replay: true,
+                          audio: messageData.messageAudio,
+                          fileName: messageData.fileName,
+                          fileLink: messageData.messageFile,
+                          subject: messageData.subjectName,
+                          messageData: messageData,
+                        ),
+                      ),
+                    ],
+                  );
           },
-          separatorBuilder: (context, index) {
-            return SizedBox(
-              height: 5.h,
-            );
-          },
-          itemCount: msgList.length,
+          separator: SizedBox(
+            height: 5.h,
+          ),
+          // separatorBuilder: (context, index) {
+          //   return SizedBox(
+          //     height: 5.h,
+          //   );
+          // },
+          // itemCount: msgList.length,
         );
       },
     );
@@ -1063,4 +1173,3 @@ Future<void> checkInternet(
         color: Colors.red);
   }
 }
-

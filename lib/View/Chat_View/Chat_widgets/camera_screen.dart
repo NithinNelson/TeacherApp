@@ -49,7 +49,7 @@ class _CameraScreenState extends State<CameraScreen> {
     }
     if (cameras.isNotEmpty) {
       controller = CameraController(
-          frontCamera ? cameras[1] : cameras[0], ResolutionPreset.max);
+          frontCamera ? cameras[1] : cameras[0], ResolutionPreset.max, enableAudio: false);
       try {
         await controller.initialize();
       } on CameraException catch (e) {

@@ -21,6 +21,7 @@ class GroupChatList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // int colorInt = 0;
     return GetX<ChatClassGroupController>(
       builder: (ChatClassGroupController controller) {
         List<ClassTeacherGroup> classTeacherGroups = controller.classGroupList.value;
@@ -32,6 +33,11 @@ class GroupChatList extends StatelessWidget {
             LastMessage? lastMsg = controller.classGroupList[index].lastMessage!.isNotEmpty ? controller.classGroupList[index].lastMessage?.first : LastMessage();
             DateTime? sentTime = lastMsg?.sandAt;
             String? formattedDate;
+            // if(colorInt > 4) {
+            //   colorInt = 0;
+            // }
+            // colorInt++;
+            // print("-------colorInt---------$colorInt");
             try {
               formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
             } catch(e) {}
@@ -40,10 +46,11 @@ class GroupChatList extends StatelessWidget {
               // className: classTeacherGroups[index].subjectName ?? '--',
               time: formattedDate ?? '',
               unreadMessages: classTeacherGroups[index].unreadCount ?? 0,
-              // classs: '${classTeacherGroups[index].classTeacherClass}${classTeacherGroups[index].batch}',
+              // classs: '${classTeacherGroups[imkvkosdmvksfmnvbndex].classTeacherClass}${classTeacherGroups[index].batch}',
               lastMessage: lastMsg,
               userId: userId,
               classTeacherGroup: classTeacherGroups[index],
+              avatarColor: Colorutils.chatLeadingColors[index % 5],
             );
           },
           separatorBuilder: (BuildContext context, int index) {
@@ -65,6 +72,7 @@ class ChatItem extends StatelessWidget {
   final String? userId;
   final LastMessage? lastMessage;
   final ClassTeacherGroup? classTeacherGroup;
+  final Color? avatarColor;
 
   const ChatItem({super.key,
     required this.time,
@@ -72,13 +80,11 @@ class ChatItem extends StatelessWidget {
     required this.userId,
     required this.lastMessage,
     required this.classTeacherGroup,
+    required this.avatarColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    final random = Random();
-    int randomIndex = random.nextInt(Colorutils.chatLeadingColors.length);
-    Color randomElement = Colorutils.chatLeadingColors[randomIndex];
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -95,7 +101,7 @@ class ChatItem extends StatelessWidget {
         child: Row(
           children: [
             CircleAvatar(
-              backgroundColor: randomElement,
+              backgroundColor: avatarColor,
               radius: 28.r,
               child: FittedBox(
                 child: Text(

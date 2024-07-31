@@ -9,53 +9,8 @@ import '../../../Utils/Colors.dart';
 import '../../../Utils/font_util.dart';
 import '../../../Models/api_models/parent_list_api_model.dart';
 
-class ParentSelectionBottomSheet extends StatefulWidget {
+class ParentSelectionBottomSheet extends StatelessWidget {
   const ParentSelectionBottomSheet({super.key});
-
-  @override
-  State<ParentSelectionBottomSheet> createState() =>
-      _ParentSelectionBottomSheetState();
-}
-
-class _ParentSelectionBottomSheetState
-    extends State<ParentSelectionBottomSheet> {
-  List<Map<String, dynamic>> parents = [
-    {
-      "name": "Ali bin Omar",
-      "relation": "Son of Hilal Ibrahim",
-      "selected": true
-    },
-    {
-      "name": "Aisha bint Ali",
-      "relation": "Daughter of Hibat Ibrahim",
-      "selected": true
-    },
-    {
-      "name": "Youssef bin Khalid",
-      "relation": "Son of Hilal Ibrahim",
-      "selected": true
-    },
-    {
-      "name": "Abdullah bin Hassan",
-      "relation": "Son of Hilal Ibrahim",
-      "selected": false
-    },
-    {
-      "name": "Ibrahim bin Ahmed",
-      "relation": "Son of Hilal Ibrahim",
-      "selected": false
-    },
-    {
-      "name": "Zainab bint Omar",
-      "relation": "Daughter of Hibat Ibrahim",
-      "selected": false
-    },
-    {
-      "name": "Noor bint Khalid",
-      "relation": "Daughter of Saeed bin Ibrahim",
-      "selected": false
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +79,10 @@ class _ParentSelectionBottomSheetState
                         ],
                       ),
                       TextButton(
-                        onPressed: () => controller.setFinalParentList(),
+                        onPressed: () {
+                          controller.setFinalParentList();
+                          Navigator.of(context).pop();
+                        },
                         child: Text(
                           'Done',
                           style: TextStyle(
@@ -168,54 +126,72 @@ class _ParentSelectionBottomSheetState
                   ),
                 ),
                 SizedBox(height: 16.w),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(selectedParentList.length, (index) {
-                      List<Color> colors = [
-                        Colorutils.letters1,
-                        Colorutils.svguicolour2,
-                        Colorutils.Subjectcolor4
-                      ];
+                SizedBox(
+                  width: ScreenUtil().screenWidth,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: List.generate(selectedParentList.length, (index) {
+                        List<Color> colors = [
+                          Colorutils.letters1,
+                          Colorutils.svguicolour2,
+                          Colorutils.Subjectcolor4
+                        ];
 
-                      Color color = colors[index % colors.length];
+                        Color color = colors[index % colors.length];
 
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 5, left: 5).w,
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(100).w,
-                              child: CachedNetworkImage(
-                                imageUrl: selectedParentList[index].image ?? 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fblank-profile-picture&psig=AOvVaw3pSqd4HXn-r_hJJ7K0MwWv&ust=1722455165124000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKDGs93Dz4cDFQAAAAAdAAAAABAE',
-                                errorWidget: (context, url, error) {
-                                  return const Icon(Icons.person, color: Colors.grey);
-                                },
-                              ),
-                            ),
-                            // Image.asset("assets/images/profile image.png"),
-                            Positioned(
-                              top: 0,
-                              right: 0,
-                              child: InkWell(
-                                onTap: () => controller.removeParentList(selectedParentList[index]),
-                                child: Container(
-                                    width: 15.w,
-                                    height: 15.w,
-                                    padding: const EdgeInsets.all(3).w,
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colorutils.Whitecolor,
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 5, left: 5).w,
+                          child: Stack(
+                            children: [
+                              Container(
+                                width: 55.w,
+                                height: 55.w,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: color,
+                                    )
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100).r,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10).w,
+                                    child: FittedBox(
+                                      child: CachedNetworkImage(
+                                        imageUrl: parentList[index].image ?? '',
+                                        errorWidget: (context, url, error) {
+                                          return const Icon(Icons.person, color: Colors.grey);
+                                        },
+                                      ),
                                     ),
-                                    child: SvgPicture.asset(
-                                      'assets/images/cancel.svg',
-                                    )),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
+                              // Image.asset("assets/images/profile image.png"),
+                              Positioned(
+                                top: 0,
+                                right: 0,
+                                child: InkWell(
+                                  onTap: () => controller.removeParentList(selectedParentList[index]),
+                                  child: Container(
+                                      width: 15.w,
+                                      height: 15.w,
+                                      padding: const EdgeInsets.all(3).w,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colorutils.Whitecolor,
+                                      ),
+                                      child: SvgPicture.asset(
+                                        'assets/images/cancel.svg',
+                                      )),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                    ),
                   ),
                 ),
                 SizedBox(height: 16.w),
@@ -224,6 +200,13 @@ class _ParentSelectionBottomSheetState
                     itemCount: parentList.length,
                     itemBuilder: (BuildContext context, int index) {
                       String subTitle = parentList[index].gender?.substring(0, 1).toUpperCase() == 'F' ? "Daughter of ${capitalizeEachWord(parentList[index].name) ?? '--'}" : parentList[index].gender?.substring(0, 1).toUpperCase() == 'M' ? "Son of ${capitalizeEachWord(parentList[index].name) ?? '--'}" : '--';
+                      List<Color> colors = [
+                        Colorutils.letters1,
+                        Colorutils.svguicolour2,
+                        Colorutils.Subjectcolor4
+                      ];
+
+                      Color color = colors[index % colors.length];
                       return ListTile(
                         contentPadding: const EdgeInsets.all(0),
                         minVerticalPadding: 0,
@@ -237,13 +220,29 @@ class _ParentSelectionBottomSheetState
                             SizedBox(
                               width: 10.w,
                             ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(100).w,
-                              child: CachedNetworkImage(
-                                imageUrl: parentList[index].image ?? 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fblank-profile-picture&psig=AOvVaw3pSqd4HXn-r_hJJ7K0MwWv&ust=1722455165124000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKDGs93Dz4cDFQAAAAAdAAAAABAE',
-                                errorWidget: (context, url, error) {
-                                  return const Icon(Icons.person, color: Colors.grey);
-                                },
+                            Container(
+                              width: 55.w,
+                              height: 55.w,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: color,
+                                  )
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100).r,
+                                child: FittedBox(
+                                  child: CachedNetworkImage(
+                                    imageUrl: parentList[index].image ?? '',
+                                    fit: BoxFit.cover,
+                                    errorWidget: (context, url, error) {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(10).w,
+                                        child: const Icon(Icons.person, color: Colors.grey),
+                                      );
+                                    },
+                                  ),
+                                ),
                               ),
                             ),
                           ],

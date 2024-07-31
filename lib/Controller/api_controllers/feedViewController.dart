@@ -17,12 +17,12 @@ class FeedViewController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isLoaded = false.obs;
   RxBool isError = false.obs;
-  Rx<ChatFeedViewModel> chatFeedData = ChatFeedViewModel().obs;
+  // Rx<ChatFeedViewModel> chatFeedData = ChatFeedViewModel().obs;
   Rx<ParentListApiModel> parentListApiData = ParentListApiModel().obs;
   RxList<MsgData> chatMsgList = <MsgData>[].obs;
   RxList<ParentData> parentDataList = <ParentData>[].obs;
   RxList<ParentData> selectedParentDataList = <ParentData>[].obs;
-  RxList<ParentData> finalParentDataList = <ParentData>[].obs;
+  RxList<String> finalParentDataList = <String>[].obs;
   RxInt feedUnreadCount = 0.obs;
   Rx<ScrollController> chatFeedViewScrollController = ScrollController().obs;
   Rx<FocusNode> focusNode = FocusNode().obs;
@@ -37,6 +37,7 @@ class FeedViewController extends GetxController {
   RxBool showAudioRecordWidget = false.obs;
   RxBool showAudioPlayingWidget = false.obs;
   MsgData? seletedMsgData;
+  String? lastMessageId;
 
   void resetStatus() {
     isLoading.value = false;
@@ -48,9 +49,9 @@ class FeedViewController extends GetxController {
     try {
       Map<String, dynamic> resp = await ApiServices.getChatFeedView(reqBodyData: reqBody);
       if(resp['status']['code'] == 200) {
-        chatFeedData.value = ChatFeedViewModel.fromJson(resp);
-        feedUnreadCount.value = chatFeedData.value.data?.count ?? 0;
-        chatMsgList.value = chatFeedData.value.data?.data ?? [];
+        ChatFeedViewModel chatFeedData = ChatFeedViewModel.fromJson(resp);
+        feedUnreadCount.value = chatFeedData.data?.count ?? 0;
+        chatMsgList.value = chatFeedData.data?.data ?? [];
         chatMsgList.sort((a, b) => a.sendAt!.compareTo(b.sendAt!));
       }
       await fetchParentList(
@@ -65,6 +66,43 @@ class FeedViewController extends GetxController {
       print('--------feed view error--------');
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> fetchFeedViewMsgListPeriodically(ChatFeedViewReqModel reqBody) async {
+    ChatFeedViewModel? chatFeedData;
+    try {
+      Map<String, dynamic> resp = await ApiServices.getChatFeedView(reqBodyData: reqBody);
+      if(resp['status']['code'] == 200) {
+        chatFeedData = ChatFeedViewModel.fromJson(resp);
+      }
+    } catch(e) {
+      print('--------feed view error--------');
+    } finally {}
+    MsgData? lastMsg = chatFeedData?.data?.data?.first;
+    String? newLastMessageId = "${lastMsg?.messageId}${lastMsg?.messageFromId}${lastMsg?.sendAt}";
+
+    if (lastMessageId == null || newLastMessageId != lastMessageId) {
+      lastMessageId = newLastMessageId;
+      // update();
+      feedUnreadCount.value = chatFeedData?.data?.count ?? 0;
+      chatMsgList.value = chatFeedData?.data?.data ?? [];
+      chatMsgList.sort(
+        (a, b) => a.sendAt!.compareTo(b.sendAt!),
+      );
+      Future.delayed(
+        const Duration(milliseconds: 50),
+            () {
+              chatFeedViewScrollController.value
+              .animateTo(
+                chatFeedViewScrollController.value
+                .position
+                .maxScrollExtent,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeOut,
+          );
+        },
+      );
     }
   }
 
@@ -162,9 +200,9 @@ class FeedViewController extends GetxController {
 
   Future<bool> permissionCheck(context) async {
     PermissionStatus cameraPermissionStatus = await Permission.camera.status;
-    PermissionStatus micPermissionStatus = await Permission.microphone.status;
+    // PermissionStatus micPermissionStatus = await Permission.microphone.status;
 
-    if (cameraPermissionStatus.isGranted && micPermissionStatus.isGranted) {
+    if (cameraPermissionStatus.isGranted) {
       return true;
     } else if (cameraPermissionStatus.isDenied) {
       await Permission.camera.request();
@@ -177,18 +215,20 @@ class FeedViewController extends GetxController {
           isCameraPage: false,
         );
       }
-    } else if (micPermissionStatus.isDenied) {
-      await Permission.microphone.request();
-      micPermissionStatus = await Permission.microphone.status;
-      if (!micPermissionStatus.isGranted) {
-        await ShowWarnDialog().showWarn(
-          context: context,
-          message: 'Audio access denied.',
-          iconData: Icons.mic,
-          isCameraPage: false,
-        );
-      }
-    } else {
+    }
+    // else if (micPermissionStatus.isDenied) {
+    //   await Permission.microphone.request();
+    //   micPermissionStatus = await Permission.microphone.status;
+    //   if (!micPermissionStatus.isGranted) {
+    //     await ShowWarnDialog().showWarn(
+    //       context: context,
+    //       message: 'Audio access denied.',
+    //       iconData: Icons.mic,
+    //       isCameraPage: false,
+    //     );
+    //   }
+    // }
+    else {
       if (cameraPermissionStatus.isPermanentlyDenied) {
         await ShowWarnDialog().showWarn(
           context: context,
@@ -196,14 +236,15 @@ class FeedViewController extends GetxController {
           iconData: Icons.camera_alt,
           isCameraPage: false,
         );
-      } else if (micPermissionStatus.isPermanentlyDenied) {
-        await ShowWarnDialog().showWarn(
-          context: context,
-          message: 'Audio access denied.',
-          iconData: Icons.mic,
-          isCameraPage: false,
-        );
       }
+      // else if (micPermissionStatus.isPermanentlyDenied) {
+      //   await ShowWarnDialog().showWarn(
+      //     context: context,
+      //     message: 'Audio access denied.',
+      //     iconData: Icons.mic,
+      //     isCameraPage: false,
+      //   );
+      // }
     }
     return false;
   }
@@ -246,6 +287,7 @@ class FeedViewController extends GetxController {
         required String teacherId,
         filePath,
         String? message}) async {
+    print("--------rgte4ght------------${finalParentDataList.length}");
     try {
       Map<String, dynamic> resp = await ApiServices.sendAttachment(filePath: filePath);
 
@@ -258,7 +300,7 @@ class FeedViewController extends GetxController {
           classs: classs,
           message: message,
           messageFrom: teacherId,
-          parents: [],
+          parents: finalParentDataList.value,
           subject: sub,
           replyId: isReplay.value,
           fileData: FileData(
@@ -350,6 +392,8 @@ class FeedViewController extends GetxController {
     List<ParentData> parents = selectedParentDataList.where((emp) => emp.sId == parent.sId).toList();
     if(parents.isEmpty) {
       selectedParentDataList.add(parent);
+    } else {
+      removeParentList(parent);
     }
   }
 
@@ -358,7 +402,10 @@ class FeedViewController extends GetxController {
   }
 
   void setFinalParentList() {
-    finalParentDataList.value = selectedParentDataList;
+    for (var parent in selectedParentDataList) {
+      finalParentDataList.add(parent.sId ?? '');
+    }
+    print("--------rgte4ght------------${finalParentDataList.length}");
   }
 
   bool showSelectionIcon(ParentData parent) {

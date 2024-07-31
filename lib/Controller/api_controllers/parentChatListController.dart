@@ -57,6 +57,29 @@ class ParentChatListController extends GetxController {
     }
   }
 
+  Future<void> fetchParentChatListPeriodically() async {
+    try {
+      String? teacherId = Get.find<UserAuthController>().userData.value.userId;
+      String? email = Get.find<UserAuthController>().userData.value.username;
+      Map<String, dynamic> resp = await ApiServices.getParentChatList(
+        teacherId: teacherId.toString(),
+        teacherEmail: email.toString(),
+      );
+      if (resp['status']['code'] == 200) {
+        ParentChatListApiModel parentChatListApiModel = ParentChatListApiModel.fromJson(resp);
+        unreadCount.value = parentChatListApiModel.data?.unreadCount ?? 0;
+        allParentChatList.value = parentChatListApiModel.data?.data ?? [];
+        filterByClass('All');
+        setClassList();
+        setChatList();
+      }
+    } catch (e) {
+      print("------parent chat list error---------");
+    } finally {
+      resetStatus();
+    }
+  }
+
   void setTab(int index) {
     currentTab.value = index;
     setChatList();
