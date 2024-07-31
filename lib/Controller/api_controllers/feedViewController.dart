@@ -52,7 +52,12 @@ class FeedViewController extends GetxController {
         ChatFeedViewModel chatFeedData = ChatFeedViewModel.fromJson(resp);
         feedUnreadCount.value = chatFeedData.data?.count ?? 0;
         chatMsgList.value = chatFeedData.data?.data ?? [];
-        chatMsgList.sort((a, b) => a.sendAt!.compareTo(b.sendAt!));
+        // chatMsgList.sort((a, b) => a.sendAt!.compareTo(b.sendAt!));
+        chatMsgList.sort((a, b) {
+          DateTime dateA = DateTime.parse(a.sendAt!);
+          DateTime dateB = DateTime.parse(b.sendAt!);
+          return dateA.compareTo(dateB);
+        });
       }
       await fetchParentList(
         classs: reqBody.classs ?? '--',
@@ -87,9 +92,14 @@ class FeedViewController extends GetxController {
       // update();
       feedUnreadCount.value = chatFeedData?.data?.count ?? 0;
       chatMsgList.value = chatFeedData?.data?.data ?? [];
-      chatMsgList.sort(
-        (a, b) => a.sendAt!.compareTo(b.sendAt!),
-      );
+      chatMsgList.sort((a, b) {
+        DateTime dateA = DateTime.parse(a.sendAt!);
+        DateTime dateB = DateTime.parse(b.sendAt!);
+        return dateA.compareTo(dateB);
+      });
+      // chatMsgList.sort(
+      //   (a, b) => a.sendAt!.compareTo(b.sendAt!),
+      // );
       Future.delayed(
         const Duration(milliseconds: 50),
             () {

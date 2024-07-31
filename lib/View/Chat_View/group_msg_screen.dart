@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:teacherapp/Controller/api_controllers/feedViewController.dart';
+import 'package:teacherapp/Controller/api_controllers/groupedViewListController.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Models/api_models/sent_msg_by_teacher_model.dart';
 import 'package:teacherapp/Utils/Colors.dart';
@@ -48,6 +49,7 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
   TextEditingController messageCtr = TextEditingController();
   FeedViewController feedViewController = Get.find<FeedViewController>();
   UserAuthController userAuthController = Get.find<UserAuthController>();
+  GroupedViewListController groupedViewListController = Get.find<GroupedViewListController>();
   Timer? chatUpdate;
 
   // late bool isKeboardOpen;
@@ -87,6 +89,7 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
       limit: 100,
     );
     await feedViewController.fetchFeedViewMsgList(chatFeedViewReqModel);
+    await groupedViewListController.fetchGroupedViewList();
     if (!mounted) return;
     context.loaderOverlay.hide();
     await Future.delayed(const Duration(milliseconds: 50), () {
@@ -100,8 +103,8 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
     chatUpdate = Timer.periodic(
       const Duration(seconds: 1),
       (timer) async {
-        await feedViewController
-            .fetchFeedViewMsgListPeriodically(chatFeedViewReqModel);
+        await feedViewController.fetchFeedViewMsgListPeriodically(chatFeedViewReqModel);
+        await groupedViewListController.fetchGroupedViewListPeriodically();
       },
     );
   }
@@ -315,7 +318,7 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
                     ],
                   ),
                 ),
-                GroupedViewChat(),
+                const GroupedViewChat(),
               ]),
             ),
             if (_tabcontroller?.index == 0)
@@ -1006,7 +1009,6 @@ class ChatList extends StatelessWidget {
         Get.find<UserAuthController>().userData.value.userId ?? '--';
     return GetX<FeedViewController>(
       builder: (FeedViewController controller) {
-        print("------------bvjsdfv=========");
         List<MsgData> msgList = controller.chatMsgList.value;
         return GroupedListView<MsgData, String>(
           useStickyGroupSeparators: true,

@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:teacherapp/Controller/api_controllers/groupedViewListController.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/View/Chat_List/chat_list_widgets/last_seen_msg.dart';
 
@@ -87,6 +88,11 @@ class ChatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        Get.find<GroupedViewListController>().setPayload(
+            stdClass: classTeacherGroup?.classTeacherClass ?? '',
+            stdBatch: classTeacherGroup?.batch ?? '',
+            subId: classTeacherGroup?.subjectId ?? '',
+        );
         Navigator.push(
             context,
             MaterialPageRoute(

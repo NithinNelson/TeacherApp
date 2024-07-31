@@ -397,4 +397,35 @@ class ApiServices {
       print(e);
     }
   }
+
+  static Future<dynamic> getGroupedViewList({
+    required String classs,
+    required String batch,
+    required String subId,
+    required String schoolId,
+    required String teacherId,
+  }) async {
+    String url = ApiConstants.chat + ApiConstants.parentList;
+    print("--url--$url");
+    try {
+      Map<String, dynamic> apiBody = {
+        "teacher_id": teacherId,
+        "class": classs,
+        "batch": batch,
+        "school_id": schoolId,
+        "offset": 0,
+        "limit": 100
+      };
+
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = json.encode(apiBody);
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      String respString = await response.stream.bytesToString();
+      return json.decode(respString);
+    } catch (e) {
+      print(e);
+    }
+  }
 }

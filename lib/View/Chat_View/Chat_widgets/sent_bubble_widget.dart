@@ -116,11 +116,11 @@ class SentMessageBubble extends StatelessWidget {
                                     children: [
                                       ConstrainedBox(
                                         constraints: BoxConstraints(
-                                          maxWidth: 210.w,
+                                          maxWidth: 200.w,
                                         ),
                                         child: Text(
                                           message ?? "",
-                                          maxLines: 100,
+                                          // maxLines: 100,
                                           style: TeacherAppFonts
                                               .interW400_16sp_letters1
                                               .copyWith(color: Colors.black),
