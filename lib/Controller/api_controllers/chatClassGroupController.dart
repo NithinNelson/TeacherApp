@@ -17,7 +17,13 @@ class ChatClassGroupController extends GetxController {
     isError.value = false;
   }
 
+  void resetData() {
+    unreadCount.value = 0;
+    classGroupList.value = [];
+  }
+
   Future<void> fetchClassGroupList() async {
+    resetData();
     isLoading.value = true;
     isLoaded.value = false;
     try {

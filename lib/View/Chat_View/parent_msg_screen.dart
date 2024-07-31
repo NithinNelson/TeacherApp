@@ -114,6 +114,7 @@ class _ParentMsgScreenState extends State<ParentMsgScreen> {
                     padding: EdgeInsets.symmetric(horizontal: 20.h),
                     child: Column(
                       children: [
+                        SizedBox(height: 10.h),
                         controller.isReplay.value
                             ? Column(
                           children: [
@@ -181,7 +182,7 @@ class _ParentMsgScreenState extends State<ParentMsgScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10.w),
+                            SizedBox(height: 10.h),
                           ],
                         )
                             : const SizedBox(),
@@ -447,7 +448,7 @@ class _ParentMsgScreenState extends State<ParentMsgScreen> {
                             )
                           ],
                         ),
-                        SizedBox(height: 35.w),
+                        SizedBox(height: 35.h),
                       ],
                     ),
                   ),

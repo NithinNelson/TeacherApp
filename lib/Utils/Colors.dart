@@ -48,4 +48,43 @@ class Colorutils {
     Colorutils.lightPink,
     Colorutils.lightGreen,
   ];
+
+  // arun colors
+  static const bgcolor1 = Color(0xff967FF9);
+  static const bgcolor2 = Color(0xffEEEAFF);
+  static const bgcolor3 = Color(0xffFFE1A9);
+  static const fontColor2 = Color(0xff936204);
+  static const circleBGcolor1 = Color(0xff38D12B);
+  static const bgcolor4 = Color(0xffE6EFF6);
+  static const bgcolor5 = Color(0xffD7CEFF);
+  static const bgcolor6 = Color(0xffF3F1FA);
+  static const fontColor3 = Color(0xff5434DE);
+  static const bgcolor7 = Color(0xff7B5DF7);
+  static const fontColor6 = Color(0xff535353);
+  static const dividerColor1 = Color(0xffE3E3E3);
+  static const fontColor4 = Color(0xff7F63F8);
+  static const bgcolor8 = Color(0xff8B72F9);
+  static const fontColor7 = Color(0xff7B5DF8);
+  static const fontColor8 = Color(0xffFAFAFA);
+  static const fontColor5 = Color(0xff118376);
+  static const fontColor9 = Color(0xff003D36);
+  static const bgcolor9 = Color(0xffF6F6F6);
+  static const bordercolor1 = Color(0xff8E8E93);
+  static const msgBubbleColor1 = Color(0xffB6DCD7);
+  static const fontColor10 = Color(0xffBCBCBC);
+  static const dividerColor2 = Color(0xffC6C6C8);
+  static const fontColor11 = Color(0xffEF160A);
+  static const bgcolor10 = Color(0xff866CF9);
+  static const bgcolor11 = Color(0xffDBDBDB);
+  static const fontColor12 = Color(0xff00DC58);
+  static const bgcolor12 = Color(0xff1B92FF);
+  static const fontColor13 = Color(0xffF08200);
+  static const fontColor14 = Color(0xffDC0000);
+  static const bgcolor13 = Color(0xff118376);
+  static const fontColor15 = Color(0xffDDDDE9);
+  static const fontColor16 = Color(0xff3C3C43);
+  static const fontColor1 = Color(0xff5932FF);
+  static const gradientColorStart = Color(0xff967FF9);
+  static const gradientColorEnd = Color(0xff7455F7);
+  static const Color greenDark = Color(0xFF00A884);
 }

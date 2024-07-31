@@ -34,4 +34,8 @@ class ApiConstants {
   static String classGroup = "/classgroup";
   static String parentChatList = "/parentchatlist";
   static String teacherMsgList = "/teachermessagelist";
+  static String sentMsgByTeacher = "/sendmessageteacher";
+  static String fileUpload = "/upload";
+  static String deleteMsg = "/deletemessage";
+  static String parentList = "/getparents";
 }

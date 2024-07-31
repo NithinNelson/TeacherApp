@@ -39,7 +39,7 @@ class LastSeenMsg extends StatelessWidget {
                               .last,
                           style: const TextStyle(
                             fontWeight: FontWeight.w400,
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                         ),
                       ),

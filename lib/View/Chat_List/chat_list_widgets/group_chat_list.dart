@@ -37,19 +37,20 @@ class GroupChatList extends StatelessWidget {
             } catch(e) {}
             String? userId = Get.find<UserAuthController>().userData.value.userId;
             return ChatItem(
-              className: classTeacherGroups[index].subjectName ?? '--',
+              // className: classTeacherGroups[index].subjectName ?? '--',
               time: formattedDate ?? '',
               unreadMessages: classTeacherGroups[index].unreadCount ?? 0,
-              classs: '${classTeacherGroups[index].classTeacherClass}${classTeacherGroups[index].batch}',
+              // classs: '${classTeacherGroups[index].classTeacherClass}${classTeacherGroups[index].batch}',
               lastMessage: lastMsg,
               userId: userId,
+              classTeacherGroup: classTeacherGroups[index],
             );
           },
           separatorBuilder: (BuildContext context, int index) {
             return const Divider(
               thickness: 0.3,
-              indent: 8,
-              endIndent: 8,
+              indent: 15,
+              endIndent: 15,
             );
           },
         );
@@ -59,20 +60,18 @@ class GroupChatList extends StatelessWidget {
 }
 
 class ChatItem extends StatelessWidget {
-  final String className;
   final String time;
   final int? unreadMessages;
-  final String classs;
   final String? userId;
   final LastMessage? lastMessage;
+  final ClassTeacherGroup? classTeacherGroup;
 
   const ChatItem({super.key,
-    required this.className,
     required this.time,
     required this.unreadMessages,
-    required this.classs,
     required this.userId,
     required this.lastMessage,
+    required this.classTeacherGroup,
   });
 
   @override
@@ -85,7 +84,9 @@ class ChatItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => GroupMsgScreen(),
+              builder: (context) => GroupMsgScreen(
+                msgData: classTeacherGroup,
+              ),
             ));
         // Get.find<ChatRoomController>().timer!.cancel();
       },
@@ -95,10 +96,10 @@ class ChatItem extends StatelessWidget {
           children: [
             CircleAvatar(
               backgroundColor: randomElement,
-              radius: 25.r,
+              radius: 28.r,
               child: FittedBox(
                 child: Text(
-                  classs,
+                  '${classTeacherGroup?.classTeacherClass}${classTeacherGroup?.batch}',
                   style: TeacherAppFonts.interW600_14sp_textWhite,
                 ),
               ),
@@ -118,13 +119,14 @@ class ChatItem extends StatelessWidget {
                                   maxWidth: 120),
                               child: Text(
                                 // "English",
-                                className,
+                                classTeacherGroup?.subjectName ?? '--',
                                 style: TeacherAppFonts.interW700_16sp_black,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ],
                         ),
+                        SizedBox(height: 2.h),
                         Row(
                           children: [
                             if(userId != null && lastMessage != null)

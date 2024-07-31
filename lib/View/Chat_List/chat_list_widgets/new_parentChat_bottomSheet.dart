@@ -17,43 +17,6 @@ class NewParentChat extends StatefulWidget {
 }
 
 class _NewParentChatState extends State<NewParentChat> {
-  List<Map<String, dynamic>> parents = [
-    {
-      "name": "Ali bin Omar",
-      "relation": "Son of Hilal Ibrahim",
-      "selected": true
-    },
-    {
-      "name": "Aisha bint Ali",
-      "relation": "Daughter of Hibat Ibrahim",
-      "selected": true
-    },
-    {
-      "name": "Youssef bin Khalid",
-      "relation": "Son of Hilal Ibrahim",
-      "selected": true
-    },
-    {
-      "name": "Abdullah bin Hassan",
-      "relation": "Son of Hilal Ibrahim",
-      "selected": false
-    },
-    {
-      "name": "Ibrahim bin Ahmed",
-      "relation": "Son of Hilal Ibrahim",
-      "selected": false
-    },
-    {
-      "name": "Zainab bint Omar",
-      "relation": "Daughter of Hibat Ibrahim",
-      "selected": false
-    },
-    {
-      "name": "Noor bint Khalid",
-      "relation": "Daughter of Saeed bin Ibrahim",
-      "selected": false
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +43,7 @@ class _NewParentChatState extends State<NewParentChat> {
         height: MediaQuery.of(context).size.height * 0.85,
         child: GetX<ParentChatListController>(
           builder: (ParentChatListController controller) {
-            controller.filterByClass('All');
+            // controller.filterByClass('All');
             List<String> classNameList = controller.allClasses.value;
             List<Datum> filteredChatList = controller.filteredChatList.value;
             return Column(

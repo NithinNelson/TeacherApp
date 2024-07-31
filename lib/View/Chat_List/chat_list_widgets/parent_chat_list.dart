@@ -49,7 +49,7 @@ class ParentChatList extends StatelessWidget {
                           'All',
                           style: GoogleFonts.inter(
                             color: Colors.black,
-                            fontSize: 13.sp,
+                            fontSize: 15.sp,
                           ),
                         ),
                       ),
@@ -78,7 +78,7 @@ class ParentChatList extends StatelessWidget {
                           'Unread',
                           style: GoogleFonts.inter(
                             color: Colors.black,
-                            fontSize: 13.sp,
+                            fontSize: 15.sp,
                           ),
                         ),
                       ),
@@ -118,6 +118,7 @@ class ParentChatList extends StatelessWidget {
             print("---------sentTime----------${controller.parentChatList.value.first.lastMessage?.sandAt}");
             return Expanded(
               child: ListView.separated(
+                padding: EdgeInsets.all(0),
                 shrinkWrap: true,
                 itemCount: chatParentList.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -128,32 +129,22 @@ class ParentChatList extends StatelessWidget {
                     formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
                   } catch(e) {}
                   String? userId = Get.find<UserAuthController>().userData.value.userId;
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) {
-                            return ParentMsgScreen();
-                          },
-                      ),
-                      );
-                    },
-                    child: ChatItem(
-                      parentName: chatParentList[index].parentName ?? '--',
-                      time: formattedDate ?? '',
-                      unreadMessages: chatParentList[index].unreadCount,
-                      classs: '${chatParentList[index].datumClass}${chatParentList[index].batch}',
-                      lastMessage: chatParentList[index].lastMessage,
-                      studentName: chatParentList[index].studentName ?? '',
-                      relation: chatParentList[index].relation,
-                      userId: userId,
-                    ),
+                  return ChatItem(
+                    parentName: chatParentList[index].parentName ?? '--',
+                    time: formattedDate ?? '',
+                    unreadMessages: chatParentList[index].unreadCount,
+                    classs: '${chatParentList[index].datumClass}${chatParentList[index].batch}',
+                    lastMessage: chatParentList[index].lastMessage,
+                    studentName: chatParentList[index].studentName ?? '',
+                    relation: chatParentList[index].relation,
+                    userId: userId,
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {
                   return const Divider(
                     thickness: 0.3,
-                    indent: 8,
-                    endIndent: 8,
+                    indent: 15,
+                    endIndent: 15,
                   );
                 },
               ),
@@ -195,254 +186,264 @@ class ChatItem extends StatelessWidget {
     final random = Random();
     int randomIndex = random.nextInt(Colorutils.chatLeadingColors.length);
     Color randomElement = Colorutils.chatLeadingColors[randomIndex];
-    return Padding(
-      padding: EdgeInsets.all(15.h),
-      child: Row(
-        children: [
-          CircleAvatar(
-            backgroundColor: randomElement,
-            radius: 25.r,
-            child: FittedBox(
-              child: Text(
-                classs,
-                style: TeacherAppFonts.interW600_14sp_textWhite,
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) {
+            return ParentMsgScreen();
+          },
+        ),
+        );
+      },
+      child: Padding(
+        padding: EdgeInsets.all(15.h),
+        child: Row(
+          children: [
+            CircleAvatar(
+              backgroundColor: randomElement,
+              radius: 28.r,
+              child: FittedBox(
+                child: Text(
+                  classs,
+                  style: TeacherAppFonts.interW600_14sp_textWhite,
+                ),
               ),
             ),
-          ),
-          // Container(
-          //   padding: const EdgeInsets.all(1).w,
-          //   decoration: BoxDecoration(
-          //     color: Colors.grey,
-          //     borderRadius: BorderRadius.circular(100).r,
-          //   ),
-          //   child: Container(
-          //     padding: const EdgeInsets.all(10).w,
-          //     decoration: BoxDecoration(
-          //       color: Colors.white,
-          //       borderRadius: BorderRadius.circular(100).r,
-          //     ),
-          //     child: CachedNetworkImage(
-          //       imageUrl: '--',
-          //       errorWidget: (context, txt, obj) => const Icon(Icons.person, color: Colors.grey),
-          //     ),
-          //   ),
-          // ),
-          SizedBox(width: 15.h),
-          Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            constraints: const BoxConstraints(
-                                maxWidth: 120),
-                            child: Text(
-                              // "English",
-                              studentName,
-                              style: TeacherAppFonts.interW700_16sp_black,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 2.h),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              relation != null ? "$relation of $parentName" : parentName,
-                              overflow: TextOverflow.ellipsis,
-                              style: TeacherAppFonts.poppinsW400_12sp_lightGreenForParent,
-                            ),
-                          ),
-                        ],
-                      ),
-                      if(userId != null && lastMessage != null)
-                        if(userId == lastMessage!.messageFromId)
-                          SizedBox(width: 5.h),
-                      Row(
-                        children: [
-                          if(userId != null && lastMessage != null)
-                            if(userId == lastMessage!.messageFromId)
-                              SizedBox(
-                                height: 21.h,
-                                width: 21.h,
-                                child: SvgPicture.asset(
-                                  "assets/images/Checks.svg",
-                                  color: lastMessage!.read! ? Colors.green : Colors.grey,
-                                ),
+            // Container(
+            //   padding: const EdgeInsets.all(1).w,
+            //   decoration: BoxDecoration(
+            //     color: Colors.grey,
+            //     borderRadius: BorderRadius.circular(100).r,
+            //   ),
+            //   child: Container(
+            //     padding: const EdgeInsets.all(10).w,
+            //     decoration: BoxDecoration(
+            //       color: Colors.white,
+            //       borderRadius: BorderRadius.circular(100).r,
+            //     ),
+            //     child: CachedNetworkImage(
+            //       imageUrl: '--',
+            //       errorWidget: (context, txt, obj) => const Icon(Icons.person, color: Colors.grey),
+            //     ),
+            //   ),
+            // ),
+            SizedBox(width: 15.h),
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              constraints: const BoxConstraints(
+                                  maxWidth: 120),
+                              child: Text(
+                                // "English",
+                                studentName,
+                                style: TeacherAppFonts.interW700_16sp_black,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                          if(userId != null && lastMessage != null)
-                            if(userId == lastMessage!.messageFromId)
-                              SizedBox(width: 5.h),
-                          Expanded(
-                            child: Builder(builder: (context) {
-                              if (lastMessage != null) {
-                                if (lastMessage!.type == "file") {
-                                  return Row(
-                                    children: [
-                                      Container(
-                                        width: 17,
-                                        height: 18,
-                                        decoration:
-                                        const BoxDecoration(
-                                          image: DecorationImage(
-                                            fit: BoxFit.fill,
-                                            image: AssetImage(
-                                                "assets/images/new-document.png"),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 2.h),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                relation != null ? "$relation of $parentName" : parentName,
+                                overflow: TextOverflow.ellipsis,
+                                style: TeacherAppFonts.poppinsW400_12sp_lightGreenForParent,
+                              ),
+                            ),
+                          ],
+                        ),
+                        if(userId != null && lastMessage != null)
+                          if(userId == lastMessage!.messageFromId)
+                            SizedBox(width: 5.h),
+                        Row(
+                          children: [
+                            if(userId != null && lastMessage != null)
+                              if(userId == lastMessage!.messageFromId)
+                                SizedBox(
+                                  height: 21.h,
+                                  width: 21.h,
+                                  child: SvgPicture.asset(
+                                    "assets/images/Checks.svg",
+                                    color: lastMessage!.read! ? Colors.green : Colors.grey,
+                                  ),
+                                ),
+                            if(userId != null && lastMessage != null)
+                              if(userId == lastMessage!.messageFromId)
+                                SizedBox(width: 5.h),
+                            Expanded(
+                              child: Builder(builder: (context) {
+                                if (lastMessage != null) {
+                                  if (lastMessage!.type == "file") {
+                                    return Row(
+                                      children: [
+                                        Container(
+                                          width: 17,
+                                          height: 18,
+                                          decoration:
+                                          const BoxDecoration(
+                                            image: DecorationImage(
+                                              fit: BoxFit.fill,
+                                              image: AssetImage(
+                                                  "assets/images/new-document.png"),
+                                            ),
                                           ),
-                                        ),
-                                        child: Center(
-                                          child: SizedBox(
-                                            height: 8,
-                                            width: 12,
-                                            child: FittedBox(
-                                              child: Text(
-                                                lastMessage!.fileName!
-                                                    .split(".")
-                                                    .last,
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Colors.white,
+                                          child: Center(
+                                            child: SizedBox(
+                                              height: 8,
+                                              width: 12,
+                                              child: FittedBox(
+                                                child: Text(
+                                                  lastMessage!.fileName!
+                                                      .split(".")
+                                                      .last,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.black,
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(width: 5.w),
-                                      Expanded(
-                                        child: Text(
-                                          lastMessage!
-                                              .fileName!,
-                                          style: TeacherAppFonts.interW400_14sp_textWhite.copyWith(
-                                            color: Color(0xff535353).withOpacity(0.8),
+                                        SizedBox(width: 5.w),
+                                        Expanded(
+                                          child: Text(
+                                            lastMessage!
+                                                .fileName!,
+                                            style: TeacherAppFonts.interW400_14sp_textWhite.copyWith(
+                                              color: Color(0xff535353).withOpacity(0.8),
+                                            ),
+                                            overflow: TextOverflow
+                                                .ellipsis,
                                           ),
-                                          overflow: TextOverflow
-                                              .ellipsis,
-                                        ),
-                                      )
-                                    ],
-                                  );
-                                } else if (lastMessage!
-                                    .type ==
-                                    "text") {
-                                  return Text(
-                                    // "Can you pls share the pdf adsdaddsf.",
-                                    lastMessage?.message ?? "--",
-                                    overflow:
-                                    TextOverflow.ellipsis,
+                                        )
+                                      ],
+                                    );
+                                  } else if (lastMessage!
+                                      .type ==
+                                      "text") {
+                                    return Text(
+                                      // "Can you pls share the pdf adsdaddsf.",
+                                      lastMessage?.message ?? "--",
+                                      overflow:
+                                      TextOverflow.ellipsis,
 
-                                    style: TeacherAppFonts.interW400_14sp_textWhite.copyWith(
-                                      color: Color(0xff535353).withOpacity(0.8),
-                                    ),
-                                  );
-                                } else if (lastMessage!.type ==
-                                    "audio") {
-                                  return Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 22,
-                                        height: 15.h,
-                                        child: SvgPicture.asset(
-                                            "assets/images/Record Audio.svg"),
+                                      style: TeacherAppFonts.interW400_14sp_textWhite.copyWith(
+                                        color: Color(0xff535353).withOpacity(0.8),
                                       ),
-                                      SizedBox(width: 1.w),
-                                      Expanded(
-                                        child: Text(
-                                          "Audio",
-                                          style: TeacherAppFonts.interW400_14sp_textWhite.copyWith(
-                                            color: Color(0xff535353).withOpacity(0.8),
-                                          ),
-                                          overflow: TextOverflow
-                                              .ellipsis,
+                                    );
+                                  } else if (lastMessage!.type ==
+                                      "audio") {
+                                    return Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 22,
+                                          height: 15.h,
+                                          child: SvgPicture.asset(
+                                              "assets/images/Record Audio.svg"),
                                         ),
-                                      )
-                                    ],
-                                  );
-                                } else if (lastMessage!.type ==
-                                    "text_file" || lastMessage!.type == "text_audio") {
-                                  return Text(
-                                    // "Can you pls share the pdf adsdaddsf.",
-                                    lastMessage!.message ?? "--",
-                                    overflow:
-                                    TextOverflow.ellipsis,
+                                        SizedBox(width: 1.w),
+                                        Expanded(
+                                          child: Text(
+                                            "Audio",
+                                            style: TeacherAppFonts.interW400_14sp_textWhite.copyWith(
+                                              color: Color(0xff535353).withOpacity(0.8),
+                                            ),
+                                            overflow: TextOverflow
+                                                .ellipsis,
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  } else if (lastMessage!.type ==
+                                      "text_file" || lastMessage!.type == "text_audio") {
+                                    return Text(
+                                      // "Can you pls share the pdf adsdaddsf.",
+                                      lastMessage!.message ?? "--",
+                                      overflow:
+                                      TextOverflow.ellipsis,
 
-                                    style: TeacherAppFonts.interW400_14sp_textWhite.copyWith(
-                                      color: Color(0xff535353).withOpacity(0.8),
-                                    ),
-                                  );
+                                      style: TeacherAppFonts.interW400_14sp_textWhite.copyWith(
+                                        color: Color(0xff535353).withOpacity(0.8),
+                                      ),
+                                    );
+                                  }
                                 }
-                              }
-                              return const SizedBox();
-                            }),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 15.h),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 5).w,
-                decoration: BoxDecoration(
-                  color: Colorutils.Whitecolor,
-                  borderRadius: BorderRadius.circular(20).r,
-                  border: Border.all(
-                    color: randomElement,
-                  ),
-                ),
-                child: Text(
-                  "Class $classs",
-                  style: TeacherAppFonts.interW500_12sp_textWhite.copyWith(
-                    color: randomElement,
-                  ),
-                ),
-              ),
-              SizedBox(height: 5.h),
-              Text(
-                time,
-                style: TeacherAppFonts.interW400_12sp_topicbackground,
-              ),
-              SizedBox(height: 5.h),
-              if(unreadMessages != null)
-                if(unreadMessages != "0")
-                  Container(
-                    height: 23.h,
-                    width: 23.h,
-                    decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colorutils.topicbackground),
-                    child: Center(
-                      child: Text(
-                        unreadMessages.toString(),
-                        style: TeacherAppFonts.interW600_14sp_textWhite,
-                      ),
+                                return const SizedBox();
+                              }),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
-                  )
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 15.h),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 5).w,
+                  decoration: BoxDecoration(
+                    color: Colorutils.Whitecolor,
+                    borderRadius: BorderRadius.circular(20).r,
+                    border: Border.all(
+                      color: randomElement,
+                    ),
+                  ),
+                  child: Text(
+                    "Class $classs",
+                    style: TeacherAppFonts.interW500_12sp_textWhite.copyWith(
+                      color: randomElement,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 5.h),
+                Text(
+                  time,
+                  style: TeacherAppFonts.interW400_12sp_topicbackground,
+                ),
+                SizedBox(height: 5.h),
+                if(unreadMessages != null)
+                  if(unreadMessages != "0")
+                    Container(
+                      height: 23.h,
+                      width: 23.h,
+                      decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colorutils.topicbackground),
+                      child: Center(
+                        child: Text(
+                          unreadMessages.toString(),
+                          style: TeacherAppFonts.interW600_14sp_textWhite,
+                        ),
+                      ),
+                    )
+                  else
+                    SizedBox(
+                      height: 23.h,
+                      width: 23.h,
+                    )
                 else
                   SizedBox(
                     height: 23.h,
                     width: 23.h,
-                  )
-              else
-                SizedBox(
-                  height: 23.h,
-                  width: 23.h,
-                ),
-            ],
-          )
-        ],
+                  ),
+              ],
+            )
+          ],
+        ),
       ),
     );
     // return Container(

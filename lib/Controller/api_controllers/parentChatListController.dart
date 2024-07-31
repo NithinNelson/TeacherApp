@@ -20,7 +20,17 @@ class ParentChatListController extends GetxController {
     isError.value = false;
   }
 
+  void resetData() {
+    unreadCount.value = 0;
+    currentTab.value = 0;
+    allParentChatList.value = [];
+    parentChatList.value = [];
+    filteredChatList.value = [];
+    allClasses.value = [];
+  }
+
   Future<void> fetchParentChatList() async {
+    resetData();
     isLoading.value = true;
     isLoaded.value = false;
     try {
@@ -34,9 +44,7 @@ class ParentChatListController extends GetxController {
         ParentChatListApiModel parentChatListApiModel = ParentChatListApiModel.fromJson(resp);
         unreadCount.value = parentChatListApiModel.data?.unreadCount ?? 0;
         allParentChatList.value = parentChatListApiModel.data?.data ?? [];
-        for (var parent in allParentChatList) {
-          print("--------bhgdhg--------${parent.lastMessage?.sandAt}");
-        }
+        filterByClass('All');
         setClassList();
         setChatList();
         isLoaded.value = true;
