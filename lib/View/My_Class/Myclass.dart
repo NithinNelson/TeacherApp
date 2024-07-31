@@ -9,12 +9,16 @@ import 'package:badges/badges.dart' as badges;
 import '../../Utils/Colors.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
+import 'CallStatus.dart';
+import 'History_Page.dart';
 
 class Myclasses extends StatefulWidget {
-  const Myclasses({super.key});
+   Myclasses({super.key});
 
   @override
   State<Myclasses> createState() => _MyclassesState();
+  bool? is_fees_paid;
+
 }
 
 class _MyclassesState extends State<Myclasses> {
@@ -25,11 +29,260 @@ class _MyclassesState extends State<Myclasses> {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          height: 200,
-          width: 300,
-          color: Colors.white,
-          child: Center(
-            child: Text('Bottom Sheet Content'),
+          height: 400.w,
+          child: ListView(
+            children: [
+
+
+              Padding(
+                padding: const EdgeInsets.only(left: 20,top: 20),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 70.w,
+                      height: 70.h,
+                      child: Image.asset("assets/images/profile image.png"),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+
+
+
+                      ),
+                    ),
+                    SizedBox(
+                      width: 15.w,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            width: 200.w,
+                            child: Text("Mohhaad Noufal Azad",
+                                style: GoogleFonts.inter(
+                                    textStyle: TextStyle(
+                                        fontSize: 18.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700)))),
+                        SizedBox(
+                          height: 6.h,
+                        ),
+                        widget.is_fees_paid == false
+                            ? Text("No Pending Fees")
+                            : Row(
+                          children: [
+                            SizedBox(
+                              child: Text(
+                                "AED : ",
+                                style: TextStyle(fontSize: 14.sp),
+                              ),
+                            ),
+                            SizedBox(
+                              child: Text(
+                                "900",
+                                style: TextStyle(
+                                    fontSize: 15.sp,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(
+                indent: 20,
+                endIndent: 20,
+
+                thickness: 0.3
+                ,
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 50.w,
+                          height: 50.h,
+                          child: SvgPicture.asset(
+                            "assets/images/profileOne.svg",
+                          ),
+                        ),
+                        SizedBox(
+                          width: 15.w,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                                width: 150.w,
+                                child: Text("Nelsoomnz",
+                                    style: GoogleFonts.inter(
+                                        textStyle: TextStyle(
+                                            fontSize: 16.sp,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold)))),
+                            SizedBox(
+                              height: 6.h,
+                            ),
+                            SizedBox(
+                              child: Text(
+                                "9442364463",
+                                style: TextStyle(fontSize: 14.sp),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 25),
+                        child: Container(
+                          width: 50.w,
+                          height: 50.h,
+                          child: SvgPicture.asset(
+                            "assets/images/callButtonTwo.svg",
+
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 50.w,
+                          height: 50.h,
+                          child: SvgPicture.asset(
+                            "assets/images/profileOne.svg",
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20.w,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                                width: 150.w,
+                                child: Text("Achuuuzz",
+                                    style: GoogleFonts.inter(
+                                        textStyle: TextStyle(
+                                            fontSize: 16.sp,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold)))),
+                            SizedBox(
+                              height: 6.h,
+                            ),
+                            SizedBox(
+                              child: Text(
+                                "9442273563",
+                                style: TextStyle(fontSize: 14.sp),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 25),
+                        child: Container(
+                          width: 50.w,
+                          height: 50.h,
+                          child: SvgPicture.asset(
+                            "assets/images/callButtonTwo.svg",
+
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+             SizedBox(height: 50,),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 170.w,
+                    height: 55.h,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                          backgroundColor: Colorutils.bottomnaviconcolor, elevation: 1),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Callstatus()));
+                      },
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 40.w,
+                            height: 40.h,
+                            child: SvgPicture.asset(
+                              "assets/images/icon.svg",
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 3.w,
+                          ),
+                          Text(
+                            "Call Status",
+                            style: TextStyle(fontSize: 15.sp, color:  Colorutils.Whitecolor),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10,),
+                  widget.is_fees_paid == false
+                      ? Text("")
+                      :
+
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const HistoryPage()));
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: Colorutils.bottomnaviconcolor,
+                      radius: 25,
+
+                      child:Icon(Icons.add,color: Colors.white,shadows: [
+                        BoxShadow(blurRadius: 1,color: Colorutils.userdetailcolor)
+                      ],)
+
+                    ),
+                  )
+
+                ],
+              )
+            ],
           ),
         );
       },
@@ -175,7 +428,33 @@ class _MyclassesState extends State<Myclasses> {
                                   return Container(
                                       margin: EdgeInsets.only(left: 15.w,top: 10),
                                       child: SwipeTo(
-                                        onRightSwipe: (details) {
+                                        rightSwipeWidget: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            padding: EdgeInsets.all(30),
+                                            decoration: BoxDecoration(
+                                              color: Colorutils.userdetailcolor.withOpacity(0.5),
+                                              // Container color
+                                              borderRadius: BorderRadius.circular(15),
+                                              // Border radius
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colorutils.userdetailcolor.withOpacity(0.2),
+                                                
+                                                  spreadRadius: 1,
+                                                  blurRadius: 1,
+                                                  offset: Offset(0, 2), // Shadow position
+                                                ),
+                                              ],
+                                            ),
+                                            child: Icon(
+                                              size: 25,
+                                              Icons.call,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                        onRightSwipe: (detail) {
                                           _showBottomSheet(context);
                                         },
                                         child: Column(
@@ -199,8 +478,13 @@ class _MyclassesState extends State<Myclasses> {
                                                     ),
                                                     badgeStyle:
                                                     badges.BadgeStyle(
+
                                                       elevation: 0,
-                                                      badgeColor: Colorutils.chatcolor,
+                                                      badgeColor: Colorutils.Whitecolor,
+                                                      borderSide: BorderSide(
+                                                        color: Colorutils.chatcolor, // Replace with your desired border color
+                                                        width: 1.0, // Adjust the width of the border
+                                                      ),
                                                     ),
                                                     child: Container(
                                                         width: 60.w,
@@ -208,8 +492,7 @@ class _MyclassesState extends State<Myclasses> {
                                                         decoration:
                                                         BoxDecoration(
                                                           border: Border.all(
-                                                              color: Color(
-                                                                  0xFFD6E4FA)),
+                                                              color:  Colorutils.chatcolor),
                                                           shape:
                                                           BoxShape.circle,
                                                           // image: DecorationImage(
@@ -341,14 +624,14 @@ class _MyclassesState extends State<Myclasses> {
                                                                 color: Color(
                                                                     0xFFD6E4FA),
                                                                 width: 2),
-                                                            activeText: "  P",
-                                                            inactiveText: "  A  ",
+                                                            activeText: " P",
+                                                            inactiveText: "A  ",
                                                             value: status,
                                                             borderRadius: 30.0,
                                                             padding: 0,
-                                                            activeColor: Colors.green,
+                                                            activeColor: Colorutils.bottomnaviconcolor,
                                                             inactiveColor:
-                                                            Colors.red,
+                                                            Colors.red.withOpacity(0.8),
                                                             inactiveTextColor:
                                                             Colors.white,
                                                             activeTextColor:
@@ -436,6 +719,7 @@ class _MyclassesState extends State<Myclasses> {
                                                                         .remove_red_eye_outlined,
                                                                     size: 18,
                                                                   ),
+                                                                  SizedBox(width: 5,),
                                                                   Text(
                                                                     'Late',
                                                                     style: TextStyle(
@@ -443,7 +727,7 @@ class _MyclassesState extends State<Myclasses> {
                                                                         FontWeight
                                                                             .w900,
                                                                         color:
-                                                                        Colors.red,
+                                                                        Colors.black,
                                                                         fontSize:
                                                                         15.sp),
                                                                   ),
@@ -576,7 +860,11 @@ class _MyclassesState extends State<Myclasses> {
           ),
         ),
       ),
-      floatingActionButton: Row(
+      floatingActionButton:Positioned(
+
+          bottom: 0,
+          right: 200,
+          child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
@@ -590,7 +878,7 @@ class _MyclassesState extends State<Myclasses> {
               child:Text(
                 'SUBMIT',
                 style: GoogleFonts.inter(
-                    fontSize: 15,color: Colorutils.chatcolor
+                    fontSize: 15,color: Colorutils.Whitecolor
 
                 ),
               ),
@@ -604,6 +892,8 @@ class _MyclassesState extends State<Myclasses> {
             ),
           ),
         ],
+      ),
+
       ),
     );
   }

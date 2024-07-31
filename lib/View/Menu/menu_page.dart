@@ -11,6 +11,7 @@ import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});
@@ -120,28 +121,34 @@ class MenuScreen extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      controller.userData.value.name ?? '--',
-                                      style: TeacherAppFonts.interW600_24sp_textWhite,
-                                    ),
-                                  ],
+                              Container(
+                                child: TextScroll(
+
+                                  controller.userData.value.name ?? '--',
+                                  velocity: Velocity(pixelsPerSecond: Offset(50, 0)),
+                                  delayBefore: Duration(seconds: 1),
+                                  pauseBetween: Duration(seconds: 2),
+                                  style: TeacherAppFonts.interW600_18sp_textWhite,
+                                  textAlign: TextAlign.center,
+
+                                  selectable: true,
                                 ),
                               ),
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      controller.userData.value.username ?? '--',
-                                      style: TeacherAppFonts.interW400_14sp_textWhiteOp60,
-                                    ),
-                                  ],
+
+                              Container(
+                                child: TextScroll(
+
+                                  controller.userData.value.username ?? '--',                              mode: TextScrollMode.bouncing,
+                                  velocity: Velocity(pixelsPerSecond: Offset(50, 0)),
+                                  delayBefore: Duration(seconds: 1),
+                                  pauseBetween: Duration(seconds: 2),
+                                  style: TeacherAppFonts.interW400_14sp_textWhiteOp60,
+                                  textAlign: TextAlign.center,
+
+                                  selectable: true,
                                 ),
                               ),
+
                             ],
                           ),
                         );
