@@ -63,7 +63,7 @@ class _LeaveApplyState extends State<LeaveApply> with SingleTickerProviderStateM
                 AppBarBackground(),
                 Positioned(
                   left: 0,
-                  top: 15,
+                  top: -10,
                   child: Container(
                     // height: 100.w,
                     width: ScreenUtil().screenWidth,

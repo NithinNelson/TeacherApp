@@ -1,6 +1,5 @@
 
 import 'dart:convert';
-
 import '../Models/api_models/chat_feed_view_model.dart';
 import '../Models/api_models/sent_msg_by_teacher_model.dart';
 import '../Utils/api_constants.dart';
@@ -118,6 +117,33 @@ class ApiServices {
         return json.decode(respString);
       } else {
         throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+  static Future<Map<String, dynamic>> getNotification({
+    required String userId,
+
+  }) async {
+    String url = '${ApiConstants.baseUrl}${ApiConstants.notification}$userId${ApiConstants.notificationEnd}';
+    print(url);
+    Map apiBody = {
+      "user_id": userId,
+
+    };
+    try {
+      var request = http.Request('GET', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse notificationresponse = await request.send();
+      var respString = await notificationresponse.stream.bytesToString();
+      if (notificationresponse.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(notificationresponse.statusCode);
       }
     } catch (e) {
       throw Exception("Service Error");

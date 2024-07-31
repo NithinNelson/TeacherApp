@@ -10,6 +10,7 @@ import 'package:teacherapp/Utils/Colors.dart';
 import 'Controller/api_controllers/feedViewController.dart';
 import 'Controller/api_controllers/lessonObservationController.dart';
 import 'Controller/api_controllers/chatClassGroupController.dart';
+import 'Controller/api_controllers/notificationController.dart';
 import 'Controller/api_controllers/parentChatListController.dart';
 import 'Controller/api_controllers/timeTableController.dart';
 import 'Controller/api_controllers/userAuthController.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
     Get.put(LessonObservationController());
     Get.put(ParentChatListController());
     Get.put(FeedViewController());
+    Get.put(NotificationController());
     return GlobalLoaderOverlay(
       useDefaultLoading: false,
       overlayWidgetBuilder: (_) {

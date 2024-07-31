@@ -38,7 +38,7 @@ class TeacherAppFonts {
   static final TextStyle interW600_24sp_textWhite = TextStyle(
     fontFamily: _interFont,
     fontWeight: FontWeight.w600,
-    fontSize: 24.sp,
+    fontSize: 20.sp,
     color: Colorutils.Whitecolor,
   );
 
@@ -146,7 +146,7 @@ class TeacherAppFonts {
 
   static final TextStyle interW500_18sp_black = TextStyle(
     fontFamily: _interFont,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w800,
     fontSize: 18.sp,
     color: Colors.black,
   );
@@ -284,4 +284,17 @@ class TeacherAppFonts {
     color: Colorutils.lightGreenForParent,
   );
 
+  static final TextStyle poppinsW400_13sp_bottomiconcolor = TextStyle(
+    fontFamily: _poppinsFont,
+    fontWeight: FontWeight.w400,
+    fontSize: 13.sp,
+    color: Colorutils.bottomiconcolor,
+  );
+
+  static final TextStyle poppinsW500_16sp_letters1 = TextStyle(
+    fontFamily: _poppinsFont,
+    fontWeight: FontWeight.w500,
+    fontSize: 16.sp,
+    color: Colorutils.letters1,
+  );
 }

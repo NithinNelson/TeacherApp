@@ -65,9 +65,14 @@ class Topic extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  timeTable.subject ?? '--',
-                                  style: TeacherAppFonts.interW400_18sp_timecolortopics,
+                                Container(
+                                  width:100,
+                                  child: Text(
+
+                                    timeTable.subject ?? '--',
+                                    style: TeacherAppFonts.interW400_18sp_timecolortopics,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                                 Text(
                                   timeTable.batchName ?? '--',
@@ -77,37 +82,53 @@ class Topic extends StatelessWidget {
                             )
                           ],
                         ),
-                        Text(
-                          'Linear Algebra Equations',
-                          style: TeacherAppFonts.interW400_14sp_timecolortopicsOp80,
+                        Container(
+                          width: 150,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Linear Algebra Equations dsfsdg werfahgbfg",
+                                  style: TeacherAppFonts.interW400_14sp_timecolortopicsOp80,                              ),
+                              ],
+                            ),
+                          ),
                         ),
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             SizedBox(
                               height: 50.w,
-                              width: 100.w,
+                              width: 110.w,
                               child: Stack(
                                 alignment: Alignment.center,
                                 children: [
                                   Positioned(
                                     left: 0,
                                     child: CircleAvatar(
-                                      radius: 15,
+                                      radius: 12,
                                       child: Image.asset('assets/images/profile2.png'),
                                     ),
                                   ),
                                   Positioned(
-                                    left: 20,
+                                    left: 15,
                                     child: CircleAvatar(
-                                      radius: 15,
+                                      radius: 12,
                                       child: Image.asset('assets/images/profile2.png'),
                                     ),
                                   ),
                                   Positioned(
-                                    left: 40,
+                                    left: 30,
                                     child: CircleAvatar(
-                                      radius: 15,
+                                      radius: 12,
+                                      child: Image.asset('assets/images/profile2.png'),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: 45,
+                                    child: CircleAvatar(
+                                      radius: 12,
                                       child: Image.asset('assets/images/profile2.png'),
                                     ),
                                   ),
@@ -115,8 +136,8 @@ class Topic extends StatelessWidget {
                                     left: 60,
                                     child: CircleAvatar(
                                       backgroundColor:  Colorutils.userdetailcolor,
-                                      radius: 15,
-                                      child: Text('+23',style: TextStyle(
+                                      radius: 12,
+                                      child: Text('23',style: TextStyle(
                                         color: Colorutils.Whitecolor,
                                         fontSize: 12,
                                       ),),
@@ -133,6 +154,7 @@ class Topic extends StatelessWidget {
                         ),
                       ],
                     ),
+                    SizedBox(width: 10,),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 5).w,
                       child: Image.asset(

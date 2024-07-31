@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../Models/api_models/time_table_api_model.dart';
 import 'package:teacherapp/Utils/font_util.dart';
-
+import '../../../Utils/Colors.dart';
 class AllTimeTable extends StatelessWidget {
   final List<TimeTable> todaySubjects;
   const AllTimeTable({super.key, required this.todaySubjects});
@@ -35,11 +35,11 @@ class AllTimeTable extends StatelessWidget {
                   style: TeacherAppFonts.interW400_16sp_letters1,
                 ),
                 SizedBox(width: 5.w),
-                // Icon(
-                //   Icons.arrow_forward_ios_outlined,
-                //   color: Colorutils.letters1,
-                //   size: 15.w,
-                // )
+                Icon(
+                  Icons.arrow_forward_ios_outlined,
+                  color: Colorutils.letters1,
+                  size: 15.w,
+                )
               ],
             ),
           ),

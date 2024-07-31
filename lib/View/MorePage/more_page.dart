@@ -110,7 +110,7 @@ class _ObsResultState extends State<MorePage> {
                 AppBarBackground(),
                 Positioned(
                   left: 0,
-                  top: 15,
+                  top: -10,
                   child: Container(
                     // height: 100.w,
                     width: ScreenUtil().screenWidth,
@@ -224,7 +224,7 @@ class _ObsResultState extends State<MorePage> {
                                             errorWidget: (context, url, error) =>
                                                 Center(
                                                   child: Text(
-                                                    'bebbbbbb',
+                                                    'bbb',
                                                     style: TextStyle(
                                                         color: Color(0xFFB1BFFF),
                                                         fontWeight: FontWeight.bold,
@@ -444,7 +444,7 @@ class _ObsResultState extends State<MorePage> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 15.h,),
+                                  SizedBox(height: 25.h,),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [

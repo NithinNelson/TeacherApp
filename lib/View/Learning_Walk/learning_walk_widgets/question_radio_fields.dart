@@ -15,7 +15,7 @@ class QuestionRadioFields extends StatefulWidget {
 
 class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
   LessonObservationController lessonObservationController =
-      Get.find<LessonObservationController>();
+  Get.find<LessonObservationController>();
   List<int?> selectedValues = [];
 
   @override
@@ -97,13 +97,14 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                             ),
                           ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Padding(
                                 padding:
-                                    EdgeInsets.only(left: 10.w, right: 10.w),
+                                EdgeInsets.only(left: 5.w, right: 5.w),
                                 child: Container(
                                   // height: 170.h,
-                                  width: 135.w,
+                                  width: 155.w,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(24),
                                     color: Color(0xffFEE68B).withOpacity(0.2),
@@ -117,7 +118,7 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                             Theme(
                                               data: ThemeData(
                                                 unselectedWidgetColor:
-                                                    Colors.red[700],
+                                                Colors.red[700],
                                               ),
                                               child: Radio(
                                                 activeColor: Colors.red[700],
@@ -142,7 +143,7 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                             Theme(
                                               data: ThemeData(
                                                 unselectedWidgetColor:
-                                                    Colors.yellow[900],
+                                                Colors.yellow[900],
                                               ),
                                               child: Radio(
                                                 activeColor: Colors.yellow[900],
@@ -167,7 +168,7 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                             Theme(
                                               data: ThemeData(
                                                 unselectedWidgetColor:
-                                                    Colors.yellow[700],
+                                                Colors.yellow[700],
                                               ),
                                               child: Radio(
                                                 activeColor: Colors.yellow[700],
@@ -194,7 +195,7 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                               ),
                               Container(
                                 // height: 170.h,
-                                width: 135.w,
+                                width: 155.w,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(24),
                                   color: Color(0xff79CF62).withOpacity(0.2),
@@ -208,7 +209,7 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                           Theme(
                                             data: ThemeData(
                                               unselectedWidgetColor:
-                                                  Colors.green,
+                                              Colors.green,
                                             ),
                                             child: Radio(
                                               activeColor: Colors.green,
@@ -233,7 +234,7 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                           Theme(
                                             data: ThemeData(
                                               unselectedWidgetColor:
-                                                  Colors.green[700],
+                                              Colors.green[700],
                                             ),
                                             child: Radio(
                                               activeColor: Colors.green[700],
@@ -258,7 +259,7 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                           Theme(
                                             data: ThemeData(
                                               unselectedWidgetColor:
-                                                  Colors.green[900],
+                                              Colors.green[900],
                                             ),
                                             child: Radio(
                                               activeColor: Colors.green[900],
@@ -267,7 +268,7 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                                 return Colors.green[900];
                                               }),
                                               hoverColor:
-                                                  Colorutils.userdetailcolor,
+                                              Colorutils.userdetailcolor,
                                               value: 10,
                                               groupValue: selectedValues[i],
                                               onChanged: (int? value) {

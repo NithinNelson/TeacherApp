@@ -222,7 +222,7 @@ class _ApprovedLeaveState extends State<ApprovedLeave> {
                       Row(
                         children: [
                           Container(
-                              width: 200.w,
+                              width: 230.w,
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
@@ -271,7 +271,7 @@ class _ApprovedLeaveState extends State<ApprovedLeave> {
                       Row(
                         children: [
                           Container(
-                            width: 100.w,
+                            width: 150.w,
                             child: Text(
                               "From: ${fromdate!.split('T')[0]}",
                               style: TextStyle(fontSize: 12),
@@ -459,8 +459,8 @@ class _ApprovedLeaveState extends State<ApprovedLeave> {
                                                   },
                                                   child: Center(
                                                     child: Container(
-                                                      height: 30.h,
-                                                      width: 50.w,
+                                                      height: 40.h,
+                                                      width: 80.w,
                                                       child: Center(child: Text('OK')
 
 
@@ -497,8 +497,8 @@ class _ApprovedLeaveState extends State<ApprovedLeave> {
                                 );
                               },
                               child: Container(
-                                  height: 30.h,
-                                  width: 70.w,
+                                  height: 35.h,
+                                  width: 80.w,
                                   decoration: BoxDecoration(
                                       color: Colors.blue,
                                       borderRadius:

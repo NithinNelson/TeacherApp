@@ -31,14 +31,14 @@ class _LearningWalkState extends State<LearningWalk> {
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.93,
+            height: MediaQuery.of(context).size.height ,
             width: ScreenUtil().screenWidth,
             child: Stack(
               children: [
                 AppBarBackground(),
                 Positioned(
                   left: 0,
-                  top: 15,
+                  top: -10,
                   child: Container(
                     // height: 100.w,
                     width: ScreenUtil().screenWidth,
@@ -249,8 +249,7 @@ class _LearningWalkState extends State<LearningWalk> {
                 Container(
                   margin: EdgeInsets.only(left: 20.w, top: 120.h, right: 20.w),
                   // width: 550.w,
-                  // height: 545.h,
-                  height: double.infinity,
+                  height: ScreenUtil().screenHeight * 0.8,
                   decoration: BoxDecoration(
                     color: Colorutils.Whitecolor,
                     // Container color
@@ -583,7 +582,7 @@ class _LearningWalkState extends State<LearningWalk> {
                                         padding:
                                         const EdgeInsets.only(left: 75, right: 75),
                                         child: Container(
-                                            height: 40.h,
+                                            height: 50.h,
                                             width: 220.w,
                                             decoration: BoxDecoration(
                                               color: Colorutils.userdetailcolor,

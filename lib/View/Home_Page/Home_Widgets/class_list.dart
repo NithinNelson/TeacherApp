@@ -28,7 +28,7 @@ class ClassList extends StatelessWidget {
               borderRadius: BorderRadius.circular(25).r,
               color: color,
             ),
-            margin: const EdgeInsets.only(top: 3, bottom: 4, left: 4, right: 4),
+            margin: const EdgeInsets.only(top: 3, bottom: 4, left: 6, right: 4),
             width: 160.w,
             height: 130.w,
             child: Stack(

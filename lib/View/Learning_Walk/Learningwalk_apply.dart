@@ -42,7 +42,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                 AppBarBackground(),
                 Positioned(
                   left: 0,
-                  top: 15,
+                  top: -10,
                   child: Container(
                     // height: 100.w,
                     width: ScreenUtil().screenWidth,
@@ -252,7 +252,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                 //       )),
                 // ),
                 Container(
-                  margin: EdgeInsets.only(top: 120.h),
+                  margin: EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w),
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
                   decoration: BoxDecoration(

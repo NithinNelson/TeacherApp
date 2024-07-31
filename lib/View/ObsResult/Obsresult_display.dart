@@ -40,7 +40,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
             height: MediaQuery
                 .of(context)
                 .size
-                .height * 0.98,
+                .height,
             width: MediaQuery
                 .of(context)
                 .size
@@ -50,7 +50,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                 AppBarBackground(),
                 Positioned(
                   left: 0,
-                  top: 15,
+                  top: -10,
                   child: Container(
                     // height: 100.w,
                     width: ScreenUtil().screenWidth,
@@ -64,17 +64,16 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                 ),
                 Container(
                   margin:
-                  EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w,),
+                  EdgeInsets.only(left: 10.w, top: 120.h, right: 5.w,),
                   width: double.infinity,
                   height:700,
                   decoration: BoxDecoration(
                     color: Colorutils.Whitecolor,
                     // Container color
                     borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20.r),
-                        topLeft: Radius.circular(20.r),
-                    bottomLeft: Radius.circular(20.r),
-                    bottomRight: Radius.circular(20.r)),
+                      topRight: Radius.circular(20.r),
+                      topLeft: Radius.circular(20.r),
+                    ),
 
                     // Border radius
                     boxShadow: [
@@ -138,7 +137,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                         children: [
                                           Container(
 
-                                              width: 230.w,
+                                              width: 300.w,
                                               child: Row(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
@@ -159,7 +158,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                                     ),
                                                   ),
                                                   Container(
-                                                    width: 160.w,
+                                                    width: 230.w,
                                                     child: Text(
                                                       'Mohhamad Noufal Azad',
                                                       // 'Observer',
@@ -179,7 +178,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                       ),
                                       Container(
 
-                                          width: 230.w,
+                                          width: 300.w,
                                           child: Row(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
@@ -200,7 +199,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                                 ),
                                               ),
                                               Container(
-                                                width: 160.w,
+                                                width: 230.w,
                                                 child: Text(
                                                   '30-08-1998',
                                                   // 'Observer',
@@ -214,7 +213,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                       ),
                                       Container(
 
-                                          width: 230.w,
+                                          width: 300.w,
                                           child: Row(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
@@ -234,12 +233,20 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                                   style: TextStyle(fontSize: 14.sp,),
                                                 ),
                                               ),
-                                              Container(
-                                                width: 160.w,
-                                                child: Text(
-                                                  'Arts and Science Eductaion',
-                                                  // 'Observer',
-                                                  style: TextStyle(fontSize: 14.sp,),
+                                              SingleChildScrollView(
+                                                scrollDirection: Axis.horizontal,
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      width: 230.w,
+                                                      child: Text(
+                                                        maxLines: 1,
+                                                        'Arts and Science Eductaion wefgergh werqghdfgfbger4b',
+                                                        // 'Observer',
+                                                        style: TextStyle(fontSize: 14.sp,),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ],
@@ -249,7 +256,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                       ),
                                       Container(
 
-                                          width: 230.w,
+                                          width: 300.w,
                                           child: Row(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
@@ -270,7 +277,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                                 ),
                                               ),
                                               Container(
-                                                width: 150.w,
+                                                width: 230.w,
                                                 child: Text(
                                                   'NO',
                                                   // 'Observer',
@@ -342,7 +349,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Container(
-                                                    height: 25.h,
+                                                    height: 30.h,
                                                     width: 150.w,
                                                     decoration: BoxDecoration(color: Color.fromRGBO(230, 236, 254, 8),
                                                         border: Border.all(
@@ -351,7 +358,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                                           topLeft: Radius.circular(10),
                                                         )),child: Center(child: Text('Score %',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),))),
                                                 Container(
-                                                    height: 25.h,
+                                                    height: 30.h,
                                                     width: 150.w,
                                                     decoration: BoxDecoration(color: Color.fromRGBO(230, 236, 254, 8),
                                                         border: Border.all(
@@ -568,6 +575,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                                     fontWeight: FontWeight.w600),
                                               ),
                                             ),
+                                            SizedBox(height: 10,),
                                             TextFormField(
 
                                               readOnly: true,
@@ -609,8 +617,8 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                             ),
                                             Container(
                                               padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
-                                              width: 350.w,
-                                              height: 50.h,
+
+                                              height: 60.h,
                                               decoration: BoxDecoration(color: Colorutils.chatcolor.withOpacity(0.3),borderRadius: BorderRadius.circular(10)),
                                               child: Row(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -721,11 +729,11 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
 //                                               ),
 //                                             )
 
-                                              SizedBox(
-                                                height: 30,
-                                              ),
+                                            SizedBox(
+                                              height: 30,
+                                            ),
 
-                                                 GestureDetector(
+                                            GestureDetector(
                                               onTap: () {
 
                                               },
@@ -789,7 +797,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
         children: [
           Container(
             // height: 100.h,
-            width: 350.w,
+            //width: 350.w,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Result == 'NA'

@@ -47,7 +47,7 @@ class _ObsResultState extends State<ObsResult> {
                 AppBarBackground(),
                 Positioned(
                   left: 0,
-                  top: 15,
+                  top: -10,
                   child: Container(
                     // height: 100.w,
                     width: ScreenUtil().screenWidth,
@@ -140,7 +140,7 @@ Widget _resultlist(BuildContext context, {
       child: Padding(
         padding: const EdgeInsets.only(top: 10,left: 15,right: 15,bottom: 5),
         child: Container(
-          height: 130.h,
+          height: 160.h,
 
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -199,7 +199,7 @@ Widget _resultlist(BuildContext context, {
                         children: [
 
                           Container(
-                              width: 230.w,
+                              width: 200.w,
                               child: Text(
                                 "Mathematics",
                                 // 'Subject',
@@ -215,7 +215,7 @@ Widget _resultlist(BuildContext context, {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    width: 60.w,
+                                    width: 70.w,
                                     child: Text(
                                       'Done By',
                                       // 'Observer Name',
@@ -231,7 +231,7 @@ Widget _resultlist(BuildContext context, {
                                     ),
                                   ),
                                   Container(
-                                    width: 160.w,
+                                    width: 140.w,
                                     child: Text(
                                       'Nithin Nelson',
                                       // 'Observer',
@@ -247,7 +247,7 @@ Widget _resultlist(BuildContext context, {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                width: 60.w,
+                                width: 70.w,
                                 child: Text(
                                   'On',
                                   // 'Observer Name',
@@ -262,7 +262,7 @@ Widget _resultlist(BuildContext context, {
                                 ),
                               ),
                               Container(
-                                width: 160.w,
+                                width: 140.w,
                                 child: Text(
                                   '30-08-1998',
                                   // 'Observer',

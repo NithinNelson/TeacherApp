@@ -14,11 +14,13 @@ class RubricsInfo extends StatelessWidget {
       Container(child:Padding(
         padding: EdgeInsets.fromLTRB(20, 60, 20, 30),
         child: Container(
-            padding: EdgeInsets.fromLTRB(20, 15, 0, 0),
+            padding: EdgeInsets.fromLTRB(5, 15, 5, 0),
             height: MediaQuery.of(context).size.height,
-            width: 360.w,
+            // width: 360.w,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
+
+
               color: Color(0xff312B47),
             ),
             child: SingleChildScrollView(
@@ -74,8 +76,7 @@ class RubricsInfo extends StatelessWidget {
                     ),
                   ),
 
-                  Padding(
-                    padding:  EdgeInsets.only(left: 120.w,top: 30.h),
+                  Center(
                     child: GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: Container(

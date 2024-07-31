@@ -10,14 +10,14 @@ class MyClass extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 12, right: 8, top: 5, bottom: 8).w,
+      padding: const EdgeInsets.only(left: 12, right: 12, top: 5, bottom: 8).w,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             'My Class',
             style: GoogleFonts.inter(
-              fontSize: 25.0,
+              fontSize: 23.0,
               fontWeight: FontWeight.bold,
             ),
           ),

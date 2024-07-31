@@ -23,14 +23,14 @@ class _LessonObservationState extends State<LessonObservation> {
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.93,
+            height: MediaQuery.of(context).size.height ,
             width: ScreenUtil().screenWidth,
             child: Stack(
               children: [
                 AppBarBackground(),
                 Positioned(
                   left: 0,
-                  top: 15,
+                  top: -10,
                   child: Container(
                     // height: 100.w,
                     width: ScreenUtil().screenWidth,
@@ -242,8 +242,7 @@ class _LessonObservationState extends State<LessonObservation> {
                   margin: EdgeInsets.only(left: 20.w, top: 120.h, right: 20.w),
                   // width: 550.w,
                   // height: 600.h,
-                  // height: ScreenUtil().screenHeight * 0.8,
-                  height: double.infinity,
+                  height: ScreenUtil().screenHeight * 0.8,
                   decoration: BoxDecoration(
                     color: Colorutils.Whitecolor,
                     // Container color

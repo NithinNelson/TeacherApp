@@ -38,4 +38,6 @@ class ApiConstants {
   static String fileUpload = "/upload";
   static String deleteMsg = "/deletemessage";
   static String parentList = "/getparents";
+  static String notification = "/v0/notifications/header/details/";
+  static String notificationEnd = "/educore";
 }
