@@ -138,6 +138,7 @@ class ParentChatList extends StatelessWidget {
                     studentName: chatParentList[index].studentName ?? '',
                     relation: chatParentList[index].relation,
                     userId: userId,
+                    leadColor: Colorutils.chatLeadingColors[index % 5],
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {
@@ -165,6 +166,7 @@ class ChatItem extends StatelessWidget {
   final String classs;
   final LastMessage? lastMessage;
   final String? userId;
+  final Color leadColor;
   // final String Parentdetail;
   // final String classsdetail;
 
@@ -177,15 +179,13 @@ class ChatItem extends StatelessWidget {
     required this.classs,
     required this.lastMessage,
     required this.userId,
+    required this.leadColor,
     // required this.Parentdetail,
     // required this.classsdetail,
   });
 
   @override
   Widget build(BuildContext context) {
-    final random = Random();
-    int randomIndex = random.nextInt(Colorutils.chatLeadingColors.length);
-    Color randomElement = Colorutils.chatLeadingColors[randomIndex];
     return InkWell(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
@@ -200,7 +200,7 @@ class ChatItem extends StatelessWidget {
         child: Row(
           children: [
             CircleAvatar(
-              backgroundColor: randomElement,
+              backgroundColor: leadColor,
               radius: 28.r,
               child: FittedBox(
                 child: Text(
@@ -399,13 +399,13 @@ class ChatItem extends StatelessWidget {
                     color: Colorutils.Whitecolor,
                     borderRadius: BorderRadius.circular(20).r,
                     border: Border.all(
-                      color: randomElement,
+                      color: leadColor,
                     ),
                   ),
                   child: Text(
                     "Class $classs",
                     style: TeacherAppFonts.interW500_12sp_textWhite.copyWith(
-                      color: randomElement,
+                      color: leadColor,
                     ),
                   ),
                 ),

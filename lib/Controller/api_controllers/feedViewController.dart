@@ -38,6 +38,7 @@ class FeedViewController extends GetxController {
   RxBool showAudioPlayingWidget = false.obs;
   MsgData? seletedMsgData;
   String? lastMessageId;
+  RxInt tabControllerIndex = 0.obs;
 
   void resetStatus() {
     isLoading.value = false;
@@ -416,7 +417,6 @@ class FeedViewController extends GetxController {
     for (var parent in selectedParentDataList) {
       finalParentDataList.add(parent.sId ?? '');
     }
-    print("--------rgte4ght------------${finalParentDataList.length}");
   }
 
   bool showSelectionIcon(ParentData parent) {

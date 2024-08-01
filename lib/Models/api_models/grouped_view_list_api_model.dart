@@ -42,12 +42,14 @@ class Status {
 
 class Data {
   String? message;
+  int? count;
   List<RoomData>? data;
 
-  Data({this.message, this.data});
+  Data({this.message, this.data, this.count});
 
   Data.fromJson(Map<String, dynamic> json) {
     message = json['message'];
+    count = json['count'];
     if (json['data'] != null) {
       data = <RoomData>[];
       json['data'].forEach((v) {
@@ -59,6 +61,7 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['message'] = message;
+    data['count'] = count;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }

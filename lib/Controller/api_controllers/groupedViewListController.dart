@@ -48,7 +48,7 @@ class GroupedViewListController extends GetxController {
       );
       if (resp['status']['code'] == 200) {
         GroupedViewApiModel groupedViewApiModel = GroupedViewApiModel.fromJson(resp);
-        // unreadCount.value = classGroupApiModel.data?.unreadCount ?? 0;
+        unreadCount.value = groupedViewApiModel.data?.count ?? 0;
         roomList.value = groupedViewApiModel.data?.data ?? [];
       }
     } catch (e) {
@@ -72,6 +72,7 @@ class GroupedViewListController extends GetxController {
       );
       if (resp['status']['code'] == 200) {
         GroupedViewApiModel groupedViewApiModel = GroupedViewApiModel.fromJson(resp);
+        unreadCount.value = groupedViewApiModel.data?.count ?? 0;
         roomList.value = groupedViewApiModel.data?.data ?? [];
       }
     } catch (e) {

@@ -27,6 +27,13 @@ class TeacherAppFonts {
     color: Colorutils.Whitecolor,
   );
 
+  static final TextStyle interW300_23sp_reactionAddButton = TextStyle(
+    fontFamily: _interFont,
+    fontWeight: FontWeight.w300,
+    fontSize: 23.sp,
+    color: Colorutils.reactionAddButton,
+  );
+
   static final TextStyle interW400_12sp_textWhite_italic = TextStyle(
     fontFamily: _interFont,
     fontWeight: FontWeight.w600,

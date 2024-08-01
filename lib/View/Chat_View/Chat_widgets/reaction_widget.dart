@@ -2,6 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:teacherapp/Utils/Colors.dart';
+
+import '../../../Utils/font_util.dart';
 
 class ReactionContainerWidget extends StatelessWidget {
   const ReactionContainerWidget({
@@ -37,11 +40,16 @@ class ReactionContainerWidget extends StatelessWidget {
           SizedBox(width: 5.h),
           Text("🙏", style: TextStyle(fontSize: 30.h)),
           SizedBox(width: 5.h),
-          SizedBox(
+          Container(
             height: 32.h,
             width: 32.h,
-            child: SvgPicture.asset("assets/svg/Add.svg"),
-          )
+            padding: const EdgeInsets.all(6).w,
+            decoration: const BoxDecoration(
+              color: Color(0xFFE2E2E2),
+              shape: BoxShape.circle,
+            ),
+            child: const FittedBox(child: Icon(Icons.add, color: Colorutils.reactionAddButton)),
+          ),
         ],
       ),
     );

@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:teacherapp/Controller/api_controllers/feedViewController.dart';
 import 'package:teacherapp/Controller/api_controllers/groupedViewListController.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/View/Chat_List/chat_list_widgets/last_seen_msg.dart';
@@ -15,6 +16,7 @@ import '../../../Controller/api_controllers/chatClassGroupController.dart';
 import '../../../Models/api_models/chat_group_api_model.dart';
 import '../../../Utils/Colors.dart';
 import '../../../Utils/font_util.dart';
+import '../../Chat_View/class_message_view.dart';
 import '../../Chat_View/group_msg_screen.dart';
 
 class GroupChatList extends StatelessWidget {
@@ -93,14 +95,24 @@ class ChatItem extends StatelessWidget {
             stdBatch: classTeacherGroup?.batch ?? '',
             subId: classTeacherGroup?.subjectId ?? '',
         );
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => GroupMsgScreen(
-                msgData: classTeacherGroup,
-              ),
-            ));
-        // Get.find<ChatRoomController>().timer!.cancel();
+        if(classTeacherGroup?.subjectId == "class_group") {
+          Get.find<FeedViewController>().tabControllerIndex.value = 0;
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => GroupMsgScreen(
+                  msgData: classTeacherGroup,
+                ),
+              ));
+        } else {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ClassMessageView(
+                  msgData: classTeacherGroup,
+                ),
+              ));
+        }
       },
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10).w,

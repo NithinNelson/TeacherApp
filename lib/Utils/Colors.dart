@@ -40,6 +40,7 @@ class Colorutils {
   static const newChatBottom= Color(0xFF5C5C5C);
   static const dividerSheet1= Color(0xFF7F7F7F);
   static const dividerSheet2= Color(0xFF3D3D3D);
+  static const reactionAddButton= Color(0xFF24746B);
   static const bottomnaviconcolor= Color(0xFF88A9FF);
 
   static List<Color> chatLeadingColors = [

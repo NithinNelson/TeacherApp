@@ -64,7 +64,7 @@ class MessageMoreContainer extends StatelessWidget {
                           //     color: Colorutils.black);
                         },
                         text: "Copy",
-                        icon: "assets/svg/Copy.svg",
+                        icon: "assets/images/Copy.svg",
                       ),
                       const Divider(
                         color: Colorutils.dividerColor2,
@@ -75,7 +75,7 @@ class MessageMoreContainer extends StatelessWidget {
             MessageMoreSettingsTile(
               function: () {},
               text: "View Chat",
-              icon: "assets/svg/View_chat.svg",
+              icon: "assets/images/View_chat.svg",
             ),
             const Divider(
               color: Colorutils.dividerColor2,
@@ -84,7 +84,7 @@ class MessageMoreContainer extends StatelessWidget {
             MessageMoreSettingsTile(
               function: () {},
               text: "Reply",
-              icon: "assets/svg/ArrowBendUpLeft.svg",
+              icon: "assets/images/ArrowBendUpLeft.svg",
             ),
             const Divider(
               color: Colorutils.dividerColor2,
@@ -93,7 +93,7 @@ class MessageMoreContainer extends StatelessWidget {
             MessageMoreSettingsTile(
               function: () {},
               text: "Forward",
-              icon: "assets/svg/ArrowBendUpRight.svg",
+              icon: "assets/images/ArrowBendUpRight.svg",
             ),
             const Divider(
               color: Colorutils.dividerColor2,
@@ -108,7 +108,7 @@ class MessageMoreContainer extends StatelessWidget {
                     ));
               },
               text: "Message info",
-              icon: "assets/svg/Info.svg",
+              icon: "assets/images/Info.svg",
             ),
             Get.find<FeedViewController>().showDelete(Get.find<FeedViewController>().seletedMsgData!.sendAt ?? '--')
                 ? Column(
@@ -141,7 +141,7 @@ class MessageMoreContainer extends StatelessWidget {
                               SizedBox(
                                 height: 26.h,
                                 width: 26.h,
-                                child: SvgPicture.asset("assets/svg/Trash.svg"),
+                                child: SvgPicture.asset("assets/images/Trash.svg"),
                               )
                             ],
                           ),
