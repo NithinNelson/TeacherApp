@@ -5,16 +5,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:teacherapp/Models/api_models/learning_observation_api_model.dart';
 import 'package:teacherapp/View/Learning_Walk/learning_walk_widgets/question_radio_fields.dart';
+import 'package:teacherapp/View/Lesson_Observation/question_radio_obsfields.dart';
 import '../../Utils/Colors.dart';
 import '../../Utils/font_util.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
 
 class LessonObservingScreen extends StatefulWidget {
+  final String teacherDetails;
+  final String subjectDetail;
+  final String teacherDetail;
 
   const LessonObservingScreen({
     super.key,
-
+    required this.teacherDetails,
+    required this.subjectDetail,
+    required this.teacherDetail,
   });
 
   @override
@@ -284,7 +290,7 @@ class _LessonObservingScreenState extends State<LessonObservingScreen> {
                                     padding: const EdgeInsets.fromLTRB(
                                         25, 10, 0, 10),
                                     child: Text(
-                                      'Learning Walk',
+                                      'Lesson Observation',
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w600),
@@ -297,151 +303,182 @@ class _LessonObservingScreenState extends State<LessonObservingScreen> {
                                         right: 20.w,
                                         bottom: 5),
                                     child: Container(
-                                      height: 80.h,
+                                      // height: 90.h,
                                       width: 280.w,
                                       decoration: BoxDecoration(
                                           color: Colorutils.userdetailcolor,
                                           borderRadius:
-                                          BorderRadius.circular(15)),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 10)
-                                                    .w,
-                                                child: Container(
-                                                  width: 50.w,
-                                                  height: 50.h,
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    border: Border.all(
-                                                        color:
-                                                        Color(0xFFD6E4FA)),
-                                                    color: Colors.white,
-                                                    // image: DecorationImage(
-                                                    //     image: NetworkImage(widget.teacherImage == ""
-                                                    //         ? "https://raw.githubusercontent.com/abdulmanafpfassal/image/master/profile.jpg"
-                                                    //         : ApiConstants.IMAGE_BASE_URL +
-                                                    //         "${widget.teacherImage}"),
-                                                    //     fit: BoxFit.cover),
-                                                  ),
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                    BorderRadius.circular(
-                                                        100),
-                                                    child: CachedNetworkImage(
-                                                      width: 50,
-                                                      height: 50,
-                                                      fit: BoxFit.fill,
-                                                      imageUrl: "nhh",
-                                                      placeholder:
-                                                          (context, url) =>
-                                                          Center(
-                                                            child: Text(
-                                                              'be',
-                                                              style: TextStyle(
-                                                                  color: Color(
-                                                                      0xFFB1BFFF),
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                                  fontSize: 20),
-                                                            ),
+                                              BorderRadius.circular(15)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 6,
+                                          bottom: 6,
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 10)
+                                                      .w,
+                                                  child: Container(
+                                                    width: 50.w,
+                                                    height: 50.h,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                          color: Color(
+                                                              0xFFD6E4FA)),
+                                                      color: Colors.white,
+                                                      // image: DecorationImage(
+                                                      //     image: NetworkImage(widget.teacherImage == ""
+                                                      //         ? "https://raw.githubusercontent.com/abdulmanafpfassal/image/master/profile.jpg"
+                                                      //         : ApiConstants.IMAGE_BASE_URL +
+                                                      //         "${widget.teacherImage}"),
+                                                      //     fit: BoxFit.cover),
+                                                    ),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100),
+                                                      child: CachedNetworkImage(
+                                                        width: 50,
+                                                        height: 50,
+                                                        fit: BoxFit.fill,
+                                                        imageUrl: "nhh",
+                                                        placeholder:
+                                                            (context, url) =>
+                                                                Center(
+                                                          child: Text(
+                                                            'be',
+                                                            style: TextStyle(
+                                                                color: Color(
+                                                                    0xFFB1BFFF),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 20),
                                                           ),
-                                                      errorWidget: (context,
-                                                          url, error) =>
-                                                          Center(
-                                                            child: Text(
-                                                              'be',
-                                                              style: TextStyle(
-                                                                  color: Color(
-                                                                      0xFFB1BFFF),
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                                  fontSize: 20),
-                                                            ),
+                                                        ),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Center(
+                                                          child: Text(
+                                                            'be',
+                                                            style: TextStyle(
+                                                                color: Color(
+                                                                    0xFFB1BFFF),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 20),
                                                           ),
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    width: 180.w,
-                                                    child:
-                                                    SingleChildScrollView(
-                                                      scrollDirection:
-                                                      Axis.horizontal,
-                                                      child: Text(
-                                                        "Teacherdetails",
-                                                        style: TextStyle(
-                                                            color: Color(
-                                                                0xffFFFFFF),
-                                                            fontSize: 15.sp,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w400),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Container(
+                                                      width: 210.w,
+                                                      child:
+                                                          SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Text(
+                                                          "${widget.teacherDetails}",
+                                                          style: TextStyle(
+                                                              color: Color(
+                                                                  0xffFFFFFF),
+                                                              fontSize: 18.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  // SizedBox(
-                                                  //   height: 2.h,
-                                                  // ),
-                                                  SizedBox(
-                                                    width: 180.w,
-                                                    child:
-                                                    SingleChildScrollView(
-                                                      scrollDirection:
-                                                      Axis.horizontal,
-                                                      child: Text(
-                                                        "Teeacher Details",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 14.sp,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w400),
+                                                    Container(
+                                                      width: 180.w,
+                                                      child:
+                                                          SingleChildScrollView(
+                                                        child: Text(
+                                                          "Class : 3 B",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 14.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  // SizedBox(
-                                                  //   height: 2.h,
-                                                  // ),
-                                                  Container(
-                                                    width: 180.w,
-                                                    child:
-                                                    SingleChildScrollView(
-                                                      child: Text(
-                                                        "Teache Details",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 14.sp,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w400),
+                                                    // SizedBox(
+                                                    //   height: 2.h,
+                                                    // ),
+                                                    SizedBox(
+                                                      width: 180.w,
+                                                      child:
+                                                          SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Text(
+                                                          "Suject : ${widget.subjectDetail}",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 14.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
                                                       ),
                                                     ),
-                                                  )
-                                                ],
-                                              )
-                                            ],
-                                          )
-                                        ],
+                                                    // SizedBox(
+                                                    //   height: 2.h,
+                                                    // ),
+                                                    Container(
+                                                      width: 180.w,
+                                                      child: Expanded(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              "Teache Deails",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      14.sp,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
                                   Padding(
                                     padding:
-                                    const EdgeInsets.fromLTRB(25, 5, 0, 5),
+                                        const EdgeInsets.fromLTRB(25, 5, 0, 5),
                                     child: Text(
                                       'Criteria',
                                       style: TextStyle(
@@ -449,7 +486,7 @@ class _LessonObservingScreenState extends State<LessonObservingScreen> {
                                           fontWeight: FontWeight.w600),
                                     ),
                                   ),
-                                  QuestionRadioFields(),
+                                  QuestionRadioObsfields(),
                                   Padding(
                                     padding: EdgeInsets.only(
                                         left: 20.w,
@@ -463,7 +500,7 @@ class _LessonObservingScreenState extends State<LessonObservingScreen> {
                                           : null,
                                       decoration: InputDecoration(
                                           hintStyle:
-                                          TextStyle(color: Colors.black26),
+                                              TextStyle(color: Colors.black26),
                                           contentPadding: EdgeInsets.symmetric(
                                               vertical: 10.0, horizontal: 20.0),
                                           hintText: " Summary  ",
@@ -508,7 +545,7 @@ class _LessonObservingScreenState extends State<LessonObservingScreen> {
                                           : null,
                                       decoration: InputDecoration(
                                           hintStyle:
-                                          TextStyle(color: Colors.black26),
+                                              TextStyle(color: Colors.black26),
                                           contentPadding: EdgeInsets.symmetric(
                                               vertical: 10.0, horizontal: 20.0),
                                           hintText: " What went well   ",
@@ -553,7 +590,7 @@ class _LessonObservingScreenState extends State<LessonObservingScreen> {
                                           : null,
                                       decoration: InputDecoration(
                                           hintStyle:
-                                          TextStyle(color: Colors.black26),
+                                              TextStyle(color: Colors.black26),
                                           contentPadding: EdgeInsets.symmetric(
                                               vertical: 10.0, horizontal: 20.0),
                                           hintText: " Even better if   ",
@@ -587,12 +624,12 @@ class _LessonObservingScreenState extends State<LessonObservingScreen> {
                                   ),
                                   Padding(
                                     padding:
-                                    const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                        const EdgeInsets.fromLTRB(10, 0, 0, 0),
                                     child: Row(
                                       children: [
                                         Checkbox(
                                           activeColor:
-                                          Colorutils.userdetailcolor,
+                                              Colorutils.userdetailcolor,
                                           value: isChecked,
                                           onChanged: (value) {
                                             setState(() {
@@ -622,14 +659,14 @@ class _LessonObservingScreenState extends State<LessonObservingScreen> {
                                           decoration: BoxDecoration(
                                               color: Colorutils.userdetailcolor,
                                               borderRadius:
-                                              BorderRadius.circular(30)),
+                                                  BorderRadius.circular(30)),
                                           child: Center(
                                               child: Text(
-                                                'SUBMIT',
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: Colors.white),
-                                              )),
+                                            'SUBMIT',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white),
+                                          )),
                                         ),
                                       ),
                                     ),

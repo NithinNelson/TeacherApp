@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:horizontal_card_pager/card_item.dart';
@@ -11,6 +12,7 @@ import 'package:teacherapp/View/MyTimeTable/Tuesday.dart';
 import 'package:teacherapp/View/MyTimeTable/Wednesday.dart';
 
 import '../../Utils/Colors.dart';
+import '../../Utils/constants.dart';
 import '../../Utils/font_util.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
@@ -110,8 +112,8 @@ class _MyTimeTableState extends State<MyTimeTable> with SingleTickerProviderStat
 
     ];
 
-    return SafeArea(
-
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: systemUiOverlayStyleLight,
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Container(
@@ -121,7 +123,7 @@ class _MyTimeTableState extends State<MyTimeTable> with SingleTickerProviderStat
               AppBarBackground(),
               Positioned(
                 left: 0,
-                top: 10,
+                top: -10,
                 child: Container(
                   // height: 100.w,
                   width: ScreenUtil().screenWidth,
@@ -134,7 +136,7 @@ class _MyTimeTableState extends State<MyTimeTable> with SingleTickerProviderStat
               ),
               Container(
                 margin: EdgeInsets.only(
-                    left: 10.w, top: 110.h, right: 10.w
+                    left: 10.w, top: 120.h, right: 10.w
                 ),
                 // width: 550.w,
                 // height: 600.h,
