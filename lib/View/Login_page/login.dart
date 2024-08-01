@@ -159,8 +159,8 @@ class _LoginPageState extends State<LoginPage> {
                               controller: _usernameController,
                               autofillHints: const [AutofillHints.username],
                               textInputAction: TextInputAction.next,
-                              decoration: const InputDecoration(
-                                  focusedBorder: UnderlineInputBorder(
+                              decoration: InputDecoration(
+                                  focusedBorder: const UnderlineInputBorder(
                                       borderSide: BorderSide(
                                           color: Colorutils.userdetailcolor,
                                           width: 2)),
@@ -170,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                                   // border: UnderlineInputBorder(),
                                   labelText: 'Username',
                                   labelStyle: TextStyle(
-                                      color: Colorutils.userdetailcolor)),
+                                      color: Colorutils.userdetailcolor, fontSize: 16.h)),
                             ),
                           ),
                           Padding(
@@ -194,8 +194,8 @@ class _LoginPageState extends State<LoginPage> {
                                           color: Colorutils.userdetailcolor)),
                                   // border: UnderlineInputBorder(borderSide: BorderSide(color: Colorutils.userdetailcolor)),
                                   labelText: 'Password',
-                                  labelStyle: const TextStyle(
-                                      color: Colorutils.userdetailcolor),
+                                  labelStyle: TextStyle(
+                                      color: Colorutils.userdetailcolor, fontSize: 16.h),
                                   suffixIcon: GestureDetector(
                                       onTap: () {
                                         setState(() {
@@ -274,8 +274,8 @@ class _LoginPageState extends State<LoginPage> {
                                   );
 
                                 }
-                                _usernameController?.clear();
-                                _passwordController?.clear();
+                                // _usernameController?.clear();
+                                // _passwordController?.clear();
                               },
                               child: Container(
                                 decoration: BoxDecoration(

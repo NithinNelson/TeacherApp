@@ -22,7 +22,7 @@ class ParentSelectionBottomSheet extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.9),
+          color: Colors.grey.shade200,
           borderRadius: BorderRadius.circular(10).r,
         ),
         padding: const EdgeInsets.only(left: 16, bottom: 16).w,

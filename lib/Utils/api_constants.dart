@@ -33,6 +33,7 @@ class ApiConstants {
   static String lessonObservation = "/v2/lesson_observation/init/data";
   static String classGroup = "/classgroup";
   static String parentChatList = "/parentchatlist";
+  static String parentChatMessages = "/parentchatlistdata";
   static String teacherMsgList = "/teachermessagelist";
   static String sentMsgByTeacher = "/sendmessageteacher";
   static String fileUpload = "/upload";

@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:teacherapp/Controller/ui_controllers/chat_controller.dart';
 import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'Controller/api_controllers/feedViewController.dart';
@@ -14,6 +13,7 @@ import 'Controller/api_controllers/lessonObservationController.dart';
 import 'Controller/api_controllers/chatClassGroupController.dart';
 import 'Controller/api_controllers/markAsReadController.dart';
 import 'Controller/api_controllers/notificationController.dart';
+import 'Controller/api_controllers/parentChatController.dart';
 import 'Controller/api_controllers/parentChatListController.dart';
 import 'Controller/api_controllers/timeTableController.dart';
 import 'Controller/api_controllers/userAuthController.dart';
@@ -37,7 +37,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(MessageController());
     Get.put(UserAuthController());
     Get.put(PageIndexController());
     Get.put(TimeTableController());
@@ -49,6 +48,7 @@ class MyApp extends StatelessWidget {
     Get.put(MarkAsReadController());
     Get.put(GroupedViewListController());
     Get.put(GroupedViewController());
+    Get.put(ParentChattingController());
     return GlobalLoaderOverlay(
       useDefaultLoading: false,
       overlayWidgetBuilder: (_) {

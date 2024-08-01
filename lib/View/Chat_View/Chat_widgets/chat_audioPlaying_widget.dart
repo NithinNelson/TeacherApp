@@ -29,7 +29,6 @@ class _ChatAudioPlayingWidgetState extends State<ChatAudioPlayingWidget> {
 
   @override
   void initState() {
-    _initialize();
     _initAudioPlayer();
     super.initState();
   }
@@ -38,14 +37,6 @@ class _ChatAudioPlayingWidgetState extends State<ChatAudioPlayingWidget> {
   void dispose() {
     player.dispose();
     super.dispose();
-  }
-
-  _initialize() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    var school_Id = preferences.getString('school_id');
-    var fromId = preferences.getString('userID');
-    setState(() => userId = fromId!);
-    setState(() => schoolId = school_Id!);
   }
 
   void _initAudioPlayer() async {

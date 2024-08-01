@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_switch/flutter_switch.dart';
+// import 'package:flutter_switch/flutter_switch.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:swipe_to/swipe_to.dart';
 import 'package:badges/badges.dart' as badges;
@@ -623,34 +624,71 @@ class _MyclassesState extends State<Myclasses> {
                                                     Column(
                                                       children: [
                                                         Container(
-                                                          child: FlutterSwitch(
-                                                              width: 80.w,
-                                                              height: 40.h,
-                                                              valueFontSize: 16.sp,
-                                                              toggleSize: 35.h,
-                                                              toggleBorder:
-                                                              Border.all(
-                                                                  color: Color(
-                                                                      0xFFD6E4FA),
-                                                                  width: 2),
-                                                              activeText: "   P",
-                                                              inactiveText: "A",
-                                                              value: status,
-                                                              borderRadius: 30.0,
-                                                              padding: 0,
-                                                              activeColor: Colorutils.userdetailcolor.withOpacity(0.7),
-                                                              inactiveColor:
-                                                              Colors.red.withOpacity(0.8),
-                                                              inactiveTextColor:
-                                                              Colors.white,
-                                                              activeTextColor:
-                                                              Colors.white,
-                                                              showOnOff: true,
-                                                              onToggle: (val) {
-                                                                setState(() {
-                                                                  status = val;
-                                                                });
-                                                              }),
+                                                          child: AdvancedSwitch(
+                                                            width: 80.w,
+                                                            height: 40.h,
+                                                            initialValue: status,
+                                                            onChanged: (val) {
+                                                              setState(() {
+                                                                status = val;
+                                                              });
+                                                            },
+                                                            activeChild: Text(
+                                                                "  P",
+                                                              style: TextStyle(
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 16.sp,
+                                                              ),
+                                                            ),
+                                                            inactiveChild: Text(
+                                                                "A  ",
+                                                              style: TextStyle(
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 16.sp,
+                                                              ),
+                                                            ),
+                                                            activeColor: Colorutils.userdetailcolor,
+                                                            inactiveColor: Colors.red.withOpacity(0.8),
+                                                            borderRadius: BorderRadius.circular(30.0),
+                                                            thumb: Container(
+                                                              decoration: BoxDecoration(
+                                                                border: Border.all(
+                                                                    color: const Color(0xFFD6E4FA),
+                                                                    width: 2,
+                                                                ),
+                                                                shape: BoxShape.circle,
+                                                                color: Colors.white,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          // child: FlutterSwitch(
+                                                          //     width: 80.w,
+                                                          //     height: 40.h,
+                                                          //     valueFontSize: 16.sp,
+                                                          //     toggleSize: 35.h,
+                                                          //     toggleBorder:
+                                                          //     Border.all(
+                                                          //         color: Color(
+                                                          //             0xFFD6E4FA),
+                                                          //         width: 2),
+                                                          //     activeText: " P",
+                                                          //     inactiveText: "A ",
+                                                          //     value: status,
+                                                          //     borderRadius: 30.0,
+                                                          //     padding: 0,
+                                                          //     activeColor: Colorutils.userdetailcolor.withOpacity(0.7),
+                                                          //     inactiveColor:
+                                                          //     Colors.red.withOpacity(0.8),
+                                                          //     inactiveTextColor:
+                                                          //     Colors.white,
+                                                          //     activeTextColor:
+                                                          //     Colors.white,
+                                                          //     showOnOff: true,
+                                                          //     onToggle: (val) {
+                                                          //       setState(() {
+                                                          //         status = val;
+                                                          //       });
+                                                          //     }),
                                                         ),
                                                         SizedBox(height: 10,),
                                                         GestureDetector(

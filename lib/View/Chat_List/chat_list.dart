@@ -94,6 +94,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage> with TickerPr
                           padding: const EdgeInsets.only(left: 6).w,
                           child: InkWell(
                             onTap: () {
+                              parentChatListController.setCurrentFilterClass(currentClass: 'All');
                               showModalBottomSheet(
                                 context: context,
                                 backgroundColor: Colors.transparent,

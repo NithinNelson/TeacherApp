@@ -9,13 +9,13 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:record/record.dart';
 import 'package:crypto/crypto.dart';
 import 'package:teacherapp/Controller/api_controllers/feedViewController.dart';
-import 'package:teacherapp/Controller/api_controllers/feedViewController.dart';
-import 'package:teacherapp/Controller/api_controllers/feedViewController.dart';
+import 'package:teacherapp/Controller/api_controllers/parentChatController.dart';
 
 import '../../../Utils/Colors.dart';
 
 class ChatAudioRecordingWidget extends StatefulWidget {
-  const ChatAudioRecordingWidget({super.key});
+  final bool isParentChat;
+  const ChatAudioRecordingWidget({super.key, required this.isParentChat});
 
   @override
   State<ChatAudioRecordingWidget> createState() =>
@@ -71,7 +71,9 @@ class _ChatAudioRecordingWidgetState extends State<ChatAudioRecordingWidget> {
             .split(".")
             .first));
     // provider.setAudioPath(path: '${appDir.path}/$randomFilename.wav');
-    Get.find<FeedViewController>().audioPath.value =
+    widget.isParentChat ? Get.find<ParentChattingController>().audioPath.value =
+    '${appDir.path}/$randomFilename.wav'
+    : Get.find<FeedViewController>().audioPath.value =
         '${appDir.path}/$randomFilename.wav';
   }
 
@@ -139,10 +141,17 @@ class _ChatAudioRecordingWidgetState extends State<ChatAudioRecordingWidget> {
                 await recorder.stop().then((value) {
                   // final provider = Provider.of<ChatProvider>(context, listen: false);
                   // provider.chatField(ChatField.textField);
-                  Get.find<FeedViewController>().showAudioRecordWidget.value =
-                      false;
-                  Get.find<FeedViewController>().showAudioPlayingWidget.value =
-                      true;
+                  if(widget.isParentChat) {
+                    Get.find<ParentChattingController>().showAudioRecordWidget.value =
+                    false;
+                    Get.find<ParentChattingController>().showAudioPlayingWidget.value =
+                    true;
+                  } else {
+                    Get.find<FeedViewController>().showAudioRecordWidget.value =
+                    false;
+                    Get.find<FeedViewController>().showAudioPlayingWidget.value =
+                    true;
+                  }
                 });
               }
             },

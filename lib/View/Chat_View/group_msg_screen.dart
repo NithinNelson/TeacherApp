@@ -673,7 +673,7 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
                               )
                                   : const SizedBox(),
                               controller.showAudioRecordWidget.value
-                                  ? const ChatAudioRecordingWidget()
+                                  ? const ChatAudioRecordingWidget(isParentChat: false)
                                   : Row(
                                 children: [
                                   controller.audioPath.value == null
@@ -777,7 +777,7 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) {
-                                              return const CameraScreen();
+                                              return const CameraScreen(isParentChat: false);
                                             },
                                           ),
                                         );
