@@ -4,31 +4,64 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:intl/intl.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
+import 'package:teacherapp/Models/api_models/chat_feed_view_model.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
 import '../../../Controller/ui_controllers/chat_controller.dart';
+import '../../Controller/api_controllers/groupedViewController.dart';
+import '../../Models/api_models/grouped_view_list_api_model.dart';
 import '../Chat_List/Mychat/Chat_seen.dart';
+import 'Chat_widgets/audio_widget.dart';
+import 'Chat_widgets/chat_date_widget.dart';
+import 'Chat_widgets/file_widget.dart';
 import 'Chat_widgets/message_info_screen.dart';
+import 'Chat_widgets/replay_in_message_widget.dart';
+import 'Chat_widgets/sent_bubble_widget.dart';
 
 class GroupedViewMsgScreen extends StatefulWidget {
-  const GroupedViewMsgScreen({super.key});
+  final RoomData? roomData;
+  const GroupedViewMsgScreen({super.key, this.roomData});
 
   @override
   State<GroupedViewMsgScreen> createState() => _GroupedViewMsgScreenState();
 }
 
 class _GroupedViewMsgScreenState extends State<GroupedViewMsgScreen> {
-  TextEditingController messageCtr = TextEditingController();
+  GroupedViewController groupedViewController = Get.find<GroupedViewController>();
 
   @override
   void initState() {
+    initialize();
     super.initState();
-    // WidgetsBinding.instance.addObserver(this);
-    // screenHeight = ScreenUtil().screenHeight;
-    // isKeboardOpen = false;
-    // keybordHeight = 0;
-    Get.find<MessageController>().isReplay.value = false;
+  }
+
+  void initialize() async {
+    context.loaderOverlay.show();
+    String? userId = Get.find<UserAuthController>().userData.value.userId;
+    String? schoolId = Get.find<UserAuthController>().userData.value.schoolId;
+    ChatFeedViewReqModel chatFeedViewReqModel = ChatFeedViewReqModel(
+      classs: widget.roomData?.classs ?? '--',
+      batch: widget.roomData?.batch ?? '--',
+      subjectId: widget.roomData?.subjectId ?? '--',
+      teacherId: userId ?? '--',
+      schoolId: schoolId ?? '--',
+      limit: 100,
+      offset: 0,
+    );
+    await groupedViewController.fetchFeedViewMsgList(chatFeedViewReqModel);
+    await Future.delayed(const Duration(milliseconds: 50), () {
+      groupedViewController.chatGroupedViewScrollController.value.animateTo(
+        groupedViewController.chatGroupedViewScrollController.value.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
+      );
+    });
+    if(!mounted) return;
+    context.loaderOverlay.hide();
   }
 
   @override
@@ -62,7 +95,7 @@ class _GroupedViewMsgScreenState extends State<GroupedViewMsgScreen> {
                 Row(
                   children: [
                     Text(
-                      'My Class',
+                      widget.roomData?.subjectName ?? '--',
                       style: TeacherAppFonts.interW600_18sp_textWhite,
                     ),
                     SizedBox(width: 8.w),
@@ -73,7 +106,7 @@ class _GroupedViewMsgScreenState extends State<GroupedViewMsgScreen> {
                         borderRadius: BorderRadius.circular(28).r,
                       ),
                       child: Text(
-                        '4A',
+                        "${widget.roomData?.classs ?? ''}${widget.roomData?.batch ?? ''}",
                         style: TeacherAppFonts.interW500_12sp_textWhite.copyWith(
                           color: const Color(0xFF003D36),
                         ),
@@ -82,7 +115,7 @@ class _GroupedViewMsgScreenState extends State<GroupedViewMsgScreen> {
                   ],
                 ),
                 Text(
-                  "Imran Bin Mahroof",
+                  widget.roomData?.teacherName ?? '--',
                   style: TeacherAppFonts.interW400_14sp_textWhite,
                 ),
               ],
@@ -141,52 +174,58 @@ class ChatList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<MessageController>(
-      builder: (controller) {
-        return ListView.separated(
+    String userId = Get.find<UserAuthController>().userData.value.userId ?? '--';
+    return GetX<GroupedViewController>(
+      builder: (GroupedViewController controller) {
+        List<MsgData> msgData = controller.chatMsgList.value;
+        return GroupedListView<MsgData, String>(
+          useStickyGroupSeparators: true,
+          cacheExtent: 10000,
+          floatingHeader: true,
           padding: EdgeInsets.only(top: 5.h, bottom: 5.h),
-          controller: controller.chatListscrollController.value,
-          itemBuilder: (context, index) {
-            return index % 2 == 0
-                ? SwapeToWidget(
-              function: () {
-                FocusScope.of(context).requestFocus(
-                    Get.find<MessageController>().focusNode);
-                Get.find<MessageController>().isReplay.value = true;
-                Get.find<MessageController>().replayName.value = "You";
-                Get.find<MessageController>().replayMessage.value =
-                Get.find<MessageController>().messageList[index];
-              },
-              iconWidget:
-              SvgPicture.asset("assets/svg/ArrowBendUpLeft.svg"),
-              child: SentMessageBubble(
-                message: Get.find<MessageController>().messageList[index],
-                replay: true,
-              ),
-            )
-                : SwapeToWidget(
-              function: () {
-                FocusScope.of(context).requestFocus(
-                    Get.find<MessageController>().focusNode);
-                Get.find<MessageController>().isReplay.value = true;
-                Get.find<MessageController>().replayName.value =
-                "~ Ali bin";
-                Get.find<MessageController>().replayMessage.value =
-                Get.find<MessageController>().messageList[index];
-              },
-              iconWidget:
-              SvgPicture.asset("assets/svg/ArrowBendUpLeft.svg"),
-              child: ReceiveMessageBubble(
-                message: Get.find<MessageController>().messageList[index],
-              ),
-            );
+          controller: controller.chatGroupedViewScrollController.value,
+          groupBy: (element) {
+            try {
+              return DateFormat('yyyy-MM-dd')
+                  .format(DateTime.parse(element.sendAt!));
+            } catch (e) {
+              return "--";
+            }
           },
-          separatorBuilder: (context, index) {
-            return SizedBox(
-              height: 5.h,
-            );
+          sort: true,
+          elements: msgData,
+          groupSeparatorBuilder: (String groupByValue) {
+            return ChatDateWidget(date: groupByValue);
           },
-          itemCount: Get.find<MessageController>().messageList.length,
+          itemBuilder: (context, messageData) {
+            List<StudentData> student = messageData.studentData ?? [];
+            StudentData? relation = student.isNotEmpty ? student.first : StudentData();
+            String relationData = "${relation.relation ?? ''} ${relation.relation != null ? 'of' : ''} ${messageData.messageFrom ?? '--'}";
+            return "${messageData.messageFromId}" == userId
+                ? SentMessageBubble(
+                  message: messageData.message ?? '',
+                  time: messageData.sendAt,
+                  replay: true,
+                  audio: messageData.messageAudio,
+                  fileName: messageData.fileName,
+                  fileLink: messageData.messageFile,
+                  messageData: messageData,
+                )
+                : ReceiveMessageBubble(
+                  senderName: student.isNotEmpty ? messageData.studentData?.first.studentName ?? '--' : '--',
+                  message: messageData.message,
+                  time: messageData.sendAt,
+                  replay: true,
+                  audio: messageData.messageAudio,
+                  fileName: messageData.fileName,
+                  fileLink: messageData.messageFile,
+                  messageData: messageData,
+                  relation: relationData,
+                );
+          },
+          separator: SizedBox(
+            height: 5.h,
+          ),
         );
       },
     );
@@ -194,100 +233,133 @@ class ChatList extends StatelessWidget {
 }
 
 class SentMessageBubble extends StatelessWidget {
-  SentMessageBubble({
-    super.key,
-    required this.message,
-    required this.replay,
-  });
+  SentMessageBubble(
+      {super.key,
+        this.message,
+        this.time,
+        this.replay,
+        this.audio,
+        this.fileName,
+        this.fileLink,
+        // this.senderId,
+        this.messageData});
 
   late Offset _tapPosition;
-  final String message;
-  final bool replay;
+
+  bool? replay;
+  String? time;
+  String? message;
+  MsgData? messageData;
+  String? audio;
+  String? fileName;
+  String? fileLink;
+  // String? senderId;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: Padding(
-        padding: EdgeInsets.only(right: 5.h),
+        padding: EdgeInsets.only(right: 20.h),
         child: Stack(
           children: [
             Positioned(
               bottom: 0,
-              right: 0,
+              right: -5.w,
               child: SizedBox(
-                  width: 15.h,
-                  child: SvgPicture.asset(
-                    "assets/images/MessageBubbleShape.svg",
-                    fit: BoxFit.contain,
-                    color: Colorutils.chatcolor,
-                  )),
+                width: 20.w,
+                height: 20.w,
+                child: SvgPicture.asset(
+                  "assets/images/MessageBubbleShape.svg",
+                  fit: BoxFit.fill,
+                ),
+              ),
             ),
             Row(
               children: [
                 const Spacer(),
                 Padding(
                   padding: EdgeInsets.only(right: 10.w),
-                  child: GestureDetector(
-                    onTapDown: (TapDownDetails details) {
-                      _tapPosition = details.globalPosition;
-                      print(_tapPosition);
-                      print(ScreenUtil().screenHeight);
-                    },
-                    onLongPress: () {
-                      final renderObject =
-                      context.findRenderObject() as RenderBox;
-                      final position = renderObject.localToGlobal(Offset.zero);
-
-                      messageMoreShowDialog(
-                          context, this, position, _tapPosition);
-                    },
+                  child: IntrinsicWidth(
                     child: Container(
+                      constraints: BoxConstraints(maxWidth: 310.w),
                       decoration: BoxDecoration(
-                          color: Colorutils.chatcolor,
+                          color: Colorutils.msgBubbleColor1,
                           borderRadius: BorderRadius.circular(10.h)),
                       child: Padding(
                         padding: EdgeInsets.all(10.h),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                        child: Column(
                           children: [
-                            Column(
-                              children: [
-                                ConstrainedBox(
-                                  constraints: BoxConstraints(
-                                    maxWidth: 180.w,
-                                  ),
-                                  child: Text(
-                                    message,
-                                    maxLines: 100,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 5.h,
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              width: 20.h,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  "17:47",
-                                  style: TextStyle(
-                                      fontSize: 12, color: Colors.grey),
-                                ),
-                                SizedBox(
-                                  width: 5.h,
-                                ),
-                                SizedBox(
-                                  height: 18.h,
-                                  width: 18.h,
-                                  child: SvgPicture.asset(
-                                      "assets/images/Checks.svg"),
-                                ),
-                              ],
+                            messageData!.replyData != null
+                                ? ReplayMessageWidget(
+                              senderId: messageData!.messageFromId,
+                              replyData: messageData!.replyData!,
                             )
+                                : const SizedBox(),
+                            fileName != null
+                                ? FileWidget1(
+                              fileType: fileName!.split(".").last,
+                              fileName: fileName!,
+                              fileLink: fileLink!,
+                            )
+                                : const SizedBox(),
+                            audio != null
+                                ? AudioWidget(content: audio!)
+                                : const SizedBox(),
+                            message != null && fileName != null ||
+                                audio != null
+                                ? SizedBox(height: 5.h)
+                                : const SizedBox(),
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Column(
+                                  children: [
+                                    ConstrainedBox(
+                                      constraints: BoxConstraints(
+                                        maxWidth: 200.w,
+                                      ),
+                                      child: Text(
+                                        message ?? "",
+                                        // maxLines: 100,
+                                        style: TeacherAppFonts
+                                            .interW400_16sp_letters1
+                                            .copyWith(color: Colors.black),
+                                      ),
+                                    ),
+                                    SizedBox(height: 5.h)
+                                  ],
+                                ),
+                                SizedBox(width: 20.h),
+                                Row(
+                                  children: [
+                                    Text(
+                                      // "17:47",
+                                      messageBubbleTimeFormat(time),
+                                      style: TeacherAppFonts
+                                          .interW400_12sp_topicbackground
+                                          .copyWith(
+                                          color: Colors.black
+                                              .withOpacity(.25)),
+                                    ),
+                                    SizedBox(width: 5.h),
+                                    SizedBox(
+                                      height: 21.h,
+                                      width: 21.h,
+                                      child: SvgPicture.asset(
+                                          "assets/images/Checks.svg",
+                                          color: messageData?.read == null
+                                              ? Colors.grey
+                                              : messageData!.read!
+                                              ? Colors.green.shade900
+                                              : Colors.grey),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -304,539 +376,159 @@ class SentMessageBubble extends StatelessWidget {
 }
 
 class ReceiveMessageBubble extends StatelessWidget {
-  const ReceiveMessageBubble({super.key, required this.message});
-  final String message;
+  ReceiveMessageBubble(
+      {super.key,
+        this.message,
+        this.time,
+        this.replay,
+        this.audio,
+        this.fileLink,
+        this.fileName,
+        this.senderName,
+        this.messageData,
+        this.relation});
+
+  bool? replay;
+  String? time;
+  String? message;
+  String? audio;
+  String? fileName;
+  String? fileLink;
+  String? senderName;
+  MsgData? messageData;
+  String? relation;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: Padding(
-        padding: EdgeInsets.only(left: 5.h),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: EdgeInsets.only(left: 20.h),
+        child: Stack(
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CircleAvatar(
-                  radius: 15.h, // Adjust the radius as needed
-                  backgroundImage: AssetImage(
-                      'assets/images/profile image.png'), // Replace with your avatar image
-                ),
-              ],
+            Positioned(
+              bottom: 0,
+              left: -2.w,
+              child: SizedBox(
+                  width: 20.w,
+                  height: 20.w,
+                  child: SvgPicture.asset(
+                    "assets/images/MessageBubbleShape2.svg",
+                    fit: BoxFit.fill,
+                  )),
             ),
-            SizedBox(width: 2.w),
-            Stack(
-              children: [
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child: Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.identity()..scale(-1.0, 1.0),
-                    child: SizedBox(
-                        width: 15.h,
-                        child: SvgPicture.asset(
-                          "assets/images/MessageBubbleShape.svg",
-                          fit: BoxFit.contain,
-                          color: Colors.white,
-                        )),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 10.w),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colorutils.Whitecolor,
-                        borderRadius: BorderRadius.circular(10.h)),
-                    child: Padding(
-                      padding: EdgeInsets.all(10.h),
-                      child: Stack(
-                        children: [
-                          IntrinsicWidth(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
+            Padding(
+              padding: EdgeInsets.only(left: 10.w),
+              child: Container(
+                constraints: BoxConstraints(maxWidth: 310.w),
+                decoration: BoxDecoration(
+                    color: Colorutils.fontColor8,
+                    borderRadius: BorderRadius.circular(10.h)),
+                child: Padding(
+                  padding: EdgeInsets.all(10.h),
+                  child: Stack(
+                    children: [
+                      IntrinsicWidth(
+                        child: Column(
+                          // mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "~ Ali bin",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color: Colorutils.userdetailcolor,
-                                          fontSize: 12.w),
-                                    ),
-                                    SizedBox(
-                                      width: 10.w,
-                                    ),
-                                    Text(
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.right,
-                                      "Arabic",
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 12.w),
-                                      // "9189079hfudshfudsh",
-                                    ),
-                                  ],
+                                Container(
+                                  constraints:
+                                  BoxConstraints(maxWidth: 70.w),
+                                  child: Text(
+                                    senderName == null
+                                        ? "--"
+                                        : "~ ${senderName?.split(" ").first ?? ""}",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TeacherAppFonts
+                                        .interW500_12sp_textWhite
+                                        .copyWith(
+                                        color: Colorutils.fontColor5),
+                                  ),
                                 ),
-                                SizedBox(
-                                  width: 10.h,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        ConstrainedBox(
-                                          constraints: BoxConstraints(
-                                            maxWidth: 200.w,
-                                          ),
-                                          child: Text(
-                                            message,
-                                            maxLines: 10,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 10.h,
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 20.h,
-                                    ),
-                                    Text(
-                                      "17:47",
-                                      style: TextStyle(
-                                          fontSize: 12, color: Colors.grey),
-                                    ),
-                                  ],
+                                SizedBox(width: 10.w),
+                                Container(
+                                  constraints: BoxConstraints(maxWidth: 150.w),
+                                  child: Text(
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.right,
+                                    // "Arabic",
+                                    relation ?? "--",
+
+                                    style: TeacherAppFonts
+                                        .interW400_12sp_textWhite_italic
+                                        .copyWith(
+                                        color: Colorutils.fontColor10),
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                        ],
+                            SizedBox(height: 10.h),
+                            messageData!.replyData != null
+                                ? ReplayMessageWidget(
+                              senderId: messageData!.messageFromId,
+                              replyData: messageData!.replyData!,
+                            )
+                                : const SizedBox(),
+                            fileName != null
+                                ? FileWidget2(
+                              fileType: fileName!.split(".").last,
+                              fileName: fileName!,
+                              fileLink: fileLink!,
+                            )
+                                : const SizedBox(),
+                            audio != null
+                                ? AudioWidget(content: audio!)
+                                : const SizedBox(),
+                            message != null && fileName != null ||
+                                audio != null
+                                ? SizedBox(height: 5.h)
+                                : const SizedBox(),
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Column(
+                                  children: [
+                                    ConstrainedBox(
+                                      constraints: BoxConstraints(
+                                        maxWidth: 210.w,
+                                      ),
+                                      child: Text(
+                                        message ?? "",
+                                        maxLines: 100,
+                                        style: TeacherAppFonts
+                                            .interW400_16sp_letters1
+                                            .copyWith(color: Colors.black),
+                                      ),
+                                    ),
+                                    SizedBox(height: 5.h),
+                                  ],
+                                ),
+                                SizedBox(width: 20.h),
+                                Text(
+                                  // "17:47",
+                                  messageBubbleTimeFormat(time),
+                                  style: TeacherAppFonts.interW400_12sp_topicbackground.copyWith(
+                                      color: Colors.black.withOpacity(.25)),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-// messageMoreShowDialog(
-//     BuildContext context, Widget widget, Offset position, Offset tapPosition) {
-//   double safeAreaVerticalPadding = MediaQuery.of(context).padding.top +
-//       MediaQuery.of(context).padding.bottom;
-//
-//   showDialog(
-//     context: context,
-//     builder: (context) {
-//       return BackdropFilter(
-//         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-//         child: Padding(
-//           padding: EdgeInsets.symmetric(horizontal: 20.h),
-//           child: Stack(
-//             children: [
-//               Positioned(
-//                 top: position.dy - safeAreaVerticalPadding,
-//                 left: 0,
-//                 right: 0,
-//                 child: Container(child: widget),
-//               ),
-//               Positioned(
-//                 top: tapPosition.dy -
-//                     safeAreaVerticalPadding -
-//                     ((ScreenUtil().screenHeight / 1.7) > tapPosition.dy
-//                         ? 100.h
-//                         : 420.h),
-//                 right: 0,
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.end,
-//                   children: [
-//                     ScreenUtil().screenHeight / 1.7 < tapPosition.dy
-//                         ? MessageMoreContainer(
-//                       widget: widget,
-//                     )
-//                         : const SizedBox(),
-//                     SizedBox(width: 20.h,),
-//
-//                     const ReactionContainerWidget(),
-//                     SizedBox(width: 80.h,),
-//
-//                     ScreenUtil().screenHeight / 1.7 > tapPosition.dy
-//                         ? MessageMoreContainer(
-//                       widget: widget,
-//                     )
-//                         : const SizedBox(),
-//                   ],
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       );
-//     },
-//   );
-// }
-messageMoreShowDialog(
-    BuildContext context, Widget widget, Offset position, Offset tapPosition) {
-  double safeAreaVerticalPadding = MediaQuery.of(context).padding.top +
-      MediaQuery.of(context).padding.bottom;
-
-  showDialog(
-    context: context,
-    builder: (context) {
-      return BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.h),
-          child: Stack(
-            children: [
-              Positioned(
-                top: position.dy - safeAreaVerticalPadding,
-                left: 0,
-                right: 0,
-                child: Container(child: widget),
-              ),
-              Positioned(
-                top: tapPosition.dy -
-                    safeAreaVerticalPadding -
-                    ((ScreenUtil().screenHeight / 1.7) > tapPosition.dy
-                        ? 100.h
-                        : 420.h),
-                right: 0,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    ScreenUtil().screenHeight / 1.7 < tapPosition.dy
-                        ? MessageMoreContainer(
-                      widget: widget,
-                    )
-                        : const SizedBox(),
-                    SizedBox(height: 20.h),
-                    const ReactionContainerWidget(),
-                    SizedBox(height: 80.h),
-                    ScreenUtil().screenHeight / 1.7 > tapPosition.dy
-                        ? MessageMoreContainer(
-                      widget: widget,
-                    )
-                        : const SizedBox(),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    },
-  );
-}
-
-class ReactionContainerWidget extends StatelessWidget {
-  const ReactionContainerWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(2.h),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.h),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 5,
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text("👍", style: TextStyle(fontSize: 25.h)),
-          SizedBox(
-            width: 5.h,
-          ),
-          Text("🥰", style: TextStyle(fontSize: 25.h)),
-          SizedBox(
-            width: 5.h,
-          ),
-          Text("😁", style: TextStyle(fontSize: 25.h)),
-          SizedBox(
-            width: 5.h,
-          ),
-          Text("😂", style: TextStyle(fontSize: 25.h)),
-          SizedBox(
-            width: 5.h,
-          ),
-          Text("🔥", style: TextStyle(fontSize: 25.h)),
-          SizedBox(
-            width: 5.h,
-          ),
-          Text("🙏", style: TextStyle(fontSize: 25.h)),
-          SizedBox(
-            width: 5.h,
-          ),
-          SizedBox(
-            height: 32.h,
-            width: 32.h,
-            child: SvgPicture.asset("assets/images/Group 137.svg"),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class MessageMoreContainer extends StatelessWidget {
-  const MessageMoreContainer({
-    super.key,
-    required this.widget,
-  });
-
-  final Widget widget;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8),
-      child: Container(
-        width: 260.w,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15.h),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 10,
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 5.h),
-          child: Column(
-            children: [
-              MessageMoreSettingsTile(
-                function: () {},
-                text: "Copy",
-                icon: "assets/images/Frame 72.svg",
-              ),
-              const Divider(
-                color: Colors.grey,
-                height: 0,
-              ),
-              MessageMoreSettingsTile(
-                function: () {},
-                text: "View Chat",
-                icon: "assets/images/ChatCircleDots.svg",
-              ),
-              const Divider(
-                color: Colors.grey,
-                height: 0,
-              ),
-              MessageMoreSettingsTile(
-                function: () {},
-                text: "Reply",
-                icon: "assets/images/ArrowBendUpLeft.svg",
-              ),
-              const Divider(
-                color: Colors.grey,
-                height: 0,
-              ),
-              MessageMoreSettingsTile(
-                function: () {},
-                text: "Forward",
-                icon: "assets/images/ArrowBendUpRight.svg",
-              ),
-              const Divider(
-                color: Colors.grey,
-                height: 0,
-              ),
-              GestureDetector(
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20)),
-                    ),
-                    builder: (context) => SeenByBottomSheet(),
-                  );
-                },
-                child: MessageMoreSettingsTile(
-                  function: () {
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20)),
-                      ),
-                      builder: (context) => MessageInfoScreen(widget: widget),
-                    );
-                  },
-                  text: "Message info",
-                  icon: "assets/images/Info.svg",
-                ),
-              ),
-              const Divider(
-                color: Colors.grey,
-                height: 0,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 10.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Delete Chat",
-                      style: TextStyle(color: Colors.red, fontSize: 16),
-                    ),
-                    SizedBox(
-                      height: 26.h,
-                      width: 26.h,
-                      child: SvgPicture.asset("assets/images/Trash.svg"),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class MessageMoreSettingsTile extends StatelessWidget {
-  const MessageMoreSettingsTile({
-    super.key,
-    required this.text,
-    required this.icon,
-    required this.function,
-  });
-
-  final String text;
-  final String icon;
-  final Function() function;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 10.h),
-      child: GestureDetector(
-        onTap: function,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              text,
-              style: TextStyle(color: Colors.black, fontSize: 16),
-            ),
-            SizedBox(
-              height: 26.h,
-              width: 26.h,
-              child: SvgPicture.asset(icon),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SwapeToWidget extends StatefulWidget {
-  const SwapeToWidget({
-    super.key,
-    required this.child,
-    required this.function,
-    required this.iconWidget,
-  });
-  final Widget child;
-  final Widget iconWidget;
-
-  final Function function;
-
-  @override
-  State<SwapeToWidget> createState() => _SwapeToWidgetState();
-}
-
-class _SwapeToWidgetState extends State<SwapeToWidget> {
-  late ValueNotifier<double> value;
-
-  @override
-  void initState() {
-    value = ValueNotifier(0.0);
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return GestureDetector(
-      onHorizontalDragEnd: (details) {
-        if (details.primaryVelocity! > 0) {
-          widget.function();
-        }
-
-        Timer.periodic(const Duration(milliseconds: 5), (timer) {
-          if (value.value <= 0) {
-            value.value += 10;
-            if (value.value >= 0) {
-              timer.cancel();
-              value.value = 0;
-            }
-          } else {
-            value.value -= 10;
-            if (value.value <= 0) {
-              timer.cancel();
-              value.value = 0;
-            }
-          }
-        });
-      },
-      onHorizontalDragUpdate: (details) {
-        if (value.value >= 0 && value.value <= size.width / 8) {
-          value.value = value.value + details.delta.dx;
-          print(value);
-        } else {
-          value.value = value.value + details.delta.dx / 5;
-        }
-      },
-      child: ValueListenableBuilder(
-        valueListenable: value,
-        builder: (context, value, child) {
-          return Transform.translate(
-            offset: Offset(value, 0),
-            child: IntrinsicHeight(
-              child: Stack(
-                children: [
-                  Transform.translate(
-                    offset: const Offset(-50, 0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [widget.iconWidget],
-                    ),
-                  ),
-                  widget.child,
-                ],
-              ),
-            ),
-          );
-        },
       ),
     );
   }

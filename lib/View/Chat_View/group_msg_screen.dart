@@ -334,7 +334,7 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
                         ],
                       ),
                     ),
-                    const GroupedViewChat(),
+                    GroupedViewChat(msgData: widget.msgData),
                   ]),
                 ),
                 GetX<FeedViewController>(
@@ -1035,7 +1035,7 @@ class ChatList extends StatelessWidget {
         // print("-------------dfvbdvb----------${msgList.last.message}");
         return GroupedListView<MsgData, String>(
           useStickyGroupSeparators: true,
-          cacheExtent: 1000,
+          cacheExtent: 10000,
           floatingHeader: true,
           padding: EdgeInsets.only(top: 5.h, bottom: 5.h),
           controller: controller.chatFeedViewScrollController.value,

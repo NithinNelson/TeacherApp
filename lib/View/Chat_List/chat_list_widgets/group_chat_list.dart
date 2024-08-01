@@ -95,7 +95,7 @@ class ChatItem extends StatelessWidget {
             stdBatch: classTeacherGroup?.batch ?? '',
             subId: classTeacherGroup?.subjectId ?? '',
         );
-        if(classTeacherGroup?.subjectId == "class_group") {
+        // if(classTeacherGroup?.subjectId == "class_group") {
           Get.find<FeedViewController>().tabControllerIndex.value = 0;
           Navigator.push(
               context,
@@ -104,15 +104,15 @@ class ChatItem extends StatelessWidget {
                   msgData: classTeacherGroup,
                 ),
               ));
-        } else {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ClassMessageView(
-                  msgData: classTeacherGroup,
-                ),
-              ));
-        }
+        // } else {
+        //   Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //         builder: (context) => ClassMessageView(
+        //           msgData: classTeacherGroup,
+        //         ),
+        //       ));
+        // }
       },
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10).w,

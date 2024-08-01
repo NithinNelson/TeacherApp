@@ -8,6 +8,7 @@ import 'package:teacherapp/Controller/ui_controllers/chat_controller.dart';
 import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'Controller/api_controllers/feedViewController.dart';
+import 'Controller/api_controllers/groupedViewController.dart';
 import 'Controller/api_controllers/groupedViewListController.dart';
 import 'Controller/api_controllers/lessonObservationController.dart';
 import 'Controller/api_controllers/chatClassGroupController.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
     Get.put(NotificationController());
     Get.put(MarkAsReadController());
     Get.put(GroupedViewListController());
+    Get.put(GroupedViewController());
     return GlobalLoaderOverlay(
       useDefaultLoading: false,
       overlayWidgetBuilder: (_) {

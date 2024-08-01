@@ -7,12 +7,15 @@ import 'package:intl/intl.dart';
 import 'package:teacherapp/Controller/api_controllers/groupedViewListController.dart';
 import 'package:teacherapp/Models/api_models/grouped_view_list_api_model.dart';
 import '../../Controller/api_controllers/userAuthController.dart';
+import '../../Models/api_models/chat_group_api_model.dart';
 import '../../Utils/Colors.dart';
 import '../../Utils/font_util.dart';
 import '../Chat_List/chat_list_widgets/last_seen_msg.dart';
+import 'grouped_view_msg_screen.dart';
 
 class GroupedViewChat extends StatelessWidget {
-  const GroupedViewChat({super.key});
+  final ClassTeacherGroup? msgData;
+  const GroupedViewChat({super.key, required this.msgData});
 
   @override
   Widget build(BuildContext context) {
@@ -76,19 +79,13 @@ class ChatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Get.find<GroupedViewListController>().setPayload(
-        //   stdClass: classTeacherGroup?.classTeacherClass ?? '',
-        //   stdBatch: classTeacherGroup?.batch ?? '',
-        //   subId: classTeacherGroup?.subjectId ?? '',
-        // );
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => GroupMsgScreen(
-        //         msgData: classTeacherGroup,
-        //       ),
-        //     ));
-        // Get.find<ChatRoomController>().timer!.cancel();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => GroupedViewMsgScreen(
+                roomData: classTeacherGroup,
+              ),
+            ));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).w,
