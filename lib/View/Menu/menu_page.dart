@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
+import 'package:teacherapp/Controller/api_controllers/timeTableController.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
 import 'package:teacherapp/Utils/Colors.dart';
@@ -13,7 +13,11 @@ import 'package:teacherapp/Utils/font_util.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 import 'package:text_scroll/text_scroll.dart';
 
+import '../../Models/api_models/time_table_api_model.dart';
+import '../My_Class/Myclass.dart';
+
 class MenuScreen extends StatelessWidget {
+
   const MenuScreen({super.key});
 
   @override
@@ -31,12 +35,12 @@ class MenuScreen extends StatelessWidget {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xFF118376),
-                  Color(0xFF067B6D),
-                  Color(0xFF138376),
-                ],
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFF118376),
+                Color(0xFF067B6D),
+                Color(0xFF138376),
+              ],
             ),
           ),
           child: Stack(
@@ -62,7 +66,7 @@ class MenuScreen extends StatelessWidget {
                 ),
               ),
               Positioned(
-                right:0,
+                right: 0,
                 bottom: 0,
                 child: SvgPicture.asset(
                   'assets/images/pencil3.svg',
@@ -79,10 +83,8 @@ class MenuScreen extends StatelessWidget {
                   width: 190.w,
                   // height: 50.h,
                   child: CachedNetworkImage(
-
                       imageUrl:
-                      'https://alpha.docme.cloud/schooldiary-logo/CPpbKPQTcuG97i3kv.png',
-
+                          'https://alpha.docme.cloud/schooldiary-logo/CPpbKPQTcuG97i3kv.png',
                       placeholder: (context, url) => const SizedBox(),
                       errorWidget: (context, url, error) => const SizedBox()),
                 ),
@@ -94,20 +96,37 @@ class MenuScreen extends StatelessWidget {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         CircleAvatar(
                           radius: 35.w,
-                          backgroundImage: AssetImage('assets/images/profile2.png'),
+                          backgroundImage:
+                              AssetImage('assets/images/profile2.png'),
                         ),
-                        SizedBox(
-                          width: 120.w,
-                          child: Row(
-                            children: [
-                              const ClassIndicator(className: '4A', isActive: true),
-                              SizedBox(width: 8.w),
-                              const ClassIndicator(className: '4B', isActive: false),
-                            ],
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: GetX<TimeTableController>(
+                            builder: (TimeTableController controller) {
+                              List<TimeTable> todaySubjects = controller.teacherTimeTableToday.value;
+                              return SizedBox(width: 120,
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: [
+                                      for (int i=0;i<todaySubjects.length;i++ )
+
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 8),
+                                          child: ClassIndicator(
+                                              className:"${todaySubjects[i].batchName}" , isActive: true),
+                                        ),
+
+
+
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -123,47 +142,50 @@ class MenuScreen extends StatelessWidget {
                             children: [
                               Container(
                                 child: TextScroll(
-
                                   controller.userData.value.name ?? '--',
-                                  velocity: Velocity(pixelsPerSecond: Offset(50, 0)),
+                                  velocity:
+                                      Velocity(pixelsPerSecond: Offset(50, 0)),
                                   delayBefore: Duration(seconds: 1),
                                   pauseBetween: Duration(seconds: 2),
-                                  style: TeacherAppFonts.interW600_18sp_textWhite,
+                                  style:
+                                      TeacherAppFonts.interW600_18sp_textWhite,
                                   textAlign: TextAlign.center,
-
                                   selectable: true,
                                 ),
                               ),
-
                               Container(
                                 child: TextScroll(
-
-                                  controller.userData.value.username ?? '--',                              mode: TextScrollMode.bouncing,
-                                  velocity: Velocity(pixelsPerSecond: Offset(50, 0)),
+                                  controller.userData.value.username ?? '--',
+                                  mode: TextScrollMode.bouncing,
+                                  velocity:
+                                      Velocity(pixelsPerSecond: Offset(50, 0)),
                                   delayBefore: Duration(seconds: 1),
                                   pauseBetween: Duration(seconds: 2),
-                                  style: TeacherAppFonts.interW400_14sp_textWhiteOp60,
+                                  style: TeacherAppFonts
+                                      .interW400_14sp_textWhiteOp60,
                                   textAlign: TextAlign.center,
-
                                   selectable: true,
                                 ),
                               ),
-
                             ],
                           ),
                         );
                       },
                     ),
                     SizedBox(height: 20.w),
-                    for(int i = 5; i < pageIndexController.menuItemsPerRole.length; i++)
+                    for (int i = 5;
+                        i < pageIndexController.menuItemsPerRole.length;
+                        i++)
                       InkWell(
                         onTap: () {
-                          pageIndexController.changePage(currentPage: pageIndexController.menuItemsPerRole[i].index);
+                          pageIndexController.changePage(
+                              currentPage: pageIndexController
+                                  .menuItemsPerRole[i].index);
                           ZoomDrawer.of(context)?.toggle();
                         },
                         child: MenuItem(
-                            icon: pageIndexController.menuItemsPerRole[i].svg,
-                            title: pageIndexController.menuItemsPerRole[i].title,
+                          icon: pageIndexController.menuItemsPerRole[i].svg,
+                          title: pageIndexController.menuItemsPerRole[i].title,
                         ),
                       ),
                     // InkWell(
@@ -203,7 +225,8 @@ class MenuScreen extends StatelessWidget {
                       onTap: () {
                         TeacherAppPopUps.logOutPopUp(context: context);
                       },
-                        child: const MenuItem(icon:"assets/images/logout.svg", title: 'Logout'),
+                      child: const MenuItem(
+                          icon: "assets/images/logout.svg", title: 'Logout'),
                     ),
                     SizedBox(height: 20.w),
                     InkWell(
@@ -234,7 +257,8 @@ class MenuScreen extends StatelessWidget {
                                 child: FittedBox(
                                   child: Text(
                                     'Chat with Parents',
-                                    style: TeacherAppFonts.interW600_14sp_letters1,
+                                    style:
+                                        TeacherAppFonts.interW600_14sp_letters1,
                                   ),
                                 ),
                               ),
@@ -243,25 +267,25 @@ class MenuScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                // ElevatedButton.icon(
-                //   onPressed: () {},
-                //   icon: Image.asset(
-                //     'assets/images/newchat.png',
-                //     width: 25.w,
-                //     fit: BoxFit.fitWidth,
-                //   ),
-                //   label: Text(
-                //       'Chat with Parents',
-                //     style: TeacherAppFonts.interW600_14sp_letters1,
-                //   ),
-                //   style: ElevatedButton.styleFrom(
-                //     foregroundColor: Colors.teal,
-                //     backgroundColor: Colors.white,
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(12), // set your desired border radius
-                //     ),
-                //   ),
-                // )
+                    // ElevatedButton.icon(
+                    //   onPressed: () {},
+                    //   icon: Image.asset(
+                    //     'assets/images/newchat.png',
+                    //     width: 25.w,
+                    //     fit: BoxFit.fitWidth,
+                    //   ),
+                    //   label: Text(
+                    //       'Chat with Parents',
+                    //     style: TeacherAppFonts.interW600_14sp_letters1,
+                    //   ),
+                    //   style: ElevatedButton.styleFrom(
+                    //     foregroundColor: Colors.teal,
+                    //     backgroundColor: Colors.white,
+                    //     shape: RoundedRectangleBorder(
+                    //       borderRadius: BorderRadius.circular(12), // set your desired border radius
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
               ),
@@ -287,19 +311,18 @@ class MenuItem extends StatelessWidget {
       minVerticalPadding: 0,
       horizontalTitleGap: 10.w,
       child: ListTile(
-          leading: SvgPicture.asset(
-            icon,
-            width: 26.w,
-            fit: BoxFit.fitWidth,
-            color: Colorutils.Whitecolor.withOpacity(0.6),
-            cacheColorFilter: true,
-          ),
-          title: Text(
-            title,
-            style: TeacherAppFonts.interW500_20sp_textWhiteOp60,
-
-          ),
+        leading: SvgPicture.asset(
+          icon,
+          width: 26.w,
+          fit: BoxFit.fitWidth,
+          color: Colorutils.Whitecolor.withOpacity(0.6),
+          cacheColorFilter: true,
         ),
+        title: Text(
+          title,
+          style: TeacherAppFonts.interW500_20sp_textWhiteOp60,
+        ),
+      ),
     );
   }
 }
@@ -308,19 +331,25 @@ class ClassIndicator extends StatelessWidget {
   final String className;
   final bool isActive;
 
-  const ClassIndicator({super.key, required this.className, required this.isActive});
+  const ClassIndicator(
+      {super.key, required this.className, required this.isActive});
 
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
-      backgroundColor: isActive ? Colorutils.Whitecolor: Colorutils.Whitecolor,
-
-      child: Center(
-        child: Text(
-          className,
-          style: const TextStyle(
-            color: Colorutils.userdetailcolor,
-            fontWeight: FontWeight.bold,
+    return GestureDetector(
+      onTap: (){
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Myclasses()));
+      },
+      child: CircleAvatar(
+        radius: 24,
+        backgroundColor: isActive ? Colorutils.Whitecolor : Colorutils.Whitecolor,
+        child: Center(
+          child: Text(
+            className.replaceAll(" ", ''),
+            style: const TextStyle(
+              color: Colorutils.userdetailcolor,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

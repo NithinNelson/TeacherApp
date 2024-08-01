@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
 import '../../../Models/api_models/time_table_api_model.dart';
+import '../../My_Class/Myclass.dart';
 
 class ClassList extends StatelessWidget {
   final List<TimeTable> todaySubjects;
@@ -23,65 +24,70 @@ class ClassList extends StatelessWidget {
           ];
           Color color = colors[index % colors.length];
 
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25).r,
-              color: color,
-            ),
-            margin: const EdgeInsets.only(top: 3, bottom: 4, left: 6, right: 4),
-            width: 160.w,
-            height: 130.w,
-            child: Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 13, left: 13, bottom: 13, right: 6).w,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        todaySubjects[index].batchName?.replaceAll(" ", "") ?? '--',
-                        style: TeacherAppFonts.interW500_32sp_textWhite,
-                      ),
-                      const Spacer(),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            Text(
-                              todaySubjects[index].subject ?? '--',
-                              style: TeacherAppFonts.interW400_18sp_textWhite,
-                            ),
-                          ],
+          return GestureDetector(
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Myclasses()));
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25).r,
+                color: color,
+              ),
+              margin: const EdgeInsets.only(top: 3, bottom: 4, left: 6, right: 4),
+              width: 160.w,
+              height: 130.w,
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 13, left: 13, bottom: 13, right: 6).w,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          todaySubjects[index].batchName?.replaceAll(" ", "") ?? '--',
+                          style: TeacherAppFonts.interW500_32sp_textWhite,
                         ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        '24 Students',
-                        style: TeacherAppFonts.interW400_14sp_textWhiteOp75,
-                      ),
-                      const Spacer(),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.only(topRight: Radius.circular(25)).r,
-                    child: SvgPicture.asset(
-                      index % 2 == 0
-                          ? 'assets/images/svggui.svg'
-                          : "assets/images/svgui2.svg",
-                      // width: 95.w,
-                      height: 50.w,
-                      color: index % 2 == 0
-                          ? Colorutils.svguicolour
-                          : Colorutils.svguicolour2,
-                      fit: BoxFit.fitHeight,
+                        const Spacer(),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              Text(
+                                todaySubjects[index].subject ?? '--',
+                                style: TeacherAppFonts.interW400_18sp_textWhite,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          '24 Students',
+                          style: TeacherAppFonts.interW400_14sp_textWhiteOp75,
+                        ),
+                        const Spacer(),
+                      ],
                     ),
                   ),
-                ),
-              ],
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(topRight: Radius.circular(25)).r,
+                      child: SvgPicture.asset(
+                        index % 2 == 0
+                            ? 'assets/images/svggui.svg'
+                            : "assets/images/svgui2.svg",
+                        // width: 95.w,
+                        height: 50.w,
+                        color: index % 2 == 0
+                            ? Colorutils.svguicolour
+                            : Colorutils.svguicolour2,
+                        fit: BoxFit.fitHeight,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         }),

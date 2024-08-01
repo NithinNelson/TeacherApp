@@ -48,7 +48,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                                   fit: BoxFit.fitHeight,
                                 ),
                               ),
-                              SizedBox(height: 3.w),
+                              SizedBox(height: 1.w),
                               Text(
                                 menuItems[i].title,
                                 style: currentIndex == menuItems[i].index ? TeacherAppFonts.poppinsW500_16sp_letters1 : TeacherAppFonts.poppinsW400_13sp_bottomiconcolor,

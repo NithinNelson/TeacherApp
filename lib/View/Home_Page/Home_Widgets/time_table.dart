@@ -34,12 +34,7 @@ class AllTimeTable extends StatelessWidget {
                   todaySubjects.length == 1 || todaySubjects.isEmpty ? 'Class Today' : 'Classes Today',
                   style: TeacherAppFonts.interW400_16sp_letters1,
                 ),
-                SizedBox(width: 5.w),
-                Icon(
-                  Icons.arrow_forward_ios_outlined,
-                  color: Colorutils.letters1,
-                  size: 15.w,
-                )
+
               ],
             ),
           ),
