@@ -23,7 +23,7 @@ class ChatClassGroupController extends GetxController {
   }
 
   Future<void> fetchClassGroupList() async {
-    resetData();
+    // resetData();
     isLoading.value = true;
     isLoaded.value = false;
     try {
@@ -43,6 +43,23 @@ class ChatClassGroupController extends GetxController {
     } finally {
       resetStatus();
     }
+  }
+
+  Future<void> fetchClassGroupListPeriodically() async {
+    try {
+      String? teacherId = Get.find<UserAuthController>().userData.value.userId;
+      Map<String, dynamic> resp = await ApiServices.getClassGroupList(
+        teacherId: teacherId.toString(),
+      );
+      if (resp['status']['code'] == 200) {
+        ClassGroupApiModel classGroupApiModel = ClassGroupApiModel.fromJson(resp);
+        unreadCount.value = classGroupApiModel.data?.unreadCount ?? 0;
+        classGroupList.value = classGroupApiModel.data?.classTeacher ?? [];
+        classGroupList.addAll(classGroupApiModel.data?.data ?? []);
+      }
+    } catch (e) {
+      print("------class group error---------");
+    } finally {}
   }
 
   void setCurrentChatTab(int index) {

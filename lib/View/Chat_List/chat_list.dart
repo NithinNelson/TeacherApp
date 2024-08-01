@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,6 +29,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage> with TickerPr
   ParentChatListController parentChatListController = Get.find<ParentChatListController>();
   TabController? _tabcontroller;
   PageController pageController = PageController();
+  Timer? chatUpdate;
 
   @override
   void initState() {
@@ -42,6 +45,16 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage> with TickerPr
     if (!mounted) return;
     Get.find<ParentChatListController>().setTab(0);
     context.loaderOverlay.hide();
+    chatUpdate = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      await chatClassGroupController.fetchClassGroupListPeriodically();
+      await parentChatListController.fetchParentChatListPeriodically();
+    },);
+  }
+
+  @override
+  void dispose() {
+    chatUpdate!.cancel();
+    super.dispose();
   }
 
   @override

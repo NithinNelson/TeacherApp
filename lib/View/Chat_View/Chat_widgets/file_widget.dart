@@ -40,7 +40,7 @@ class FileWidget1 extends StatelessWidget {
                 children: [
                   Container(
                     width: 35.w,
-                    height: 40.w,
+                    height: 35.w,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.fill,
@@ -108,7 +108,7 @@ class FileWidget2 extends StatelessWidget {
               children: [
                 Container(
                   width: 35.w,
-                  height: 40.w,
+                  height: 35.w,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.fill,

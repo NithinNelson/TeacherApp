@@ -76,7 +76,7 @@ class ClassTeacherGroup {
   final bool? isClassTeacher;
   final int? unreadCount;
   final String? type;
-  final List<LastMessage>? lastMessage;
+  final List<LastMessageGroupChat>? lastMessage;
 
   factory ClassTeacherGroup.fromJson(Map<String, dynamic> json) {
     return ClassTeacherGroup(
@@ -89,8 +89,8 @@ class ClassTeacherGroup {
       type: json["type"],
       lastMessage: json["last_message"] == null
           ? []
-          : List<LastMessage>.from(
-              json["last_message"]!.map((x) => LastMessage.fromJson(x))),
+          : List<LastMessageGroupChat>.from(
+              json["last_message"]!.map((x) => LastMessageGroupChat.fromJson(x))),
     );
   }
 
@@ -106,8 +106,8 @@ class ClassTeacherGroup {
       };
 }
 
-class LastMessage {
-  LastMessage({
+class LastMessageGroupChat {
+  LastMessageGroupChat({
     this.type,
     this.message,
     this.messageFile,
@@ -129,8 +129,8 @@ class LastMessage {
   final DateTime? sandAt;
   final bool? read;
 
-  factory LastMessage.fromJson(Map<String, dynamic> json) {
-    return LastMessage(
+  factory LastMessageGroupChat.fromJson(Map<String, dynamic> json) {
+    return LastMessageGroupChat(
       type: json["type"],
       message: json["message"],
       messageFile: json["message_file"],

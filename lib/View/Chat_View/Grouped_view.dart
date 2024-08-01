@@ -1,57 +1,45 @@
 
-
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:teacherapp/Controller/api_controllers/groupedViewListController.dart';
-import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
-import 'package:teacherapp/View/Chat_List/chat_list_widgets/last_seen_msg.dart';
+import 'package:teacherapp/Models/api_models/grouped_view_list_api_model.dart';
+import '../../Controller/api_controllers/userAuthController.dart';
+import '../../Utils/Colors.dart';
+import '../../Utils/font_util.dart';
+import '../Chat_List/chat_list_widgets/last_seen_msg.dart';
 
-import '../../../Controller/api_controllers/chatClassGroupController.dart';
-import '../../../Models/api_models/chat_group_api_model.dart';
-import '../../../Utils/Colors.dart';
-import '../../../Utils/font_util.dart';
-import '../../Chat_View/group_msg_screen.dart';
-
-class GroupChatList extends StatelessWidget {
-  const GroupChatList({super.key});
+class GroupedViewChat extends StatelessWidget {
+  const GroupedViewChat({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // int colorInt = 0;
-    return GetX<ChatClassGroupController>(
-      builder: (ChatClassGroupController controller) {
-        List<ClassTeacherGroup> classTeacherGroups = controller.classGroupList.value;
+    return GetX<GroupedViewListController>(
+      builder: (GroupedViewListController controller) {
+        List<RoomData> room = controller.roomList.value;
         return ListView.separated(
           shrinkWrap: true,
-          itemCount: classTeacherGroups.length,
+          itemCount: room.length,
           padding: const EdgeInsets.all(0),
           itemBuilder: (BuildContext context, int index) {
-            LastMessageGroupChat? lastMsg = controller.classGroupList[index].lastMessage!.isNotEmpty ? controller.classGroupList[index].lastMessage?.first : LastMessageGroupChat();
-            DateTime? sentTime = lastMsg?.sandAt;
+            DateTime? sentTime;
+            try {
+              sentTime = DateTime.parse(room[index].lastMessage!.sandAt.toString());
+            } catch(e) {}
             String? formattedDate;
-            // if(colorInt > 4) {
-            //   colorInt = 0;
-            // }
-            // colorInt++;
-            // print("-------colorInt---------$colorInt");
             try {
               formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
             } catch(e) {}
             String? userId = Get.find<UserAuthController>().userData.value.userId;
             return ChatItem(
-              // className: classTeacherGroups[index].subjectName ?? '--',
               time: formattedDate ?? '',
-              unreadMessages: classTeacherGroups[index].unreadCount ?? 0,
-              // classs: '${classTeacherGroups[imkvkosdmvksfmnvbndex].classTeacherClass}${classTeacherGroups[index].batch}',
-              lastMessage: lastMsg,
+              lastMessage: room[index].lastMessage,
               userId: userId,
-              classTeacherGroup: classTeacherGroups[index],
+              classTeacherGroup: room[index],
               avatarColor: Colorutils.chatLeadingColors[index % 5],
+              unreadMessages: 0,
             );
           },
           separatorBuilder: (BuildContext context, int index) {
@@ -71,8 +59,8 @@ class ChatItem extends StatelessWidget {
   final String time;
   final int? unreadMessages;
   final String? userId;
-  final LastMessageGroupChat? lastMessage;
-  final ClassTeacherGroup? classTeacherGroup;
+  final LastMessageGroupedView? lastMessage;
+  final RoomData? classTeacherGroup;
   final Color? avatarColor;
 
   const ChatItem({super.key,
@@ -88,22 +76,22 @@ class ChatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.find<GroupedViewListController>().setPayload(
-            stdClass: classTeacherGroup?.classTeacherClass ?? '',
-            stdBatch: classTeacherGroup?.batch ?? '',
-            subId: classTeacherGroup?.subjectId ?? '',
-        );
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => GroupMsgScreen(
-                msgData: classTeacherGroup,
-              ),
-            ));
+        // Get.find<GroupedViewListController>().setPayload(
+        //   stdClass: classTeacherGroup?.classTeacherClass ?? '',
+        //   stdBatch: classTeacherGroup?.batch ?? '',
+        //   subId: classTeacherGroup?.subjectId ?? '',
+        // );
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => GroupMsgScreen(
+        //         msgData: classTeacherGroup,
+        //       ),
+        //     ));
         // Get.find<ChatRoomController>().timer!.cancel();
       },
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10).w,
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).w,
         child: Row(
           children: [
             CircleAvatar(
@@ -111,7 +99,7 @@ class ChatItem extends StatelessWidget {
               radius: 28.r,
               child: FittedBox(
                 child: Text(
-                  '${classTeacherGroup?.classTeacherClass}${classTeacherGroup?.batch}',
+                  '${classTeacherGroup?.classs}${classTeacherGroup?.batch}',
                   style: TeacherAppFonts.interW600_14sp_textWhite,
                 ),
               ),
@@ -128,12 +116,27 @@ class ChatItem extends StatelessWidget {
                           children: [
                             Container(
                               constraints: const BoxConstraints(
-                                  maxWidth: 120),
+                                  maxWidth: 120).w,
                               child: Text(
                                 // "English",
                                 classTeacherGroup?.subjectName ?? '--',
                                 style: TeacherAppFonts.interW700_16sp_black,
                                 overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            SizedBox(width: 5.w),
+                            Expanded(
+                              child: Container(
+                                constraints: const BoxConstraints(
+                                    maxWidth: 80).w,
+                                child: Text(
+                                  // "English",
+                                  classTeacherGroup?.teacherName ?? '--',
+                                  style: TeacherAppFonts.interW400_14sp_textWhite.copyWith(
+                                    color: Colorutils.fontColor6,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ),
                           ],
@@ -148,14 +151,14 @@ class ChatItem extends StatelessWidget {
                                   width: 21.h,
                                   child: SvgPicture.asset(
                                     "assets/images/Checks.svg",
-                                    color: lastMessage!.read! ? Colors.green : Colors.grey,
+                                    color: Colors.green,
                                   ),
                                 ),
 
                             if(userId != null && lastMessage != null)
                               if(userId == lastMessage!.messageFromId)
                                 SizedBox(width: 5.h),
-                            LastSeenMsgGroupChat(lastMessage: lastMessage),
+                            LastSeenMsgGroupedViewChat(lastMessage: classTeacherGroup!.lastMessage),
                           ],
                         )
                       ],
