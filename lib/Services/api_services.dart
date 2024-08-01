@@ -138,12 +138,13 @@ class ApiServices {
       request.body = (json.encode(apiBody));
       print('Api body---------------------->${request.body}');
       request.headers.addAll(ApiConstants.headers);
-      http.StreamedResponse notificationresponse = await request.send();
-      var respString = await notificationresponse.stream.bytesToString();
-      if (notificationresponse.statusCode == 200) {
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
         return json.decode(respString);
       } else {
-        throw Exception(notificationresponse.statusCode);
+
+        throw Exception(response.statusCode);
       }
     } catch (e) {
       throw Exception("Service Error");

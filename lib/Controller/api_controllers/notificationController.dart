@@ -10,30 +10,26 @@ import '../../Models/api_models/notification_api_model.dart';
 import '../../Services/api_services.dart';
 
 class NotificationController extends GetxController {
-  RxList<RecentNotifications> notificationList = <RecentNotifications>[].obs;
-  Rx<NotificationDataModel> notificationDataApi = NotificationDataModel().obs;
-  void resetData() {
-    notificationList.value = [];
-
-  }
+  Rx<NotificationDataModel> Notificationdata = NotificationDataModel().obs;
+void data(){
+  Notificationdata.value = NotificationDataModel();
+}
   Future<void> fetchTimeTable() async {
+ try {
+   String? userId = Get.find<UserAuthController>().userData.value.userId;
+
+   Map<String, dynamic> resp = await ApiServices.getNotification(
+       userId: userId.toString(),
+    );
+   Notificationdata.value = NotificationDataModel.fromJson(resp);
+   // if( ){}
+   // else{}
+ }catch(e){
+ }
 
 
 
-    try {
-      String? userId = Get.find<UserAuthController>().userData.value.userId;
-      Map<String, dynamic> resp = await ApiServices.getNotification(
-          userId: userId.toString(),
-          );
-      notificationDataApi.value = NotificationDataModel.fromJson(resp);
-      if (resp['status']['code'] == 200) {
 
-        notificationList.value = notificationDataApi.value.data?.details?.recentNotifications ?? [];
-      }
-    } catch (e) {
-
-
-    }
     }
   }
 

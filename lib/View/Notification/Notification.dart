@@ -115,7 +115,7 @@ class _NotificationscreenState extends State<Notificationscreen> {
                                 ),
                                 for (int i = 0; i < 10; i++) GetX<NotificationController>(
                                   builder: (NotificationController controller) {
-                                    List<Data> teachermessageList = controller.notificationList.value.cast<Data>();
+                                    // List<Data> teachermessageList = controller.notificationList.value.cast<Data>();
                                     return _notifyme(context);
                                   },
 
