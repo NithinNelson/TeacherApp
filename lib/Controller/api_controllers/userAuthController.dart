@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teacherapp/Controller/api_controllers/chatClassGroupController.dart';
+import 'package:teacherapp/Controller/api_controllers/notificationController.dart';
 import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
 import 'package:teacherapp/Services/shared_preferences.dart';
 import '../../Models/api_models/hos_listing_api_model.dart';
@@ -118,6 +119,7 @@ class UserAuthController extends GetxController {
     if (userId != null) {
       // await Get.find<ChatClassGroupController>().fetchClassGroupList();
       isLoaded.value = true;
+      getNotificationPeriodically();
     } else {
       isLoaded.value = false;
     }
@@ -126,6 +128,12 @@ class UserAuthController extends GetxController {
       await setSchoolTokenAndRoll(schoolId);
     }
     isLoading.value = false;
+  }
+
+  Future<void> getNotificationPeriodically() async {
+    await Get.find<NotificationController>().fetchNotification();
+    await Future.delayed(const Duration(seconds: 3));
+    await getNotificationPeriodically();
   }
 
   Future<void> setSchoolTokenAndRoll(schoolId) async {

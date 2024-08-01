@@ -41,4 +41,5 @@ class ApiConstants {
   static String notification = "/v0/notifications/header/details/";
   static String notificationEnd = "/educore";
   static String groupedView = "/groupedview";
+  static String updatenotification = "/v0/notifications/update/status";
 }

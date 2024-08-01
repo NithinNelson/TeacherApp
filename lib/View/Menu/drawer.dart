@@ -37,6 +37,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
         mainScreen: const MainScreen(),
         borderRadius: 28.0,
         showShadow: true,
+        drawerShadowsBackgroundColor: Colors.grey,
+
         angle: 0,
         mainScreenScale: 0.5,
         drawerStyleBuilder:

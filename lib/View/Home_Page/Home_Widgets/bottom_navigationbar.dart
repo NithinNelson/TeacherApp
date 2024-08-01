@@ -32,21 +32,30 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     if(menuItems[i].index == 2)
                       BottomNavigationBarItem(
                         icon: InkWell(
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
+
                           onTap: () {
                             controller.changePage(currentPage: menuItems[i].index);
                           },
-                          child: CircleAvatar(
-                            radius: 30.r,
-                            backgroundColor: Colorutils.userdetailcolor,
-                            child: SvgPicture.asset(
-                              currentIndex == menuItems[i].index ? "assets/images/chat_selected_icon.svg" : "assets/images/chat_icon.svg",
-                              alignment: Alignment.center,
-                              height: 25.h,
-                              fit: BoxFit.fitHeight,
+                          child: Container(
+                            height: 48,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SvgPicture.asset(
+                                  currentIndex == menuItems[i].index ? "assets/images/ChatCircleTextcolor.svg" : "assets/images/ChatCircleText.svg",
+                                  color: currentIndex == menuItems[i].index ? Colorutils.letters1 : Colorutils.bottomiconcolor,
+                                  height: 32.h,
+                                  fit: BoxFit.fitHeight,
+                                ),
+                                SizedBox(height: 3.w),
+                                Text(
+                                  menuItems[i].title,
+                                  style: currentIndex == menuItems[i].index ? TeacherAppFonts.poppinsW500_16sp_letters1 : TeacherAppFonts.poppinsW400_13sp_bottomiconcolor,
+                                )
+                              ],
                             ),
                           ),
+
                         ),
                         label: "",
                       )
@@ -57,11 +66,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
                           controller.changePage(currentPage: menuItems[i].index);
                           },
                         child: Column(
-                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
                               menuItems[i].svg,
                               height: 25.h,
+
                               fit: BoxFit.fitHeight,
                               color: currentIndex == menuItems[i].index ? Colorutils.letters1 : Colorutils.bottomiconcolor,
                             ),
