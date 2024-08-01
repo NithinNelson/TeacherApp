@@ -40,8 +40,8 @@ class GroupedViewListController extends GetxController {
       String? teacherId = Get.find<UserAuthController>().userData.value.userId;
       String? schoolId = Get.find<UserAuthController>().userData.value.schoolId;
       Map<String, dynamic> resp = await ApiServices.getGroupedViewList(
-        batch: classs.value,
-        classs: batch.value,
+        batch: batch.value,
+        classs: classs.value,
         schoolId: schoolId.toString(),
         subId: subjectId.value,
         teacherId: teacherId.toString(),
@@ -64,8 +64,8 @@ class GroupedViewListController extends GetxController {
       String? teacherId = Get.find<UserAuthController>().userData.value.userId;
       String? schoolId = Get.find<UserAuthController>().userData.value.schoolId;
       Map<String, dynamic> resp = await ApiServices.getGroupedViewList(
-        batch: classs.value,
-        classs: batch.value,
+        batch: batch.value,
+        classs: classs.value,
         schoolId: schoolId.toString(),
         subId: subjectId.value,
         teacherId: teacherId.toString(),

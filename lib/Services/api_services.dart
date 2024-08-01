@@ -405,7 +405,7 @@ class ApiServices {
     required String schoolId,
     required String teacherId,
   }) async {
-    String url = ApiConstants.chat + ApiConstants.parentList;
+    String url = ApiConstants.chat + ApiConstants.groupedView;
     print("--url--$url");
     try {
       Map<String, dynamic> apiBody = {

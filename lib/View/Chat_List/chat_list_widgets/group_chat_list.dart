@@ -31,7 +31,7 @@ class GroupChatList extends StatelessWidget {
           itemCount: classTeacherGroups.length,
           padding: const EdgeInsets.all(0),
           itemBuilder: (BuildContext context, int index) {
-            LastMessage? lastMsg = controller.classGroupList[index].lastMessage!.isNotEmpty ? controller.classGroupList[index].lastMessage?.first : LastMessage();
+            LastMessageGroupChat? lastMsg = controller.classGroupList[index].lastMessage!.isNotEmpty ? controller.classGroupList[index].lastMessage?.first : LastMessageGroupChat();
             DateTime? sentTime = lastMsg?.sandAt;
             String? formattedDate;
             // if(colorInt > 4) {
@@ -71,7 +71,7 @@ class ChatItem extends StatelessWidget {
   final String time;
   final int? unreadMessages;
   final String? userId;
-  final LastMessage? lastMessage;
+  final LastMessageGroupChat? lastMessage;
   final ClassTeacherGroup? classTeacherGroup;
   final Color? avatarColor;
 
@@ -155,7 +155,7 @@ class ChatItem extends StatelessWidget {
                             if(userId != null && lastMessage != null)
                               if(userId == lastMessage!.messageFromId)
                                 SizedBox(width: 5.h),
-                            LastSeenMsg(lastMessage: lastMessage),
+                            LastSeenMsgGroupChat(lastMessage: lastMessage),
                           ],
                         )
                       ],

@@ -74,7 +74,7 @@ class RoomData {
   String? messageFrom;
   String? teacherName;
   String? unreadCount;
-  LastMessage? lastMessage;
+  LastMessageGroupedView? lastMessage;
 
   RoomData(
       {this.classs,
@@ -95,7 +95,7 @@ class RoomData {
     teacherName = json['teacher_name'];
     unreadCount = json['unread_count'];
     lastMessage = json['last_message'] != null
-        ? LastMessage.fromJson(json['last_message'])
+        ? LastMessageGroupedView.fromJson(json['last_message'])
         : null;
   }
 
@@ -115,7 +115,7 @@ class RoomData {
   }
 }
 
-class LastMessage {
+class LastMessageGroupedView {
   String? type;
   String? message;
   String? messageFromId;
@@ -124,7 +124,7 @@ class LastMessage {
   String? messageAudio;
   String? sandAt;
 
-  LastMessage(
+  LastMessageGroupedView(
       {this.type,
       this.message,
       this.messageFromId,
@@ -133,7 +133,7 @@ class LastMessage {
       this.messageAudio,
       this.sandAt});
 
-  LastMessage.fromJson(Map<String, dynamic> json) {
+  LastMessageGroupedView.fromJson(Map<String, dynamic> json) {
     type = json['type'];
     message = json['message'];
     messageFromId = json['message_from_id'];

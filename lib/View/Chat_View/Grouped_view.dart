@@ -6,17 +6,16 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:teacherapp/Controller/api_controllers/groupedViewListController.dart';
 import 'package:teacherapp/Models/api_models/grouped_view_list_api_model.dart';
-import '../../../Controller/api_controllers/userAuthController.dart';
-import '../../../Utils/Colors.dart';
-import '../../../Utils/font_util.dart';
-import '../../Chat_List/chat_list_widgets/last_seen_msg.dart';
+import '../../Controller/api_controllers/userAuthController.dart';
+import '../../Utils/Colors.dart';
+import '../../Utils/font_util.dart';
+import '../Chat_List/chat_list_widgets/last_seen_msg.dart';
 
 class GroupedViewChat extends StatelessWidget {
   const GroupedViewChat({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // int colorInt = 0;
     return GetX<GroupedViewListController>(
       builder: (GroupedViewListController controller) {
         List<RoomData> room = controller.roomList.value;
@@ -30,20 +29,12 @@ class GroupedViewChat extends StatelessWidget {
               sentTime = DateTime.parse(room[index].lastMessage!.sandAt.toString());
             } catch(e) {}
             String? formattedDate;
-            // if(colorInt > 4) {
-            //   colorInt = 0;
-            // }
-            // colorInt++;
-            // print("-------colorInt---------$colorInt");
             try {
               formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
             } catch(e) {}
             String? userId = Get.find<UserAuthController>().userData.value.userId;
             return ChatItem(
-              // className: classTeacherGroups[index].subjectName ?? '--',
               time: formattedDate ?? '',
-              // unreadMessages: classTeacherGroups[index].unreadCount ?? 0,
-              // classs: '${classTeacherGroups[imkvkosdmvksfmnvbndex].classTeacherClass}${classTeacherGroups[index].batch}',
               lastMessage: room[index].lastMessage,
               userId: userId,
               classTeacherGroup: room[index],
@@ -68,7 +59,7 @@ class ChatItem extends StatelessWidget {
   final String time;
   final int? unreadMessages;
   final String? userId;
-  final LastMessage? lastMessage;
+  final LastMessageGroupedView? lastMessage;
   final RoomData? classTeacherGroup;
   final Color? avatarColor;
 
@@ -100,7 +91,7 @@ class ChatItem extends StatelessWidget {
         // Get.find<ChatRoomController>().timer!.cancel();
       },
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10).w,
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10).w,
         child: Row(
           children: [
             CircleAvatar(
@@ -125,12 +116,27 @@ class ChatItem extends StatelessWidget {
                           children: [
                             Container(
                               constraints: const BoxConstraints(
-                                  maxWidth: 120),
+                                  maxWidth: 120).w,
                               child: Text(
                                 // "English",
                                 classTeacherGroup?.subjectName ?? '--',
                                 style: TeacherAppFonts.interW700_16sp_black,
                                 overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            SizedBox(width: 5.w),
+                            Expanded(
+                              child: Container(
+                                constraints: const BoxConstraints(
+                                    maxWidth: 80).w,
+                                child: Text(
+                                  // "English",
+                                  classTeacherGroup?.teacherName ?? '--',
+                                  style: TeacherAppFonts.interW400_14sp_textWhite.copyWith(
+                                    color: Colorutils.fontColor6,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ),
                           ],
@@ -152,7 +158,7 @@ class ChatItem extends StatelessWidget {
                             if(userId != null && lastMessage != null)
                               if(userId == lastMessage!.messageFromId)
                                 SizedBox(width: 5.h),
-                            LastSeenMsg(lastMessage: classTeacherGroup!.lastMessage),
+                            LastSeenMsgGroupedViewChat(lastMessage: classTeacherGroup!.lastMessage),
                           ],
                         )
                       ],

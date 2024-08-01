@@ -24,7 +24,7 @@ import '../../Services/check_connectivity.dart';
 import '../../Services/dialog_box.dart';
 import '../../Services/snackBar.dart';
 import '../Chat_List/Mychat/Chat_seen.dart';
-import 'Chat_widgets/Grouped_view.dart';
+import 'Grouped_view.dart';
 import 'Chat_widgets/camera_screen.dart';
 import 'Chat_widgets/chat_audioPlaying_widget.dart';
 import 'Chat_widgets/chat_audioRecording_widget.dart';
