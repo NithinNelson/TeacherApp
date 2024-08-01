@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../Controller/api_controllers/markAsReadController.dart';
 import '../../Controller/api_controllers/notificationController.dart';
 import '../../Models/api_models/chat_group_api_model.dart';
 import '../../Models/api_models/notification_api_model.dart';
@@ -121,7 +124,7 @@ class _NotificationscreenState extends State<Notificationscreen> {
                                        mainAxisSize: MainAxisSize.min,
                                        children: [
                                          for(int i=0; i < messagelist.length; i++)
-                                           _notifyme(context)
+                                           _notifyme(context,messagelist[i])
                                        ],
                                      );
                                   },
@@ -148,7 +151,7 @@ class _NotificationscreenState extends State<Notificationscreen> {
   rubrics({required rubricslessonob}) {}
 }
 
-Widget _notifyme(BuildContext context) =>
+Widget _notifyme(BuildContext context,RecentNotifications notification) =>
     Container(
       margin: EdgeInsets.all(8.0),
       width: MediaQuery
@@ -167,9 +170,11 @@ Widget _notifyme(BuildContext context) =>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "",
+              "${notification.msg}",
               style: TextStyle(color: Colors.blueGrey),
             ),
+            SizedBox(height: 10,),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -178,31 +183,31 @@ Widget _notifyme(BuildContext context) =>
                 //   child: Text(notificationResult!["data"]["details"]["recentNotifications"][index]["status"],
                 //     style: TextStyle(color: ColorUtils.SEARCH_TEXT_COLOR),
                 //   ),
-                // ),
+                // )
                 Container(
-                  margin: const EdgeInsets.all(10),
+
+                  margin: const EdgeInsets.only(left: 4,top: 4),
                   child: Text(
-                    "30-08-1999",
+
+                    "${DateFormat('dd-MM-yyyy HH:mm').format(DateTime.parse(notification.genDate.toString()).toLocal())}",
                     style: TextStyle(
                       fontSize: 12,
+                      color: Colorutils.bottomnaviconcolor
                     ),
                   ),
                 ),
-
-                ElevatedButton(
+              notification.status == "active"
+                ?ElevatedButton(
                     style: ElevatedButton.styleFrom(),
                     onPressed: () async {
-                      SharedPreferences preference =
-                      await SharedPreferences.getInstance();
-                      var count = preference.getInt("count");
-                      var newResult = count! - 1;
-                      preference.setInt("count", newResult);
-                      print(newResult);
+                      // context.loaderOverlay.show();
+                      await Get.find<MarkAsReadController>().fetchmarkasread(notificationId: notification.sId.toString());
+                      // context.loaderOverlay.hide();
                     },
                     child: Text(
                       "Mark as Read",
                       style: TextStyle(color: Colors.red),
-                    ))
+                    )):Text("")
 
                 //
                 // notificationResult!["data"][

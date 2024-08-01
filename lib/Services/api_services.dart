@@ -151,6 +151,42 @@ class ApiServices {
     }
   }
 
+  static Future<Map<String, dynamic>> getMarkasReadNotification({
+    required String userId,
+    required String notificationId,
+  }) async {
+    String url = '${ApiConstants.baseUrl}${ApiConstants.updatenotification}';
+    print(url);
+    Map apiBody = {
+      "user_id": userId,
+      "notification_id": notificationId
+    };
+    try {
+      var request = http.Request('PUT', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+
+          getNotification(userId: userId);
+
+        return json.decode(respString);
+      } else {
+
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+
+
+
+
+
   static Future<Map<String, dynamic>> getTimeTable({
     required String userId,
     required String academicYear,

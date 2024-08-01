@@ -11,6 +11,7 @@ import 'Controller/api_controllers/feedViewController.dart';
 import 'Controller/api_controllers/groupedViewListController.dart';
 import 'Controller/api_controllers/lessonObservationController.dart';
 import 'Controller/api_controllers/chatClassGroupController.dart';
+import 'Controller/api_controllers/markAsReadController.dart';
 import 'Controller/api_controllers/notificationController.dart';
 import 'Controller/api_controllers/parentChatListController.dart';
 import 'Controller/api_controllers/timeTableController.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
     Get.put(ParentChatListController());
     Get.put(FeedViewController());
     Get.put(NotificationController());
+    Get.put(MarkAsReadController());
     Get.put(GroupedViewListController());
     return GlobalLoaderOverlay(
       useDefaultLoading: false,

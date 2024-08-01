@@ -125,7 +125,6 @@ class UserAuthController extends GetxController {
     }
     String? schoolId = userData.value.schoolId;
     if (schoolId != null) {
-      print("setToken");
       await setSchoolTokenAndRoll(schoolId);
     }
     isLoading.value = false;
