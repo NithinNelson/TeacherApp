@@ -36,24 +36,24 @@ class CustomBottomNavigationBar extends StatelessWidget {
                           onTap: () {
                             controller.changePage(currentPage: menuItems[i].index);
                           },
-                          child: Container(
-                            height: 48,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SvgPicture.asset(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                height: 30.h,
+                                child: SvgPicture.asset(
                                   currentIndex == menuItems[i].index ? "assets/images/ChatCircleTextcolor.svg" : "assets/images/ChatCircleText.svg",
                                   color: currentIndex == menuItems[i].index ? Colorutils.letters1 : Colorutils.bottomiconcolor,
-                                  height: 32.h,
+                                  height: 30.h,
                                   fit: BoxFit.fitHeight,
                                 ),
-                                SizedBox(height: 3.w),
-                                Text(
-                                  menuItems[i].title,
-                                  style: currentIndex == menuItems[i].index ? TeacherAppFonts.poppinsW500_16sp_letters1 : TeacherAppFonts.poppinsW400_13sp_bottomiconcolor,
-                                )
-                              ],
-                            ),
+                              ),
+                              SizedBox(height: 3.w),
+                              Text(
+                                menuItems[i].title,
+                                style: currentIndex == menuItems[i].index ? TeacherAppFonts.poppinsW500_16sp_letters1 : TeacherAppFonts.poppinsW400_13sp_bottomiconcolor,
+                              )
+                            ],
                           ),
 
                         ),
