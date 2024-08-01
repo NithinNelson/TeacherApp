@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Controller/api_controllers/notificationController.dart';
 import '../../Models/api_models/chat_group_api_model.dart';
+import '../../Models/api_models/notification_api_model.dart';
 import '../../Utils/Colors.dart';
 import '../../Utils/constants.dart';
 import '../CWidgets/AppBarBackground.dart';
@@ -113,21 +114,19 @@ class _NotificationscreenState extends State<Notificationscreen> {
                                     ],
                                   ),
                                 ),
-                                for (int i = 0; i < 10; i++) GetX<NotificationController>(
+                                 GetX<NotificationController>(
                                   builder: (NotificationController controller) {
-                                    // List<Data> teachermessageList = controller.notificationList.value.cast<Data>();
-                                    return _notifyme(context);
+                                     List<RecentNotifications> messagelist = controller.Recentnotification.value;
+                                     return Column(
+                                       mainAxisSize: MainAxisSize.min,
+                                       children: [
+                                         for(int i=0; i < messagelist.length; i++)
+                                           _notifyme(context)
+                                       ],
+                                     );
                                   },
 
-                                  // ListView.builder(
-                                  //     shrinkWrap: true,
-                                  //     scrollDirection: Axis.vertical,
-                                  //     itemCount:10,
-                                  //     itemBuilder:
-                                  //         (BuildContext context, int index) {
-                                  //       return _notifyme(context);
-                                  //
-                                  //     )})
+
                                 )
                               ],
                             ),
@@ -150,129 +149,123 @@ class _NotificationscreenState extends State<Notificationscreen> {
 }
 
 Widget _notifyme(BuildContext context) =>
-    Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        //SizedBox(height: 10.h,),
-        Container(
-          margin: EdgeInsets.all(8.0),
-          width: MediaQuery
-              .of(context)
-              .size
-              .width,
-          //margin: EdgeInsets.only(left: 20.w, right: 20.w),
-          decoration: BoxDecoration(
-              color: Colorutils.chatcolor.withOpacity(0.2),
-              border: Border.all(color: Colorutils.chatcolor),
-              borderRadius: BorderRadius.all(Radius.circular(10.r))),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+    Container(
+      margin: EdgeInsets.all(8.0),
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
+      //margin: EdgeInsets.only(left: 20.w, right: 20.w),
+      decoration: BoxDecoration(
+          color: Colorutils.chatcolor.withOpacity(0.2),
+          border: Border.all(color: Colorutils.chatcolor),
+          borderRadius: BorderRadius.all(Radius.circular(10.r))),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "",
+              style: TextStyle(color: Colors.blueGrey),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Notification result Notification resultNotification result Notification result Notification result Notification resultNotification resultNotification result Notification resultNotification resultNotification result Notification result ",
-                  style: TextStyle(color: Colors.blueGrey),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Container(
-                    //   margin:  EdgeInsets.all(4),
-                    //   child: Text(notificationResult!["data"]["details"]["recentNotifications"][index]["status"],
-                    //     style: TextStyle(color: ColorUtils.SEARCH_TEXT_COLOR),
-                    //   ),
-                    // ),
-                    Container(
-                      margin: const EdgeInsets.all(10),
-                      child: Text(
-                        "30-08-1999",
-                        style: TextStyle(
-                          fontSize: 12,
-                        ),
-                      ),
+                // Container(
+                //   margin:  EdgeInsets.all(4),
+                //   child: Text(notificationResult!["data"]["details"]["recentNotifications"][index]["status"],
+                //     style: TextStyle(color: ColorUtils.SEARCH_TEXT_COLOR),
+                //   ),
+                // ),
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  child: Text(
+                    "30-08-1999",
+                    style: TextStyle(
+                      fontSize: 12,
                     ),
-
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(),
-                        onPressed: () async {
-                          SharedPreferences preference =
-                          await SharedPreferences.getInstance();
-                          var count = preference.getInt("count");
-                          var newResult = count! - 1;
-                          preference.setInt("count", newResult);
-                          print(newResult);
-                        },
-                        child: Text(
-                          "Mark as Read",
-                          style: TextStyle(color: Colors.red),
-                        ))
-
-                    //
-                    // notificationResult!["data"][
-                    // "details"]
-                    // [
-                    // "recentNotifications"][index]
-                    // [
-                    // "status"] ==
-                    //     "active"
-                    //     ? ElevatedButton(
-                    //     style: ElevatedButton
-                    //         .styleFrom(
-                    //         primary:
-                    //         Color(
-                    //             0xFFECF1FF)),
-                    //     onPressed:
-                    //         () async {
-                    //       setState(() {
-                    //         isLoading =
-                    //         true;
-                    //         notificationResult!["data"]["details"]["recentNotifications"][index]
-                    //         [
-                    //         "status"] =
-                    //         'inactive';
-                    //       });
-                    //       print(
-                    //           'is Active--->${notificationResult!["data"]["details"]["recentNotifications"][index]["status"]}');
-                    //       markAsReadNotification(notificationResult!["data"]
-                    //       [
-                    //       "details"]
-                    //       [
-                    //       "recentNotifications"]
-                    //       [
-                    //       index]["_id"]);
-                    //       SharedPreferences
-                    //       preference =
-                    //       await SharedPreferences
-                    //           .getInstance();
-                    //       var count =
-                    //       preference
-                    //           .getInt(
-                    //           "count");
-                    //       var newResult =
-                    //           count! -
-                    //               1;
-                    //       preference.setInt(
-                    //           "count",
-                    //           newResult);
-                    //       print(
-                    //           newResult);
-                    //     },
-                    //     child: Text(
-                    //       "Mark as Read",
-                    //       style: TextStyle(
-                    //           color: ColorUtils
-                    //               .RED),
-                    //     ))
-                    //     : Text("")
-                  ],
+                  ),
                 ),
+
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(),
+                    onPressed: () async {
+                      SharedPreferences preference =
+                      await SharedPreferences.getInstance();
+                      var count = preference.getInt("count");
+                      var newResult = count! - 1;
+                      preference.setInt("count", newResult);
+                      print(newResult);
+                    },
+                    child: Text(
+                      "Mark as Read",
+                      style: TextStyle(color: Colors.red),
+                    ))
+
+                //
+                // notificationResult!["data"][
+                // "details"]
+                // [
+                // "recentNotifications"][index]
+                // [
+                // "status"] ==
+                //     "active"
+                //     ? ElevatedButton(
+                //     style: ElevatedButton
+                //         .styleFrom(
+                //         primary:
+                //         Color(
+                //             0xFFECF1FF)),
+                //     onPressed:
+                //         () async {
+                //       setState(() {
+                //         isLoading =
+                //         true;
+                //         notificationResult!["data"]["details"]["recentNotifications"][index]
+                //         [
+                //         "status"] =
+                //         'inactive';
+                //       });
+                //       print(
+                //           'is Active--->${notificationResult!["data"]["details"]["recentNotifications"][index]["status"]}');
+                //       markAsReadNotification(notificationResult!["data"]
+                //       [
+                //       "details"]
+                //       [
+                //       "recentNotifications"]
+                //       [
+                //       index]["_id"]);
+                //       SharedPreferences
+                //       preference =
+                //       await SharedPreferences
+                //           .getInstance();
+                //       var count =
+                //       preference
+                //           .getInt(
+                //           "count");
+                //       var newResult =
+                //           count! -
+                //               1;
+                //       preference.setInt(
+                //           "count",
+                //           newResult);
+                //       print(
+                //           newResult);
+                //     },
+                //     child: Text(
+                //       "Mark as Read",
+                //       style: TextStyle(
+                //           color: ColorUtils
+                //               .RED),
+                //     ))
+                //     : Text("")
               ],
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
 
 mixin context {}
