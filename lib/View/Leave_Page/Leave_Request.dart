@@ -63,13 +63,19 @@ class _LeaveRequestState extends State<LeaveRequest> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20, top: 30),
-                          child: Text(
-                            "Learning Walk",
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600),
-                          ),
+                        Column(
+
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20, top: 30),
+                              child: Text(
+                                "Leave Request",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                            ),
+
+                          ],
                         ),
                         TextFormField(
                           onChanged: (value) {},
