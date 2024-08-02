@@ -39,7 +39,8 @@ dependencies:
   lottie: ^3.1.2
   animated_text_kit: ^4.2.2
   cached_network_image: ^3.3.1
-  flutter_switch: ^0.3.2
+#  flutter_switch: ^0.3.2
+  flutter_advanced_switch: ^3.1.0
   shared_preferences: ^2.2.3
   get_it: ^7.7.0
   http: ^1.2.2

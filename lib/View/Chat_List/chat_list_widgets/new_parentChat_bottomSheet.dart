@@ -28,7 +28,7 @@ class _NewParentChatState extends State<NewParentChat> {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.9),
+          color: Colors.grey.shade200,
           borderRadius: BorderRadius.circular(10).r,
           // gradient: LinearGradient(
           //   begin: Alignment.topCenter,
@@ -148,6 +148,7 @@ class _NewParentChatState extends State<NewParentChat> {
                           padding: const EdgeInsets.only(right: 5, left: 5).w,
                           child: InkWell(
                             onTap: () {
+                              controller.setCurrentFilterClass(currentClass: classNameList[index]);
                               controller.filterByClass(classNameList[index]);
                             },
                             child: Container(
@@ -214,7 +215,7 @@ class _NewParentChatState extends State<NewParentChat> {
                         ),
                         onTap: () {
                           Navigator.of(context).pop();
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ParentMsgScreen()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ParentMsgScreen(msgData: filteredChatList[index])));
                         },
                       );
                     },

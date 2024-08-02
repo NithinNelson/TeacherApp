@@ -16,7 +16,6 @@ import '../../../Controller/api_controllers/chatClassGroupController.dart';
 import '../../../Models/api_models/chat_group_api_model.dart';
 import '../../../Utils/Colors.dart';
 import '../../../Utils/font_util.dart';
-import '../../Chat_View/class_message_view.dart';
 import '../../Chat_View/group_msg_screen.dart';
 
 class GroupChatList extends StatelessWidget {

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,14 +10,11 @@ import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Models/api_models/chat_feed_view_model.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
-import '../../../Controller/ui_controllers/chat_controller.dart';
 import '../../Controller/api_controllers/groupedViewController.dart';
 import '../../Models/api_models/grouped_view_list_api_model.dart';
-import '../Chat_List/Mychat/Chat_seen.dart';
 import 'Chat_widgets/audio_widget.dart';
 import 'Chat_widgets/chat_date_widget.dart';
 import 'Chat_widgets/file_widget.dart';
-import 'Chat_widgets/message_info_screen.dart';
 import 'Chat_widgets/replay_in_message_widget.dart';
 import 'Chat_widgets/sent_bubble_widget.dart';
 

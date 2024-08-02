@@ -14,6 +14,7 @@ class ParentChatListController extends GetxController {
   RxList<Datum> allParentChatList = <Datum>[].obs;
   RxList<String> allClasses = <String>['All'].obs;
   RxInt unreadCount = 0.obs;
+  RxString currentFilterClass = 'All'.obs;
 
   void resetStatus() {
     isLoading.value = false;
@@ -69,7 +70,7 @@ class ParentChatListController extends GetxController {
         ParentChatListApiModel parentChatListApiModel = ParentChatListApiModel.fromJson(resp);
         unreadCount.value = parentChatListApiModel.data?.unreadCount ?? 0;
         allParentChatList.value = parentChatListApiModel.data?.data ?? [];
-        filterByClass('All');
+        filterByClass(currentFilterClass.value);
         setClassList();
         setChatList();
       }
@@ -78,6 +79,10 @@ class ParentChatListController extends GetxController {
     } finally {
       resetStatus();
     }
+  }
+
+  void setCurrentFilterClass({required String currentClass}) {
+    currentFilterClass.value = currentClass;
   }
 
   void setTab(int index) {

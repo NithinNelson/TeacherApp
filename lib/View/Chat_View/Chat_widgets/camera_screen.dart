@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:teacherapp/Controller/api_controllers/feedViewController.dart';
+import 'package:teacherapp/Controller/api_controllers/parentChatController.dart';
 import '../../../Services/dialog_box.dart';
 import '../../../Services/snackBar.dart';
 import '../../../Utils/Colors.dart';
@@ -12,10 +13,10 @@ import '../../../Utils/Colors.dart';
 List<CameraDescription> cameras = [];
 
 class CameraScreen extends StatefulWidget {
-  // final Function(String) setImgPath;
+  final bool isParentChat;
   const CameraScreen({
     super.key,
-    // required this.setImgPath,
+    required this.isParentChat,
   });
 
   @override
@@ -121,11 +122,9 @@ class _CameraScreenState extends State<CameraScreen> {
                     ),
                     IconButton(
                       onPressed: () {
-                        Get.find<FeedViewController>().filePath.value =
-                            imagePath;
-                        // Provider.of<ChatProvider>(context, listen: false)
-                        //     .setFilePath(path: imagePath);
-                        // widget.setImgPath(imagePath);
+                        widget.isParentChat
+                            ? Get.find<ParentChattingController>().filePath.value = imagePath
+                            : Get.find<FeedViewController>().filePath.value = imagePath;
                         Navigator.of(context).pop();
                       },
                       icon: const Icon(

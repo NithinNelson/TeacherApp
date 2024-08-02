@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 import '../Models/api_models/chat_feed_view_model.dart';
+import '../Models/api_models/parent_chatting_model.dart';
 import '../Models/api_models/sent_msg_by_teacher_model.dart';
 import '../Utils/api_constants.dart';
 import 'package:http/http.dart' as http;
@@ -463,6 +464,37 @@ class ApiServices {
       return json.decode(respString);
     } catch (e) {
       print(e);
+    }
+  }
+
+  static Future<Map<String, dynamic>> getParentChatting({
+    required ParentChattingReqModel reqBodyData,
+  }) async {
+    String url = "${ApiConstants.chat}${ApiConstants.parentChatMessages}";
+    print(url);
+    Map apiBody = {
+      "class": reqBodyData.classs,
+      "batch": reqBodyData.batch,
+      "parent_id": reqBodyData.parentId,
+      "teacher_id": reqBodyData.teacherId,
+      "school_id": reqBodyData.schoolId,
+      "offset": reqBodyData.offset,
+      "limit": reqBodyData.limit,
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
     }
   }
 }
