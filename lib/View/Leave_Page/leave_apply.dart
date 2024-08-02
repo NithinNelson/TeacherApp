@@ -4,13 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import '../../Models/api_models/leave_req_list_api_model.dart';
 import '../../Utils/Colors.dart';
 import '../../Utils/constants.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
 
 class LeaveApply extends StatefulWidget {
-  const LeaveApply({super.key});
+  final StudentsData studentsData;
+  final String claas;
+  final String batch;
+  const LeaveApply({super.key, required this.studentsData, required this.claas, required this.batch});
 
   @override
   State<LeaveApply> createState() => _ObsResultState();
@@ -116,7 +120,7 @@ class _ObsResultState extends State<LeaveApply> {
                       borderRadius: BorderRadius.circular(17.0),
                     ),
                     child: const UserDetails(
-                      shoBackgroundColor: false, isWelcome: true, bellicon: true, notificationcount: true,),
+                      shoBackgroundColor: false, isWelcome: false, bellicon: true, notificationcount: true,),
                   ),
                 ),
                 Container(
@@ -207,11 +211,11 @@ class _ObsResultState extends State<LeaveApply> {
                                             width: 50,
                                             height: 50,
                                             fit: BoxFit.fill,
-                                            imageUrl: "ksjk",
+                                            imageUrl: "--",
                                             placeholder: (context, url) =>
                                                 Center(
                                                   child: Text(
-                                                    'ben',
+                                                    widget.studentsData.name?.substring(0, 1) ?? '',
                                                     style: TextStyle(
                                                         color: Color(0xFFB1BFFF),
                                                         fontWeight: FontWeight.bold,
@@ -221,7 +225,7 @@ class _ObsResultState extends State<LeaveApply> {
                                             errorWidget: (context, url, error) =>
                                                 Center(
                                                   child: Text(
-                                                    'bbb',
+                                                    widget.studentsData.name?.substring(0, 1) ?? '',
                                                     style: TextStyle(
                                                         color: Color(0xFFB1BFFF),
                                                         fontWeight: FontWeight.bold,
@@ -236,13 +240,13 @@ class _ObsResultState extends State<LeaveApply> {
                                   SizedBox(
                                     height: 10.h,
                                   ),
-                                  const Center(
+                                  Center(
                                     child: SingleChildScrollView(
                                       scrollDirection: Axis.horizontal,
                                       child: Row(
                                         children: [
                                           Text(
-                                            'Fathima Nourin Noufal  Azad',
+                                            widget.studentsData.name ?? '--',
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold
@@ -273,7 +277,7 @@ class _ObsResultState extends State<LeaveApply> {
                                         ),
                                         Container(
                                           width: 100,
-                                          child: Text('ME2016'),
+                                          child: Text(widget.studentsData.admissionNumber ?? '--'),
 
                                         )
 
@@ -299,7 +303,7 @@ class _ObsResultState extends State<LeaveApply> {
                                         ),
                                         Container(
                                           width: 100,
-                                          child: Text('3B'),
+                                          child: Text("${widget.claas}${widget.batch}"),
 
                                         )
 

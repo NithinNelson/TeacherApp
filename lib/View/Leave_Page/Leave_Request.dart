@@ -1,8 +1,16 @@
+import 'dart:ffi';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:teacherapp/Controller/api_controllers/leaveRequestController.dart';
+import 'package:teacherapp/View/Leave_Page/leave_apply.dart';
 
+import '../../Models/api_models/leave_req_list_api_model.dart';
 import '../../Utils/Colors.dart';
+import '../../Utils/font_util.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
 
@@ -14,277 +22,284 @@ class LeaveRequest extends StatefulWidget {
 }
 
 class _LeaveRequestState extends State<LeaveRequest> {
+  LeaveRequestController leaveRequestController = Get.find<LeaveRequestController>();
 
+  @override
+  void initState() {
+    initialize();
+    super.initState();
+  }
+
+  Future<void> initialize() async {
+    context.loaderOverlay.show();
+    await leaveRequestController.fetchLeaveReqList();
+    if(!mounted) return;
+    context.loaderOverlay.hide();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height ,
-            width: ScreenUtil().screenWidth,
-            child: Stack(
-              children: [
-                AppBarBackground(),
-                Positioned(
-                  left: 0,
-                  top: -10,
-                  child: Container(
-                    // height: 100.w,
-                    width: ScreenUtil().screenWidth,
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(17.0),
-                    ),
-                    child: const UserDetails(shoBackgroundColor: false, isWelcome: true, bellicon: true, notificationcount: true,),
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          width: ScreenUtil().screenWidth,
+          child: Stack(
+            children: [
+              const AppBarBackground(),
+              Positioned(
+                left: 0,
+                top: -10,
+                child: Container(
+                  // height: 100.w,
+                  width: ScreenUtil().screenWidth,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(17.0),
+                  ),
+                  child: const UserDetails(
+                    shoBackgroundColor: false,
+                    isWelcome: true,
+                    bellicon: true,
+                    notificationcount: true,
                   ),
                 ),
-
-                Container(
-                  margin: EdgeInsets.only(left: 20.w, top: 120.h, right: 20.w),
-                  // width: 550.w,
-                  height: ScreenUtil().screenHeight * 0.8,
-                  decoration: BoxDecoration(
-                    color: Colorutils.Whitecolor,
-                    // Container color
-                    borderRadius: BorderRadius.circular(20.r),
-                    // Border radius
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colorutils.userdetailcolor.withOpacity(0.3),
-                        // Shadow color
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3), // Shadow position
-                      ),
-                    ],
-                  ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 20.w, top: 120.h, right: 20.w, bottom: 20.w),
+                // width: 550.w,
+                height: ScreenUtil().screenHeight * 0.8,
+                decoration: BoxDecoration(
+                  color: Colorutils.Whitecolor,
+                  // Container color
+                  borderRadius: BorderRadius.circular(20.r),
+                  // borderRadius: BorderRadius.only(
+                  //   topLeft: Radius.circular(20),
+                  //   topRight: Radius.circular(20),
+                  // ).r,
+                  // Border radius
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colorutils.userdetailcolor.withOpacity(0.3),
+                      // Shadow color
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3), // Shadow position
+                    ),
+                  ],
+                ),
+                child: SingleChildScrollView(
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 20, top: 30),
-                          child: Text(
-                            "Learning Walk",
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600),
+                          padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Leave Request',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                              // SizedBox(
+                              //   width: 75.w,
+                              // ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'My Class',
+                                    style: TeacherAppFonts.interW600_16sp_black.copyWith(
+                                      color: Colors.blueGrey,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5.w,
+                                  ),
+                                  GetX<LeaveRequestController>(
+                                    builder: (LeaveRequestController controller) {
+                                      List<ClassData> classList = controller.classList.value;
+                                      return Container(
+                                        height: 40.h,
+                                        width: classList.length < 2 ? 50.w : 89.w,
+                                        child: ListView.builder(
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: classList.length,
+                                            itemBuilder:
+                                                (BuildContext context, int index) {
+                                              return Padding(
+                                                padding: const EdgeInsets.only(right: 5).w,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    controller.setStudentList(classData: classList[index], index: index);
+                                                  },
+                                                  child: Container(
+                                                    width: 40.w,
+                                                    height: 40.w,
+                                                    padding: EdgeInsets.all(8).w,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Colors.red,
+                                                    ),
+                                                    child: FittedBox(
+                                                      child: Text(
+                                                        "${classList[index].className}${classList[index].batchName}",
+                                                        style: TeacherAppFonts.interW400_14sp_textWhite,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            }),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              )
+                            ],
                           ),
                         ),
-                        TextFormField(
-                          onChanged: (value) {},
-                          validator: (val) => val!.isEmpty ? 'Enter the Topic' : null,
-                          cursorColor: Colors.grey,
-                          keyboardType: TextInputType.text,
-                          decoration:InputDecoration(
-                              hintStyle: TextStyle(color: Colors.grey),
-                              hintText: "Search Here",
-                              prefixIcon: Icon(
-                                Icons.search,
-                                color:Colors.grey,
-                              ),
-                              // suffixIcon: GestureDetector(
-                              //   onTap: () => onListen(),
-                              //   child: AvatarGlow(
-                              //     animate: _isListening,
-                              //     glowColor: Colors.blue,
-                              //     endRadius: 20.0,
-                              //     duration: Duration(milliseconds: 2000),
-                              //     repeat: true,
-                              //     showTwoGlows: true,
-                              //     repeatPauseDuration:
-                              //         Duration(milliseconds: 100),
-                              //     child: Icon(
-                              //       _isListening == false
-                              //           ? Icons.keyboard_voice_outlined
-                              //           : Icons.keyboard_voice_sharp,
-                              //       color: ColorUtils.SEARCH_TEXT_COLOR,
-                              //     ),
-                              //   ),
-                              // ),
-                              contentPadding:
-                              EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                              border: OutlineInputBorder(
-
-                                borderRadius: BorderRadius.all(
-
-                                  Radius.circular(2.0),
+                        SizedBox(height: 20.w),
+                        Container(
+                          margin: EdgeInsets.only(left: 15.w, right: 15.w),
+                          child: TextFormField(
+                            onChanged: (value) {
+                              leaveRequestController.filterList(text: value);
+                            },
+                            cursorColor: Colors.grey,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                                hintStyle: TextStyle(color: Colors.grey),
+                                hintText: "Search Here",
+                                prefixIcon: Icon(
+                                  Icons.search,
+                                  color: Colorutils.userdetailcolor,
                                 ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.grey),
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Color.fromRGBO(230, 236, 254, 8), width: 1.0),
-                                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                              ),
-                              fillColor: Colorutils.Whitecolor,
-                              filled: true),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 20.0),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(2.0),
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colorutils.chatcolor, width: 1.0),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colorutils.chatcolor, width: 1.0),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                                ),
+                                fillColor:
+                                Colorutils.chatcolor.withOpacity(0.15),
+                                filled: true),
+                          ),
                         ),
-                        for(int i=0;i<10;i++)
-                          _resultlist(context)
-
+                        SizedBox(height: 20.w),
+                        GetX<LeaveRequestController>(
+                          builder: (LeaveRequestController controller) {
+                            List<StudentsData> studentList = controller.filteredStudentList.value;
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                for (int i = 0; i < studentList.length; i++)
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => LeaveApply(
+                                          studentsData: studentList[i],
+                                        claas: controller.claass.value,
+                                        batch: controller.batch.value,
+                                      ),
+                                      ),
+                                      );
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 5),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            color: Colorutils.chatcolor.withOpacity(0.05),
+                                            border: Border.all(color: Colorutils.chatcolor)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                width: 50.w,
+                                                height: 50.h,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  border: Border.all(color: Colorutils.chatcolor),
+                                                ),
+                                                child: Center(
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: "--",
+                                                    placeholder: (context, url) => Text(
+                                                      studentList[i].name?.substring(0, 1) ?? '',
+                                                      style: TextStyle(
+                                                          color: Color(0xFFB1BFFF),
+                                                          fontWeight: FontWeight.bold,
+                                                          fontSize: 20),
+                                                    ),
+                                                    errorWidget: (context, url, error) => Text(
+                                                      studentList[i].name?.substring(0, 1) ?? '',
+                                                      style: TextStyle(
+                                                          color: Color(0xFFB1BFFF),
+                                                          fontWeight: FontWeight.bold,
+                                                          fontSize: 20),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 10.w,
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 5),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 250.w,
+                                                      child: Text(
+                                                        studentList[i].name ?? '--',
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(
+                                                            fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 250.w,
+                                                      child: Text(
+                                                        studentList[i].admissionNumber ?? '--',
+                                                        style: TextStyle(
+                                                            fontSize: 16.sp, fontWeight: FontWeight.w400),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            );
+                          },
+                        ),
                       ]),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ));
   }
 }
-Widget _resultlist(BuildContext context, {
-
-
-  String? type,
-}) =>
-    InkWell(
-      onTap: () {
-            },
-      child: Padding(
-        padding: const EdgeInsets.only(top: 10,left: 15,right: 15,bottom: 5),
-        child: Container(
-          height: 160.h,
-
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color:Colorutils.chatcolor.withOpacity(0.05) ,
-              border: Border.all(color: Colorutils.chatcolor)
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 8,top:2),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Text("Lesson Observation",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.w900),),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Row(
-                  children: [
-                    Container(
-                      width: 50.w,
-                      height: 50.h,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colorutils.chatcolor),
-
-                      ),
-                      child: Center(
-                        child: CachedNetworkImage(
-                          imageUrl:
-                          "sjjhsjh",
-                          placeholder: (context, url) => Text(
-                            "ben",
-                            style: TextStyle(
-                                color: Color(0xFFB1BFFF),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
-                          errorWidget: (context, url, error) => Text(
-                            "B",
-                            style: TextStyle(
-                                color: Color(0xFFB1BFFF),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-
-                          Container(
-                              width: 200.w,
-                              child: Text(
-                                "Mathematics",
-                                // 'Subject',
-                                style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w700),
-                              )),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          Container(
-
-                              width: 230.w,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 70.w,
-                                    child: Text(
-                                      'Done By',
-                                      // 'Observer Name',
-                                      style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 10.w,
-                                    child: Text(
-                                      ':',
-                                      // 'Observer',
-                                      style: TextStyle(fontSize: 15.sp,),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 140.w,
-                                    child: Text(
-                                      'Nithin Nelson',
-                                      // 'Observer',
-                                      style: TextStyle(fontSize: 15.sp,),
-                                    ),
-                                  ),
-                                ],
-                              )),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 70.w,
-                                child: Text(
-                                  'On',
-                                  // 'Observer Name',
-                                  style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.w500),
-                                ),
-                              ), Container(
-                                width: 10.w,
-                                child: Text(
-                                  ':',
-                                  // 'Observer',
-                                  style: TextStyle(fontSize: 15.sp,),
-                                ),
-                              ),
-                              Container(
-                                width: 140.w,
-                                child: Text(
-                                  '30-08-1998',
-                                  // 'Observer',
-                                  style: TextStyle(fontSize: 15.sp,),
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
