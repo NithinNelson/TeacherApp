@@ -1,47 +1,29 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
 
 import '../../Utils/Colors.dart';
-import '../../Utils/constants.dart';
-import '../../Utils/font_util.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
-import 'Obsresult_display.dart';
 
-class ObsResult extends StatefulWidget {
-  const ObsResult({super.key});
+class LeaveRequest extends StatefulWidget {
+  const LeaveRequest({super.key});
 
   @override
-  State<ObsResult> createState() => _ObsResultState();
+  State<LeaveRequest> createState() => _LeaveRequestState();
 }
 
-class _ObsResultState extends State<ObsResult> {
-  get isSpinner => null;
-
+class _LeaveRequestState extends State<LeaveRequest> {
 
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-
-      value: systemUiOverlayStyleLight,
-      child: Scaffold(
-          backgroundColor: Colors.white,
-          body: Container(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.98,
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
+    return Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height ,
+            width: ScreenUtil().screenWidth,
             child: Stack(
               children: [
                 AppBarBackground(),
@@ -55,21 +37,18 @@ class _ObsResultState extends State<ObsResult> {
                       color: Colors.transparent,
                       borderRadius: BorderRadius.circular(17.0),
                     ),
-                    child: const UserDetails(
-                        shoBackgroundColor: false, isWelcome: true, bellicon: true, notificationcount: true,),
+                    child: const UserDetails(shoBackgroundColor: false, isWelcome: true, bellicon: true, notificationcount: true,),
                   ),
                 ),
+
                 Container(
-                  margin:
-                  EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w,),
-                  width: double.infinity,
-                  height: double.infinity,
+                  margin: EdgeInsets.only(left: 20.w, top: 120.h, right: 20.w),
+                  // width: 550.w,
+                  height: ScreenUtil().screenHeight * 0.8,
                   decoration: BoxDecoration(
                     color: Colorutils.Whitecolor,
                     // Container color
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20.r),
-                        topLeft: Radius.circular(20.r)),
+                    borderRadius: BorderRadius.circular(20.r),
                     // Border radius
                     boxShadow: [
                       BoxShadow(
@@ -81,63 +60,89 @@ class _ObsResultState extends State<ObsResult> {
                       ),
                     ],
                   ),
-
-
-                  child: SingleChildScrollView(
-
-                    child: Column(
+                  child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-
                         Padding(
-                          padding: const EdgeInsets.only(left: 20,top: 10),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Observation Result',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w600),
-                              ),
-                            ],
+                          padding: const EdgeInsets.only(left: 20, top: 30),
+                          child: Text(
+                            "Learning Walk",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600),
                           ),
+                        ),
+                        TextFormField(
+                          onChanged: (value) {},
+                          validator: (val) => val!.isEmpty ? 'Enter the Topic' : null,
+                          cursorColor: Colors.grey,
+                          keyboardType: TextInputType.text,
+                          decoration:InputDecoration(
+                              hintStyle: TextStyle(color: Colors.grey),
+                              hintText: "Search Here",
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color:Colors.grey,
+                              ),
+                              // suffixIcon: GestureDetector(
+                              //   onTap: () => onListen(),
+                              //   child: AvatarGlow(
+                              //     animate: _isListening,
+                              //     glowColor: Colors.blue,
+                              //     endRadius: 20.0,
+                              //     duration: Duration(milliseconds: 2000),
+                              //     repeat: true,
+                              //     showTwoGlows: true,
+                              //     repeatPauseDuration:
+                              //         Duration(milliseconds: 100),
+                              //     child: Icon(
+                              //       _isListening == false
+                              //           ? Icons.keyboard_voice_outlined
+                              //           : Icons.keyboard_voice_sharp,
+                              //       color: ColorUtils.SEARCH_TEXT_COLOR,
+                              //     ),
+                              //   ),
+                              // ),
+                              contentPadding:
+                              EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                              border: OutlineInputBorder(
+
+                                borderRadius: BorderRadius.all(
+
+                                  Radius.circular(2.0),
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.grey),
+                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromRGBO(230, 236, 254, 8), width: 1.0),
+                                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                              ),
+                              fillColor: Colorutils.Whitecolor,
+                              filled: true),
                         ),
                         for(int i=0;i<10;i++)
                           _resultlist(context)
-                        // ListView.builder(
-                        //   itemCount:10,
-                        //   shrinkWrap: true,
-                        //   itemBuilder: (BuildContext context, int index) {
-                        //     return _resultlist();
-                        //   },
-                        //
-                        // ),
 
-
-                      ],
-                    ),
-                  ),
+                      ]),
                 ),
               ],
             ),
-          )),
-    );
+          ),
+        ));
   }
-
-  rubrics({required rubricslessonob}) {}
 }
-
 Widget _resultlist(BuildContext context, {
-  String? observer_name,
 
-  String? date_of_observation,
-  String? subject_name,
 
   String? type,
 }) =>
     InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ObsResultdisplay() ));
-      },
+            },
       child: Padding(
         padding: const EdgeInsets.only(top: 10,left: 15,right: 15,bottom: 5),
         child: Container(

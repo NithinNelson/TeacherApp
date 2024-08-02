@@ -40,6 +40,7 @@ class _MyTimeTableState extends State<MyTimeTable>
   bool isCalenderSelectedOnFriday = false;
   bool isCalenderSelectedOnSaturday = false;
   late PageController _pageController;
+  bool isClicked = false;
 
   @override
   void initState() {
@@ -55,6 +56,12 @@ class _MyTimeTableState extends State<MyTimeTable>
     });
   }
 
+  void _handleTap() {
+    setState(() {
+      isClicked = !isClicked;
+    });
+  }
+
   @override
   void dispose() {
     tabController.dispose();
@@ -63,38 +70,6 @@ class _MyTimeTableState extends State<MyTimeTable>
 
   @override
   Widget build(BuildContext context) {
-    List<CardItem> items = [
-      IconTitleCardItem(
-          text: "MON",
-          selectedBgColor: Colorutils.userdetailcolor,
-          noSelectedBgColor: Colorutils.chatcolor,
-          noSelectedIconTextColor: Colors.black),
-      IconTitleCardItem(
-          text: "TUE",
-          selectedBgColor: Colorutils.userdetailcolor,
-          noSelectedBgColor: Colorutils.chatcolor,
-          noSelectedIconTextColor: Colors.black),
-      IconTitleCardItem(
-          text: "WED",
-          selectedBgColor: Colorutils.userdetailcolor,
-          noSelectedBgColor: Colorutils.chatcolor,
-          noSelectedIconTextColor: Colors.black),
-      IconTitleCardItem(
-          text: "THU",
-          selectedBgColor: Colorutils.userdetailcolor,
-          noSelectedBgColor: Colorutils.chatcolor,
-          noSelectedIconTextColor: Colors.black),
-      IconTitleCardItem(
-          text: "FRI",
-          selectedBgColor: Colorutils.userdetailcolor,
-          noSelectedBgColor: Colorutils.chatcolor,
-          noSelectedIconTextColor: Colors.black),
-      IconTitleCardItem(
-          text: "SAT",
-          selectedBgColor: Colorutils.userdetailcolor,
-          noSelectedBgColor: Colorutils.chatcolor,
-          noSelectedIconTextColor: Colors.black),
-    ];
     final List<Widget> tabViews = [
       monday(),
       Tuesday(),
@@ -117,7 +92,6 @@ class _MyTimeTableState extends State<MyTimeTable>
                 left: 0,
                 top: -10,
                 child: Container(
-                  // height: 100.w,
                   width: ScreenUtil().screenWidth,
                   decoration: BoxDecoration(
                     color: Colors.transparent,
@@ -133,22 +107,17 @@ class _MyTimeTableState extends State<MyTimeTable>
               ),
               Container(
                 margin: EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w),
-                // width: 550.w,
-                // height: 600.h,
                 decoration: BoxDecoration(
                   color: Colorutils.Whitecolor,
-                  // Container color
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20.r),
                       topRight: Radius.circular(20.r)),
-                  // Border radius
                   boxShadow: [
                     BoxShadow(
                       color: Colorutils.userdetailcolor.withOpacity(0.3),
-                      // Shadow color
                       spreadRadius: 2,
                       blurRadius: 5,
-                      offset: Offset(0, 3), // Shadow position
+                      offset: Offset(0, 3),
                     ),
                   ],
                 ),
@@ -232,6 +201,8 @@ class _MyTimeTableState extends State<MyTimeTable>
                           builder: (TimeTableController controller) {
                             List<ResultArray> timeTableList =
                                 controller.teacherTimeTable.value;
+                            List<TimeTable> data =
+                                controller.selectedTimetable.value;
                             return Column(
                               children: [
                                 Container(
@@ -259,21 +230,18 @@ class _MyTimeTableState extends State<MyTimeTable>
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               15),
-                                                      color: isCalenderSelectedOnMonday ==
-                                                              false
+                                                      color: _currentIndex == i
                                                           ? Colorutils
-                                                              .Whitecolor
+                                                              .bottomnaviconcolor
                                                           : Colorutils
-                                                              .bottomnaviconcolor,
+                                                              .Whitecolor,
                                                       boxShadow: [
                                                         BoxShadow(
                                                           color: Colors.grey
                                                               .withOpacity(0.3),
-                                                          // Shadow color
                                                           spreadRadius: 1,
                                                           blurRadius: 2,
-                                                          offset: Offset(0,
-                                                              1), // Shadow position
+                                                          offset: Offset(0, 1),
                                                         ),
                                                       ],
                                                     ),
@@ -281,11 +249,12 @@ class _MyTimeTableState extends State<MyTimeTable>
                                                       child: Text(
                                                         "${timeTableList[i].dayName?.substring(0, 3).toUpperCase()}",
                                                         style: TextStyle(
-                                                            color: isCalenderSelectedOnMonday ==
-                                                                    false
-                                                                ? Colors.black
-                                                                : Colorutils
-                                                                    .Whitecolor,
+                                                            color:
+                                                                _currentIndex == i
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Colors
+                                                                        .black,
                                                             fontWeight:
                                                                 FontWeight
                                                                     .bold),
@@ -294,25 +263,13 @@ class _MyTimeTableState extends State<MyTimeTable>
                                                   ),
                                                   onTap: () {
                                                     setState(() {
+                                                      _currentIndex = i;
                                                       controller
                                                           .setSelectedTimetable(
                                                               result:
                                                                   timeTableList[
                                                                           i]
                                                                       .timeTable);
-                                                      //
-                                                      // isCalenderSelectedOnTuesday = false;
-                                                      // isCalenderSelectedOnWednesday =
-                                                      // false;
-                                                      // isCalenderSelectedOnThursday =
-                                                      // false;
-                                                      // isCalenderSelectedOnFriday = false;
-                                                      // isCalenderSelectedOnSaturday =
-                                                      // false;
-                                                      // if (isCalenderSelectedOnMonday ==
-                                                      //     false) {
-                                                      //   isCalenderSelectedOnMonday = true;
-                                                      //   tabController.index = 0;
                                                     });
                                                   },
                                                 ),
@@ -327,14 +284,10 @@ class _MyTimeTableState extends State<MyTimeTable>
                                   ),
                                 ),
                                 Container(
-                                  // height: ScreenUtil().screenHeight-40.w-100-85.h-103,
-                                  child: Expanded(
+                                  child: data.isNotEmpty ? Expanded(
                                     child: ListView.builder(
-                                      itemCount:
-                                          controller.selectedTimetable.length,
+                                      itemCount: data.length,
                                       itemBuilder: (context, index) {
-                                        List<TimeTable> data =
-                                            controller.selectedTimetable.value;
                                         List<Color> colors = [
                                           Colorutils.userdetailcolor
                                               .withOpacity(0.9),
@@ -360,102 +313,107 @@ class _MyTimeTableState extends State<MyTimeTable>
                                         Color color1 =
                                             colors1[index % colors.length];
 
-                                        return ListTile(
+                                          return ListTile(
                                             title: Container(
-                                                height: 60,
-                                                child: Row(
-                                                  children: [
-                                                    Container(
-                                                        height: 50,
-                                                        width: 150,
-                                                        child: Container(
-                                                          height: 40.w,
-                                                          width: 120.w,
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                      horizontal:
-                                                                          5)
-                                                                  .w,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: color,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                        .circular(
-                                                                            12.0)
-                                                                    .r,
+                                              height: 60,
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    height: 50,
+                                                    width: 150,
+                                                    child: Container(
+                                                      height: 40.w,
+                                                      width: 120.w,
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                              horizontal: 5)
+                                                          .w,
+                                                      decoration: BoxDecoration(
+                                                        color: color,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                    .circular(
+                                                                        12.0)
+                                                                .r,
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          CircleAvatar(
+                                                            radius: 16,
+                                                            backgroundColor:
+                                                                color1,
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(3),
+                                                              child: Text(
+                                                                  data[index]
+                                                                          .batchName ??
+                                                                      '--',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          12)),
+                                                            ),
                                                           ),
-                                                          child: Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            children: [
-                                                              CircleAvatar(
-                                                                radius: 16,
-                                                                backgroundColor:
-                                                                    color1,
-                                                                child: Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                          3),
-                                                                  child: Text(
+                                                          SizedBox(width: 5.w),
+                                                          Expanded(
+                                                            child:
+                                                                SingleChildScrollView(
+                                                              scrollDirection:
+                                                                  Axis.horizontal,
+                                                              child: Row(
+                                                                children: [
+                                                                  Text(
                                                                       data[index]
-                                                                              .batchName ??
+                                                                              .subject ??
                                                                           '--',
                                                                       style: TextStyle(
                                                                           color: Colors
                                                                               .white,
                                                                           fontSize:
-                                                                              12)),
-                                                                ),
+                                                                              15)),
+                                                                ],
                                                               ),
-                                                              SizedBox(
-                                                                  width: 5.w),
-                                                              Expanded(
-                                                                child:
-                                                                    SingleChildScrollView(
-                                                                  scrollDirection:
-                                                                      Axis.horizontal,
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Text(
-                                                                          'Maths',
-                                                                          style: TextStyle(
-                                                                              color: Colors.white,
-                                                                              fontSize: 15)),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
+                                                            ),
                                                           ),
-                                                        )),
-                                                    Container(
-                                                      height: 50,
-                                                      width: 150,
-                                                      child: Center(
-                                                        child: Text(
-                                                            " ${DateFormat('HH:mm a').format(DateTime.parse(data[index].startTime.toString()).toLocal())} -"
-                                                            "${DateFormat('HH:mm a').format(DateTime.parse(data[index].startTime.toString()).toLocal())}",
-                                                            style: TextStyle(
-                                                                color: color,
-                                                                fontSize: 12)),
+                                                        ],
                                                       ),
                                                     ),
-                                                  ],
-                                                )));
+                                                  ),
+                                                  Container(
+                                                    height: 50,
+                                                    width: 150,
+                                                    child: Center(
+                                                      child: Text(
+                                                        " ${DateFormat('HH:mm a').format(DateTime.parse(data[index].startTime.toString()).toLocal())} - ${DateFormat('HH:mm a').format(DateTime.parse(data[index].endTime.toString()).toLocal())}",
+                                                        style: TextStyle(
+                                                            color: color,
+                                                            fontSize: 12),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+
+
+
                                       },
                                     ),
-                                    // child: TabBarView(
-                                    //
-                                    //
-                                    //   physics: NeverScrollableScrollPhysics(),
-                                    //   controller: tabController,
-                                    //   children:       monday(),
-                                    //
-                                    // ),
+                                  ) : Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 160),
+                                      child: Text(
+                                          "Timetable not available for the selected day!",style:TextStyle(
+                                        color: Colors.red,
+
+                                      ),),
+                                    ),
                                   ),
                                 ),
                               ],
