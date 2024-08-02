@@ -29,6 +29,7 @@ class _MainScreenState extends State<MainScreen> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: systemUiOverlayStyleDark,
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: GetX<PageIndexController>(
             builder: (PageIndexController controller) {
               return controller.menuItemsPerRole[controller.pageIndex.value].page;

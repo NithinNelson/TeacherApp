@@ -22,6 +22,7 @@ class UserDetails extends StatelessWidget {
         child: GetX<UserAuthController>(
           builder: (UserAuthController controller) {
             return SafeArea(
+
               child: Container(
                 height: 90.h,
                 decoration: BoxDecoration(
@@ -31,6 +32,7 @@ class UserDetails extends StatelessWidget {
                   borderRadius: BorderRadius.circular(17.0),
                 ),
                 child: Row(
+
                   children: [
                     SizedBox(width: 12.w),
                     if(isWelcome)

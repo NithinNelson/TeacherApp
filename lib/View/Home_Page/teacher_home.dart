@@ -37,7 +37,7 @@ class _TeacherState extends State<Teacher> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.only(left: 4,right: 4),
       child: SafeArea(
         child: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),

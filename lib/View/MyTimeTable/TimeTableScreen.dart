@@ -235,267 +235,265 @@ class _MyTimeTableState extends State<MyTimeTable> with SingleTickerProviderStat
                       Expanded(
                         child: Column(
                           children: [
-                            SizedBox(
-                              height: 100.0,
-                              child: Center(
-                                  child: Center(
-                                      child: HorizontalCardPager(
-                                        initialPage: _currentIndex,
-                                        onPageChanged: (page) {
-
-                                          setState(() {  _currentIndex = page.toInt();
-                                          tabController.index = page.toInt();
-                                          });
-
-                                          DefaultTabController.of(context)?.animateTo(page as int);
-                                        },
-                                        onSelectedItem: (page) {
-
-                                          setState(() {  _currentIndex = page.toInt();
-                                          tabController.index = page.toInt();
-                                          });
-
-                                          DefaultTabController.of(context)?.animateTo(page as int);
-                                        },
-                                        items: items,
-                                      ))
-
-                              ),
-
-                            ),
-                            // Padding(
-                            //   padding: const EdgeInsets.all(8.0),
-                            //   child: Container(
-                            //     child: SingleChildScrollView(
-                            //       scrollDirection: Axis.horizontal,
-                            //       child: Row(
-                            //         children: [
-                            //           SizedBox(
-                            //             width: 10.w,
-                            //           ),
-                            //           SizedBox(
-                            //             width: 60.w,
-                            //             height: 70.h,
-                            //             child: ElevatedButton(
-                            //                 style: ElevatedButton.styleFrom(
-                            //                   shape: RoundedRectangleBorder(
-                            //                     borderRadius: BorderRadius.circular(8.r),
-                            //                   ), backgroundColor: isCalenderSelectedOnMonday == false
-                            //                       ? Colors.blue
-                            //                       : Colors.white,
+                            // SizedBox(
+                            //   height: 100.0,
+                            //   child: Center(
+                            //       child: Center(
+                            //           child: HorizontalCardPager(
+                            //             initialPage: _currentIndex,
+                            //             onPageChanged: (page) {
                             //
-                            //                   side: BorderSide(
-                            //                     width: 1.w,
-                            //                     color: isCalenderSelectedOnMonday == false
-                            //                         ? Colors.black
-                            //                         : Colors.blue,
-                            //                   ),
-                            //                 ),
-                            //                 onPressed: () {
-                            //                   setState(() {
+                            //               setState(() {  _currentIndex = page.toInt();
+                            //               tabController.index = page.toInt();
+                            //               });
                             //
-                            //                   });
-                            //                 },child: Row(
-                            //                   children: [
-                            //                     Text('MON'),
-                            //                   ],
-                            //                 ),
-                            //                 // child: Text(
-                            //                 //   "Mon",
-                            //                 //   style: TextStyle(
-                            //                 //       color: isCalenderSelectedOnMonday == false
-                            //                 //           ? Colors.black
-                            //                 //           : Colors.white,
-                            //                 //       fontSize: 11.sp),
-                            //                 // )
-                            //                ),
-                            //           ),
-                            //           SizedBox(
-                            //             width: 10.w,
-                            //           ),
-                            //           SizedBox(
-                            //             width: 60.w,
-                            //             height: 70.h,
-                            //             child: ElevatedButton(
-                            //                 style: ElevatedButton.styleFrom(
-                            //                   shape: RoundedRectangleBorder(
-                            //                     borderRadius: BorderRadius.circular(8.r),
-                            //                   ), backgroundColor: isCalenderSelectedOnTuesday == false
-                            //                       ? Colors.white
-                            //                       : Colors.blue,
-                            //                   elevation: isCalenderSelectedOnTuesday == false ? 0 : 8,
-                            //                   side: BorderSide(
-                            //                     width: 1.w,
-                            //                     color: isCalenderSelectedOnTuesday == false
-                            //                         ? Colors.black
-                            //                         : Colors.blue,
-                            //                   ),
-                            //                 ),
-                            //                 onPressed: () {
-                            //                   setState(() {
+                            //               DefaultTabController.of(context)?.animateTo(page as int);
+                            //             },
+                            //             onSelectedItem: (page) {
                             //
-                            //                   });
-                            //                 },
-                            //                 child: Text(
-                            //                   "Tue",
-                            //                   style: TextStyle(
-                            //                       color: isCalenderSelectedOnTuesday == false
-                            //                           ? Colors.black
-                            //                           : Colors.white,
-                            //                       fontSize: 11.sp),
-                            //                 )),
-                            //           ),
-                            //           SizedBox(
-                            //             width: 10.w,
-                            //           ),
-                            //           SizedBox(
-                            //             width: 60.w,
-                            //             height: 70.h,
-                            //             child: ElevatedButton(
-                            //                 style: ElevatedButton.styleFrom(
-                            //                   shape: RoundedRectangleBorder(
-                            //                     borderRadius: BorderRadius.circular(8.r),
-                            //                   ), backgroundColor: isCalenderSelectedOnWednesday == false
-                            //                       ? Colors.white
-                            //                       : Colors.black,
-                            //                   elevation:
-                            //                   isCalenderSelectedOnWednesday == false ? 0 : 8,
-                            //                   side: BorderSide(
-                            //                     width: 1.w,
-                            //                     color: isCalenderSelectedOnWednesday == false
-                            //                         ? Colors.black
-                            //                         :Colors.blue,
-                            //                   ),
-                            //                 ),
-                            //                 onPressed: () {
-                            //                   setState(() {
+                            //               setState(() {  _currentIndex = page.toInt();
+                            //               tabController.index = page.toInt();
+                            //               });
                             //
-                            //                   });
-                            //                 },
-                            //                 child: Text(
-                            //                   "Wed",
-                            //                   style: TextStyle(
-                            //                       color: isCalenderSelectedOnWednesday == false
-                            //                           ? Colors.black
-                            //                           : Colors.blue,
-                            //                       fontSize: 11.sp),
-                            //                 )),
-                            //           ),
-                            //           SizedBox(
-                            //             width: 10.w,
-                            //           ),
-                            //           SizedBox(
-                            //             width: 60.w,
-                            //             height: 70.h,
-                            //             child: ElevatedButton(
-                            //                 style: ElevatedButton.styleFrom(
-                            //                   shape: RoundedRectangleBorder(
-                            //                     borderRadius: BorderRadius.circular(8.r),
-                            //                   ), backgroundColor: isCalenderSelectedOnThursday == false
-                            //                       ? Colors.white
-                            //                       : Colors.blue,
-                            //                   elevation:
-                            //                   isCalenderSelectedOnThursday == false ? 0 : 8,
-                            //                   side: BorderSide(
-                            //                     width: 1.w,
-                            //                     color: isCalenderSelectedOnThursday == false
-                            //                         ? Colors.black
-                            //                         :Colors.blue,
-                            //                   ),
-                            //                 ),
-                            //                 onPressed: () {
-                            //                   setState(() {
+                            //               DefaultTabController.of(context)?.animateTo(page as int);
+                            //             },
+                            //             items: items,
+                            //           ))
                             //
-                            //                   });
-                            //                 },
-                            //                 child: Text(
-                            //                   "Thu",
-                            //                   style: TextStyle(
-                            //                       color: isCalenderSelectedOnThursday == false
-                            //                           ? Colors.black
-                            //                           : Colors.white,
-                            //                       fontSize: 11.sp),
-                            //                 )),
-                            //           ),
-                            //           SizedBox(
-                            //             width: 10.w,
-                            //           ),
-                            //           SizedBox(
-                            //             width: 60.w,
-                            //             height: 70.h,
-                            //             child: ElevatedButton(
-                            //                 style: ElevatedButton.styleFrom(
-                            //                   shape: RoundedRectangleBorder(
-                            //                     borderRadius: BorderRadius.circular(8.r),
-                            //                   ), backgroundColor: isCalenderSelectedOnFriday == false
-                            //                       ? Colors.white
-                            //                       : Colors.black,
-                            //                   elevation: isCalenderSelectedOnFriday == false ? 0 : 8,
-                            //                   side: BorderSide(
-                            //                     width: 1.w,
-                            //                     color: isCalenderSelectedOnFriday == false
-                            //                         ? Colors.black
-                            //                         : Colors.blue,
-                            //                   ),
-                            //                 ),
-                            //                 onPressed: () {
-                            //                   setState(() {
-                            //
-                            //                   });
-                            //                 },
-                            //                 child: Text(
-                            //                   "Fri",
-                            //                   style: TextStyle(
-                            //                       color: isCalenderSelectedOnFriday == false
-                            //                           ? Colors.blue
-                            //                           : Colors.white,
-                            //                       fontSize: 11.sp),
-                            //                 )),
-                            //           ),
-                            //           SizedBox(
-                            //             width: 10.w,
-                            //           ),
-                            //           SizedBox(
-                            //             width: 60.w,
-                            //             height: 70.h,
-                            //             child: ElevatedButton(
-                            //                 style: ElevatedButton.styleFrom(
-                            //                   shape: RoundedRectangleBorder(
-                            //                     borderRadius: BorderRadius.circular(8.r),
-                            //                   ), backgroundColor: isCalenderSelectedOnSaturday == false
-                            //                       ? Colors.white
-                            //                       : Colors.black,
-                            //                   elevation:
-                            //                   isCalenderSelectedOnSaturday == false ? 0 : 8,
-                            //                   side: BorderSide(
-                            //                     width: 1.w,
-                            //                     color: isCalenderSelectedOnSaturday == false
-                            //                         ? Colors.black
-                            //                         : Colors.blue,
-                            //                   ),
-                            //                 ),
-                            //                 onPressed: () {
-                            //                   setState(() {
-                            //
-                            //                   });
-                            //                 },
-                            //                 child: Text(
-                            //                   "Sat",
-                            //                   style: TextStyle(
-                            //                       color: isCalenderSelectedOnSaturday == false
-                            //                           ? Colors.black
-                            //                           : Colors.white,
-                            //                       fontSize: 11.sp),
-                            //                 )),
-                            //           ),
-                            //           SizedBox(
-                            //             width: 10.w,
-                            //           ),
-                            //         ],
-                            //       ),
-                            //     ),
                             //   ),
+                            //
                             // ),
+                            Container(
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 12,right: 12,top: 8),
+                                  child: Row(
+                                    children: [
+
+                                      SizedBox(
+                                        width: 60.w,
+                                        height: 70.h,
+                                        child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(8.r),
+                                              ), backgroundColor: isCalenderSelectedOnMonday == false
+                                                  ? Colors.blue
+                                                  : Colors.white,
+
+                                              side: BorderSide(
+                                                width: 1.w,
+                                                color: isCalenderSelectedOnMonday == false
+                                                    ? Colors.black
+                                                    : Colors.blue,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+
+                                              });
+                                            },child: Row(
+                                              children: [
+                                                Text('MON'),
+                                              ],
+                                            ),
+                                            // child: Text(
+                                            //   "Mon",
+                                            //   style: TextStyle(
+                                            //       color: isCalenderSelectedOnMonday == false
+                                            //           ? Colors.black
+                                            //           : Colors.white,
+                                            //       fontSize: 11.sp),
+                                            // )
+                                           ),
+                                      ),
+                                      SizedBox(
+                                        width: 10.w,
+                                      ),
+                                      SizedBox(
+                                        width: 60.w,
+                                        height: 70.h,
+                                        child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(8.r),
+                                              ), backgroundColor: isCalenderSelectedOnTuesday == false
+                                                  ? Colors.white
+                                                  : Colors.blue,
+                                              elevation: isCalenderSelectedOnTuesday == false ? 0 : 8,
+                                              side: BorderSide(
+                                                width: 1.w,
+                                                color: isCalenderSelectedOnTuesday == false
+                                                    ? Colors.black
+                                                    : Colors.blue,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+
+                                              });
+                                            },
+                                            child: Text(
+                                              "Tue",
+                                              style: TextStyle(
+                                                  color: isCalenderSelectedOnTuesday == false
+                                                      ? Colors.black
+                                                      : Colors.white,
+                                                  fontSize: 11.sp),
+                                            )),
+                                      ),
+                                      SizedBox(
+                                        width: 10.w,
+                                      ),
+                                      SizedBox(
+                                        width: 60.w,
+                                        height: 70.h,
+                                        child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(8.r),
+                                              ), backgroundColor: isCalenderSelectedOnWednesday == false
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                              elevation:
+                                              isCalenderSelectedOnWednesday == false ? 0 : 8,
+                                              side: BorderSide(
+                                                width: 1.w,
+                                                color: isCalenderSelectedOnWednesday == false
+                                                    ? Colors.black
+                                                    :Colors.blue,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+
+                                              });
+                                            },
+                                            child: Text(
+                                              "Wed",
+                                              style: TextStyle(
+                                                  color: isCalenderSelectedOnWednesday == false
+                                                      ? Colors.black
+                                                      : Colors.blue,
+                                                  fontSize: 11.sp),
+                                            )),
+                                      ),
+                                      SizedBox(
+                                        width: 10.w,
+                                      ),
+                                      SizedBox(
+                                        width: 60.w,
+                                        height: 70.h,
+                                        child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(8.r),
+                                              ), backgroundColor: isCalenderSelectedOnThursday == false
+                                                  ? Colors.white
+                                                  : Colors.blue,
+                                              elevation:
+                                              isCalenderSelectedOnThursday == false ? 0 : 8,
+                                              side: BorderSide(
+                                                width: 1.w,
+                                                color: isCalenderSelectedOnThursday == false
+                                                    ? Colors.black
+                                                    :Colors.blue,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+
+                                              });
+                                            },
+                                            child: Text(
+                                              "Thu",
+                                              style: TextStyle(
+                                                  color: isCalenderSelectedOnThursday == false
+                                                      ? Colors.black
+                                                      : Colors.white,
+                                                  fontSize: 11.sp),
+                                            )),
+                                      ),
+                                      SizedBox(
+                                        width: 10.w,
+                                      ),
+                                      SizedBox(
+                                        width: 60.w,
+                                        height: 70.h,
+                                        child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(8.r),
+                                              ), backgroundColor: isCalenderSelectedOnFriday == false
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                              elevation: isCalenderSelectedOnFriday == false ? 0 : 8,
+                                              side: BorderSide(
+                                                width: 1.w,
+                                                color: isCalenderSelectedOnFriday == false
+                                                    ? Colors.black
+                                                    : Colors.blue,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+
+                                              });
+                                            },
+                                            child: Text(
+                                              "Fri",
+                                              style: TextStyle(
+                                                  color: isCalenderSelectedOnFriday == false
+                                                      ? Colors.blue
+                                                      : Colors.white,
+                                                  fontSize: 11.sp),
+                                            )),
+                                      ),
+                                      SizedBox(
+                                        width: 10.w,
+                                      ),
+                                      SizedBox(
+                                        width: 60.w,
+                                        height: 70.h,
+                                        child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(8.r),
+                                              ), backgroundColor: isCalenderSelectedOnSaturday == false
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                              elevation:
+                                              isCalenderSelectedOnSaturday == false ? 0 : 8,
+                                              side: BorderSide(
+                                                width: 1.w,
+                                                color: isCalenderSelectedOnSaturday == false
+                                                    ? Colors.black
+                                                    : Colors.blue,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+
+                                              });
+                                            },
+                                            child: Text(
+                                              "Sat",
+                                              style: TextStyle(
+                                                  color: isCalenderSelectedOnSaturday == false
+                                                      ? Colors.black
+                                                      : Colors.white,
+                                                  fontSize: 11.sp),
+                                            )),
+                                      ),
+                                      SizedBox(
+                                        width: 10.w,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                             Container(
                               // height: ScreenUtil().screenHeight-40.w-100-85.h-103,
                               child: Expanded(
