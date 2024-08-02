@@ -21,6 +21,7 @@ class FeedViewController extends GetxController {
   Rx<ParentListApiModel> parentListApiData = ParentListApiModel().obs;
   RxList<MsgData> chatMsgList = <MsgData>[].obs;
   RxList<ParentData> parentDataList = <ParentData>[].obs;
+  RxList<String> allParentDataList = <String>[].obs;
   RxList<ParentData> selectedParentDataList = <ParentData>[].obs;
   RxList<String> finalParentDataList = <String>[].obs;
   RxInt feedUnreadCount = 0.obs;
@@ -312,7 +313,7 @@ class FeedViewController extends GetxController {
           classs: classs,
           message: message,
           messageFrom: teacherId,
-          parents: finalParentDataList.value,
+          parents: finalParentDataList.value.isNotEmpty ? finalParentDataList.value : allParentDataList.value,
           subject: sub,
           replyId: isReplay.value,
           fileData: FileData(
@@ -394,6 +395,9 @@ class FeedViewController extends GetxController {
       if(resp['status']['code'] == 200) {
         parentListApiData.value = ParentListApiModel.fromJson(resp);
         parentDataList.value = parentListApiData.value.data?.parentData ?? [];
+        for (var parent in parentDataList) {
+          allParentDataList.add(parent.sId.toString());
+        }
       }
     } catch(e) {
       print("----------parent list error---------");

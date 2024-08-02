@@ -284,6 +284,7 @@ class ParentChattingController extends GetxController {
         required String subId,
         required String sub,
         required String teacherId,
+        required List<String>? parent,
         filePath,
         String? message}) async {
     try {
@@ -300,6 +301,7 @@ class ParentChattingController extends GetxController {
           messageFrom: teacherId,
           subject: sub,
           replyId: isReplay.value,
+          parents: parent,
           fileData: FileData(
             name: resp['data']['file_data']['name'],
             orgName: resp['data']['file_data']['org_name'],

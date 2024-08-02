@@ -913,9 +913,7 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
                                                     .userId ??
                                                     '--',
                                                 parents:
-                                                feedViewController
-                                                    .finalParentDataList
-                                                    .value,
+                                                feedViewController.finalParentDataList.value.isNotEmpty ? feedViewController.finalParentDataList.value : feedViewController.allParentDataList.value,
                                                 subject: widget
                                                     .msgData
                                                     ?.subjectName ??
