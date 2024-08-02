@@ -125,7 +125,6 @@ class _ObsResultState extends State<ObsResult> {
 
   rubrics({required rubricslessonob}) {}
 }
-
 Widget _resultlist(BuildContext context, {
   String? observer_name,
 

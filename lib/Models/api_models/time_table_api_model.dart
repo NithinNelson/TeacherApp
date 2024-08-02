@@ -209,15 +209,6 @@ class TimeTable {
     }
     return null;
   }
-  DateTime? get endTime {
-    final RegExp timeRegex = RegExp(r'\[(\d{1,2}:\d{2} [APM]{2})-(\d{1,2}:\d{2} [APM]{2})\]');
-    final match = timeRegex.firstMatch(timeString!);
-    if (match != null) {
-      final endTimeString = match.group(2);
-      return DateFormat.jm().parse(endTimeString!); // Parse the time string to DateTime
-    }
-    return null;
-  }
 
 }
 
