@@ -237,37 +237,81 @@ class _MyclassesState extends State<Myclasses> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    width: 170.w,
-                    height: 55.h,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                          backgroundColor: Colorutils.bottomnaviconcolor, elevation: 1),
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Callstatus()));
-                      },
+                  GestureDetector(
+                    onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => Callstatus()));},
+                    child: Container(
+
+                      width: 150.w,
+                      height: 55.h,
+                      decoration: BoxDecoration(
+                        color:  Colorutils.bottomnaviconcolor,
+                        borderRadius: BorderRadius.circular(15),
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color:  Colorutils.bottomnaviconcolor,
+                        //
+                        //     // Shadow color
+                        //     spreadRadius: 0.2,
+                        //     blurRadius: 1,
+                        //     offset: Offset(0, 1), // Shadow position
+                        //   ),
+                        // ],
+                      ),
                       child: Row(
                         children: [
-                          Container(
-                            width: 40.w,
-                            height: 40.h,
-                            child: SvgPicture.asset(
-                              "assets/images/icon.svg",
-                              color: Colors.white,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: Container(
+
+                              width: 30.w,
+                              height: 30.h,
+                              child: SvgPicture.asset(
+                                "assets/images/icon.svg",
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                           SizedBox(
                             width: 3.w,
                           ),
-                          Text(
-                            "Call Status",
-                            style: TextStyle(fontSize: 15.sp, color:  Colorutils.Whitecolor),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 2),
+                            child: Text(
+                              "Call Status",
+                              style: TextStyle(fontSize: 18.sp, color:  Colorutils.Whitecolor),
+                            ),
                           ),
                         ],
                       ),
+                      // child: ElevatedButton(
+                      //   style: ElevatedButton.styleFrom(
+                      //     shape: RoundedRectangleBorder(
+                      //       borderRadius: BorderRadius.circular(10),
+                      //     ),
+                      //       backgroundColor: Colorutils.bottomnaviconcolor, elevation: 1),
+                      //   onPressed: () {
+                      //     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Callstatus()));
+                      //   },
+                      //   child: Row(
+                      //     children: [
+                      //       Container(
+                      //         width: 40.w,
+                      //         height: 40.h,
+                      //         child: SvgPicture.asset(
+                      //           "assets/images/icon.svg",
+                      //           color: Colors.white,
+                      //         ),
+                      //       ),
+                      //       SizedBox(
+                      //         width: 3.w,
+                      //       ),
+                      //       Text(
+                      //         "Call Status",
+                      //         style: TextStyle(fontSize: 15.sp, color:  Colorutils.Whitecolor),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                     ),
                   ),
                   SizedBox(width: 10,),

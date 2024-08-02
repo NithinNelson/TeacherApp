@@ -124,6 +124,57 @@ class ApiServices {
     }
   }
 
+
+
+
+
+
+
+
+  static Future<Map<String, dynamic>> getTimeTableData({
+    required String schoolId,
+    required String academicYear,
+    required String teacherId
+  }) async {
+    String url = "${ApiConstants.baseUrl}${ApiConstants.timeTable}";
+    print(url);
+    Map apiBody = {
+      "school_id": schoolId,
+      "academic_year": academicYear,
+      "teacher_id": teacherId
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   static Future<Map<String, dynamic>> getNotification({
     required String userId,
 
@@ -152,6 +203,27 @@ class ApiServices {
     }
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   static Future<Map<String, dynamic>> getMarkasReadNotification({
     required String userId,
     required String notificationId,
@@ -170,9 +242,6 @@ class ApiServices {
       http.StreamedResponse response = await request.send();
       var respString = await response.stream.bytesToString();
       if (response.statusCode == 200) {
-
-          getNotification(userId: userId);
-
         return json.decode(respString);
       } else {
 

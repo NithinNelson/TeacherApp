@@ -6,9 +6,11 @@ import '../../Services/api_services.dart';
 class NotificationController extends GetxController {
   RxList<RecentNotifications> Recentnotification = <RecentNotifications>[].obs;
   Rx<NotificationDataModel> Notificationdata = NotificationDataModel().obs;
+  RxInt notificationStatusCount = 0.obs;
 
   void data() {
     Recentnotification.value = [];
+    notificationStatusCount.value = 0;
     Notificationdata.value = NotificationDataModel();
   }
 
@@ -24,6 +26,13 @@ class NotificationController extends GetxController {
         // teacherNameList.value = lessonDataApi.value.data?.details?.response ?? [];
         Recentnotification.value =
             Notificationdata.value.data?.details?.recentNotifications ?? [];
+        int noiCount = 0;
+        for (var notfication in Recentnotification.value) {
+          if(notfication.status == 'active') {
+            noiCount += 1;
+          }
+        }
+        notificationStatusCount.value = noiCount;
       } else {}
     } catch (e) {}
   }
