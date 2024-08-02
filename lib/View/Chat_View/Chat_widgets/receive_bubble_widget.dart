@@ -41,6 +41,9 @@ class ReceiveMessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<StudentData> student = messageData?.studentData ?? [];
+    StudentData? relation = student.isNotEmpty ? student.first : StudentData();
+    String relationData = "${relation.relation ?? ''} ${relation.relation != null ? 'of' : ''} ${messageData?.messageFrom ?? '--'}";
     return SizedBox(
       width: double.infinity,
       child: Padding(
@@ -88,35 +91,35 @@ class ReceiveMessageBubble extends StatelessWidget {
                             children: [
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     constraints:
-                                        BoxConstraints(maxWidth: 150.w),
+                                    BoxConstraints(maxWidth: 70.w),
                                     child: Text(
                                       senderName == null
                                           ? "--"
-                                          : "~ ${senderName ?? ""}",
+                                          : "~ ${senderName?.split(" ").first ?? ""}",
                                       overflow: TextOverflow.ellipsis,
                                       style: TeacherAppFonts
                                           .interW500_12sp_textWhite
                                           .copyWith(
-                                              color: Colorutils.fontColor5),
+                                          color: Colorutils.fontColor5),
                                     ),
                                   ),
                                   SizedBox(width: 10.w),
                                   Container(
-                                    constraints: BoxConstraints(maxWidth: 70.w),
+                                    constraints: BoxConstraints(maxWidth: 150.w),
                                     child: Text(
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.right,
                                       // "Arabic",
-                                      subject ?? "--",
+                                      relationData,
 
                                       style: TeacherAppFonts
                                           .interW400_12sp_textWhite_italic
                                           .copyWith(
-                                              color: Colorutils.fontColor10),
+                                          color: Colorutils.fontColor10),
                                     ),
                                   ),
                                 ],

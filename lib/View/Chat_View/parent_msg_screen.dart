@@ -26,7 +26,6 @@ import '../../Services/snackBar.dart';
 import 'Chat_widgets/audio_widget.dart';
 import 'Chat_widgets/file_widget.dart';
 import 'Chat_widgets/camera_screen.dart';
-import 'Chat_widgets/chat_audioPlaying_widget.dart';
 import 'Chat_widgets/chat_audioRecording_widget.dart';
 import 'Chat_widgets/chat_date_widget.dart';
 import 'Chat_widgets/more_option_widget.dart';
@@ -91,6 +90,7 @@ class _ParentMsgScreenState extends State<ParentMsgScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String studentRelation ="${widget.msgData?.relation ?? ''} ${widget.msgData?.relation != null ? 'of' : ''} ${widget.msgData?.parentName ?? '--'}";
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colorutils.userdetailcolor,
@@ -128,12 +128,43 @@ class _ParentMsgScreenState extends State<ParentMsgScreen> {
               ),
             ),
             SizedBox(width: 10.w),
-            Text(
-              widget.msgData?.subjectName ?? '--',
-              style: GoogleFonts.inter(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      widget.msgData?.subjectName ?? '--',
+                      style: GoogleFonts.inter(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white),
+                    ),
+                    SizedBox(width: 8.w),
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10).w,
+                      decoration: BoxDecoration(
+                        color: Colorutils.Whitecolor,
+                        borderRadius: BorderRadius.circular(28).r,
+                      ),
+                      child: Text(
+                        "${widget.msgData?.datumClass ?? ''}${widget.msgData?.batch ?? ''}",
+                        style: TeacherAppFonts.interW500_12sp_textWhite.copyWith(
+                          color: const Color(0xFF003D36),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 3.h),
+                Text(
+                  studentRelation,
+                    style: TeacherAppFonts
+                        .interW400_12sp_textWhite_italic
+                        .copyWith(
+                        color: Colors.white)
+                ),
+              ],
             ),
           ],
         ),
@@ -174,7 +205,7 @@ class _ParentMsgScreenState extends State<ParentMsgScreen> {
                         Container(
                           color: Colors.white.withOpacity(0.8),
                         ),
-                        const ChatList(),
+                        ChatList(studentRelation: studentRelation),
                       ],
                     ),
                   ),
@@ -691,6 +722,7 @@ class _ParentMsgScreenState extends State<ParentMsgScreen> {
                                             .isNotEmpty
                                             ? messageCtr.text
                                             : null,
+                                        parent: [widget.msgData?.parentId ?? ''],
                                       );
                                     } else {
                                       if (messageCtr
@@ -733,6 +765,7 @@ class _ParentMsgScreenState extends State<ParentMsgScreen> {
                                             orgName: null,
                                             extension: null,
                                           ),
+                                          parents: [widget.msgData?.parentId ?? ''],
                                         );
                                         await parentChattingController
                                             .sendAttachMsg(
@@ -822,7 +855,8 @@ class _ParentMsgScreenState extends State<ParentMsgScreen> {
 }
 
 class ChatList extends StatelessWidget {
-  const ChatList({super.key});
+  final String studentRelation;
+  const ChatList({super.key, required this.studentRelation});
 
   @override
   Widget build(BuildContext context) {
@@ -900,6 +934,7 @@ class ChatList extends StatelessWidget {
                     fileName: messageData.fileName,
                     fileLink: messageData.messageFile,
                     subject: messageData.subjectName,
+                    relation: studentRelation,
                     messageData: messageData,
                   ),
                 ),
@@ -1337,6 +1372,7 @@ class ReceiveMessageBubble extends StatelessWidget {
         this.fileLink,
         this.fileName,
         this.senderName,
+        this.relation,
         this.messageData,
         this.subject});
 
@@ -1349,6 +1385,7 @@ class ReceiveMessageBubble extends StatelessWidget {
   String? fileName;
   String? fileLink;
   String? senderName;
+  String? relation;
   String? subject;
   ParentMsgData? messageData;
 
@@ -1405,11 +1442,11 @@ class ReceiveMessageBubble extends StatelessWidget {
                                 children: [
                                   Container(
                                     constraints:
-                                    BoxConstraints(maxWidth: 150.w),
+                                    BoxConstraints(maxWidth: 70.w),
                                     child: Text(
                                       senderName == null
                                           ? "--"
-                                          : "~ ${senderName ?? ""}",
+                                          : "~ ${senderName?.split(" ").first ?? ""}",
                                       overflow: TextOverflow.ellipsis,
                                       style: TeacherAppFonts
                                           .interW500_12sp_textWhite
@@ -1419,12 +1456,12 @@ class ReceiveMessageBubble extends StatelessWidget {
                                   ),
                                   SizedBox(width: 10.w),
                                   Container(
-                                    constraints: BoxConstraints(maxWidth: 70.w),
+                                    constraints: BoxConstraints(maxWidth: 150.w),
                                     child: Text(
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.right,
                                       // "Arabic",
-                                      subject ?? "--",
+                                      relation ?? '--',
 
                                       style: TeacherAppFonts
                                           .interW400_12sp_textWhite_italic

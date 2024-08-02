@@ -189,7 +189,7 @@ class ChatItem extends StatelessWidget {
               radius: 28.r,
               child: FittedBox(
                 child: Text(
-                  parentRoom.datumClass ?? '--',
+                  "${parentRoom.datumClass}${parentRoom.batch}",
                   style: TeacherAppFonts.interW600_14sp_textWhite,
                 ),
               ),
