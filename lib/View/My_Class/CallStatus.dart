@@ -40,7 +40,7 @@ class _CallstatusState extends State<Callstatus> {
                       color: Colors.transparent,
                       borderRadius: BorderRadius.circular(17.0),
                     ),
-                    child: const UserDetails(shoBackgroundColor: false, isWelcome: false),
+                    child: const UserDetails(shoBackgroundColor: false, isWelcome: false, bellicon: true, notificationcount: true,),
                   ),
                 ),
 

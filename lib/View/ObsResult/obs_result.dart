@@ -56,7 +56,7 @@ class _ObsResultState extends State<ObsResult> {
                       borderRadius: BorderRadius.circular(17.0),
                     ),
                     child: const UserDetails(
-                        shoBackgroundColor: false, isWelcome: true),
+                        shoBackgroundColor: false, isWelcome: true, bellicon: true, notificationcount: true,),
                   ),
                 ),
                 Container(

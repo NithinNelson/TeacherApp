@@ -46,7 +46,7 @@ class _LearningWalkState extends State<LearningWalk> {
                       color: Colors.transparent,
                       borderRadius: BorderRadius.circular(17.0),
                     ),
-                    child: const UserDetails(shoBackgroundColor: false, isWelcome: false),
+                    child: const UserDetails(shoBackgroundColor: false, isWelcome: true, bellicon: true, notificationcount: true,),
                   ),
                 ),
                 // SizedBox(

@@ -55,7 +55,7 @@ class _NotificationscreenState extends State<Notificationscreen> {
                       borderRadius: BorderRadius.circular(17.0),
                     ),
                     child: const UserDetails(
-                        shoBackgroundColor: false, isWelcome: false),
+                        shoBackgroundColor: false, isWelcome: false, bellicon: false, notificationcount: false,),
                   ),
                 ),
                 Container(
@@ -124,7 +124,11 @@ class _NotificationscreenState extends State<Notificationscreen> {
                                        mainAxisSize: MainAxisSize.min,
                                        children: [
                                          for(int i=0; i < messagelist.length; i++)
-                                           _notifyme(context,messagelist[i])
+                                           
+                                           if(messagelist.isNotEmpty)
+                                             _notifyme(context,messagelist[i])
+                                         else
+                                           Text("No Notifications for you")
                                        ],
                                      );
                                   },

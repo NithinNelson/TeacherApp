@@ -56,7 +56,7 @@ class _LeaderState extends State<Leader> {
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(17.0),
                   ),
-                  child: const UserDetails(shoBackgroundColor: false, isWelcome: true),
+                  child: const UserDetails(shoBackgroundColor: false, isWelcome: true, bellicon: true, notificationcount: true,),
                 ),
               ),
               Container(

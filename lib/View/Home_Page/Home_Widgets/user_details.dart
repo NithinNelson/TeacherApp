@@ -13,7 +13,9 @@ import '../../Notification/Notification.dart';
 class UserDetails extends StatelessWidget {
   final bool shoBackgroundColor;
   final bool isWelcome;
-  const UserDetails({super.key, required this.shoBackgroundColor, required this.isWelcome});
+  final bool bellicon;
+  final bool notificationcount;
+  const UserDetails({super.key, required this.shoBackgroundColor, required this.isWelcome, required this.bellicon, required this.notificationcount});
 
   @override
   Widget build(BuildContext context) {
@@ -131,13 +133,13 @@ class UserDetails extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(right: 5, top: 5).w,
-                            child: SvgPicture.asset(
+                            child:bellicon? SvgPicture.asset(
                               'assets/images/bell 1.svg',
                               width: 30.h,
                               fit: BoxFit.fitWidth,
-                            ),
+                            ):Text("")
                           ),
-                          Positioned(
+                          notificationcount?  Positioned(
                             top: 0,
                             right: 0,
                             child: Container(
@@ -156,7 +158,7 @@ class UserDetails extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ),
+                          ):Text("")
                         ],
                       ),
                     ),

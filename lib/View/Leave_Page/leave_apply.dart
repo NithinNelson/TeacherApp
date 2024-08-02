@@ -72,7 +72,7 @@ class _LeaveApplyState extends State<LeaveApply> with SingleTickerProviderStateM
                       borderRadius: BorderRadius.circular(17.0),
                     ),
                     child: const UserDetails(
-                        shoBackgroundColor: false, isWelcome: true),
+                        shoBackgroundColor: false, isWelcome: true, bellicon: true, notificationcount: true,),
                   ),
                 ),
                 // SizedBox(

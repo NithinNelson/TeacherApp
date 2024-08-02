@@ -28,6 +28,8 @@ class Myclasses extends StatefulWidget {
 class _MyclassesState extends State<Myclasses> {
   get isSpinner => null;
   bool status = false;
+  final _controller = ValueNotifier<bool>(false);
+
   _showBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -299,9 +301,6 @@ class _MyclassesState extends State<Myclasses> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: systemUiOverlayStyleLight,
       child: Scaffold(
@@ -322,7 +321,7 @@ class _MyclassesState extends State<Myclasses> {
                       color: Colors.transparent,
                       borderRadius: BorderRadius.circular(17.0),
                     ),
-                    child: const UserDetails(shoBackgroundColor: false, isWelcome: false),
+                    child: const UserDetails(shoBackgroundColor: false, isWelcome: false, bellicon: true, notificationcount: true,),
                   ),
                 ),
                 Container(
@@ -633,6 +632,22 @@ class _MyclassesState extends State<Myclasses> {
                                                                 status = val;
                                                               });
                                                             },
+                                                            controller: _controller,
+                                                            thumb: ValueListenableBuilder(
+                                                              valueListenable: _controller,
+                                                              builder: (_, value, __) {
+                                                                return Container(
+                                                                  decoration: BoxDecoration(
+                                                                    border: Border.all(
+                                                                      color: const Color(0xFFD6E4FA),
+                                                                      width: 2,
+                                                                    ),
+                                                                    shape: BoxShape.circle,
+                                                                    color: Colors.white,
+                                                                  ),
+                                                                );
+                                                              },
+                                                            ),
                                                             activeChild: Text(
                                                                 "  P",
                                                               style: TextStyle(
@@ -650,16 +665,16 @@ class _MyclassesState extends State<Myclasses> {
                                                             activeColor: Colorutils.userdetailcolor,
                                                             inactiveColor: Colors.red.withOpacity(0.8),
                                                             borderRadius: BorderRadius.circular(30.0),
-                                                            thumb: Container(
-                                                              decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                    color: const Color(0xFFD6E4FA),
-                                                                    width: 2,
-                                                                ),
-                                                                shape: BoxShape.circle,
-                                                                color: Colors.white,
-                                                              ),
-                                                            ),
+                                                            // thumb: Container(
+                                                            //   decoration: BoxDecoration(
+                                                            //     border: Border.all(
+                                                            //         color: const Color(0xFFD6E4FA),
+                                                            //         width: 2,
+                                                            //     ),
+                                                            //     shape: BoxShape.circle,
+                                                            //     color: Colors.white,
+                                                            //   ),
+                                                            // ),
                                                           ),
                                                           // child: FlutterSwitch(
                                                           //     width: 80.w,

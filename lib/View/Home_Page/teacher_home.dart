@@ -43,7 +43,7 @@ class _TeacherState extends State<Teacher> {
           physics: const NeverScrollableScrollPhysics(),
           child: Column(
             children: [
-              const UserDetails(shoBackgroundColor: true, isWelcome: true),
+              const UserDetails(shoBackgroundColor: true, isWelcome: true, bellicon: true, notificationcount: true,),
               GetX<TimeTableController>(
                   builder: (TimeTableController controller) {
                     return SizedBox(

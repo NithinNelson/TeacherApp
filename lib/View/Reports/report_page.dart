@@ -49,7 +49,7 @@ class _ReportScreenState extends State<ReportScreen> {
                       borderRadius: BorderRadius.circular(17.0),
                     ),
                     child: const UserDetails(
-                        shoBackgroundColor: false, isWelcome: false),
+                        shoBackgroundColor: false, isWelcome: false,bellicon: true, notificationcount: true,),
                   ),
                 ),
                 Container(
