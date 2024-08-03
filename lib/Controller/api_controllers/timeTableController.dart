@@ -66,6 +66,11 @@ class TimeTableController extends GetxController {
                   sub: subDetail.name,
                   classs: sub.ownListClass?.name,
                   batch: sub.batch?.name,
+                  batchId: sub.batch?.id,
+                  classId: sub.ownListClass?.id,
+                  curriculumId: sub.curriculum?.id,
+                  sessionId: sub.session?.id,
+                  isClassTeacher: sub.isClassTeacher,
                 ),
             );
           }

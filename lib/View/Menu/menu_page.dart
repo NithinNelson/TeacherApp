@@ -173,7 +173,7 @@ class MenuScreen extends StatelessWidget {
                       },
                     ),
                     SizedBox(height: 20.w),
-                    for (int i = 5;
+                    for (int i = pageIndexController.navLength.value;
                         i < pageIndexController.menuItemsPerRole.length;
                         i++)
                       InkWell(

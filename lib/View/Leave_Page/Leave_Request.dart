@@ -23,10 +23,14 @@ class LeaveRequest extends StatefulWidget {
 
 class _LeaveRequestState extends State<LeaveRequest> {
   LeaveRequestController leaveRequestController = Get.find<LeaveRequestController>();
+  TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     initialize();
+    _searchController.addListener(() {
+      setState(() {});
+    });
     super.initState();
   }
 
@@ -89,6 +93,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                   ],
                 ),
                 child: SingleChildScrollView(
+                  physics: const NeverScrollableScrollPhysics(),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -133,7 +138,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                                 padding: const EdgeInsets.only(right: 5).w,
                                                 child: InkWell(
                                                   onTap: () {
-                                                    controller.setStudentList(classData: classList[index], index: index);
+                                                    controller.setStudentList(selectedClassData: classList[index], index: index);
                                                   },
                                                   child: Container(
                                                     width: 40.w,
@@ -165,6 +170,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                         Container(
                           margin: EdgeInsets.only(left: 15.w, right: 15.w),
                           child: TextFormField(
+                            controller: _searchController,
                             onChanged: (value) {
                               leaveRequestController.filterList(text: value);
                             },
@@ -205,93 +211,99 @@ class _LeaveRequestState extends State<LeaveRequest> {
                         GetX<LeaveRequestController>(
                           builder: (LeaveRequestController controller) {
                             List<StudentsData> studentList = controller.filteredStudentList.value;
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                for (int i = 0; i < studentList.length; i++)
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => LeaveApply(
-                                          studentsData: studentList[i],
-                                        claas: controller.claass.value,
-                                        batch: controller.batch.value,
-                                      ),
-                                      ),
-                                      );
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 5),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            color: Colorutils.chatcolor.withOpacity(0.05),
-                                            border: Border.all(color: Colorutils.chatcolor)),
+                            return Container(
+                              height: ScreenUtil().screenHeight * 0.7,
+                              child: SingleChildScrollView(
+                                padding: EdgeInsets.only(bottom: View.of(context).viewInsets.bottom + 150).w,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    for (int i = 0; i < studentList.length; i++)
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => LeaveApply(
+                                              studentsData: studentList[i],
+                                            claas: controller.claass.value,
+                                            batch: controller.batch.value,
+                                          ),
+                                          ),
+                                          );
+                                        },
                                         child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                width: 50.w,
-                                                height: 50.h,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(color: Colorutils.chatcolor),
-                                                ),
-                                                child: Center(
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: "--",
-                                                    placeholder: (context, url) => Text(
-                                                      studentList[i].name?.substring(0, 1) ?? '',
-                                                      style: TextStyle(
-                                                          color: Color(0xFFB1BFFF),
-                                                          fontWeight: FontWeight.bold,
-                                                          fontSize: 20),
+                                          padding: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 5),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10),
+                                                color: Colorutils.chatcolor.withOpacity(0.05),
+                                                border: Border.all(color: Colorutils.chatcolor)),
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    width: 50.w,
+                                                    height: 50.h,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(color: Colorutils.chatcolor),
                                                     ),
-                                                    errorWidget: (context, url, error) => Text(
-                                                      studentList[i].name?.substring(0, 1) ?? '',
-                                                      style: TextStyle(
-                                                          color: Color(0xFFB1BFFF),
-                                                          fontWeight: FontWeight.bold,
-                                                          fontSize: 20),
+                                                    child: Center(
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: "--",
+                                                        placeholder: (context, url) => Text(
+                                                          studentList[i].name?.substring(0, 1) ?? '',
+                                                          style: TextStyle(
+                                                              color: Color(0xFFB1BFFF),
+                                                              fontWeight: FontWeight.bold,
+                                                              fontSize: 20),
+                                                        ),
+                                                        errorWidget: (context, url, error) => Text(
+                                                          studentList[i].name?.substring(0, 1) ?? '',
+                                                          style: TextStyle(
+                                                              color: Color(0xFFB1BFFF),
+                                                              fontWeight: FontWeight.bold,
+                                                              fontSize: 20),
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 10.w,
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(left: 5),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      width: 250.w,
-                                                      child: Text(
-                                                        studentList[i].name ?? '--',
-                                                        overflow: TextOverflow.ellipsis,
-                                                        style: TextStyle(
-                                                            fontSize: 16.sp, fontWeight: FontWeight.w600),
-                                                      ),
+                                                  SizedBox(
+                                                    width: 10.w,
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 5),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        SizedBox(
+                                                          width: 250.w,
+                                                          child: Text(
+                                                            studentList[i].name ?? '--',
+                                                            overflow: TextOverflow.ellipsis,
+                                                            style: TextStyle(
+                                                                fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 250.w,
+                                                          child: Text(
+                                                            studentList[i].admissionNumber ?? '--',
+                                                            style: TextStyle(
+                                                                fontSize: 16.sp, fontWeight: FontWeight.w400),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                    SizedBox(
-                                                      width: 250.w,
-                                                      child: Text(
-                                                        studentList[i].admissionNumber ?? '--',
-                                                        style: TextStyle(
-                                                            fontSize: 16.sp, fontWeight: FontWeight.w400),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              )
-                                            ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                              ],
+                                  ],
+                                ),
+                              ),
                             );
                           },
                         ),

@@ -329,6 +329,20 @@ class Status {
 class TeacherSubject {
   final String? sub;
   final String? classs;
+  final String? classId;
   final String? batch;
-  const TeacherSubject({this.sub, this.classs, this.batch});
+  final String? batchId;
+  final String? sessionId;
+  final String? curriculumId;
+  final bool? isClassTeacher;
+  const TeacherSubject({
+    this.sub,
+    this.classs,
+    this.classId,
+    this.batch,
+    this.batchId,
+    this.sessionId,
+    this.curriculumId,
+    this.isClassTeacher,
+  });
 }

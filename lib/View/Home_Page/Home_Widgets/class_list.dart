@@ -2,10 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
 import '../../../Models/api_models/time_table_api_model.dart';
 import '../../My_Class/Myclass.dart';
+import '../../OldScreens/non_teaching_students.dart';
+import '../../OldScreens/teaching_students.dart';
 
 class ClassList extends StatelessWidget {
   final List<TimeTable> todaySubjects;
@@ -25,8 +30,41 @@ class ClassList extends StatelessWidget {
           Color color = colors[index % colors.length];
 
           return GestureDetector(
-            onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Myclasses()));
+            onTap: () {
+              UserAuthController userAuthController = Get.find<UserAuthController>();
+              if(todaySubjects[index].classDetails.isEmpty) {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => NonTeacherStudentList(
+                    className: todaySubjects[index].batchName,
+                    curriculam_id: todaySubjects[index].curriculumId,
+                    session_id: todaySubjects[index].sessionId,
+                    class_id: todaySubjects[index].classId,
+                    batch_id: todaySubjects[index].batchId,
+                  selectedDate: getCurrentDate(),
+                  name: userAuthController.userData.value.name,
+                  images: userAuthController.userData.value.image,
+                  school_id: userAuthController.userData.value.schoolId,
+                  academic_year: userAuthController.userData.value.academicYear,
+                  userId: userAuthController.userData.value.userId,
+                )));
+              } else {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentListView(
+                  className: todaySubjects[index].batchName,
+                  curriculam_id: todaySubjects[index].curriculumId,
+                  session_id: todaySubjects[index].sessionId,
+                  class_id: todaySubjects[index].classId,
+                  batch_id: todaySubjects[index].batchId,
+                  selectedDate: getCurrentDate(),
+                  name: userAuthController.userData.value.name,
+                  images: userAuthController.userData.value.image,
+                  school_id: userAuthController.userData.value.schoolId,
+                  academic_year: userAuthController.userData.value.academicYear,
+                  userId: userAuthController.userData.value.userId,
+                  ClassAndBatch: todaySubjects[index].batchName,
+                  subjectName: todaySubjects[index].subject,
+                  LoginedUserEmployeeCode: userAuthController.userData.value.employeeNo,
+                )));
+              }
+              // Navigator.of(context).push(MaterialPageRoute(builder: (context) => Myclasses()));
             },
             child: Container(
               decoration: BoxDecoration(
@@ -93,5 +131,11 @@ class ClassList extends StatelessWidget {
         }),
       ),
     );
+  }
+
+  getCurrentDate() {
+    final DateFormat formatter = DateFormat('d-MMMM-y');
+    String createDate = formatter.format(DateTime.now());
+    return createDate;
   }
 }

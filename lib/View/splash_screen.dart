@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
+import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 import 'package:teacherapp/View/Menu/drawer.dart';
@@ -27,6 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> navigate() async {
     UserAuthController userAuthController = Get.find<UserAuthController>();
+    Get.find<PageIndexController>().changePage(currentPage: 0);
     await userAuthController.getUserData();
     String? userId = userAuthController.userData.value.userId;
     await Future.delayed(const Duration(seconds: 1));

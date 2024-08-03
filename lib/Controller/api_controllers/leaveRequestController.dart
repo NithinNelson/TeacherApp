@@ -18,6 +18,7 @@ class LeaveRequestController extends GetxController {
   RxBool isLoaded = false.obs;
   RxBool isError = false.obs;
   RxList<ClassData> classList = <ClassData>[].obs;
+  Rx<ClassData> classData = ClassData().obs;
   RxList<StudentsData> studentList = <StudentsData>[].obs;
   RxList<StudentsData> filteredStudentList = <StudentsData>[].obs;
   RxInt currentClassIndex = 0.obs;
@@ -50,6 +51,7 @@ class LeaveRequestController extends GetxController {
         classList.value = leaveRequestListApiModel.data?.details ?? [];
         if(classList.value.isNotEmpty) {
           studentList.value = classList.value.first.students ?? [];
+          classData.value = classList.value.first;
           filteredStudentList.value = studentList.value;
           claass.value = classList.value.first.className ?? '--';
           batch.value = classList.value.first.batchName ?? '--';
@@ -63,12 +65,13 @@ class LeaveRequestController extends GetxController {
     }
   }
 
-  void setStudentList({required ClassData classData, required int index}) {
+  void setStudentList({required ClassData selectedClassData, required int index}) {
     currentClassIndex.value = index;
-    studentList.value = classData.students ?? [];
+    studentList.value = selectedClassData.students ?? [];
+    classData.value = selectedClassData;
     filteredStudentList.value = studentList.value;
-    claass.value = classData.className ?? '--';
-    batch.value = classData.batchName ?? '--';
+    claass.value = selectedClassData.className ?? '--';
+    batch.value = selectedClassData.batchName ?? '--';
   }
 
   void filterList({required String text}) {
