@@ -51,6 +51,8 @@ class ApiConstants {
   static String studentListApi = "/v2/class/students/attendance/list";
   static String attendanceSubmit = "/v2/teacher/class/take/attendance/";
 
+  static String learningWalkSubmit = "/v2/learning_walk/submit_evaluation";
+
 
   static String DOCME_URL = "https://sqa.docme.online/bm-school/api/App";
   static String Observationlist = "https://teamsqa3000.educore.guru/v0/learning-observation/get/userSubmissions";
