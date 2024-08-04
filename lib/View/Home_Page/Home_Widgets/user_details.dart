@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +9,8 @@ import 'package:get/get.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Utils/font_util.dart';
 import 'package:text_scroll/text_scroll.dart';
+import '../../../Controller/api_controllers/notificationController.dart';
+import '../../../Models/api_models/notification_api_model.dart';
 import '../../../Utils/Colors.dart';
 import '../../Notification/Notification.dart';
 
@@ -15,7 +19,12 @@ class UserDetails extends StatelessWidget {
   final bool isWelcome;
   final bool bellicon;
   final bool notificationcount;
-  const UserDetails({super.key, required this.shoBackgroundColor, required this.isWelcome, required this.bellicon, required this.notificationcount});
+  const UserDetails(
+      {super.key,
+      required this.shoBackgroundColor,
+      required this.isWelcome,
+      required this.bellicon,
+      required this.notificationcount});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +33,6 @@ class UserDetails extends StatelessWidget {
         child: GetX<UserAuthController>(
           builder: (UserAuthController controller) {
             return SafeArea(
-
               child: Container(
                 height: 90.h,
                 decoration: BoxDecoration(
@@ -34,10 +42,9 @@ class UserDetails extends StatelessWidget {
                   borderRadius: BorderRadius.circular(17.0),
                 ),
                 child: Row(
-
                   children: [
                     SizedBox(width: 12.w),
-                    if(isWelcome)
+                    if (isWelcome)
                       GestureDetector(
                         onTap: () {
                           ZoomDrawer.of(context)?.toggle();
@@ -65,7 +72,9 @@ class UserDetails extends StatelessWidget {
                         child: Container(
                           height: 50.w,
                           width: 50.w,
-                          padding: const EdgeInsets.only(top: 8, bottom: 8, left: 5, right: 8).w,
+                          padding: const EdgeInsets.only(
+                                  top: 8, bottom: 8, left: 5, right: 8)
+                              .w,
                           decoration: BoxDecoration(
                             color: Colorutils.Whitecolor.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(8).r,
@@ -89,13 +98,14 @@ class UserDetails extends StatelessWidget {
                           ),
                           Container(
                             child: TextScroll(
-                              controller.userData.value.name ?? "--",                              mode: TextScrollMode.bouncing,
-                              velocity: Velocity(pixelsPerSecond: Offset(50, 0)),
+                              controller.userData.value.name ?? "--",
+                              mode: TextScrollMode.bouncing,
+                              velocity:
+                                  Velocity(pixelsPerSecond: Offset(50, 0)),
                               delayBefore: Duration(seconds: 1),
                               pauseBetween: Duration(seconds: 2),
                               style: TeacherAppFonts.interW600_18sp_textWhite,
                               textAlign: TextAlign.center,
-
                               selectable: true,
                             ),
                           ),
@@ -125,43 +135,55 @@ class UserDetails extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 12.w),
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Notificationscreen()));
-                      },
-                      child: Stack(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 5, top: 5).w,
-                            child:bellicon? SvgPicture.asset(
-                              'assets/images/bell 1.svg',
-                              width: 30.h,
-                              fit: BoxFit.fitWidth,
-                            ):Text("")
-                          ),
-                          notificationcount?  Positioned(
-                            top: 0,
-                            right: 0,
-                            child: Container(
-                              width: 18.w,
-                              height: 18.w,
-                              padding: const EdgeInsets.all(2).w,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colorutils.Whitecolor,
-                              ),
-                              child: FittedBox(
-                                child: Text(
-                                  "4",
-                                  style: TeacherAppFonts
-                                      .interW500_11sp_userdetailcolor,
-                                ),
-                              ),
+                    if (bellicon)
+                      GetX<NotificationController>(
+                        builder: (NotificationController controller) {
+                          int value = controller.notificationStatusCount.value;
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => Notificationscreen()));
+                            },
+                            child: Stack(
+                              children: [
+                                Padding(
+                                    padding:
+                                        const EdgeInsets.only(right: 5, top: 5)
+                                            .w,
+                                    child: bellicon
+                                        ? SvgPicture.asset(
+                                            'assets/images/bell 1.svg',
+                                            width: 30.h,
+                                            fit: BoxFit.fitWidth,
+                                          )
+                                        : Text("")),
+                                controller.notificationStatusCount.value != 0
+                                    ? Positioned(
+                                        top: 0,
+                                        right: 0,
+                                        child: Container(
+                                          width: 20.w,
+                                          height: 20.w,
+                                          padding: const EdgeInsets.all(2).w,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colorutils.Whitecolor,
+                                          ),
+                                          child: FittedBox(
+                                            child: Text(
+                                              "$value",
+                                              style: TeacherAppFonts
+                                                  .interW500_11sp_userdetailcolor,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Text("")
+                              ],
                             ),
-                          ):Text("")
-                        ],
+                          );
+                        },
                       ),
-                    ),
                     SizedBox(width: 12.w),
                     CircleAvatar(
                       radius: 26.r,
@@ -176,7 +198,8 @@ class UserDetails extends StatelessWidget {
                                 ? "https://raw.githubusercontent.com/abdulmanafpfassal/image/master/profile.jpg"
                                 : controller.userData.value.image ?? '',
                             errorWidget: (context, url, error) {
-                              return const Icon(Icons.person, color: Colors.grey);
+                              return const Icon(Icons.person,
+                                  color: Colors.grey);
                             },
                           ),
                         ),

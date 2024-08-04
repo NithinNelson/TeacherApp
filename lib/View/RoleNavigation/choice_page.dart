@@ -126,7 +126,7 @@ class _ChoicePageState extends State<ChoicePage> {
                               GestureDetector(
                                   onTap: () async {
                                     pageIndexController.changePage(currentPage: 0);
-                                    pageIndexController.setMenuItems(UserRole.teacher);
+                                    pageIndexController.setMenuItems(userRole: UserRole.teacher, fromChoice: true);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -138,7 +138,7 @@ class _ChoicePageState extends State<ChoicePage> {
                               GestureDetector(
                                   onTap: () {
                                     pageIndexController.changePage(currentPage: 0);
-                                    pageIndexController.setMenuItems(UserRole.principal);
+                                    pageIndexController.setMenuItems(userRole: UserRole.principal, fromChoice: true);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(

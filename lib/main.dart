@@ -9,6 +9,8 @@ import 'package:teacherapp/Utils/Colors.dart';
 import 'Controller/api_controllers/feedViewController.dart';
 import 'Controller/api_controllers/groupedViewController.dart';
 import 'Controller/api_controllers/groupedViewListController.dart';
+import 'Controller/api_controllers/leaveApprovalController.dart';
+import 'Controller/api_controllers/leaveRequestController.dart';
 import 'Controller/api_controllers/lessonObservationController.dart';
 import 'Controller/api_controllers/chatClassGroupController.dart';
 import 'Controller/api_controllers/markAsReadController.dart';
@@ -49,6 +51,8 @@ class MyApp extends StatelessWidget {
     Get.put(GroupedViewListController());
     Get.put(GroupedViewController());
     Get.put(ParentChattingController());
+    Get.put(LeaveRequestController());
+    Get.put(LeaveApprovalController());
     return GlobalLoaderOverlay(
       useDefaultLoading: false,
       overlayWidgetBuilder: (_) {

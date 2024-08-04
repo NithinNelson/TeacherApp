@@ -12,6 +12,7 @@ class TimeTableController extends GetxController {
   RxList<TeacherSubject> teacherSubjects = <TeacherSubject>[].obs;
   RxList<ResultArray> teacherTimeTable = <ResultArray>[].obs;
   RxList<TimeTable> teacherTimeTableToday = <TimeTable>[].obs;
+  RxList<TimeTable> selectedTimetable = <TimeTable>[].obs;
 
   void resetStatus() {
     isLoading.value = false;
@@ -65,6 +66,11 @@ class TimeTableController extends GetxController {
                   sub: subDetail.name,
                   classs: sub.ownListClass?.name,
                   batch: sub.batch?.name,
+                  batchId: sub.batch?.id,
+                  classId: sub.ownListClass?.id,
+                  curriculumId: sub.curriculum?.id,
+                  sessionId: sub.session?.id,
+                  isClassTeacher: sub.isClassTeacher,
                 ),
             );
           }
@@ -76,5 +82,9 @@ class TimeTableController extends GetxController {
     } finally {
       resetStatus();
     }
+  }
+
+  void setSelectedTimetable({required List<TimeTable> result}) {
+    selectedTimetable.value = result;
   }
 }

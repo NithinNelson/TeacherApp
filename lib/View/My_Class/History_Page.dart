@@ -246,7 +246,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 Container(
                     margin: EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w),
                     // width: 550.w,
-                    height: 230.h,
+                    // height: 230.h,
                     // height: ScreenUtil().screenHeight * 0.8,
                     // height: double.infinity,
                     decoration: BoxDecoration(

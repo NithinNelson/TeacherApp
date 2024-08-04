@@ -21,6 +21,7 @@ class UserAuthController extends GetxController {
   Rx<UserRole?> userRole = Rx<UserRole?>(null);
   Rx<String?> schoolToken = Rx<String?>(null);
   RxList<HosList> hosList = <HosList>[].obs;
+  Rx<HosList?> selectedHos = Rx<HosList?>(null);
 
   void resetStatus() {
     isLoading.value = false;
@@ -146,7 +147,7 @@ class UserAuthController extends GetxController {
         userRole.value = UserRole.principal;
       } else if (roleIds.contains("role121235") ||
           roleIds.contains("role121234") ||
-          roleIds.contains("v2QNTPPvPQK6T") ||
+          roleIds.contains("v2QNTPPvPQK6T") &&
           roleIds.contains("role12123rqwer")) {
         userRole.value = UserRole.hos;
       } else if (roleIds.contains("role12123rqwer")) {
@@ -161,7 +162,7 @@ class UserAuthController extends GetxController {
         userRole.value = UserRole.principal;
       } else if (roleIds.contains("role121235") ||
           roleIds.contains("role121234") ||
-          roleIds.contains("5d8b3b701dad2f60218cbe46") ||
+          roleIds.contains("5d8b3b701dad2f60218cbe46") &&
           roleIds.contains("role12123rqwer")) {
         userRole.value = UserRole.hos;
       } else if (roleIds.contains("role12123rqwer")) {
@@ -176,7 +177,7 @@ class UserAuthController extends GetxController {
         userRole.value = UserRole.principal;
       } else if (roleIds.contains("role121235") ||
           roleIds.contains("role121234") ||
-          roleIds.contains("Eqt48DDGmQx8P") ||
+          roleIds.contains("Eqt48DDGmQx8P") &&
           roleIds.contains("role12123rqwer")) {
         userRole.value = UserRole.hos;
       } else if (roleIds.contains("role12123rqwer")) {
@@ -191,8 +192,12 @@ class UserAuthController extends GetxController {
         userRole.value = UserRole.principal;
       } else if (roleIds.contains("role121235") ||
           roleIds.contains("role121234") ||
-          roleIds.contains("v2QNTPPvPQK6T") ||
+          roleIds.contains("v2QNTPPvPQK6T") &&
           roleIds.contains("role12123rqwer")) {
+        userRole.value = UserRole.hos;
+      } else if (roleIds.contains("role121235") ||
+          roleIds.contains("role121234") ||
+          roleIds.contains("v2QNTPPvPQK6T")) {
         userRole.value = UserRole.hos;
       } else if (roleIds.contains("role12123rqwer")) {
         userRole.value = UserRole.teacher;
@@ -200,9 +205,9 @@ class UserAuthController extends GetxController {
     }
 
     if(userRole.value == UserRole.principal || userRole.value == UserRole.hos) {
-      Get.find<PageIndexController>().setMenuItems(UserRole.principal);
+      Get.find<PageIndexController>().setMenuItems(userRole: UserRole.principal, fromChoice: false);
     } else {
-      Get.find<PageIndexController>().setMenuItems(UserRole.teacher);
+      Get.find<PageIndexController>().setMenuItems(userRole: UserRole.teacher, fromChoice: false);
     }
   }
 
@@ -220,6 +225,16 @@ class UserAuthController extends GetxController {
       } catch (e) {
         print("---------hos list error---------");
       } finally {}
+    }
+  }
+
+  void setSelectedHosData({required String hosName}) {
+    if(hosList.value.isNotEmpty) {
+      for (var hos in hosList.value) {
+        if(hos.hosName == hos.hosName?.substring(0, hos.hosName?.length)) {
+          selectedHos.value = hos;
+        }
+      }
     }
   }
 }

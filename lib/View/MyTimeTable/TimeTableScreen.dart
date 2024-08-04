@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:horizontal_card_pager/card_item.dart';
 import 'package:horizontal_card_pager/horizontal_card_pager.dart';
+import 'package:intl/intl.dart';
+import 'package:teacherapp/Controller/api_controllers/timeTableController.dart';
+import 'package:teacherapp/Models/api_models/time_table_api_model.dart';
 import 'package:teacherapp/View/MyTimeTable/Friday.dart';
 import 'package:teacherapp/View/MyTimeTable/Saturday.dart';
 import 'package:teacherapp/View/MyTimeTable/Thursday.dart';
@@ -36,6 +40,7 @@ class _MyTimeTableState extends State<MyTimeTable>
   bool isCalenderSelectedOnFriday = false;
   bool isCalenderSelectedOnSaturday = false;
   late PageController _pageController;
+
   @override
   void initState() {
     super.initState();
@@ -119,7 +124,11 @@ class _MyTimeTableState extends State<MyTimeTable>
                     borderRadius: BorderRadius.circular(17.0),
                   ),
                   child: const UserDetails(
-                      shoBackgroundColor: false, isWelcome: false, bellicon: true, notificationcount: true,),
+                    shoBackgroundColor: false,
+                    isWelcome: false,
+                    bellicon: true,
+                    notificationcount: true,
+                  ),
                 ),
               ),
               Container(
@@ -183,7 +192,7 @@ class _MyTimeTableState extends State<MyTimeTable>
                                         decoration: BoxDecoration(
                                           color: Colors.redAccent,
                                           borderRadius:
-                                          BorderRadius.circular(12.0).r,
+                                              BorderRadius.circular(12.0).r,
                                         ),
                                         child: Center(
                                           child: Text("7J",
@@ -199,7 +208,8 @@ class _MyTimeTableState extends State<MyTimeTable>
                                           child: Row(
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.only(right: 3,left: 3),
+                                                padding: const EdgeInsets.only(
+                                                    right: 3, left: 3),
                                                 child: Text('Maths ',
                                                     style: TextStyle(
                                                         color: Colors.white,
@@ -209,7 +219,6 @@ class _MyTimeTableState extends State<MyTimeTable>
                                           ),
                                         ),
                                       ),
-
                                     ],
                                   ),
                                 )
@@ -218,392 +227,240 @@ class _MyTimeTableState extends State<MyTimeTable>
                           ),
                         ],
                       ),
-                      SizedBox(height: 5.h,),
                       Expanded(
-                        child: Column(
-                          children: [
-
-                            Container(
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, right: 15, top: 10, bottom: 3),
-                                  child: Row(
-                                    children: [
-                                      GestureDetector(
-                                        child: Container(
-                                          width: 75.w,
-                                          height: 75.h,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            color: isCalenderSelectedOnMonday ==
-                                                    false
-                                                ? Colorutils.Whitecolor
-                                                : Colorutils.bottomnaviconcolor,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.3),
-                                                // Shadow color
-                                                spreadRadius: 1,
-                                                blurRadius: 2,
-                                                offset: Offset(
-                                                    0, 1), // Shadow position
-                                              ),
-                                            ],
-                                          ),
-                                          child: Center(child: Text('MON',style: TextStyle(
-                                            color: isCalenderSelectedOnMonday ==
-                                          false
-                                          ? Colors.black
-                                              : Colorutils.Whitecolor,fontWeight: FontWeight.bold
-                                          ),),),
-
-                                        ),
-                                        onTap: () {
-                                          setState(() {
-                                            isCalenderSelectedOnTuesday = false;
-                                            isCalenderSelectedOnWednesday =
-                                                false;
-                                            isCalenderSelectedOnThursday =
-                                                false;
-                                            isCalenderSelectedOnFriday = false;
-                                            isCalenderSelectedOnSaturday =
-                                                false;
-                                            if (isCalenderSelectedOnMonday ==
-                                                false) {
-                                              isCalenderSelectedOnMonday = true;
-                                              tabController.index = 0;
-
-                                            }
-                                          });
-                                        },
+                        child: GetX<TimeTableController>(
+                          builder: (TimeTableController controller) {
+                            List<ResultArray> timeTableList =
+                                controller.teacherTimeTable.value;
+                            return Column(
+                              children: [
+                                Container(
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15,
+                                          right: 15,
+                                          top: 10,
+                                          bottom: 3),
+                                      child: Row(
+                                        children: [
+                                          for (int i = 0;
+                                              i < timeTableList.length;
+                                              i++)
+                                            Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                GestureDetector(
+                                                  child: Container(
+                                                    width: 75.w,
+                                                    height: 75.h,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                      color: isCalenderSelectedOnMonday ==
+                                                              false
+                                                          ? Colorutils
+                                                              .Whitecolor
+                                                          : Colorutils
+                                                              .bottomnaviconcolor,
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.3),
+                                                          // Shadow color
+                                                          spreadRadius: 1,
+                                                          blurRadius: 2,
+                                                          offset: Offset(0,
+                                                              1), // Shadow position
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        "${timeTableList[i].dayName?.substring(0, 3).toUpperCase()}",
+                                                        style: TextStyle(
+                                                            color: isCalenderSelectedOnMonday ==
+                                                                    false
+                                                                ? Colors.black
+                                                                : Colorutils
+                                                                    .Whitecolor,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  onTap: () {
+                                                    setState(() {
+                                                      controller
+                                                          .setSelectedTimetable(
+                                                              result:
+                                                                  timeTableList[
+                                                                          i]
+                                                                      .timeTable);
+                                                      //
+                                                      // isCalenderSelectedOnTuesday = false;
+                                                      // isCalenderSelectedOnWednesday =
+                                                      // false;
+                                                      // isCalenderSelectedOnThursday =
+                                                      // false;
+                                                      // isCalenderSelectedOnFriday = false;
+                                                      // isCalenderSelectedOnSaturday =
+                                                      // false;
+                                                      // if (isCalenderSelectedOnMonday ==
+                                                      //     false) {
+                                                      //   isCalenderSelectedOnMonday = true;
+                                                      //   tabController.index = 0;
+                                                    });
+                                                  },
+                                                ),
+                                                SizedBox(
+                                                  width: 10.w,
+                                                ),
+                                              ],
+                                            ),
+                                        ],
                                       ),
-                                      SizedBox(
-                                        width: 10.w,
-                                      ),
-                                      GestureDetector(
-                                        child: Container(
-                                          width: 75.w,
-                                          height: 75.h,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            color: isCalenderSelectedOnTuesday ==
-                                                    false
-                                                ? Colorutils.Whitecolor
-                                                : Colorutils.bottomnaviconcolor,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.3),
-                                                // Shadow color
-                                                spreadRadius: 1,
-                                                blurRadius: 2,
-                                                offset: Offset(
-                                                    0, 1), // Shadow position
-                                              ),
-                                            ],
-                                          ),
-                                          child: Center(child: Text('TUE',style: TextStyle(
-                                            color: isCalenderSelectedOnTuesday ==
-                                                false
-                                                ? Colors.black
-                                                : Colorutils.Whitecolor,fontWeight: FontWeight.bold
-                                          ))),
-   // child: ElevatedButton(
-                                          //     style: ElevatedButton.styleFrom(
-                                          //       shape: RoundedRectangleBorder(
-                                          //         borderRadius: BorderRadius.circular(8.r),
-                                          //       ), backgroundColor: isCalenderSelectedOnMonday == false
-                                          //           ? Colors.blue
-                                          //           : Colors.white,
-                                          //
-                                          //       side: BorderSide(
-                                          //         width: 1.w,
-                                          //         color: isCalenderSelectedOnMonday == false
-                                          //             ? Colors.black
-                                          //             : Colors.blue,
-                                          //       ),
-                                          //     ),
-                                          //     onPressed: () {
-                                          //       setState(() {
-                                          //
-                                          //       });
-                                          //     },child: Row(
-                                          //       children: [
-                                          //         Text('MON'),
-                                          //       ],
-                                          //     ),
-                                          //     // child: Text(
-                                          //     //   "Mon",
-                                          //     //   style: TextStyle(
-                                          //     //       color: isCalenderSelectedOnMonday == false
-                                          //     //           ? Colors.black
-                                          //     //           : Colors.white,
-                                          //     //       fontSize: 11.sp),
-                                          //     // )
-                                          //    ),
-                                        ),
-                                        onTap: () {
-                                          setState(() {
-                                            isCalenderSelectedOnMonday = false;
-                                            isCalenderSelectedOnWednesday =
-                                                false;
-                                            isCalenderSelectedOnThursday =
-                                                false;
-                                            isCalenderSelectedOnFriday = false;
-                                            isCalenderSelectedOnSaturday =
-                                                false;
-                                            if (isCalenderSelectedOnTuesday ==
-                                                false) {
-                                              isCalenderSelectedOnTuesday =
-                                                  true;
-                                              tabController.index = 1;
-
-                                            }
-                                          });
-                                        },
-                                      ),
-                                      SizedBox(
-                                        width: 10.w,
-                                      ),
-                                      GestureDetector(
-                                        child: Container(
-                                          width: 75.w,
-                                          height: 75.h,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            color: isCalenderSelectedOnWednesday ==
-                                                    false
-                                                ? Colorutils.Whitecolor
-                                                : Colorutils.bottomnaviconcolor,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.3),
-                                                // Shadow color
-                                                spreadRadius: 1,
-                                                blurRadius: 2,
-                                                offset: Offset(
-                                                    0, 1), // Shadow position
-                                              ),
-                                            ],
-                                          ),
-                                          child: Center(child: Text('WED',style: TextStyle(
-                                            color: isCalenderSelectedOnWednesday ==
-                                                false
-                                                ? Colors.black
-                                                : Colorutils.Whitecolor,fontWeight: FontWeight.bold
-                                          ))),
-                                        ),
-                                        onTap: () {
-                                          setState(() {
-                                            isCalenderSelectedOnMonday = false;
-                                            isCalenderSelectedOnTuesday = false;
-                                            isCalenderSelectedOnThursday =
-                                                false;
-                                            isCalenderSelectedOnFriday = false;
-                                            isCalenderSelectedOnSaturday =
-                                                false;
-                                            if (isCalenderSelectedOnWednesday ==
-                                                false) {
-                                              isCalenderSelectedOnWednesday =
-                                                  true;
-                                              tabController.index = 2;
-
-                                            }
-                                          });
-                                        },
-                                      ),
-                                      SizedBox(
-                                        width: 10.w,
-                                      ),
-                                      GestureDetector(
-                                        child: Container(
-                                          width: 75.w,
-                                          height: 75.h,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            color: isCalenderSelectedOnThursday ==
-                                                    false
-                                                ? Colorutils.Whitecolor
-                                                : Colorutils.bottomnaviconcolor,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.3),
-                                                // Shadow color
-                                                spreadRadius: 1,
-                                                blurRadius: 2,
-                                                offset: Offset(
-                                                    0, 1), // Shadow position
-                                              ),
-                                            ],
-                                          ),
-                                          child: Center(child: Text('THU',style: TextStyle(
-                                            color: isCalenderSelectedOnThursday ==
-                                                false
-                                                ? Colors.black
-                                                : Colorutils.Whitecolor,fontWeight: FontWeight.bold
-                                          ))),
-                                        ),
-                                        onTap: () {
-                                          setState(() {
-                                            isCalenderSelectedOnMonday = false;
-                                            isCalenderSelectedOnTuesday = false;
-                                            isCalenderSelectedOnWednesday =
-                                                false;
-                                            isCalenderSelectedOnFriday = false;
-                                            isCalenderSelectedOnSaturday =
-                                                false;
-                                            if (isCalenderSelectedOnThursday ==
-                                                false) {
-                                              isCalenderSelectedOnThursday =
-                                                  true;
-                                              tabController.index = 3;
-
-                                            }
-                                          });
-                                        },
-                                      ),
-                                      SizedBox(
-                                        width: 10.w,
-                                      ),
-
-
-
-
-
-
-                                      GestureDetector(
-                                        child: Container(
-                                          width: 75.w,
-                                          height: 75.h,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            color: isCalenderSelectedOnFriday ==
-                                                    false
-                                                ? Colorutils.Whitecolor
-                                                : Colorutils.bottomnaviconcolor,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.3),
-                                                // Shadow color
-                                                spreadRadius: 1,
-                                                blurRadius: 2,
-                                                offset: Offset(
-                                                    0, 1), // Shadow position
-                                              ),
-                                            ],
-                                          ),
-                                          child: Center(child: Text('FRI',style: TextStyle(
-                                            color: isCalenderSelectedOnFriday ==
-                                                false
-                                                ? Colors.black
-                                                : Colorutils.Whitecolor,fontWeight: FontWeight.bold
-                                          ))),
-                                        ),
-                                        onTap: () {
-                                          setState(() {
-                                            isCalenderSelectedOnMonday = false;
-                                            isCalenderSelectedOnTuesday = false;
-                                            isCalenderSelectedOnThursday =
-                                                false;
-                                            isCalenderSelectedOnWednesday =
-                                                false;
-                                            isCalenderSelectedOnSaturday =
-                                                false;
-                                            if (isCalenderSelectedOnFriday ==
-                                                false) {
-                                              isCalenderSelectedOnFriday = true;
-                                              tabController.index = 4;
-
-                                            }
-                                          });
-                                        },
-                                      ),
-                                      SizedBox(
-                                        width: 10.w,
-                                      ),
-                                      GestureDetector(
-                                        child: Container(
-                                          width: 75.w,
-                                          height: 75.h,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            color: isCalenderSelectedOnSaturday ==
-                                                    false
-                                                ? Colorutils.Whitecolor
-                                                : Colorutils.bottomnaviconcolor,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.3),
-                                                // Shadow color
-                                                spreadRadius: 1,
-                                                blurRadius: 2,
-                                                offset: Offset(
-                                                    0, 1), // Shadow position
-                                              ),
-                                            ],
-                                          ),
-                                          child: Center(child: Text('SAT',style: TextStyle(
-                                            color: isCalenderSelectedOnSaturday ==
-                                                false
-                                                ? Colors.black
-                                                : Colorutils.Whitecolor,fontWeight: FontWeight.bold
-                                          ))),
-                                        ),
-                                        onTap: () {
-                                          setState(() {
-                                            isCalenderSelectedOnMonday = false;
-                                            isCalenderSelectedOnTuesday = false;
-                                            isCalenderSelectedOnThursday =
-                                                false;
-                                            isCalenderSelectedOnWednesday =
-                                                false;
-                                            isCalenderSelectedOnFriday =
-                                                false;
-                                            if (isCalenderSelectedOnSaturday ==
-                                                false) {
-                                              isCalenderSelectedOnSaturday =
-                                                  true;
-                                              tabController.index = 5;
-
-                                            }
-                                          });
-                                        },
-                                      ),
-                                      SizedBox(
-                                        width: 2.w,
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Container(
+                                Container(
+                                  // height: ScreenUtil().screenHeight-40.w-100-85.h-103,
+                                  child: Expanded(
+                                    child: ListView.builder(
+                                      itemCount:
+                                          controller.selectedTimetable.length,
+                                      itemBuilder: (context, index) {
+                                        List<TimeTable> data =
+                                            controller.selectedTimetable.value;
+                                        List<Color> colors = [
+                                          Colorutils.userdetailcolor
+                                              .withOpacity(0.9),
+                                          Colorutils.Classcolour1.withOpacity(
+                                              0.9),
+                                          Colorutils.Classcolour3.withOpacity(
+                                              0.9),
+                                          Colorutils.svguicolour2
+                                              .withOpacity(0.9),
+                                        ];
+                                        Color color =
+                                            colors[index % colors.length];
+                                        List<Color> colors1 = [
+                                          Colorutils.userdetailcolor
+                                              .withOpacity(0.8),
+                                          Colorutils.Classcolour1.withOpacity(
+                                              0.6),
+                                          Colorutils.Classcolour3.withOpacity(
+                                              0.8),
+                                          Colorutils.svguicolour2
+                                              .withOpacity(0.8),
+                                        ];
+                                        Color color1 =
+                                            colors1[index % colors.length];
 
-                              // height: ScreenUtil().screenHeight-40.w-100-85.h-103,
-                              child: Expanded(
-                                child: TabBarView(
-
-
-                                  physics: NeverScrollableScrollPhysics(),
-                                  controller: tabController,
-                                  children: tabViews,
+                                        return ListTile(
+                                            title: Container(
+                                                height: 60,
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                        height: 50,
+                                                        width: 150,
+                                                        child: Container(
+                                                          height: 40.w,
+                                                          width: 120.w,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          5)
+                                                                  .w,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: color,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                        .circular(
+                                                                            12.0)
+                                                                    .r,
+                                                          ),
+                                                          child: Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            children: [
+                                                              CircleAvatar(
+                                                                radius: 16,
+                                                                backgroundColor:
+                                                                    color1,
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          3),
+                                                                  child: Text(
+                                                                      data[index]
+                                                                              .batchName ??
+                                                                          '--',
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .white,
+                                                                          fontSize:
+                                                                              12)),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                  width: 5.w),
+                                                              Expanded(
+                                                                child:
+                                                                    SingleChildScrollView(
+                                                                  scrollDirection:
+                                                                      Axis.horizontal,
+                                                                  child: Row(
+                                                                    children: [
+                                                                      Text(
+                                                                          'Maths',
+                                                                          style: TextStyle(
+                                                                              color: Colors.white,
+                                                                              fontSize: 15)),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        )),
+                                                    Container(
+                                                      height: 50,
+                                                      width: 150,
+                                                      child: Center(
+                                                        child: Text(
+                                                            " ${DateFormat('HH:mm a').format(DateTime.parse(data[index].startTime.toString()).toLocal())} -"
+                                                            "${DateFormat('HH:mm a').format(DateTime.parse(data[index].startTime.toString()).toLocal())}",
+                                                            style: TextStyle(
+                                                                color: color,
+                                                                fontSize: 12)),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )));
+                                      },
+                                    ),
+                                    // child: TabBarView(
+                                    //
+                                    //
+                                    //   physics: NeverScrollableScrollPhysics(),
+                                    //   controller: tabController,
+                                    //   children:       monday(),
+                                    //
+                                    // ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ],
+                              ],
+                            );
+                          },
                         ),
                       ),
                     ],

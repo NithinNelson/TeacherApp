@@ -2,6 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:teacherapp/Controller/api_controllers/leaveApprovalController.dart';
 import 'package:teacherapp/View/Leave_Page/Approve_Rejected.dart';
 import '../../Utils/Colors.dart';
 import '../../Utils/constants.dart';
@@ -19,21 +22,15 @@ class LeaveApproval extends StatefulWidget {
 
 class _LeaveApprovalState extends State<LeaveApproval> with SingleTickerProviderStateMixin  {
   late TabController _tabController1;
-
-  get questionData => null;
-
-  get isSpinner => null;
-  get isChecked => null;
-  int _selectedIndex = 0;
+  LeaveApprovalController leaveApprovalController = Get.find<LeaveApprovalController>();
 
   @override
   void initState() {
     super.initState();
     _tabController1 = TabController(length: 3, vsync: this);
+    initialize();
     _tabController1.addListener(() {
-      setState(() {
-        _selectedIndex = _tabController1.index;
-      });
+      leaveApprovalController.currentTab.value = _tabController1.index;
     });
   }
 
@@ -43,6 +40,13 @@ class _LeaveApprovalState extends State<LeaveApproval> with SingleTickerProvider
     super.dispose();
   }
 
+  Future<void> initialize() async {
+    context.loaderOverlay.show();
+    // leaveApprovalController.resetStatus();
+    await leaveApprovalController.fetchLeaveReqList();
+    if(!mounted) return;
+    context.loaderOverlay.hide();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -293,76 +297,79 @@ class _LeaveApprovalState extends State<LeaveApproval> with SingleTickerProvider
                     child: Column(
                       // crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-
-                        TabBar(padding: EdgeInsets.zero,
-                          indicator: BoxDecoration(),dividerHeight: 0,
-                          isScrollable: true,
-                          tabAlignment: TabAlignment.start,indicatorPadding: EdgeInsets.zero,
-                          // indicator: BoxDecoration(),
-                          controller: _tabController1,
-                          labelPadding: EdgeInsets.symmetric(horizontal: 5),
-                          tabs: [
-                            Tab(
-                              child: Container(
-                                height: 40.h,
-                                width: (ScreenUtil().screenWidth-66)*2/6,
-                                decoration: BoxDecoration(
-                                  color: _selectedIndex == 0 ? Colors.red[500] : Colors.grey[500],
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Approval',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12.sp,
-                                      color: Colors.white,
+                        GetX<LeaveApprovalController>(
+                          builder: (LeaveApprovalController controller) {
+                            return TabBar(padding: EdgeInsets.zero,
+                              indicator: BoxDecoration(),dividerHeight: 0,
+                              isScrollable: true,
+                              tabAlignment: TabAlignment.start,indicatorPadding: EdgeInsets.zero,
+                              // indicator: BoxDecoration(),
+                              controller: _tabController1,
+                              labelPadding: EdgeInsets.symmetric(horizontal: 5),
+                              tabs: [
+                                Tab(
+                                  child: Container(
+                                    height: 40.h,
+                                    width: (ScreenUtil().screenWidth-66)*2/6,
+                                    decoration: BoxDecoration(
+                                      color: controller.currentTab.value == 0 ? Colors.red[500] : Colors.grey[500],
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Approval',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12.sp,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Tab(
-                              child: Container(
-                                height: 40.h,
-                                width: (ScreenUtil().screenWidth-66)*3/6,
-                                decoration: BoxDecoration(
-                                  color: _selectedIndex == 1 ? Colors.red[500] : Colors.grey[500],
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Approved/Rejected",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12.sp,
-                                      color: Colors.white,
+                                Tab(
+                                  child: Container(
+                                    height: 40.h,
+                                    width: (ScreenUtil().screenWidth-66)*3/6,
+                                    decoration: BoxDecoration(
+                                      color: controller.currentTab.value == 1 ? Colors.red[500] : Colors.grey[500],
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "Approved/Rejected",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12.sp,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Tab(
-                              child: Container(
-                                height: 40.h,
-                                width: (ScreenUtil().screenWidth-66)*1/6,
-                                decoration: BoxDecoration(
-                                  color: _selectedIndex == 2 ? Colors.red[500] : Colors.grey[500],
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "All",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12.sp,
-                                      color: Colors.white,
+                                Tab(
+                                  child: Container(
+                                    height: 40.h,
+                                    width: (ScreenUtil().screenWidth-66)*1/6,
+                                    decoration: BoxDecoration(
+                                      color: controller.currentTab.value == 2 ? Colors.red[500] : Colors.grey[500],
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "All",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12.sp,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          ],
+                              ],
+                            );
+                          },
                         ),
 
 
@@ -377,7 +384,7 @@ class _LeaveApprovalState extends State<LeaveApproval> with SingleTickerProvider
                               Container(
                                   color: Colors.white,
                                   child: SingleChildScrollView(
-                                      child: ApprovedLeave())
+                                      child: PendingLeave())
                               ),
 
                               Container(
@@ -405,10 +412,6 @@ class _LeaveApprovalState extends State<LeaveApproval> with SingleTickerProvider
   }
 
 }
-
-class _selectedIndex {
-}
-
 
 
 
