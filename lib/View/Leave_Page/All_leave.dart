@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -372,6 +373,7 @@ class _allleaveState extends State<allleave> {
                                                         GestureDetector(
                                                           onTap: () {
                                                             Navigator.pop(context);
+                                                            context.loaderOverlay.show();
                                                             UserAuthController userAuthController = Get.find<UserAuthController>();
                                                             submitleavedata(
                                                                 acadYEAR: userAuthController.userData.value.academicYear,
@@ -381,6 +383,7 @@ class _allleaveState extends State<allleave> {
                                                                 schoolId: userAuthController.userData.value.schoolId,
                                                                 approved: 'Approved')
                                                                 .then((_) async => await Get.find<LeaveApprovalController>().fetchLeaveReqList());
+                                                            context.loaderOverlay.hide();
                                                             // Navigator.push(
                                                             //     context,
                                                             //     MaterialPageRoute(
@@ -412,6 +415,7 @@ class _allleaveState extends State<allleave> {
                                                         GestureDetector(
                                                           onTap: () {
                                                             Navigator.of(context).pop();
+                                                            context.loaderOverlay.show();
                                                             UserAuthController userAuthController = Get.find<UserAuthController>();
                                                             submitleavedata(
                                                                 acadYEAR: userAuthController.userData.value.academicYear,
@@ -421,6 +425,7 @@ class _allleaveState extends State<allleave> {
                                                                 apprve: 'Reject',
                                                                 approved: 'Rejected')
                                                                 .then((_) async => await Get.find<LeaveApprovalController>().fetchLeaveReqList());
+                                                            context.loaderOverlay.hide();
                                                             // Navigator.push(
                                                             //     context,
                                                             //     MaterialPageRoute(

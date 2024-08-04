@@ -38,7 +38,7 @@ class LessonObservationController extends GetxController {
 
   Future<void> fetchLessonObservation() async {
     resetData();
-    try {
+    // try {
       String? userId = Get.find<UserAuthController>().userData.value.userId;
       String? acYr = Get.find<UserAuthController>().userData.value.academicYear;
       Map<String, dynamic> resp = await ApiServices.getLeadership(
@@ -51,9 +51,9 @@ class LessonObservationController extends GetxController {
         learningWalkList.value = lessonDataApi.value.data?.details?.learningWalk?.list ?? [];
         lessonObservationList.value = lessonDataApi.value.data?.details?.lessonObservations?.list ?? [];
       }
-    } catch (e) {
-      print("-----------lesson obs error--------------");
-    } finally {}
+    // } catch (e) {
+    //   print("-----------lesson obs error--------------");
+    // } finally {}
   }
 
   Future<void> getTeacherClassData({required String teacherName}) async {

@@ -189,17 +189,14 @@ class UserDetails extends StatelessWidget {
                       radius: 26.r,
                       backgroundColor: Colorutils.Whitecolor,
                       child: CircleAvatar(
-                        radius: 25.r,
+                        radius: 24.r,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100).r,
                           child: CachedNetworkImage(
-                            imageUrl: controller.userData.value.image == null ||
-                                    controller.userData.value.image == ""
-                                ? "https://raw.githubusercontent.com/abdulmanafpfassal/image/master/profile.jpg"
-                                : controller.userData.value.image ?? '',
+                            imageUrl: controller.userData.value.image ?? '--',
                             errorWidget: (context, url, error) {
                               return const Icon(Icons.person,
-                                  color: Colors.grey);
+                                  color: Colors.grey, size: 30,);
                             },
                           ),
                         ),
