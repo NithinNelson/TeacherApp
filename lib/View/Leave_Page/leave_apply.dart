@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -20,6 +21,7 @@ import '../../Utils/constants.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../CWidgets/TeacherAppPopUps.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
+import 'Leave_Request.dart';
 
 class LeaveApply extends StatefulWidget {
   final StudentsData studentsData;
@@ -157,7 +159,7 @@ class _ObsResultState extends State<LeaveApply> {
                           // Shadow color
                           spreadRadius: 1,
                           blurRadius: 1,
-                          offset: Offset(0, 1), // Shadow position
+                          offset: Offset(0, 3), // Shadow position
                         ),
                       ],
                     ),
@@ -368,7 +370,7 @@ class _ObsResultState extends State<LeaveApply> {
                                                   vertical: 5.0,
                                                   horizontal: 10.0),
                                               hintText: "Please Enter the reason  ",
-                                              counterText: "00/1000",
+
                                               border: OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(
                                                   Radius.circular(10.0),
@@ -447,7 +449,7 @@ class _ObsResultState extends State<LeaveApply> {
                                                 ),
                                               ),
 
-                                              // Text('File Path: $_filePath'),
+                                                                                       // Text('File Path: $_filePath'),
                                             ] else
                                               Text('No File Selected'),
                                           ],
@@ -461,6 +463,7 @@ class _ObsResultState extends State<LeaveApply> {
                                         GestureDetector(
                                           onTap:() async {
                                             await submitLeave(context: context);
+
                                           },
                                           child: Container(
                                               height: 40.h,
@@ -578,13 +581,15 @@ class _ObsResultState extends State<LeaveApply> {
                   actionName: "Close",
                   iconData: Icons.info_outline,
                   iconColor: Colors.green,
+
                 );
               } else {
                 TeacherAppPopUps.submitFailed(
                   title: "Failed",
                   message: "Failed to submit.",
                   actionName: "Close",
-                  iconData: Icons.info_outline, iconColor: Colors.red,
+                  iconData: Icons.info_outline,
+                  iconColor: Colors.red,
                 );
               }
             } on SocketException catch(e) {

@@ -82,31 +82,31 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
         studentFeebackList = json.decode(responseJson);
       });
 
-      getString() {
-        if (studentFeebackList!.containsKey("data_status") == 1) {
-          print("shshshshsh");
-          for (var index = 0;
-              index < studentFeebackList!["data"].length;
-              index++) {
-            if (studentFeebackList!["data"][index]["Feeback_type"] == 1) {
-              return "Committed Date";
-            } else if (studentFeebackList!["data"][index]["Feeback_type"] ==
-                    2 ||
-                studentFeebackList!["data"][index]["Feeback_type"] == 3) {
-              return "Wrong or Invalid";
-            } else if (studentFeebackList!["data"][index]["Feeback_type"] ==
-                4) {
-              return "Call Not Answered";
-            } else if (studentFeebackList!["data"][index]["Feeback_type"] ==
-                    5 ||
-                studentFeebackList!["data"][index]["Feeback_type"] == 6 ||
-                studentFeebackList!["data"][index]["Feeback_type"] == 7) {
-              return "Misbehavior";
-            }
-          }
-        }
-        return "";
-      }
+      // getString() {
+      //   if (studentFeebackList!.containsKey("data_status") == 1) {
+      //     print("shshshshsh");
+      //     for (var index = 0;
+      //         index < studentFeebackList!["data"].length;
+      //         index++) {
+      //       if (studentFeebackList!["data"][index]["Feeback_type"] == 1) {
+      //         return "Committed Date";
+      //       } else if (studentFeebackList!["data"][index]["Feeback_type"] ==
+      //               2 ||
+      //           studentFeebackList!["data"][index]["Feeback_type"] == 3) {
+      //         return "Wrong or Invalid";
+      //       } else if (studentFeebackList!["data"][index]["Feeback_type"] ==
+      //           4) {
+      //         return "Call Not Answered";
+      //       } else if (studentFeebackList!["data"][index]["Feeback_type"] ==
+      //               5 ||
+      //           studentFeebackList!["data"][index]["Feeback_type"] == 6 ||
+      //           studentFeebackList!["data"][index]["Feeback_type"] == 7) {
+      //         return "Misbehavior";
+      //       }
+      //     }
+      //   }
+      //   return "";
+      // }
 
       log("the reveresed list is $studentFeebackList");
       newList.add(studentFeebackList!["data"]);
@@ -149,16 +149,23 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                   children: [
                     const AppBarBackground(),
                     Positioned(
-                        left: 0,
-                        top: -10,
-                        child: const UserDetails(
-                            shoBackgroundColor: false,
-                            isWelcome: false,
-                            bellicon: true,
-                            notificationcount: true)),
+                      left: 0,
+                      top: -10,
+                      child: Container(
+                          width: ScreenUtil().screenWidth,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(17.0),
+                          ),
+                          child: const UserDetails(
+                              shoBackgroundColor: false,
+                              isWelcome: false,
+                              bellicon: true,
+                              notificationcount: true)),
+                    ),
                     Container(
                       margin:
-                          EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w),
+                          EdgeInsets.only(left: 10.w, top: 125.h, right: 10.w),
                       width: 500.w,
                       height: MediaQuery.of(context).size.height,
                       decoration: BoxDecoration(

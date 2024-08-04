@@ -145,14 +145,14 @@ class allleave extends StatelessWidget {
                             Row(
                               children: [
                                 Container(
-                                    width: 200.w,
+                                    width: 230.w,
                                     child: SingleChildScrollView(
                                       scrollDirection: Axis.horizontal,
                                       child: Row(
                                         children: [
                                           Text(
                                             leaveList[i].studentName ?? '--',
-                                            style: TextStyle(fontSize: 13),
+                                            style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold),
                                           ),
 
                                         ],
@@ -184,7 +184,7 @@ class allleave extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                    width: 140.w, child: Text(leaveList[i].admissionNumber ?? '--')),
+                                    width: 140.w, child: Text("Adm.No: ${leaveList[i].admissionNumber ?? '--'}")),
                                 Text('Class: ${leaveList[i].classs ?? '-'} ${leaveList[i].batch ?? '-'}'),
                               ],
                             ),
@@ -194,7 +194,7 @@ class allleave extends StatelessWidget {
                             Row(
                               children: [
                                 Container(
-                                  width: 100.w,
+                                  width: 130.w,
                                   child: Text(
                                     "From: ${leaveList[i].startDate}",
                                     style: TextStyle(fontSize: 12),
@@ -214,6 +214,7 @@ class allleave extends StatelessWidget {
                               width: MediaQuery.of(context).size.width * 0.60,
                               height: 40.h,
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   // Flexible(flex: 1, child: Container()),
                                   Text(
@@ -225,7 +226,7 @@ class allleave extends StatelessWidget {
                                       //     : Colors.red,
                                     ),
                                   ),
-                                  Flexible(flex: 1, child: Container()),
+
                                   // (mypendings == true)
                                   //     ? Container(
                                   //     height: 30.h,
@@ -249,72 +250,71 @@ class allleave extends StatelessWidget {
                                         barrierDismissible: false,
                                         context: context,
                                         builder: (BuildContext context) =>
+
                                             AlertDialog(
                                               title: Row(
                                                 children: [
                                                   GestureDetector(
                                                       onTap: () {
-                                                        Navigator.of(context)
-                                                            .pop();
+                                                        Navigator.of(context).pop();
                                                       },
-                                                      child: Icon(Icons
-                                                          .arrow_back_outlined)),
+                                                      child: Icon(
+                                                          Icons.arrow_back_outlined)),
                                                   SizedBox(
                                                     width: 35.w,
                                                   ),
                                                   Text(
                                                     'Leave Approval',
-                                                    style: TextStyle(
-                                                        fontSize: 22.sp),
+                                                    style: TextStyle(fontSize: 22.sp),
                                                   ),
                                                 ],
                                               ),
                                               content: Container(
-                                                height: 80,
-                                                // width: 300.w,
+                                                height: 300,                                                // width: 300.w,
                                                 child: SingleChildScrollView(
                                                   child: ListBody(
                                                     children: <Widget>[
                                                       Text(leaveList[i].studentName ?? '--',
                                                           style: TextStyle(
-                                                              fontSize: 18.sp)),
+                                                              fontSize: 18.sp,fontWeight: FontWeight.bold)),
                                                       SizedBox(
                                                         height: 8.h,
                                                       ),
                                                       Text(
                                                           'Class: ${leaveList[i].classs ?? '-'} ${leaveList[i].batch ?? '-'}',
-                                                          style: TextStyle(
-                                                              fontSize: 14)),
+                                                          style:
+                                                          TextStyle(fontSize: 14)),
                                                       SizedBox(
                                                         height: 8.h,
                                                       ),
-                                                      Text(
-                                                          'Reason : ${leaveList[i].reason ?? '--'}',
-                                                          style: TextStyle(
-                                                              fontSize: 14)),
+                                                      Text('Reason : ${leaveList[i].reason ?? '--'}',
+                                                          style:
+                                                          TextStyle(fontSize: 14)),
                                                       SizedBox(
                                                         height: 8.h,
                                                       ),
                                                       Text(
                                                           "Applied On: ${leaveList[i].applyDate.toString().split('T')[0].split('-').last}-${leaveList[i].applyDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].applyDate.toString().split('T')[0].split('-').first}",
-                                                          style: TextStyle(
-                                                              fontSize: 14)),
+                                                          style:
+                                                          TextStyle(fontSize: 14)),
                                                       SizedBox(
                                                         height: 8.h,
                                                       ),
                                                       Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                         children: [
                                                           Text(
                                                             // "From: ${fromdate!.split('T')[0]}",
                                                             "From: ${leaveList[i].startDate.toString().split('T')[0].split('-').last}-${leaveList[i].startDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].startDate.toString().split('T')[0].split('-').first}",
-                                                            style: TextStyle(
-                                                                fontSize: 14),
+                                                            style:
+                                                            TextStyle(fontSize: 14),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 40.w,
                                                           ),
                                                           Text(
                                                             "To: ${leaveList[i].endDate.toString().split('T')[0].split('-').last}-${leaveList[i].endDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].endDate.toString().split('T')[0].split('-').first}",
-                                                            style: TextStyle(
-                                                                fontSize: 14),
+                                                            style:
+                                                            TextStyle(fontSize: 14),
                                                           ),
                                                         ],
                                                       ),
@@ -345,6 +345,102 @@ class allleave extends StatelessWidget {
                                                 ),
                                               ),
                                             ),
+                                            // AlertDialog(
+                                            //   title: Row(
+                                            //     children: [
+                                            //       GestureDetector(
+                                            //           onTap: () {
+                                            //             Navigator.of(context)
+                                            //                 .pop();
+                                            //           },
+                                            //           child: Icon(Icons
+                                            //               .arrow_back_outlined)),
+                                            //       SizedBox(
+                                            //         width: 35.w,
+                                            //       ),
+                                            //       Text(
+                                            //         'Leave Approval',
+                                            //         style: TextStyle(
+                                            //             fontSize: 22.sp),
+                                            //       ),
+                                            //     ],
+                                            //   ),
+                                            //   content: Container(
+                                            //     height: 80,
+                                            //     // width: 300.w,
+                                            //     child: SingleChildScrollView(
+                                            //       child: ListBody(
+                                            //         children: <Widget>[
+                                            //           Text(leaveList[i].studentName ?? '--',
+                                            //               style: TextStyle(
+                                            //                   fontSize: 18.sp)),
+                                            //           SizedBox(
+                                            //             height: 8.h,
+                                            //           ),
+                                            //           Text(
+                                            //               'Class: ${leaveList[i].classs ?? '-'} ${leaveList[i].batch ?? '-'}',
+                                            //               style: TextStyle(
+                                            //                   fontSize: 14)),
+                                            //           SizedBox(
+                                            //             height: 8.h,
+                                            //           ),
+                                            //           Text(
+                                            //               'Reason : ${leaveList[i].reason ?? '--'}',
+                                            //               style: TextStyle(
+                                            //                   fontSize: 14)),
+                                            //           SizedBox(
+                                            //             height: 8.h,
+                                            //           ),
+                                            //           Text(
+                                            //               "Applied On: ${leaveList[i].applyDate.toString().split('T')[0].split('-').last}-${leaveList[i].applyDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].applyDate.toString().split('T')[0].split('-').first}",
+                                            //               style: TextStyle(
+                                            //                   fontSize: 14)),
+                                            //           SizedBox(
+                                            //             height: 8.h,
+                                            //           ),
+                                            //           Row(
+                                            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            //             children: [
+                                            //               Text(
+                                            //                 // "From: ${fromdate!.split('T')[0]}",
+                                            //                 "From: ${leaveList[i].startDate.toString().split('T')[0].split('-').last}-${leaveList[i].startDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].startDate.toString().split('T')[0].split('-').first}",
+                                            //                 style: TextStyle(
+                                            //                     fontSize: 14),
+                                            //               ),
+                                            //               Text(
+                                            //                 "To: ${leaveList[i].endDate.toString().split('T')[0].split('-').last}-${leaveList[i].endDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].endDate.toString().split('T')[0].split('-').first}",
+                                            //                 style: TextStyle(
+                                            //                     fontSize: 14),
+                                            //               ),
+                                            //             ],
+                                            //           ),
+                                            //           SizedBox(
+                                            //             height: 10.h,
+                                            //           ),
+                                            //           (leaveList[i].documentPath != null)
+                                            //               ? Row(
+                                            //             children: [
+                                            //               Text('Document :',
+                                            //                   style: TextStyle(
+                                            //                       fontSize: 14)),
+                                            //               GestureDetector(
+                                            //                 onTap: () async {
+                                            //                   try {
+                                            //                     await launchUrl(Uri.parse("${ApiConstants.baseUrl}${leaveList[i].documentPath}"));
+                                            //                   } catch(e) {}
+                                            //                 },
+                                            //                 child: attchIcon(
+                                            //                     type: leaveList[i].documentPath.toString().split(".").last,
+                                            //                     document: leaveList[i].documentPath.toString().toString()),
+                                            //               ),
+                                            //             ],
+                                            //           )
+                                            //               : Container(),
+                                            //         ],
+                                            //       ),
+                                            //     ),
+                                            //   ),
+                                            // ),
                                       );
                                     },
                                     child: Container(

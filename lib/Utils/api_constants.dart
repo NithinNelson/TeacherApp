@@ -53,4 +53,10 @@ class ApiConstants {
 
 
   static String DOCME_URL = "https://sqa.docme.online/bm-school/api/App";
+  static String Observationlist = "https://teamsqa3000.educore.guru/v0/learning-observation/get/userSubmissions";
+  static String IMAGE_BASE_URL = "https://teamsqa4000.educore.guru";
+  static String ObservationResultSubmitLearningWalk = "https://teamsqa3000.educore.guru/v0/learning-walk/addTeacherCmnt";
+  static String ObservationResultlist = "https://teamsqa3000.educore.guru/v0/learning-observation/submissionView/";
+  static String ObservationResultSubmitLessonObservation = "https://teamsqa3000.educore.guru/v0/lesson-observation/addTeacherCmnt";
+
 }

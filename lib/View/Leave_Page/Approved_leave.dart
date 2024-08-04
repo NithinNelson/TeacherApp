@@ -32,25 +32,7 @@ class PendingLeave extends StatelessWidget {
                   Icons.search,
                   color:Colors.grey,
                 ),
-                // suffixIcon: GestureDetector(
-                //   onTap: () => onListen(),
-                //   child: AvatarGlow(
-                //     animate: _isListening,
-                //     glowColor: Colors.blue,
-                //     endRadius: 20.0,
-                //     duration: Duration(milliseconds: 2000),
-                //     repeat: true,
-                //     showTwoGlows: true,
-                //     repeatPauseDuration:
-                //         Duration(milliseconds: 100),
-                //     child: Icon(
-                //       _isListening == false
-                //           ? Icons.keyboard_voice_outlined
-                //           : Icons.keyboard_voice_sharp,
-                //       color: ColorUtils.SEARCH_TEXT_COLOR,
-                //     ),
-                //   ),
-                // ),
+
                 contentPadding:
                 EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                 border: OutlineInputBorder(
@@ -153,7 +135,7 @@ class PendingLeave extends StatelessWidget {
                                         children: [
                                           Text(
                                             leaveList[i].studentName ?? '--',
-                                            style: TextStyle(fontSize: 13),
+                                            style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold),
                                           ),
 
                                         ],
@@ -185,7 +167,7 @@ class PendingLeave extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                    width: 140.w, child: Text(leaveList[i].admissionNumber ?? '--')),
+                                    width: 140.w, child: Text("Adm No:${leaveList[i].admissionNumber ?? '--'}")),
                                 Text('Class: ${leaveList[i].classs ?? '-'} ${leaveList[i].batch ?? '-'}'),
                               ],
                             ),
@@ -195,7 +177,7 @@ class PendingLeave extends StatelessWidget {
                             Row(
                               children: [
                                 Container(
-                                  width: 100.w,
+                                  width: 120.w,
                                   child: Text(
                                     "From: ${leaveList[i].startDate}",
                                     style: TextStyle(fontSize: 12),
@@ -227,216 +209,7 @@ class PendingLeave extends StatelessWidget {
                                     ),
                                   ),
                                   Flexible(flex: 1, child: Container()),
-                                  // (mypendings == true)
-                                  //     ? GestureDetector(
-                                  //   onTap: ()
-                                  //   async {
-                                  //     showDialog(
-                                  //       barrierDismissible: false,
-                                  //       context: context,
-                                  //       builder: (BuildContext context) =>
-                                  //           AlertDialog(
-                                  //             title: Row(
-                                  //               mainAxisAlignment: MainAxisAlignment.center,
-                                  //               children: [
-                                  //                 GestureDetector(
-                                  //                   onTap: () {
-                                  //                     Navigator.of(context).pop();
-                                  //                   },
-                                  //                   child:
-                                  //                   Text(
-                                  //                     'Leave Approval Details',
-                                  //                     style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.bold),
-                                  //                   ),
-                                  //                 ),
-                                  //               ],
-                                  //             ),
-                                  //             content: Container(
-                                  //               height: attchIconsize(type: document.toString().split(".").last),
-                                  //               // width: 300.w,
-                                  //               child: SingleChildScrollView(
-                                  //                 child: ListBody(
-                                  //                   children: <Widget>[
-                                  //                     Row(
-                                  //                       children: [
-                                  //                         Container(width: 80,child: Text('NAME',style: TextStyle(fontWeight: FontWeight.bold),),),
-                                  //                         Container(width: 10,child: Text(':',style: TextStyle(fontWeight: FontWeight.bold),),),
-                                  //
-                                  //                         Container(
-                                  //                           width: 140.w,
-                                  //                           child: SingleChildScrollView(
-                                  //                             child: Text("brineshben",
-                                  //                                 style: TextStyle(
-                                  //                                     fontSize: 15.sp)),
-                                  //                           ),
-                                  //                         ),
-                                  //                       ],
-                                  //                     ),
-                                  //                     SizedBox(
-                                  //                       height: 5.h,
-                                  //                     ),
-                                  //                     Row(
-                                  //                       children: [
-                                  //                         Container(width: 80,child: Text('CLASS',style: TextStyle(fontWeight: FontWeight.bold),),),
-                                  //                         Container(width: 10,child: Text(':',style: TextStyle(fontWeight: FontWeight.bold),),),
-                                  //
-                                  //                         Text("3 B",
-                                  //                             style: TextStyle(
-                                  //                                 fontSize: 15.sp)),
-                                  //                       ],
-                                  //                     ),
-                                  //                     SizedBox(
-                                  //                       height: 5.h,
-                                  //                     ),
-                                  //                     Row(
-                                  //                       mainAxisAlignment: MainAxisAlignment.start,
-                                  //                       children: [
-                                  //                         Column(
-                                  //                           mainAxisAlignment: MainAxisAlignment.start,
-                                  //                           crossAxisAlignment: CrossAxisAlignment.start,
-                                  //                           children: [
-                                  //                             Container(width: 80,child: Text('REASON',style: TextStyle(fontWeight: FontWeight.bold),),),
-                                  //                           ],
-                                  //                         ),
-                                  //                         Container(width: 10,child: Text(':',style: TextStyle(fontWeight: FontWeight.bold),),),
-                                  //
-                                  //                         Container(
-                                  //                           width: 140,
-                                  //                           child: Text("AGHSGHUIKAS ASOIKDASJFKSWD CFFFSWDBDWEUO  JHASDHKJS DHIASDGAQS ASJIKDAS DDHIASDH ASDIKASH   FJHUK CSDAFUOI9UJCD"
-                                  //                               ,
-                                  //                               style: TextStyle(
-                                  //                                   fontSize: 12.sp)),
-                                  //                         ),
-                                  //                       ],
-                                  //                     ),
-                                  //                     SizedBox(
-                                  //                       height: 5.h,
-                                  //                     ),
-                                  //                     Row(
-                                  //                       children: [
-                                  //                         Container(width: 80,child: Text('APPLIED ON',style: TextStyle(fontWeight: FontWeight.bold),),),
-                                  //                         Container(width: 10,child: Text(':',style: TextStyle(fontWeight: FontWeight.bold),),),
-                                  //
-                                  //                         Text("30-08-1999",
-                                  //                             style: TextStyle(
-                                  //                                 fontSize: 15.sp)),
-                                  //                       ],
-                                  //                     ),
-                                  //                     SizedBox(
-                                  //                       height: 5.h,
-                                  //                     ),
-                                  //                     Row(
-                                  //                       children: [
-                                  //                         Container(width: 80,child: Text('FROM DATE',style: TextStyle(fontWeight: FontWeight.bold),),),
-                                  //                         Container(width: 10,child: Text(':',style: TextStyle(fontWeight: FontWeight.bold),),),
-                                  //
-                                  //                         Text("30-08-1999",
-                                  //                             style: TextStyle(
-                                  //                                 fontSize: 15.sp)),
-                                  //                       ],
-                                  //                     ),
-                                  //                     SizedBox(
-                                  //                       height: 5.h,
-                                  //                     ),
-                                  //                     Row(
-                                  //                       children: [
-                                  //                         Container(width: 80,child: Text('TO DATE',style: TextStyle(fontWeight: FontWeight.bold),),),
-                                  //                         Container(width: 10,child: Text(':',style: TextStyle(fontWeight: FontWeight.bold),),),
-                                  //
-                                  //                         Text("30-08-1999",
-                                  //                             style: TextStyle(
-                                  //                                 fontSize: 15.sp)),
-                                  //                       ],
-                                  //                     ),
-                                  //                     SizedBox(
-                                  //                       height: 10.h,
-                                  //                     ),
-                                  //                     (document != null)
-                                  //                         ?
-                                  //                     Row(
-                                  //                       children: [
-                                  //                         Container(width: 80,child: Text('DOCUMENT',style: TextStyle(fontWeight: FontWeight.bold),),),
-                                  //                         Container(width: 10,child: Text(':',style: TextStyle(fontWeight: FontWeight.bold),),),
-                                  //                         Container(width: 10,child: GestureDetector(
-                                  //                           onTap: () async {
-                                  //
-                                  //
-                                  //                           },
-                                  //                           child: attchIcon(
-                                  //                               type: document
-                                  //                                   .toString()
-                                  //                                   .split(".")
-                                  //                                   .last,
-                                  //                               document: document
-                                  //                                   .toString()),
-                                  //                         ),
-                                  //                         ),
-                                  //                       ],
-                                  //                     )
-                                  //                         :Container(),
-                                  //                     SizedBox(
-                                  //                       height: 50.w,
-                                  //                     ),
-                                  //                     GestureDetector(
-                                  //                       onTap: (){
-                                  //                         Navigator.pop(context);
-                                  //                       },
-                                  //                       child: Center(
-                                  //                         child: Container(
-                                  //                           height: 40.h,
-                                  //                           width: 80.w,
-                                  //                           child: Center(child: Text('OK')
-                                  //
-                                  //
-                                  //                           ),
-                                  //                           decoration: BoxDecoration(
-                                  //                               color: Colors.red,
-                                  //                               borderRadius: BorderRadius.circular(15)
-                                  //                           ),
-                                  //
-                                  //                         ),
-                                  //                       ),
-                                  //                     )
-                                  //
-                                  //
-                                  //
-                                  //
-                                  //
-                                  //
-                                  //
-                                  //
-                                  //
-                                  //
-                                  //
-                                  //
-                                  //
-                                  //
-                                  //
-                                  //
-                                  //                   ],
-                                  //                 ),
-                                  //               ),
-                                  //             ),
-                                  //           ),
-                                  //     );
-                                  //   },
-                                  //   child: Container(
-                                  //       height: 35.h,
-                                  //       width: 80.w,
-                                  //       decoration: BoxDecoration(
-                                  //           color: Colors.blue,
-                                  //           borderRadius:
-                                  //           BorderRadius.circular(10)),
-                                  //       child: Center(
-                                  //           child: Text(
-                                  //             'Details',
-                                  //             style: TextStyle(
-                                  //                 fontWeight: FontWeight.bold,
-                                  //                 fontSize: 12.sp,
-                                  //                 color: Colors.white),
-                                  //           ))),
-                                  // )
-                                  //     :
+
                                   GestureDetector(
                                     onTap: () async {
                                       showDialog(
@@ -471,7 +244,7 @@ class PendingLeave extends StatelessWidget {
                                                     children: <Widget>[
                                                       Text(leaveList[i].studentName ?? '--',
                                                           style: TextStyle(
-                                                              fontSize: 18.sp)),
+                                                              fontSize: 18.sp,fontWeight: FontWeight.bold)),
                                                       SizedBox(
                                                         height: 8.h,
                                                       ),
@@ -570,51 +343,7 @@ class PendingLeave extends StatelessWidget {
             );
           },
         ),
-        // for (int i = 0; i < 10; i++)
-        //   _allleave(
-        //       name: "newResult[index]['studentName']",
-        //       fromdate: "30-08-1998",
-        //       todate: "30-08-1998",
-        //       totaldays: 7,
-        //       classes: "3",
-        //       batches: "B",
-        //       leavereason: "gwdywgdywdgqwud sbghuqwoidhqweiud ",
-        //       admissionNo: "30267",
-        //       applieddate: "5-09-9987",
-        //       academicyear: "2023",
-        //       statusleave: "applied",
-        //       i: i,
-        //       leaveId: "1233",
-        //       studimage: "mjsj",
-        //       document: "sndjiksw",
-        //       mypendings: true)
-        // Container(
-        //   child: ListView.builder(
-        //     shrinkWrap: true,
-        //     itemCount: 10,
-        //     itemBuilder:
-        //   (BuildContext context, int index) {
-        // return _allleave(
-        //   name: "newResult[index]['studentName']",
-        //   fromdate: "30-08-1998",
-        //   todate: "30-08-1998",
-        //   totaldays: 7,
-        //   classes: "3",
-        //   batches:"B",
-        //   leavereason:"gwdywgdywdgqwud sbghuqwoidhqweiud ",
-        //   admissionNo: "30267",
-        //   applieddate: "5-09-9987",
-        //   academicyear: "2023",
-        //   statusleave:"applied",
-        //   i: index,
-        //   leaveId: "1233",
-        //   studimage:"mjsj",
-        //   document: "sndjiksw",
-        //   mypendings:true
-        // );
-        //     },
-        //   ),
-        // )
+
       ],
     );
   }

@@ -99,7 +99,7 @@ class _MyTimeTableState extends State<MyTimeTable>
                   ),
                   child: const UserDetails(
                     shoBackgroundColor: false,
-                    isWelcome: false,
+                    isWelcome: true,
                     bellicon: true,
                     notificationcount: true,
                   ),

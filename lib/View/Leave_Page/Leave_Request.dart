@@ -76,7 +76,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                 Container(
                   margin: EdgeInsets.only(left: 20.w, top: 120.h, right: 20.w,),
                   // width: 550.w,
-                  height: ScreenUtil().screenHeight ,
+                  // height: ScreenUtil().screenHeight ,
                   decoration: BoxDecoration(
                     color: Colorutils.Whitecolor,
                     // Container color

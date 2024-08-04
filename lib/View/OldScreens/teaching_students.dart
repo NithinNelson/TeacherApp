@@ -719,7 +719,7 @@ class _StudentListViewState extends State<StudentListView> {
                               child: Container(
                                   margin: EdgeInsets.only(top: 4,left: 8),
                                   child: Text(
-                                    "Note: Attendance Already Taken",
+                                  "Note: Attendance has already been taken.",
                                     style: TextStyle(
                                         fontSize: 16.sp,
                                         fontWeight: FontWeight.bold,
