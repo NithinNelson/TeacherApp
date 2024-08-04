@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:teacherapp/Utils/Colors.dart';
 
 class CheckBoxView extends StatefulWidget {
   final bool isChecked;
@@ -25,10 +26,10 @@ class _CheckBoxViewState extends State<CheckBoxView> {
     decoration: BoxDecoration(
         borderRadius:
         BorderRadius.all(Radius.circular(widget.borderRadius)),
-        border: Border.all(color: Colors.blue, width: 1)),
+        border: Border.all(color: Colorutils.userdetailcolor, width: 1)),
     child: Icon(
       Icons.done,
-      color: Colors.blue,
+      color: Colorutils.userdetailcolor,
       size: widget.size / 2,
     ),
   );
@@ -39,7 +40,7 @@ class _CheckBoxViewState extends State<CheckBoxView> {
     decoration: BoxDecoration(
         borderRadius:
         BorderRadius.all(Radius.circular(widget.borderRadius)),
-        border: Border.all(color: Colors.blue, width: 1)),
+        border: Border.all(color: Colorutils.userdetailcolor, width: 1)),
     child: Icon(
       Icons.done,
       color: Colors.transparent,

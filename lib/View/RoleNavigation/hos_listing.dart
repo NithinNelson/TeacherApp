@@ -248,7 +248,7 @@ class _HosListingState extends State<HosListing> {
                                 height: 60.h,
                                 width: 220.w,
                                 decoration: BoxDecoration(
-                                  color: Color(0xff42C614),
+                                  color:Colorutils.userdetailcolor,
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
                                 ),

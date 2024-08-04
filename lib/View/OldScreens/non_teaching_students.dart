@@ -14,10 +14,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:teacherapp/Services/snackBar.dart';
 import 'package:teacherapp/Utils/api_constants.dart';
 import 'package:teacherapp/View/CWidgets/AppBarBackground.dart';
 import 'package:teacherapp/View/Home_Page/Home_Widgets/user_details.dart';
+
+import '../../Utils/Colors.dart';
 
 class NonTeacherStudentList extends StatefulWidget {
   String? name;
@@ -626,25 +629,25 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
                               width: 20.w,
                               height: 20.h,
                               child: Image.asset(
-                                  "assets/images/studentCalender.png"),
+                                "assets/images/studentCalender.png",color: Colorutils.userdetailcolor.withOpacity(0.4),),
+                            ),
+                            SizedBox(
+                              width: 3.w,
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.only(right: 13),
+                              child: Text(
+                                widget.selectedDate.toString(),
+                                style: TextStyle(fontSize: 14.sp),
+                              ),
                             ),
                             SizedBox(
                               width: 5.w,
                             ),
-                            Text(
-                              widget.selectedDate.toString(),
-                              style: TextStyle(fontSize: 12.sp),
-                            ),
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            widget.timeString == null
-                                ? Text(" ")
-                                : Text(
-                                widget.timeString
-                                    .toString()
-                                    .split("-")[0],
-                                style: TextStyle(fontSize: 12.sp))
+                            widget.timeString == null ? Text(" ") : Text(
+                                widget.timeString.toString().split("-")[0],
+                                style: TextStyle(fontSize: 14.sp))
                           ],
                         ),
                       ],
@@ -728,9 +731,10 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
                         ? Text("")
                         : Center(
                         child: Container(
+                          height: 20,
                             margin: EdgeInsets.all(8),
                             child: Text(
-                              "Attendance Taken",
+                                "Note: Attendance has already been taken.",
                               style: TextStyle(
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.bold,
@@ -741,14 +745,17 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
                     ),
                     isSpinner
                         ?Expanded(
-                      child: Center(
+                      child:Center(
                         child: Container(
                           child: Center(
-                            child: Text(
-                                'Searching....',
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(Colorutils.chatcolor),
+                              backgroundColor: Colorutils.userdetailcolor,
+                              strokeWidth: 5.0,
                             ),
                           ),
                         ),
+
                       ),
                     ): newResult.isEmpty ? Center(child: Image.asset("assets/images/nodata.gif"))
                         : Expanded(
@@ -787,8 +794,7 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 border: Border.all(
-                                                    color: Color(
-                                                        0xFFD6E4FA)),
+                                                    color: Colorutils.chatcolor),
                                                 // image: DecorationImage(
                                                 //     image: NetworkImage(afterAttendanceTaken !=
                                                 //             null
@@ -835,8 +841,7 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
                                                           // '${ourStudentList[index]["username"].split(' ')[1].toString()[0]}'
                                                           ,
                                                           style: TextStyle(
-                                                              color: Color(
-                                                                  0xFFB1BFFF),
+                                                              color: Colorutils.chatcolor,
                                                               fontWeight: FontWeight
                                                                   .bold,
                                                               fontSize:
@@ -852,8 +857,7 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
                                                           // '${ourStudentList[index]["username"].split(' ')[1].toString()[0]}'
                                                           ,
                                                           style: TextStyle(
-                                                              color: Color(
-                                                                  0xFFB1BFFF),
+                                                              color: Colorutils.chatcolor,
                                                               fontWeight: FontWeight
                                                                   .bold,
                                                               fontSize:
@@ -958,116 +962,7 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
                                             
                                                 Spacer(),
                                                 Container(
-                                                  // child: AdvancedSwitch(
-                                                  //   width: 80.w,
-                                                  //   height: 40.h,
-                                                  //   initialValue: afterAttendanceTaken ==
-                                                  //       null ||
-                                                  //       afterAttendanceTaken
-                                                  //           .isEmpty
-                                                  //       ? _searchController
-                                                  //       .text
-                                                  //       .isNotEmpty
-                                                  //       ? newResult[
-                                                  //   index][
-                                                  //   "is_present"]
-                                                  //       : ourStudentList[
-                                                  //   index][
-                                                  //   "is_present"]
-                                                  //       : _searchController
-                                                  //       .text
-                                                  //       .isNotEmpty
-                                                  //       ? newResult[
-                                                  //   index]
-                                                  //   [
-                                                  //   "selected"]
-                                                  //       : afterAttendanceTaken[
-                                                  //   index]
-                                                  //   [
-                                                  //   "selected"],
-                                                  //   onChanged: (val) {
-                                                  //     setState(() {
-                                                  //       afterAttendanceTaken ==
-                                                  //           null ||
-                                                  //           afterAttendanceTaken
-                                                  //               .isEmpty
-                                                  //           ? _searchController
-                                                  //           .text
-                                                  //           .isNotEmpty
-                                                  //           ? newResult[index]
-                                                  //       [
-                                                  //       "is_present"] =
-                                                  //           val
-                                                  //           : ourStudentList[index]
-                                                  //       [
-                                                  //       "is_present"] =
-                                                  //           val
-                                                  //           : _searchController
-                                                  //           .text
-                                                  //           .isNotEmpty
-                                                  //           ? newResult[index]
-                                                  //       [
-                                                  //       "selected"] =
-                                                  //           val
-                                                  //           : afterAttendanceTaken[
-                                                  //       index]
-                                                  //       [
-                                                  //       "selected"] = val;
-                                                  //
-                                                  //       if (attendance_flag ==
-                                                  //           true) {
-                                                  //         attendance_flag =
-                                                  //         false;
-                                                  //       }
-                                                  //     });
-                                                  //
-                                                  //     print(
-                                                  //         "the selected value is $ourStudentList");
-                                                  //   },
-                                                  //   controller: _controller,
-                                                  //   thumb: ValueListenableBuilder(
-                                                  //     valueListenable: _controller,
-                                                  //     builder: (_, value, __) {
-                                                  //       return Container(
-                                                  //         decoration: BoxDecoration(
-                                                  //           border: Border.all(
-                                                  //             color: const Color(0xFFD6E4FA),
-                                                  //             width: 2,
-                                                  //           ),
-                                                  //           shape: BoxShape.circle,
-                                                  //           color: Colors.white,
-                                                  //         ),
-                                                  //       );
-                                                  //     },
-                                                  //   ),
-                                                  //   activeChild: Text(
-                                                  //     "  P",
-                                                  //     style: TextStyle(
-                                                  //       fontWeight: FontWeight.bold,
-                                                  //       fontSize: 16.sp,
-                                                  //     ),
-                                                  //   ),
-                                                  //   inactiveChild: Text(
-                                                  //     "A  ",
-                                                  //     style: TextStyle(
-                                                  //       fontWeight: FontWeight.bold,
-                                                  //       fontSize: 16.sp,
-                                                  //     ),
-                                                  //   ),
-                                                  //   activeColor: Colorutils.userdetailcolor,
-                                                  //   inactiveColor: Colors.red.withOpacity(0.8),
-                                                  //   borderRadius: BorderRadius.circular(30.0),
-                                                  //   // thumb: Container(
-                                                  //   //   decoration: BoxDecoration(
-                                                  //   //     border: Border.all(
-                                                  //   //         color: const Color(0xFFD6E4FA),
-                                                  //   //         width: 2,
-                                                  //   //     ),
-                                                  //   //     shape: BoxShape.circle,
-                                                  //   //     color: Colors.white,
-                                                  //   //   ),
-                                                  //   // ),
-                                                  // ),
+
                                                   child: FlutterSwitch(
                                                     width: 80.w,
                                                     height: 35.h,
@@ -1185,46 +1080,46 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
         ],
       ),
       // floatingActionButton: button(),
-      floatingActionButton: newSpinner == true
-          ? FloatingActionButton.extended(
-          elevation: 0,
-          onPressed: () {},
-          backgroundColor: Colors.white,
-          label: CircularProgressIndicator(
-            color: Colors.blue,
-          ))
-          : FloatingActionButton.extended(
-        elevation:
-        isStudentListnull.isEmpty || disableKey || newSpinner ? 0 : 8,
-        onPressed: isStudentListnull.isEmpty || disableKey
-            ? () {}
-            : () {
-          if (_searchController.text.isNotEmpty &&
-              newResult.isEmpty) {
-            snackBar(context: context, message: "No Data Available to Submit", color: Colors.red);
-            // Utils.showToastError("No Data Available to Submit")
-            //     .show(context);
-          } else {
-            setState(() {
-              newSpinner = true;
-              disableKey = true;
-            });
-            if (attendance_flag == true) {
-              print("kckkckckckkkckc");
-              snackBar(context: context, message: "Please wait the data is uploading", color: Colors.red);
-              // Utils.showToastError(
-              //     "Please wait the data is uploading")
+      floatingActionButton:
+
+           Container(
+        height: 50.w,
+        width: 200.w,
+            child: FloatingActionButton.extended(
+                    elevation:
+                    isStudentListnull.isEmpty || disableKey || newSpinner ? 0 : 8,
+                    onPressed: isStudentListnull.isEmpty || disableKey
+              ? () {}
+              : () {
+            if (_searchController.text.isNotEmpty &&
+                newResult.isEmpty) {
+              snackBar(context: context, message: "No Data Available to Submit", color: Colors.red);
+              // Utils.showToastError("No Data Available to Submit")
               //     .show(context);
             } else {
-              SubmitAttendance();
+              context.loaderOverlay.show();
+              setState(() {
+                newSpinner = true;
+                disableKey = true;
+              });
+              if (attendance_flag == true) {
+                print("kckkckckckkkckc");
+                snackBar(context: context, message: "Please wait the data is uploading", color: Colors.red);
+                // Utils.showToastError(
+                //     "Please wait the data is uploading")
+                //     .show(context);
+              } else {
+                SubmitAttendance();
+                context.loaderOverlay.hide();
+              }
             }
-          }
-        },
-        backgroundColor: isStudentListnull.isEmpty || disableKey
-            ? Colors.transparent
-            : Colors.blue,
-        label: const Text("SUBMIT", style: TextStyle(color: Colors.white),),
-      ),
+                    },
+                    backgroundColor: isStudentListnull.isEmpty || disableKey
+              ? Colors.transparent
+              : Colors.blue,
+                    label: const Text("SUBMIT", style: TextStyle(color: Colors.white),),
+                  ),
+          ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

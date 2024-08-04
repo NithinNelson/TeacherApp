@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -20,6 +21,7 @@ import '../../Utils/constants.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../CWidgets/TeacherAppPopUps.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
+import 'Leave_Request.dart';
 
 class LeaveApply extends StatefulWidget {
   final StudentsData studentsData;
@@ -131,7 +133,7 @@ class _ObsResultState extends State<LeaveApply> {
                     left: 0,
                     top: -10,
                     child: Container(
-                      // height: 100.w,
+
                       width: ScreenUtil().screenWidth,
                       decoration: BoxDecoration(
                         color: Colors.transparent,
@@ -143,22 +145,20 @@ class _ObsResultState extends State<LeaveApply> {
                   ),
                   Container(
                     margin:
-                    EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w,),
-                    width: 500.w,
-                    height: double.infinity,
+                    EdgeInsets.only(left: 15.w, top: 120.h, right: 15.w,),
+                    // width: 500.w,
+                    height: ScreenUtil().screenHeight * 0.8,
                     decoration: BoxDecoration(
                       color: Colorutils.Whitecolor,
                       // Container color
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20.r),
-                          topLeft: Radius.circular(20.r)),
+                      borderRadius: BorderRadius.all(Radius.circular(17)),
                       // Border radius
                       boxShadow: [
                         BoxShadow(
                           color: Colorutils.userdetailcolor.withOpacity(0.3),
                           // Shadow color
-                          spreadRadius: 2,
-                          blurRadius: 5,
+                          spreadRadius: 1,
+                          blurRadius: 1,
                           offset: Offset(0, 3), // Shadow position
                         ),
                       ],
@@ -180,29 +180,7 @@ class _ObsResultState extends State<LeaveApply> {
                                     SizedBox(
                                       width: 120.w,
                                     ),
-                                    // Row(
-                                    //   children: [
-                                    //     SizedBox(
-                                    //       width: 20.w,
-                                    //       height: 20.h,
-                                    //       child: Image.asset(
-                                    //           "assets/images/studentCalender.png"),
-                                    //     ),
-                                    // SizedBox(
-                                    //   width: 5.w,
-                                    // ),
-                                    // Text(
-                                    //   widget.selectedDate.toString(),
-                                    //   style: TextStyle(fontSize: 12.sp),
-                                    // ),
-                                    // SizedBox(
-                                    //   width: 5.w,
-                                    // ),
-                                    // widget.timeString == null ? Text(" ") : Text(
-                                    //     widget.timeString.toString().split("-")[0],
-                                    //     style: TextStyle(fontSize: 12.sp))
-                                    //   ],
-                                    // ),
+
                                   ],
                                 ),
                               ),
@@ -391,8 +369,8 @@ class _ObsResultState extends State<LeaveApply> {
                                               EdgeInsets.symmetric(
                                                   vertical: 5.0,
                                                   horizontal: 10.0),
-                                              hintText: " What went well   ",
-                                              counterText: "00/1000",
+                                              hintText: "Please Enter the reason  ",
+
                                               border: OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(
                                                   Radius.circular(10.0),
@@ -471,7 +449,7 @@ class _ObsResultState extends State<LeaveApply> {
                                                 ),
                                               ),
 
-                                              // Text('File Path: $_filePath'),
+                                                                                       // Text('File Path: $_filePath'),
                                             ] else
                                               Text('No File Selected'),
                                           ],
@@ -485,6 +463,7 @@ class _ObsResultState extends State<LeaveApply> {
                                         GestureDetector(
                                           onTap:() async {
                                             await submitLeave(context: context);
+
                                           },
                                           child: Container(
                                               height: 40.h,
@@ -602,6 +581,7 @@ class _ObsResultState extends State<LeaveApply> {
                   actionName: "Close",
                   iconData: Icons.info_outline,
                   iconColor: Colors.green,
+
                 );
               } else {
                 TeacherAppPopUps.submitFailed(

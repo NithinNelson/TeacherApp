@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:teacherapp/Services/snackBar.dart';
+import 'package:teacherapp/Utils/Colors.dart';
 
 import '../../Controller/api_controllers/userAuthController.dart';
 import '../../Utils/api_constants.dart';
@@ -109,15 +111,17 @@ class _CommittedPageState extends State<CommittedPage> {
               children: const [
                 Text(
                   "Committed Date",
-                  style: TextStyle(color: Colors.blueGrey),
+                  style: TextStyle(color: Colors.black,fontSize: 16),
                 )
               ],
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 10.h, left: 22.w, right: 22.w),
+            padding: EdgeInsets.only(top: 10.h, left: 20.w, right: 20.w),
+
             child: _getCalendarView(context),
           ),
+          SizedBox(height: 20,),
           Padding(
             padding: EdgeInsets.only(top: 10.h, left: 10.w, right: 10.w),
             child: Column(
@@ -139,38 +143,51 @@ class _CommittedPageState extends State<CommittedPage> {
                   child: _getRemark(),
                 ),
                 SizedBox(
-                  height: 20.h,
+                  height: 30.h,
                 ),
                 Center(
                   child: isPresses
                       ? CircularProgressIndicator(
                     color: Color(0xFF6FDCFF),
                   )
-                      : GestureDetector(
-                    onTap: () async {
-                      if (remarkController.text == null ||
-                          remarkController.text.isEmpty) {
-                        await snackBar(context: context, message: "Please Fill the Required Field", color: Colors.red);
-                        // Utils.showToastError(
-                        //     "Please Fill the Required Field")
-                        //     .show(context);
-                      } else {
-                        setState(() {
-                          isPresses = true;
-                        });
-                        SubmitRequest();
-                      }
-                    },
-                    child: SizedBox(
-                      height: 60.h,
-                      width: 327.w,
-                      child: Center(
-                        child: Image.asset(
-                            "assets/images/committedCalls.png"),
+                      :
+                    Container(
+                      height: 50.w,
+                      width: 200.w,
+                      child: FloatingActionButton(
+
+                        onPressed: () async {
+                          if (remarkController.text == null ||
+                              remarkController.text.isEmpty) {
+                            await snackBar(context: context, message: "Please Fill the Required Field", color: Colors.red);
+                            // Utils.showToastError(
+                            //     "Please Fill the Required Field")
+                            //     .show(context);
+                          } else {
+                            setState(() {
+                              isPresses = true;
+                            });
+                            SubmitRequest();
+                          }
+                        },
+                        child:Text(
+                          'SUBMIT',
+                          style: GoogleFonts.inter(
+                              fontSize: 15,color: Colorutils.chatcolor
+
+                          ),
+                        ),
+                        backgroundColor:Colorutils.userdetailcolor,
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+
+
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
                       ),
                     ),
                   ),
-                )
+
               ],
             ),
           ),
@@ -204,7 +221,7 @@ class _CommittedPageState extends State<CommittedPage> {
         horizontal: 20.w, vertical: 10.w),
     decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: Colors.blue),
+        border: Border.all(color: Colorutils.chatcolor),
         // boxShadow: [
         //   BoxShadow(color: ColorUtils.SHADOW_COLOR, blurRadius: 20)
         // ],
@@ -236,8 +253,8 @@ class _CommittedPageState extends State<CommittedPage> {
   Widget _getCalendarView(BuildContext context) => GestureDetector(
     onTap: () => _selectDate(context),
     child: Container(
-      width: 326.w,
-      height: 50.h,
+      height: 60.w,
+
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Row(
         children: [
@@ -258,34 +275,11 @@ class _CommittedPageState extends State<CommittedPage> {
         ],
       ),
       decoration: const BoxDecoration(
-          color: Colors.white,
+          color: Colorutils.chatcolor,
           borderRadius: BorderRadius.all(
-            Radius.circular(10),
+            Radius.circular(17),
           )),
     ),
   );
-  // _submitFailed(context) {
-  //   return Alert(
-  //     context: context,
-  //     type: AlertType.success,
-  //     title: "Submitted Successfully",
-  //     style: AlertStyle(
-  //         isCloseButton: false,
-  //         titleStyle: TextStyle(color: Color.fromRGBO(66, 69, 147, 7))),
-  //     buttons: [
-  //       DialogButton(
-  //         color: Colors.white,
-  //         child: Text(
-  //           "",
-  //           style: TextStyle(color: Colors.white, fontSize: 20),
-  //         ),
-  //         onPressed: () async {
-  //           Navigator.pop(context);
-  //         },
-  //         // print(widget.academicyear);
-  //         //width: 120,
-  //       )
-  //     ],
-  //   ).show();
-  // }
+
 }

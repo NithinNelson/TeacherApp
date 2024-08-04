@@ -146,14 +146,14 @@ class ApproveRejected extends StatelessWidget {
                           Row(
                             children: [
                               Container(
-                                  width: 200.w,
+                                  width: 230.w,
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: Row(
                                       children: [
                                         Text(
                                           leaveList[i].studentName ?? '--',
-                                          style: TextStyle(fontSize: 13),
+                                          style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold),
                                         ),
 
                                       ],
@@ -185,7 +185,7 @@ class ApproveRejected extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                  width: 140.w, child: Text(leaveList[i].admissionNumber ?? '--')),
+                                  width: 140.w, child: Text("Adm No: ${leaveList[i].admissionNumber ?? '--'}")),
                               Text('Class: ${leaveList[i].classs ?? '-'} ${leaveList[i].batch ?? '-'}'),
                             ],
                           ),
@@ -195,7 +195,7 @@ class ApproveRejected extends StatelessWidget {
                           Row(
                             children: [
                               Container(
-                                width: 100.w,
+                                width: 120.w,
                                 child: Text(
                                   "From: ${leaveList[i].startDate}",
                                   style: TextStyle(fontSize: 12),
@@ -215,6 +215,7 @@ class ApproveRejected extends StatelessWidget {
                             width: MediaQuery.of(context).size.width * 0.60,
                             height: 40.h,
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 // Flexible(flex: 1, child: Container()),
                                 Text(
@@ -226,7 +227,7 @@ class ApproveRejected extends StatelessWidget {
                                     //     : Colors.red,
                                   ),
                                 ),
-                                Flexible(flex: 1, child: Container()),
+
                                 Padding(
                                   padding: const EdgeInsets.only(left: 45),
                                   child: GestureDetector(
@@ -261,7 +262,7 @@ class ApproveRejected extends StatelessWidget {
                                                     children: <Widget>[
                                                       Text(leaveList[i].studentName ?? '--',
                                                           style: TextStyle(
-                                                              fontSize: 18.sp)),
+                                                              fontSize: 18.sp,fontWeight: FontWeight.bold)),
                                                       SizedBox(
                                                         height: 8.h,
                                                       ),
@@ -315,8 +316,10 @@ class ApproveRejected extends StatelessWidget {
                                                           GestureDetector(
                                                             onTap: () async {
                                                               try {
-                                                                await launchUrl(Uri.parse("${ApiConstants.baseUrl}${leaveList[i].documentPath}"));
-                                                              } catch(e) {}
+                                                                await launchUrl(Uri.parse("${ApiConstants.downloadUrl}${leaveList[i].documentPath}"));
+                                                              } catch(e) {
+                                                                print("--------vrgvg-------${e.toString()}");
+                                                              }
                                                             },
                                                             child: attchIcon(
                                                                 type: leaveList[i].documentPath.toString().split(".").last,
@@ -334,7 +337,7 @@ class ApproveRejected extends StatelessWidget {
                                     },
                                     child: Container(
                                         height: 40.h,
-                                        width: 90.w,
+                                        width: 80.w,
                                         decoration: BoxDecoration(
                                             color: Colors.blue,
                                             borderRadius:
