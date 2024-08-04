@@ -2253,7 +2253,7 @@ SizedBox(height: 15,),
         backgroundColor: Colors.white,
         builder: (context) {
           return Container(
-            height: 400.w,
+            height: 430.w,
             // height: MediaQuery.of(context).size.height / 2.2,
             margin: EdgeInsets.all(20),
             child: ListView(
@@ -2281,6 +2281,7 @@ SizedBox(height: 15,),
                               // '${ourStudentList[index]["username"].split(' ')[1].toString()[0]}'
                               ,
                               style: TextStyle(
+
                                   color: Colorutils.userdetailcolor,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20),
@@ -2375,7 +2376,7 @@ SizedBox(height: 15,),
                               Container(
                                   width: 150.w,
                                   child: Text(parentName,
-                                      style: GoogleFonts.roboto(
+                                      style: GoogleFonts.inter(
                                           textStyle: TextStyle(
                                               fontSize: 16.sp,
                                               color: Colors.black,
@@ -2609,7 +2610,9 @@ SizedBox(height: 15,),
                       height: 50.h,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
+
                         image: DecorationImage(
+
                             image: NetworkImage(image), fit: BoxFit.fill),
                       ),
                     ),
@@ -2622,7 +2625,7 @@ SizedBox(height: 15,),
                         Container(
                             width: 200.w,
                             child: Text(studentName,
-                                style: GoogleFonts.spaceGrotesk(
+                                style: GoogleFonts.inter(
                                     textStyle: TextStyle(
                                         fontSize: 18.sp,
                                         color: Colors.black,
