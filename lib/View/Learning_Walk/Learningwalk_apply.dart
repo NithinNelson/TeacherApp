@@ -93,369 +93,372 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                   ),
                   child: Form(
                     key: _formKey,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height,
-                              // height: 800.h,
-                              child: ListView(
-                                  padding: const EdgeInsets.all(5),
-                                  //crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          25, 10, 0, 10),
-                                      child: Text(
-                                        'Learning Walk',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 30),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height,
+                                // height: 800.h,
+                                child: ListView(
+                                    padding: const EdgeInsets.all(5),
+                                    //crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            25, 10, 0, 10),
+                                        child: Text(
+                                          'Learning Walk',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 20.w,
-                                          top: 5.h,
-                                          right: 20.w,
-                                          bottom: 5),
-                                      child: Container(
-                                        height: 80.h,
-                                        width: 280.w,
-                                        decoration: BoxDecoration(
-                                            color: Colorutils.userdetailcolor,
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                              horizontal: 10)
-                                                          .w,
-                                                  child: Container(
-                                                    width: 50.w,
-                                                    height: 50.h,
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      border: Border.all(
-                                                          color:
-                                                              Color(0xFFD6E4FA)),
-                                                      color: Colors.white,
-                                                      // image: DecorationImage(
-                                                      //     image: NetworkImage(widget.teacherImage == ""
-                                                      //         ? "https://raw.githubusercontent.com/abdulmanafpfassal/image/master/profile.jpg"
-                                                      //         : ApiConstants.IMAGE_BASE_URL +
-                                                      //         "${widget.teacherImage}"),
-                                                      //     fit: BoxFit.cover),
-                                                    ),
-                                                    child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              100),
-                                                      child: CachedNetworkImage(
-                                                        width: 50,
-                                                        height: 50,
-                                                        fit: BoxFit.fill,
-                                                        imageUrl: "__",
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            Center(
-                                                          child: Text(
-                                                            placeholderName,
-                                                            style: TextStyle(
-                                                                color: Color(
-                                                                    0xFFB1BFFF),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 20),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 20.w,
+                                            top: 5.h,
+                                            right: 20.w,
+                                            bottom: 5),
+                                        child: Container(
+                                          height: 80.h,
+                                          width: 280.w,
+                                          decoration: BoxDecoration(
+                                              color: Colorutils.userdetailcolor,
+                                              borderRadius:
+                                                  BorderRadius.circular(15)),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.symmetric(
+                                                                horizontal: 10)
+                                                            .w,
+                                                    child: Container(
+                                                      width: 50.w,
+                                                      height: 50.h,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Color(0xFFD6E4FA)),
+                                                        color: Colors.white,
+                                                        // image: DecorationImage(
+                                                        //     image: NetworkImage(widget.teacherImage == ""
+                                                        //         ? "https://raw.githubusercontent.com/abdulmanafpfassal/image/master/profile.jpg"
+                                                        //         : ApiConstants.IMAGE_BASE_URL +
+                                                        //         "${widget.teacherImage}"),
+                                                        //     fit: BoxFit.cover),
+                                                      ),
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                100),
+                                                        child: CachedNetworkImage(
+                                                          width: 50,
+                                                          height: 50,
+                                                          fit: BoxFit.fill,
+                                                          imageUrl: "__",
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              Center(
+                                                            child: Text(
+                                                              placeholderName,
+                                                              style: TextStyle(
+                                                                  color: Color(
+                                                                      0xFFB1BFFF),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 20),
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        width: 180.w,
+                                                        child:
+                                                            SingleChildScrollView(
+                                                          scrollDirection:
+                                                              Axis.horizontal,
+                                                          child: Text(
+                                                            "${widget.teacherName}",
+                                                            style: TextStyle(
+                                                                color: Color(
+                                                                    0xffFFFFFF),
+                                                                fontSize: 15.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      // SizedBox(
+                                                      //   height: 2.h,
+                                                      // ),
+                                                      SizedBox(
+                                                        width: 180.w,
+                                                        child:
+                                                            SingleChildScrollView(
+                                                          scrollDirection:
+                                                              Axis.horizontal,
+                                                          child: Text(
+                                                            "${widget.classAndBatch}",
+                                                            style: TextStyle(
+                                                                color: Colors.white,
+                                                                fontSize: 14.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      // SizedBox(
+                                                      //   height: 2.h,
+                                                      // ),
+                                                      Container(
+                                                        width: 180.w,
+                                                        child:
+                                                            SingleChildScrollView(
+                                                          child: Text(
+                                                            "${widget.subjectName}",
+                                                            style: TextStyle(
+                                                                color: Colors.white,
+                                                                fontSize: 14.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.fromLTRB(25, 5, 0, 5),
+                                        child: Text(
+                                          'Criteria',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                      QuestionRadioFields(),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 20.w,
+                                            top: 10.h,
+                                            right: 20.w,
+                                            bottom: 5),
+                                        child: TextFormField(
+                                          maxLength: 1000,
+                                          validator: (val) => val!.isEmpty
+                                              ? '  *Fill the Field to Submit'
+                                              : null,
+                                          controller: _summaryController,
+                                          decoration: InputDecoration(
+                                              hintStyle:
+                                                  TextStyle(color: Colors.black26),
+                                              contentPadding: EdgeInsets.symmetric(
+                                                  vertical: 10.0, horizontal: 20.0),
+                                              hintText: " Summary  ",
+
+                                              border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0),
                                                 ),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      width: 180.w,
-                                                      child:
-                                                          SingleChildScrollView(
-                                                        scrollDirection:
-                                                            Axis.horizontal,
-                                                        child: Text(
-                                                          "${widget.teacherName}",
-                                                          style: TextStyle(
-                                                              color: Color(
-                                                                  0xffFFFFFF),
-                                                              fontSize: 15.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    // SizedBox(
-                                                    //   height: 2.h,
-                                                    // ),
-                                                    SizedBox(
-                                                      width: 180.w,
-                                                      child:
-                                                          SingleChildScrollView(
-                                                        scrollDirection:
-                                                            Axis.horizontal,
-                                                        child: Text(
-                                                          "${widget.classAndBatch}",
-                                                          style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize: 14.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    // SizedBox(
-                                                    //   height: 2.h,
-                                                    // ),
-                                                    Container(
-                                                      width: 180.w,
-                                                      child:
-                                                          SingleChildScrollView(
-                                                        child: Text(
-                                                          "${widget.subjectName}",
-                                                          style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize: 14.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                )
-                                              ],
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color.fromRGBO(
+                                                        230, 236, 254, 8),
+                                                    width: 1.0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(22)),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color.fromRGBO(
+                                                        230, 236, 254, 8),
+                                                    width: 1.0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(30.0)),
+                                              ),
+                                              fillColor: Colorutils.chatcolor
+                                                  .withOpacity(0.3),
+                                              filled: true),
+                                          maxLines: 5,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 20.w,
+                                            top: 5.h,
+                                            right: 20.w,
+                                            bottom: 5),
+                                        child: TextFormField(
+                                          controller: _whatWentWellController,
+                                          maxLength: 1000,
+                                          validator: (val) => val!.isEmpty
+                                              ? '  *Fill the Field to Submit'
+                                              : null,
+                                          decoration: InputDecoration(
+                                              hintStyle:
+                                                  TextStyle(color: Colors.black26),
+                                              contentPadding: EdgeInsets.symmetric(
+                                                  vertical: 10.0, horizontal: 20.0),
+                                              hintText: " What went well   ",
+
+                                              border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0),
+                                                ),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color.fromRGBO(
+                                                        230, 236, 254, 8),
+                                                    width: 1.0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(22)),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color.fromRGBO(
+                                                        230, 236, 254, 8),
+                                                    width: 1.0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(30.0)),
+                                              ),
+                                              fillColor: Colorutils.chatcolor
+                                                  .withOpacity(0.3),
+                                              filled: true),
+                                          maxLines: 5,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          left: 20.w,
+                                          top: 5.h,
+                                          right: 20.w,
+                                        ),
+                                        child: TextFormField(
+                                          maxLength: 1000,
+                                          validator: (val) => val!.isEmpty
+                                              ? '  *Fill the Field to Submit'
+                                              : null,
+                                          controller: _evenBetterIfController,
+                                          decoration: InputDecoration(
+                                              hintStyle:
+                                                  TextStyle(color: Colors.black26),
+                                              contentPadding: EdgeInsets.symmetric(
+                                                  vertical: 10.0, horizontal: 20.0),
+                                              hintText: " Even better if   ",
+
+                                              border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0),
+                                                ),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color.fromRGBO(
+                                                        230, 236, 254, 8),
+                                                    width: 1.0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(22)),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color.fromRGBO(
+                                                        230, 236, 254, 8),
+                                                    width: 1.0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(30.0)),
+                                              ),
+                                              fillColor: Colorutils.chatcolor
+                                                  .withOpacity(0.3),
+                                              filled: true),
+                                          maxLines: 5,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                        child: Row(
+                                          children: [
+                                            Checkbox(
+                                              activeColor:
+                                                  Colorutils.userdetailcolor,
+                                              value: isChecked,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  isChecked = !isChecked;
+                                                });
+                                              },
+                                            ),
+                                            Text(
+                                              'Joined Observation',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                              ),
                                             )
                                           ],
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(25, 5, 0, 5),
-                                      child: Text(
-                                        'Criteria',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ),
-                                    QuestionRadioFields(),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 20.w,
-                                          top: 10.h,
-                                          right: 20.w,
-                                          bottom: 5),
-                                      child: TextFormField(
-                                        maxLength: 1000,
-                                        validator: (val) => val!.isEmpty
-                                            ? '  *Fill the Field to Submit'
-                                            : null,
-                                        controller: _summaryController,
-                                        decoration: InputDecoration(
-                                            hintStyle:
-                                                TextStyle(color: Colors.black26),
-                                            contentPadding: EdgeInsets.symmetric(
-                                                vertical: 10.0, horizontal: 20.0),
-                                            hintText: " Summary  ",
-                                            counterText: "00/1000",
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0),
-                                              ),
+                                      Padding(
+                                        padding: EdgeInsets.fromLTRB(35, 20, 35, 0),
+                                        child: GestureDetector(
+                                          onTap: () async {
+                                            if(_formKey.currentState!.validate()) {
+                                              await submitLearningWalk();
+                                            }
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 55, right: 55),
+                                            child: Container(
+                                              height: 40.h,
+                                              // width: 180.w,
+                                              decoration: BoxDecoration(
+                                                  color: Colorutils.userdetailcolor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(30)),
+                                              child: Center(
+                                                  child: Text(
+                                                'SUBMIT',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.white),
+                                              )),
                                             ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      230, 236, 254, 8),
-                                                  width: 1.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(22)),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      230, 236, 254, 8),
-                                                  width: 1.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(30.0)),
-                                            ),
-                                            fillColor: Colorutils.chatcolor
-                                                .withOpacity(0.3),
-                                            filled: true),
-                                        maxLines: 5,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 20.w,
-                                          top: 5.h,
-                                          right: 20.w,
-                                          bottom: 5),
-                                      child: TextFormField(
-                                        controller: _whatWentWellController,
-                                        maxLength: 1000,
-                                        validator: (val) => val!.isEmpty
-                                            ? '  *Fill the Field to Submit'
-                                            : null,
-                                        decoration: InputDecoration(
-                                            hintStyle:
-                                                TextStyle(color: Colors.black26),
-                                            contentPadding: EdgeInsets.symmetric(
-                                                vertical: 10.0, horizontal: 20.0),
-                                            hintText: " What went well   ",
-                                            counterText: "00/1000",
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0),
-                                              ),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      230, 236, 254, 8),
-                                                  width: 1.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(22)),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      230, 236, 254, 8),
-                                                  width: 1.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(30.0)),
-                                            ),
-                                            fillColor: Colorutils.chatcolor
-                                                .withOpacity(0.3),
-                                            filled: true),
-                                        maxLines: 5,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        left: 20.w,
-                                        top: 5.h,
-                                        right: 20.w,
-                                      ),
-                                      child: TextFormField(
-                                        maxLength: 1000,
-                                        validator: (val) => val!.isEmpty
-                                            ? '  *Fill the Field to Submit'
-                                            : null,
-                                        controller: _evenBetterIfController,
-                                        decoration: InputDecoration(
-                                            hintStyle:
-                                                TextStyle(color: Colors.black26),
-                                            contentPadding: EdgeInsets.symmetric(
-                                                vertical: 10.0, horizontal: 20.0),
-                                            hintText: " Even better if   ",
-                                            counterText: "000/1000",
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0),
-                                              ),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      230, 236, 254, 8),
-                                                  width: 1.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(22)),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      230, 236, 254, 8),
-                                                  width: 1.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(30.0)),
-                                            ),
-                                            fillColor: Colorutils.chatcolor
-                                                .withOpacity(0.3),
-                                            filled: true),
-                                        maxLines: 5,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                      child: Row(
-                                        children: [
-                                          Checkbox(
-                                            activeColor:
-                                                Colorutils.userdetailcolor,
-                                            value: isChecked,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                isChecked = !isChecked;
-                                              });
-                                            },
-                                          ),
-                                          Text(
-                                            'Joined Observation',
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.fromLTRB(35, 20, 35, 0),
-                                      child: GestureDetector(
-                                        onTap: () async {
-                                          if(_formKey.currentState!.validate()) {
-                                            await submitLearningWalk();
-                                          }
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 55, right: 55),
-                                          child: Container(
-                                            height: 40.h,
-                                            // width: 180.w,
-                                            decoration: BoxDecoration(
-                                                color: Colorutils.userdetailcolor,
-                                                borderRadius:
-                                                    BorderRadius.circular(30)),
-                                            child: Center(
-                                                child: Text(
-                                              'SUBMIT',
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.white),
-                                            )),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ]),
-                            ),
-                          )
-                        ]),
+                                    ]),
+                              ),
+                            )
+                          ]),
+                    ),
                   ),
                 ),
               ],

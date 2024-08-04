@@ -119,7 +119,7 @@ String? selectedValue;
                                             contentPadding: EdgeInsets.symmetric(
                                                 vertical: 15.0, horizontal: 20.0),
                                             hintText: "Teacher",
-                                            counterText: "",
+
                                             border: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(10.0),
@@ -176,7 +176,7 @@ String? selectedValue;
                                             contentPadding: EdgeInsets.symmetric(
                                                 vertical: 15.0, horizontal: 20.0),
                                             hintText: "Class",
-                                            counterText: "",
+
                                             border: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(10.0),
@@ -237,7 +237,7 @@ String? selectedValue;
                                             contentPadding: EdgeInsets.symmetric(
                                                 vertical: 15.0, horizontal: 20.0),
                                             hintText: "Subject",
-                                            counterText: "",
+
                                             border: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(10.0),

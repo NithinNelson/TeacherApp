@@ -79,16 +79,18 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  height: 20.h,
-                                  width: 20.h,
+                                  height: 22.h,
+                                  width: 22.h,
                                   decoration: BoxDecoration(
                                     color: Colors.black,
                                     borderRadius: BorderRadius.circular(100),
                                   ),
                                   child: Center(
-                                    child: Text(
-                                      (i + 1).toString(),
-                                      style: TextStyle(color: Colors.white),
+                                    child: FittedBox(
+                                      child: Text(
+                                        (i + 1).toString(),
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                     ),
                                   ),
                                 ),

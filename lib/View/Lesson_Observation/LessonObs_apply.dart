@@ -296,7 +296,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                             contentPadding: EdgeInsets.symmetric(
                                                 vertical: 10.0, horizontal: 20.0),
                                             hintText: " Summary  ",
-                                            counterText: "00/1000",
+
                                             border: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(10.0),
@@ -342,7 +342,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                             contentPadding: EdgeInsets.symmetric(
                                                 vertical: 10.0, horizontal: 20.0),
                                             hintText: " What went well   ",
-                                            counterText: "00/1000",
+
                                             border: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(10.0),
@@ -388,7 +388,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                             contentPadding: EdgeInsets.symmetric(
                                                 vertical: 10.0, horizontal: 20.0),
                                             hintText: " Even better if   ",
-                                            counterText: "000/1000",
+
                                             border: OutlineInputBorder(
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(10.0),

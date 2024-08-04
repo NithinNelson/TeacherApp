@@ -328,7 +328,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                       children: [
 
                         Padding(
-                          padding: const EdgeInsets.only(left: 10,top: 10),
+                          padding: const EdgeInsets.only(left: 10,top: 10,bottom: 30),
                           child:SingleChildScrollView(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -494,7 +494,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                               ? Container(
                                             width: 200.w,
                                             child: Text(
-                                              'Topic:${topic_lesson.toString()[0].toUpperCase()}${topic_lesson.toString().substring(1, topic_lesson.toString().length)}',
+                                              'Topic    :${topic_lesson.toString()[0].toUpperCase()}${topic_lesson.toString().substring(1, topic_lesson.toString().length)}',
                                               style: TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w600,
@@ -1124,8 +1124,9 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
+      margin:EdgeInsets.only(left: 2.w,  right: 2.w,bottom: 5),
             // height: 100.h,
-            //width: 350.w,
+           width: 380.w,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Result == 'NA'
