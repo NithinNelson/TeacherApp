@@ -84,6 +84,7 @@ class ParentMsgData {
   String? appMsgId;
   bool? isForward;
   String? replyId;
+  String? myReact;
   ReplyData? replyData;
 
   ParentMsgData(
@@ -101,6 +102,7 @@ class ParentMsgData {
       this.appMsgId,
       this.isForward,
       this.replyId,
+      this.myReact,
       this.replyData});
 
   ParentMsgData.fromJson(Map<String, dynamic> json) {
@@ -118,6 +120,7 @@ class ParentMsgData {
     appMsgId = json['app_msg_id'];
     isForward = json['is_forward'];
     replyId = json['reply_id'];
+    myReact = json['my_react'];
     replyData = json['reply_data'] != null
         ? ReplyData.fromJson(json['reply_data'])
         : null;
@@ -139,6 +142,7 @@ class ParentMsgData {
     data['app_msg_id'] = appMsgId;
     data['is_forward'] = isForward;
     data['reply_id'] = replyId;
+    data['my_react'] = myReact;
     if (replyData != null) {
       data['reply_data'] = replyData!.toJson();
     }
@@ -204,28 +208,34 @@ class ParentChattingReqModel {
   int? offset;
   int? limit;
 
-  ParentChattingReqModel({this.classs, this.batch, this.teacherId, this.parentId, this.schoolId, this.offset, this.limit});
+  ParentChattingReqModel(
+      {this.classs,
+      this.batch,
+      this.teacherId,
+      this.parentId,
+      this.schoolId,
+      this.offset,
+      this.limit});
 
   ParentChattingReqModel.fromJson(Map<String, dynamic> json) {
-  classs = json['class'];
-  batch = json['batch'];
-  teacherId = json['teacher_id'];
-  parentId = json['parent_id'];
-  schoolId = json['school_id'];
-  offset = json['offset'];
-  limit = json['limit'];
+    classs = json['class'];
+    batch = json['batch'];
+    teacherId = json['teacher_id'];
+    parentId = json['parent_id'];
+    schoolId = json['school_id'];
+    offset = json['offset'];
+    limit = json['limit'];
   }
 
   Map<String, dynamic> toJson() {
-  final Map<String, dynamic> data = <String, dynamic>{};
-  data['class'] = classs;
-  data['batch'] = batch;
-  data['teacher_id'] = teacherId;
-  data['parent_id'] = parentId;
-  data['school_id'] = schoolId;
-  data['offset'] = offset;
-  data['limit'] = limit;
-  return data;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['class'] = classs;
+    data['batch'] = batch;
+    data['teacher_id'] = teacherId;
+    data['parent_id'] = parentId;
+    data['school_id'] = schoolId;
+    data['offset'] = offset;
+    data['limit'] = limit;
+    return data;
   }
 }
-

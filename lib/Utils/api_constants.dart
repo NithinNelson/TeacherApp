@@ -44,6 +44,4 @@ class ApiConstants {
   static String groupedView = "/groupedview";
   static String updatenotification = "/v0/notifications/update/status";
   static String leaveReqList = "/v0/get/classteacher/student/list/";
-
-
 }

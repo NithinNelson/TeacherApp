@@ -42,7 +42,8 @@ class ParentMsgScreen extends StatefulWidget {
 
 class _ParentMsgScreenState extends State<ParentMsgScreen> {
   TextEditingController messageCtr = TextEditingController();
-  ParentChattingController parentChattingController = Get.find<ParentChattingController>();
+  ParentChattingController parentChattingController =
+      Get.find<ParentChattingController>();
   UserAuthController userAuthController = Get.find<UserAuthController>();
   Timer? chatUpdate;
 
@@ -75,22 +76,25 @@ class _ParentMsgScreenState extends State<ParentMsgScreen> {
     context.loaderOverlay.hide();
     await Future.delayed(const Duration(milliseconds: 50), () {
       parentChattingController.parentChatScrollController.value.animateTo(
-        parentChattingController.parentChatScrollController.value.position.maxScrollExtent,
+        parentChattingController
+            .parentChatScrollController.value.position.maxScrollExtent,
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeOut,
       );
     });
     chatUpdate = Timer.periodic(
       const Duration(seconds: 1),
-          (timer) async {
-        await parentChattingController.fetchParentMsgListPeriodically(chattingReqModel);
+      (timer) async {
+        await parentChattingController
+            .fetchParentMsgListPeriodically(chattingReqModel);
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    String studentRelation ="${widget.msgData?.relation ?? ''} ${widget.msgData?.relation != null ? 'of' : ''} ${widget.msgData?.parentName ?? '--'}";
+    String studentRelation =
+        "${widget.msgData?.relation ?? ''} ${widget.msgData?.relation != null ? 'of' : ''} ${widget.msgData?.parentName ?? '--'}";
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colorutils.userdetailcolor,
@@ -142,14 +146,17 @@ class _ParentMsgScreenState extends State<ParentMsgScreen> {
                     ),
                     SizedBox(width: 8.w),
                     Container(
-                      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10).w,
+                      padding: const EdgeInsets.symmetric(
+                              vertical: 2, horizontal: 10)
+                          .w,
                       decoration: BoxDecoration(
                         color: Colorutils.Whitecolor,
                         borderRadius: BorderRadius.circular(28).r,
                       ),
                       child: Text(
                         "${widget.msgData?.datumClass ?? ''}${widget.msgData?.batch ?? ''}",
-                        style: TeacherAppFonts.interW500_12sp_textWhite.copyWith(
+                        style:
+                            TeacherAppFonts.interW500_12sp_textWhite.copyWith(
                           color: const Color(0xFF003D36),
                         ),
                       ),
@@ -157,13 +164,9 @@ class _ParentMsgScreenState extends State<ParentMsgScreen> {
                   ],
                 ),
                 SizedBox(height: 3.h),
-                Text(
-                  studentRelation,
-                    style: TeacherAppFonts
-                        .interW400_12sp_textWhite_italic
-                        .copyWith(
-                        color: Colors.white)
-                ),
+                Text(studentRelation,
+                    style: TeacherAppFonts.interW400_12sp_textWhite_italic
+                        .copyWith(color: Colors.white)),
               ],
             ),
           ],
@@ -220,624 +223,618 @@ class _ParentMsgScreenState extends State<ParentMsgScreen> {
                         controller.filePath.value == null
                             ? const SizedBox()
                             : Padding(
-                          padding: EdgeInsets.only(top: 10.h),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10.h),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 35.w,
-                                    height: 30.w,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: AssetImage(
-                                            "assets/images/new-document.png"),
-                                      ),
-                                    ),
-                                    child: Center(
-                                        child: Text(
-                                          parentChattingController.filePath.value!
-                                              .split(".")
-                                              .last,
-                                          style: TeacherAppFonts
-                                              .interW500_12sp_textWhite
-                                              .copyWith(
-                                            fontSize: 10.sp,
-                                            color: Colors.black,
+                                padding: EdgeInsets.only(top: 10.h),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10.h),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 35.w,
+                                          height: 30.w,
+                                          decoration: const BoxDecoration(
+                                            image: DecorationImage(
+                                              fit: BoxFit.fill,
+                                              image: AssetImage(
+                                                  "assets/images/new-document.png"),
+                                            ),
                                           ),
-                                        )),
-                                  ),
-                                  SizedBox(width: 5.w),
-                                  Expanded(
-                                    child: Text(
-                                      parentChattingController.filePath.value!
-                                          .split("/")
-                                          .last,
-                                      style: TeacherAppFonts
-                                          .interW400_16sp_letters1
-                                          .copyWith(
-                                          color: Colors.black),
-                                      overflow: TextOverflow.ellipsis,
+                                          child: Center(
+                                              child: Text(
+                                            parentChattingController
+                                                .filePath.value!
+                                                .split(".")
+                                                .last,
+                                            style: TeacherAppFonts
+                                                .interW500_12sp_textWhite
+                                                .copyWith(
+                                              fontSize: 10.sp,
+                                              color: Colors.black,
+                                            ),
+                                          )),
+                                        ),
+                                        SizedBox(width: 5.w),
+                                        Expanded(
+                                          child: Text(
+                                            parentChattingController
+                                                .filePath.value!
+                                                .split("/")
+                                                .last,
+                                            style: TeacherAppFonts
+                                                .interW400_16sp_letters1
+                                                .copyWith(color: Colors.black),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            parentChattingController
+                                                .filePath.value = null;
+                                          },
+                                          child: SizedBox(
+                                            width: 25.w,
+                                            height: 40.w,
+                                            child: const Icon(
+                                              Icons.close,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  InkWell(
-                                    onTap: () {
-                                      parentChattingController
-                                          .filePath.value = null;
-                                    },
-                                    child: SizedBox(
-                                      width: 25.w,
-                                      height: 40.w,
-                                      child: const Icon(
-                                        Icons.close,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
                         controller.showAudioPlayingWidget.value == true
                             ? const ChatAudioPlayingWidget()
                             : const SizedBox(),
                         SizedBox(height: 10.w),
                         controller.isReplay.value != null
                             ? Column(
-                          children: [
-                            IntrinsicHeight(
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                  BorderRadius.circular(10.h),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: 7.w,
+                                children: [
+                                  IntrinsicHeight(
+                                    child: Container(
+                                      width: double.infinity,
                                       decoration: BoxDecoration(
-                                        color: Colorutils.letters1,
-                                        borderRadius: BorderRadius.only(
-                                          topLeft:
-                                          Radius.circular(10.h),
-                                          bottomLeft:
-                                          Radius.circular(10.h),
-                                        ),
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(10.h),
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsets.all(5.w),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              width: double.infinity,
-                                              child: Text(
-                                                controller
-                                                    .replayName.value,
-                                                style: TeacherAppFonts
-                                                    .interW600_16sp_letters1,
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 7.w,
+                                            decoration: BoxDecoration(
+                                              color: Colorutils.letters1,
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(10.h),
+                                                bottomLeft:
+                                                    Radius.circular(10.h),
                                               ),
                                             ),
-                                            SizedBox(height: 5.h),
-                                            Builder(
-                                              builder: (context) {
-                                                if (parentChattingController
-                                                    .replayMessage
-                                                    .type ==
-                                                    "file") {
-                                                  return Row(
-                                                    children: [
-                                                      Container(
-                                                        width: 17,
-                                                        height: 18,
-                                                        decoration:
-                                                        const BoxDecoration(
-                                                          image:
-                                                          DecorationImage(
-                                                            fit: BoxFit
-                                                                .fill,
-                                                            image: AssetImage(
-                                                                "assets/images/new-document.png"),
-                                                          ),
-                                                        ),
-                                                        child: Center(
-                                                          child:
-                                                          SizedBox(
-                                                            height: 8,
-                                                            width: 12,
-                                                            child:
-                                                            FittedBox(
-                                                              child:
-                                                              Text(
-                                                                parentChattingController
-                                                                    .replayMessage
-                                                                    .fileName!
-                                                                    .split(".")
-                                                                    .last,
-                                                                style: TeacherAppFonts
-                                                                    .interW400_14sp_textWhite
-                                                                    .copyWith(
-                                                                  fontSize:
-                                                                  8.sp,
-                                                                  color:
-                                                                  Colors.black,
+                                          ),
+                                          Expanded(
+                                            child: Padding(
+                                              padding: EdgeInsets.all(5.w),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  SizedBox(
+                                                    width: double.infinity,
+                                                    child: Text(
+                                                      controller
+                                                          .replayName.value,
+                                                      style: TeacherAppFonts
+                                                          .interW600_16sp_letters1,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 5.h),
+                                                  Builder(
+                                                    builder: (context) {
+                                                      if (parentChattingController
+                                                              .replayMessage
+                                                              .type ==
+                                                          "file") {
+                                                        return Row(
+                                                          children: [
+                                                            Container(
+                                                              width: 17,
+                                                              height: 18,
+                                                              decoration:
+                                                                  const BoxDecoration(
+                                                                image:
+                                                                    DecorationImage(
+                                                                  fit: BoxFit
+                                                                      .fill,
+                                                                  image: AssetImage(
+                                                                      "assets/images/new-document.png"),
+                                                                ),
+                                                              ),
+                                                              child: Center(
+                                                                child: SizedBox(
+                                                                  height: 8,
+                                                                  width: 12,
+                                                                  child:
+                                                                      FittedBox(
+                                                                    child: Text(
+                                                                      parentChattingController
+                                                                          .replayMessage
+                                                                          .fileName!
+                                                                          .split(
+                                                                              ".")
+                                                                          .last,
+                                                                      style: TeacherAppFonts
+                                                                          .interW400_14sp_textWhite
+                                                                          .copyWith(
+                                                                        fontSize:
+                                                                            8.sp,
+                                                                        color: Colors
+                                                                            .black,
+                                                                      ),
+                                                                    ),
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                          width: 5.h),
-                                                      Expanded(
-                                                        child: Text(
-                                                          parentChattingController
+                                                            SizedBox(
+                                                                width: 5.h),
+                                                            Expanded(
+                                                              child: Text(
+                                                                parentChattingController
+                                                                    .replayMessage
+                                                                    .fileName!,
+                                                                style: TeacherAppFonts
+                                                                    .interW400_14sp_textWhite
+                                                                    .copyWith(
+                                                                  color: Colorutils
+                                                                      .fontColor6
+                                                                      .withOpacity(
+                                                                          0.8),
+                                                                ),
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            )
+                                                          ],
+                                                        );
+                                                      } else if (parentChattingController
                                                               .replayMessage
-                                                              .fileName!,
+                                                              .type ==
+                                                          "text") {
+                                                        return Text(
+                                                          // "Can you pls share the pdf adsdaddsf.",
+                                                          parentChattingController
+                                                                  .replayMessage
+                                                                  .message ??
+                                                              "",
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+
                                                           style: TeacherAppFonts
                                                               .interW400_14sp_textWhite
                                                               .copyWith(
-                                                            color: Colorutils
-                                                                .fontColor6
-                                                                .withOpacity(
-                                                                0.8),
-                                                          ),
-                                                          overflow:
-                                                          TextOverflow
-                                                              .ellipsis,
-                                                        ),
-                                                      )
-                                                    ],
-                                                  );
-                                                } else if (
-                                                parentChattingController
-                                                    .replayMessage
-                                                    .type ==
-                                                    "text") {
-                                                  return Text(
-                                                    // "Can you pls share the pdf adsdaddsf.",
-                                                    parentChattingController
-                                                        .replayMessage
-                                                        .message ??
-                                                        "",
-                                                    overflow:
-                                                    TextOverflow
-                                                        .ellipsis,
+                                                                  color: Colorutils
+                                                                      .fontColor6
+                                                                      .withOpacity(
+                                                                          0.8)),
+                                                        );
+                                                      } else if (parentChattingController
+                                                              .replayMessage
+                                                              .type ==
+                                                          "audio") {
+                                                        return Row(
+                                                          children: [
+                                                            SizedBox(
+                                                              width: 22,
+                                                              height: 15.h,
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                      "assets/images/Record Audio.svg"),
+                                                            ),
+                                                            SizedBox(
+                                                                width: 1.w),
+                                                            Expanded(
+                                                              child: Text(
+                                                                "Audio",
+                                                                style: TeacherAppFonts
+                                                                    .interW400_14sp_textWhite
+                                                                    .copyWith(
+                                                                  color: Colorutils
+                                                                      .fontColor6
+                                                                      .withOpacity(
+                                                                          0.8),
+                                                                ),
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            )
+                                                          ],
+                                                        );
+                                                      } else if (parentChattingController
+                                                                  .replayMessage
+                                                                  .type ==
+                                                              "text_file" ||
+                                                          parentChattingController
+                                                                  .replayMessage
+                                                                  .type ==
+                                                              "text_audio") {
+                                                        return Text(
+                                                          // "Can you pls share the pdf adsdaddsf.",
+                                                          parentChattingController
+                                                                  .replayMessage
+                                                                  .message ??
+                                                              "",
 
-                                                    style: TeacherAppFonts
-                                                        .interW400_14sp_textWhite
-                                                        .copyWith(
-                                                        color: Colorutils
-                                                            .fontColor6
-                                                            .withOpacity(
-                                                            0.8)),
-                                                  );
-                                                } else if (
-                                                parentChattingController
-                                                    .replayMessage
-                                                    .type ==
-                                                    "audio") {
-                                                  return Row(
-                                                    children: [
-                                                      SizedBox(
-                                                        width: 22,
-                                                        height: 15.h,
-                                                        child: SvgPicture
-                                                            .asset(
-                                                            "assets/images/Record Audio.svg"),
-                                                      ),
-                                                      SizedBox(
-                                                          width: 1.w),
-                                                      Expanded(
-                                                        child: Text(
-                                                          "Audio",
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+
                                                           style: TeacherAppFonts
                                                               .interW400_14sp_textWhite
                                                               .copyWith(
-                                                            color: Colorutils
-                                                                .fontColor6
-                                                                .withOpacity(
-                                                                0.8),
-                                                          ),
-                                                          overflow:
-                                                          TextOverflow
-                                                              .ellipsis,
-                                                        ),
-                                                      )
-                                                    ],
-                                                  );
-                                                } else if (
-                                                parentChattingController
-                                                    .replayMessage
-                                                    .type ==
-                                                    "text_file" ||
-                                                    parentChattingController
-                                                        .replayMessage
-                                                        .type ==
-                                                        "text_audio") {
-                                                  return Text(
-                                                    // "Can you pls share the pdf adsdaddsf.",
-                                                    parentChattingController
-                                                        .replayMessage
-                                                        .message ??
-                                                        "",
+                                                                  color: Colorutils
+                                                                      .fontColor6
+                                                                      .withOpacity(
+                                                                          0.8)),
+                                                        );
+                                                      }
 
-                                                    overflow:
-                                                    TextOverflow
-                                                        .ellipsis,
-
-                                                    style: TeacherAppFonts
-                                                        .interW400_14sp_textWhite
-                                                        .copyWith(
-                                                        color: Colorutils
-                                                            .fontColor6
-                                                            .withOpacity(
-                                                            0.8)),
-                                                  );
-                                                }
-
-                                                return const SizedBox();
-                                              },
+                                                      return const SizedBox();
+                                                    },
+                                                  ),
+                                                  // SizedBox(
+                                                  //   width: double.infinity,
+                                                  //   child: Text(
+                                                  //     controller
+                                                  //         .replayMessage.value,
+                                                  //     maxLines: 3,
+                                                  //     overflow:
+                                                  //         TextOverflow.ellipsis,
+                                                  //     style: FontsStyle()
+                                                  //         .interW400_16sp
+                                                  //         .copyWith(
+                                                  //             color: ColorUtil
+                                                  //                 .black),
+                                                  //   ),
+                                                  // ),
+                                                ],
+                                              ),
                                             ),
-                                            // SizedBox(
-                                            //   width: double.infinity,
-                                            //   child: Text(
-                                            //     controller
-                                            //         .replayMessage.value,
-                                            //     maxLines: 3,
-                                            //     overflow:
-                                            //         TextOverflow.ellipsis,
-                                            //     style: FontsStyle()
-                                            //         .interW400_16sp
-                                            //         .copyWith(
-                                            //             color: ColorUtil
-                                            //                 .black),
-                                            //   ),
-                                            // ),
-                                          ],
-                                        ),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              parentChattingController
+                                                  .isReplay.value = null;
+                                            },
+                                            child: SizedBox(
+                                              width: 25.w,
+                                              height: 40.w,
+                                              child: const Icon(
+                                                Icons.close,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 5.w)
+                                          // InkWell(
+                                          //   onTap: () {},
+                                          //   child: const Icon(
+                                          //     Icons.close,
+                                          //     color: ColorUtil.grey,
+                                          //   ),
+                                          // )
+                                        ],
                                       ),
                                     ),
-                                    InkWell(
-                                      onTap: () {
-                                        parentChattingController
-                                            .isReplay.value = null;
-                                      },
-                                      child: SizedBox(
-                                        width: 25.w,
-                                        height: 40.w,
-                                        child: const Icon(
-                                          Icons.close,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: 5.w)
-                                    // InkWell(
-                                    //   onTap: () {},
-                                    //   child: const Icon(
-                                    //     Icons.close,
-                                    //     color: ColorUtil.grey,
-                                    //   ),
-                                    // )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10.h),
-                          ],
-                        )
+                                  ),
+                                  SizedBox(height: 10.h),
+                                ],
+                              )
                             : const SizedBox(),
                         controller.showAudioRecordWidget.value
                             ? const ChatAudioRecordingWidget(isParentChat: true)
                             : Row(
-                          children: [
-                            controller.audioPath.value == null
-                                ? InkWell(
-                              onTap: () async {
-                                await parentChattingController
-                                    .selectAttachment(
-                                    context: context);
+                                children: [
+                                  controller.audioPath.value == null
+                                      ? InkWell(
+                                          onTap: () async {
+                                            await parentChattingController
+                                                .selectAttachment(
+                                                    context: context);
 
-                                // feedViewController
-                                //     .selectAttachment(context: context);
-                              },
-                              child: SizedBox(
-                                height: 25.w,
-                                width: 25.w,
-                                child: SvgPicture.asset(
-                                    "assets/images/Attachment.svg"),
-                              ),
-                            )
-                                : const SizedBox(),
-                            SizedBox(
-                              width: 20.w,
-                            ),
-                            Expanded(
-                              child: Container(
-                                height: 40.w,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                    BorderRadius.circular(50.h),
-                                    border: Border.all(
-                                      width: 0.5.w,
-                                      color: Colorutils.bordercolor1,
-                                    )),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: TextField(
-                                        focusNode:
-                                        controller.focusNode.value,
-                                        controller: messageCtr,
-                                        decoration: InputDecoration(
-                                          prefix: SizedBox(
-                                            width: 15.w,
+                                            // feedViewController
+                                            //     .selectAttachment(context: context);
+                                          },
+                                          child: SizedBox(
+                                            height: 25.w,
+                                            width: 25.w,
+                                            child: SvgPicture.asset(
+                                                "assets/images/Attachment.svg"),
                                           ),
-                                          border: InputBorder.none,
-                                          contentPadding:
-                                          const EdgeInsets.all(0),
-                                          isDense: true,
-                                          hintText: "Message",
-                                          hintStyle: TeacherAppFonts
-                                              .interW400_16sp_letters1
-                                              .copyWith(
-                                              color: Colors.black
-                                                  .withOpacity(
-                                                  0.2)),
-                                        ),
-                                        onChanged: (value) {
-                                          controller.ontype.value =
-                                              value;
-                                        },
+                                        )
+                                      : const SizedBox(),
+                                  SizedBox(
+                                    width: 20.w,
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      height: 40.w,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(50.h),
+                                          border: Border.all(
+                                            width: 0.5.w,
+                                            color: Colorutils.bordercolor1,
+                                          )),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: TextField(
+                                              focusNode:
+                                                  controller.focusNode.value,
+                                              controller: messageCtr,
+                                              decoration: InputDecoration(
+                                                prefix: SizedBox(
+                                                  width: 15.w,
+                                                ),
+                                                border: InputBorder.none,
+                                                contentPadding:
+                                                    const EdgeInsets.all(0),
+                                                isDense: true,
+                                                hintText: "Message",
+                                                hintStyle: TeacherAppFonts
+                                                    .interW400_16sp_letters1
+                                                    .copyWith(
+                                                        color: Colors.black
+                                                            .withOpacity(0.2)),
+                                              ),
+                                              onChanged: (value) {
+                                                controller.ontype.value = value;
+                                              },
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20.w,
-                            ),
-                            controller.audioPath.value == null
-                                ? InkWell(
-                              onTap: () async {
-                                bool permission = await parentChattingController
-                                    .permissionCheck(context);
-                                if (permission) {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return const CameraScreen(isParentChat: true);
-                                      },
-                                    ),
-                                  );
-                                }
-                              },
-                              child: SizedBox(
-                                height: 25.w,
-                                width: 25.w,
-                                child: SvgPicture.asset(
-                                    "assets/images/Camera.svg"),
-                              ),
-                            )
-                                : const SizedBox(),
-                            SizedBox(
-                              width: 20.w,
-                            ),
-                            controller.ontype.value == "" &&
-                                controller.audioPath.value ==
-                                    null &&
-                                controller.filePath.value == null
-                                ? GestureDetector(
-                              onLongPress: () async {
-                                await Permission.microphone
-                                    .request();
-
-                                if (await Permission.microphone
-                                    .status.isGranted) {
-                                  HapticFeedback.vibrate();
-                                  parentChattingController
-                                      .showAudioRecordWidget
-                                      .value = true;
-                                } else {
-                                  ShowWarnDialog().showWarn(
-                                      context: context,
-                                      message:
-                                      "Enable microphone permission.",
-                                      iconData: Icons.mic_none);
-                                }
-                              },
-                              child: SizedBox(
-                                height: 25.w,
-                                width: 25.w,
-                                child: SvgPicture.asset(
-                                    "assets/images/Record Audio.svg"),
-                              ),
-                            )
-                                : controller.isSentLoading.value == true
-                                ? SizedBox(
-                              height: 25.w,
-                              width: 25.w,
-                              child:
-                              CircularProgressIndicator(),
-                            )
-                                : InkWell(
-                              onTap: () async {
-                                controller.isSentLoading
-                                    .value = true;
-                                await checkInternet(
-                                  context: context,
-                                  function: () async {
-                                    if (parentChattingController
-                                        .audioPath
-                                        .value !=
-                                        null ||
-                                        parentChattingController
-                                            .filePath
-                                            .value !=
-                                            null) {
-                                      await parentChattingController
-                                          .sendAttach(
-                                        classs: widget.msgData
-                                            ?.datumClass ??
-                                            '--',
-                                        batch: widget.msgData
-                                            ?.batch ??
-                                            '--',
-                                        subId: widget.msgData
-                                            ?.subjectId ??
-                                            '--',
-                                        sub: widget.msgData
-                                            ?.subjectName ??
-                                            '--',
-                                        teacherId:
-                                        userAuthController
-                                            .userData
-                                            .value
-                                            .userId ??
-                                            '--',
-                                        context: context,
-                                        filePath: parentChattingController
-                                            .audioPath
-                                            .value ??
-                                            parentChattingController
-                                                .filePath
-                                                .value,
-                                        message: messageCtr
-                                            .text
-                                            .isNotEmpty
-                                            ? messageCtr.text
-                                            : null,
-                                        parent: [widget.msgData?.parentId ?? ''],
-                                      );
-                                    } else {
-                                      if (messageCtr
-                                          .text.isNotEmpty) {
-                                        SentMsgByTeacherModel
-                                        sentMsgData =
-                                        SentMsgByTeacherModel(
-                                          subjectId: widget
-                                              .msgData
-                                              ?.subjectId ??
-                                              '--',
-                                          batch: widget
-                                              .msgData
-                                              ?.batch ??
-                                              '--',
-                                          classs: widget
-                                              .msgData
-                                              ?.datumClass ??
-                                              '--',
-                                          message: messageCtr
-                                              .text
-                                              .isNotEmpty
-                                              ? messageCtr
-                                              .text
-                                              : null,
-                                          messageFrom:
-                                          userAuthController
-                                              .userData
-                                              .value
-                                              .userId ??
-                                              '--',
-                                          subject: widget
-                                              .msgData
-                                              ?.subjectName ??
-                                              '--',
-                                          replyId: controller
-                                              .isReplay.value,
-                                          fileData: FileData(
-                                            name: null,
-                                            orgName: null,
-                                            extension: null,
+                                  ),
+                                  SizedBox(
+                                    width: 20.w,
+                                  ),
+                                  controller.audioPath.value == null
+                                      ? InkWell(
+                                          onTap: () async {
+                                            bool permission =
+                                                await parentChattingController
+                                                    .permissionCheck(context);
+                                            if (permission) {
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) {
+                                                    return const CameraScreen(
+                                                        isParentChat: true);
+                                                  },
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          child: SizedBox(
+                                            height: 25.w,
+                                            width: 25.w,
+                                            child: SvgPicture.asset(
+                                                "assets/images/Camera.svg"),
                                           ),
-                                          parents: [widget.msgData?.parentId ?? ''],
-                                        );
-                                        await parentChattingController
-                                            .sendAttachMsg(
-                                          sentMsgData:
-                                          sentMsgData,
-                                          context: context,
-                                        );
-                                      }
-                                    }
-                                  },
-                                );
-                                controller.isSentLoading
-                                    .value = false;
+                                        )
+                                      : const SizedBox(),
+                                  SizedBox(
+                                    width: 20.w,
+                                  ),
+                                  controller.ontype.value == "" &&
+                                          controller.audioPath.value == null &&
+                                          controller.filePath.value == null
+                                      ? GestureDetector(
+                                          onLongPress: () async {
+                                            await Permission.microphone
+                                                .request();
 
-                                //delaying for completing the message tile update after rebuild//
-                                Future.delayed(
-                                    const Duration(
-                                        milliseconds: 50),
-                                        () {
-                                          parentChattingController
-                                          .parentChatScrollController
-                                          .value
-                                          .animateTo(
-                                        controller
-                                            .parentChatScrollController
-                                            .value
-                                            .position
-                                            .maxScrollExtent,
-                                        duration: const Duration(
-                                            milliseconds: 200),
-                                        curve: Curves.easeOut,
-                                      );
-                                    });
-                                print("clear worked");
-                                messageCtr.clear();
-                                controller.ontype.value = "";
+                                            if (await Permission
+                                                .microphone.status.isGranted) {
+                                              HapticFeedback.vibrate();
+                                              parentChattingController
+                                                  .showAudioRecordWidget
+                                                  .value = true;
+                                            } else {
+                                              ShowWarnDialog().showWarn(
+                                                  context: context,
+                                                  message:
+                                                      "Enable microphone permission.",
+                                                  iconData: Icons.mic_none);
+                                            }
+                                          },
+                                          child: SizedBox(
+                                            height: 25.w,
+                                            width: 25.w,
+                                            child: SvgPicture.asset(
+                                                "assets/images/Record Audio.svg"),
+                                          ),
+                                        )
+                                      : controller.isSentLoading.value == true
+                                          ? SizedBox(
+                                              height: 25.w,
+                                              width: 25.w,
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            )
+                                          : InkWell(
+                                              onTap: () async {
+                                                controller.isSentLoading.value =
+                                                    true;
+                                                await checkInternet(
+                                                  context: context,
+                                                  function: () async {
+                                                    if (parentChattingController
+                                                                .audioPath
+                                                                .value !=
+                                                            null ||
+                                                        parentChattingController
+                                                                .filePath
+                                                                .value !=
+                                                            null) {
+                                                      await parentChattingController
+                                                          .sendAttach(
+                                                        classs: widget.msgData
+                                                                ?.datumClass ??
+                                                            '--',
+                                                        batch: widget.msgData
+                                                                ?.batch ??
+                                                            '--',
+                                                        subId: widget.msgData
+                                                                ?.subjectId ??
+                                                            '--',
+                                                        sub: widget.msgData
+                                                                ?.subjectName ??
+                                                            '--',
+                                                        teacherId:
+                                                            userAuthController
+                                                                    .userData
+                                                                    .value
+                                                                    .userId ??
+                                                                '--',
+                                                        context: context,
+                                                        filePath:
+                                                            parentChattingController
+                                                                    .audioPath
+                                                                    .value ??
+                                                                parentChattingController
+                                                                    .filePath
+                                                                    .value,
+                                                        message: messageCtr
+                                                                .text.isNotEmpty
+                                                            ? messageCtr.text
+                                                            : null,
+                                                        parent: [
+                                                          widget.msgData
+                                                                  ?.parentId ??
+                                                              ''
+                                                        ],
+                                                      );
+                                                    } else {
+                                                      if (messageCtr
+                                                          .text.isNotEmpty) {
+                                                        SentMsgByTeacherModel
+                                                            sentMsgData =
+                                                            SentMsgByTeacherModel(
+                                                          subjectId: widget
+                                                                  .msgData
+                                                                  ?.subjectId ??
+                                                              '--',
+                                                          batch: widget.msgData
+                                                                  ?.batch ??
+                                                              '--',
+                                                          classs: widget.msgData
+                                                                  ?.datumClass ??
+                                                              '--',
+                                                          message: messageCtr
+                                                                  .text
+                                                                  .isNotEmpty
+                                                              ? messageCtr.text
+                                                              : null,
+                                                          messageFrom:
+                                                              userAuthController
+                                                                      .userData
+                                                                      .value
+                                                                      .userId ??
+                                                                  '--',
+                                                          subject: widget
+                                                                  .msgData
+                                                                  ?.subjectName ??
+                                                              '--',
+                                                          replyId: controller
+                                                              .isReplay.value,
+                                                          fileData: FileData(
+                                                            name: null,
+                                                            orgName: null,
+                                                            extension: null,
+                                                          ),
+                                                          parents: [
+                                                            widget.msgData
+                                                                    ?.parentId ??
+                                                                ''
+                                                          ],
+                                                        );
+                                                        await parentChattingController
+                                                            .sendAttachMsg(
+                                                          sentMsgData:
+                                                              sentMsgData,
+                                                          context: context,
+                                                        );
+                                                      }
+                                                    }
+                                                  },
+                                                );
+                                                controller.isSentLoading.value =
+                                                    false;
 
-                                //delaying for completing the message tile update after rebuild//
-                                Future.delayed(
-                                  const Duration(
-                                      milliseconds: 50),
-                                      () {
-                                        parentChattingController
-                                        .parentChatScrollController
-                                        .value
-                                        .animateTo(
-                                      controller
-                                          .parentChatScrollController
-                                          .value
-                                          .position
-                                          .maxScrollExtent,
-                                      duration:
-                                      const Duration(
-                                          milliseconds:
-                                          200),
-                                      curve:
-                                      Curves.easeOut,
-                                    );
-                                  },
-                                );
-                              },
-                              child: SizedBox(
-                                height: 25.w,
-                                width: 25.w,
-                                child: const Icon(
-                                  Icons.send,
-                                  color: Colorutils.bgcolor13,
-                                ),
+                                                //delaying for completing the message tile update after rebuild//
+                                                Future.delayed(
+                                                    const Duration(
+                                                        milliseconds: 50), () {
+                                                  parentChattingController
+                                                      .parentChatScrollController
+                                                      .value
+                                                      .animateTo(
+                                                    controller
+                                                        .parentChatScrollController
+                                                        .value
+                                                        .position
+                                                        .maxScrollExtent,
+                                                    duration: const Duration(
+                                                        milliseconds: 200),
+                                                    curve: Curves.easeOut,
+                                                  );
+                                                });
+                                                print("clear worked");
+                                                messageCtr.clear();
+                                                controller.ontype.value = "";
+
+                                                //delaying for completing the message tile update after rebuild//
+                                                Future.delayed(
+                                                  const Duration(
+                                                      milliseconds: 50),
+                                                  () {
+                                                    parentChattingController
+                                                        .parentChatScrollController
+                                                        .value
+                                                        .animateTo(
+                                                      controller
+                                                          .parentChatScrollController
+                                                          .value
+                                                          .position
+                                                          .maxScrollExtent,
+                                                      duration: const Duration(
+                                                          milliseconds: 200),
+                                                      curve: Curves.easeOut,
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              child: SizedBox(
+                                                height: 25.w,
+                                                width: 25.w,
+                                                child: const Icon(
+                                                  Icons.send,
+                                                  color: Colorutils.bgcolor13,
+                                                ),
+                                              ),
+                                            )
+                                ],
                               ),
-                            )
-                          ],
-                        ),
                         SizedBox(
                           height: 35.w,
                         ),
@@ -884,62 +881,63 @@ class ChatList extends StatelessWidget {
           groupSeparatorBuilder: (String groupByValue) {
             return ChatDateWidget(date: groupByValue);
           },
-          itemComparator: (item1, item2) => item1.sendAt!.compareTo(item2.sendAt!),
+          itemComparator: (item1, item2) =>
+              item1.sendAt!.compareTo(item2.sendAt!),
           itemBuilder: (context, messageData) {
             // final messageData = msgList[index];
             return "${messageData.messageFromId}" == userId
                 ? Column(
-              children: [
-                SwapeToWidget(
-                  function: () {
-                    controller.focusTextField();
-                    controller.isReplay.value = messageData.messageId;
-                    controller.replayName.value = "You";
-                    controller.replayMessage = messageData;
-                  },
-                  iconWidget: SvgPicture.asset(
-                      "assets/images/ArrowBendUpLeft.svg"),
-                  child: SentMessageBubble(
-                    message: messageData.message ?? '',
-                    time: messageData.sendAt,
-                    replay: true,
-                    audio: messageData.messageAudio,
-                    fileName: messageData.fileName,
-                    fileLink: messageData.messageFile,
-                    messageData: messageData,
-                  ),
-                ),
-              ],
-            )
+                    children: [
+                      SwapeToWidget(
+                        function: () {
+                          controller.focusTextField();
+                          controller.isReplay.value = messageData.messageId;
+                          controller.replayName.value = "You";
+                          controller.replayMessage = messageData;
+                        },
+                        iconWidget: SvgPicture.asset(
+                            "assets/images/ArrowBendUpLeft.svg"),
+                        child: SentMessageBubble(
+                          message: messageData.message ?? '',
+                          time: messageData.sendAt,
+                          replay: true,
+                          audio: messageData.messageAudio,
+                          fileName: messageData.fileName,
+                          fileLink: messageData.messageFile,
+                          messageData: messageData,
+                        ),
+                      ),
+                    ],
+                  )
                 : Column(
-              children: [
-                SwapeToWidget(
-                  function: () {
-                    controller.focusTextField();
-                    // FocusScope.of(context)
-                    //     .requestFocus(controller.focusNode);
-                    controller.isReplay.value = messageData.messageId;
-                    controller.replayName.value =
-                        messageData.messageFrom ?? "";
-                    controller.replayMessage = messageData;
-                  },
-                  iconWidget: SvgPicture.asset(
-                      "assets/images/ArrowBendUpLeft.svg"),
-                  child: ReceiveMessageBubble(
-                    senderName: messageData.messageFrom,
-                    message: messageData.message,
-                    time: messageData.sendAt,
-                    replay: true,
-                    audio: messageData.messageAudio,
-                    fileName: messageData.fileName,
-                    fileLink: messageData.messageFile,
-                    subject: messageData.subjectName,
-                    relation: studentRelation,
-                    messageData: messageData,
-                  ),
-                ),
-              ],
-            );
+                    children: [
+                      SwapeToWidget(
+                        function: () {
+                          controller.focusTextField();
+                          // FocusScope.of(context)
+                          //     .requestFocus(controller.focusNode);
+                          controller.isReplay.value = messageData.messageId;
+                          controller.replayName.value =
+                              messageData.messageFrom ?? "";
+                          controller.replayMessage = messageData;
+                        },
+                        iconWidget: SvgPicture.asset(
+                            "assets/images/ArrowBendUpLeft.svg"),
+                        child: ReceiveMessageBubble(
+                          senderName: messageData.messageFrom,
+                          message: messageData.message,
+                          time: messageData.sendAt,
+                          replay: true,
+                          audio: messageData.messageAudio,
+                          fileName: messageData.fileName,
+                          fileLink: messageData.messageFile,
+                          subject: messageData.subjectName,
+                          relation: studentRelation,
+                          messageData: messageData,
+                        ),
+                      ),
+                    ],
+                  );
           },
           separator: SizedBox(
             height: 5.h,
@@ -987,17 +985,17 @@ messageMoreShowDialog(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     ScreenUtil().screenHeight / 1.7 < tapPosition.dy
-                        ? MessageMoreContainer(
-                      widget: widget,
-                    )
+                        ? MessageMoreContainer2(
+                            widget: widget,
+                          )
                         : const SizedBox(),
                     SizedBox(height: 20.h),
-                    const ReactionContainerWidget(),
+                    const ReactionContainerWidget2(),
                     SizedBox(height: 80.h),
                     ScreenUtil().screenHeight / 1.7 > tapPosition.dy
-                        ? MessageMoreContainer(
-                      widget: widget,
-                    )
+                        ? MessageMoreContainer2(
+                            widget: widget,
+                          )
                         : const SizedBox(),
                   ],
                 ),
@@ -1036,14 +1034,14 @@ Future<void> checkInternet(
 class SentMessageBubble extends StatelessWidget {
   SentMessageBubble(
       {super.key,
-        this.message,
-        this.time,
-        this.replay,
-        this.audio,
-        this.fileName,
-        this.fileLink,
-        // this.senderId,
-        this.messageData});
+      this.message,
+      this.time,
+      this.replay,
+      this.audio,
+      this.fileName,
+      this.fileLink,
+      // this.senderId,
+      this.messageData});
 
   late Offset _tapPosition;
 
@@ -1088,9 +1086,10 @@ class SentMessageBubble extends StatelessWidget {
                       print(ScreenUtil().screenHeight);
                     },
                     onLongPress: () {
-                      Get.find<ParentChattingController>().seletedMsgData = messageData;
+                      Get.find<ParentChattingController>().seletedMsgData =
+                          messageData;
                       final renderObject =
-                      context.findRenderObject() as RenderBox;
+                          context.findRenderObject() as RenderBox;
                       final position = renderObject.localToGlobal(Offset.zero);
 
                       messageMoreShowDialog(
@@ -1106,29 +1105,54 @@ class SentMessageBubble extends StatelessWidget {
                           padding: EdgeInsets.all(10.h),
                           child: Column(
                             children: [
+                              messageData!.isForward ?? false
+                                  ? Row(
+                                      children: [
+                                        SizedBox(
+                                          height: 14.h,
+                                          width: 14.h,
+                                          child: SvgPicture.asset(
+                                            "assets/images/ArrowBendUpRight.svg",
+                                            color:
+                                                Colors.black.withOpacity(.25),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 5.w,
+                                        ),
+                                        Text("Forwarded",
+                                            style: TextStyle(
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w400,
+                                                fontStyle: FontStyle.italic,
+                                                color: Colors.black
+                                                    .withOpacity(0.25))),
+                                      ],
+                                    )
+                                  : const SizedBox(),
                               messageData!.replyData != null
                                   ? ReplayMessageWidget(
-                                senderId: messageData!.messageFromId,
-                                replyData: messageData!.replyData!,
-                              )
+                                      senderId: messageData!.messageFromId,
+                                      replyData: messageData!.replyData!,
+                                    )
                                   : const SizedBox(),
                               fileName != null
                                   ? FileWidget1(
-                                fileType: fileName!.split(".").last,
-                                fileName: fileName!,
-                                fileLink: fileLink!,
-                              )
+                                      fileType: fileName!.split(".").last,
+                                      fileName: fileName!,
+                                      fileLink: fileLink!,
+                                    )
                                   : const SizedBox(),
                               audio != null
                                   ? AudioWidget(content: audio!)
                                   : const SizedBox(),
                               message != null && fileName != null ||
-                                  audio != null
+                                      audio != null
                                   ? SizedBox(height: 5.h)
                                   : const SizedBox(),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Column(
@@ -1157,8 +1181,8 @@ class SentMessageBubble extends StatelessWidget {
                                         style: TeacherAppFonts
                                             .interW400_12sp_topicbackground
                                             .copyWith(
-                                            color: Colors.black
-                                                .withOpacity(.25)),
+                                                color: Colors.black
+                                                    .withOpacity(.25)),
                                       ),
                                       SizedBox(width: 5.h),
                                       // SizedBox(
@@ -1222,7 +1246,8 @@ String chatFormatDate(String? dateTime) {
 }
 
 class ReplayMessageWidget extends StatelessWidget {
-  const ReplayMessageWidget({super.key, required this.replyData, this.senderId});
+  const ReplayMessageWidget(
+      {super.key, required this.replyData, this.senderId});
   final ReplyData replyData;
   final String? senderId;
   @override
@@ -1244,7 +1269,8 @@ class ReplayMessageWidget extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    color: senderId == Get.find<UserAuthController>().userData.value.userId
+                    color: senderId ==
+                            Get.find<UserAuthController>().userData.value.userId
                         ? Colorutils.userdetailcolor.withOpacity(0.3)
                         : Colors.grey.withOpacity(0.2),
                     borderRadius: BorderRadius.only(
@@ -1319,8 +1345,7 @@ class TextAndFileWidget extends StatelessWidget {
           replyData.message ?? "",
           overflow: TextOverflow.ellipsis,
 
-          style: TeacherAppFonts
-              .interW400_14sp_textWhite
+          style: TeacherAppFonts.interW400_14sp_textWhite
               .copyWith(color: Colorutils.fontColor6.withOpacity(0.8)),
         );
       } else if (replyData.type == "audio") {
@@ -1351,8 +1376,7 @@ class TextAndFileWidget extends StatelessWidget {
 
           overflow: TextOverflow.ellipsis,
 
-          style: TeacherAppFonts
-              .interW400_14sp_textWhite
+          style: TeacherAppFonts.interW400_14sp_textWhite
               .copyWith(color: Colorutils.fontColor6.withOpacity(0.8)),
         );
       }
@@ -1365,16 +1389,16 @@ class TextAndFileWidget extends StatelessWidget {
 class ReceiveMessageBubble extends StatelessWidget {
   ReceiveMessageBubble(
       {super.key,
-        this.message,
-        this.time,
-        this.replay,
-        this.audio,
-        this.fileLink,
-        this.fileName,
-        this.senderName,
-        this.relation,
-        this.messageData,
-        this.subject});
+      this.message,
+      this.time,
+      this.replay,
+      this.audio,
+      this.fileLink,
+      this.fileName,
+      this.senderName,
+      this.relation,
+      this.messageData,
+      this.subject});
 
   late Offset _tapPosition;
 
@@ -1391,150 +1415,223 @@ class ReceiveMessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Padding(
-        padding: EdgeInsets.only(left: 20.h),
-        child: Stack(
+    return Stack(
+      children: [
+        Column(
           children: [
-            Positioned(
-              bottom: 0,
-              left: -2.w,
-              child: SizedBox(
-                  width: 20.w,
-                  height: 20.w,
-                  child: SvgPicture.asset(
-                    "assets/images/MessageBubbleShape2.svg",
-                    fit: BoxFit.fill,
-                  )),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 10.w),
-              child: GestureDetector(
-                onTapDown: (TapDownDetails details) {
-                  _tapPosition = details.globalPosition;
-                  print(_tapPosition);
-                  print(ScreenUtil().screenHeight);
-                },
-                onLongPress: () {
-                  Get.find<ParentChattingController>().seletedMsgData = messageData;
-                  final renderObject = context.findRenderObject() as RenderBox;
-                  final position = renderObject.localToGlobal(Offset.zero);
+            SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: EdgeInsets.only(left: 20.h),
+                child: Stack(
+                  children: [
+                    Positioned(
+                      bottom: 0,
+                      left: -2.w,
+                      child: SizedBox(
+                          width: 20.w,
+                          height: 20.w,
+                          child: SvgPicture.asset(
+                            "assets/images/MessageBubbleShape2.svg",
+                            fit: BoxFit.fill,
+                          )),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10.w),
+                      child: GestureDetector(
+                        onTapDown: (TapDownDetails details) {
+                          _tapPosition = details.globalPosition;
+                          print(_tapPosition);
+                          print(ScreenUtil().screenHeight);
+                        },
+                        onLongPress: () {
+                          Get.find<ParentChattingController>().seletedMsgData =
+                              messageData;
+                          final renderObject =
+                              context.findRenderObject() as RenderBox;
+                          final position =
+                              renderObject.localToGlobal(Offset.zero);
 
-                  messageMoreShowDialog(context, this, position, _tapPosition);
-                },
-                child: Container(
-                  constraints: BoxConstraints(maxWidth: 310.w),
-                  decoration: BoxDecoration(
-                      color: Colorutils.fontColor8,
-                      borderRadius: BorderRadius.circular(10.h)),
-                  child: Padding(
-                    padding: EdgeInsets.all(10.h),
-                    child: Stack(
-                      children: [
-                        IntrinsicWidth(
-                          child: Column(
-                            // mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    constraints:
-                                    BoxConstraints(maxWidth: 70.w),
-                                    child: Text(
-                                      senderName == null
-                                          ? "--"
-                                          : "~ ${senderName?.split(" ").first ?? ""}",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TeacherAppFonts
-                                          .interW500_12sp_textWhite
-                                          .copyWith(
-                                          color: Colorutils.fontColor5),
-                                    ),
-                                  ),
-                                  SizedBox(width: 10.w),
-                                  Container(
-                                    constraints: BoxConstraints(maxWidth: 150.w),
-                                    child: Text(
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.right,
-                                      // "Arabic",
-                                      relation ?? '--',
-
-                                      style: TeacherAppFonts
-                                          .interW400_12sp_textWhite_italic
-                                          .copyWith(
-                                          color: Colorutils.fontColor10),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 10.h),
-                              messageData!.replyData != null
-                                  ? ReplayMessageWidget(
-                                senderId: messageData!.messageFromId,
-                                replyData: messageData!.replyData!,
-                              )
-                                  : const SizedBox(),
-                              fileName != null
-                                  ? FileWidget2(
-                                fileType: fileName!.split(".").last,
-                                fileName: fileName!,
-                                fileLink: fileLink!,
-                              )
-                                  : const SizedBox(),
-                              audio != null
-                                  ? AudioWidget(content: audio!)
-                                  : const SizedBox(),
-                              message != null && fileName != null ||
-                                  audio != null
-                                  ? SizedBox(height: 5.h)
-                                  : const SizedBox(),
-                              Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Column(
+                          messageMoreShowDialog(
+                              context, this, position, _tapPosition);
+                        },
+                        child: Container(
+                          constraints: BoxConstraints(maxWidth: 310.w),
+                          decoration: BoxDecoration(
+                              color: Colorutils.fontColor8,
+                              borderRadius: BorderRadius.circular(10.h)),
+                          child: Padding(
+                            padding: EdgeInsets.all(10.h),
+                            child: Stack(
+                              children: [
+                                IntrinsicWidth(
+                                  child: Column(
+                                    // mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      ConstrainedBox(
-                                        constraints: BoxConstraints(
-                                          maxWidth: 210.w,
-                                        ),
-                                        child: Text(
-                                          message ?? "",
-                                          maxLines: 100,
-                                          style: TeacherAppFonts
-                                              .interW400_16sp_letters1
-                                              .copyWith(color: Colors.black),
-                                        ),
+                                      messageData!.isForward ?? false
+                                          ? Row(
+                                              children: [
+                                                SizedBox(
+                                                  height: 14.h,
+                                                  width: 14.h,
+                                                  child: SvgPicture.asset(
+                                                    "assets/images/ArrowBendUpRight.svg",
+                                                    color: Colors.black
+                                                        .withOpacity(.25),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5.w,
+                                                ),
+                                                Text("Forwarded",
+                                                    style: TextStyle(
+                                                        fontSize: 14.sp,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontStyle:
+                                                            FontStyle.italic,
+                                                        color: Colors.black
+                                                            .withOpacity(
+                                                                0.25))),
+                                              ],
+                                            )
+                                          : const SizedBox(),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            constraints:
+                                                BoxConstraints(maxWidth: 70.w),
+                                            child: Text(
+                                              senderName == null
+                                                  ? "--"
+                                                  : "~ ${senderName?.split(" ").first ?? ""}",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TeacherAppFonts
+                                                  .interW500_12sp_textWhite
+                                                  .copyWith(
+                                                      color: Colorutils
+                                                          .fontColor5),
+                                            ),
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          Container(
+                                            constraints:
+                                                BoxConstraints(maxWidth: 150.w),
+                                            child: Text(
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.right,
+                                              // "Arabic",
+                                              relation ?? '--',
+
+                                              style: TeacherAppFonts
+                                                  .interW400_12sp_textWhite_italic
+                                                  .copyWith(
+                                                      color: Colorutils
+                                                          .fontColor10),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(height: 5.h),
+                                      SizedBox(height: 10.h),
+                                      messageData!.replyData != null
+                                          ? ReplayMessageWidget(
+                                              senderId:
+                                                  messageData!.messageFromId,
+                                              replyData:
+                                                  messageData!.replyData!,
+                                            )
+                                          : const SizedBox(),
+                                      fileName != null
+                                          ? FileWidget2(
+                                              fileType:
+                                                  fileName!.split(".").last,
+                                              fileName: fileName!,
+                                              fileLink: fileLink!,
+                                            )
+                                          : const SizedBox(),
+                                      audio != null
+                                          ? AudioWidget(content: audio!)
+                                          : const SizedBox(),
+                                      message != null && fileName != null ||
+                                              audio != null
+                                          ? SizedBox(height: 5.h)
+                                          : const SizedBox(),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              ConstrainedBox(
+                                                constraints: BoxConstraints(
+                                                  maxWidth: 210.w,
+                                                ),
+                                                child: Text(
+                                                  message ?? "",
+                                                  maxLines: 100,
+                                                  style: TeacherAppFonts
+                                                      .interW400_16sp_letters1
+                                                      .copyWith(
+                                                          color: Colors.black),
+                                                ),
+                                              ),
+                                              SizedBox(height: 5.h),
+                                            ],
+                                          ),
+                                          SizedBox(width: 20.h),
+                                          Text(
+                                            // "17:47",
+                                            messageBubbleTimeFormat(time),
+                                            style: TeacherAppFonts
+                                                .interW400_12sp_topicbackground
+                                                .copyWith(
+                                                    color: Colors.black
+                                                        .withOpacity(.25)),
+                                          )
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                  SizedBox(width: 20.h),
-                                  Text(
-                                    // "17:47",
-                                    messageBubbleTimeFormat(time),
-                                    style: TeacherAppFonts.interW400_12sp_topicbackground.copyWith(
-                                        color: Colors.black.withOpacity(.25)),
-                                  )
-                                ],
-                              ),
-                            ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),
+            messageData!.myReact == null
+                ? const SizedBox()
+                : SizedBox(height: 20.h),
           ],
         ),
-      ),
+        messageData!.myReact == null
+            ? const SizedBox()
+            : Positioned(
+                bottom: 0,
+                left: 50.w,
+                child: Card(
+                  elevation: 2,
+                  child: Container(
+                    height: 30.h,
+                    width: 40.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.h),
+                    ),
+                    child: Center(
+                        child: FittedBox(child: Text(messageData!.myReact!))),
+                  ),
+                ),
+              ),
+      ],
     );
   }
 }
@@ -1627,7 +1724,8 @@ class _ChatAudioPlayingWidgetState extends State<ChatAudioPlayingWidget> {
               child: SizedBox(
                 width: 25,
                 height: 25,
-                child: Center(child: Icon(_isPlaying ? Icons.pause : Icons.play_arrow)),
+                child: Center(
+                    child: Icon(_isPlaying ? Icons.pause : Icons.play_arrow)),
               ),
             ),
             Expanded(
@@ -1658,8 +1756,9 @@ class _ChatAudioPlayingWidgetState extends State<ChatAudioPlayingWidget> {
             InkWell(
               onTap: () {
                 Get.find<ParentChattingController>().audioPath.value = null;
-                Get.find<ParentChattingController>().showAudioPlayingWidget.value =
-                false; // for hiding the audio playing widget //
+                Get.find<ParentChattingController>()
+                    .showAudioPlayingWidget
+                    .value = false; // for hiding the audio playing widget //
               },
               child: SizedBox(
                 width: 25.w,
@@ -1713,4 +1812,3 @@ class _ChatAudioPlayingWidgetState extends State<ChatAudioPlayingWidget> {
     }
   }
 }
-

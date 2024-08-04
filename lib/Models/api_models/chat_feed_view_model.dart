@@ -84,6 +84,8 @@ class MsgData {
   List<StudentData>? studentData;
   String? replyId;
   bool? read;
+  String? myReact;
+  bool? isForward;
   ReplyData? replyData;
 
   MsgData(
@@ -101,6 +103,8 @@ class MsgData {
       this.studentData,
       this.replyId,
       this.read,
+      this.myReact,
+      this.isForward,
       this.replyData});
 
   MsgData.fromJson(Map<String, dynamic> json) {
@@ -116,6 +120,8 @@ class MsgData {
     sendAt = json['send_at'];
     appMsgId = json['app_msg_id'];
     read = json['read'];
+    myReact = json['my_react'];
+    isForward = json['is_forward'];
     if (json['student_data'] != null) {
       studentData = <StudentData>[];
       json['student_data'].forEach((v) {
@@ -142,6 +148,8 @@ class MsgData {
     data['send_at'] = sendAt;
     data['app_msg_id'] = appMsgId;
     data['read'] = read;
+    data['my_react'] = myReact;
+    data['is_forward'] = isForward;
     if (studentData != null) {
       data['student_data'] = studentData!.map((v) => v.toJson()).toList();
     }
@@ -222,27 +230,34 @@ class ChatFeedViewReqModel {
   int? offset;
   int? limit;
 
-  ChatFeedViewReqModel({this.classs, this.batch, this.subjectId, this.teacherId, this.schoolId, this.offset, this.limit});
+  ChatFeedViewReqModel(
+      {this.classs,
+      this.batch,
+      this.subjectId,
+      this.teacherId,
+      this.schoolId,
+      this.offset,
+      this.limit});
 
   ChatFeedViewReqModel.fromJson(Map<String, dynamic> json) {
-  classs = json['class'];
-  batch = json['batch'];
-  subjectId = json['subject_id'];
-  teacherId = json['teacher_id'];
-  schoolId = json['school_id'];
-  offset = json['offset'];
-  limit = json['limit'];
+    classs = json['class'];
+    batch = json['batch'];
+    subjectId = json['subject_id'];
+    teacherId = json['teacher_id'];
+    schoolId = json['school_id'];
+    offset = json['offset'];
+    limit = json['limit'];
   }
 
   Map<String, dynamic> toJson() {
-  final Map<String, dynamic> data = <String, dynamic>{};
-  data['class'] = classs;
-  data['batch'] = batch;
-  data['subject_id'] = subjectId;
-  data['teacher_id'] = teacherId;
-  data['school_id'] = schoolId;
-  data['offset'] = offset;
-  data['limit'] = limit;
-  return data;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['class'] = classs;
+    data['batch'] = batch;
+    data['subject_id'] = subjectId;
+    data['teacher_id'] = teacherId;
+    data['school_id'] = schoolId;
+    data['offset'] = offset;
+    data['limit'] = limit;
+    return data;
   }
 }

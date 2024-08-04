@@ -65,9 +65,9 @@ class MyApp extends StatelessWidget {
         designSize: Size(430, 930),
         minTextAdapt: true,
         splitScreenMode: true,
-        
-        child:  GetMaterialApp(
-          title: 'Teacher App',theme: ThemeData(),
+        child: GetMaterialApp(
+          title: 'Teacher App',
+          theme: ThemeData(),
           debugShowCheckedModeBanner: false,
           home: SplashScreen(),
         ),

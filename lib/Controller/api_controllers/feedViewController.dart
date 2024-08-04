@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -49,8 +48,9 @@ class FeedViewController extends GetxController {
   Future<void> fetchFeedViewMsgList(ChatFeedViewReqModel reqBody) async {
     isLoading.value = true;
     try {
-      Map<String, dynamic> resp = await ApiServices.getChatFeedView(reqBodyData: reqBody);
-      if(resp['status']['code'] == 200) {
+      Map<String, dynamic> resp =
+          await ApiServices.getChatFeedView(reqBodyData: reqBody);
+      if (resp['status']['code'] == 200) {
         ChatFeedViewModel chatFeedData = ChatFeedViewModel.fromJson(resp);
         feedUnreadCount.value = chatFeedData.data?.count ?? 0;
         chatMsgList.value = chatFeedData.data?.data ?? [];
@@ -68,7 +68,7 @@ class FeedViewController extends GetxController {
         schoolId: reqBody.schoolId ?? '--',
       );
       isLoaded.value = true;
-    } catch(e) {
+    } catch (e) {
       isLoaded.value = false;
       print('--------feed view error--------');
     } finally {
@@ -76,18 +76,21 @@ class FeedViewController extends GetxController {
     }
   }
 
-  Future<void> fetchFeedViewMsgListPeriodically(ChatFeedViewReqModel reqBody) async {
+  Future<void> fetchFeedViewMsgListPeriodically(
+      ChatFeedViewReqModel reqBody) async {
     ChatFeedViewModel? chatFeedData;
     try {
-      Map<String, dynamic> resp = await ApiServices.getChatFeedView(reqBodyData: reqBody);
-      if(resp['status']['code'] == 200) {
+      Map<String, dynamic> resp =
+          await ApiServices.getChatFeedView(reqBodyData: reqBody);
+      if (resp['status']['code'] == 200) {
         chatFeedData = ChatFeedViewModel.fromJson(resp);
       }
-    } catch(e) {
+    } catch (e) {
       print('--------feed view error--------');
     } finally {}
     MsgData? lastMsg = chatFeedData?.data?.data?.first;
-    String? newLastMessageId = "${lastMsg?.messageId}${lastMsg?.messageFromId}${lastMsg?.sendAt}";
+    String? newLastMessageId =
+        "${lastMsg?.messageId}${lastMsg?.messageFromId}${lastMsg?.sendAt}";
 
     if (lastMessageId == null || newLastMessageId != lastMessageId) {
       lastMessageId = newLastMessageId;
@@ -104,12 +107,9 @@ class FeedViewController extends GetxController {
       // );
       Future.delayed(
         const Duration(milliseconds: 50),
-            () {
-              chatFeedViewScrollController.value
-              .animateTo(
-                chatFeedViewScrollController.value
-                .position
-                .maxScrollExtent,
+        () {
+          chatFeedViewScrollController.value.animateTo(
+            chatFeedViewScrollController.value.position.maxScrollExtent,
             duration: const Duration(milliseconds: 200),
             curve: Curves.easeOut,
           );
@@ -139,7 +139,8 @@ class FeedViewController extends GetxController {
         //   'opus',
         //   'm4a',
         // ],
-      ).whenComplete(() {
+      )
+          .whenComplete(() {
         if (!connected) {
           snackBar(
               context: context,
@@ -275,8 +276,10 @@ class FeedViewController extends GetxController {
       if (resp['status']['code'] == 200) {
         audioPath.value = null;
         filePath.value = null;
-        showAudioRecordWidget.value = false; // for hiding the audio recording widget //
-        showAudioPlayingWidget.value = false; // for hiding the audio playing widget //
+        showAudioRecordWidget.value =
+            false; // for hiding the audio recording widget //
+        showAudioPlayingWidget.value =
+            false; // for hiding the audio playing widget //
         isReplay.value = null;
       }
       isSentLoading.value = false;
@@ -293,16 +296,17 @@ class FeedViewController extends GetxController {
 
   Future<dynamic> sendAttach(
       {required BuildContext context,
-        required String classs,
-        required String batch,
-        required String subId,
-        required String sub,
-        required String teacherId,
-        filePath,
-        String? message}) async {
+      required String classs,
+      required String batch,
+      required String subId,
+      required String sub,
+      required String teacherId,
+      filePath,
+      String? message}) async {
     print("--------rgte4ght------------${finalParentDataList.length}");
     try {
-      Map<String, dynamic> resp = await ApiServices.sendAttachment(filePath: filePath);
+      Map<String, dynamic> resp =
+          await ApiServices.sendAttachment(filePath: filePath);
 
       print("---------respdata------------$resp");
 
@@ -313,7 +317,9 @@ class FeedViewController extends GetxController {
           classs: classs,
           message: message,
           messageFrom: teacherId,
-          parents: finalParentDataList.value.isNotEmpty ? finalParentDataList.value : allParentDataList.value,
+          parents: finalParentDataList.value.isNotEmpty
+              ? finalParentDataList.value
+              : allParentDataList.value,
           subject: sub,
           replyId: isReplay.value,
           fileData: FileData(
@@ -344,9 +350,10 @@ class FeedViewController extends GetxController {
     required BuildContext context,
   }) async {
     try {
-      var resp = await ApiServices
-          .deleteSenderMsg(msgId: msgId!, teacherId: teacherId!);
+      var resp = await ApiServices.deleteSenderMsg(
+          msgId: msgId!, teacherId: teacherId!);
       if (resp['status']['code'] == 200) {
+        print("delete success");
         print("-----resp-----$resp");
         snackBar(
             context: context,
@@ -372,41 +379,46 @@ class FeedViewController extends GetxController {
 
       // Check if the difference is less than 15 minutes
       return difference.inMinutes < 15;
-    } catch(e) {
+    } catch (e) {
       return false;
     }
   }
 
   void focusTextField() {
-    if(focusNode.value.hasFocus) {
+    if (focusNode.value.hasFocus) {
       focusNode.value = FocusNode();
     }
     focusNode.value.requestFocus();
   }
 
-  Future<void> fetchParentList({required String classs, required String batch, required String subId, required String schoolId}) async {
+  Future<void> fetchParentList(
+      {required String classs,
+      required String batch,
+      required String subId,
+      required String schoolId}) async {
     try {
       Map<String, dynamic> resp = await ApiServices.getParentList(
-          classs: classs,
-          batch: batch,
-          subId: subId,
-          schoolId: schoolId,
+        classs: classs,
+        batch: batch,
+        subId: subId,
+        schoolId: schoolId,
       );
-      if(resp['status']['code'] == 200) {
+      if (resp['status']['code'] == 200) {
         parentListApiData.value = ParentListApiModel.fromJson(resp);
         parentDataList.value = parentListApiData.value.data?.parentData ?? [];
         for (var parent in parentDataList) {
           allParentDataList.add(parent.sId.toString());
         }
       }
-    } catch(e) {
+    } catch (e) {
       print("----------parent list error---------");
     }
   }
 
   void addParentList(ParentData parent) {
-    List<ParentData> parents = selectedParentDataList.where((emp) => emp.sId == parent.sId).toList();
-    if(parents.isEmpty) {
+    List<ParentData> parents =
+        selectedParentDataList.where((emp) => emp.sId == parent.sId).toList();
+    if (parents.isEmpty) {
       selectedParentDataList.add(parent);
     } else {
       removeParentList(parent);

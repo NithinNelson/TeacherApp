@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -29,13 +28,15 @@ class GroupedViewChat extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             DateTime? sentTime;
             try {
-              sentTime = DateTime.parse(room[index].lastMessage!.sandAt.toString());
-            } catch(e) {}
+              sentTime =
+                  DateTime.parse(room[index].lastMessage!.sandAt.toString());
+            } catch (e) {}
             String? formattedDate;
             try {
               formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
-            } catch(e) {}
-            String? userId = Get.find<UserAuthController>().userData.value.userId;
+            } catch (e) {}
+            String? userId =
+                Get.find<UserAuthController>().userData.value.userId;
             return ChatItem(
               time: formattedDate ?? '',
               lastMessage: room[index].lastMessage,
@@ -66,7 +67,8 @@ class ChatItem extends StatelessWidget {
   final RoomData? classTeacherGroup;
   final Color? avatarColor;
 
-  const ChatItem({super.key,
+  const ChatItem({
+    super.key,
     required this.time,
     required this.unreadMessages,
     required this.userId,
@@ -112,8 +114,8 @@ class ChatItem extends StatelessWidget {
                         Row(
                           children: [
                             Container(
-                              constraints: const BoxConstraints(
-                                  maxWidth: 120).w,
+                              constraints:
+                                  const BoxConstraints(maxWidth: 120).w,
                               child: Text(
                                 // "English",
                                 classTeacherGroup?.subjectName ?? '--',
@@ -124,12 +126,14 @@ class ChatItem extends StatelessWidget {
                             SizedBox(width: 5.w),
                             Expanded(
                               child: Container(
-                                constraints: const BoxConstraints(
-                                    maxWidth: 80).w,
+                                constraints:
+                                    const BoxConstraints(maxWidth: 80).w,
                                 child: Text(
                                   // "English",
                                   classTeacherGroup?.teacherName ?? '--',
-                                  style: TeacherAppFonts.interW400_14sp_textWhite.copyWith(
+                                  style: TeacherAppFonts
+                                      .interW400_14sp_textWhite
+                                      .copyWith(
                                     color: Colorutils.fontColor6,
                                   ),
                                   overflow: TextOverflow.ellipsis,
@@ -141,8 +145,8 @@ class ChatItem extends StatelessWidget {
                         SizedBox(height: 2.h),
                         Row(
                           children: [
-                            if(userId != null && lastMessage != null)
-                              if(userId == lastMessage!.messageFromId)
+                            if (userId != null && lastMessage != null)
+                              if (userId == lastMessage!.messageFromId)
                                 SizedBox(
                                   height: 21.h,
                                   width: 21.h,
@@ -151,11 +155,11 @@ class ChatItem extends StatelessWidget {
                                     color: Colors.green,
                                   ),
                                 ),
-
-                            if(userId != null && lastMessage != null)
-                              if(userId == lastMessage!.messageFromId)
+                            if (userId != null && lastMessage != null)
+                              if (userId == lastMessage!.messageFromId)
                                 SizedBox(width: 5.h),
-                            LastSeenMsgGroupedViewChat(lastMessage: classTeacherGroup!.lastMessage),
+                            LastSeenMsgGroupedViewChat(
+                                lastMessage: classTeacherGroup!.lastMessage),
                           ],
                         )
                       ],
@@ -173,8 +177,8 @@ class ChatItem extends StatelessWidget {
                   style: TeacherAppFonts.interW400_12sp_topicbackground,
                 ),
                 SizedBox(height: 10.h),
-                if(unreadMessages != null)
-                  if(unreadMessages != 0)
+                if (unreadMessages != null)
+                  if (unreadMessages != 0)
                     Container(
                       height: 23.h,
                       width: 23.h,

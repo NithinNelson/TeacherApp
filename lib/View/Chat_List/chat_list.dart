@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -24,9 +23,12 @@ class ChatWithParentsPage extends StatefulWidget {
   State<ChatWithParentsPage> createState() => _ChatWithParentsPageState();
 }
 
-class _ChatWithParentsPageState extends State<ChatWithParentsPage> with TickerProviderStateMixin {
-  ChatClassGroupController chatClassGroupController = Get.find<ChatClassGroupController>();
-  ParentChatListController parentChatListController = Get.find<ParentChatListController>();
+class _ChatWithParentsPageState extends State<ChatWithParentsPage>
+    with TickerProviderStateMixin {
+  ChatClassGroupController chatClassGroupController =
+      Get.find<ChatClassGroupController>();
+  ParentChatListController parentChatListController =
+      Get.find<ParentChatListController>();
   TabController? _tabcontroller;
   PageController pageController = PageController();
   Timer? chatUpdate;
@@ -45,10 +47,13 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage> with TickerPr
     if (!mounted) return;
     Get.find<ParentChatListController>().setTab(0);
     context.loaderOverlay.hide();
-    chatUpdate = Timer.periodic(const Duration(seconds: 1), (timer) async {
-      await chatClassGroupController.fetchClassGroupListPeriodically();
-      await parentChatListController.fetchParentChatListPeriodically();
-    },);
+    chatUpdate = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) async {
+        await chatClassGroupController.fetchClassGroupListPeriodically();
+        await parentChatListController.fetchParentChatListPeriodically();
+      },
+    );
   }
 
   @override
@@ -89,12 +94,13 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage> with TickerPr
                   ),
                   GetX<ChatClassGroupController>(
                     builder: (ChatClassGroupController controller) {
-                      if(controller.currentChatTab.value == 1) {
+                      if (controller.currentChatTab.value == 1) {
                         return Padding(
                           padding: const EdgeInsets.only(left: 6).w,
                           child: InkWell(
                             onTap: () {
-                              parentChatListController.setCurrentFilterClass(currentClass: 'All');
+                              parentChatListController.setCurrentFilterClass(
+                                  currentClass: 'All');
                               showModalBottomSheet(
                                 context: context,
                                 backgroundColor: Colors.transparent,
@@ -108,8 +114,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage> with TickerPr
                               padding: const EdgeInsets.all(4.0).w,
                               decoration: BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.circular(100).w
-                              ),
+                                  borderRadius: BorderRadius.circular(100).w),
                               child: Icon(
                                 Icons.add,
                                 color: Colorutils.letters1,
@@ -135,8 +140,11 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage> with TickerPr
               alignment: Alignment.bottomCenter,
               child: TabBar(
                 onTap: (index) {
-                  _tabcontroller = TabController(length: 2, vsync: this, initialIndex: index);
-                  pageController.animateToPage(index, duration: const Duration(milliseconds: 200), curve: Curves.bounceIn);
+                  _tabcontroller = TabController(
+                      length: 2, vsync: this, initialIndex: index);
+                  pageController.animateToPage(index,
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.bounceIn);
                   setState(() {});
                   Get.find<ChatClassGroupController>().setCurrentChatTab(index);
                 },
@@ -169,7 +177,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage> with TickerPr
                         GetX<ChatClassGroupController>(
                           builder: (ChatClassGroupController controller) {
                             int count = controller.unreadCount.value;
-                            if(count != 0) {
+                            if (count != 0) {
                               return CircleAvatar(
                                 backgroundColor: Colors.white,
                                 radius: 10,
@@ -208,7 +216,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage> with TickerPr
                         GetX<ParentChatListController>(
                           builder: (ParentChatListController controller) {
                             int count = controller.unreadCount.value;
-                            if(count != 0) {
+                            if (count != 0) {
                               return CircleAvatar(
                                 backgroundColor: Colors.white,
                                 radius: 10,
@@ -236,9 +244,10 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage> with TickerPr
                 controller: pageController,
                 onPageChanged: (index) {
                   // if(_tabcontroller != null) {
-                  _tabcontroller = TabController(length: 2, vsync: this, initialIndex: index);
+                  _tabcontroller = TabController(
+                      length: 2, vsync: this, initialIndex: index);
                   setState(() {});
-                    Get.find<ChatClassGroupController>().setCurrentChatTab(index);
+                  Get.find<ChatClassGroupController>().setCurrentChatTab(index);
                   // }
                 },
                 children: const [

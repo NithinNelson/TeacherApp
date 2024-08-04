@@ -79,6 +79,8 @@ class ShowWarnDialog {
     );
   }
 
+
+
   Future<void> _openAppSettings(
       {required BuildContext context, VoidCallback? callback}) async {
     await openAppSettings();
@@ -87,6 +89,58 @@ class ShowWarnDialog {
           context, MaterialPageRoute(builder: (_) => _DummyPage(callback)));
     }
   }
+
+  Future<bool?> showWarnText({
+    required BuildContext context,
+    required String message,
+  }) async {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => WillPopScope(
+        onWillPop: () async => false,
+        child: AlertDialog(
+          title: const Icon(
+            Icons.error_outline,
+            color: Colors.red,
+            size: 60,
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              FittedBox(
+                child: Text(
+                  message,
+                  style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            Center(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: const Color(0xFF3392BE).withOpacity(0.5),
+                    elevation: 0),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  "ok",
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
 }
 
 class _DummyPage extends StatelessWidget {
@@ -103,4 +157,6 @@ class _DummyPage extends StatelessWidget {
 
     return Container();
   }
+
+
 }

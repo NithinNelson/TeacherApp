@@ -1,7 +1,3 @@
-
-
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -44,7 +40,7 @@ class GroupChatList extends StatelessWidget {
               formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
             } catch(e) {}
             String? userId = Get.find<UserAuthController>().userData.value.userId;
-            return ChatItem(
+            return ChatItems(
               // className: classTeacherGroups[index].subjectName ?? '--',
               time: formattedDate ?? '',
               unreadMessages: classTeacherGroups[index].unreadCount ?? 0,
@@ -68,7 +64,7 @@ class GroupChatList extends StatelessWidget {
   }
 }
 
-class ChatItem extends StatelessWidget {
+class ChatItems extends StatelessWidget {
   final String time;
   final int? unreadMessages;
   final String? userId;
@@ -76,7 +72,7 @@ class ChatItem extends StatelessWidget {
   final ClassTeacherGroup? classTeacherGroup;
   final Color? avatarColor;
 
-  const ChatItem({super.key,
+  const ChatItems({super.key,
     required this.time,
     required this.unreadMessages,
     required this.userId,

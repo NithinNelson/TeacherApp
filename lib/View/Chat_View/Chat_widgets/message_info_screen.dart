@@ -1,18 +1,28 @@
-
+import 'dart:ffi';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:teacherapp/Controller/message_info_controller/message_info_controller.dart';
+import 'package:teacherapp/Services/common_services.dart';
 import '../../../Utils/Colors.dart';
 import '../../../Utils/font_util.dart';
 
 class MessageInfoScreen extends StatelessWidget {
-  const MessageInfoScreen({super.key, required this.widget});
+  const MessageInfoScreen({
+    super.key,
+    required this.widget,
+    required this.messageId,
+  });
 
   final Widget widget;
+  final int messageId;
 
   @override
   Widget build(BuildContext context) {
+    Get.find<MessageInfoController>()
+        .getMessageInfo(context: context, messageId: messageId);
     return Scaffold(
       body: Column(
         children: [
@@ -73,7 +83,7 @@ class MessageInfoScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         SvgPicture.asset(
-                            "assets/images/Checks.svg",
+                          "assets/images/Checks.svg",
                           width: 20.w,
                           fit: BoxFit.fitWidth,
                         ),
@@ -87,14 +97,27 @@ class MessageInfoScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  ...List.generate(10, (index) {
-                    return const ChatItem(
-                      className: "4A",
-                      studentName: "studentName",
-                      time: "time",
-                      unreadMessages: "unreadMessages",
-                      classs: "4A",
-                    );
+                  GetX<MessageInfoController>(builder: (controller) {
+                    if (controller.viewsList.value == null) {
+                      return SizedBox(
+                          height: 400.h, child: Center(child: Text("No Data")));
+                    } else {
+                      return Column(
+                        children: List.generate(
+                            controller.viewsList.value!.length, (index) {
+                          final data = controller.viewsList.value![index];
+
+                          return ChatItem(
+                            className: data.studentName ?? "--",
+                            studentName:
+                                "${data.relation} of ${data.parentName}",
+                            date: data.seenOn!,
+                            unreadMessages: "unreadMessages",
+                            classs: "${data.studentName!.split("").first}",
+                          );
+                        }),
+                      );
+                    }
                   })
                 ],
               ),
@@ -109,14 +132,15 @@ class MessageInfoScreen extends StatelessWidget {
 class ChatItem extends StatelessWidget {
   final String className;
   final String studentName;
-  final String time;
+  final String date;
   final String? unreadMessages;
   final String classs;
 
-  const ChatItem({super.key,
+  const ChatItem({
+    super.key,
     required this.className,
     required this.studentName,
-    required this.time,
+    required this.date,
     required this.unreadMessages,
     required this.classs,
   });
@@ -169,11 +193,11 @@ class ChatItem extends StatelessWidget {
                       Row(
                         children: [
                           Container(
-                            constraints: const BoxConstraints(
-                                maxWidth: 120),
+                            constraints: const BoxConstraints(maxWidth: 120),
                             child: Text(
                               // "English",
-                              "className",
+                              // "className",
+                              className,
                               style: TeacherAppFonts.interW600_16sp_black,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -185,9 +209,11 @@ class ChatItem extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              "studentName",
+                              // "studentName",
+                              studentName,
                               overflow: TextOverflow.ellipsis,
-                              style: TeacherAppFonts.poppinsW400_12sp_lightGreenForParent,
+                              style: TeacherAppFonts
+                                  .poppinsW400_12sp_lightGreenForParent,
                             ),
                           ),
                         ],
@@ -203,14 +229,16 @@ class ChatItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                "02/04/24",
+                // "02/04/24",
+                convertDateFormat(date),
                 style: TeacherAppFonts.interW400_14sp_textWhite.copyWith(
                   color: Colorutils.letters1,
                 ),
               ),
               SizedBox(height: 5.h),
               Text(
-                "7:32PM",
+                // "7:32PM",
+                convertTimeFormat(date),
                 style: TeacherAppFonts.interW500_14sp_letters1.copyWith(
                   color: Colors.black,
                 ),

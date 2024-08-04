@@ -69,13 +69,17 @@ class SentMessageBubble extends StatelessWidget {
                       print(ScreenUtil().screenHeight);
                     },
                     onLongPress: () {
-                      Get.find<FeedViewController>().seletedMsgData = messageData;
+                      Get.find<FeedViewController>().seletedMsgData =
+                          messageData;
                       final renderObject =
                           context.findRenderObject() as RenderBox;
                       final position = renderObject.localToGlobal(Offset.zero);
 
                       messageMoreShowDialog(
                           context, this, position, _tapPosition);
+
+                      print(
+                          "msg ============= id ${Get.find<FeedViewController>().seletedMsgData!.messageId}");
                     },
                     child: IntrinsicWidth(
                       child: Container(
@@ -87,6 +91,31 @@ class SentMessageBubble extends StatelessWidget {
                           padding: EdgeInsets.all(10.h),
                           child: Column(
                             children: [
+                              messageData!.isForward ?? false
+                                  ? Row(
+                                      children: [
+                                        SizedBox(
+                                          height: 14.h,
+                                          width: 14.h,
+                                          child: SvgPicture.asset(
+                                            "assets/images/ArrowBendUpRight.svg",
+                                            color:
+                                                Colors.black.withOpacity(.25),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 5.w,
+                                        ),
+                                        Text("Forwarded",
+                                            style: TextStyle(
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w400,
+                                                fontStyle: FontStyle.italic,
+                                                color: Colors.black
+                                                    .withOpacity(0.25))),
+                                      ],
+                                    )
+                                  : const SizedBox(),
                               messageData!.replyData != null
                                   ? ReplayMessageWidget(
                                       senderId: messageData!.messageFromId,
@@ -215,6 +244,7 @@ String chatRoomFormatTime(String? dateTime) {
 
   return formattedDateTime;
 }
+
 String messageInfoformatDate(String? dateTimeString) {
   if (dateTimeString == null) {
     return "--";
