@@ -1,7 +1,9 @@
 
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
+import 'package:teacherapp/Models/api_models/learning_walk_apply_model.dart';
 import 'package:teacherapp/Models/api_models/leave_req_list_api_model.dart';
 
 import '../Models/api_models/chat_feed_view_model.dart';
@@ -668,6 +670,29 @@ class ApiServices {
       var request = http.Request('POST', Uri.parse(url));
       request.body = (json.encode(apiBody));
       print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+  static Future<Map<String, dynamic>> learningWalkSubmit({
+    required LearningWalkApplyModel reqData,
+  }) async {
+    String url = "${ApiConstants.baseUrl}${ApiConstants.learningWalkSubmit}";
+    print(url);
+    Map apiBody = reqData.toJson();
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      log('Api body---------------------->${request.body}');
       request.headers.addAll(ApiConstants.headers);
       http.StreamedResponse response = await request.send();
       var respString = await response.stream.bytesToString();

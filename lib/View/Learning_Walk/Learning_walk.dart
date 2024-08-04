@@ -21,6 +21,7 @@ class LearningWalk extends StatefulWidget {
 }
 
 class _LearningWalkState extends State<LearningWalk> {
+  final _formKey = GlobalKey<FormState>();
   String? selectedValue;
   String? selectedValue1;
   String? selectedValue2;
@@ -46,7 +47,7 @@ class _LearningWalkState extends State<LearningWalk> {
                       color: Colors.transparent,
                       borderRadius: BorderRadius.circular(17.0),
                     ),
-                    child: const UserDetails(shoBackgroundColor: false, isWelcome: true, bellicon: true, notificationcount: true,),
+                    child: const UserDetails(shoBackgroundColor: false, isWelcome: false, bellicon: true, notificationcount: true,),
                   ),
                 ),
                 // SizedBox(
@@ -357,248 +358,230 @@ class _LearningWalkState extends State<LearningWalk> {
                                   "assets/images/nodata.gif",
                               );
                             } else {
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 20.w, right: 20.w, top: 20.h),
-                                    child: InputDecorator(
-                                      decoration: InputDecoration(
-                                        hintStyle: TextStyle(
-                                          color: Colors.black.withOpacity(0.5),
-                                        ),
-                                        contentPadding: EdgeInsets.only(
-                                            left: 10, right: 20, top: 3, bottom: 3),
-                                        hintText: "Teacher",
-                                        counterText: "",
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0)),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color.fromRGBO(230, 236, 254, 8),
-                                            width: 1.0,
-                                          ),
-                                          borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color.fromRGBO(230, 236, 254, 8),
-                                            width: 1.0,
-                                          ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0)),
-                                        ),
-                                        fillColor: Color.fromRGBO(230, 236, 254, 8),
-                                        filled: true,
-                                      ),
-                                      child: DropdownButtonHideUnderline(
-                                        child: DropdownButton2(
-                                          dropdownStyleData:
-                                          DropdownStyleData(
-                                            elevation: 3,
-                                            maxHeight: 500,
-                                            padding: EdgeInsets.fromLTRB(
-                                                0, 0, 0, 0),
-                                          ),
-                                          hint: Text('Teacher'),
-                                          items: teacherList
-                                              .map((teacher) =>
-                                              DropdownMenuItem<String>(
-                                                value:
-                                                teacher.teacherName,
-                                                child: SizedBox(
-                                                  width: 190.w,
-                                                    child: Text(teacher.teacherName.toString(), overflow: TextOverflow.ellipsis,)),
-                                              ))
-                                              .toList(),
-                                          value: selectedValue,
-                                          onChanged: (teacher) {
-                                            setState(() {
-                                              selectedValue = teacher;
-                                              selectedValue1 = null;
-                                            });
-                                            controller.getTeacherClassData(teacherName: teacher.toString());
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 20.w, right: 20.w, top: 20.h),
-                                    child: Container(
-                                      height: 60,
-                                      child: InputDecorator(
+                              return Form(
+                                key: _formKey,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 15.w, right: 20.w, top: 20.h),
+                                      child: DropdownButtonFormField(
                                         decoration: InputDecoration(
-                                          hintStyle: TextStyle(
-                                            color: Colors.black.withOpacity(0.5),
-                                          ),
-                                          contentPadding: EdgeInsets.only(
-                                              left: 10, right: 10, top: 3, bottom: 3),
-                                          hintText: "Class",
-                                          counterText: "",
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0),
-                                            ),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color.fromRGBO(230, 236, 254, 8),
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                            BorderRadius.all(Radius.circular(10)),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color.fromRGBO(230, 236, 254, 8),
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                            BorderRadius.all(Radius.circular(10.0)),
-                                          ),
-                                          fillColor: Color.fromRGBO(230, 236, 254, 8),
-                                          filled: true,
-                                        ),
-                                        child: DropdownButtonHideUnderline(
-                                          child: DropdownButton2(
-                                            hint: Text('Class'),
-                                            items: teacherDetails.map((batchData) {
-                                              String uniqueValue = "${batchData?.className} ${batchData?.batchName}";
-                                              return DropdownMenuItem<String>(
-                                                value: uniqueValue,
-                                                child: SizedBox(
-                                                  width: 190.w,
-                                                  child: Text(
-                                                      "${batchData?.className} ${batchData?.batchName}",
-                                                    overflow: TextOverflow.ellipsis,
-                                                  ),
-                                                ),
-                                              );
-                                            }).toList(),
-                                            value: selectedValue1,
-                                            onChanged: (newValue) {
-                                              setState(() {
-                                                selectedValue1 = newValue;
-                                                selectedValue2 = null;
-                                              });
-                                              controller.getTeacherSubjectData(classAndBatch: selectedValue1.toString());
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 20.w, right: 20.w, top: 20.h),
-                                    child: Container(
-                                      height: 60,
-                                      child: InputDecorator(
-                                        decoration: InputDecoration(
-                                          hintStyle: TextStyle(
-                                            color: Colors.black.withOpacity(0.5),
-                                          ),
-                                          contentPadding: EdgeInsets.only(
-                                              left: 10, right: 10, top: 3, bottom: 3),
-                                          hintText: "Subject",
-                                          counterText: "",
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0),
-                                            ),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color.fromRGBO(230, 236, 254, 8),
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                            BorderRadius.all(Radius.circular(10)),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color.fromRGBO(230, 236, 254, 8),
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                            BorderRadius.all(Radius.circular(10.0)),
-                                          ),
-                                          fillColor: Color.fromRGBO(230, 236, 254, 8),
-                                          filled: true,
-                                        ),
-                                        child: DropdownButtonHideUnderline(
-                                          child: DropdownButton2(
-                                            hint: Text('Subject'),
-                                            items: subList
-                                                .map((sub) => DropdownMenuItem<String>(
-                                              value: sub.subjectName,
-                                              child: SizedBox(
-                                                width: 190.w,
-                                                child: Text(
-                                                    sub.subjectName.toString(),
-                                                  overflow: TextOverflow.ellipsis,
-                                                ),
+                                            hintStyle: TextStyle(
+                                                color: Colors.black.withOpacity(0.5)),
+                                            contentPadding: EdgeInsets.symmetric(
+                                                vertical: 15.0, horizontal: 20.0),
+                                            hintText: "Teacher",
+                                            counterText: "",
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0),
                                               ),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color.fromRGBO(230, 236, 254, 8),
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                              BorderRadius.all(Radius.circular(10.0)),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color.fromRGBO(230, 236, 254, 8),
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                              BorderRadius.all(Radius.circular(10.0)),
+                                            ),
+                                            fillColor: Color.fromRGBO(230, 236, 254, 8),
+                                            filled: true),isExpanded: true,
+                                        padding: const EdgeInsets.only(left: 10, right: 5).w,
+                                        hint: const Text('Teacher'),
+                                        validator: (dynamic value) =>
+                                        value == null ? 'Field Required' : null,
+                                        items: teacherList
+                                            .map((teacher) =>
+                                            DropdownMenuItem<String>(
+                                              value:
+                                              teacher.teacherName,
+                                              child: Text(teacher.teacherName.toString(), overflow: TextOverflow.ellipsis,),
                                             ))
-                                                .toList(),
-                                            value: selectedValue2,
-                                            onChanged: (value) {
-
-                                              setState(() {
-                                                selectedValue2 = value;
-                                              });
-                                            },
-                                          ),
-                                        ),
+                                            .toList(),
+                                        value: selectedValue,
+                                        onChanged: (teacher) {
+                                          setState(() {
+                                            selectedValue = teacher;
+                                            selectedValue1 = null;
+                                            selectedValue2 = null;
+                                          });
+                                          controller.getTeacherClassData(teacherName: teacher.toString());
+                                        },
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 70.w,
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 25.h),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 15.w, right: 20.w, top: 20.h),
+                                      child: DropdownButtonFormField(
+                                        decoration: InputDecoration(
+                                            hintStyle: TextStyle(
+                                                color: Colors.black.withOpacity(0.5)),
+                                            contentPadding: EdgeInsets.symmetric(
+                                                vertical: 15.0, horizontal: 20.0),
+                                            hintText: "Class",
+                                            counterText: "",
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0),
+                                              ),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color.fromRGBO(230, 236, 254, 8),
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                              BorderRadius.all(Radius.circular(10.0)),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color.fromRGBO(230, 236, 254, 8),
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                              BorderRadius.all(Radius.circular(10.0)),
+                                            ),
+                                            fillColor: Color.fromRGBO(230, 236, 254, 8),
+                                            filled: true),
+                                        padding: const EdgeInsets.only(left: 10, right: 5).w,
+                                        hint: const Text('Class'),
+                                        validator: (dynamic value) =>
+                                        value == null ? 'Field Required' : null,
+                                        items: teacherDetails.map((batchData) {
+                                          String uniqueValue = "${batchData?.className} ${batchData?.batchName}";
+                                          return DropdownMenuItem<String>(
+                                            value: uniqueValue,
+                                            child: SizedBox(
+                                              width: 190.w,
+                                              child: Text(
+                                                  "${batchData?.className} ${batchData?.batchName}",
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                        value: selectedValue1,
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            selectedValue1 = newValue;
+                                            selectedValue2 = null;
+                                          });
+                                          controller.getTeacherSubjectData(classAndBatch: selectedValue1.toString());
+                                        },
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 15.w, right: 20.w, top: 20.h),
+                                      child: DropdownButtonFormField(
+                                        decoration: InputDecoration(
+                                            hintStyle: TextStyle(
+                                                color: Colors.black.withOpacity(0.5)),
+                                            contentPadding: EdgeInsets.symmetric(
+                                                vertical: 15.0, horizontal: 20.0),
+                                            hintText: "Subject",
+                                            counterText: "",
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0),
+                                              ),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color.fromRGBO(230, 236, 254, 8),
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                              BorderRadius.all(Radius.circular(10.0)),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color.fromRGBO(230, 236, 254, 8),
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                              BorderRadius.all(Radius.circular(10.0)),
+                                            ),
+                                            fillColor: Color.fromRGBO(230, 236, 254, 8),
+                                            filled: true),
+                                        padding: const EdgeInsets.only(left: 10, right: 5).w,
+                                        hint: const Text('Subject'),
+                                        validator: (dynamic value) =>
+                                        value == null ? 'Field Required' : null,
+                                        items: subList
+                                            .map((sub) => DropdownMenuItem<String>(
+                                          value: sub.subjectName,
+                                          child: SizedBox(
+                                            width: 190.w,
+                                            child: Text(
+                                                sub.subjectName.toString(),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        )).toList(),
+                                        value: selectedValue2,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selectedValue2 = value;
+                                          });
+                                          controller.setTeacherSubjectData(subName: selectedValue2.toString());
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 70.w,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 25.h),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          if(_formKey.currentState!.validate()) {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
                                                 builder: (context) =>
                                                     LessonWalkApply(
-                                                      teacherDetails: selectedValue!,
-                                                      subjectDetail: selectedValue2!,
-                                                      teacherDetail: selectedValue!,
+                                                      teacherName: selectedValue!,
+                                                      classAndBatch: selectedValue1!,
+                                                      subjectName: selectedValue2!,
                                                     ),
-                                            ),
-                                        );
-                                      },
-                                      child: Padding(
-                                        padding:
-                                        const EdgeInsets.only(left: 75, right: 75),
-                                        child: Container(
-                                            height: 50.h,
-                                            width: 220.w,
-                                            decoration: BoxDecoration(
-                                              color: Colorutils.userdetailcolor,
-                                              borderRadius:
-                                              BorderRadius.all(Radius.circular(12)),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                'Continue',
-                                                style: TextStyle(color: Colors.white),
                                               ),
-                                            )),
+                                            );
+                                          }
+                                        },
+                                        child: Padding(
+                                          padding:
+                                          const EdgeInsets.only(left: 75, right: 75),
+                                          child: Container(
+                                              height: 50.h,
+                                              width: 220.w,
+                                              decoration: BoxDecoration(
+                                                color: Colorutils.userdetailcolor,
+                                                borderRadius:
+                                                BorderRadius.all(Radius.circular(12)),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  'Continue',
+                                                  style: TextStyle(color: Colors.white),
+                                                ),
+                                              )),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               );
                             }
                           },

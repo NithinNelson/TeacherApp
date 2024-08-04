@@ -3,12 +3,10 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:teacherapp/Controller/api_controllers/lessonObservationController.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
-import 'package:teacherapp/Models/api_models/learning_observation_api_model.dart';
 import 'package:teacherapp/Services/api_services.dart';
 import 'package:teacherapp/Services/check_connectivity.dart';
 import 'package:teacherapp/Services/snackBar.dart';
@@ -19,24 +17,25 @@ import '../../Utils/Colors.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
 
-class LessonWalkApply extends StatefulWidget {
+class LessonObservationApply extends StatefulWidget {
   final String teacherName;
   final String classAndBatch;
   final String subjectName;
-  const LessonWalkApply({
+  final String topic;
+  const LessonObservationApply({
     super.key,
     required this.teacherName,
     required this.classAndBatch,
     required this.subjectName,
+    required this.topic,
   });
 
   @override
-  State<LessonWalkApply> createState() => _LessonWalkApplyState();
+  State<LessonObservationApply> createState() => _LessonObservationApplyState();
 }
 
-class _LessonWalkApplyState extends State<LessonWalkApply> {
+class _LessonObservationApplyState extends State<LessonObservationApply> {
   bool isChecked = false;
-  String? _selectedValue = '';
   final _formKey = GlobalKey<FormState>();
   TextEditingController _summaryController = TextEditingController();
   TextEditingController _whatWentWellController = TextEditingController();
@@ -67,7 +66,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                       borderRadius: BorderRadius.circular(17.0),
                     ),
                     child: const UserDetails(
-                        shoBackgroundColor: false, isWelcome: false, bellicon: true, notificationcount: true,),
+                      shoBackgroundColor: false, isWelcome: false, bellicon: true, notificationcount: true,),
                   ),
                 ),
                 Container(
@@ -109,7 +108,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                                       padding: const EdgeInsets.fromLTRB(
                                           25, 10, 0, 10),
                                       child: Text(
-                                        'Learning Walk',
+                                        'Lesson Observation',
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600),
@@ -122,23 +121,25 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                                           right: 20.w,
                                           bottom: 5),
                                       child: Container(
-                                        height: 80.h,
+                                        // height: 80.h,
                                         width: 280.w,
                                         decoration: BoxDecoration(
                                             color: Colorutils.userdetailcolor,
                                             borderRadius:
-                                                BorderRadius.circular(15)),
+                                            BorderRadius.circular(15)),
                                         child: Column(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                           children: [
+                                            SizedBox(height: 8.w),
                                             Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Padding(
                                                   padding:
-                                                      const EdgeInsets.symmetric(
-                                                              horizontal: 10)
-                                                          .w,
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10)
+                                                      .w,
                                                   child: Container(
                                                     width: 50.w,
                                                     height: 50.h,
@@ -146,7 +147,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                                                       shape: BoxShape.circle,
                                                       border: Border.all(
                                                           color:
-                                                              Color(0xFFD6E4FA)),
+                                                          Color(0xFFD6E4FA)),
                                                       color: Colors.white,
                                                       // image: DecorationImage(
                                                       //     image: NetworkImage(widget.teacherImage == ""
@@ -157,41 +158,41 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                                                     ),
                                                     child: ClipRRect(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              100),
+                                                      BorderRadius.circular(
+                                                          100),
                                                       child: CachedNetworkImage(
                                                         width: 50,
                                                         height: 50,
                                                         fit: BoxFit.fill,
                                                         imageUrl: "__",
                                                         errorWidget: (context,
-                                                                url, error) =>
+                                                            url, error) =>
                                                             Center(
-                                                          child: Text(
-                                                            placeholderName,
-                                                            style: TextStyle(
-                                                                color: Color(
-                                                                    0xFFB1BFFF),
-                                                                fontWeight:
+                                                              child: Text(
+                                                                placeholderName,
+                                                                style: TextStyle(
+                                                                    color: Color(
+                                                                        0xFFB1BFFF),
+                                                                    fontWeight:
                                                                     FontWeight
                                                                         .bold,
-                                                                fontSize: 20),
-                                                          ),
-                                                        ),
+                                                                    fontSize: 20),
+                                                              ),
+                                                            ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
                                                 Column(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                                   children: [
                                                     Container(
                                                       width: 180.w,
                                                       child:
-                                                          SingleChildScrollView(
+                                                      SingleChildScrollView(
                                                         scrollDirection:
-                                                            Axis.horizontal,
+                                                        Axis.horizontal,
                                                         child: Text(
                                                           "${widget.teacherName}",
                                                           style: TextStyle(
@@ -199,8 +200,8 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                                                                   0xffFFFFFF),
                                                               fontSize: 15.sp,
                                                               fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
+                                                              FontWeight
+                                                                  .w400),
                                                         ),
                                                       ),
                                                     ),
@@ -210,17 +211,17 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                                                     SizedBox(
                                                       width: 180.w,
                                                       child:
-                                                          SingleChildScrollView(
+                                                      SingleChildScrollView(
                                                         scrollDirection:
-                                                            Axis.horizontal,
+                                                        Axis.horizontal,
                                                         child: Text(
                                                           "${widget.classAndBatch}",
                                                           style: TextStyle(
                                                               color: Colors.white,
                                                               fontSize: 14.sp,
                                                               fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
+                                                              FontWeight
+                                                                  .w400),
                                                         ),
                                                       ),
                                                     ),
@@ -230,29 +231,45 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                                                     Container(
                                                       width: 180.w,
                                                       child:
-                                                          SingleChildScrollView(
+                                                      SingleChildScrollView(
                                                         child: Text(
                                                           "${widget.subjectName}",
                                                           style: TextStyle(
                                                               color: Colors.white,
                                                               fontSize: 14.sp,
                                                               fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
+                                                              FontWeight
+                                                                  .w400),
                                                         ),
                                                       ),
-                                                    )
+                                                    ),
+                                                    Container(
+                                                      width: 200.w,
+                                                      child:
+                                                      SingleChildScrollView(
+                                                        child: Text(
+                                                          "Topic: ${widget.topic}",
+                                                          style: TextStyle(
+                                                              color: Colors.white,
+                                                              fontSize: 14.sp,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w400),
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ],
-                                                )
+                                                ),
                                               ],
-                                            )
+                                            ),
+                                            SizedBox(height: 8.w),
                                           ],
                                         ),
                                       ),
                                     ),
                                     Padding(
                                       padding:
-                                          const EdgeInsets.fromLTRB(25, 5, 0, 5),
+                                      const EdgeInsets.fromLTRB(25, 5, 0, 5),
                                       child: Text(
                                         'Criteria',
                                         style: TextStyle(
@@ -260,7 +277,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                                             fontWeight: FontWeight.w600),
                                       ),
                                     ),
-                                    QuestionRadioFields(),
+                                    QuestionRadioFields(topicData: widget.topic),
                                     Padding(
                                       padding: EdgeInsets.only(
                                           left: 20.w,
@@ -275,7 +292,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                                         controller: _summaryController,
                                         decoration: InputDecoration(
                                             hintStyle:
-                                                TextStyle(color: Colors.black26),
+                                            TextStyle(color: Colors.black26),
                                             contentPadding: EdgeInsets.symmetric(
                                                 vertical: 10.0, horizontal: 20.0),
                                             hintText: " Summary  ",
@@ -321,7 +338,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                                             : null,
                                         decoration: InputDecoration(
                                             hintStyle:
-                                                TextStyle(color: Colors.black26),
+                                            TextStyle(color: Colors.black26),
                                             contentPadding: EdgeInsets.symmetric(
                                                 vertical: 10.0, horizontal: 20.0),
                                             hintText: " What went well   ",
@@ -367,7 +384,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                                         controller: _evenBetterIfController,
                                         decoration: InputDecoration(
                                             hintStyle:
-                                                TextStyle(color: Colors.black26),
+                                            TextStyle(color: Colors.black26),
                                             contentPadding: EdgeInsets.symmetric(
                                                 vertical: 10.0, horizontal: 20.0),
                                             hintText: " Even better if   ",
@@ -401,12 +418,12 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                                     ),
                                     Padding(
                                       padding:
-                                          const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                      const EdgeInsets.fromLTRB(10, 0, 0, 0),
                                       child: Row(
                                         children: [
                                           Checkbox(
                                             activeColor:
-                                                Colorutils.userdetailcolor,
+                                            Colorutils.userdetailcolor,
                                             value: isChecked,
                                             onChanged: (value) {
                                               setState(() {
@@ -440,14 +457,14 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                                             decoration: BoxDecoration(
                                                 color: Colorutils.userdetailcolor,
                                                 borderRadius:
-                                                    BorderRadius.circular(30)),
+                                                BorderRadius.circular(30)),
                                             child: Center(
                                                 child: Text(
-                                              'SUBMIT',
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.white),
-                                            )),
+                                                  'SUBMIT',
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Colors.white),
+                                                )),
                                           ),
                                         ),
                                       ),
@@ -470,31 +487,31 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
     LessonObservationController lessonObservationController = Get.find<LessonObservationController>();
 
     LearningWalkApplyModel learningWalkApplyModel = LearningWalkApplyModel(
-        schoolId: userAuthController.userData.value.schoolId ?? '',
-        teacherId: lessonObservationController.selectedTeacher.value?.teacherId ?? '',
-        teacherName: lessonObservationController.selectedTeacher.value?.teacherName ?? '',
-        observerId: userAuthController.selectedHos.value?.userId ?? userAuthController.userData.value.userId ?? '',
-        observerName: userAuthController.selectedHos.value?.hosName ?? userAuthController.userData.value.name ?? '',
-        classId: lessonObservationController.selectedClass.value?.classId ?? '',
-        classBatchName: "${lessonObservationController.selectedClass.value?.className} ${lessonObservationController.selectedClass.value?.batchName}",
-        batchId: lessonObservationController.selectedClass.value?.batchId ?? '',
-        topic: "No data",
-        academicYear: userAuthController.userData.value.academicYear ?? '',
-        batchName: lessonObservationController.selectedClass.value?.batchName ?? '',
-        className: lessonObservationController.selectedClass.value?.className ?? '',
-        subjectName: lessonObservationController.selectedSubject.value?.subjectName ?? '',
-        subjectId: lessonObservationController.selectedSubject.value?.subjectId ?? '',
-        rollIds: userAuthController.userData.value.allRolesArray ?? [],
-        areasForImprovement: [_whatWentWellController.text],
-        strengths: [_summaryController.text],
-        remedialMeasures: _evenBetterIfController.text,
-        upperHierarchy: null,
-        sessionId: lessonObservationController.selectedClass.value?.sessionId ?? '',
-        curriculumId: lessonObservationController.selectedClass.value?.curriculumId ?? '',
-        isJoin: isChecked,
-        remarksData: [
-          RemarksData(indicators: lessonObservationController.markedIndicators.value),
-        ],
+      schoolId: userAuthController.userData.value.schoolId ?? '',
+      teacherId: lessonObservationController.selectedTeacher.value?.teacherId ?? '',
+      teacherName: lessonObservationController.selectedTeacher.value?.teacherName ?? '',
+      observerId: userAuthController.selectedHos.value?.userId ?? userAuthController.userData.value.userId ?? '',
+      observerName: userAuthController.selectedHos.value?.hosName ?? userAuthController.userData.value.name ?? '',
+      classId: lessonObservationController.selectedClass.value?.classId ?? '',
+      classBatchName: "${lessonObservationController.selectedClass.value?.className} ${lessonObservationController.selectedClass.value?.batchName}",
+      batchId: lessonObservationController.selectedClass.value?.batchId ?? '',
+      topic: "No data",
+      academicYear: userAuthController.userData.value.academicYear ?? '',
+      batchName: lessonObservationController.selectedClass.value?.batchName ?? '',
+      className: lessonObservationController.selectedClass.value?.className ?? '',
+      subjectName: lessonObservationController.selectedSubject.value?.subjectName ?? '',
+      subjectId: lessonObservationController.selectedSubject.value?.subjectId ?? '',
+      rollIds: userAuthController.userData.value.allRolesArray ?? [],
+      areasForImprovement: [_whatWentWellController.text],
+      strengths: [_summaryController.text],
+      remedialMeasures: _evenBetterIfController.text,
+      upperHierarchy: null,
+      sessionId: lessonObservationController.selectedClass.value?.sessionId ?? '',
+      curriculumId: lessonObservationController.selectedClass.value?.curriculumId ?? '',
+      isJoin: isChecked,
+      remarksData: [
+        RemarksData(indicators: lessonObservationController.markedIndicators.value),
+      ],
     );
 
     bool connection = await CheckConnectivity().check();

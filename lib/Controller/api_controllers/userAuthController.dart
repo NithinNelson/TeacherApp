@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:teacherapp/Controller/api_controllers/chatClassGroupController.dart';
 import 'package:teacherapp/Controller/api_controllers/notificationController.dart';
 import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
 import 'package:teacherapp/Services/shared_preferences.dart';
@@ -84,6 +83,7 @@ class UserAuthController extends GetxController {
           String? schoolId = userData.value.schoolId;
           if (schoolId != null) {
             setSchoolTokenAndRoll(schoolId);
+            getNotificationPeriodically();
           }
           await SharedPrefs().setLoginData(loginApi);
           isLoaded.value = true;

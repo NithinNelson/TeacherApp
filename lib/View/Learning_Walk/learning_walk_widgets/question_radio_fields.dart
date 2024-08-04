@@ -4,10 +4,12 @@ import 'package:get/get.dart';
 import 'package:teacherapp/Controller/api_controllers/lessonObservationController.dart';
 import 'package:teacherapp/View/Learning_Walk/learning_walk_widgets/rubrics_info.dart';
 import '../../../Models/api_models/learning_observation_api_model.dart';
+import '../../../Models/api_models/learning_walk_apply_model.dart';
 import '../../../Utils/Colors.dart';
 
 class QuestionRadioFields extends StatefulWidget {
-  const QuestionRadioFields({super.key});
+  final String? topicData;
+  const QuestionRadioFields({super.key, this.topicData});
 
   @override
   State<QuestionRadioFields> createState() => _QuestionRadioFieldsState();
@@ -16,12 +18,16 @@ class QuestionRadioFields extends StatefulWidget {
 class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
   LessonObservationController lessonObservationController =
   Get.find<LessonObservationController>();
-  List<int?> selectedValues = [];
+  List<int?> selectedQuestions = [];
 
   @override
   void initState() {
-    selectedValues = List.generate(
+    selectedQuestions = List.generate(
         lessonObservationController.learningWalkList.length, (_) => null);
+    lessonObservationController.markedIndicators.value = List.generate(
+        widget.topicData == null ? lessonObservationController.learningWalkList.length : lessonObservationController.lessonObservationList.length, (_) {
+          return Indicator(name: null, remark: null, point: null, dbKey: null, alias: null);
+    });
     super.initState();
   }
 
@@ -29,10 +35,10 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
   Widget build(BuildContext context) {
     return GetX<LessonObservationController>(
       builder: (LessonObservationController controller) {
-        List<ListElement> learningWalkList = controller.learningWalkList.value;
+        List<ListElement> lessonWalkList = widget.topicData == null ? controller.learningWalkList.value : controller.lessonObservationList.value;
         return Column(
           children: [
-            for (int i = 0; i < learningWalkList.length; i++)
+            for (int i = 0; i < lessonWalkList.length; i++)
               Expanded(
                 flex: 0,
                 child: Padding(
@@ -91,7 +97,7 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                      learningWalkList[i].indicator ?? '--'),
+                                      lessonWalkList[i].indicator ?? '--'),
                                 )
                               ],
                             ),
@@ -127,10 +133,16 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                                   return Colors.red[700];
                                                 }),
                                                 value: 0,
-                                                groupValue: selectedValues[i],
+                                                groupValue: controller.markedIndicators.value[i].point,
                                                 onChanged: (int? value) {
                                                   setState(() {
-                                                    selectedValues[i] = value;
+                                                    controller.markedIndicators.value[i] = Indicator(
+                                                        name: lessonWalkList[i].indicator ?? '',
+                                                        remark: 'NA',
+                                                        point: 0,
+                                                        dbKey: 'NA',
+                                                        alias: 'NA',
+                                                    );
                                                   });
                                                 },
                                               ),
@@ -152,10 +164,16 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                                   return Colors.yellow[900];
                                                 }),
                                                 value: 3,
-                                                groupValue: selectedValues[i],
+                                                groupValue: controller.markedIndicators.value[i].point,
                                                 onChanged: (int? value) {
                                                   setState(() {
-                                                    selectedValues[i] = value;
+                                                    controller.markedIndicators.value[i] = Indicator(
+                                                      name: lessonWalkList[i].indicator ?? '',
+                                                      remark: 'Weak',
+                                                      point: 3,
+                                                      dbKey: 'Weak',
+                                                      alias: 'Weak',
+                                                    );
                                                   });
                                                 },
                                               ),
@@ -177,10 +195,16 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                                   return Colors.yellow[700];
                                                 }),
                                                 value: 5,
-                                                groupValue: selectedValues[i],
+                                                groupValue: controller.markedIndicators.value[i].point,
                                                 onChanged: (int? value) {
                                                   setState(() {
-                                                    selectedValues[i] = value;
+                                                    controller.markedIndicators.value[i] = Indicator(
+                                                      name: lessonWalkList[i].indicator ?? '',
+                                                      remark: 'Acceptable',
+                                                      point: 5,
+                                                      dbKey: 'Acceptable',
+                                                      alias: 'Acceptable',
+                                                    );
                                                   });
                                                 },
                                               ),
@@ -218,10 +242,16 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                                 return Colors.green;
                                               }),
                                               value: 7,
-                                              groupValue: selectedValues[i],
+                                              groupValue: controller.markedIndicators.value[i].point,
                                               onChanged: (int? value) {
                                                 setState(() {
-                                                  selectedValues[i] = value;
+                                                  controller.markedIndicators.value[i] = Indicator(
+                                                    name: lessonWalkList[i].indicator ?? '',
+                                                    remark: 'Good',
+                                                    point: 7,
+                                                    dbKey: 'Good',
+                                                    alias: 'Good',
+                                                  );
                                                 });
                                               },
                                             ),
@@ -243,10 +273,16 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                                 return Colors.green[700];
                                               }),
                                               value: 9,
-                                              groupValue: selectedValues[i],
+                                              groupValue: controller.markedIndicators.value[i].point,
                                               onChanged: (int? value) {
                                                 setState(() {
-                                                  selectedValues[i] = value;
+                                                  controller.markedIndicators.value[i] = Indicator(
+                                                    name: lessonWalkList[i].indicator ?? '',
+                                                    remark: 'Very Good',
+                                                    point: 9,
+                                                    dbKey: 'Very_good',
+                                                    alias: 'Very good',
+                                                  );
                                                 });
                                               },
                                             ),
@@ -270,10 +306,16 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                               hoverColor:
                                               Colorutils.userdetailcolor,
                                               value: 10,
-                                              groupValue: selectedValues[i],
+                                              groupValue: controller.markedIndicators.value[i].point,
                                               onChanged: (int? value) {
                                                 setState(() {
-                                                  selectedValues[i] = value;
+                                                  controller.markedIndicators.value[i] = Indicator(
+                                                    name: lessonWalkList[i].indicator ?? '',
+                                                    remark: 'Outstanding',
+                                                    point: 10,
+                                                    dbKey: 'Outstanding',
+                                                    alias: 'Outstanding',
+                                                  );
                                                 });
                                               },
                                             ),
@@ -296,7 +338,7 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                   Navigator.of(context).push(
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              RubricsInfo(rubricslessonob: learningWalkList[i].rubrix ?? [])));
+                                              RubricsInfo(rubricslessonob: lessonWalkList[i].rubrix ?? [])));
                                 },
                                 child: Row(
                                   children: [
