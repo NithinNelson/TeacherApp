@@ -20,15 +20,16 @@ class CustomBottomNavigationBar extends StatelessWidget {
           builder: (PageIndexController controller) {
             int currentIndex = controller.pageIndex.value;
             List<MenuItemsModel> menuItems = controller.menuItemsPerRole;
+            int isFromChoice = Get.find<PageIndexController>().navLength.value;
             return BottomNavigationBar(
-                currentIndex: 4,
+                currentIndex: isFromChoice - 1,
                 selectedLabelStyle: const TextStyle(
                     fontSize: 0
                 ),
                 backgroundColor: Colorutils.Whitecolor,
                 type: BottomNavigationBarType.fixed,
                 items:  <BottomNavigationBarItem>[
-                  for(int i = 0; i < 5; i++)
+                  for(int i = 0; i < isFromChoice; i++)
                     if(menuItems[i].index == 2)
                       BottomNavigationBarItem(
                         icon: InkWell(

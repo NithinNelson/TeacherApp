@@ -21,6 +21,7 @@ class ApiConstants {
   //-----------------test url------------------
 
   static String baseUrl = "https://teamsqa3000.educore.guru";
+  static String downloadUrl = "https://teamsqa4000.educore.guru";
   static String chat = "https://chat.bmark.in/api";
 
   //----------------commons--------------------
@@ -36,7 +37,9 @@ class ApiConstants {
   static String parentChatMessages = "/parentchatlistdata";
   static String teacherMsgList = "/teachermessagelist";
   static String sentMsgByTeacher = "/sendmessageteacher";
+  static String requestLeave = "/v0/api/add/leave";
   static String fileUpload = "/upload";
+  static String leaveFileUpload = "/server-uploads";
   static String deleteMsg = "/deletemessage";
   static String parentList = "/getparents";
   static String notification = "/v0/notifications/header/details/";
@@ -44,4 +47,19 @@ class ApiConstants {
   static String groupedView = "/groupedview";
   static String updatenotification = "/v0/notifications/update/status";
   static String leaveReqList = "/v0/get/classteacher/student/list/";
+  static String leaveApprovalList = "/v0/get/leave/teacher/list";
+  static String studentListApi = "/v2/class/students/attendance/list";
+  static String attendanceSubmit = "/v2/teacher/class/take/attendance/";
+
+  static String learningWalkSubmit = "/v2/learning_walk/submit_evaluation";
+
+
+  static String DOCME_URL = "https://sqa.docme.online/bm-school/api/App";
+  static String Observationlist = "https://teamsqa3000.educore.guru/v0/learning-observation/get/userSubmissions";
+  static String IMAGE_BASE_URL = "https://teamsqa4000.educore.guru";
+  static String ObservationResultSubmitLearningWalk = "https://teamsqa3000.educore.guru/v0/learning-walk/addTeacherCmnt";
+  static String ObservationResultlist = "https://teamsqa3000.educore.guru/v0/learning-observation/submissionView/";
+  static String ObservationResultSubmitLessonObservation = "https://teamsqa3000.educore.guru/v0/lesson-observation/addTeacherCmnt";
+  static String LeaveApprovalRequest = "https://teamsqa3000.educore.guru/v0/update/leave";
+
 }

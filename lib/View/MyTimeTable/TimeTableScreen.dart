@@ -40,6 +40,7 @@ class _MyTimeTableState extends State<MyTimeTable>
   bool isCalenderSelectedOnFriday = false;
   bool isCalenderSelectedOnSaturday = false;
   late PageController _pageController;
+  bool isClicked = false;
 
   @override
   void initState() {
@@ -55,6 +56,12 @@ class _MyTimeTableState extends State<MyTimeTable>
     });
   }
 
+  void _handleTap() {
+    setState(() {
+      isClicked = !isClicked;
+    });
+  }
+
   @override
   void dispose() {
     tabController.dispose();
@@ -63,38 +70,6 @@ class _MyTimeTableState extends State<MyTimeTable>
 
   @override
   Widget build(BuildContext context) {
-    List<CardItem> items = [
-      IconTitleCardItem(
-          text: "MON",
-          selectedBgColor: Colorutils.userdetailcolor,
-          noSelectedBgColor: Colorutils.chatcolor,
-          noSelectedIconTextColor: Colors.black),
-      IconTitleCardItem(
-          text: "TUE",
-          selectedBgColor: Colorutils.userdetailcolor,
-          noSelectedBgColor: Colorutils.chatcolor,
-          noSelectedIconTextColor: Colors.black),
-      IconTitleCardItem(
-          text: "WED",
-          selectedBgColor: Colorutils.userdetailcolor,
-          noSelectedBgColor: Colorutils.chatcolor,
-          noSelectedIconTextColor: Colors.black),
-      IconTitleCardItem(
-          text: "THU",
-          selectedBgColor: Colorutils.userdetailcolor,
-          noSelectedBgColor: Colorutils.chatcolor,
-          noSelectedIconTextColor: Colors.black),
-      IconTitleCardItem(
-          text: "FRI",
-          selectedBgColor: Colorutils.userdetailcolor,
-          noSelectedBgColor: Colorutils.chatcolor,
-          noSelectedIconTextColor: Colors.black),
-      IconTitleCardItem(
-          text: "SAT",
-          selectedBgColor: Colorutils.userdetailcolor,
-          noSelectedBgColor: Colorutils.chatcolor,
-          noSelectedIconTextColor: Colors.black),
-    ];
     final List<Widget> tabViews = [
       monday(),
       Tuesday(),
@@ -117,7 +92,6 @@ class _MyTimeTableState extends State<MyTimeTable>
                 left: 0,
                 top: -10,
                 child: Container(
-                  // height: 100.w,
                   width: ScreenUtil().screenWidth,
                   decoration: BoxDecoration(
                     color: Colors.transparent,
@@ -125,7 +99,7 @@ class _MyTimeTableState extends State<MyTimeTable>
                   ),
                   child: const UserDetails(
                     shoBackgroundColor: false,
-                    isWelcome: false,
+                    isWelcome: true,
                     bellicon: true,
                     notificationcount: true,
                   ),
@@ -133,22 +107,17 @@ class _MyTimeTableState extends State<MyTimeTable>
               ),
               Container(
                 margin: EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w),
-                // width: 550.w,
-                // height: 600.h,
                 decoration: BoxDecoration(
                   color: Colorutils.Whitecolor,
-                  // Container color
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20.r),
                       topRight: Radius.circular(20.r)),
-                  // Border radius
                   boxShadow: [
                     BoxShadow(
                       color: Colorutils.userdetailcolor.withOpacity(0.3),
-                      // Shadow color
                       spreadRadius: 2,
                       blurRadius: 5,
-                      offset: Offset(0, 3), // Shadow position
+                      offset: Offset(0, 3),
                     ),
                   ],
                 ),
@@ -177,8 +146,8 @@ class _MyTimeTableState extends State<MyTimeTable>
                                   height: 45.w,
                                   width: 140.w,
                                   padding:
-                                      const EdgeInsets.symmetric(horizontal: 5)
-                                          .w,
+                                  const EdgeInsets.symmetric(horizontal: 5)
+                                      .w,
                                   decoration: BoxDecoration(
                                     color: Colors.red,
                                     borderRadius: BorderRadius.circular(12.0).r,
@@ -192,7 +161,7 @@ class _MyTimeTableState extends State<MyTimeTable>
                                         decoration: BoxDecoration(
                                           color: Colors.redAccent,
                                           borderRadius:
-                                              BorderRadius.circular(12.0).r,
+                                          BorderRadius.circular(12.0).r,
                                         ),
                                         child: Center(
                                           child: Text("7J",
@@ -246,8 +215,8 @@ class _MyTimeTableState extends State<MyTimeTable>
                                       child: Row(
                                         children: [
                                           for (int i = 0;
-                                              i < timeTableList.length;
-                                              i++)
+                                          i < timeTableList.length;
+                                          i++)
                                             Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
@@ -257,23 +226,20 @@ class _MyTimeTableState extends State<MyTimeTable>
                                                     height: 75.h,
                                                     decoration: BoxDecoration(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              15),
-                                                      color: isCalenderSelectedOnMonday ==
-                                                              false
+                                                      BorderRadius.circular(
+                                                          15),
+                                                      color: _currentIndex == i
                                                           ? Colorutils
-                                                              .Whitecolor
+                                                          .bottomnaviconcolor
                                                           : Colorutils
-                                                              .bottomnaviconcolor,
+                                                          .Whitecolor,
                                                       boxShadow: [
                                                         BoxShadow(
                                                           color: Colors.grey
                                                               .withOpacity(0.3),
-                                                          // Shadow color
                                                           spreadRadius: 1,
                                                           blurRadius: 2,
-                                                          offset: Offset(0,
-                                                              1), // Shadow position
+                                                          offset: Offset(0, 1),
                                                         ),
                                                       ],
                                                     ),
@@ -281,38 +247,25 @@ class _MyTimeTableState extends State<MyTimeTable>
                                                       child: Text(
                                                         "${timeTableList[i].dayName?.substring(0, 3).toUpperCase()}",
                                                         style: TextStyle(
-                                                            color: isCalenderSelectedOnMonday ==
-                                                                    false
-                                                                ? Colors.black
-                                                                : Colorutils
-                                                                    .Whitecolor,
+                                                            color: _currentIndex ==
+                                                                i
+                                                                ? Colors.white
+                                                                : Colors.black,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                            FontWeight
+                                                                .bold),
                                                       ),
                                                     ),
                                                   ),
                                                   onTap: () {
                                                     setState(() {
+                                                      _currentIndex = i;
                                                       controller
                                                           .setSelectedTimetable(
-                                                              result:
-                                                                  timeTableList[
-                                                                          i]
-                                                                      .timeTable);
-                                                      //
-                                                      // isCalenderSelectedOnTuesday = false;
-                                                      // isCalenderSelectedOnWednesday =
-                                                      // false;
-                                                      // isCalenderSelectedOnThursday =
-                                                      // false;
-                                                      // isCalenderSelectedOnFriday = false;
-                                                      // isCalenderSelectedOnSaturday =
-                                                      // false;
-                                                      // if (isCalenderSelectedOnMonday ==
-                                                      //     false) {
-                                                      //   isCalenderSelectedOnMonday = true;
-                                                      //   tabController.index = 0;
+                                                          result:
+                                                          timeTableList[
+                                                          i]
+                                                              .timeTable);
                                                     });
                                                   },
                                                 ),
@@ -327,135 +280,133 @@ class _MyTimeTableState extends State<MyTimeTable>
                                   ),
                                 ),
                                 Container(
-                                  // height: ScreenUtil().screenHeight-40.w-100-85.h-103,
                                   child: Expanded(
-                                    child: ListView.builder(
-                                      itemCount:
-                                          controller.selectedTimetable.length,
+                                    child: controller.selectedTimetable.isEmpty
+                                        ? Center(
+                                      child: Text(
+                                          "Timetable not allocated for the particular day"),
+                                    )
+                                        : ListView.builder(
+                                      itemCount: controller
+                                          .selectedTimetable.length,
                                       itemBuilder: (context, index) {
-                                        List<TimeTable> data =
-                                            controller.selectedTimetable.value;
+                                        List<TimeTable> data = controller
+                                            .selectedTimetable.value;
                                         List<Color> colors = [
                                           Colorutils.userdetailcolor
                                               .withOpacity(0.9),
-                                          Colorutils.Classcolour1.withOpacity(
-                                              0.9),
-                                          Colorutils.Classcolour3.withOpacity(
-                                              0.9),
+                                          Colorutils.Classcolour1
+                                              .withOpacity(0.9),
+                                          Colorutils.Classcolour3
+                                              .withOpacity(0.9),
                                           Colorutils.svguicolour2
                                               .withOpacity(0.9),
                                         ];
-                                        Color color =
-                                            colors[index % colors.length];
+                                        Color color = colors[
+                                        index % colors.length];
                                         List<Color> colors1 = [
                                           Colorutils.userdetailcolor
                                               .withOpacity(0.8),
-                                          Colorutils.Classcolour1.withOpacity(
-                                              0.6),
-                                          Colorutils.Classcolour3.withOpacity(
-                                              0.8),
+                                          Colorutils.Classcolour1
+                                              .withOpacity(0.6),
+                                          Colorutils.Classcolour3
+                                              .withOpacity(0.8),
                                           Colorutils.svguicolour2
                                               .withOpacity(0.8),
                                         ];
-                                        Color color1 =
-                                            colors1[index % colors.length];
+                                        Color color1 = colors1[
+                                        index % colors.length];
 
                                         return ListTile(
-                                            title: Container(
-                                                height: 60,
-                                                child: Row(
-                                                  children: [
-                                                    Container(
-                                                        height: 50,
-                                                        width: 150,
-                                                        child: Container(
-                                                          height: 40.w,
-                                                          width: 120.w,
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                      horizontal:
-                                                                          5)
-                                                                  .w,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: color,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                        .circular(
-                                                                            12.0)
-                                                                    .r,
-                                                          ),
-                                                          child: Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            children: [
-                                                              CircleAvatar(
-                                                                radius: 16,
-                                                                backgroundColor:
-                                                                    color1,
-                                                                child: Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                          3),
-                                                                  child: Text(
-                                                                      data[index]
-                                                                              .batchName ??
-                                                                          '--',
-                                                                      style: TextStyle(
-                                                                          color: Colors
-                                                                              .white,
-                                                                          fontSize:
-                                                                              12)),
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                  width: 5.w),
-                                                              Expanded(
-                                                                child:
-                                                                    SingleChildScrollView(
-                                                                  scrollDirection:
-                                                                      Axis.horizontal,
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Text(
-                                                                          'Maths',
-                                                                          style: TextStyle(
-                                                                              color: Colors.white,
-                                                                              fontSize: 15)),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        )),
-                                                    Container(
-                                                      height: 50,
-                                                      width: 150,
-                                                      child: Center(
-                                                        child: Text(
-                                                            " ${DateFormat('HH:mm a').format(DateTime.parse(data[index].startTime.toString()).toLocal())} -"
-                                                            "${DateFormat('HH:mm a').format(DateTime.parse(data[index].startTime.toString()).toLocal())}",
-                                                            style: TextStyle(
-                                                                color: color,
-                                                                fontSize: 12)),
-                                                      ),
+                                          title: Container(
+                                            height: 60,
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  height: 50,
+                                                  width: 150,
+                                                  child: Container(
+                                                    height: 40.w,
+                                                    width: 120.w,
+                                                    padding:
+                                                    const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal:
+                                                        5).w,
+                                                    decoration:
+                                                    BoxDecoration(
+                                                      color: color,
+                                                      borderRadius:
+                                                      BorderRadius
+                                                          .circular(
+                                                          12.0).r,
                                                     ),
-                                                  ],
-                                                )));
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                      MainAxisSize
+                                                          .min,
+                                                      children: [
+                                                        CircleAvatar(
+                                                          radius: 16,
+                                                          backgroundColor:
+                                                          color1,
+                                                          child: Padding(
+                                                            padding:
+                                                            const EdgeInsets
+                                                                .all(3),
+                                                            child: Text(
+                                                                data[index]
+                                                                    .batchName ??
+                                                                    '--',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                    12)),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                            width: 5.w),
+                                                        Expanded(
+                                                          child:
+                                                          SingleChildScrollView(
+                                                            scrollDirection:
+                                                            Axis.horizontal,
+                                                            child: Row(
+                                                              children: [
+                                                                Text(
+                                                                    data[index]
+                                                                        .subject ??
+                                                                        '--',
+                                                                    style: TextStyle(
+                                                                        color: Colors.white,
+                                                                        fontSize: 15)),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: 50,
+                                                  width: 150,
+                                                  child: Center(
+                                                    child: Text(
+                                                      " ${DateFormat('HH:mm a').format(DateTime.parse(data[index].startTime.toString()).toLocal())} - ${DateFormat('HH:mm a').format(DateTime.parse(data[index].endTime.toString()).toLocal())}",
+                                                      style: TextStyle(
+                                                          color: color,
+                                                          fontSize: 12),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
                                       },
                                     ),
-                                    // child: TabBarView(
-                                    //
-                                    //
-                                    //   physics: NeverScrollableScrollPhysics(),
-                                    //   controller: tabController,
-                                    //   children:       monday(),
-                                    //
-                                    // ),
                                   ),
                                 ),
                               ],

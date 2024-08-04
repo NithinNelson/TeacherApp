@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:teacherapp/View/Chat_List/chat_list.dart';
+import 'package:teacherapp/View/Menu/layer_dummy.dart';
 import 'package:teacherapp/View/Menu/main_page.dart';
 import 'menu_page.dart';
 
@@ -50,21 +51,21 @@ class _DrawerScreenState extends State<DrawerScreen> {
           return Stack(
             children: [
               menuScreen,
-              // Transform(
-              //   transform: Matrix4.identity()..translate(layerSlide, 0, 0)..scale(layerScaleFactor, layerScaleFactor, 1.0),
-              //   alignment: Alignment.center,
-              //   child: ClipRRect(
-              //     borderRadius: BorderRadius.circular(30).w,
-              //       child: Stack(
-              //         children: [
-              //           const ChatWithParentsPage(),
-              //           Container(
-              //             color: Colors.teal.withOpacity(0.5),
-              //           ),
-              //         ],
-              //       ),
-              //   ),
-              // ),
+              Transform(
+                transform: Matrix4.identity()..translate(layerSlide, 0, 0)..scale(layerScaleFactor, layerScaleFactor, 1.0),
+                alignment: Alignment.center,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30).w,
+                    child: Stack(
+                      children: [
+                        const ChatWithParentsDummyLayer(),
+                        Container(
+                          color: Colors.teal.withOpacity(0.5),
+                        ),
+                      ],
+                    ),
+                ),
+              ),
               Transform(
                 transform: Matrix4.identity()..translate(slide, 0, 0)..scale(scaleFactor, scaleFactor, 1.0),
                 alignment: Alignment.center,

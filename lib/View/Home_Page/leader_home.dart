@@ -1,16 +1,27 @@
 
+import 'dart:convert';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:teacherapp/Controller/api_controllers/lessonObservationController.dart';
+import 'package:teacherapp/Services/snackBar.dart';
+import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 import 'package:teacherapp/View/Learning_Walk/Learning_walk.dart';
 import 'package:teacherapp/View/Lesson_Observation/Lesson_Observation.dart';
 import '../../Utils/Colors.dart';
+import '../../Utils/api_constants.dart';
 import '../../Utils/constants.dart';
+import '../../sqflite_db/learningdatabase/learningdbhelper.dart';
+import '../../sqflite_db/learningdatabase/learningmodel.dart';
+import '../../sqflite_db/lessondatabase/lessondbhelper.dart';
+import '../../sqflite_db/lessondatabase/lessonmodel.dart';
 import '../CWidgets/AppBarBackground.dart';
 import 'Home_Widgets/user_details.dart';
+import 'package:http/http.dart' as http;
 
 class Leader extends StatefulWidget {
   const Leader({super.key});
@@ -21,6 +32,8 @@ class Leader extends StatefulWidget {
 
 class _LeaderState extends State<Leader> {
   LessonObservationController lessonObservationController = Get.find<LessonObservationController>();
+  List<Note>? notes;
+  List<Lesson>? not;
 
   @override
   void initState() {
@@ -114,7 +127,7 @@ class _LeaderState extends State<Leader> {
                                         Text('Cannot fetch teacher data')));
                           },
                           child: GestureDetector(
-                            onTap: (){
+                            onTap: () {
 
                               Navigator.push(
                                   context,
@@ -167,6 +180,7 @@ class _LeaderState extends State<Leader> {
                             left: 10.w, right: 10.w, top: 35.h),
                         child: GestureDetector(
                           onTap: () {
+                            Get.find<LessonObservationController>().resetLearningWalkDropdownData();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => const LearningWalk()));
@@ -216,7 +230,24 @@ class _LeaderState extends State<Leader> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              refreshNote().then((_) {
+                                print('-----not$not');
+                                if(not!.isEmpty){
+                                  TeacherAppPopUps.submitFailed(
+                                    title: "No Data to \nUpload",
+                                    message: "",
+                                    actionName: "Ok",
+                                    iconData: Icons.info_outline,
+                                    iconColor: Colors.yellow,
+                                  );
+                                }else{
+                                  //refreshNotes().then((_) {
+                                  SubmitRequestLesson();
+                                  // });
+                                }
+                              });
+                            },
                             child: Container(
                               padding: const EdgeInsets.all(8).w,
                               decoration: BoxDecoration(
@@ -247,7 +278,26 @@ class _LeaderState extends State<Leader> {
                           ),
                           SizedBox(width: 20.w),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              refreshNotes().then((_) {
+                                // print('-----notes$notes');
+                                if(notes!.isEmpty){
+                                  print('-----notes1$notes');
+                                  TeacherAppPopUps.submitFailed(
+                                      title: "No Data to \nUpload",
+                                      message: "",
+                                      actionName: "Ok",
+                                      iconData: Icons.info_outline,
+                                      iconColor: Colors.yellow,
+                                  );
+                                }else{
+                                  print('-----notes$notes');
+                                  //refreshNotes().then((_) {
+                                  SubmitRequest();
+                                  // });
+                                }
+                              });
+                            },
                             child: Container(
                               padding: const EdgeInsets.all(8).w,
                               decoration: BoxDecoration(
@@ -285,5 +335,162 @@ class _LeaderState extends State<Leader> {
         ),
       ),
     );
+  }
+
+  Future refreshNotes() async {
+    this.notes = await NotesDatabase.instance.readAllNotes();
+    print('learning walk db length------->${notes!.length}');
+    //print(notes!.first.teachername);
+  }
+
+  Future refreshNote() async {
+    this.not = await LessonDatabase.instance.readAllNotes();
+    print('lesson obs db length-------${not!.length}');
+    // print(not!.first.teachername);
+  }
+
+  SubmitRequest() async {
+    // setState(() {
+    //   isSpinner = true;
+    // });
+    var result = await Connectivity().checkConnectivity();
+    if (result.contains(ConnectivityResult.none)) {
+      await snackBar(context: context, message: "No internet connection", color: Colors.red);
+      // _checkInternet(context);
+      // setState(() {
+      //   isSpinner = false;
+      // });
+    } else {
+      // setState(() {
+      //   isSpinner = true;
+      // });
+      for (var learninglist = 0; learninglist < notes!.length; learninglist++) {
+        // isSpinner = true;
+        var url = Uri.parse("https://teamsqa3000.educore.guru/v2/learning_walk/submit_evaluation");
+        var header = {
+          "x-auth-token": "tq355lY3MJyd8Uj2ySzm",
+          "Content-Type": "application/json",
+        };
+        //var areaof  = json.decode(notes[learninglist].area);
+        //var strenghtof = json.decode(notes[learninglist].strength);
+        final bdy = jsonEncode({
+          "school_id": notes![learninglist].schoolid,
+          "teacher_id": notes![learninglist].teacherid,
+          "teacher_name": notes![learninglist].teachername,
+          "observer_id": notes![learninglist].observerid,
+          "observer_name": notes![learninglist].observername,
+          "subject_id": notes![learninglist].subjectid,
+          "subject_name": notes![learninglist].subjectname,
+          "class_id": notes![learninglist].classid,
+          "batch_id": notes![learninglist].batchid,
+          "class_batch_name": notes![learninglist].classname,
+          "academic_year": notes![learninglist].academicyear,
+          "areas_for_improvement": notes![learninglist].area,
+          "strengths": notes![learninglist].strength,
+          "remedial_measures": notes![learninglist].suggested,
+          "roll_ids": notes![learninglist].rol_ids,
+          "upper_hierrarchy": notes![learninglist].upper_hierrarchy,
+          "curriculum_id": notes![learninglist].curriculum_id,
+          "isJoin": notes![learninglist].isJoin,
+          "session_id": notes![learninglist].session_id,
+          "remarks_data": [
+            {"Indicators": jsonDecode(notes![learninglist].tempname.toString())}
+          ]
+        });
+        var jsonresponse = await http.post(url, headers: header, body: bdy);
+        print(bdy);
+        if (jsonresponse.statusCode == 200) {
+          // isSpinner = false;
+        } else {
+          // isSpinner = false;
+        }
+      }
+      // isSpinner = true;
+      setState(() {
+        // isSpinner = false;
+        TeacherAppPopUps.submitFailed(
+          title: "Success",
+          message: "Learning Walk Result Added Successfully",
+          actionName: "Close",
+          iconData: Icons.done,
+          iconColor: Colors.green,
+        );
+      });
+    }
+  }
+
+  SubmitRequestLesson() async {
+    // setState(() {
+    //   isSpinner = true;
+    // });
+    var result = await Connectivity().checkConnectivity();
+    if (result.contains(ConnectivityResult.none)) {
+      snackBar(context: context, message: "No internet connection", color: Colors.red);
+    } else {
+      // isSpinner = true;
+      for (var lessonlist = 0; lessonlist < not!.length; lessonlist++) {
+        // isSpinner = true;
+        var url = Uri.parse("https://teamsqa3000.educore.guru/v2/lesson_observation/submit_evaluation");
+        // var lessonstrengt = json.decode(not[lessonlist].areas_for_improvement);
+        // var lessonarea = json.decode(not[lessonlist].strengths);
+        final bdy = jsonEncode({
+          "school_id": not![lessonlist].schoolid,
+          "teacher_id": not![lessonlist].teacherid,
+          "teacher_name": not![lessonlist].teachername,
+          "observer_id": not![lessonlist].observerid,
+          "observer_name": not![lessonlist].observername,
+          "subject_id": not![lessonlist].subjectid,
+          "class_id": not![lessonlist].classid,
+          "class_batch_name": not![lessonlist].classname,
+          "batch_id": not![lessonlist].batchid,
+          "topic": not![lessonlist].topic,
+          "academic_year": not![lessonlist].academicyear,
+          "areas_for_improvement": not![lessonlist].areas_for_improvement,
+          "subject_name": not![lessonlist].subjectname,
+          "remedial_measures": not![lessonlist].remedial_measures,
+          "strengths": not![lessonlist].strengths,
+          //"roll_ids": jsonDecode(not[lessonlist].role_ids.toString()),
+          "roll_ids": not![lessonlist].role_ids,
+          "upper_hierarchy": not![lessonlist].upper_hierarchy,
+          "session_id": not![lessonlist].session_id,
+          "curriculum_id": not![lessonlist].curriculum_id,
+          "isJoin": not![lessonlist].isJoin,
+
+          "remarks_data": [
+            {"Indicators": jsonDecode(not![lessonlist].tempnam.toString())},
+          ]
+        });
+        var header = {
+          "x-auth-token": "tq355lY3MJyd8Uj2ySzm",
+          "Content-Type": "application/json",
+        };
+        print(bdy);
+        var jsonresponse = await http.post(
+          url,
+          headers: header,
+          body: bdy,
+        );
+        print(jsonresponse.body);
+        if (jsonresponse.statusCode == 200) {
+          // isSpinner = false;
+          // var response = await SubmitLesson.fromJson(jsonDecode(
+          //   jsonresponse.body,
+          // ));
+        } else {
+          // isSpinner = false;
+        }
+      }
+      TeacherAppPopUps.submitFailed(
+        title: "Success",
+        message: "Lesson Observation Result Added Successfully",
+        actionName: "Close",
+        iconData: Icons.done,
+        iconColor: Colors.green,
+      );
+      // _submitedSuccessfully(context);
+      // setState(() {
+      //   // isSpinner = false;
+      // });
+    }
   }
 }

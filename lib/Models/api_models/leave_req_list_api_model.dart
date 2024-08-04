@@ -162,3 +162,136 @@ class StudentsData {
     return data;
   }
 }
+
+class LeaveRequestModel {
+  Classes classes;
+  Student student;
+  String reason;
+  String academicYear;
+  String startDate;
+  String endDate;
+  String schoolId;
+  String submittedBy;
+  String submittedRoleId;
+  String studentId;
+  String? documentPath;
+
+  LeaveRequestModel({
+    required this.classes,
+    required this.student,
+    required this.reason,
+    required this.academicYear,
+    required this.startDate,
+    required this.endDate,
+    required this.schoolId,
+    required this.submittedBy,
+    required this.submittedRoleId,
+    required this.studentId,
+    this.documentPath,
+  });
+
+  factory LeaveRequestModel.fromJson(Map<String, dynamic> json) {
+    return LeaveRequestModel(
+      classes: Classes.fromJson(json['classes']),
+      student: Student.fromJson(json['student']),
+      reason: json['reason'],
+      academicYear: json['academic_year'],
+      startDate: json['startDate'],
+      endDate: json['endDate'],
+      schoolId: json['school_id'],
+      submittedBy: json['submittedBy'],
+      submittedRoleId: json['submittedRoleId'],
+      studentId: json['studentId'],
+      documentPath: json['documentPath'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'classes': classes.toJson(),
+      'student': student.toJson(),
+      'reason': reason,
+      'academic_year': academicYear,
+      'startDate': startDate,
+      'endDate': endDate,
+      'school_id': schoolId,
+      'submittedBy': submittedBy,
+      'submittedRoleId': submittedRoleId,
+      'studentId': studentId,
+      'documentPath': documentPath,
+    };
+  }
+}
+
+class Classes {
+  String sessionId;
+  String sessionName;
+  String curriculumId;
+  String curriculumName;
+  String classId;
+  String className;
+  String batchId;
+  String batchName;
+
+  Classes({
+    required this.sessionId,
+    required this.sessionName,
+    required this.curriculumId,
+    required this.curriculumName,
+    required this.classId,
+    required this.className,
+    required this.batchId,
+    required this.batchName,
+  });
+
+  factory Classes.fromJson(Map<String, dynamic> json) {
+    return Classes(
+      sessionId: json['session_id'],
+      sessionName: json['session_name'],
+      curriculumId: json['curriculum_id'],
+      curriculumName: json['curriculum_name'],
+      classId: json['class_id'],
+      className: json['class_name'],
+      batchId: json['batch_id'],
+      batchName: json['batch_name'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'session_id': sessionId,
+      'session_name': sessionName,
+      'curriculum_id': curriculumId,
+      'curriculum_name': curriculumName,
+      'class_id': classId,
+      'class_name': className,
+      'batch_id': batchId,
+      'batch_name': batchName,
+    };
+  }
+}
+
+class Student {
+  String id;
+  String name;
+
+  Student({
+    required this.id,
+    required this.name,
+  });
+
+  factory Student.fromJson(Map<String, dynamic> json) {
+    return Student(
+      id: json['_id'],
+      name: json['name'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': id,
+      'name': name,
+    };
+  }
+}
+

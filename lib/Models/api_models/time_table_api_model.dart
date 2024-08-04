@@ -209,6 +209,15 @@ class TimeTable {
     }
     return null;
   }
+  DateTime? get endTime {
+    final RegExp timeRegex = RegExp(r'\[(\d{1,2}:\d{2} [APM]{2})-(\d{1,2}:\d{2} [APM]{2})\]');
+    final match = timeRegex.firstMatch(timeString!);
+    if (match != null) {
+      final endTimeString = match.group(2);
+      return DateFormat.jm().parse(endTimeString!); // Parse the time string to DateTime
+    }
+    return null;
+  }
 
 }
 
@@ -329,6 +338,20 @@ class Status {
 class TeacherSubject {
   final String? sub;
   final String? classs;
+  final String? classId;
   final String? batch;
-  const TeacherSubject({this.sub, this.classs, this.batch});
+  final String? batchId;
+  final String? sessionId;
+  final String? curriculumId;
+  final bool? isClassTeacher;
+  const TeacherSubject({
+    this.sub,
+    this.classs,
+    this.classId,
+    this.batch,
+    this.batchId,
+    this.sessionId,
+    this.curriculumId,
+    this.isClassTeacher,
+  });
 }

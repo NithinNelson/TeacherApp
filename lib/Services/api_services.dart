@@ -1,5 +1,11 @@
 
 import 'dart:convert';
+import 'dart:developer';
+import 'package:http_parser/http_parser.dart';
+import 'package:mime/mime.dart';
+import 'package:teacherapp/Models/api_models/learning_walk_apply_model.dart';
+import 'package:teacherapp/Models/api_models/leave_req_list_api_model.dart';
+
 import '../Models/api_models/chat_feed_view_model.dart';
 import '../Models/api_models/parent_chatting_model.dart';
 import '../Models/api_models/sent_msg_by_teacher_model.dart';
@@ -583,6 +589,110 @@ class ApiServices {
       var request = http.Request('POST', Uri.parse(url));
       request.body = (json.encode(apiBody));
       print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+  static Future<Map<String, dynamic>> getLeaveApproval({
+    required String schoolId,
+    required String accYr,
+    required String userId,
+  }) async {
+    String url = "${ApiConstants.baseUrl}${ApiConstants.leaveApprovalList}";
+    print(url);
+    Map apiBody = {
+      "school_id": schoolId,
+      "academic_year": accYr,
+      "user_id": userId,
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+  static Future<dynamic> leaveFileUpload({
+    required String userId,
+    required String filePath,
+  }) async {
+    String url = ApiConstants.downloadUrl + ApiConstants.leaveFileUpload;
+    print("--url--$url");
+    try {
+      String fileName = filePath.split('/').last;
+      String mimeType = lookupMimeType(filePath) ?? 'application/octet-stream';
+      MediaType mediaType = MediaType.parse(mimeType);
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      var file = await http.MultipartFile.fromPath(
+          'file',
+          filePath,
+        filename: fileName,
+        contentType: mediaType,
+      );
+      request.files.add(file);
+      request.fields['userPath'] = '$userId/leaveDocs/';
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      String respString = await response.stream.bytesToString();
+      // print("Raw Response: $respString");
+      return respString;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static Future<Map<String, dynamic>> leaveReqSubmit({
+    required LeaveRequestModel reqData,
+  }) async {
+    String url = "${ApiConstants.baseUrl}${ApiConstants.requestLeave}";
+    print(url);
+    Map apiBody = reqData.toJson();
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+  static Future<Map<String, dynamic>> learningWalkSubmit({
+    required LearningWalkApplyModel reqData,
+  }) async {
+    String url = "${ApiConstants.baseUrl}${ApiConstants.learningWalkSubmit}";
+    print(url);
+    Map apiBody = reqData.toJson();
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      log('Api body---------------------->${request.body}');
       request.headers.addAll(ApiConstants.headers);
       http.StreamedResponse response = await request.send();
       var respString = await response.stream.bytesToString();

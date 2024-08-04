@@ -18,7 +18,8 @@ class HosListing extends StatefulWidget {
 }
 
 class _HosListingState extends State<HosListing> {
-  String? _hosNameSelected;
+  // String? _hosNameSelected;
+  ValueNotifier<String?> _hosNameSelected = ValueNotifier(null);
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -177,30 +178,11 @@ class _HosListingState extends State<HosListing> {
                               return DropdownButtonFormField(
                                 validator: (dynamic value) =>
                                 value == null ? 'Field Required' : null,
-                                value: _hosNameSelected,
+                                value: _hosNameSelected.value,
                                 isExpanded: true,
                                 onChanged: (dynamic newVal) {
-                                  setState(() async {
-                                    _hosNameSelected = newVal;
-                                    //
-                                    // _hosListSelectedIndex =
-                                    //     int.parse(newVal.toString());
-                                    // hosname =
-                                    // _hosnameSelected.toString().split('-')[0];
-                                    // hosId =
-                                    // _hosnameSelected.toString().split('-')[1];
-                                    // await getUserLoginCredentials();
-                                    // hosId = hosdata![
-                                    // _hosListSelectedIndex!]['user_id'];
-                                    // print(teacherName);
-                                    // print(
-                                    //     'hosId---------------------------------->$hosId');
-                                    print(
-                                        'newVal---------------------------------->$newVal');
-                                    // print(
-                                    //     'hosname---------------------------------->$hosname');
-                                    setState(() {});
-                                  });
+                                  _hosNameSelected.value = newVal;
+                                  controller.setSelectedHosData(hosName: _hosNameSelected.value ?? '--');
                                 },
                                 decoration: InputDecoration(
                                     hintStyle: TextStyle(
@@ -266,7 +248,7 @@ class _HosListingState extends State<HosListing> {
                                 height: 60.h,
                                 width: 220.w,
                                 decoration: BoxDecoration(
-                                  color: Color(0xff42C614),
+                                  color:Colorutils.userdetailcolor,
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
                                 ),

@@ -99,8 +99,12 @@ class MenuScreen extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 35.w,
-                          backgroundImage:
-                              AssetImage('assets/images/profile2.png'),
+                          // backgroundImage:
+                          //     AssetImage('assets/images/profile2.png'),
+                          child: CachedNetworkImage(
+                              imageUrl: Get.find<UserAuthController>().userData.value.image ?? '--',
+                              placeholder: (context, url) => Icon(Icons.person, color: Colors.grey, size: 40,),
+                              errorWidget: (context, url, error) => Icon(Icons.person, color: Colors.grey, size: 40,)),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
@@ -173,7 +177,7 @@ class MenuScreen extends StatelessWidget {
                       },
                     ),
                     SizedBox(height: 20.w),
-                    for (int i = 5;
+                    for (int i = pageIndexController.navLength.value;
                         i < pageIndexController.menuItemsPerRole.length;
                         i++)
                       InkWell(
