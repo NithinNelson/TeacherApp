@@ -60,5 +60,6 @@ class ApiConstants {
   static String ObservationResultSubmitLearningWalk = "https://teamsqa3000.educore.guru/v0/learning-walk/addTeacherCmnt";
   static String ObservationResultlist = "https://teamsqa3000.educore.guru/v0/learning-observation/submissionView/";
   static String ObservationResultSubmitLessonObservation = "https://teamsqa3000.educore.guru/v0/lesson-observation/addTeacherCmnt";
+  static String LeaveApprovalRequest = "https://teamsqa3000.educore.guru/v0/update/leave";
 
 }

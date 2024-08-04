@@ -42,18 +42,18 @@ class Status {
 
 class LeaveData {
   String? message;
-  List<ApprovedOrRejected>? pendings;
+  List<Pendings>? pendings;
   List<ApprovedOrRejected>? apprvedOrRejected;
-  List<ApprovedOrRejected>? allLeaves;
+  List<AllLeaves>? allLeaves;
 
   LeaveData({this.message, this.pendings, this.apprvedOrRejected, this.allLeaves});
 
   LeaveData.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     if (json['pendings'] != null) {
-      pendings = <ApprovedOrRejected>[];
+      pendings = <Pendings>[];
       json['pendings'].forEach((v) {
-        pendings!.add(ApprovedOrRejected.fromJson(v));
+        pendings!.add(Pendings.fromJson(v));
       });
     }
     if (json['apprved_or_rejected'] != null) {
@@ -63,9 +63,9 @@ class LeaveData {
       });
     }
     if (json['allLeaves'] != null) {
-      allLeaves = <ApprovedOrRejected>[];
+      allLeaves = <AllLeaves>[];
       json['allLeaves'].forEach((v) {
-        allLeaves!.add(ApprovedOrRejected.fromJson(v));
+        allLeaves!.add(AllLeaves.fromJson(v));
       });
     }
   }
@@ -84,6 +84,91 @@ class LeaveData {
       data['allLeaves'] = allLeaves!.map((v) => v.toJson()).toList();
     }
     return data;
+  }
+}
+
+class Pendings {
+  String? sId;
+  String? updatedOn;
+  String? startDate;
+  String? endDate;
+  String? applyDate;
+  int? days;
+  String? schoolId;
+  String? sessionId;
+  String? curriculumId;
+  String? classId;
+  String? batchId;
+  String? academicYear;
+  String? reason;
+  String? submittedBy;
+  String? submittedRoleId;
+  String? studentId;
+  String? classs;
+  String? batch;
+  String? studentName;
+  String? documentPath;
+  String? status;
+  String? admissionNumber;
+  String? profileImage;
+  bool? myPending;
+
+  Pendings({this.sId, this.updatedOn, this.startDate, this.endDate, this.applyDate, this.days, this.schoolId, this.sessionId, this.curriculumId, this.classId, this.batchId, this.academicYear, this.reason, this.submittedBy, this.submittedRoleId, this.studentId, this.classs, this.batch, this.studentName, this.documentPath, this.status, this.admissionNumber, this.profileImage, this.myPending});
+
+  Pendings.fromJson(Map<String, dynamic> json) {
+  sId = json['_id'];
+  updatedOn = json['updated_on'];
+  startDate = json['startDate'];
+  endDate = json['endDate'];
+  applyDate = json['applyDate'];
+  days = json['days'];
+  schoolId = json['school_id'];
+  sessionId = json['session_id'];
+  curriculumId = json['curriculum_id'];
+  classId = json['class_id'];
+  batchId = json['batch_id'];
+  academicYear = json['academic_year'];
+  reason = json['reason'];
+  submittedBy = json['submittedBy'];
+  submittedRoleId = json['submittedRoleId'];
+  studentId = json['studentId'];
+  classs = json['class'];
+  batch = json['batch'];
+  studentName = json['studentName'];
+  documentPath = json['documentPath'];
+  status = json['status'];
+  admissionNumber = json['admission_number'];
+  profileImage = json['profileImage'];
+  myPending = json['myPending'];
+  }
+
+  Map<String, dynamic> toJson() {
+  final Map<String, dynamic> data = <String, dynamic>{};
+  data['_id'] = sId;
+  data['updated_on'] = updatedOn;
+  data['startDate'] = startDate;
+  data['endDate'] = endDate;
+  data['applyDate'] = applyDate;
+  data['days'] = days;
+  data['school_id'] = schoolId;
+  data['session_id'] = sessionId;
+  data['curriculum_id'] = curriculumId;
+  data['class_id'] = classId;
+  data['batch_id'] = batchId;
+  data['academic_year'] = academicYear;
+  data['reason'] = reason;
+  data['submittedBy'] = submittedBy;
+  data['submittedRoleId'] = submittedRoleId;
+  data['studentId'] = studentId;
+  data['class'] = classs;
+  data['batch'] = batch;
+  data['studentName'] = studentName;
+  data['documentPath'] = documentPath;
+  data['status'] = status;
+  data['admission_number'] = admissionNumber;
+  data['profileImage'] = profileImage;
+  data['myPending'] = myPending;
+  return data;
   }
 }
 
@@ -193,5 +278,99 @@ class ApprovedOrRejected {
     data['admission_number'] = admissionNumber;
     data['profileImage'] = profileImage;
     return data;
+  }
+}
+
+class AllLeaves {
+  String? sId;
+  String? updatedOn;
+  String? startDate;
+  String? endDate;
+  String? applyDate;
+  int? days;
+  String? schoolId;
+  String? sessionId;
+  String? curriculumId;
+  String? classId;
+  String? batchId;
+  String? academicYear;
+  String? reason;
+  String? submittedBy;
+  String? submittedRoleId;
+  String? studentId;
+  String? classs;
+  String? batch;
+  String? studentName;
+  String? documentPath;
+  String? status;
+  String? admissionNumber;
+  String? profileImage;
+  String? approvedBy;
+  String? comment;
+  String? updatedBy;
+  bool? myPending;
+
+  AllLeaves({this.sId, this.updatedOn, this.startDate, this.endDate, this.applyDate, this.days, this.schoolId, this.sessionId, this.curriculumId, this.classId, this.batchId, this.academicYear, this.reason, this.submittedBy, this.submittedRoleId, this.studentId, this.classs, this.batch, this.studentName, this.documentPath, this.status, this.admissionNumber, this.profileImage, this.approvedBy, this.comment, this.updatedBy, this.myPending});
+
+  AllLeaves.fromJson(Map<String, dynamic> json) {
+  sId = json['_id'];
+  updatedOn = json['updated_on'];
+  startDate = json['startDate'];
+  endDate = json['endDate'];
+  applyDate = json['applyDate'];
+  days = json['days'];
+  schoolId = json['school_id'];
+  sessionId = json['session_id'];
+  curriculumId = json['curriculum_id'];
+  classId = json['class_id'];
+  batchId = json['batch_id'];
+  academicYear = json['academic_year'];
+  reason = json['reason'];
+  submittedBy = json['submittedBy'];
+  submittedRoleId = json['submittedRoleId'];
+  studentId = json['studentId'];
+  classs = json['class'];
+  batch = json['batch'];
+  studentName = json['studentName'];
+  documentPath = json['documentPath'];
+  status = json['status'];
+  admissionNumber = json['admission_number'];
+  profileImage = json['profileImage'];
+  approvedBy = json['approvedBy'];
+  comment = json['comment'];
+  updatedBy = json['updated_by'];
+  myPending = json['myPending'];
+  }
+
+  Map<String, dynamic> toJson() {
+  final Map<String, dynamic> data = <String, dynamic>{};
+  data['_id'] = sId;
+  data['updated_on'] = updatedOn;
+  data['startDate'] = startDate;
+  data['endDate'] = endDate;
+  data['applyDate'] = this.applyDate;
+  data['days'] = this.days;
+  data['school_id'] = this.schoolId;
+  data['session_id'] = this.sessionId;
+  data['curriculum_id'] = this.curriculumId;
+  data['class_id'] = this.classId;
+  data['batch_id'] = this.batchId;
+  data['academic_year'] = this.academicYear;
+  data['reason'] = this.reason;
+  data['submittedBy'] = this.submittedBy;
+  data['submittedRoleId'] = this.submittedRoleId;
+  data['studentId'] = this.studentId;
+  data['class'] = this.classs;
+  data['batch'] = this.batch;
+  data['studentName'] = this.studentName;
+  data['documentPath'] = this.documentPath;
+  data['status'] = this.status;
+  data['admission_number'] = this.admissionNumber;
+  data['profileImage'] = this.profileImage;
+  data['approvedBy'] = this.approvedBy;
+  data['comment'] = this.comment;
+  data['updated_by'] = this.updatedBy;
+  data['myPending'] = this.myPending;
+  return data;
   }
 }

@@ -9,12 +9,12 @@ class LeaveApprovalController extends GetxController {
   RxBool isLoaded = false.obs;
   RxBool isError = false.obs;
   Rx<LeaveData> leaveData = LeaveData().obs;
-  RxList<ApprovedOrRejected> pendingLeaves = <ApprovedOrRejected>[].obs;
+  RxList<Pendings> pendingLeaves = <Pendings>[].obs;
   RxList<ApprovedOrRejected> approvedOrRejectedLeaves = <ApprovedOrRejected>[].obs;
-  RxList<ApprovedOrRejected> allLeaves = <ApprovedOrRejected>[].obs;
-  RxList<ApprovedOrRejected> filteredPendingLeaves = <ApprovedOrRejected>[].obs;
+  RxList<AllLeaves> allLeaves = <AllLeaves>[].obs;
+  RxList<Pendings> filteredPendingLeaves = <Pendings>[].obs;
   RxList<ApprovedOrRejected> filteredApprovedOrRejectedLeaves = <ApprovedOrRejected>[].obs;
-  RxList<ApprovedOrRejected> filteredAllLeaves = <ApprovedOrRejected>[].obs;
+  RxList<AllLeaves> filteredAllLeaves = <AllLeaves>[].obs;
   Rx<ApprovedOrRejected> selectedLeave = ApprovedOrRejected().obs;
   RxInt currentTab = 0.obs;
 
