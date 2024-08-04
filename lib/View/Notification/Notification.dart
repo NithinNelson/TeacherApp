@@ -204,9 +204,9 @@ Widget _notifyme(BuildContext context,RecentNotifications notification) =>
                 ?ElevatedButton(
                     style: ElevatedButton.styleFrom(),
                     onPressed: () async {
-                      // context.loaderOverlay.show();
+                      context.loaderOverlay.show();
                       await Get.find<MarkAsReadController>().fetchmarkasread(notificationId: notification.sId.toString());
-                      // context.loaderOverlay.hide();
+                      context.loaderOverlay.hide();
                     },
                     child: Text(
                       "Mark as Read",

@@ -1,6 +1,6 @@
-
 import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
@@ -10,7 +10,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
+import 'package:teacherapp/Utils/Colors.dart';
 import '../../Utils/api_constants.dart';
+import '../../Utils/constants.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
 import '../My_Class/Myclass.dart';
@@ -32,18 +34,18 @@ class HistoryOfStudentActivity extends StatefulWidget {
 
   HistoryOfStudentActivity(
       {this.parentName,
-        this.studentName,
-        this.classOfStudent,
-        this.mobileNumber,
-        this.loginUserName,
-        this.studentFees,
-        this.admissionNumber,
-        this.logedinEmployeecode,
-        this.loginTeacherName,
-        this.TeacherProfile,
-        this.StudentImage,
-        this.motherPhone,
-        this.motherName});
+      this.studentName,
+      this.classOfStudent,
+      this.mobileNumber,
+      this.loginUserName,
+      this.studentFees,
+      this.admissionNumber,
+      this.logedinEmployeecode,
+      this.loginTeacherName,
+      this.TeacherProfile,
+      this.StudentImage,
+      this.motherPhone,
+      this.motherName});
 
   @override
   _HistoryOfStudentActivityState createState() =>
@@ -84,19 +86,19 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
         if (studentFeebackList!.containsKey("data_status") == 1) {
           print("shshshshsh");
           for (var index = 0;
-          index < studentFeebackList!["data"].length;
-          index++) {
+              index < studentFeebackList!["data"].length;
+              index++) {
             if (studentFeebackList!["data"][index]["Feeback_type"] == 1) {
               return "Committed Date";
             } else if (studentFeebackList!["data"][index]["Feeback_type"] ==
-                2 ||
+                    2 ||
                 studentFeebackList!["data"][index]["Feeback_type"] == 3) {
               return "Wrong or Invalid";
             } else if (studentFeebackList!["data"][index]["Feeback_type"] ==
                 4) {
               return "Call Not Answered";
             } else if (studentFeebackList!["data"][index]["Feeback_type"] ==
-                5 ||
+                    5 ||
                 studentFeebackList!["data"][index]["Feeback_type"] == 6 ||
                 studentFeebackList!["data"][index]["Feeback_type"] == 7) {
               return "Misbehavior";
@@ -121,62 +123,6 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
   }
 
   Map<String, dynamic>? notificationResult;
-  // int Count = 0;
-  //
-  // getNotification() async {
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   var userID = preferences.getString('userID');
-  //
-  //   var headers = {
-  //     'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
-  //     'Content-Type': 'application/json'
-  //   };
-  //   var request = http.Request(
-  //       'GET',
-  //       Uri.parse(
-  //           '${ApiConstants.Notification}$userID${ApiConstants.NotificationEnd}'));
-  //
-  //   request.headers.addAll(headers);
-  //
-  //   http.StreamedResponse response = await request.send();
-  //
-  //   if (response.statusCode == 200) {
-  //     // print(await response.stream.bytesToString());
-  //     var responseJson = await response.stream.bytesToString();
-  //     setState(() {
-  //       notificationResult = json.decode(responseJson);
-  //     });
-  //
-  //     for (var index = 0;
-  //     index <
-  //         notificationResult!["data"]["details"]["recentNotifications"]
-  //             .length;
-  //     index++) {
-  //       if (notificationResult!["data"]["details"]["recentNotifications"][index]
-  //       ["status"] ==
-  //           "active") {
-  //         Count += 1;
-  //       }
-  //     }
-  //     SharedPreferences preferences = await SharedPreferences.getInstance();
-  //     preferences.setInt("count", Count);
-  //
-  //     print(Count);
-  //   } else {
-  //     print(response.reasonPhrase);
-  //   }
-  // }
-
-  // var count;
-
-  // getCount() async {
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     count = preferences.get("count");
-  //   });
-  // }
-
-  // Timer? timer;
 
   @override
   void initState() {
@@ -191,604 +137,537 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: ListView(
-        physics: NeverScrollableScrollPhysics(),
-        children: [
-          Stack(
-            children: [
-              const AppBarBackground(),
-              const UserDetails(shoBackgroundColor: false, isWelcome: false, bellicon: true, notificationcount: true),
-
-              // SizedBox(
-              //     width: MediaQuery.of(context).size.width,
-              //     child: Image.asset(
-              //       "assets/images/header.png",
-              //       fit: BoxFit.fill,
-              //     )),
-              // Row(
-              //   children: [
-              //     GestureDetector(
-              //       onTap: () => NavigationUtils.goBack(context),
-              //       child: Container(
-              //           margin: const EdgeInsets.all(6),
-              //           child: Image.asset("assets/images/goback.png")),
-              //     ),
-              //     Container(
-              //       margin: const EdgeInsets.all(15),
-              //       child: Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: [
-              //           Container(
-              //             child: Text(
-              //               "Hello,",
-              //               style: TextStyle(
-              //                   fontFamily: "Nunito",
-              //                   fontSize: 15.sp,
-              //                   color: Colors.white),
-              //             ),
-              //           ),
-              //           Container(
-              //             width: 150.w,
-              //             height: 40.h,
-              //             child: SingleChildScrollView(
-              //               scrollDirection: Axis.horizontal,
-              //               child: Text(
-              //                 widget.loginUserName.toString(),
-              //                 style: TextStyle(
-              //                     fontFamily: "WorkSans",
-              //                     fontSize: 15.sp,
-              //                     color: Colors.white),
-              //               ),
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //     SizedBox(
-              //       width: 40.w,
-              //     ),
-              //     GestureDetector(
-              //       onTap: () => NavigationUtils.goNext(
-              //           context,
-              //           NotificationPage(
-              //             name: widget.loginUserName,
-              //             image: widget.TeacherProfile,
-              //           )),
-              //       child: Padding(
-              //         padding: const EdgeInsets.all(8.0),
-              //         child: badges.Badge(
-              //             position: badges.BadgePosition.bottomEnd(end: -7, bottom: 12),
-              //             badgeContent: count == null
-              //                 ? Text("")
-              //                 : Text(
-              //               count.toString(),
-              //               style: TextStyle(color: Colors.white),
-              //             ),
-              //             child: SvgPicture.asset("assets/images/bell.svg")),
-              //       ),
-              //     ),
-              //     Container(
-              //       width: 50.w,
-              //       height: 50.h,
-              //       decoration: BoxDecoration(
-              //         shape: BoxShape.circle,
-              //         border: Border.all(color: Color(0xFFD6E4FA)),
-              //         image: DecorationImage(
-              //             image: NetworkImage(widget.TeacherProfile == ""
-              //                 ? "https://raw.githubusercontent.com/abdulmanafpfassal/image/master/profile.jpg"
-              //                 : ApiConstants.IMAGE_BASE_URL +
-              //                 "${widget.TeacherProfile}"),
-              //             fit: BoxFit.cover),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              Container(
-                margin: EdgeInsets.only(left: 10.w, top: 100.h, right: 10.w),
-                width: 500.w,
-                height: MediaQuery.of(context).size.height,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.lightBlue.shade50),
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: systemUiOverlayStyleLight,
+      child: Scaffold(
+          backgroundColor: Colors.white,
+          body: SingleChildScrollView(
+            physics: NeverScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                Stack(
                   children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SvgPicture.asset(
-                                "assets/images/icon.svg",
-                                color: Colors.lightBlue,
-                              ),
-                              SizedBox(
-                                width: 2,
-                              ),
-                              Text(
-                                "History",
-                                style: TextStyle(
-                                    fontSize: 13.sp,
-                                    color: Colors.lightBlue),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                    const AppBarBackground(),
+                    Positioned(
+                        left: 0,
+                        top: -10,
+                        child: const UserDetails(
+                            shoBackgroundColor: false,
+                            isWelcome: false,
+                            bellicon: true,
+                            notificationcount: true)),
                     Container(
-                      margin: EdgeInsets.only(left: 30.w, right: 30.w),
+                      margin:
+                          EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w),
+                      width: 500.w,
+                      height: MediaQuery.of(context).size.height,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.lightBlue.shade50),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Column(
-                        // shrinkWrap: true,
-                        // scrollDirection: Axis.vertical,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
-                            height: 25.h,
-                          ),
                           Row(
                             children: [
-                                  Container(
-                                width: 50.w,
-                                height: 50.h,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                          widget.StudentImage.toString()),
-                                      fit: BoxFit.fill),
+                              Padding(
+                                padding: const EdgeInsets.all(20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height: 25.w,
+                                      width: 25.w,
+                                      child: SvgPicture.asset(
+                                        "assets/images/icon.svg",
+                                        color: Colorutils.userdetailcolor,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 2,
+                                    ),
+                                    Text(
+                                      "History",
+                                      style: TextStyle(
+                                          fontSize: 13.sp,
+                                          color: Colorutils.userdetailcolor),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                      width: 200.w,
-                                      child: Text(
-                                          toBeginningOfSentenceCase(widget
-                                              .studentName
-                                              .toString()
-                                              .toLowerCase())
-                                              .toString(),
-                                          style: GoogleFonts.spaceGrotesk(
-                                              textStyle: TextStyle(
-                                                  fontSize: 16.sp,
-                                                  color: Colors.blue,
-                                                  fontWeight:
-                                                  FontWeight.bold)))),
-                                  SizedBox(
-                                    height: 6.h,
-                                  ),
-                                  (widget.studentFees) == null
-                                      ? Text("")
-                                      : Row(
-                                    children: [
-                                      SizedBox(
-                                        child: Text(
-                                          "AED :",
-                                          style:
-                                          TextStyle(fontSize: 14.sp),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        child: Text(
-                                          widget.studentFees.toString(),
-                                          style: TextStyle(
-                                              fontSize: 14.sp,
-                                              color:
-                                              Colors.red,
-                                              fontWeight:
-                                              FontWeight.bold),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
                               ),
                             ],
                           ),
-                          const Divider(
-                            indent: 20,
-                            endIndent: 20,
-                            height: 20,
-                          ),
-                          SizedBox(
-                            height: 25.h,
-                          ),
                           Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            margin: EdgeInsets.only(left: 20.w, right: 20.w),
+                            child: Column(
+                              // shrinkWrap: true,
+                              // scrollDirection: Axis.vertical,
                               children: [
+                                SizedBox(
+                                  height: 25.h,
+                                ),
                                 Row(
                                   children: [
                                     Container(
                                       width: 50.w,
                                       height: 50.h,
-                                      child: SvgPicture.asset(
-                                        "assets/images/profileOne.svg",
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                                widget.StudentImage.toString()),
+                                            fit: BoxFit.fill),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 10.w,
+                                      width: 15.w,
                                     ),
                                     Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Container(
-                                            width: 150.w,
+                                            width: 200.w,
                                             child: Text(
-                                                widget.parentName.toString(),
-                                                style: GoogleFonts.roboto(
+                                                toBeginningOfSentenceCase(widget
+                                                        .studentName
+                                                        .toString()
+                                                        .toLowerCase())
+                                                    .toString(),
+                                                style: GoogleFonts.inter(
                                                     textStyle: TextStyle(
                                                         fontSize: 16.sp,
                                                         color: Colors.black,
                                                         fontWeight:
-                                                        FontWeight.bold)))),
+                                                            FontWeight.bold)))),
                                         SizedBox(
                                           height: 6.h,
                                         ),
-                                        SizedBox(
-                                          child: Text(
-                                            widget.mobileNumber.toString(),
-                                            style: TextStyle(fontSize: 14.sp),
-                                          ),
-                                        ),
+                                        (widget.studentFees) == null
+                                            ? Text("No Pending Fees")
+                                            : Row(
+                                                children: [
+                                                  SizedBox(
+                                                    child: Text(
+                                                      "AED :",
+                                                      style: TextStyle(
+                                                          fontSize: 14.sp),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    child: Text(
+                                                      widget.studentFees
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 14.sp,
+                                                          color: Colors.red,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                       ],
                                     ),
                                   ],
                                 ),
-                                GestureDetector(
-                                  onTap: () => Utils.call(
-                                      widget.mobileNumber.toString()),
-                                  child: Container(
-                                    width: 50.w,
-                                    height: 50.h,
-                                    child: SvgPicture.asset(
-                                      "assets/images/callButtonTwo.svg",
-                                    ),
-                                  ),
+                                const Divider(
+                                  indent: 10,
+                                  endIndent: 20,
+                                  height: 10,
+                                  thickness: 0.5,
                                 ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10.h,
-                          ),
-                          widget.motherName == null
-                              ? Text("")
-                              : Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 50.w,
-                                    height: 50.h,
-                                    child: SvgPicture.asset(
-                                      "assets/images/profileTwo.svg",
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        // width: 150.w,
-                                          child: Text(
-                                              widget.motherName
-                                                  .toString(),
-                                              style: GoogleFonts.roboto(
-                                                  textStyle: TextStyle(
-                                                      fontSize: 16.sp,
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                      FontWeight
-                                                          .bold)))),
-                                      SizedBox(
-                                        height: 6.h,
-                                      ),
-                                      SizedBox(
-                                        child: Text(
-                                          widget.motherPhone.toString(),
-                                          style:
-                                          TextStyle(fontSize: 14.sp),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              GestureDetector(
-                                onTap: () => Utils.call(
-                                    widget.motherPhone.toString()),
-                                child: Container(
-                                  width: 50.w,
-                                  height: 50.h,
-                                  child: SvgPicture.asset(
-                                    "assets/images/callButtonOne.svg",
-                                  ),
+                                SizedBox(
+                                  height: 25.h,
                                 ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10.h,
-                          ),
-                          studentFeebackList == null
-                              ? CircularProgressIndicator()
-                              : studentFeebackList!["data_status"] == 0
-                              ? Text("No Data")
-                              : SizedBox(
-                            height: 350.h,
-                            child: ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.vertical,
-                                itemCount:
-                                reversedFeedbackList.length,
-                                itemBuilder: (BuildContext context,
-                                    int index) {
-                                  return Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                Container(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
                                       Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .spaceBetween,
                                         children: [
-                                          Text(
-                                              reversedFeedbackList[
-                                              index][
-                                              "Feeback_type"] ==
-                                                  1
-                                                  ? "Committed Date"
-                                                  : reversedFeedbackList[index]
-                                              [
-                                              "Feeback_type"] ==
-                                                  2 ||
-                                                  reversedFeedbackList[index]
-                                                  [
-                                                  "Feeback_type"] ==
-                                                      3
-                                                  ? "Invalid or Wrong Number"
-                                                  : reversedFeedbackList[index]
-                                              [
-                                              "Feeback_type"] ==
-                                                  4
-                                                  ? "Call Not Answered"
-                                                  : "Misbehaved",
-                                              style: TextStyle(
-                                                  color: Colors
-                                                      .blueGrey)),
-                                          Image.asset(
-                                            reversedFeedbackList[
-                                            index][
-                                            "Feeback_type"] ==
-                                                1
-                                                ? "assets/images/committed.png"
-                                                : reversedFeedbackList[
-                                            index]
-                                            [
-                                            "Feeback_type"] ==
-                                                2 ||
-                                                reversedFeedbackList[
-                                                index]
-                                                [
-                                                "Feeback_type"] ==
-                                                    3
-                                                ? "assets/images/invalidcall.png"
-                                                : reversedFeedbackList[
-                                            index]
-                                            [
-                                            "Feeback_type"] ==
-                                                4
-                                                ? "assets/images/callnotanswered.png"
-                                                : "assets/images/mis.png",
+                                          Container(
+                                            width: 50.w,
                                             height: 50.h,
-                                            width: 50.h,
-                                          )
+                                            child: SvgPicture.asset(
+                                              "assets/images/profileOne.svg",
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 15.w,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                  width: 180.w,
+                                                  child: Text(
+                                                      widget.parentName
+                                                          .toString(),
+                                                      style: GoogleFonts.roboto(
+                                                          textStyle: TextStyle(
+                                                              fontSize: 16.sp,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)))),
+                                              SizedBox(
+                                                height: 6.h,
+                                              ),
+                                              SizedBox(
+                                                child: Text(
+                                                  widget.mobileNumber
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 14.sp),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ],
                                       ),
-                                      // SizedBox(height: 5.h,),
-                                      Container(
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width,
-                                        //margin: EdgeInsets.only(left: 20.w, right: 20.w),
-                                        decoration: BoxDecoration(
-                                            color: Color(0xFFECF1FF),
-                                            border: Border.all(
-                                                color: Color(
-                                                    0xFFCAD3FF)),
-                                            borderRadius:
-                                            BorderRadius.all(
-                                                Radius.circular(
-                                                    10.r))),
-                                        child: Padding(
-                                          padding:
-                                          const EdgeInsets.all(
-                                              10.0),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment
-                                                .start,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment
-                                                .start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    "Remarks",
-                                                    style: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
-                                                  ),
-                                                  Text(
-                                                    "${reversedFeedbackList[index]["Feeback_committed_date"]}",
-                                                    style: TextStyle(
-                                                        color: Colors
-                                                            .blueGrey),
-                                                  ),
-                                                ],
-                                              ),
-                                              Container(
-                                                margin:
-                                                EdgeInsets.all(4),
-                                                child: Text(
-                                                  reversedFeedbackList[
-                                                  index]
-                                                  [
-                                                  "Feeback_type"] ==
-                                                      5
-                                                      ? "Abusive Language"
-                                                      : reversedFeedbackList[index]
-                                                  [
-                                                  "Feeback_type"] ==
-                                                      6
-                                                      ? "Did not agree to pay fees"
-                                                      : reversedFeedbackList[index]["Feeback_type"] ==
-                                                      7
-                                                      ? "Advised a call from higher authority"
-                                                      : "",
-                                                  style: TextStyle(
-                                                      color: Colors.grey),
-                                                ),
-                                              ),
-                                              Container(
-                                                margin:
-                                                const EdgeInsets
-                                                    .all(20),
-                                                child: Text(
-                                                    reversedFeedbackList[
-                                                    index][
-                                                    "Feeback_comment"]),
-                                              ),
-                                              Container(
-                                                margin:
-                                                const EdgeInsets
-                                                    .all(20),
-                                                child: Row(
-                                                  children: [
-                                                    const Icon(
-                                                      Icons.person,
-                                                      color: Color(
-                                                          0xFFA2ACDE),
-                                                    ),
-                                                    SizedBox(
-                                                        width: 200.w,
-                                                        child: Text(
-                                                          reversedFeedbackList[index]
-                                                          [
-                                                          "Employee_name"]
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              color: Color(
-                                                                  0xFFA2ACDE),
-                                                              overflow:
-                                                              TextOverflow.fade),
-                                                        )),
-                                                  ],
-                                                ),
-                                              )
-                                            ],
+                                      GestureDetector(
+                                        onTap: () => Utils.call(
+                                            widget.mobileNumber.toString()),
+                                        child: Container(
+                                          width: 50.w,
+                                          height: 50.h,
+                                          child: SvgPicture.asset(
+                                            "assets/images/callButtonTwo.svg",
                                           ),
                                         ),
                                       ),
                                     ],
-                                  );
-                                }),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 30.h,
+                                ),
+                                widget.motherName == null
+                                    ? Text("")
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Container(
+                                                width: 50.w,
+                                                height: 50.h,
+                                                child: SvgPicture.asset(
+                                                  "assets/images/profileTwo.svg",
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 10.w,
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                      // width: 150.w,
+                                                      child: Text(
+                                                          widget.motherName
+                                                              .toString(),
+                                                          style: GoogleFonts.roboto(
+                                                              textStyle: TextStyle(
+                                                                  fontSize:
+                                                                      16.sp,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)))),
+                                                  SizedBox(
+                                                    height: 6.h,
+                                                  ),
+                                                  SizedBox(
+                                                    child: Text(
+                                                      widget.motherPhone
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 14.sp),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          GestureDetector(
+                                            onTap: () => Utils.call(
+                                                widget.motherPhone.toString()),
+                                            child: Container(
+                                              width: 50.w,
+                                              height: 50.h,
+                                              child: SvgPicture.asset(
+                                                "assets/images/callButtonOne.svg",
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                SizedBox(
+                                  height: 10.h,
+                                ),
+                                studentFeebackList == null
+                                    ? CircularProgressIndicator()
+                                    : studentFeebackList!["data_status"] == 0
+                                        ? Text("No Data Found")
+                                        : SizedBox(
+                                            height: 350.h,
+                                            child: ListView.builder(
+                                                shrinkWrap: true,
+                                                scrollDirection: Axis.vertical,
+                                                itemCount:
+                                                    reversedFeedbackList.length,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  return Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: 10.h,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                              reversedFeedbackList[
+                                                                              index]
+                                                                          [
+                                                                          "Feeback_type"] ==
+                                                                      1
+                                                                  ? "Committed Date"
+                                                                  : reversedFeedbackList[index]["Feeback_type"] ==
+                                                                              2 ||
+                                                                          reversedFeedbackList[index]["Feeback_type"] ==
+                                                                              3
+                                                                      ? "Invalid or Wrong Number"
+                                                                      : reversedFeedbackList[index]["Feeback_type"] ==
+                                                                              4
+                                                                          ? "Call Not Answered"
+                                                                          : "Misbehaved",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .blueGrey)),
+                                                          Image.asset(
+                                                            reversedFeedbackList[
+                                                                            index]
+                                                                        [
+                                                                        "Feeback_type"] ==
+                                                                    1
+                                                                ? "assets/images/committed.png"
+                                                                : reversedFeedbackList[index]["Feeback_type"] ==
+                                                                            2 ||
+                                                                        reversedFeedbackList[index]["Feeback_type"] ==
+                                                                            3
+                                                                    ? "assets/images/invalidcall.png"
+                                                                    : reversedFeedbackList[index]["Feeback_type"] ==
+                                                                            4
+                                                                        ? "assets/images/callnotanswered.png"
+                                                                        : "assets/images/mis.png",
+                                                            height: 50.h,
+                                                            width: 50.h,
+                                                          )
+                                                        ],
+                                                      ),
+                                                      // SizedBox(height: 5.h,),
+                                                      Container(
+                                                        width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
+                                                        //margin: EdgeInsets.only(left: 20.w, right: 20.w),
+                                                        decoration: BoxDecoration(
+                                                            color: Color(
+                                                                0xFFECF1FF),
+                                                            border: Border.all(
+                                                                color: Color(
+                                                                    0xFFCAD3FF)),
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                    Radius.circular(
+                                                                        10.r))),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(10.0),
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Text(
+                                                                    "Remarks",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .blueGrey),
+                                                                  ),
+                                                                  Text(
+                                                                    "${reversedFeedbackList[index]["Feeback_committed_date"]}",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .blueGrey),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Container(
+                                                                margin:
+                                                                    EdgeInsets
+                                                                        .all(4),
+                                                                child: Text(
+                                                                  reversedFeedbackList[index]
+                                                                              [
+                                                                              "Feeback_type"] ==
+                                                                          5
+                                                                      ? "Abusive Language"
+                                                                      : reversedFeedbackList[index]["Feeback_type"] ==
+                                                                              6
+                                                                          ? "Did not agree to pay fees"
+                                                                          : reversedFeedbackList[index]["Feeback_type"] == 7
+                                                                              ? "Advised a call from higher authority"
+                                                                              : "",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .grey),
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        20),
+                                                                child: Text(
+                                                                    reversedFeedbackList[
+                                                                            index]
+                                                                        [
+                                                                        "Feeback_comment"]),
+                                                              ),
+                                                              Container(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        20),
+                                                                child: Row(
+                                                                  children: [
+                                                                    const Icon(
+                                                                      Icons
+                                                                          .person,
+                                                                      color: Color(
+                                                                          0xFFA2ACDE),
+                                                                    ),
+                                                                    SizedBox(
+                                                                        width: 200
+                                                                            .w,
+                                                                        child:
+                                                                            Text(
+                                                                          reversedFeedbackList[index]["Employee_name"]
+                                                                              .toString(),
+                                                                          style: TextStyle(
+                                                                              color: Color(0xFFA2ACDE),
+                                                                              overflow: TextOverflow.fade),
+                                                                        )),
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                }),
+                                          ),
+                              ],
+                            ),
                           ),
+                          SizedBox(
+                            height: 130.h,
+                          )
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 130.h,
-                    )
                   ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+                )
+              ],
+            ),
+          )),
     );
   }
 
-  // _logout(context) {
-  //   return Alert(
-  //     context: context,
-  //     type: AlertType.info,
-  //     title: "Are you sure you want to logout",
-  //     style: const AlertStyle(
-  //         isCloseButton: false,
-  //         titleStyle: TextStyle(color: Color.fromRGBO(66, 69, 147, 7))),
-  //     buttons: [
-  //       DialogButton(
-  //         color: ColorUtils.BLUE,
-  //         child: const Text(
-  //           "yes",
-  //           style: TextStyle(color: Colors.white, fontSize: 20),
-  //         ),
-  //         onPressed: () async {
-  //           await TimeTableDatabase.instance.delete();
-  //           SharedPreferences preferences =
-  //           await SharedPreferences.getInstance();
-  //           preferences.remove("email");
-  //           preferences.remove('userID');
-  //           preferences.remove('employeeNumber');
-  //           preferences.remove('name');
-  //           preferences.remove('designation');
-  //           preferences.remove("classData");
-  //           preferences.remove("employeeData");
-  //           preferences.remove("teacherData");
-  //           preferences.remove("school_id");
-  //           preferences.remove("images");
-  //           preferences.remove("teacher");
-  //           preferences.remove("hos");
-  //           preferences.remove("wallpaper");
-  //           NavigationUtils.goNextFinishAll(context, LoginPage());
-  //         },
-  //         // print(widget.academicyear);
-  //         //width: 120,
-  //       ),
-  //       DialogButton(
-  //         color: ColorUtils.BLUE,
-  //         child: const Text(
-  //           "No",
-  //           style: TextStyle(color: Colors.white, fontSize: 20),
-  //         ),
-  //         onPressed: () {
-  //           Navigator.pop(context);
-  //         },
-  //         // print(widget.academicyear);
-  //         //width: 120,
-  //       )
-  //     ],
-  //   ).show();
-  // }
+// _logout(context) {
+//   return Alert(
+//     context: context,
+//     type: AlertType.info,
+//     title: "Are you sure you want to logout",
+//     style: const AlertStyle(
+//         isCloseButton: false,
+//         titleStyle: TextStyle(color: Color.fromRGBO(66, 69, 147, 7))),
+//     buttons: [
+//       DialogButton(
+//         color: ColorUtils.BLUE,
+//         child: const Text(
+//           "yes",
+//           style: TextStyle(color: Colors.white, fontSize: 20),
+//         ),
+//         onPressed: () async {
+//           await TimeTableDatabase.instance.delete();
+//           SharedPreferences preferences =
+//           await SharedPreferences.getInstance();
+//           preferences.remove("email");
+//           preferences.remove('userID');
+//           preferences.remove('employeeNumber');
+//           preferences.remove('name');
+//           preferences.remove('designation');
+//           preferences.remove("classData");
+//           preferences.remove("employeeData");
+//           preferences.remove("teacherData");
+//           preferences.remove("school_id");
+//           preferences.remove("images");
+//           preferences.remove("teacher");
+//           preferences.remove("hos");
+//           preferences.remove("wallpaper");
+//           NavigationUtils.goNextFinishAll(context, LoginPage());
+//         },
+//         // print(widget.academicyear);
+//         //width: 120,
+//       ),
+//       DialogButton(
+//         color: ColorUtils.BLUE,
+//         child: const Text(
+//           "No",
+//           style: TextStyle(color: Colors.white, fontSize: 20),
+//         ),
+//         onPressed: () {
+//           Navigator.pop(context);
+//         },
+//         // print(widget.academicyear);
+//         //width: 120,
+//       )
+//     ],
+//   ).show();
+// }
 
-  // @override
-  // void dispose() {
-  //   timer!.cancel();
-  //   super.dispose();
-  // }
+// @override
+// void dispose() {
+//   timer!.cancel();
+//   super.dispose();
+// }
 }

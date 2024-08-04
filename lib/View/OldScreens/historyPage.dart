@@ -1,11 +1,13 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/View/OldScreens/callNotAnswer.dart';
 import 'package:teacherapp/View/OldScreens/committee.dart';
 import 'package:teacherapp/View/OldScreens/missBehaviour.dart';
 import 'package:teacherapp/View/OldScreens/wrongOrInvalid.dart';
+import '../../Utils/constants.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
 
@@ -25,17 +27,17 @@ class HistoryPage extends StatefulWidget {
 
   HistoryPage(
       {this.parentName,
-        this.studentName,
-        this.classOfStudent,
-        this.mobileNumber,
-        this.loginUserName,
-        this.studentFees,
-        this.admissionNumber,
-        this.logedinEmployeecode,
-        this.loginTeacherName,
-        this.TeacherProfile,
-        this.StudentImage,
-        this.studentImageWidget});
+      this.studentName,
+      this.classOfStudent,
+      this.mobileNumber,
+      this.loginUserName,
+      this.studentFees,
+      this.admissionNumber,
+      this.logedinEmployeecode,
+      this.loginTeacherName,
+      this.TeacherProfile,
+      this.StudentImage,
+      this.studentImageWidget});
 
   @override
   _HistoryPageState createState() => _HistoryPageState();
@@ -61,6 +63,7 @@ class _HistoryPageState extends State<HistoryPage>
   String? teacherName;
 
   Map<String, dynamic>? notificationResult;
+
   // int Count = 0;
   //
   // getNotification() async {
@@ -132,7 +135,6 @@ class _HistoryPageState extends State<HistoryPage>
   }
 
   Widget _getMenuItem() {
-
     if (selectedbutton == 0)
       return CommittedPage(
         admissionNumber: widget.admissionNumber,
@@ -168,455 +170,389 @@ class _HistoryPageState extends State<HistoryPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: ListView(
-        //physics: NeverScrollableScrollPhysics(),
-        children: [
-          Stack(children: [
-            Stack(
-              children: [
-                const AppBarBackground(),
-                const UserDetails(shoBackgroundColor: false, isWelcome: false, bellicon: true, notificationcount: true),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: systemUiOverlayStyleLight,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
+          child: Column(
+            children: [
+              Stack(children: [
+                Stack(
+                  children: [
+                    const AppBarBackground(),
+                    Positioned(
 
-                // SizedBox(
-                //     width: MediaQuery.of(context).size.width,
-                //     child: Image.asset(
-                //       "assets/images/header.png",
-                //       fit: BoxFit.fill,
-                //     )),
-                // Row(
-                //   children: [
-                //     GestureDetector(
-                //       onTap: () => NavigationUtils.goBack(context),
-                //       child: Container(
-                //           margin: const EdgeInsets.all(6),
-                //           child: Image.asset("assets/images/goback.png")),
-                //     ),
-                //     Container(
-                //       margin: const EdgeInsets.all(15),
-                //       child: Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         children: [
-                //           Container(
-                //             child: Text(
-                //               "Hello,",
-                //               style: TextStyle(
-                //                   fontFamily: "Nunito",
-                //                   fontSize: 15.sp,
-                //                   color: Colors.white),
-                //             ),
-                //           ),
-                //           Container(
-                //             width: 150.w,
-                //             height: 40.h,
-                //             child: SingleChildScrollView(
-                //               scrollDirection: Axis.horizontal,
-                //               child: Text(
-                //                 widget.loginUserName.toString(),
-                //                 style: TextStyle(
-                //                     fontFamily: "WorkSans",
-                //                     fontSize: 15.sp,
-                //                     color: Colors.white),
-                //               ),
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //     SizedBox(
-                //       width: 40.w,
-                //     ),
-                //     GestureDetector(
-                //       onTap: () => NavigationUtils.goNext(
-                //           context,
-                //           NotificationPage(
-                //             name: widget.loginUserName,
-                //             image: widget.TeacherProfile,
-                //           )),
-                //       child: Padding(
-                //         padding: const EdgeInsets.all(8.0),
-                //         child: badges.Badge(
-                //             position: badges.BadgePosition.bottomEnd(end: -7, bottom: 12),
-                //             badgeContent: count == null
-                //                 ? Text("")
-                //                 : Text(
-                //               count.toString(),
-                //               style: TextStyle(color: Colors.white),
-                //             ),
-                //             child: SvgPicture.asset("assets/images/bell.svg")),
-                //       ),
-                //     ),
-                //     Container(
-                //       width: 50.w,
-                //       height: 50.h,
-                //       decoration: BoxDecoration(
-                //         shape: BoxShape.circle,
-                //         border: Border.all(color: Color(0xFFD6E4FA)),
-                //         image: DecorationImage(
-                //             image: NetworkImage(widget.TeacherProfile == ""
-                //                 ? "https://raw.githubusercontent.com/abdulmanafpfassal/image/master/profile.jpg"
-                //                 : ApiConstants.IMAGE_BASE_URL +
-                //                 "${widget.TeacherProfile}"),
-                //             fit: BoxFit.cover),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 100.h, left: 12.w, right: 15.w),
-              child: Card(
-                child: Container(
-                  // margin:
-                  //     EdgeInsets.only(left: 50.w, top:100.h, right: 50.w),
-                    width: 376.w,
-                    decoration: BoxDecoration(
-                      //border: Border.all(color: ColorUtils.BLUE),
-                      color: Colors.white54,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15.r),
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 14.h, left: 20.w),
-                          child: Text(
-                            "Call Status Update",
-                            style: TextStyle(
-                                color: Color(0xFF6B79C1), fontSize: 15.sp),
+                        child: const UserDetails(
+                            shoBackgroundColor: false,
+                            isWelcome: false,
+                            bellicon: true,
+                            notificationcount: true)),
+                  ],
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(top: 130.h, left: 10.w, right: 10.w),
+                  child: Card(
+                    child: Container(
+                        // margin:
+                        //     EdgeInsets.only(left: 50.w, top:100.h, right: 50.w),
+
+                        decoration: BoxDecoration(
+                          //border: Border.all(color: ColorUtils.BLUE),
+                          color: Colors.white54,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(15.r),
                           ),
                         ),
-                        Row(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(50.r)),
-                                  side: BorderSide(
-                                      width: 2.w, color: Colors.white)),
-                              margin: EdgeInsets.all(10),
-                              child: widget.StudentImage == " "
-                                  ? Container(
-                                width: 50.w,
-                                height: 50.h,
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Color(0xFFEEF1FF)),
-                                child: Image.asset(
-                                    "assets/images/profile.png"),
-                              )
-                                  : Container(
-                                width: 50.w,
-                                height: 50.h,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                          widget.StudentImage.toString()),
-                                      fit: BoxFit.fill),
-                                ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 14.h, left: 20.w),
+                              child: Text(
+                                "Call Status Update",
+                                style: TextStyle(
+                                    color: Colorutils.userdetailcolor,
+                                    fontSize: 18.sp),
                               ),
                             ),
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            Container(
-                              margin: EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 240.w,
-                                    child: Text(
-                                      widget.studentName.toString(),
-                                      style: GoogleFonts.spaceGrotesk(
-                                          textStyle: TextStyle(
-                                              fontSize: 20.sp,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold)),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 6),
-                                  widget.studentFees == null
-                                      ? Text("")
-                                      : Row(
-                                    children: [
-                                      const Text(
-                                        "Pending Fees:",
-                                        style:
-                                        TextStyle(color: Colors.grey),
-                                      ),
-                                      SizedBox(
-                                        width: 2.w,
-                                      ),
-                                      Text(
-                                        widget.studentFees.toString(),
-                                        style: TextStyle(
-                                            color: Colors.red),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        "Class:",
-                                        style: TextStyle(color: Colors.grey),
-                                      ),
-                                      SizedBox(
-                                        width: 2.w,
-                                      ),
-                                      Text(
-                                        widget.classOfStudent.toString(),
-                                        style:
-                                        TextStyle(color: Color(0xFF587298)),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        "Parent Name:",
-                                        style: TextStyle(color: Colors.grey),
-                                      ),
-                                      SizedBox(
-                                        width: 2.w,
-                                      ),
-                                      Container(
-                                        width: 155.w,
-                                        child: Text(
-                                          widget.parentName.toString(),
-                                          style: TextStyle(
-                                              color: Color(0xFF587298)),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(50.r)),
+                                      side: BorderSide(
+                                          width: 1.w, color: Colors.white)),
+                                  margin: EdgeInsets.all(10),
+                                  child: widget.StudentImage == " "
+                                      ? Container(
+                                          width: 60.w,
+                                          height: 60.h,
+                                          decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Color(0xFFEEF1FF)),
+                                          child: Image.asset(
+                                              "assets/images/profile.png"),
+                                        )
+                                      : Container(
+                                          width: 60.w,
+                                          height: 60.h,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: NetworkImage(widget
+                                                    .StudentImage.toString()),
+                                                fit: BoxFit.fill),
+                                          ),
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Row(
+                                ),
+                                Container(
+                                  margin: EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
-                                        "Mobile No:",
-                                        style: TextStyle(color: Colors.grey),
+                                      Container(
+                                        width: 240.w,
+                                        child: Text(
+                                          widget.studentName.toString(),
+                                          style: GoogleFonts.inter(
+                                              textStyle: TextStyle(
+                                                  fontSize: 18.sp,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 6),
+                                      widget.studentFees == null
+                                          ? Text("")
+                                          : Row(
+                                              children: [
+                                                const Text(
+                                                  "Pending Fees:",
+                                                  style: TextStyle(
+                                                      color: Colors.grey),
+                                                ),
+                                                SizedBox(
+                                                  width: 2.w,
+                                                ),
+                                                Text(
+                                                  widget.studentFees.toString(),
+                                                  style: TextStyle(
+                                                      color: Colors.red),
+                                                )
+                                              ],
+                                            ),
+                                      const SizedBox(height: 6),
+                                      Row(
+                                        children: [
+                                          const Text(
+                                            "Class:",
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                          SizedBox(
+                                            width: 2.w,
+                                          ),
+                                          Text(
+                                            widget.classOfStudent.toString(),
+                                            style: TextStyle(
+                                                color: Color(0xFF587298)),
+                                          )
+                                        ],
+                                      ),
+                                      const SizedBox(height: 6),
+                                      Row(
+                                        children: [
+                                          const Text(
+                                            "Parent Name:",
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          SizedBox(
+                                            width: 2.w,
+                                          ),
+                                          Container(
+                                            width: 155.w,
+                                            child: Text(
+                                              widget.parentName.toString(),
+                                              style: TextStyle(
+                                                  color: Color(0xFF587298),
+                                                  overflow:
+                                                      TextOverflow.ellipsis),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      const SizedBox(height: 6),
+                                      Row(
+                                        children: [
+                                          const Text(
+                                            "Mobile No:",
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                          SizedBox(
+                                            width: 2.w,
+                                          ),
+                                          Text(
+                                            widget.mobileNumber.toString(),
+                                            style: TextStyle(
+                                                color: Color(0xFF587298)),
+                                          )
+                                        ],
                                       ),
                                       SizedBox(
-                                        width: 2.w,
-                                      ),
-                                      Text(
-                                        widget.mobileNumber.toString(),
-                                        style:
-                                        TextStyle(color: Color(0xFF587298)),
+                                        height: 25.h,
                                       )
                                     ],
                                   ),
-                                  SizedBox(
-                                    height: 25.h,
-                                  )
-                                ],
-                              ),
-                            )
+                                )
+                              ],
+                            ),
                           ],
-                        ),
-                      ],
-                    )),
-              ),
-            ),
-          ]),
-          SizedBox(
-            height: 10.h,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              //SizedBox(width:15),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(),
-                  foregroundColor: calender ? Colors.blueAccent : Colors.white,
+                        )),
+                  ),
                 ),
-                child: Container(
-                    width: 50.w,
-                    height: 50.h,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(shape: BoxShape.circle),
-                    child: Center(
-                      child: Image.asset(
-                        "assets/images/vectorthree.png",
-                      ),
-                    )),
-                onPressed: () {
-                  setState(() {
-                    call = false;
-                    invalid = false;
-                    misbe = false;
-                    if (calender == false) {
-                      calender = true;
-                    }
-                    selectedbutton = 0;
-                  });
-                },
+              ]),
+              SizedBox(
+                height: 10.h,
               ),
-              //SizedBox(width:10),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(),
-                  foregroundColor: call ? Colors.blueAccent : Colors.white,
-                ),
-                child: Container(
-                    width: 50.w,
-                    height: 50.h,
-                    alignment: Alignment.center,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  //SizedBox(width:15),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      foregroundColor:
+                          calender ? Colors.blueAccent : Colors.white,
                     ),
-                    child: Center(
-                      child: Image.asset(
-                        "assets/images/vectortwo.png",
-                      ),
-                    )),
-                onPressed: () {
-                  setState(() {
-                    calender = false;
-                    invalid = false;
-                    misbe = false;
-                    if (call == false) {
-                      call = true;
-                    }
-                    selectedbutton = 1;
-                  });
-                },
+                    child: Container(
+                        width: 50.w,
+                        height: 50.h,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(shape: BoxShape.circle),
+                        child: Center(
+                          child: Image.asset(
+                            "assets/images/vectorthree.png",
+                          ),
+                        )),
+                    onPressed: () {
+                      setState(() {
+                        call = false;
+                        invalid = false;
+                        misbe = false;
+                        if (calender == false) {
+                          calender = true;
+                        }
+                        selectedbutton = 0;
+                      });
+                    },
+                  ),
+                  //SizedBox(width:10),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      foregroundColor: call ? Colors.blueAccent : Colors.white,
+                    ),
+                    child: Container(
+                        width: 50.w,
+                        height: 50.h,
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Image.asset(
+                            "assets/images/vectortwo.png",
+                          ),
+                        )),
+                    onPressed: () {
+                      setState(() {
+                        calender = false;
+                        invalid = false;
+                        misbe = false;
+                        if (call == false) {
+                          call = true;
+                        }
+                        selectedbutton = 1;
+                      });
+                    },
+                  ),
+                  //SizedBox(width:10),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      foregroundColor:
+                          invalid ? Colors.blueAccent : Colors.white,
+                    ),
+                    child: Container(
+                        width: 50.w,
+                        height: 50.h,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(shape: BoxShape.circle),
+                        child: Center(
+                          child: Image.asset(
+                            "assets/images/vectorfour.png",
+                          ),
+                        )),
+                    onPressed: () {
+                      setState(() {
+                        call = false;
+                        calender = false;
+                        misbe = false;
+                        if (invalid == false) {
+                          invalid = true;
+                        }
+                        selectedbutton = 2;
+                      });
+                    },
+                  ),
+                  //SizedBox(width:10),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      foregroundColor: misbe ? Colors.blueAccent : Colors.white,
+                    ),
+                    child: Container(
+                        width: 50.w,
+                        height: 50.h,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(shape: BoxShape.circle),
+                        child: Center(
+                          child: Image.asset(
+                            "assets/images/vectorone.png",
+                          ),
+                        )),
+                    onPressed: () {
+                      setState(() {
+                        call = false;
+                        invalid = false;
+                        calender = false;
+                        if (misbe == false) {
+                          misbe = true;
+                        }
+                        selectedbutton = 3;
+                      });
+                    },
+                  ),
+                ],
               ),
-              //SizedBox(width:10),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(),
-                  foregroundColor: invalid ? Colors.blueAccent : Colors.white,
-                ),
-                child: Container(
-                    width: 50.w,
-                    height: 50.h,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(shape: BoxShape.circle),
-                    child: Center(
-                      child: Image.asset(
-                        "assets/images/vectorfour.png",
-                      ),
-                    )),
-                onPressed: () {
-                  setState(() {
-                    call = false;
-                    calender = false;
-                    misbe = false;
-                    if (invalid == false) {
-                      invalid = true;
-                    }
-                    selectedbutton = 2;
-                  });
-                },
+              const SizedBox(
+                height: 10,
               ),
-              //SizedBox(width:10),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(),
-                  foregroundColor: misbe ? Colors.blueAccent : Colors.white,
-                ),
-                child: Container(
-                    width: 50.w,
-                    height: 50.h,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(shape: BoxShape.circle),
-                    child: Center(
-                      child: Image.asset(
-                        "assets/images/vectorone.png",
-                      ),
-                    )),
-                onPressed: () {
-                  setState(() {
-                    call = false;
-                    invalid = false;
-                    calender = false;
-                    if (misbe == false) {
-                      misbe = true;
-                    }
-                    selectedbutton = 3;
-                  });
-                },
-              ),
+              _getMenuItem(),
             ],
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          _getMenuItem(),
-        ],
+        ),
       ),
     );
   }
 
-  // _logout(context) {
-  //   return Alert(
-  //     context: context,
-  //     type: AlertType.info,
-  //     title: "Are you sure you want to logout",
-  //     style: const AlertStyle(
-  //         isCloseButton: false,
-  //         titleStyle: TextStyle(color: Color.fromRGBO(66, 69, 147, 7))),
-  //     buttons: [
-  //       DialogButton(
-  //         color: ColorUtils.BLUE,
-  //         child: const Text(
-  //           "yes",
-  //           style: TextStyle(color: Colors.white, fontSize: 20),
-  //         ),
-  //         onPressed: () async {
-  //           await TimeTableDatabase.instance.delete();
-  //           SharedPreferences preferences =
-  //           await SharedPreferences.getInstance();
-  //           preferences.remove("email");
-  //           preferences.remove('userID');
-  //           preferences.remove('employeeNumber');
-  //           preferences.remove('name');
-  //           preferences.remove('designation');
-  //           preferences.remove("classData");
-  //           preferences.remove("employeeData");
-  //           preferences.remove("teacherData");
-  //           preferences.remove("school_id");
-  //           preferences.remove("images");
-  //           preferences.remove("teacher");
-  //           preferences.remove("hos");
-  //           preferences.remove("wallpaper");
-  //           NavigationUtils.goNextFinishAll(context, LoginPage());
-  //         },
-  //         // print(widget.academicyear);
-  //         //width: 120,
-  //       ),
-  //       DialogButton(
-  //         color: ColorUtils.BLUE,
-  //         child: const Text(
-  //           "No",
-  //           style: TextStyle(color: Colors.white, fontSize: 20),
-  //         ),
-  //         onPressed: () {
-  //           Navigator.pop(context);
-  //         },
-  //         // print(widget.academicyear);
-  //         //width: 120,
-  //       )
-  //     ],
-  //   ).show();
-  // }
+// _logout(context) {
+//   return Alert(
+//     context: context,
+//     type: AlertType.info,
+//     title: "Are you sure you want to logout",
+//     style: const AlertStyle(
+//         isCloseButton: false,
+//         titleStyle: TextStyle(color: Color.fromRGBO(66, 69, 147, 7))),
+//     buttons: [
+//       DialogButton(
+//         color: ColorUtils.BLUE,
+//         child: const Text(
+//           "yes",
+//           style: TextStyle(color: Colors.white, fontSize: 20),
+//         ),
+//         onPressed: () async {
+//           await TimeTableDatabase.instance.delete();
+//           SharedPreferences preferences =
+//           await SharedPreferences.getInstance();
+//           preferences.remove("email");
+//           preferences.remove('userID');
+//           preferences.remove('employeeNumber');
+//           preferences.remove('name');
+//           preferences.remove('designation');
+//           preferences.remove("classData");
+//           preferences.remove("employeeData");
+//           preferences.remove("teacherData");
+//           preferences.remove("school_id");
+//           preferences.remove("images");
+//           preferences.remove("teacher");
+//           preferences.remove("hos");
+//           preferences.remove("wallpaper");
+//           NavigationUtils.goNextFinishAll(context, LoginPage());
+//         },
+//         // print(widget.academicyear);
+//         //width: 120,
+//       ),
+//       DialogButton(
+//         color: ColorUtils.BLUE,
+//         child: const Text(
+//           "No",
+//           style: TextStyle(color: Colors.white, fontSize: 20),
+//         ),
+//         onPressed: () {
+//           Navigator.pop(context);
+//         },
+//         // print(widget.academicyear);
+//         //width: 120,
+//       )
+//     ],
+//   ).show();
+// }
 
-  // @override
-  // void dispose() {
-  //   timer!.cancel();
-  //   super.dispose();
-  // }
+// @override
+// void dispose() {
+//   timer!.cancel();
+//   super.dispose();
+// }
 }

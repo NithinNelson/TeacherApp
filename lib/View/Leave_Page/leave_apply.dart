@@ -131,7 +131,7 @@ class _ObsResultState extends State<LeaveApply> {
                     left: 0,
                     top: -10,
                     child: Container(
-                      // height: 100.w,
+
                       width: ScreenUtil().screenWidth,
                       decoration: BoxDecoration(
                         color: Colors.transparent,
@@ -143,23 +143,21 @@ class _ObsResultState extends State<LeaveApply> {
                   ),
                   Container(
                     margin:
-                    EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w,),
-                    width: 500.w,
-                    height: double.infinity,
+                    EdgeInsets.only(left: 15.w, top: 120.h, right: 15.w,),
+                    // width: 500.w,
+                    height: ScreenUtil().screenHeight * 0.8,
                     decoration: BoxDecoration(
                       color: Colorutils.Whitecolor,
                       // Container color
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20.r),
-                          topLeft: Radius.circular(20.r)),
+                      borderRadius: BorderRadius.all(Radius.circular(17)),
                       // Border radius
                       boxShadow: [
                         BoxShadow(
                           color: Colorutils.userdetailcolor.withOpacity(0.3),
                           // Shadow color
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 3), // Shadow position
+                          spreadRadius: 1,
+                          blurRadius: 1,
+                          offset: Offset(0, 1), // Shadow position
                         ),
                       ],
                     ),
@@ -180,29 +178,7 @@ class _ObsResultState extends State<LeaveApply> {
                                     SizedBox(
                                       width: 120.w,
                                     ),
-                                    // Row(
-                                    //   children: [
-                                    //     SizedBox(
-                                    //       width: 20.w,
-                                    //       height: 20.h,
-                                    //       child: Image.asset(
-                                    //           "assets/images/studentCalender.png"),
-                                    //     ),
-                                    // SizedBox(
-                                    //   width: 5.w,
-                                    // ),
-                                    // Text(
-                                    //   widget.selectedDate.toString(),
-                                    //   style: TextStyle(fontSize: 12.sp),
-                                    // ),
-                                    // SizedBox(
-                                    //   width: 5.w,
-                                    // ),
-                                    // widget.timeString == null ? Text(" ") : Text(
-                                    //     widget.timeString.toString().split("-")[0],
-                                    //     style: TextStyle(fontSize: 12.sp))
-                                    //   ],
-                                    // ),
+
                                   ],
                                 ),
                               ),
@@ -391,7 +367,7 @@ class _ObsResultState extends State<LeaveApply> {
                                               EdgeInsets.symmetric(
                                                   vertical: 5.0,
                                                   horizontal: 10.0),
-                                              hintText: " What went well   ",
+                                              hintText: "Please Enter the reason  ",
                                               counterText: "00/1000",
                                               border: OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(
@@ -608,8 +584,7 @@ class _ObsResultState extends State<LeaveApply> {
                   title: "Failed",
                   message: "Failed to submit.",
                   actionName: "Close",
-                  iconData: Icons.info_outline,
-                  iconColor: Colors.red,
+                  iconData: Icons.info_outline, iconColor: Colors.red,
                 );
               }
             } on SocketException catch(e) {

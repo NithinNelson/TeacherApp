@@ -2,11 +2,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:teacherapp/Services/snackBar.dart';
 
 import '../../Controller/api_controllers/userAuthController.dart';
+import '../../Utils/Colors.dart';
 import '../../Utils/api_constants.dart';
 import 'checkBoxView.dart';
 
@@ -15,12 +17,13 @@ class WrongOrInvalid extends StatefulWidget {
   String? employeeCode;
   String? nameOfLoginTeacher;
   String? fees;
+
   WrongOrInvalid(
       {Key? key,
-        this.admissionNumber,
-        this.nameOfLoginTeacher,
-        this.employeeCode,
-        this.fees})
+      this.admissionNumber,
+      this.nameOfLoginTeacher,
+      this.employeeCode,
+      this.fees})
       : super(key: key);
 
   @override
@@ -81,7 +84,10 @@ class _WrongOrInvalidState extends State<WrongOrInvalid> {
     var jsonresponse = await http.post(url, headers: header, body: bdy);
     print(jsonresponse.statusCode);
     if (jsonresponse.statusCode == 200) {
-      snackBar(context: context, message: "Submitted Successfully", color: Colors.green);
+      snackBar(
+          context: context,
+          message: "Submitted Successfully",
+          color: Colors.green);
       // Utils.showToastSuccess("Submitted Successfully").show(context).then((_) {
       //   NavigationUtils.goBack(context);
       // });
@@ -103,7 +109,7 @@ class _WrongOrInvalidState extends State<WrongOrInvalid> {
             margin: EdgeInsets.only(left: 20.w),
             child: const Text(
               "Wrong or Invalid",
-              style: TextStyle(color: Colors.blueGrey),
+              style: TextStyle(color: Colors.black, fontSize: 16),
             )),
         SizedBox(
           height: 25.h,
@@ -125,34 +131,34 @@ class _WrongOrInvalidState extends State<WrongOrInvalid> {
             child: Row(
                 children: List.generate(
                     2,
-                        (index) => Flexible(
-                      flex: 1,
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            if (selectedIndex == index)
-                              selectedIndex = -1;
-                            else {
-                              selectedIndex = index;
-                            }
-                            print(selectedIndex);
-                          });
-                        },
-                        child: Row(
-                          children: [
-                            CheckBoxView(
-                                size: 25,
-                                borderRadius: 10,
-                                isChecked: index == selectedIndex),
-                            SizedBox(
-                              width: 10.w,
+                    (index) => Flexible(
+                          flex: 1,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                if (selectedIndex == index)
+                                  selectedIndex = -1;
+                                else {
+                                  selectedIndex = index;
+                                }
+                                print(selectedIndex);
+                              });
+                            },
+                            child: Row(
+                              children: [
+                                CheckBoxView(
+                                    size: 25,
+                                    borderRadius: 10,
+                                    isChecked: index == selectedIndex),
+                                SizedBox(
+                                  width: 10.w,
+                                ),
+                                Expanded(
+                                    child: _text(_getText(index).toString()))
+                              ],
                             ),
-                            Expanded(
-                                child: _text(_getText(index).toString()))
-                          ],
-                        ),
-                      ),
-                    ))),
+                          ),
+                        ))),
           ),
         ),
         SizedBox(
@@ -161,29 +167,39 @@ class _WrongOrInvalidState extends State<WrongOrInvalid> {
         Center(
           child: isPresses
               ? CircularProgressIndicator(
-            color: Color(0xFFFF83E4),
-          )
-              : GestureDetector(
-            onTap: () {
-              if (selectedIndex == -1) {
-                snackBar(context: context, message: "Please choose one option", color: Colors.red);
-                // Utils.showToastError("Please choose one option")
-                //     .show(context);
-              } else {
-                setState(() {
-                  isPresses = true;
-                });
-                SubmitRequest();
-              }
-            },
-            child: SizedBox(
-              height: 60.h,
-              width: 327.w,
-              child: Center(
-                child: Image.asset("assets/images/wrongnumber.png"),
-              ),
-            ),
-          ),
+                  color: Color(0xFFFF83E4),
+                )
+              : Container(
+                  height: 50.w,
+                  width: 200.w,
+                  child: FloatingActionButton(
+                    onPressed: () async {
+                      if (selectedIndex == -1) {
+                        snackBar(
+                            context: context,
+                            message: "Please choose one option",
+                            color: Colors.red);
+                        // Utils.showToastError("Please choose one option")
+                        //     .show(context);
+                      } else {
+                        setState(() {
+                          isPresses = true;
+                        });
+                        SubmitRequest();
+                      }
+                    },
+                    child: Text(
+                      'SUBMIT',
+                      style: GoogleFonts.inter(
+                          fontSize: 15, color: Colorutils.chatcolor),
+                    ),
+                    backgroundColor: Colorutils.userdetailcolor,
+                    elevation: 10,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                ),
         )
       ],
     );
@@ -215,6 +231,5 @@ class _WrongOrInvalidState extends State<WrongOrInvalid> {
   // }
 
   Widget _text(String text) => Text(text,
-      style:
-      TextStyle(color: Colors.blue, fontSize: 14.sp));
+      style: TextStyle(color: Colorutils.userdetailcolor, fontSize: 14.sp));
 }
