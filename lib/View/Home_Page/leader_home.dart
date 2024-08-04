@@ -114,7 +114,7 @@ class _LeaderState extends State<Leader> {
                                         Text('Cannot fetch teacher data')));
                           },
                           child: GestureDetector(
-                            onTap: (){
+                            onTap: () {
 
                               Navigator.push(
                                   context,
@@ -167,6 +167,7 @@ class _LeaderState extends State<Leader> {
                             left: 10.w, right: 10.w, top: 35.h),
                         child: GestureDetector(
                           onTap: () {
+                            Get.find<LessonObservationController>().resetLearningWalkDropdownData();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => const LearningWalk()));

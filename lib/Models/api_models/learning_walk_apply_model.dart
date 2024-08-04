@@ -1,3 +1,5 @@
+import 'login_api_model.dart';
+
 class LearningWalkApplyModel {
   final String schoolId;
   final String teacherId;
@@ -13,11 +15,11 @@ class LearningWalkApplyModel {
   final String className;
   final String subjectName;
   final String subjectId;
-  final List<RollId> rollIds;
+  final List<AllRolesArray> rollIds;
   final List<String> areasForImprovement;
   final List<String> strengths;
   final String remedialMeasures;
-  final dynamic upperHierarchy; // Assuming this can be any type
+  final String? upperHierarchy;
   final String sessionId;
   final String curriculumId;
   final bool isJoin;
@@ -66,7 +68,7 @@ class LearningWalkApplyModel {
       subjectName: json['subject_name'],
       subjectId: json['subject_id'],
       rollIds:
-          (json['roll_ids'] as List).map((i) => RollId.fromJson(i)).toList(),
+          (json['roll_ids'] as List).map((i) => AllRolesArray.fromJson(i)).toList(),
       areasForImprovement: List<String>.from(json['areas_for_improvement']),
       strengths: List<String>.from(json['strengths']),
       remedialMeasures: json['remedial_measures'],
@@ -109,36 +111,8 @@ class LearningWalkApplyModel {
   }
 }
 
-class RollId {
-  final String id;
-  final String name;
-  final bool status;
-
-  RollId({
-    required this.id,
-    required this.name,
-    required this.status,
-  });
-
-  factory RollId.fromJson(Map<String, dynamic> json) {
-    return RollId(
-      id: json['_id'],
-      name: json['name'],
-      status: json['status'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      '_id': id,
-      'name': name,
-      'status': status,
-    };
-  }
-}
-
 class RemarksData {
-  final List<Indicator> indicators;
+  final List<Indicator?> indicators;
 
   RemarksData({
     required this.indicators,
@@ -154,24 +128,24 @@ class RemarksData {
 
   Map<String, dynamic> toJson() {
     return {
-      'Indicators': indicators.map((i) => i.toJson()).toList(),
+      'Indicators': indicators.map((i) => i?.toJson()).toList(),
     };
   }
 }
 
 class Indicator {
-  final String name;
-  final String remark;
-  final int point;
-  final String dbKey;
-  final String alias;
+  final String? name;
+  final String? remark;
+  final int? point;
+  final String? dbKey;
+  final String? alias;
 
   Indicator({
-    required this.name,
-    required this.remark,
-    required this.point,
-    required this.dbKey,
-    required this.alias,
+    this.name,
+    this.remark,
+    this.point,
+    this.dbKey,
+    this.alias,
   });
 
   factory Indicator.fromJson(Map<String, dynamic> json) {
