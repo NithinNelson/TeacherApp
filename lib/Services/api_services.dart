@@ -468,7 +468,7 @@ class ApiServices {
     try {
       Map<String, dynamic> apiBody = {
         "message_id": msgId,
-        "teacher_id": teacherId
+        "parent_id": teacherId
       };
 
       var request = http.Request('POST', Uri.parse(url));

@@ -180,13 +180,15 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                             if (count != 0) {
                               return CircleAvatar(
                                 backgroundColor: Colors.white,
-                                radius: 10,
-                                child: Text(
-                                  count.toString(),
-                                  style: GoogleFonts.inter(
-                                      fontSize: 13.h,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.green),
+                                radius: 10.r,
+                                child: FittedBox(
+                                  child: Text(
+                                    count.toString(),
+                                    style: GoogleFonts.inter(
+                                        fontSize: 13.h,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.green),
+                                  ),
                                 ),
                               );
                             } else {
@@ -219,13 +221,15 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                             if (count != 0) {
                               return CircleAvatar(
                                 backgroundColor: Colors.white,
-                                radius: 10,
-                                child: Text(
-                                  count.toString(),
-                                  style: GoogleFonts.inter(
-                                      fontSize: 13.h,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.green),
+                                radius: 10.r,
+                                child: FittedBox(
+                                  child: Text(
+                                    count.toString(),
+                                    style: GoogleFonts.inter(
+                                        fontSize: 13.h,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.green),
+                                  ),
                                 ),
                               );
                             } else {

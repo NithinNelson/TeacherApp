@@ -244,7 +244,11 @@ class GroupChatList extends StatelessWidget {
           // classs: '${classTeacherGroups[imkvkosdmvksfmnvbndex].classTeacherClass}${classTeacherGroups[index].batch}',
           lastMessage: lastMsg,
           userId: "userId",
-          classTeacherGroup: ClassTeacherGroup(),
+          classTeacherGroup: ClassTeacherGroup(
+            subjectName: '--',
+            classTeacherClass: '--',
+            batch: '--',
+          ),
           avatarColor: Colorutils.chatLeadingColors[index % 5],
         );
       },

@@ -142,55 +142,55 @@ class _MyTimeTableState extends State<MyTimeTable>
                                 SizedBox(
                                   width: 100,
                                 ),
-                                Container(
-                                  height: 45.w,
-                                  width: 140.w,
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 5)
-                                      .w,
-                                  decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.circular(12.0).r,
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Container(
-                                        height: 35.w,
-                                        width: 35.w,
-                                        decoration: BoxDecoration(
-                                          color: Colors.redAccent,
-                                          borderRadius:
-                                          BorderRadius.circular(12.0).r,
-                                        ),
-                                        child: Center(
-                                          child: Text("7J",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              )),
-                                        ),
-                                      ),
-                                      SizedBox(width: 3.w),
-                                      Expanded(
-                                        child: SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Row(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 3, left: 3),
-                                                child: Text('Maths ',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 15)),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
+                                // Container(
+                                //   height: 45.w,
+                                //   width: 140.w,
+                                //   padding:
+                                //   const EdgeInsets.symmetric(horizontal: 5)
+                                //       .w,
+                                //   decoration: BoxDecoration(
+                                //     color: Colors.red,
+                                //     borderRadius: BorderRadius.circular(12.0).r,
+                                //   ),
+                                //   child: Row(
+                                //     mainAxisSize: MainAxisSize.min,
+                                //     children: [
+                                //       Container(
+                                //         height: 35.w,
+                                //         width: 35.w,
+                                //         decoration: BoxDecoration(
+                                //           color: Colors.redAccent,
+                                //           borderRadius:
+                                //           BorderRadius.circular(12.0).r,
+                                //         ),
+                                //         child: Center(
+                                //           child: Text("7J",
+                                //               style: TextStyle(
+                                //                 color: Colors.white,
+                                //               )),
+                                //         ),
+                                //       ),
+                                //       SizedBox(width: 3.w),
+                                //       Expanded(
+                                //         child: SingleChildScrollView(
+                                //           scrollDirection: Axis.horizontal,
+                                //           child: Row(
+                                //             children: [
+                                //               Padding(
+                                //                 padding: const EdgeInsets.only(
+                                //                     right: 3, left: 3),
+                                //                 child: Text('Maths ',
+                                //                     style: TextStyle(
+                                //                         color: Colors.white,
+                                //                         fontSize: 15)),
+                                //               ),
+                                //             ],
+                                //           ),
+                                //         ),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // )
                               ],
                             ),
                           ),

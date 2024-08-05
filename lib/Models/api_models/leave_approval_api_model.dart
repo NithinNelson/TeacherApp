@@ -121,7 +121,7 @@ class Pendings {
   startDate = json['startDate'];
   endDate = json['endDate'];
   applyDate = json['applyDate'];
-  days = json['days'];
+  days = json['days'] != null ? int.parse(json['days'].toString()) : null;
   schoolId = json['school_id'];
   sessionId = json['session_id'];
   curriculumId = json['curriculum_id'];
@@ -230,7 +230,7 @@ class ApprovedOrRejected {
     startDate = json['startDate'];
     endDate = json['endDate'];
     applyDate = json['applyDate'];
-    days = json['days'];
+    days = json['days'] != null ? int.parse(json['days'].toString()) : null;
     schoolId = json['school_id'];
     sessionId = json['session_id'];
     curriculumId = json['curriculum_id'];
@@ -318,7 +318,7 @@ class AllLeaves {
   startDate = json['startDate'];
   endDate = json['endDate'];
   applyDate = json['applyDate'];
-  days = json['days'];
+  days = json['days'] != null ? int.parse(json['days'].toString()) : null;
   schoolId = json['school_id'];
   sessionId = json['session_id'];
   curriculumId = json['curriculum_id'];

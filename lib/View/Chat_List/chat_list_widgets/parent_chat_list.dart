@@ -115,7 +115,6 @@ class ParentChatList extends StatelessWidget {
         GetX<ParentChatListController>(
           builder: (ParentChatListController controller) {
             List<Datum> chatParentList = controller.parentChatList.value;
-            print("---------sentTime----------${controller.parentChatList.value.first.lastMessage?.sandAt}");
             return Expanded(
               child: ListView.separated(
                 padding: EdgeInsets.all(0),

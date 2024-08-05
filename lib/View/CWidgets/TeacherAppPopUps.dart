@@ -7,6 +7,8 @@ import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
 import 'package:teacherapp/View/Login_page/login.dart';
 
+import '../../Services/controller_handling.dart';
+
 class TeacherAppPopUps {
   static final TeacherAppPopUps _instance = TeacherAppPopUps._internal();
 
@@ -100,6 +102,8 @@ class TeacherAppPopUps {
           FilledButton(
             onPressed: () async {
               await SharedPrefs().removeLoginData();
+              HandleControllers.deleteAllGetControllers();
+              HandleControllers.createGetControllers();
               Get.offAll(const LoginPage());
             },
             style: ButtonStyle(
