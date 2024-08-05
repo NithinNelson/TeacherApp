@@ -228,129 +228,127 @@ class ApproveRejected extends StatelessWidget {
                                   ),
                                 ),
 
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 45),
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      showDialog(
-                                        barrierDismissible: false,
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            AlertDialog(
-                                              title: Row(
-                                                children: [
-                                                  GestureDetector(
-                                                      onTap: () {
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                      child: Icon(
-                                                          Icons.arrow_back_outlined)),
-                                                  SizedBox(
-                                                    width: 35.w,
-                                                  ),
-                                                  Text(
-                                                    'Leave Approval',
-                                                    style: TextStyle(fontSize: 22.sp),
-                                                  ),
-                                                ],
-                                              ),
-                                              content: Container(
-                                                height: attchIconsize(type: leaveList[i].documentPath.toString().split(".").last),
-                                                // width: 300.w,
-                                                child: SingleChildScrollView(
-                                                  child: ListBody(
-                                                    children: <Widget>[
-                                                      Text(leaveList[i].studentName ?? '--',
-                                                          style: TextStyle(
-                                                              fontSize: 18.sp,fontWeight: FontWeight.bold)),
-                                                      SizedBox(
-                                                        height: 8.h,
-                                                      ),
-                                                      Text(
-                                                          'Class: ${leaveList[i].classs ?? '-'} ${leaveList[i].batch ?? '-'}',
+                                GestureDetector(
+                                  onTap: () async {
+                                    showDialog(
+                                      barrierDismissible: false,
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                            title: Row(
+                                              children: [
+                                                GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.of(context).pop();
+                                                    },
+                                                    child: Icon(
+                                                        Icons.arrow_back_outlined)),
+                                                SizedBox(
+                                                  width: 35.w,
+                                                ),
+                                                Text(
+                                                  'Leave Approval',
+                                                  style: TextStyle(fontSize: 22.sp),
+                                                ),
+                                              ],
+                                            ),
+                                            content: Container(
+                                              height: attchIconsize(type: leaveList[i].documentPath.toString().split(".").last),
+                                              // width: 300.w,
+                                              child: SingleChildScrollView(
+                                                child: ListBody(
+                                                  children: <Widget>[
+                                                    Text(leaveList[i].studentName ?? '--',
+                                                        style: TextStyle(
+                                                            fontSize: 18.sp,fontWeight: FontWeight.bold)),
+                                                    SizedBox(
+                                                      height: 8.h,
+                                                    ),
+                                                    Text(
+                                                        'Class: ${leaveList[i].classs ?? '-'} ${leaveList[i].batch ?? '-'}',
+                                                        style:
+                                                        TextStyle(fontSize: 14)),
+                                                    SizedBox(
+                                                      height: 8.h,
+                                                    ),
+                                                    Text('Reason : ${leaveList[i].reason ?? '--'}',
+                                                        style:
+                                                        TextStyle(fontSize: 14)),
+                                                    SizedBox(
+                                                      height: 8.h,
+                                                    ),
+                                                    Text(
+                                                        "Applied On: ${leaveList[i].applyDate.toString().split('T')[0].split('-').last}-${leaveList[i].applyDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].applyDate.toString().split('T')[0].split('-').first}",
+                                                        style:
+                                                        TextStyle(fontSize: 14)),
+                                                    SizedBox(
+                                                      height: 8.h,
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          // "From: ${fromdate!.split('T')[0]}",
+                                                          "From: ${leaveList[i].startDate.toString().split('T')[0].split('-').last}-${leaveList[i].startDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].startDate.toString().split('T')[0].split('-').first}",
                                                           style:
-                                                          TextStyle(fontSize: 14)),
-                                                      SizedBox(
-                                                        height: 8.h,
-                                                      ),
-                                                      Text('Reason : ${leaveList[i].reason ?? '--'}',
+                                                          TextStyle(fontSize: 14),
+                                                        ),
+                                                        // SizedBox(
+                                                        //   width: 40.w,
+                                                        // ),
+                                                        Text(
+                                                          "To: ${leaveList[i].endDate.toString().split('T')[0].split('-').last}-${leaveList[i].endDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].endDate.toString().split('T')[0].split('-').first}",
                                                           style:
-                                                          TextStyle(fontSize: 14)),
-                                                      SizedBox(
-                                                        height: 8.h,
-                                                      ),
-                                                      Text(
-                                                          "Applied On: ${leaveList[i].applyDate.toString().split('T')[0].split('-').last}-${leaveList[i].applyDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].applyDate.toString().split('T')[0].split('-').first}",
-                                                          style:
-                                                          TextStyle(fontSize: 14)),
-                                                      SizedBox(
-                                                        height: 8.h,
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Text(
-                                                            // "From: ${fromdate!.split('T')[0]}",
-                                                            "From: ${leaveList[i].startDate.toString().split('T')[0].split('-').last}-${leaveList[i].startDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].startDate.toString().split('T')[0].split('-').first}",
-                                                            style:
-                                                            TextStyle(fontSize: 14),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 40.w,
-                                                          ),
-                                                          Text(
-                                                            "To: ${leaveList[i].endDate.toString().split('T')[0].split('-').last}-${leaveList[i].endDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].endDate.toString().split('T')[0].split('-').first}",
-                                                            style:
-                                                            TextStyle(fontSize: 14),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        height: 10.h,
-                                                      ),
-                                                      (leaveList[i].documentPath != null)
-                                                          ? Row(
-                                                        children: [
-                                                          Text('Document :',
-                                                              style: TextStyle(
-                                                                  fontSize: 14)),
-                                                          GestureDetector(
-                                                            onTap: () async {
-                                                              try {
-                                                                await launchUrl(Uri.parse("${ApiConstants.downloadUrl}${leaveList[i].documentPath}"));
-                                                              } catch(e) {
-                                                                print("--------vrgvg-------${e.toString()}");
-                                                              }
-                                                            },
-                                                            child: attchIcon(
-                                                                type: leaveList[i].documentPath.toString().split(".").last,
-                                                                document: leaveList[i].documentPath.toString().toString()),
-                                                          ),
-                                                        ],
-                                                      )
-                                                          : Container(),
-                                                    ],
-                                                  ),
+                                                          TextStyle(fontSize: 14),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 10.h,
+                                                    ),
+                                                    (leaveList[i].documentPath != null)
+                                                        ? Row(
+                                                      children: [
+                                                        Text('Document :',
+                                                            style: TextStyle(
+                                                                fontSize: 14)),
+                                                        GestureDetector(
+                                                          onTap: () async {
+                                                            try {
+                                                              await launchUrl(Uri.parse("${ApiConstants.downloadUrl}${leaveList[i].documentPath}"));
+                                                            } catch(e) {
+                                                              print("--------vrgvg-------${e.toString()}");
+                                                            }
+                                                          },
+                                                          child: attchIcon(
+                                                              type: leaveList[i].documentPath.toString().split(".").last,
+                                                              document: leaveList[i].documentPath.toString().toString()),
+                                                        ),
+                                                      ],
+                                                    )
+                                                        : Container(),
+                                                  ],
                                                 ),
                                               ),
                                             ),
-                                      );
-                                    },
-                                    child: Container(
-                                        height: 40.h,
-                                        width: 80.w,
-                                        decoration: BoxDecoration(
-                                            color: Colors.blue,
-                                            borderRadius:
-                                            BorderRadius.circular(10)),
-                                        child: Center(
-                                            child: Text(
-                                              'Details',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 12.sp,
-                                                  color: Colors.white),
-                                            ))),
-                                  ),
+                                          ),
+                                    );
+                                  },
+                                  child: Container(
+                                      height: 40.h,
+                                      width: 80.w,
+                                      decoration: BoxDecoration(
+                                          color: Colors.blue,
+                                          borderRadius:
+                                          BorderRadius.circular(10)),
+                                      child: Center(
+                                          child: Text(
+                                            'Details',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12.sp,
+                                                color: Colors.white),
+                                          ))),
                                 ),
                                 // Flexible(flex: 1, child: Container()),
                               ],

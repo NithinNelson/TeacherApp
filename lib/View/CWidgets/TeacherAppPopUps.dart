@@ -101,10 +101,10 @@ class TeacherAppPopUps {
         actions: [
           FilledButton(
             onPressed: () async {
-              await SharedPrefs().removeLoginData();
               HandleControllers.deleteAllGetControllers();
+              await SharedPrefs().removeLoginData();
+              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (_) => false);
               HandleControllers.createGetControllers();
-              Get.offAll(const LoginPage());
             },
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all(Colorutils.letters1),
