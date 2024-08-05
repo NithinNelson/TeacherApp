@@ -231,8 +231,10 @@ class UserAuthController extends GetxController {
   void setSelectedHosData({required String hosName}) {
     if(hosList.value.isNotEmpty) {
       for (var hos in hosList.value) {
-        if(hos.hosName == hos.hosName?.substring(0, hos.hosName?.length)) {
-          selectedHos.value = hos;
+        if(hos.hosName != null) {
+          if(hos.hosName!.contains(hosName.substring(0, hos.hosName!.length))) {
+            selectedHos.value = hos;
+          }
         }
       }
     }
