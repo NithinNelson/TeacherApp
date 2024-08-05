@@ -2134,14 +2134,18 @@ class _StudentListViewState extends State<StudentListView> {
                                                             ],
                                                           ),)));
                                               },
-                                                  child:  Container(child: Row(
 
-                                                    children: [
-                                                      Icon(Icons.remove_red_eye_outlined,size: 18,),
-                                                      SizedBox(width: 5.w,),
-                                                      Text('Late',style: TextStyle(fontWeight: FontWeight.w900,color: Colors.red,fontSize: 15.sp),),
-                                                    ],
-                                                  ))):Text(''),
+                                                  child:  Padding(
+                                                    padding: const EdgeInsets.only(right: 15),
+                                                    child: Container(child: Row(
+
+                                                      children: [
+                                                        Icon(Icons.remove_red_eye_outlined,size: 18,),
+                                                        SizedBox(width: 5.w,),
+                                                        Text('Late',style: TextStyle(fontWeight: FontWeight.w900,color: Colors.red,fontSize: 15.sp),),
+                                                      ],
+                                                    )),
+                                                  )):Text(''),
                                             ],
                                           ),
                                           Divider(
@@ -2196,6 +2200,7 @@ class _StudentListViewState extends State<StudentListView> {
                         "remarks": afterAttendanceTaken[i]["remarks"],
                         "late": true,
                       });
+
                     }
                   }
                 }
@@ -2602,15 +2607,28 @@ class _StudentListViewState extends State<StudentListView> {
                 ),
                 Row(
                   children: [
-                    Container(
-                      width: 50.w,
-                      height: 50.h,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
 
-                        image: DecorationImage(
+                    CircleAvatar(
+                      radius: 25,
+backgroundColor: Colors.white,
+                      child: CachedNetworkImage(
+                        width: 50,
+                        height: 50,
 
-                            image: NetworkImage(image), fit: BoxFit.fill),
+                        fit: BoxFit.fill,
+                        imageUrl: image,
+                        errorWidget: (context, url, error) =>   Center(
+                          child: Text(
+                            '${studentName.split(' ')[0].toString()[0]}'
+                            // '${ourStudentList[index]["username"].split(' ')[1].toString()[0]}'
+                            ,
+                            style: TextStyle(
+
+                                color: Colorutils.userdetailcolor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(
