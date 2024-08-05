@@ -250,7 +250,7 @@ class _PendingLeaveState extends State<PendingLeave> {
                                                 ],
                                               ),
                                               content: Container(
-                                                height: 80,
+                                                height: 250,
                                                 // width: 300.w,
                                                 child: SingleChildScrollView(
                                                   child: ListBody(
@@ -262,7 +262,7 @@ class _PendingLeaveState extends State<PendingLeave> {
                                                         height: 8.h,
                                                       ),
                                                       Text(
-                                                          'Class: ${leaveList[i].classs ?? '-'} ${leaveList[i].batch ?? '-'}',
+                                                          'Class    : ${leaveList[i].classs ?? '-'} ${leaveList[i].batch ?? '-'}',
                                                           style: TextStyle(
                                                               fontSize: 14)),
                                                       SizedBox(
@@ -489,7 +489,7 @@ class _PendingLeaveState extends State<PendingLeave> {
                                                                                 )),
                                                                           ),
                                                                           SizedBox(
-                                                                            width: 10.w,
+                                                                            width: 40.w,
                                                                           ),
                                                                           // if(int.parse(totaldays) < 4)
                                                                           GestureDetector(
@@ -540,7 +540,7 @@ class _PendingLeaveState extends State<PendingLeave> {
                                                           );
                                                         },
                                                         child: Container(
-                                                            height: 30.h,
+                                                            height: 40.h,
                                                             width: 70.w,
                                                             decoration: BoxDecoration(
                                                                 color: Colors.red[500],

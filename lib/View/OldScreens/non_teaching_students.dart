@@ -729,17 +729,24 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
                     ),
                     afterAttendanceTaken == null
                         ? Text("")
-                        : Center(
-                        child: Container(
-                          height: 20,
-                            margin: EdgeInsets.all(8),
-                            child: Text(
-                                "Note: Attendance has already been taken.",
-                              style: TextStyle(
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.red),
-                            ))),
+                        : Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: Row(
+                           mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 20,
+                                  margin: EdgeInsets.all(8),
+                                  child: Text(
+                                      "Note: Attendance has already been taken.",
+                                    style: TextStyle(
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red),
+                                  )),
+                            ],
+                          ),
+                        ),
                     SizedBox(
                       height: 8.h,
                     ),

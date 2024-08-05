@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:teacherapp/Controller/api_controllers/lessonObservationController.dart';
+import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Services/snackBar.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 import 'package:teacherapp/View/Learning_Walk/Learning_walk.dart';
@@ -50,6 +51,7 @@ class _LeaderState extends State<Leader> {
 
   @override
   Widget build(BuildContext context) {
+    String? hosName = Get.find<UserAuthController>().selectedHos.value?.hosName;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: systemUiOverlayStyleLight,
       child: SingleChildScrollView(
@@ -95,7 +97,7 @@ class _LeaderState extends State<Leader> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Padding(
+                       Padding(
                         padding: EdgeInsets.all(20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,13 +108,23 @@ class _LeaderState extends State<Leader> {
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600),
                             ),
-                            Text(
-                              'Hos: Abitha',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.blueAccent),
-                            )
+                            if(hosName != null)
+
+                              Container(
+                                  width: 150.w,
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "HOS:${hosName}",
+                                          style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),
+                                        ),
+
+                                      ],
+                                    ),
+                                  ))
+
                           ],
                         ),
                       ),

@@ -2084,68 +2084,65 @@ class _StudentListViewState extends State<StudentListView> {
                                               ],
                                             ),
                                           ),
-                                          Padding(
-                                            padding:  EdgeInsets.only(left: 10.w,top: 10.h,bottom: 5.h,right:18),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
 
-                                                isStudentListnull[index]["late"] == true?
-                                                GestureDetector( onTap: ()async {
-                                                  showDialog( context: context,
-                                                      builder: (
-                                                          BuildContext context) => AlertDialog(
-                                                          title: Container(
-                                                            decoration: BoxDecoration(
-                                                              color: Color.fromRGBO(230, 236, 254, 8),
-                                                              borderRadius: BorderRadius
-                                                                  .all(
-                                                                  Radius
-                                                                      .circular(
-                                                                      50)),),
-                                                            padding: EdgeInsets.only(),
-                                                            child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              children: [
-                                                                Row(
-                                                                  children: [
-                                                                    SizedBox(width: 80,),
-                                                                    Text('Remarks',style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w800),),
-                                                                    SizedBox(width: 45,),
-                                                                    GestureDetector(
-                                                                      onTap:() {
-                                                                        Navigator.pop(context);
-                                                                      },
-                                                                      child: Container(
-                                                                        height: 35,
-                                                                        width: 35,
+                                              isStudentListnull[index]["late"] == true?
+                                              GestureDetector( onTap: ()async {
+                                                showDialog( context: context,
+                                                    builder: (
+                                                        BuildContext context) => AlertDialog(
+                                                        title: Container(
+                                                          decoration: BoxDecoration(
 
-                                                                        child: Icon(Icons.clear,size: 25,),
-                                                                      ),),
-                                                                  ],
-                                                                ),
-SizedBox(height: 15,),
+                                                            borderRadius: BorderRadius
+                                                                .all(
+                                                                Radius
+                                                                    .circular(
+                                                                    50)),),
+                                                          padding: EdgeInsets.only(),
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              Row(
+                                                                children: [
+                                                                  SizedBox(width: 80,),
+                                                                  Text('Remarks',style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w800),),
+                                                                  SizedBox(width: 45,),
+                                                                  GestureDetector(
+                                                                    onTap:() {
+                                                                      Navigator.pop(context);
+                                                                    },
+                                                                    child: Container(
+                                                                      height: 35,
+                                                                      width: 35,
 
-                                                                Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                  children: [
-                                                                    Text(afterAttendanceTaken[index]["remarks"],style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w500),),
-                                                                  ],
-                                                                ),
+                                                                      child: Icon(Icons.clear,size: 25,),
+                                                                    ),),
+                                                                ],
+                                                              ),
+                                          SizedBox(height: 15,),
 
-                                                              ],
-                                                            ),)));
-                                                },
-                                                    child:  Container(child: Row(
+                                                              Row(
+                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                children: [
+                                                                  Text(afterAttendanceTaken[index]["remarks"],style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w500),),
+                                                                ],
+                                                              ),
 
-                                                      children: [
-                                                        Icon(Icons.remove_red_eye_outlined,size: 18,),
-                                                        SizedBox(width: 5.w,),
-                                                        Text('Late',style: TextStyle(fontWeight: FontWeight.w900,color: Colors.red,fontSize: 15.sp),),
-                                                      ],
-                                                    ))):Text(''),
-                                              ],
-                                            ),
+                                                            ],
+                                                          ),)));
+                                              },
+                                                  child:  Container(child: Row(
+
+                                                    children: [
+                                                      Icon(Icons.remove_red_eye_outlined,size: 18,),
+                                                      SizedBox(width: 5.w,),
+                                                      Text('Late',style: TextStyle(fontWeight: FontWeight.w900,color: Colors.red,fontSize: 15.sp),),
+                                                    ],
+                                                  ))):Text(''),
+                                            ],
                                           ),
                                           Divider(
                                             indent: 20,

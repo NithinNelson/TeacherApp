@@ -15,6 +15,7 @@ import 'package:text_scroll/text_scroll.dart';
 
 import '../../Models/api_models/time_table_api_model.dart';
 import '../My_Class/Myclass.dart';
+import '../OldScreens/teaching_students.dart';
 
 class MenuScreen extends StatelessWidget {
 
@@ -342,7 +343,7 @@ class ClassIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Myclasses()));
+        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentListView()));
       },
       child: CircleAvatar(
         radius: 24,

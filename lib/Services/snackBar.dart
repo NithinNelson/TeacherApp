@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../Utils/Colors.dart';
+
 void showSnackBar(BuildContext context, String msg, Color clr) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -24,7 +26,7 @@ snackBar(
         ),
         textAlign: TextAlign.center,
       ),
-      backgroundColor: color,
+      backgroundColor: Colorutils.userdetailcolor,
       behavior: SnackBarBehavior.floating,
       elevation: 10,
       duration: const Duration(seconds: 2),
