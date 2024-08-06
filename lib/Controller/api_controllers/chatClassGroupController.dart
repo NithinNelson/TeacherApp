@@ -8,8 +8,10 @@ class ChatClassGroupController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isLoaded = false.obs;
   RxBool isError = false.obs;
+  RxBool searchEnabled = false.obs;
   var currentChatTab = 0.obs;
   RxList<ClassTeacherGroup> classGroupList = <ClassTeacherGroup>[].obs;
+  RxList<ClassTeacherGroup> classGroupListCopy = <ClassTeacherGroup>[].obs;
   RxInt unreadCount = 0.obs;
 
   void resetStatus() {
@@ -35,7 +37,9 @@ class ChatClassGroupController extends GetxController {
         ClassGroupApiModel classGroupApiModel = ClassGroupApiModel.fromJson(resp);
         unreadCount.value = classGroupApiModel.data?.unreadCount ?? 0;
         classGroupList.value = classGroupApiModel.data?.classTeacher ?? [];
+        classGroupListCopy.value = classGroupApiModel.data?.classTeacher ?? [];
         classGroupList.addAll(classGroupApiModel.data?.data ?? []);
+        classGroupListCopy.addAll(classGroupApiModel.data?.data ?? []);
       }
     } catch (e) {
       print("------class group error---------");
@@ -55,7 +59,9 @@ class ChatClassGroupController extends GetxController {
         ClassGroupApiModel classGroupApiModel = ClassGroupApiModel.fromJson(resp);
         unreadCount.value = classGroupApiModel.data?.unreadCount ?? 0;
         classGroupList.value = classGroupApiModel.data?.classTeacher ?? [];
+        classGroupListCopy.value = classGroupApiModel.data?.classTeacher ?? [];
         classGroupList.addAll(classGroupApiModel.data?.data ?? []);
+        classGroupListCopy.addAll(classGroupApiModel.data?.data ?? []);
       }
     } catch (e) {
       print("------class group error---------");
@@ -64,5 +70,9 @@ class ChatClassGroupController extends GetxController {
 
   void setCurrentChatTab(int index) {
     currentChatTab.value = index;
+  }
+
+  void filterGroupList({required String text}) {
+    classGroupList.value = classGroupListCopy.value.where((chat) => chat.subjectName!.toUpperCase().contains(text.toUpperCase())).toList();
   }
 }

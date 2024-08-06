@@ -92,50 +92,50 @@ class _ForwardScreenState extends State<ForwardScreen>
                     ),
                   ),
                   const Spacer(),
-                  SvgPicture.asset(
-                    'assets/images/MagnifyingGlass.svg',
-                    width: 27.h,
-                    fit: BoxFit.fitWidth,
-                  ),
-                  GetX<ChatClassGroupController>(
-                    builder: (ChatClassGroupController controller) {
-                      if (controller.currentChatTab.value == 1) {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 6).w,
-                          child: InkWell(
-                            onTap: () {
-                              parentChatListController.setCurrentFilterClass(
-                                  currentClass: 'All');
-                              showModalBottomSheet(
-                                context: context,
-                                backgroundColor: Colors.transparent,
-                                isScrollControlled: true,
-                                builder: (context) {
-                                  return const NewParentChat();
-                                },
-                              );
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(4.0).w,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(100).w),
-                              child: const Icon(
-                                Icons.add,
-                                color: Colorutils.letters1,
-                              ),
-                            ),
-                          ),
-                        );
-                      } else {
-                        return Container(
-                          width: 0,
-                          height: 0,
-                          color: Colorutils.userdetailcolor,
-                        );
-                      }
-                    },
-                  ),
+                  // SvgPicture.asset(
+                  //   'assets/images/MagnifyingGlass.svg',
+                  //   width: 27.h,
+                  //   fit: BoxFit.fitWidth,
+                  // ),
+                  // GetX<ChatClassGroupController>(
+                  //   builder: (ChatClassGroupController controller) {
+                  //     if (controller.currentChatTab.value == 1) {
+                  //       return Padding(
+                  //         padding: const EdgeInsets.only(left: 6).w,
+                  //         child: InkWell(
+                  //           onTap: () {
+                  //             parentChatListController.setCurrentFilterClass(
+                  //                 currentClass: 'All');
+                  //             showModalBottomSheet(
+                  //               context: context,
+                  //               backgroundColor: Colors.transparent,
+                  //               isScrollControlled: true,
+                  //               builder: (context) {
+                  //                 return const NewParentChat();
+                  //               },
+                  //             );
+                  //           },
+                  //           child: Container(
+                  //             padding: const EdgeInsets.all(4.0).w,
+                  //             decoration: BoxDecoration(
+                  //                 color: Colors.white,
+                  //                 borderRadius: BorderRadius.circular(100).w),
+                  //             child: const Icon(
+                  //               Icons.add,
+                  //               color: Colorutils.letters1,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       );
+                  //     } else {
+                  //       return Container(
+                  //         width: 0,
+                  //         height: 0,
+                  //         color: Colorutils.userdetailcolor,
+                  //       );
+                  //     }
+                  //   },
+                  // ),
                 ],
               ),
             ),

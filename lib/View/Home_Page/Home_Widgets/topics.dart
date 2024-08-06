@@ -23,202 +23,206 @@ class Topic extends StatelessWidget {
     TimeTable? timeTable;
     if(todaySubjects.isNotEmpty) {
       timeTable = findUpcomingTime(todaySubjects);
-      timeTable ??= todaySubjects.first;
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: GestureDetector(
-          onTap: () {
-            UserAuthController userAuthController = Get.find<UserAuthController>();
-            if(timeTable!.classDetails.isEmpty) {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => NonTeacherStudentList(
-                className: timeTable!.batchName,
-                curriculam_id: timeTable!.curriculumId,
-                session_id: timeTable!.sessionId,
-                class_id: timeTable!.classId,
-                batch_id: timeTable!.batchId,
-                selectedDate: getCurrentDate(),
-                name: userAuthController.userData.value.name,
-                images: userAuthController.userData.value.image,
-                school_id: userAuthController.userData.value.schoolId,
-                academic_year: userAuthController.userData.value.academicYear,
-                userId: userAuthController.userData.value.userId,
-              )));
-            } else {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentListView(
-                className: timeTable!.batchName,
-                curriculam_id: timeTable!.curriculumId,
-                session_id: timeTable!.sessionId,
-                class_id: timeTable!.classId,
-                batch_id: timeTable!.batchId,
-                selectedDate: getCurrentDate(),
-                name: userAuthController.userData.value.name,
-                images: userAuthController.userData.value.image,
-                school_id: userAuthController.userData.value.schoolId,
-                academic_year: userAuthController.userData.value.academicYear,
-                userId: userAuthController.userData.value.userId,
-                ClassAndBatch: timeTable!.batchName,
-                subjectName: timeTable!.subject,
-                LoginedUserEmployeeCode: userAuthController.userData.value.employeeNo,
-              )));
-            }
-            // Navigator.of(context).push(MaterialPageRoute(builder: (context) => Myclasses()));
-          },
-          child: Container(
-            alignment: Alignment.topCenter,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(26),
-              color: Colorutils.topicbackground2,
-              border: Border.all(
-                color: Colorutils.letters1.withOpacity(0.3),
-                width: 1.w,
+      // timeTable ??= todaySubjects.first;
+      if(timeTable != null) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            onTap: () {
+              UserAuthController userAuthController = Get.find<UserAuthController>();
+              if(timeTable!.classDetails.isEmpty) {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => NonTeacherStudentList(
+                  className: timeTable!.batchName,
+                  curriculam_id: timeTable!.curriculumId,
+                  session_id: timeTable!.sessionId,
+                  class_id: timeTable!.classId,
+                  batch_id: timeTable!.batchId,
+                  selectedDate: getCurrentDate(),
+                  name: userAuthController.userData.value.name,
+                  images: userAuthController.userData.value.image,
+                  school_id: userAuthController.userData.value.schoolId,
+                  academic_year: userAuthController.userData.value.academicYear,
+                  userId: userAuthController.userData.value.userId,
+                )));
+              } else {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentListView(
+                  className: timeTable!.batchName,
+                  curriculam_id: timeTable!.curriculumId,
+                  session_id: timeTable!.sessionId,
+                  class_id: timeTable!.classId,
+                  batch_id: timeTable!.batchId,
+                  selectedDate: getCurrentDate(),
+                  name: userAuthController.userData.value.name,
+                  images: userAuthController.userData.value.image,
+                  school_id: userAuthController.userData.value.schoolId,
+                  academic_year: userAuthController.userData.value.academicYear,
+                  userId: userAuthController.userData.value.userId,
+                  ClassAndBatch: timeTable!.batchName,
+                  subjectName: timeTable!.subject,
+                  LoginedUserEmployeeCode: userAuthController.userData.value.employeeNo,
+                )));
+              }
+              // Navigator.of(context).push(MaterialPageRoute(builder: (context) => Myclasses()));
+            },
+            child: Container(
+              alignment: Alignment.topCenter,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(26),
+                color: Colorutils.topicbackground2,
+                border: Border.all(
+                  color: Colorutils.letters1.withOpacity(0.3),
+                  width: 1.w,
+                ),
               ),
-            ),
-            width: double.infinity,
-            height: 190.h,
-            child: Column(
-              children: [
-                Container(
-                  height: 160.h,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(26),
-                    color: Colorutils.topicbackground
-                        .withOpacity(0.3), // You can change this color as needed
-                  ),
-                  // margin: EdgeInsets.only(
-                  //     bottom:
-                  //         23),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SvgPicture.asset(
-                                height: 55.h,
-                                'assets/images/calculator 1.svg',
-                                fit: BoxFit.fitHeight,
-                              ),
-                              SizedBox(width: 5.w),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width:100,
-                                    child: Text(
-
-                                      timeTable.subject ?? '--',
-                                      style: TeacherAppFonts.interW400_18sp_timecolortopics,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  Text(
-                                    timeTable.batchName ?? '--',
-                                    style: TeacherAppFonts.interW500_24sp_timecolortopics,
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                          Container(
-                            width: 150,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Linear Algebra Equations dsfsdg werfahgbfg",
-                                    style: TeacherAppFonts.interW400_14sp_timecolortopicsOp80,                              ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                height: 50.w,
-                                width: 110.w,
-                                child: Stack(
-                                  alignment: Alignment.center,
+              width: double.infinity,
+              height: 190.h,
+              child: Column(
+                children: [
+                  Container(
+                    height: 160.h,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(26),
+                      color: Colorutils.topicbackground
+                          .withOpacity(0.3), // You can change this color as needed
+                    ),
+                    // margin: EdgeInsets.only(
+                    //     bottom:
+                    //         23),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SvgPicture.asset(
+                                  height: 55.h,
+                                  'assets/images/calculator 1.svg',
+                                  fit: BoxFit.fitHeight,
+                                ),
+                                SizedBox(width: 5.w),
+                                Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Positioned(
-                                      left: 0,
-                                      child: CircleAvatar(
-                                        radius: 12,
-                                        child: Image.asset('assets/images/profile2.png'),
+                                    Container(
+                                      width:100,
+                                      child: Text(
+
+                                        timeTable.subject ?? '--',
+                                        style: TeacherAppFonts.interW400_18sp_timecolortopics,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
-                                    Positioned(
-                                      left: 15,
-                                      child: CircleAvatar(
-                                        radius: 12,
-                                        child: Image.asset('assets/images/profile2.png'),
-                                      ),
+                                    Text(
+                                      timeTable.batchName ?? '--',
+                                      style: TeacherAppFonts.interW500_24sp_timecolortopics,
                                     ),
-                                    Positioned(
-                                      left: 30,
-                                      child: CircleAvatar(
-                                        radius: 12,
-                                        child: Image.asset('assets/images/profile2.png'),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      left: 45,
-                                      child: CircleAvatar(
-                                        radius: 12,
-                                        child: Image.asset('assets/images/profile2.png'),
-                                      ),
-                                    ),
-                                    const Positioned(
-                                      left: 60,
-                                      child: CircleAvatar(
-                                        backgroundColor:  Colorutils.userdetailcolor,
-                                        radius: 12,
-                                        child: Text('23',style: TextStyle(
-                                          color: Colorutils.Whitecolor,
-                                          fontSize: 12,
-                                        ),),
-                                      ),
-                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            Container(
+                              width: 150,
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "Linear Algebra Equations dsfsdg werfahgbfg",
+                                      style: TeacherAppFonts.interW400_14sp_timecolortopicsOp80,                              ),
                                   ],
                                 ),
                               ),
-                              Text(
-                                'Students',
-                                style: TeacherAppFonts.interW600_12sp_timecolortopicsOp80,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 10,),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5).w,
-                        child: Image.asset(
-                          "assets/images/book2.png",
-                          fit: BoxFit.fitWidth,
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  height: 50.w,
+                                  width: 110.w,
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Positioned(
+                                        left: 0,
+                                        child: CircleAvatar(
+                                          radius: 12,
+                                          child: Image.asset('assets/images/profile2.png'),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        left: 15,
+                                        child: CircleAvatar(
+                                          radius: 12,
+                                          child: Image.asset('assets/images/profile2.png'),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        left: 30,
+                                        child: CircleAvatar(
+                                          radius: 12,
+                                          child: Image.asset('assets/images/profile2.png'),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        left: 45,
+                                        child: CircleAvatar(
+                                          radius: 12,
+                                          child: Image.asset('assets/images/profile2.png'),
+                                        ),
+                                      ),
+                                      const Positioned(
+                                        left: 60,
+                                        child: CircleAvatar(
+                                          backgroundColor:  Colorutils.userdetailcolor,
+                                          radius: 12,
+                                          child: Text('23',style: TextStyle(
+                                            color: Colorutils.Whitecolor,
+                                            fontSize: 12,
+                                          ),),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Text(
+                                  'Students',
+                                  style: TeacherAppFonts.interW600_12sp_timecolortopicsOp80,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      )
-                    ],
+                        SizedBox(width: 10,),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5).w,
+                          child: Image.asset(
+                            "assets/images/book2.png",
+                            fit: BoxFit.fitWidth,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                const Spacer(),
-                Text(
-                   timeTable.timeString?.replaceAll("[", "").replaceAll("]", "").replaceAll("-", " - ") ?? '--',
-                  style: TeacherAppFonts.interW600_14sp_timecolortopics,
-                ),
-                const Spacer(),
-              ],
+                  const Spacer(),
+                  Text(
+                    timeTable.timeString?.replaceAll("[", "").replaceAll("]", "").replaceAll("-", " - ") ?? '--',
+                    style: TeacherAppFonts.interW600_14sp_timecolortopics,
+                  ),
+                  const Spacer(),
+                ],
+              ),
             ),
           ),
-        ),
-      );
+        );
+      } else {
+        return Container();
+      }
     } else {
       return Container();
     }

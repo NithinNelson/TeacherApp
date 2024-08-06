@@ -171,20 +171,20 @@ class _ParentMsgScreenState extends State<ParentMsgScreen> {
             ),
           ],
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: Container(
-              height: 27.w,
-              width: 27.w,
-              child: SvgPicture.asset(
-                'assets/images/MagnifyingGlass.svg',
-                width: 200,
-                height: 200,
-              ),
-            ),
-          )
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.only(right: 20),
+        //     child: Container(
+        //       height: 27.w,
+        //       width: 27.w,
+        //       child: SvgPicture.asset(
+        //         'assets/images/MagnifyingGlass.svg',
+        //         width: 200,
+        //         height: 200,
+        //       ),
+        //     ),
+        //   )
+        // ],
       ),
       body: SizedBox(
         // height: screenHeight,

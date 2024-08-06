@@ -27,11 +27,11 @@ class ParentSelectionBottomSheet extends StatelessWidget {
         ),
         padding: const EdgeInsets.only(left: 16, bottom: 16).w,
         height: MediaQuery.of(context).size.height * 0.85,
-        child: GetX<FeedViewController>(
+        child: GetBuilder<FeedViewController>(
           builder: (FeedViewController controller) {
             int count = controller.parentListApiData.value.data?.count ?? 0;
-            List<ParentData> parentList = controller.parentDataList.value;
-            List<ParentData> selectedParentList = controller.selectedParentDataList.value;
+            // List<ParentData> parentList = controller.parentDataList.value;
+            List<ParentDataSelected> selectedParentList = controller.selectedParentDataList.value;
             return Column(
               children: [
                 Padding(
@@ -80,7 +80,8 @@ class ParentSelectionBottomSheet extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          controller.setFinalParentList();
+                          controller.selectedDoneFunction();
+                          // controller.takeSelectedListForSubmit();
                           Navigator.of(context).pop();
                         },
                         child: Text(
@@ -98,6 +99,9 @@ class ParentSelectionBottomSheet extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 16).w,
                   child: TextField(
+                    onChanged: (value) {
+                      controller.search(value);
+                    },
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       filled: true,
@@ -140,56 +144,60 @@ class ParentSelectionBottomSheet extends StatelessWidget {
 
                         Color color = colors[index % colors.length];
 
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 5, left: 5).w,
-                          child: Stack(
-                            children: [
-                              Container(
-                                width: 55.w,
-                                height: 55.w,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: color,
-                                    )
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100).r,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10).w,
-                                    child: FittedBox(
-                                      child: CachedNetworkImage(
-                                        imageUrl: parentList[index].image ?? '',
-                                        errorWidget: (context, url, error) {
-                                          return const Icon(Icons.person, color: Colors.grey);
-                                        },
+                        if(selectedParentList[index].isSelected) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 5, left: 5).w,
+                            child: Stack(
+                              children: [
+                                Container(
+                                  width: 55.w,
+                                  height: 55.w,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: color,
+                                      )
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100).r,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10).w,
+                                      child: FittedBox(
+                                        child: CachedNetworkImage(
+                                          imageUrl: selectedParentList[index].image ?? '',
+                                          errorWidget: (context, url, error) {
+                                            return const Icon(Icons.person, color: Colors.grey);
+                                          },
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              // Image.asset("assets/images/profile image.png"),
-                              Positioned(
-                                top: 0,
-                                right: 0,
-                                child: InkWell(
-                                  onTap: () => controller.removeParentList(selectedParentList[index]),
-                                  child: Container(
-                                      width: 15.w,
-                                      height: 15.w,
-                                      padding: const EdgeInsets.all(3).w,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colorutils.Whitecolor,
-                                      ),
-                                      child: SvgPicture.asset(
-                                        'assets/images/cancel.svg',
-                                      )),
+                                // Image.asset("assets/images/profile image.png"),
+                                Positioned(
+                                  top: 0,
+                                  right: 0,
+                                  child: InkWell(
+                                    onTap: () => controller.removeParentList(selectedParentList[index]),
+                                    child: Container(
+                                        width: 15.w,
+                                        height: 15.w,
+                                        padding: const EdgeInsets.all(3).w,
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colorutils.Whitecolor,
+                                        ),
+                                        child: SvgPicture.asset(
+                                          'assets/images/cancel.svg',
+                                        )),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        );
+                              ],
+                            ),
+                          );
+                        } else {
+                          return Container();
+                        }
                       }),
                     ),
                   ),
@@ -197,9 +205,9 @@ class ParentSelectionBottomSheet extends StatelessWidget {
                 SizedBox(height: 16.w),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: parentList.length,
+                    itemCount: selectedParentList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      String subTitle = parentList[index].gender?.substring(0, 1).toUpperCase() == 'F' ? "Daughter of ${capitalizeEachWord(parentList[index].name) ?? '--'}" : parentList[index].gender?.substring(0, 1).toUpperCase() == 'M' ? "Son of ${capitalizeEachWord(parentList[index].name) ?? '--'}" : '--';
+                      String subTitle = selectedParentList[index].gender?.substring(0, 1).toUpperCase() == 'F' ? "Daughter of ${capitalizeEachWord(selectedParentList[index].name) ?? '--'}" : selectedParentList[index].gender?.substring(0, 1).toUpperCase() == 'M' ? "Son of ${capitalizeEachWord(selectedParentList[index].name) ?? '--'}" : '--';
                       List<Color> colors = [
                         Colorutils.letters1,
                         Colorutils.svguicolour2,
@@ -213,7 +221,7 @@ class ParentSelectionBottomSheet extends StatelessWidget {
                         leading: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            if (controller.showSelectionIcon(parentList[index]))
+                            if (selectedParentList[index].isSelected)
                               const Icon(Icons.check_circle, color: Colors.green)
                             else
                               const Icon(Icons.circle_outlined, color: Colors.green),
@@ -233,7 +241,7 @@ class ParentSelectionBottomSheet extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(100).r,
                                 child: FittedBox(
                                   child: CachedNetworkImage(
-                                    imageUrl: parentList[index].image ?? '',
+                                    imageUrl: selectedParentList[index].image ?? '',
                                     fit: BoxFit.cover,
                                     errorWidget: (context, url, error) {
                                       return Padding(
@@ -248,7 +256,7 @@ class ParentSelectionBottomSheet extends StatelessWidget {
                           ],
                         ),
                         title: Text(
-                          capitalizeEachWord(parentList[index].studentName) ?? '--',
+                          capitalizeEachWord(selectedParentList[index].studentName) ?? '--',
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 16.sp,
@@ -260,7 +268,7 @@ class ParentSelectionBottomSheet extends StatelessWidget {
                           style: TeacherAppFonts.poppinsW500_12sp_lightGreenForParent,
                         ),
                         onTap: () {
-                          controller.addParentList(parentList[index]);
+                          controller.addParentList(selectedParentList[index]);
                         },
                       );
                     },

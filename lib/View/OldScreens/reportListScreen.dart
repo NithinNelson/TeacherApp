@@ -116,9 +116,11 @@ class _ReportListViewState extends State<ReportListView> {
     print('----rrreeeqqq${request.body}');
     if (response.statusCode == 200) {
       var responseData = await response.stream.bytesToString();
-      setState(() {
-        isSpinner = false;
-      });
+      if(mounted) {
+        setState(() {
+          isSpinner = false;
+        });
+      }
       loginCredential = json.decode(responseData);
       // SharedPreferences preference = await SharedPreferences.getInstance();
       // preference.setString('loginCredential', json.encode(loginCredential));

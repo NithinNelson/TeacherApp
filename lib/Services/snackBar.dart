@@ -26,7 +26,7 @@ snackBar(
         ),
         textAlign: TextAlign.center,
       ),
-      backgroundColor: Colorutils.userdetailcolor,
+      backgroundColor: color,
       behavior: SnackBarBehavior.floating,
       elevation: 10,
       duration: const Duration(seconds: 2),

@@ -102,6 +102,9 @@ class _NewParentChatState extends State<NewParentChat> {
                 Padding(
                   padding: const EdgeInsets.only(right: 16).w,
                   child: TextField(
+                    onChanged: (value) {
+                      controller.filterParentList(text: value);
+                    },
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       filled: true,

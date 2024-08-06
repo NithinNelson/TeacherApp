@@ -81,18 +81,9 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
   int Count = 0;
   Map<String, dynamic>? notificationResult;
 
-
-  getCount() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    setState(() {
-      count = preferences.get("count");
-    });
-  }
-
   Timer? timer;
   void initState() {
     getObservationResultdata();
-    timer = Timer.periodic(Duration(seconds: 1), (Timer t) => getCount());
     super.initState();
   }
 
