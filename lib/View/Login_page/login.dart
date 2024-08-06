@@ -13,6 +13,7 @@ import 'package:teacherapp/View/CWidgets/AppBarBackground.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 import 'package:teacherapp/View/RoleNavigation/choice_page.dart';
 
+import '../CWidgets/commons.dart';
 import '../Forgot_password/Forgot_password.dart';
 import '../Menu/drawer.dart';
 import '../RoleNavigation/hos_listing.dart';
@@ -93,24 +94,12 @@ class _LoginPageState extends State<LoginPage> {
               child: Stack(
                 children: [
                   const AppBarBackground(),
-
                   Container(
                     margin: EdgeInsets.only(
-                        left: 20.w, top: 120.h, right: 20.w, bottom: 10.w),
+                        left: 20.w, top: 120.h, right: 20.w, bottom: 10.h),
                     // width: 550.w,
-                    height: ScreenUtil().screenHeight * 0.85,
-                    decoration: BoxDecoration(
-                      color: Colorutils.Whitecolor,
-                      borderRadius: BorderRadius.circular(20.r),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colorutils.userdetailcolor.withOpacity(0.15),
-                          spreadRadius: 1,
-                          blurRadius: 1,
-                          offset: const Offset(0, 1),
-                        ),
-                      ],
-                    ),
+                    // height: ScreenUtil().screenHeight * 0.85,
+                    decoration: themeCardDecoration,
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,13 +107,13 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           Center(
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 20),
+                              padding: EdgeInsets.only(top: 20.h),
                               child: Container(
-                                width: 200.w,
+                                height: 200.h,
                                 // height: 180.h,
                                 child: Lottie.asset(
                                   "assets/images/loginimage.json",
-                                  fit: BoxFit.fitWidth,
+                                  fit: BoxFit.fitHeight,
                                 ),
                               ),
                             ),
@@ -136,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                               'Hello !',
                               style: GoogleFonts.roboto(
                                   color: Colors.black,
-                                  fontSize: 25.0,
+                                  fontSize: 30.h,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -146,14 +135,14 @@ class _LoginPageState extends State<LoginPage> {
                               'Sign in to your account',
                               style: GoogleFonts.roboto(
                                   color: Colors.grey,
-                                  fontSize: 10.0,
+                                  fontSize: 13.h,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
                           SizedBox(height: 5.h),
                           Padding(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 30.w, vertical: 2.w),
+                                horizontal: 30.w, vertical: 2.h),
                             child: TextFormField(
                               cursorColor: Colorutils.userdetailcolor,
                               controller: _usernameController,
@@ -175,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 30.w, vertical: 5.w),
+                                horizontal: 30.w, vertical: 5.h),
                             child: TextFormField(
                               cursorColor: Colorutils.userdetailcolor,
                               textInputAction: TextInputAction.done,
@@ -208,8 +197,8 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                    horizontal: 30, vertical: 5)
+                            padding: EdgeInsets.symmetric(
+                                    horizontal: 40.w, vertical: 5.h)
                                 .w,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
@@ -219,7 +208,7 @@ class _LoginPageState extends State<LoginPage> {
                                   },
                                   child: Text(
                                     "Forgot Password?",
-                                    style: TextStyle(fontSize: 10.sp,color: Colors.blue[900],fontStyle:FontStyle.italic),
+                                    style: TextStyle(fontSize: 10.h,color: Colors.blue[900],fontStyle:FontStyle.italic),
                                   ),
                                 ),
                               ],
@@ -260,19 +249,16 @@ class _LoginPageState extends State<LoginPage> {
                                         iconData: Icons.cancel_outlined,
                                         iconColor: Colors.red,
                                       );
-
                                     }
                                   }
                                 } else {
                                   TeacherAppPopUps.submitFailed(
-
                                       title: "Failed",
                                       message: "Invalid Username/Password! Please Try Again",
                                       actionName: "Try again",
                                     iconData: Icons.error_outline,
                                     iconColor: Colorutils.svguicolour2,
                                   );
-
                                 }
                                 // _usernameController?.clear();
                                 // _passwordController?.clear();
@@ -289,7 +275,7 @@ class _LoginPageState extends State<LoginPage> {
                                     'Login',
                                     style: GoogleFonts.inter(
                                         color: Colors.white,
-                                        fontSize: 16.0,
+                                        fontSize: 18.h,
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -308,12 +294,12 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                EdgeInsets.symmetric(horizontal: 8.w),
                                 child: Text(
                                   'or',
                                   style: TextStyle(
                                     color: Colors.grey[600],
-                                    fontSize: 12.sp,
+                                    fontSize: 12.h,
                                   ),
                                 ),
                               ),
@@ -351,7 +337,7 @@ class _LoginPageState extends State<LoginPage> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Image.asset(
-                                          height: 25.w,
+                                          height: 25.h,
                                           "assets/images/google_logo.png",
                                           fit: BoxFit.fitHeight,
                                         ),
@@ -359,7 +345,7 @@ class _LoginPageState extends State<LoginPage> {
                                         Text(
                                           'Sign in with Google',
                                           style: GoogleFonts.inter(
-                                            fontSize: 16.sp,
+                                            fontSize: 16.h,
                                           ),
                                         ),
                                       ],
@@ -371,12 +357,15 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           SizedBox(height: 30.h),
                           // const Spacer(),
+                          SizedBox(
+                            height: ScreenUtil().screenHeight * 0.07,
+                          ),
                           Center(
                             child: Text(
                               ApiConstants.appVersion,
                               style: TextStyle(
                                 color: Colors.blueGrey,
-                                fontSize: 10.sp,
+                                fontSize: 10.h,
                               ),
                             ),
                           ),
