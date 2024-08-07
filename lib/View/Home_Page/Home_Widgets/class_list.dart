@@ -13,15 +13,15 @@ import '../../OldScreens/non_teaching_students.dart';
 import '../../OldScreens/teaching_students.dart';
 
 class ClassList extends StatelessWidget {
-  final List<TimeTable> todaySubjects;
-  const ClassList({super.key, required this.todaySubjects});
+  List<TeacherSubject> classTeacherSubjects;
+   ClassList({super.key, required this.classTeacherSubjects});
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: List.generate(todaySubjects.length, (index) {
+        children: List.generate(classTeacherSubjects.length, (index) {
           List<Color> colors = [
             Colorutils.Classcolour1,
             Colorutils.Classcolour2,
@@ -30,42 +30,42 @@ class ClassList extends StatelessWidget {
           Color color = colors[index % colors.length];
 
           return GestureDetector(
-            onTap: () {
-              UserAuthController userAuthController = Get.find<UserAuthController>();
-              if(todaySubjects[index].classDetails.isEmpty) {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => NonTeacherStudentList(
-                    className: todaySubjects[index].batchName,
-                    curriculam_id: todaySubjects[index].curriculumId,
-                    session_id: todaySubjects[index].sessionId,
-                    class_id: todaySubjects[index].classId,
-                    batch_id: todaySubjects[index].batchId,
-                  selectedDate: getCurrentDate(),
-                  name: userAuthController.userData.value.name,
-                  images: userAuthController.userData.value.image,
-                  school_id: userAuthController.userData.value.schoolId,
-                  academic_year: userAuthController.userData.value.academicYear,
-                  userId: userAuthController.userData.value.userId,
-                )));
-              } else {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentListView(
-                  className: todaySubjects[index].batchName,
-                  curriculam_id: todaySubjects[index].curriculumId,
-                  session_id: todaySubjects[index].sessionId,
-                  class_id: todaySubjects[index].classId,
-                  batch_id: todaySubjects[index].batchId,
-                  selectedDate: getCurrentDate(),
-                  name: userAuthController.userData.value.name,
-                  images: userAuthController.userData.value.image,
-                  school_id: userAuthController.userData.value.schoolId,
-                  academic_year: userAuthController.userData.value.academicYear,
-                  userId: userAuthController.userData.value.userId,
-                  ClassAndBatch: todaySubjects[index].batchName,
-                  subjectName: todaySubjects[index].subject,
-                  LoginedUserEmployeeCode: userAuthController.userData.value.employeeNo,
-                )));
-              }
-              // Navigator.of(context).push(MaterialPageRoute(builder: (context) => Myclasses()));
-            },
+            // onTap: () {
+            //   UserAuthController userAuthController = Get.find<UserAuthController>();
+            //   if(todaySubjects[index].classDetails.isEmpty) {
+            //     Navigator.of(context).push(MaterialPageRoute(builder: (context) => NonTeacherStudentList(
+            //         className: todaySubjects[index].batchName,
+            //         curriculam_id: todaySubjects[index].curriculumId,
+            //         session_id: todaySubjects[index].sessionId,
+            //         class_id: todaySubjects[index].classId,
+            //         batch_id: todaySubjects[index].batchId,
+            //       selectedDate: getCurrentDate(),
+            //       name: userAuthController.userData.value.name,
+            //       images: userAuthController.userData.value.image,
+            //       school_id: userAuthController.userData.value.schoolId,
+            //       academic_year: userAuthController.userData.value.academicYear,
+            //       userId: userAuthController.userData.value.userId,
+            //     )));
+            //   } else {
+            //     Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentListView(
+            //       className: todaySubjects[index].batchName,
+            //       curriculam_id: todaySubjects[index].curriculumId,
+            //       session_id: todaySubjects[index].sessionId,
+            //       class_id: todaySubjects[index].classId,
+            //       batch_id: todaySubjects[index].batchId,
+            //       selectedDate: getCurrentDate(),
+            //       name: userAuthController.userData.value.name,
+            //       images: userAuthController.userData.value.image,
+            //       school_id: userAuthController.userData.value.schoolId,
+            //       academic_year: userAuthController.userData.value.academicYear,
+            //       userId: userAuthController.userData.value.userId,
+            //       ClassAndBatch: todaySubjects[index].batchName,
+            //       subjectName: todaySubjects[index].subject,
+            //       LoginedUserEmployeeCode: userAuthController.userData.value.employeeNo,
+            //     )));
+            //   }
+            //   // Navigator.of(context).push(MaterialPageRoute(builder: (context) => Myclasses()));
+            // },
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25).r,
@@ -82,7 +82,7 @@ class ClassList extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          todaySubjects[index].batchName?.replaceAll(" ", "") ?? '--',
+                          "${classTeacherSubjects[index].classs?.replaceAll(" ", "") ?? '--'}""${classTeacherSubjects[index].batch?.replaceAll(" ", "") ?? '--'}",
                           style: TeacherAppFonts.interW500_32sp_textWhite,
                         ),
                         const Spacer(),
@@ -91,15 +91,19 @@ class ClassList extends StatelessWidget {
                           child: Row(
                             children: [
                               Text(
-                                todaySubjects[index].subject ?? '--',
-                                style: TeacherAppFonts.interW400_18sp_textWhite,
+                                classTeacherSubjects[index].sub ?? '--',
+                                style: TextStyle(
+                                   fontSize: 15,
+                                  color: Colors.white
+                                ),
+
                               ),
                             ],
                           ),
                         ),
                         const Spacer(),
                         Text(
-                          '24 Students',
+                          "24 Students",
                           style: TeacherAppFonts.interW400_14sp_textWhiteOp75,
                         ),
                         const Spacer(),

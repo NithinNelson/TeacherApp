@@ -10,6 +10,8 @@ class TimeTableController extends GetxController {
   RxBool isLoaded = false.obs;
   RxBool isError = false.obs;
   RxList<TeacherSubject> teacherSubjects = <TeacherSubject>[].obs;
+  RxList<TeacherSubject> classTeacherSubjects = <TeacherSubject>[].obs;
+
   RxList<ResultArray> teacherTimeTable = <ResultArray>[].obs;
   RxList<TimeTable> teacherTimeTableToday = <TimeTable>[].obs;
   RxList<TimeTable> selectedTimetable = <TimeTable>[].obs;
@@ -58,12 +60,16 @@ class TimeTableController extends GetxController {
       WorkloadApiModel workloadApiModel = WorkloadApiModel.fromJson(resp);
       if (resp['status']['code'] == 200) {
         List<OwnList> ownList = workloadApiModel.data?.data.first.facultyData?.teacherComponent?.ownList ?? [];
+
         teacherSubjects.value = [];
+        classTeacherSubjects.value = [];
         for (var sub in ownList) {
           for (var subDetail in sub.subjects) {
             teacherSubjects.add(
                 TeacherSubject(
+
                   sub: subDetail.name,
+
                   classs: sub.ownListClass?.name,
                   batch: sub.batch?.name,
                   batchId: sub.batch?.id,
@@ -71,8 +77,23 @@ class TimeTableController extends GetxController {
                   curriculumId: sub.curriculum?.id,
                   sessionId: sub.session?.id,
                   isClassTeacher: sub.isClassTeacher,
-                ),
+                )
+
+
             );
+
+          }
+          if(sub.isClassTeacher==true){
+            classTeacherSubjects.add(TeacherSubject(
+              sub: "Class Teacher",
+              classs: sub.ownListClass?.name,
+              batch: sub.batch?.name,
+              batchId: sub.batch?.id,
+              classId: sub.ownListClass?.id,
+              curriculumId: sub.curriculum?.id,
+              sessionId: sub.session?.id,
+              isClassTeacher: sub.isClassTeacher,
+            ));
           }
         }
       }
@@ -87,4 +108,7 @@ class TimeTableController extends GetxController {
   void setSelectedTimetable({required List<TimeTable> result}) {
     selectedTimetable.value = result;
   }
+
+
+
 }
