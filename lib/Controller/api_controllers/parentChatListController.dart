@@ -10,11 +10,13 @@ class ParentChatListController extends GetxController {
   RxBool isError = false.obs;
   RxInt currentTab = 0.obs;
   RxList<Datum> parentChatList = <Datum>[].obs;
+  RxList<Datum> parentChatListCopy = <Datum>[].obs;
   RxList<Datum> filteredChatList = <Datum>[].obs;
   RxList<Datum> allParentChatList = <Datum>[].obs;
   RxList<String> allClasses = <String>['All'].obs;
   RxInt unreadCount = 0.obs;
   RxString currentFilterClass = 'All'.obs;
+  RxBool searchEnabled = false.obs;
 
   void resetStatus() {
     isLoading.value = false;
@@ -45,6 +47,7 @@ class ParentChatListController extends GetxController {
         ParentChatListApiModel parentChatListApiModel = ParentChatListApiModel.fromJson(resp);
         unreadCount.value = parentChatListApiModel.data?.unreadCount ?? 0;
         allParentChatList.value = parentChatListApiModel.data?.data ?? [];
+        parentChatListCopy.value = parentChatListApiModel.data?.data ?? [];
         filterByClass('All');
         setClassList();
         setChatList();
@@ -70,6 +73,7 @@ class ParentChatListController extends GetxController {
         ParentChatListApiModel parentChatListApiModel = ParentChatListApiModel.fromJson(resp);
         unreadCount.value = parentChatListApiModel.data?.unreadCount ?? 0;
         allParentChatList.value = parentChatListApiModel.data?.data ?? [];
+        parentChatListCopy.value = parentChatListApiModel.data?.data ?? [];
         filterByClass(currentFilterClass.value);
         setClassList();
         setChatList();
@@ -124,5 +128,13 @@ class ParentChatListController extends GetxController {
         }
       }
     }
+  }
+
+  void filterGroupList({required String text}) {
+    parentChatList.value = parentChatListCopy.value.where((chat) => chat.studentName!.toUpperCase().contains(text.toUpperCase())).toList();
+  }
+
+  void filterParentList({required String text}) {
+    filteredChatList.value = allParentChatList.value.where((parent) => parent.parentName!.toUpperCase().contains(text.toUpperCase())).toList();
   }
 }

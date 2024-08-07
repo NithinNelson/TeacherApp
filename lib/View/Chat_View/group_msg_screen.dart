@@ -17,6 +17,7 @@ import 'package:teacherapp/Models/api_models/sent_msg_by_teacher_model.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
 import 'package:teacherapp/View/Chat_View/Chat_widgets/parent_select_bottomSheet.dart';
+import 'package:teacherapp/View/Chat_View/Chat_widgets/selected_parents_view.dart';
 import '../../Models/api_models/chat_feed_view_model.dart';
 import '../../Models/api_models/chat_group_api_model.dart';
 import '../../Services/check_connectivity.dart';
@@ -203,20 +204,20 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
             ),
           ],
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: Container(
-              height: 27.w,
-              width: 27.w,
-              child: SvgPicture.asset(
-                'assets/images/MagnifyingGlass.svg',
-                width: 200,
-                height: 200,
-              ),
-            ),
-          )
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.only(right: 20),
+        //     child: Container(
+        //       height: 27.w,
+        //       width: 27.w,
+        //       child: SvgPicture.asset(
+        //         'assets/images/MagnifyingGlass.svg',
+        //         width: 200,
+        //         height: 200,
+        //       ),
+        //     ),
+        //   )
+        // ],
       ),
       body: SizedBox(
         // height: screenHeight,
@@ -337,6 +338,14 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
                             color: Colors.white.withOpacity(0.8),
                           ),
                           const ChatList(),
+                          Positioned(
+                            bottom: 0,
+                              left: 0,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10, bottom: 10).w,
+                                child: const SelectedParentsList(),
+                              ),
+                          ),
                         ],
                       ),
                     ),
@@ -763,6 +772,8 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
                                                       fit: BoxFit.fitHeight,
                                                     ),
                                                     onTap: () {
+                                                      controller.showParentListFilteredToSelectedList();
+                                                      // controller.rebuildSelectedParentList();
                                                       showModalBottomSheet(
                                                         context: context,
                                                         backgroundColor:
@@ -939,15 +950,7 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
                                                                         .userId ??
                                                                     '--',
                                                                 parents: feedViewController
-                                                                        .finalParentDataList
-                                                                        .value
-                                                                        .isNotEmpty
-                                                                    ? feedViewController
-                                                                        .finalParentDataList
-                                                                        .value
-                                                                    : feedViewController
-                                                                        .allParentDataList
-                                                                        .value,
+                                                                        .setFinalParentList(),
                                                                 subject: widget
                                                                         .msgData
                                                                         ?.subjectName ??
@@ -1093,6 +1096,7 @@ class ChatList extends StatelessWidget {
           groupSeparatorBuilder: (String groupByValue) {
             return ChatDateWidget(date: groupByValue);
           },
+          footer: SizedBox(height: 80.w),
           itemComparator: (item1, item2) =>
               item1.sendAt!.compareTo(item2.sendAt!),
           itemBuilder: (context, messageData) {

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:teacherapp/Models/api_models/sent_msg_by_teacher_model.dart';
 import 'package:teacherapp/Services/api_services.dart';
+import 'package:teacherapp/View/Chat_View/Chat_widgets/selected_parents_view.dart';
 import '../../Models/api_models/chat_feed_view_model.dart';
 import '../../Models/api_models/parent_list_api_model.dart';
 import '../../Services/check_connectivity.dart';
@@ -20,9 +21,14 @@ class FeedViewController extends GetxController {
   Rx<ParentListApiModel> parentListApiData = ParentListApiModel().obs;
   RxList<MsgData> chatMsgList = <MsgData>[].obs;
   RxList<ParentData> parentDataList = <ParentData>[].obs;
-  RxList<String> allParentDataList = <String>[].obs;
-  RxList<ParentData> selectedParentDataList = <ParentData>[].obs;
-  RxList<String> finalParentDataList = <String>[].obs;
+  // RxList<ParentData> parentDataListCopy = <ParentData>[].obs;
+  // RxList<String> allParentDataList = <String>[].obs;
+  RxList<ParentDataSelected> tempList = <ParentDataSelected>[].obs;
+  RxList<ParentDataSelected> selectedParentDataList = <ParentDataSelected>[].obs;
+  RxList<ParentDataSelected> selectedParentDataStack = <ParentDataSelected>[].obs;
+  RxList<ParentDataSelected> showSelectedParentDataStack = <ParentDataSelected>[].obs;
+  // RxList<ParentDataSelected> selectedParentDataListCopy = <ParentDataSelected>[].obs;
+  // RxList<String> finalParentDataList = <String>[].obs;
   RxInt feedUnreadCount = 0.obs;
   Rx<ScrollController> chatFeedViewScrollController = ScrollController().obs;
   Rx<FocusNode> focusNode = FocusNode().obs;
@@ -303,7 +309,7 @@ class FeedViewController extends GetxController {
       required String teacherId,
       filePath,
       String? message}) async {
-    print("--------rgte4ght------------${finalParentDataList.length}");
+    // print("--------rgte4ght------------${finalParentDataList.length}");
     try {
       Map<String, dynamic> resp =
           await ApiServices.sendAttachment(filePath: filePath);
@@ -317,9 +323,7 @@ class FeedViewController extends GetxController {
           classs: classs,
           message: message,
           messageFrom: teacherId,
-          parents: finalParentDataList.value.isNotEmpty
-              ? finalParentDataList.value
-              : allParentDataList.value,
+          parents: setFinalParentList(),
           subject: sub,
           replyId: isReplay.value,
           fileData: FileData(
@@ -384,6 +388,38 @@ class FeedViewController extends GetxController {
     }
   }
 
+  selectedDoneFunction(){
+    showSelectedParentDataStack.value = [];
+    for(ParentDataSelected element in selectedParentDataList){
+      if(element.isSelected == true){
+        showSelectedParentDataStack.add(element);
+      }
+    }
+    update();
+  }
+
+
+  search(String value){
+
+
+
+    selectedParentDataList.value = tempList.where((parent) => parent.studentName.toString().toUpperCase().contains(value.toUpperCase())).toList();
+    update();
+
+  }
+
+  showParentListFilteredToSelectedList(){
+    for(ParentDataSelected element in selectedParentDataList){
+   if(showSelectedParentDataStack.contains(element)){
+
+     element.isSelected = true;
+
+   }else{
+     element.isSelected = false;
+   }
+    }
+  }
+
   void focusTextField() {
     if (focusNode.value.hasFocus) {
       focusNode.value = FocusNode();
@@ -406,36 +442,111 @@ class FeedViewController extends GetxController {
       if (resp['status']['code'] == 200) {
         parentListApiData.value = ParentListApiModel.fromJson(resp);
         parentDataList.value = parentListApiData.value.data?.parentData ?? [];
-        for (var parent in parentDataList) {
-          allParentDataList.add(parent.sId.toString());
-        }
+        selectedParentDataList.value = List.generate(parentDataList.length, (index) {
+          return ParentDataSelected(
+            name: parentDataList[index].name,
+            gender: parentDataList[index].image,
+            sId: parentDataList[index].sId,
+            studentId: parentDataList[index].studentId,
+            studentName: parentDataList[index].studentName,
+            username: parentDataList[index].username,
+            image: parentDataList[index].image,
+            isSelected: true,
+          );
+        },);
+        selectedParentDataStack.value = selectedParentDataList.value;
+        showSelectedParentDataStack.value =  selectedParentDataList.value;
+        tempList.value = selectedParentDataList.value;
+        update();
+        // for (var parent in parentDataList) {
+        //   allParentDataList.add(parent.sId.toString());
+        // }
       }
     } catch (e) {
       print("----------parent list error---------");
     }
   }
 
-  void addParentList(ParentData parent) {
-    List<ParentData> parents =
-        selectedParentDataList.where((emp) => emp.sId == parent.sId).toList();
-    if (parents.isEmpty) {
-      selectedParentDataList.add(parent);
-    } else {
-      removeParentList(parent);
+  void addParentList(ParentDataSelected parent) {
+    parent.isSelected = !parent.isSelected;
+    update();
+    // List<ParentData> parents = selectedParentDataList.where((emp) => emp.sId == parent.sId).toList();
+    // if (parents.isEmpty) {
+    //   selectedParentDataList.add(parent);
+    // } else {
+    //   removeParentList(parent);
+    // }
+  }
+
+  void removeParentList(ParentDataSelected parent) {
+    parent.isSelected = false;
+    update();
+  }
+
+  List<String> setFinalParentList() {
+    List<String> finalList = [];
+    List.generate(showSelectedParentDataStack.length, (index) {
+      // if(selectedParentDataStack[index].isSelected == true) {
+        finalList.add(showSelectedParentDataStack[index].sId.toString());
+      // }
+    },);
+    return finalList;
+    // for (var parent in selectedParentDataList) {
+    //   finalParentDataList.add(parent.sId ?? '');
+    // }
+  }
+
+  void takeSelectedListForSubmit() {
+    selectedParentDataStack.value = [];
+    for (var parent in selectedParentDataList.value) {
+      if(parent.isSelected == true) {
+        selectedParentDataStack.add(parent);
+      }
     }
   }
 
-  void removeParentList(ParentData parent) {
-    selectedParentDataList.remove(parent);
-  }
-
-  void setFinalParentList() {
-    for (var parent in selectedParentDataList) {
-      finalParentDataList.add(parent.sId ?? '');
+  void rebuildSelectedParentList() {
+    selectedParentDataList.clear();
+    selectedParentDataList.value = selectedParentDataStack.value;
+    for (var parent in parentDataList.value) {
+      ParentDataSelected parentDataSelected = ParentDataSelected(
+        name: parent.name,
+        gender: parent.image,
+        sId: parent.sId,
+        studentId: parent.studentId,
+        studentName: parent.studentName,
+        username: parent.username,
+        image: parent.image,
+        isSelected: true,
+      );
+      if(!selectedParentDataList.value.contains(parentDataSelected)) {
+        selectedParentDataList.add(ParentDataSelected(
+          name: parent.name,
+          gender: parent.image,
+          sId: parent.sId,
+          studentId: parent.studentId,
+          studentName: parent.studentName,
+          username: parent.username,
+          image: parent.image,
+          isSelected: false,
+        ));
+      }
     }
+    update();
   }
 
-  bool showSelectionIcon(ParentData parent) {
-    return selectedParentDataList.contains(parent);
+  unselectAll(){
+  showSelectedParentDataStack.value = [];
+    update();
   }
+
+  void addAllSelectedParents() {
+
+  }
+
+
+
+  // bool showSelectionIcon(ParentData parent) {
+  //   return selectedParentDataList.contains(parent);
+  // }
 }

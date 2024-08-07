@@ -21,14 +21,14 @@ class MyClass extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          CircleAvatar(
-            backgroundColor: Colorutils.threedotcolor,
-            radius: 23.r,
-            child: SvgPicture.asset(
-              'assets/images/DotsThreeOutline.svg',
-              fit: BoxFit.contain,
-            ),
-          ),
+          // CircleAvatar(
+          //   backgroundColor: Colorutils.threedotcolor,
+          //   radius: 23.r,
+          //   child: SvgPicture.asset(
+          //     'assets/images/DotsThreeOutline.svg',
+          //     fit: BoxFit.contain,
+          //   ),
+          // ),
         ],
       ),
     );

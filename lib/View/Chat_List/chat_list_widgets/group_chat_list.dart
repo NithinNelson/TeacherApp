@@ -23,42 +23,53 @@ class GroupChatList extends StatelessWidget {
     return GetX<ChatClassGroupController>(
       builder: (ChatClassGroupController controller) {
         List<ClassTeacherGroup> classTeacherGroups = controller.classGroupList.value;
-        return ListView.separated(
-          shrinkWrap: true,
-          itemCount: classTeacherGroups.length,
-          padding: const EdgeInsets.all(0),
-          itemBuilder: (BuildContext context, int index) {
-            LastMessageGroupChat? lastMsg = controller.classGroupList[index].lastMessage!.isNotEmpty ? controller.classGroupList[index].lastMessage?.first : LastMessageGroupChat();
-            DateTime? sentTime = lastMsg?.sandAt;
-            String? formattedDate;
-            // if(colorInt > 4) {
-            //   colorInt = 0;
-            // }
-            // colorInt++;
-            // print("-------colorInt---------$colorInt");
-            try {
-              formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
-            } catch(e) {}
-            String? userId = Get.find<UserAuthController>().userData.value.userId;
-            return ChatItems(
-              // className: classTeacherGroups[index].subjectName ?? '--',
-              time: formattedDate ?? '',
-              unreadMessages: classTeacherGroups[index].unreadCount ?? 0,
-              // classs: '${classTeacherGroups[imkvkosdmvksfmnvbndex].classTeacherClass}${classTeacherGroups[index].batch}',
-              lastMessage: lastMsg,
-              userId: userId,
-              classTeacherGroup: classTeacherGroups[index],
-              avatarColor: Colorutils.chatLeadingColors[index % 5],
-            );
-          },
-          separatorBuilder: (BuildContext context, int index) {
-            return const Divider(
-              thickness: 0.3,
-              indent: 15,
-              endIndent: 15,
-            );
-          },
-        );
+        if(classTeacherGroups.isNotEmpty) {
+          return ListView.separated(
+            shrinkWrap: true,
+            itemCount: classTeacherGroups.length,
+            padding: const EdgeInsets.all(0),
+            itemBuilder: (BuildContext context, int index) {
+              LastMessageGroupChat? lastMsg = controller.classGroupList[index].lastMessage!.isNotEmpty ? controller.classGroupList[index].lastMessage?.first : LastMessageGroupChat();
+              DateTime? sentTime = lastMsg?.sandAt;
+              String? formattedDate;
+              // if(colorInt > 4) {
+              //   colorInt = 0;
+              // }
+              // colorInt++;
+              // print("-------colorInt---------$colorInt");
+              try {
+                formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
+              } catch(e) {}
+              String? userId = Get.find<UserAuthController>().userData.value.userId;
+              return ChatItems(
+                // className: classTeacherGroups[index].subjectName ?? '--',
+                time: formattedDate ?? '',
+                unreadMessages: classTeacherGroups[index].unreadCount ?? 0,
+                // classs: '${classTeacherGroups[imkvkosdmvksfmnvbndex].classTeacherClass}${classTeacherGroups[index].batch}',
+                lastMessage: lastMsg,
+                userId: userId,
+                classTeacherGroup: classTeacherGroups[index],
+                avatarColor: Colorutils.chatLeadingColors[index % 5],
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return const Divider(
+                thickness: 0.3,
+                indent: 15,
+                endIndent: 15,
+              );
+            },
+          );
+        } else {
+          return Center(
+            child: Text(
+              "Empty chat list.",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+          );
+        }
       },
     );
   }

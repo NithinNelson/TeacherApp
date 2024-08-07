@@ -115,35 +115,48 @@ class ParentChatList extends StatelessWidget {
         GetX<ParentChatListController>(
           builder: (ParentChatListController controller) {
             List<Datum> chatParentList = controller.parentChatList.value;
-            return Expanded(
-              child: ListView.separated(
-                padding: EdgeInsets.all(0),
-                shrinkWrap: true,
-                itemCount: chatParentList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  LastMessage? lastMsg = chatParentList[index].lastMessage ?? LastMessage();
-                  DateTime? sentTime = lastMsg.sandAt;
-                  String? formattedDate;
-                  try {
-                    formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
-                  } catch(e) {}
-                  String? userId = Get.find<UserAuthController>().userData.value.userId;
-                  return ChatItem(
-                    time: formattedDate ?? '',
-                    userId: userId,
-                    leadColor: Colorutils.chatLeadingColors[index % 5],
-                    parentRoom: chatParentList[index],
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const Divider(
-                    thickness: 0.3,
-                    indent: 15,
-                    endIndent: 15,
-                  );
-                },
-              ),
-            );
+            if(chatParentList.isNotEmpty) {
+              return Expanded(
+                child: ListView.separated(
+                  padding: EdgeInsets.all(0),
+                  shrinkWrap: true,
+                  itemCount: chatParentList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    LastMessage? lastMsg = chatParentList[index].lastMessage ?? LastMessage();
+                    DateTime? sentTime = lastMsg.sandAt;
+                    String? formattedDate;
+                    try {
+                      formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
+                    } catch(e) {}
+                    String? userId = Get.find<UserAuthController>().userData.value.userId;
+                    return ChatItem(
+                      time: formattedDate ?? '',
+                      userId: userId,
+                      leadColor: Colorutils.chatLeadingColors[index % 5],
+                      parentRoom: chatParentList[index],
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const Divider(
+                      thickness: 0.3,
+                      indent: 15,
+                      endIndent: 15,
+                    );
+                  },
+                ),
+              );
+            } else {
+              return Expanded(
+                child: Center(
+                  child: Text(
+                    "Empty chat list.",
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              );
+            }
           },
         ),
       ],

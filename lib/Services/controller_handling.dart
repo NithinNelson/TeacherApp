@@ -17,11 +17,13 @@ import '../Controller/forward_controller.dart/forward_controller.dart';
 import '../Controller/message_info_controller/message_info_controller.dart';
 import '../Controller/reaction_controller/reaction_controller.dart';
 import '../Controller/ui_controllers/page_controller.dart';
+import '../Controller/ui_controllers/textFieldController.dart';
 
 class HandleControllers {
   static createGetControllers() {
   Get.put(UserAuthController());
   Get.put(PageIndexController());
+  Get.put(TextFieldController());
   Get.put(TimeTableController());
   Get.put(ChatClassGroupController());
   Get.put(LessonObservationController());
@@ -41,6 +43,7 @@ class HandleControllers {
   static deleteAllGetControllers() {
     Get.delete<UserAuthController>();
     Get.delete<PageIndexController>();
+    Get.delete<TextFieldController>();
     Get.delete<TimeTableController>();
     Get.delete<ChatClassGroupController>();
     Get.delete<LessonObservationController>();

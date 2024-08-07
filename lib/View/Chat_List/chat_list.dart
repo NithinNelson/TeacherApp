@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,10 +9,11 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:teacherapp/Controller/api_controllers/parentChatListController.dart';
+import 'package:teacherapp/Services/snackBar.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/View/Chat_List/chat_list_widgets/group_chat_list.dart';
 import 'package:teacherapp/View/Chat_List/chat_list_widgets/parent_chat_list.dart';
-import 'package:teacherapp/View/Chat_List/chat_list_widgets/chat_appBar.dart';
+import 'package:cupertino_icons/cupertino_icons.dart';
 import '../../Controller/api_controllers/chatClassGroupController.dart';
 import '../../Utils/constants.dart';
 import 'chat_list_widgets/new_parentChat_bottomSheet.dart';
@@ -50,8 +52,12 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
     chatUpdate = Timer.periodic(
       const Duration(seconds: 1),
       (timer) async {
-        await chatClassGroupController.fetchClassGroupListPeriodically();
-        await parentChatListController.fetchParentChatListPeriodically();
+        if(!chatClassGroupController.searchEnabled.value) {
+          await chatClassGroupController.fetchClassGroupListPeriodically();
+        }
+        if(!parentChatListController.searchEnabled.value) {
+          await parentChatListController.fetchParentChatListPeriodically();
+        }
       },
     );
   }
@@ -73,42 +79,114 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
           children: [
             Container(
               height: 100.h,
+              width: MediaQuery.of(context).size.width,
               color: Colorutils.userdetailcolor,
               padding: const EdgeInsets.symmetric(horizontal: 16).w,
               alignment: Alignment.bottomLeft,
-              child: Row(
-                children: [
-                  Text(
-                    'Chat with parents',
-                    style: GoogleFonts.inter(
-                      fontSize: 25.h,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const Spacer(),
-                  SvgPicture.asset(
-                    'assets/images/MagnifyingGlass.svg',
-                    width: 27.h,
-                    fit: BoxFit.fitWidth,
-                  ),
-                  GetX<ChatClassGroupController>(
-                    builder: (ChatClassGroupController controller) {
-                      if (controller.currentChatTab.value == 1) {
-                        return Padding(
+              child: GetX<ChatClassGroupController>(
+                builder: (ChatClassGroupController controller) {
+                  return Row(
+                      children: [
+                        if(controller.searchEnabled.value)
+                          Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(10)).r,
+                                color: Colors.white,
+                              ),
+                              child: Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      controller.searchEnabled.value = false;
+                                      parentChatListController.searchEnabled.value = false;
+                                    },
+                                    child: Container(
+                                      width: 30,
+                                        height: 15,
+                                        padding: const EdgeInsets.only(left: 10),
+                                        child: FittedBox(child: Icon(Icons.arrow_back_ios, color: Colors.black,)),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: CupertinoSearchTextField(
+                                      backgroundColor: Colors.white,
+                                      onChanged: (value) {
+                                        if(_tabcontroller?.index == 0) {
+                                          controller.filterGroupList(text: value);
+                                        } else if(_tabcontroller?.index == 1) {
+                                          parentChatListController.filterGroupList(text: value);
+                                        }
+                                      },
+                                      // decoration: ,
+                                    ),
+                                      // child: TextFormField(
+                                      //   onTap: () {
+                                      //     controller.searchEnabled.value = false;
+                                      //   },
+                                      //   decoration: InputDecoration(
+                                      //     enabledBorder: OutlineInputBorder(
+                                      //       borderRadius: BorderRadius.circular(20).r,
+                                      //       borderSide: BorderSide(
+                                      //         color: Colors.grey,
+                                      //       ),
+                                      //     ),
+                                      //     contentPadding: EdgeInsets.all(0)
+                                      //   ),
+                                      // ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        else
+                          Expanded(
+                            child: Row(
+                              // mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  'Chat with parents',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 25.h,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                const Spacer(),
+                                InkWell(
+                                  onTap: () {
+                                    controller.searchEnabled.value = true;
+                                    parentChatListController.searchEnabled.value = true;
+                                  },
+                                  child: SvgPicture.asset(
+                                    'assets/images/MagnifyingGlass.svg',
+                                    width: 27.h,
+                                    fit: BoxFit.fitWidth,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        if (controller.currentChatTab.value == 1 && !parentChatListController.searchEnabled.value)
+                          Padding(
                           padding: const EdgeInsets.only(left: 6).w,
                           child: InkWell(
                             onTap: () {
                               parentChatListController.setCurrentFilterClass(
                                   currentClass: 'All');
-                              showModalBottomSheet(
-                                context: context,
-                                backgroundColor: Colors.transparent,
-                                isScrollControlled: true,
-                                builder: (context) {
-                                  return const NewParentChat();
-                                },
-                              );
+                              parentChatListController.filterParentList(text: '');
+                              if(parentChatListController.parentChatList.value.isNotEmpty) {
+                                showModalBottomSheet(
+                                  context: context,
+                                  backgroundColor: Colors.transparent,
+                                  isScrollControlled: true,
+                                  builder: (context) {
+                                    return const NewParentChat();
+                                  },
+                                );
+                              } else {
+                                snackBar(context: context, message: "Parent chat list is empty.", color: Colors.red);
+                              }
                             },
                             child: Container(
                               padding: const EdgeInsets.all(4.0).w,
@@ -121,17 +199,10 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                               ),
                             ),
                           ),
-                        );
-                      } else {
-                        return Container(
-                          width: 0,
-                          height: 0,
-                          color: Colorutils.userdetailcolor,
-                        );
-                      }
-                    },
-                  ),
-                ],
+                        ),
+                      ],
+                    );
+                },
               ),
             ),
             Container(

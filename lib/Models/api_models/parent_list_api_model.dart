@@ -70,6 +70,27 @@ class Data {
   }
 }
 
+class ParentDataSelected {
+  String? name;
+  String? username;
+  String? image;
+  String? sId;
+  String? studentId;
+  String? studentName;
+  String? gender;
+  bool isSelected;
+
+  ParentDataSelected(
+      {this.name,
+        this.username,
+        this.image,
+        this.sId,
+        this.studentId,
+        this.studentName,
+        required this.isSelected,
+        this.gender});
+}
+
 class ParentData {
   String? name;
   String? username;
