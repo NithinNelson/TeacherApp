@@ -50,7 +50,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
     Get.find<ParentChatListController>().setTab(0);
     context.loaderOverlay.hide();
     chatUpdate = Timer.periodic(
-      const Duration(seconds: 1),
+      const Duration(seconds: 10),
       (timer) async {
         if(!chatClassGroupController.searchEnabled.value) {
           await chatClassGroupController.fetchClassGroupListPeriodically();

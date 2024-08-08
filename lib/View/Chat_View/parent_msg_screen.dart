@@ -83,7 +83,7 @@ class _ParentMsgScreenState extends State<ParentMsgScreen> {
       );
     });
     chatUpdate = Timer.periodic(
-      const Duration(seconds: 1),
+      const Duration(seconds: 5),
       (timer) async {
         await parentChattingController
             .fetchParentMsgListPeriodically(chattingReqModel);

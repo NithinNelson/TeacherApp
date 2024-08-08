@@ -157,7 +157,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                     } else {
                                       TeacherAppPopUps.submitFailed(
                                         title: "${resp['status']['code']}: ${resp['status']['message']}",
-                                        message: resp['error']['message'],
+                                        message: resp['error']['message'] ?? "Something went wrong.",
                                         actionName: "Close",
                                         iconData: Icons.block_outlined,
                                         iconColor: Colors.red,
