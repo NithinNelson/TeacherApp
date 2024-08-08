@@ -29,7 +29,7 @@ class UserDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 3),
+        padding: EdgeInsets.only(left: 8.w, right: 8.w, bottom: 3.h),
         child: GetX<UserAuthController>(
           builder: (UserAuthController controller) {
             return SafeArea(
@@ -50,17 +50,17 @@ class UserDetails extends StatelessWidget {
                           ZoomDrawer.of(context)?.toggle();
                         },
                         child: Container(
-                          height: 50.w,
-                          width: 50.w,
-                          padding: const EdgeInsets.symmetric(horizontal: 9).w,
+                          height: 50.h,
+                          width: 50.h,
+                          padding: const EdgeInsets.symmetric(horizontal: 9).h,
                           decoration: BoxDecoration(
                             color: Colorutils.Whitecolor.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(8).r,
                           ),
                           child: SvgPicture.asset(
-                            width: 50.w,
+                            // width: 50.h,
                             "assets/images/menu_icon.svg",
-                            fit: BoxFit.fitWidth,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       )
@@ -70,19 +70,17 @@ class UserDetails extends StatelessWidget {
                           Navigator.of(context).pop();
                         },
                         child: Container(
-                          height: 50.w,
-                          width: 50.w,
-                          padding: const EdgeInsets.only(
-                                  top: 8, bottom: 8, left: 5, right: 8)
-                              .w,
+                          height: 50.h,
+                          width: 50.h,
+                          padding: EdgeInsets.only(top: 8.h, bottom: 8.h, left: 5.w, right: 8.w),
                           decoration: BoxDecoration(
                             color: Colorutils.Whitecolor.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(8).r,
                           ),
                           child: SvgPicture.asset(
-                            height: 50.w,
+                            // height: 50.h,
                             "assets/images/back.svg",
-                            fit: BoxFit.fitHeight,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),
@@ -94,7 +92,12 @@ class UserDetails extends StatelessWidget {
                         children: [
                           Text(
                             isWelcome ? 'Welcome' : 'Hello,',
-                            style: TeacherAppFonts.interW400_14sp_textWhiteOp60,
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 13.h,
+                              color: Colorutils.Whitecolor.withOpacity(0.6),
+                            ),
                           ),
                           Container(
                             child: TextScroll(
@@ -104,7 +107,12 @@ class UserDetails extends StatelessWidget {
                                   Velocity(pixelsPerSecond: Offset(50, 0)),
                               delayBefore: Duration(seconds: 1),
                               pauseBetween: Duration(seconds: 2),
-                              style: TeacherAppFonts.interW600_18sp_textWhite,
+                              style: TextStyle(
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 17.h,
+                                color: Colorutils.Whitecolor,
+                              ),
                               textAlign: TextAlign.center,
                               selectable: true,
                             ),
@@ -147,9 +155,7 @@ class UserDetails extends StatelessWidget {
                             child: Stack(
                               children: [
                                 Padding(
-                                    padding:
-                                        const EdgeInsets.only(right: 5, top: 5)
-                                            .w,
+                                    padding: EdgeInsets.only(right: 5.w, top: 5.h),
                                     child: bellicon
                                         ? SvgPicture.asset(
                                             'assets/images/bell 1.svg',
@@ -162,8 +168,8 @@ class UserDetails extends StatelessWidget {
                                         top: 0,
                                         right: 0,
                                         child: Container(
-                                          width: 20.w,
-                                          height: 20.w,
+                                          width: 20.h,
+                                          height: 20.h,
                                           padding: const EdgeInsets.all(2).w,
                                           decoration: const BoxDecoration(
                                             shape: BoxShape.circle,
@@ -172,8 +178,12 @@ class UserDetails extends StatelessWidget {
                                           child: FittedBox(
                                             child: Text(
                                               "$value",
-                                              style: TeacherAppFonts
-                                                  .interW500_11sp_userdetailcolor,
+                                              style: TextStyle(
+                                                fontFamily: 'Inter',
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 10.h,
+                                                color: Colorutils.userdetailcolor,
+                                              ),
                                             ),
                                           ),
                                         ),

@@ -78,6 +78,13 @@ class _LoginPageState extends State<LoginPage> {
       }
     } catch (e) {
       print(e);
+      TeacherAppPopUps.submitFailed(
+        title: 'Failed',
+        message: 'Something went wrong.',
+        actionName: 'Try again',
+        iconData: Icons.error_outline,
+        iconColor: Colorutils.svguicolour2,
+      );
     }
   }
 

@@ -7,9 +7,9 @@ BoxDecoration themeCardDecoration = BoxDecoration(
   borderRadius: BorderRadius.circular(20).r,
   boxShadow: [
     BoxShadow(
-      color: Colorutils.userdetailcolor.withOpacity(0.15),
+      color: Colors.teal.shade50,
       spreadRadius: 1,
-      blurRadius: 1,
+      blurRadius: 0,
       offset: const Offset(0, 1),
     ),
   ],
