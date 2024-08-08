@@ -18,7 +18,6 @@ import '../../Utils/api_constants.dart';
 import '../../Utils/font_util.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
-import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:http/http.dart' as http;
 
 
@@ -59,39 +58,11 @@ class _ReportScreenState extends State<ReportScreen> {
   var newTeacherData;
   var classB = [];
   var employeeUnderHOS= [];
-  stt.SpeechToText _speech = stt.SpeechToText();
   bool _isListening = false;
   String? _textSpeech = "Search Here";
   bool isChecked = true;
   String? _selectedValue = '';
   Map<String, dynamic>? teacherList;
-  void onListen() async {
-    if (!_isListening) {
-      bool available = await _speech.initialize(
-          debugLogging: true,
-          onStatus: (val) => print("the onStatus $val"),
-          onError: (val) => print("onerror $val"));
-      if (available) {
-        setState(() {
-          _isListening = true;
-        });
-        _speech.listen(
-            onResult: (val) => setState(() {
-              _textSpeech = val.recognizedWords;
-              _searchController.text = _textSpeech!;
-              newReport = newTeacherList
-                  .where((element) => element["employee_name"]
-                  .contains("${_textSpeech!.toUpperCase()}"))
-                  .toList();
-            }));
-      }
-    } else {
-      setState(() {
-        _isListening = false;
-        _speech.stop();
-      });
-    }
-  }
 
   List newTeacherList = [];
   List newReport = [];
