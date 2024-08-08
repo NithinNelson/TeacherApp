@@ -52,6 +52,7 @@ class ApiConstants {
   static String attendanceSubmit = "/v2/teacher/class/take/attendance/";
   static String messageInfo = "/messageinfo";
   static String reactionSent = "/reactteacher";
+  static String forgotPassword = "/v1/forgot_password";
 
   static String learningWalkSubmit = "/v2/learning_walk/submit_evaluation";
 

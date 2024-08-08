@@ -48,6 +48,31 @@ class ApiServices {
     }
   }
 
+  static Future<Map<String, dynamic>> forgotPassword({
+    required String userName,
+  }) async {
+    String url = "${ApiConstants.baseUrl}${ApiConstants.forgotPassword}";
+    print(url);
+    Map apiBody = {
+      "username": userName,
+    };
+    // try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      // if (response.statusCode == 200) {
+        return json.decode(respString);
+      // } else {
+      //   throw Exception(response.statusCode);
+      // }
+    // } catch (e) {
+    //   throw Exception("Service Error");
+    // }
+  }
+
   static Future<Map<String, dynamic>> getHosList({
     required String userId,
     required String acYr,

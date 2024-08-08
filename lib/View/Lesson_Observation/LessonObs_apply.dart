@@ -50,7 +50,10 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
   @override
   Widget build(BuildContext context) {
     List<String> nameParts = widget.teacherName.split(" ");
-    String placeholderName = nameParts.length > 1 ? "${nameParts[0].trim().substring(0, 1)}${nameParts[1].trim().substring(0, 1)}".toUpperCase() : nameParts[0].trim().substring(0, 2).toUpperCase();
+    String? placeholderName;
+    try {
+      placeholderName = nameParts.length > 1 ? "${nameParts[0].trim().substring(0, 1)}${nameParts[1].trim().substring(0, 1)}".toUpperCase() : nameParts[0].trim().substring(0, 2).toUpperCase();
+    } catch(e) {}
 
     return Scaffold(
         backgroundColor: Colors.white,
@@ -175,7 +178,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                                             url, error) =>
                                                             Center(
                                                               child: Text(
-                                                                placeholderName,
+                                                                placeholderName ?? '--',
                                                                 style: TextStyle(
                                                                     color: Color(
                                                                         0xFFB1BFFF),

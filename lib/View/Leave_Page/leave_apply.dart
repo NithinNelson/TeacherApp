@@ -314,7 +314,7 @@ class _ObsResultState extends State<LeaveApply> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(2.0),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text('FROM : ${fromDate}', style: TextStyle(
                                                 fontSize: 12.sp, fontWeight: FontWeight.w600)),

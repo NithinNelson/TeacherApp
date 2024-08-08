@@ -52,7 +52,7 @@ class _TeacherState extends State<Teacher> {
                     padding: const EdgeInsets.only(bottom: 50).w,
                     children: [
                       const MyClass(),
-                      ClassList(todaySubjects: controller.teacherTimeTableToday.value),
+                      ClassList(classTeacherSubjects: controller.classTeacherSubjects.value,),
                       SubjectList(teacherSubjects: controller.teacherSubjects.value),
                       AllTimeTable(todaySubjects: controller.teacherTimeTableToday.value),
                       Topic(todaySubjects: controller.teacherTimeTableToday.value),

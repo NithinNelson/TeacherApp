@@ -33,12 +33,12 @@ class _MyTimeTableState extends State<MyTimeTable>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
   int _currentIndex = 0;
-  bool isCalenderSelectedOnMonday = false;
-  bool isCalenderSelectedOnTuesday = false;
-  bool isCalenderSelectedOnWednesday = false;
-  bool isCalenderSelectedOnThursday = false;
-  bool isCalenderSelectedOnFriday = false;
-  bool isCalenderSelectedOnSaturday = false;
+  // bool isCalenderSelectedOnMonday = false;
+  // bool isCalenderSelectedOnTuesday = false;
+  // bool isCalenderSelectedOnWednesday = false;
+  // bool isCalenderSelectedOnThursday = false;
+  // bool isCalenderSelectedOnFriday = false;
+  // bool isCalenderSelectedOnSaturday = false;
   late PageController _pageController;
   bool isClicked = false;
 
