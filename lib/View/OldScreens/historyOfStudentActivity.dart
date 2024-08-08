@@ -421,188 +421,191 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                                           ),
                                         ],
                                       ),
-                                SizedBox(
-                                  height: 10.h,
-                                ),
+
                                 studentFeebackList == null
-                                    ? CircularProgressIndicator()
+                                    ? CircularProgressIndicator(
+                                  color: Colorutils.chatcolor,
+                                )
                                     : studentFeebackList!["data_status"] == 0
                                         ? Text("No Data Found")
-                                        : SizedBox(
+                                        : Container(
+                                  margin: EdgeInsets.only(bottom:30),
+                                          child: SizedBox(
+                                                                            
 
-
-                                            child: ListView.builder(
-                                                shrinkWrap: true,
-                                                scrollDirection: Axis.vertical,
-                                                itemCount:
-                                                    reversedFeedbackList.length,
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                        int index) {
-                                                  return Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      SizedBox(
-                                                        height: 10.h,
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Text(
+                                              child: ListView.builder(
+                                                  shrinkWrap: true,
+                                                  scrollDirection: Axis.vertical,
+                                                  itemCount:
+                                                      reversedFeedbackList.length,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 10.h,
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                                reversedFeedbackList[
+                                                                                index]
+                                                                            [
+                                                                            "Feeback_type"] ==
+                                                                        1
+                                                                    ? "Committed Date"
+                                                                    : reversedFeedbackList[index]["Feeback_type"] ==
+                                                                                2 ||
+                                                                            reversedFeedbackList[index]["Feeback_type"] ==
+                                                                                3
+                                                                        ? "Invalid or Wrong Number"
+                                                                        : reversedFeedbackList[index]["Feeback_type"] ==
+                                                                                4
+                                                                            ? "Call Not Answered"
+                                                                            : "Misbehaved",
+                                                                style: TextStyle(
+                                                                  fontWeight: FontWeight.bold,
+                                                                    color: Colors
+                                                                        .blueGrey)),
+                                                            Image.asset(
                                                               reversedFeedbackList[
                                                                               index]
                                                                           [
                                                                           "Feeback_type"] ==
                                                                       1
-                                                                  ? "Committed Date"
+                                                                  ? "assets/images/committed.png"
                                                                   : reversedFeedbackList[index]["Feeback_type"] ==
                                                                               2 ||
                                                                           reversedFeedbackList[index]["Feeback_type"] ==
                                                                               3
-                                                                      ? "Invalid or Wrong Number"
+                                                                      ? "assets/images/invalidcall.png"
                                                                       : reversedFeedbackList[index]["Feeback_type"] ==
                                                                               4
-                                                                          ? "Call Not Answered"
-                                                                          : "Misbehaved",
-                                                              style: TextStyle(
-                                                                fontWeight: FontWeight.bold,
-                                                                  color: Colors
-                                                                      .blueGrey)),
-                                                          Image.asset(
-                                                            reversedFeedbackList[
-                                                                            index]
-                                                                        [
-                                                                        "Feeback_type"] ==
-                                                                    1
-                                                                ? "assets/images/committed.png"
-                                                                : reversedFeedbackList[index]["Feeback_type"] ==
-                                                                            2 ||
-                                                                        reversedFeedbackList[index]["Feeback_type"] ==
-                                                                            3
-                                                                    ? "assets/images/invalidcall.png"
-                                                                    : reversedFeedbackList[index]["Feeback_type"] ==
-                                                                            4
-                                                                        ? "assets/images/callnotanswered.png"
-                                                                        : "assets/images/mis.png",
-                                                            height: 50.h,
-                                                            width: 50.h,
-                                                          )
-                                                        ],
-                                                      ),
-                                                      // SizedBox(height: 5.h,),
-                                                      Container(
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        //margin: EdgeInsets.only(left: 20.w, right: 20.w),
-                                                        decoration: BoxDecoration(
-                                                            color: Color(
-                                                                0xFFECF1FF),
-                                                            border: Border.all(
-                                                                color: Color(
-                                                                    0xFFCAD3FF)),
-                                                            borderRadius:
-                                                                BorderRadius.all(
-                                                                    Radius.circular(
-                                                                        10.r))),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                 .only(left: 20,right: 20,top: 10),
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Text(
-                                                                    "Remarks",
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .blueGrey),
-                                                                  ),
-                                                                  Text(
-                                                                    "${reversedFeedbackList[index]["Feeback_committed_date"]}",
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .blueGrey),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              Container(
-
-                                                                child: Text(
-                                                                  reversedFeedbackList[index]
-                                                                              [
-                                                                              "Feeback_type"] ==
-                                                                          5
-                                                                      ? "Abusive Language"
-                                                                      : reversedFeedbackList[index]["Feeback_type"] ==
-                                                                              6
-                                                                          ? "Did not agree to pay fees"
-                                                                          : reversedFeedbackList[index]["Feeback_type"] == 7
-                                                                              ? "Advised a call from higher authority"
-                                                                              : "",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .grey),
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                margin:
-                                                                    const EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 15),
-                                                                child: Text(
-                                                                    reversedFeedbackList[
-                                                                            index]
-                                                                        [
-                                                                        "Feeback_comment"]),
-                                                              ),
-                                                              Container(
-                                                                margin:
-                                                                const EdgeInsets.only(right: 10,bottom: 10),
-                                                                child: Row(
+                                                                          ? "assets/images/callnotanswered.png"
+                                                                          : "assets/images/mis.png",
+                                                              height: 50.h,
+                                                              width: 50.h,
+                                                            )
+                                                          ],
+                                                        ),
+                                                        // SizedBox(height: 5.h,),
+                                                        Container(
+                                                          width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width,
+                                                          //margin: EdgeInsets.only(left: 20.w, right: 20.w),
+                                                          decoration: BoxDecoration(
+                                                              color: Color(
+                                                                  0xFFECF1FF),
+                                                              border: Border.all(
+                                                                  color: Color(
+                                                                      0xFFCAD3FF)),
+                                                              borderRadius:
+                                                                  BorderRadius.all(
+                                                                      Radius.circular(
+                                                                          10.r))),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                   .only(left: 20,right: 20,top: 10),
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
                                                                   children: [
-                                                                    const Icon(
-                                                                      Icons
-                                                                          .person,
-                                                                      color: Color(
-                                                                          0xFFA2ACDE),
+                                                                    Text(
+                                                                      "Remarks",
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .blueGrey),
                                                                     ),
-                                                                    SizedBox(
-                                                                        width: 200
-                                                                            .w,
-                                                                        child:
-                                                                            Text(
-                                                                          reversedFeedbackList[index]["Employee_name"]
-                                                                              .toString(),
-                                                                          style: TextStyle(
-                                                                              color: Color(0xFFA2ACDE),
-                                                                              overflow: TextOverflow.fade),
-                                                                        )),
+                                                                    Text(
+                                                                      "${reversedFeedbackList[index]["Feeback_committed_date"]}",
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .blueGrey),
+                                                                    ),
                                                                   ],
                                                                 ),
-                                                              )
-                                                            ],
+                                                                Container(
+                                          
+                                                                  child: Text(
+                                                                    reversedFeedbackList[index]
+                                                                                [
+                                                                                "Feeback_type"] ==
+                                                                            5
+                                                                        ? "Abusive Language"
+                                                                        : reversedFeedbackList[index]["Feeback_type"] ==
+                                                                                6
+                                                                            ? "Did not agree to pay fees"
+                                                                            : reversedFeedbackList[index]["Feeback_type"] == 7
+                                                                                ? "Advised a call from higher authority"
+                                                                                : "",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .grey),
+                                                                  ),
+                                                                ),
+                                                                Container(
+                                                                  margin:
+                                                                      const EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 15),
+                                                                  child: Text(
+                                                                      reversedFeedbackList[
+                                                                              index]
+                                                                          [
+                                                                          "Feeback_comment"]),
+                                                                ),
+                                                                Container(
+                                                                  margin:
+                                                                  const EdgeInsets.only(right: 10,bottom: 10),
+                                                                  child: Row(
+                                                                    children: [
+                                                                      const Icon(
+                                                                        Icons
+                                                                            .person,
+                                                                        color: Color(
+                                                                            0xFFA2ACDE),
+                                                                      ),
+                                                                      SizedBox(
+                                                                          width: 200
+                                                                              .w,
+                                                                          child:
+                                                                              Text(
+                                                                            reversedFeedbackList[index]["Employee_name"]
+                                                                                .toString(),
+                                                                            style: TextStyle(
+                                                                                color: Color(0xFFA2ACDE),
+                                                                                overflow: TextOverflow.fade),
+                                                                          )),
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
-                                                  );
-                                                }),
-
-                                          ),
+                                                      ],
+                                                    );
+                                                  }),
+                                                                            
+                                            ),
+                                        ),
                               ],
                             ),
                           ),

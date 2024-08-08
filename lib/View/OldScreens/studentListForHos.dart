@@ -408,19 +408,19 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color.fromRGBO(230, 236, 254, 8),
+                                      color:Colorutils.chatcolor.withOpacity(0.4),
                                       width: 1.0),
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color.fromRGBO(230, 236, 254, 8),
+                                      color:Colorutils.chatcolor.withOpacity(0.2),
                                       width: 1.0),
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(10.0)),
                                 ),
-                                fillColor: Colorutils.chatcolor,
+                                fillColor: Colorutils.chatcolor.withOpacity(0.2),
                                 filled: true),
                           ),
                         ),
@@ -561,7 +561,7 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
                                                                 .toLowerCase())
                                                                 .toString()
                                                                 .toUpperCase(),
-                                                            style: GoogleFonts.spaceGrotesk(
+                                                            style: GoogleFonts.inter(
                                                                 textStyle: TextStyle(
                                                                     fontSize:
                                                                     16.sp,
@@ -612,7 +612,7 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
                                                           thickness: 1,
                                                           width: 10,
                                                           color:
-                                                          Colors.blueGrey,
+                                                          Colors.black,
                                                         ),
                                                         SizedBox(
                                                           child: Text(
@@ -723,7 +723,7 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
                         Container(
                             width: 240.w,
                             child: Text(studentName,
-                                style: GoogleFonts.spaceGrotesk(
+                                style: GoogleFonts.inter(
                                     textStyle: TextStyle(
                                         fontSize: 16.sp,
                                         color: Colors.black,
