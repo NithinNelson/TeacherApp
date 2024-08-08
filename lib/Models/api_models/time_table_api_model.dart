@@ -344,6 +344,8 @@ class TeacherSubject {
   final String? sessionId;
   final String? curriculumId;
   final bool? isClassTeacher;
+  final int? studentCount;
+
   const TeacherSubject({
     this.sub,
     this.classs,
@@ -353,5 +355,6 @@ class TeacherSubject {
     this.sessionId,
     this.curriculumId,
     this.isClassTeacher,
+    this.studentCount,
   });
 }

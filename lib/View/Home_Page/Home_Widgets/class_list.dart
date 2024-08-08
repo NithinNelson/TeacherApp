@@ -8,13 +8,15 @@ import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
 import '../../../Models/api_models/time_table_api_model.dart';
+import '../../../Models/api_models/work_load_api_model.dart';
 import '../../My_Class/Myclass.dart';
 import '../../OldScreens/non_teaching_students.dart';
 import '../../OldScreens/teaching_students.dart';
 
 class ClassList extends StatelessWidget {
   List<TeacherSubject> classTeacherSubjects;
-   ClassList({super.key, required this.classTeacherSubjects});
+  List<OwnList>? ownList;
+   ClassList({super.key, required this.classTeacherSubjects, this.ownList});
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +105,7 @@ class ClassList extends StatelessWidget {
                         ),
                         const Spacer(),
                         Text(
-                          "24 Students",
+                          "${classTeacherSubjects[index].studentCount ?? '0'}"" ""Students",
                           style: TeacherAppFonts.interW400_14sp_textWhiteOp75,
                         ),
                         const Spacer(),

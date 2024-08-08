@@ -187,7 +187,7 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                                       width: 25.w,
                                       child: SvgPicture.asset(
                                         "assets/images/icon.svg",
-                                        color: Colorutils.userdetailcolor,
+                                        color: Colors.black,
                                       ),
                                     ),
                                     SizedBox(
@@ -196,8 +196,8 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                                     Text(
                                       "History",
                                       style: TextStyle(
-                                          fontSize: 13.sp,
-                                          color: Colorutils.userdetailcolor),
+                                          fontSize: 15.sp,
+                                        color: Colors.black,),
                                     ),
                                   ],
                                 ),
@@ -205,7 +205,7 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                             ],
                           ),
                           Container(
-                            margin: EdgeInsets.only(left: 20.w, right: 20.w),
+                            margin: EdgeInsets.only(left: 10.w, right: 10.w),
                             child: Column(
                               // shrinkWrap: true,
                               // scrollDirection: Axis.vertical,
@@ -220,6 +220,7 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                                       height: 50.h,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
+                                        color: Colorutils.chatcolor,
                                         image: DecorationImage(
                                             image: NetworkImage(
                                                 widget.StudentImage.toString()),
@@ -234,7 +235,7 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Container(
-                                            width: 200.w,
+                                            width: 230.w,
                                             child: Text(
                                                 toBeginningOfSentenceCase(widget
                                                         .studentName
@@ -281,7 +282,7 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                                 const Divider(
                                   indent: 10,
                                   endIndent: 20,
-                                  height: 10,
+                                  height: 15,
                                   thickness: 0.5,
                                 ),
                                 SizedBox(
@@ -304,35 +305,38 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                                           SizedBox(
                                             width: 15.w,
                                           ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                  width: 180.w,
-                                                  child: Text(
-                                                      widget.parentName
-                                                          .toString(),
-                                                      style: GoogleFonts.roboto(
-                                                          textStyle: TextStyle(
-                                                              fontSize: 16.sp,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold)))),
-                                              SizedBox(
-                                                height: 6.h,
-                                              ),
-                                              SizedBox(
-                                                child: Text(
-                                                  widget.mobileNumber
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 14.sp),
+                                          Padding(
+                                            padding: const EdgeInsets.only(right: 15),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                    width: 230.w,
+                                                    child: Text(
+                                                        widget.parentName
+                                                            .toString(),
+                                                        style: GoogleFonts.roboto(
+                                                            textStyle: TextStyle(
+                                                                fontSize: 16.sp,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)))),
+                                                SizedBox(
+                                                  height: 6.h,
                                                 ),
-                                              ),
-                                            ],
+                                                SizedBox(
+                                                  child: Text(
+                                                    widget.mobileNumber
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 14.sp),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -425,7 +429,8 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                                     : studentFeebackList!["data_status"] == 0
                                         ? Text("No Data Found")
                                         : SizedBox(
-                                            height: 350.h,
+
+
                                             child: ListView.builder(
                                                 shrinkWrap: true,
                                                 scrollDirection: Axis.vertical,
@@ -464,6 +469,7 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                                                                           ? "Call Not Answered"
                                                                           : "Misbehaved",
                                                               style: TextStyle(
+                                                                fontWeight: FontWeight.bold,
                                                                   color: Colors
                                                                       .blueGrey)),
                                                           Image.asset(
@@ -507,7 +513,7 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                                                         child: Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                  .all(10.0),
+                                                                 .only(left: 20,right: 20,top: 10),
                                                           child: Column(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
@@ -536,9 +542,7 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                                                                 ],
                                                               ),
                                                               Container(
-                                                                margin:
-                                                                    EdgeInsets
-                                                                        .all(4),
+
                                                                 child: Text(
                                                                   reversedFeedbackList[index]
                                                                               [
@@ -558,9 +562,7 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                                                               ),
                                                               Container(
                                                                 margin:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        20),
+                                                                    const EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 15),
                                                                 child: Text(
                                                                     reversedFeedbackList[
                                                                             index]
@@ -569,9 +571,7 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                                                               ),
                                                               Container(
                                                                 margin:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        20),
+                                                                const EdgeInsets.only(right: 10,bottom: 10),
                                                                 child: Row(
                                                                   children: [
                                                                     const Icon(
@@ -601,6 +601,7 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                                                     ],
                                                   );
                                                 }),
+
                                           ),
                               ],
                             ),

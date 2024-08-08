@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -9,10 +10,12 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:swipe_to/swipe_to.dart';
 import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
+import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/View/OldScreens/historyOfStudentActivity.dart';
 import 'package:teacherapp/View/OldScreens/historyPage.dart';
 import '../../Controller/api_controllers/userAuthController.dart';
 import '../../Utils/api_constants.dart';
+import '../../Utils/constants.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
 import '../My_Class/Myclass.dart';
@@ -167,60 +170,7 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
     }
   }
 
-  // Map<String, dynamic>? notificationResult;
-  // int Count = 0;
-  //
-  // getNotification() async {
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   var userID = preferences.getString('userID');
-  //
-  //   var headers = {
-  //     'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
-  //     'Content-Type': 'application/json'
-  //   };
-  //   var request = http.Request(
-  //       'GET',
-  //       Uri.parse(
-  //           '${ApiConstants.Notification}$userID${ApiConstants.NotificationEnd}'));
-  //
-  //   request.headers.addAll(headers);
-  //
-  //   http.StreamedResponse response = await request.send();
-  //
-  //   if (response.statusCode == 200) {
-  //     // print(await response.stream.bytesToString());
-  //     var responseJson = await response.stream.bytesToString();
-  //     setState(() {
-  //       notificationResult = json.decode(responseJson);
-  //     });
-  //
-  //     for (var index = 0;
-  //     index <
-  //         notificationResult!["data"]["details"]["recentNotifications"]
-  //             .length;
-  //     index++) {
-  //       if (notificationResult!["data"]["details"]["recentNotifications"][index]
-  //       ["status"] ==
-  //           "active") {
-  //         Count += 1;
-  //       }
-  //     }
-  //     SharedPreferences preferences = await SharedPreferences.getInstance();
-  //     preferences.setInt("count", Count);
-  //
-  //     print(Count);
-  //   } else {
-  //     print(response.reasonPhrase);
-  //   }
-  // }
-  //
-  // var count;
-  // getCount() async {
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     count = preferences.get("count");
-  //   });
-  // }
+
 
   @override
   void initState() {
@@ -243,455 +193,426 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: ListView(
-        physics: NeverScrollableScrollPhysics(),
-        children: [
-          Stack(
+    return  AnnotatedRegion<SystemUiOverlayStyle>(
+      value: systemUiOverlayStyleLight,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
+          child: Column(
             children: [
-              const AppBarBackground(),
-              const UserDetails(shoBackgroundColor: false, isWelcome: true, bellicon: true, notificationcount: true),
-              // SizedBox(
-              //     width: MediaQuery.of(context).size.width,
-              //     child: Image.asset(
-              //       "assets/images/header.png",
-              //       fit: BoxFit.fill,
-              //     )),
-              // Row(
-              //   children: [
-              //     GestureDetector(
-              //       onTap: () => NavigationUtils.goBack(context),
-              //       child: Container(
-              //           margin: const EdgeInsets.all(6),
-              //           child: Image.asset("assets/images/goback.png")),
-              //     ),
-              //     Container(
-              //       margin: const EdgeInsets.all(15),
-              //       child: Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: [
-              //           Container(
-              //             child: Text(
-              //               "Hello,",
-              //               style: TextStyle(
-              //                   fontFamily: "Nunito",
-              //                   fontSize: 15.sp,
-              //                   color: Colors.white),
-              //             ),
-              //           ),
-              //           Container(
-              //             width: 150.w,
-              //             height: 40.h,
-              //             child: SingleChildScrollView(
-              //               scrollDirection: Axis.horizontal,
-              //               child: Text(
-              //                 widget.name.toString(),
-              //                 style: TextStyle(
-              //                     fontFamily: "WorkSans",
-              //                     fontSize: 15.sp,
-              //                     color: Colors.white),
-              //               ),
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //     SizedBox(
-              //       width: 40.w,
-              //     ),
-              //     GestureDetector(
-              //       onTap: () => NavigationUtils.goNext(
-              //           context,
-              //           NotificationPage(
-              //             name: widget.name,
-              //           )),
-              //       child: Padding(
-              //         padding: const EdgeInsets.all(8.0),
-              //         child: badges.Badge(
-              //             position: badges.BadgePosition.bottomEnd(end: -7, bottom: 12),
-              //             badgeContent: count == null
-              //                 ? Text("")
-              //                 : Text(
-              //               count.toString(),
-              //               style: TextStyle(color: Colors.white),
-              //             ),
-              //             child: SvgPicture.asset("assets/images/bell.svg")),
-              //       ),
-              //     ),
-              //     Container(
-              //       width: 50.w,
-              //       height: 50.h,
-              //       decoration: BoxDecoration(
-              //         shape: BoxShape.circle,
-              //         border: Border.all(color: Color(0xFFD6E4FA)),
-              //         image: DecorationImage(
-              //             image: NetworkImage(widget.image == ""
-              //                 ? "https://raw.githubusercontent.com/abdulmanafpfassal/image/master/profile.jpg"
-              //                 : "${ApiConstants.downloadUrl}${widget.image}"),
-              //             fit: BoxFit.cover),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              Container(
-                margin: EdgeInsets.only(left: 10.w, top: 100.h, right: 10.w),
-                height: MediaQuery.of(context).size.height,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Color(0xFFCAD3FF)),
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+              Stack(
+                children: [
+                  const AppBarBackground(),
+                  const UserDetails(shoBackgroundColor: false, isWelcome: true, bellicon: true, notificationcount: true),
+
+                  Container(
+                    margin: EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w),
+                    height: MediaQuery.of(context).size.height,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Color(0xFFCAD3FF)),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Theme(
-                          data: ThemeData()
-                              .copyWith(dividerColor: Colors.transparent),
-                          child: Container(
-                            margin: EdgeInsets.only(top: 10.h, bottom: 10.h),
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: 50.w,
-                                  height: 50.h,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          color: Color(0xFFEEF1FF)),
-                                      color: Color(0xFFEEF1FF)),
-                                  child: widget.CustomeImageContainer,
-                                ),
-                                SizedBox(
-                                  height: 10.w,
-                                ),
-                                Column(
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Theme(
+                              data: ThemeData()
+                                  .copyWith(dividerColor: Colors.transparent),
+                              child: Container(
+                                margin: EdgeInsets.only(top: 10.h, bottom: 10.h),
+                                child: Column(
                                   children: [
-                                    SizedBox(
-                                        child: Text(
-                                            toBeginningOfSentenceCase(widget
-                                                .classTeacherName
-                                                .toString()
-                                                .toLowerCase())
-                                                .toString(),
-                                            style: GoogleFonts.roboto(
-                                                textStyle: TextStyle(
-                                                    fontSize: 16.sp,
-                                                    color: Colors.black,
-                                                    fontWeight:
-                                                    FontWeight.w600)))),
-                                    SizedBox(
-                                      height: 6.h,
+                                    Container(
+                                      width: 50.w,
+                                      height: 50.h,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: Color(0xFFEEF1FF)),
+                                          color: Color(0xFFEEF1FF)),
+                                      child: widget.CustomeImageContainer,
                                     ),
-                                    IntrinsicHeight(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        children: [
-                                          SizedBox(
+                                    SizedBox(
+                                      height: 10.w,
+                                    ),
+                                    Column(
+                                      children: [
+                                        SizedBox(
                                             child: Text(
-                                              "Total Processed :",
-                                              style:
-                                              TextStyle(fontSize: 14.sp),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            child: Text(
-                                              widget.totalProcessed
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 14.sp,
-                                                  color: Color(0xFFFF87A6),
-                                                  fontWeight:
-                                                  FontWeight.bold),
-                                            ),
-                                          ),
-                                          ClassesOfTeachers == []
-                                              ? const Text("")
-                                              : const VerticalDivider(
-                                            thickness: 1,
-                                            width: 10,
-                                            color: Colors.blueGrey,
-                                          ),
-                                          ClassesOfTeachers == null
-                                              ? Text("")
-                                              : ClassesOfTeachers.length > 1
-                                              ? Row(
+                                                toBeginningOfSentenceCase(widget
+                                                    .classTeacherName
+                                                    .toString()
+                                                    .toLowerCase())
+                                                    .toString(),
+                                                style: GoogleFonts.inter(
+                                                    textStyle: TextStyle(
+                                                        fontSize: 16.sp,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                        FontWeight.w600)))),
+                                        SizedBox(
+                                          height: 6.h,
+                                        ),
+                                        IntrinsicHeight(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                             children: [
-                                              for (var i = 0;
-                                              i <
-                                                  ClassesOfTeachers
-                                                      .length;
-                                              i++)
-                                                SizedBox(
-                                                  child:
-                                                  ClassesOfTeachers ==
-                                                      []
-                                                      ? const Text(
-                                                      "")
-                                                      : Text(
-                                                    ClassesOfTeachers[i]["class"] +
-                                                        "" +
-                                                        ClassesOfTeachers[i]["batch"] +
-                                                        " ",
-                                                    style: TextStyle(
-                                                        fontSize: 14.sp,
-                                                        color: Colors.green,
-                                                        fontWeight: FontWeight.bold),
-                                                  ),
+                                              SizedBox(
+                                                child: Text(
+                                                  "Total Processed :",
+                                                  style:
+                                                  TextStyle(fontSize: 14.sp),
                                                 ),
+                                              ),
+                                              SizedBox(
+                                                child: Text(
+                                                  widget.totalProcessed
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 14.sp,
+                                                      color: Color(0xFFFF87A6),
+                                                      fontWeight:
+                                                      FontWeight.bold),
+                                                ),
+                                              ),
+                                              ClassesOfTeachers == []
+                                                  ? const Text("")
+                                                  : const VerticalDivider(
+                                                thickness: 1,
+                                                width: 10,
+                                                color: Colors.blueGrey,
+                                              ),
+                                              ClassesOfTeachers == null
+                                                  ? Text("")
+                                                  : ClassesOfTeachers.length > 1
+                                                  ? Row(
+                                                children: [
+                                                  for (var i = 0;
+                                                  i <
+                                                      ClassesOfTeachers
+                                                          .length;
+                                                  i++)
+                                                    SizedBox(
+                                                      child:
+                                                      ClassesOfTeachers ==
+                                                          []
+                                                          ? const Text(
+                                                          "")
+                                                          : Text(
+                                                        ClassesOfTeachers[i]["class"] +
+                                                            "" +
+                                                            ClassesOfTeachers[i]["batch"] +
+                                                            " ",
+                                                        style: TextStyle(
+                                                            fontSize: 14.sp,
+                                                            color: Colors.green,
+                                                            fontWeight: FontWeight.bold),
+                                                      ),
+                                                    ),
+                                                ],
+                                              )
+                                                  : SizedBox(
+                                                child: className == null
+                                                    ? const Text("")
+                                                    : Text(
+                                                  className +
+                                                      " " +
+                                                      batchName,
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                      14.sp,
+                                                      color: Colors.green,
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .bold),
+                                                ),
+                                              ),
                                             ],
-                                          )
-                                              : SizedBox(
-                                            child: className == null
-                                                ? const Text("")
-                                                : Text(
-                                              className +
-                                                  " " +
-                                                  batchName,
-                                              style: TextStyle(
-                                                  fontSize:
-                                                  14.sp,
-                                                  color: Colors.green,
-                                                  fontWeight:
-                                                  FontWeight
-                                                      .bold),
-                                            ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ],
+                              ),
                             ),
+                            SizedBox(
+                              height: 10.h,
+                            )
+                            // const Divider(
+                            //   indent: 20,
+                            //   endIndent: 20,
+                            //   height: 20,
+                            // )
+                          ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 10.w, right: 10.w),
+                          child: TextFormField(
+                            controller: _searchController,
+                            onChanged: (value) {
+                              setState(() {
+                                newResult = uniqueList
+                                    .where((element) =>
+                                element["student_name"]
+                                    .contains("${value.toUpperCase()}") ||
+                                    element["Admn_no"]
+                                        .contains("${value.toUpperCase()}"))
+                                    .toList();
+                                print(newResult);
+                                print(_searchController.text);
+                              });
+                            },
+                            validator: (val) =>
+                            val!.isEmpty ? 'Enter the Topic' : null,
+                            cursorColor: Colorutils.userdetailcolor ,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                                hintStyle: TextStyle(color: Colorutils.userdetailcolor.withOpacity(0.5)),
+                                hintText:
+                                _isListening ? "Listening..." : "Search Here",
+                                prefixIcon: Icon(
+                                  Icons.search,
+                                  color: Colorutils.userdetailcolor.withOpacity(0.5),
+                                ),
+                                // suffixIcon: GestureDetector(
+                                //   onTap: () => onListen(),
+                                //   child: AvatarGlow(
+                                //     animate: _isListening,
+                                //     glowColor: Colors.blue,
+                                //     endRadius: 20.0,
+                                //     duration: Duration(milliseconds: 2000),
+                                //     repeat: true,
+                                //     showTwoGlows: true,
+                                //     repeatPauseDuration:
+                                //         Duration(milliseconds: 100),
+                                //     child: Icon(
+                                //       _isListening == false
+                                //           ? Icons.keyboard_voice_outlined
+                                //           : Icons.keyboard_voice_sharp,
+                                //       color: ColorUtils.SEARCH_TEXT_COLOR,
+                                //     ),
+                                //   ),
+                                // ),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 20.0),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(2.0),
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color.fromRGBO(230, 236, 254, 8),
+                                      width: 1.0),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color.fromRGBO(230, 236, 254, 8),
+                                      width: 1.0),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0)),
+                                ),
+                                fillColor: Colorutils.chatcolor,
+                                filled: true),
                           ),
                         ),
                         SizedBox(
                           height: 10.h,
-                        )
-                        // const Divider(
-                        //   indent: 20,
-                        //   endIndent: 20,
-                        //   height: 20,
-                        // )
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 10.w, right: 10.w),
-                      child: TextFormField(
-                        controller: _searchController,
-                        onChanged: (value) {
-                          setState(() {
-                            newResult = uniqueList
-                                .where((element) =>
-                            element["student_name"]
-                                .contains("${value.toUpperCase()}") ||
-                                element["Admn_no"]
-                                    .contains("${value.toUpperCase()}"))
-                                .toList();
-                            print(newResult);
-                            print(_searchController.text);
-                          });
-                        },
-                        validator: (val) =>
-                        val!.isEmpty ? 'Enter the Topic' : null,
-                        cursorColor: Colors.grey,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                            hintStyle: TextStyle(color: Colors.grey),
-                            hintText:
-                            _isListening ? "Listening..." : "Search Here",
-                            prefixIcon: Icon(
-                              Icons.search,
-                              color: Color(0xFF889DFF),
-                            ),
-                            // suffixIcon: GestureDetector(
-                            //   onTap: () => onListen(),
-                            //   child: AvatarGlow(
-                            //     animate: _isListening,
-                            //     glowColor: Colors.blue,
-                            //     endRadius: 20.0,
-                            //     duration: Duration(milliseconds: 2000),
-                            //     repeat: true,
-                            //     showTwoGlows: true,
-                            //     repeatPauseDuration:
-                            //         Duration(milliseconds: 100),
-                            //     child: Icon(
-                            //       _isListening == false
-                            //           ? Icons.keyboard_voice_outlined
-                            //           : Icons.keyboard_voice_sharp,
-                            //       color: ColorUtils.SEARCH_TEXT_COLOR,
-                            //     ),
-                            //   ),
-                            // ),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 20.0),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(2.0),
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(230, 236, 254, 8),
-                                  width: 1.0),
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(10)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(230, 236, 254, 8),
-                                  width: 1.0),
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(10.0)),
-                            ),
-                            fillColor: Color.fromRGBO(230, 236, 254, 8),
-                            filled: true),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    historyOfStudentFees == null
-                        ? Expanded(
-                      child: Center(
-                        child: Text(
-                          "Loading....",
                         ),
-                      ),
-                    )
-                        : Expanded(
-                        child: ListView.builder(
-                          itemCount:
-                          _searchController.text.toString().isNotEmpty
-                              ? newResult.length
-                              : uniqueList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return SwipeTo(
-                              rightSwipeWidget: Container(
-                                padding: const EdgeInsets.all(30),
-                                color: Color(0xFF475ADD),
-                                child: const Icon(
-                                  Icons.call,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              onRightSwipe: (_) {
-                                showDialog(
-                                  context,
-                                  _searchController.text
-                                      .toString()
-                                      .isNotEmpty
-                                      ? toBeginningOfSentenceCase(
-                                      newResult[index]
-                                      ["student_name"]
+                        historyOfStudentFees == null
+                            ? Expanded(
+                          child: Center(
+                            child: Text(
+                              "Loading....",
+                            ),
+                          ),
+                        )
+                            : Expanded(
+                            child: ListView.builder(
+                              itemCount:
+                              _searchController.text.toString().isNotEmpty
+                                  ? newResult.length
+                                  : uniqueList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return SwipeTo(
+                                  rightSwipeWidget: Padding(
+                                    padding: const EdgeInsets.only(bottom:12,left: 8),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colorutils.userdetailcolor.withOpacity(0.5),
+                                        // Container color
+                                        borderRadius: BorderRadius.circular(15),
+                                        // Border radius
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colorutils.chatcolor.withOpacity(0.1),
+
+                                            spreadRadius: 1,
+                                            blurRadius: 1,
+                                            offset: Offset(0, 2), // Shadow position
+                                          ),
+                                        ],
+                                      ),                                    // Container color
+
+                                      padding: EdgeInsets.all(30),
+                                      child: Icon(
+                                        Icons.call,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  onRightSwipe: (_) {
+                                    showDialog(
+                                      context,
+                                      _searchController.text
                                           .toString()
-                                          .toLowerCase())
-                                      .toString()
-                                      : toBeginningOfSentenceCase(
-                                      uniqueList[index]
-                                      ["student_name"]
+                                          .isNotEmpty
+                                          ? toBeginningOfSentenceCase(
+                                          newResult[index]
+                                          ["student_name"]
+                                              .toString()
+                                              .toLowerCase())
                                           .toString()
-                                          .toLowerCase())
-                                      .toString(),
-                                  " ",
-                                  true,
-                                  _searchController.text
-                                      .toString()
-                                      .isNotEmpty
-                                      ? newResult[index]["Parent_name"]
-                                      .toString()
-                                      : uniqueList[index]["Parent_name"],
-                                  _searchController.text
-                                      .toString()
-                                      .isNotEmpty
-                                      ? newResult[index]["Parent_contact"]
-                                      .toString()
-                                      : uniqueList[index]["Parent_contact"],
-                                  _searchController.text
-                                      .toString()
-                                      .isNotEmpty
-                                      ? newResult[index]["Admn_no"]
-                                      : uniqueList[index]["Admn_no"],
-                                  _searchController.text
-                                      .toString()
-                                      .isNotEmpty
-                                      ? newResult[index]
-                                  ["Followup_fee_amount"]
-                                      : uniqueList[index]
-                                  ["Followup_fee_amount"],
-                                );
-                              },
-                              child: Container(
-                                  margin: EdgeInsets.only(left: 10.w),
-                                  child: Column(
-                                    children: [
-                                      Theme(
-                                        data: ThemeData().copyWith(
-                                            dividerColor:
-                                            Colors.transparent),
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              width: 50.w,
-                                              height: 50.h,
-                                              decoration:
-                                              const BoxDecoration(
-                                                  shape:
-                                                  BoxShape.circle,
-                                                  color: Color(
-                                                      0xFFEEF1FF)),
-                                              child: Image.asset(
-                                                  "assets/images/profile.png"),
-                                            ),
-                                            SizedBox(
-                                              width: 10.w,
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          : toBeginningOfSentenceCase(
+                                          uniqueList[index]
+                                          ["student_name"]
+                                              .toString()
+                                              .toLowerCase())
+                                          .toString(),
+                                      " ",
+                                      true,
+                                      _searchController.text
+                                          .toString()
+                                          .isNotEmpty
+                                          ? newResult[index]["Parent_name"]
+                                          .toString()
+                                          : uniqueList[index]["Parent_name"],
+                                      _searchController.text
+                                          .toString()
+                                          .isNotEmpty
+                                          ? newResult[index]["Parent_contact"]
+                                          .toString()
+                                          : uniqueList[index]["Parent_contact"],
+                                      _searchController.text
+                                          .toString()
+                                          .isNotEmpty
+                                          ? newResult[index]["Admn_no"]
+                                          : uniqueList[index]["Admn_no"],
+                                      _searchController.text
+                                          .toString()
+                                          .isNotEmpty
+                                          ? newResult[index]
+                                      ["Followup_fee_amount"]
+                                          : uniqueList[index]
+                                      ["Followup_fee_amount"],
+                                    );
+                                  },
+                                  child: Container(
+                                      margin: EdgeInsets.only(left: 10.w),
+                                      child: Column(
+                                        children: [
+                                          Theme(
+                                            data: ThemeData().copyWith(
+                                                dividerColor:
+                                                Colors.transparent),
+                                            child: Row(
                                               children: [
                                                 Container(
-                                                    width: 220.w,
-                                                    child: Text(
-                                                        _searchController
-                                                            .text
-                                                            .toString()
-                                                            .isNotEmpty
-                                                            ? toBeginningOfSentenceCase(newResult[index]["student_name"]
-                                                            .toString()
-                                                            .toLowerCase())
-                                                            .toString()
-                                                            .toUpperCase()
-                                                            : toBeginningOfSentenceCase(uniqueList[index]["student_name"]
-                                                            .toString()
-                                                            .toLowerCase())
-                                                            .toString()
-                                                            .toUpperCase(),
-                                                        style: GoogleFonts.spaceGrotesk(
-                                                            textStyle: TextStyle(
-                                                                fontSize:
-                                                                16.sp,
-                                                                color: Colors.black,
-                                                                fontWeight:
-                                                                FontWeight.bold)))),
-                                                SizedBox(
-                                                  height: 3.h,
+                                                  width: 50.w,
+                                                  height: 50.h,
+                                                  decoration:
+                                                  const BoxDecoration(
+                                                      shape:
+                                                      BoxShape.circle,
+                                                      color: Color(
+                                                          0xFFEEF1FF)),
+                                                  child: Image.asset(
+                                                      "assets/images/profile.png"),
                                                 ),
-                                                Row(
+                                                SizedBox(
+                                                  width: 15.w,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                                   children: [
+                                                    Container(
+                                                        width: 300.w,
+                                                        child: Text(
+                                                            _searchController
+                                                                .text
+                                                                .toString()
+                                                                .isNotEmpty
+                                                                ? toBeginningOfSentenceCase(newResult[index]["student_name"]
+                                                                .toString()
+                                                                .toLowerCase())
+                                                                .toString()
+                                                                .toUpperCase()
+                                                                : toBeginningOfSentenceCase(uniqueList[index]["student_name"]
+                                                                .toString()
+                                                                .toLowerCase())
+                                                                .toString()
+                                                                .toUpperCase(),
+                                                            style: GoogleFonts.spaceGrotesk(
+                                                                textStyle: TextStyle(
+                                                                    fontSize:
+                                                                    16.sp,
+                                                                    color: Colors.black,
+                                                                    fontWeight:
+                                                                    FontWeight.bold)))),
+                                                    SizedBox(
+                                                      height: 3.h,
+                                                    ),
                                                     Row(
                                                       children: [
-                                                        SizedBox(
-                                                          child: Text(
-                                                            "AED :",
-                                                            style: TextStyle(
-                                                                fontSize:
-                                                                14.sp),
-                                                          ),
+                                                        Row(
+                                                          children: [
+                                                            SizedBox(
+                                                              child: Text(
+                                                                "AED :",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                    14.sp),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              child: Text(
+                                                                _searchController
+                                                                    .text
+                                                                    .toString()
+                                                                    .isNotEmpty
+                                                                    ? newResult[
+                                                                index]
+                                                                [
+                                                                "Followup_fee_amount"]
+                                                                    : uniqueList[
+                                                                index]
+                                                                [
+                                                                "Followup_fee_amount"],
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                    14.sp,
+                                                                    color: Color(0xFFFF87A6),
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        VerticalDivider(
+                                                          thickness: 1,
+                                                          width: 10,
+                                                          color:
+                                                          Colors.blueGrey,
                                                         ),
                                                         SizedBox(
                                                           child: Text(
@@ -699,18 +620,24 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
                                                                 .text
                                                                 .toString()
                                                                 .isNotEmpty
-                                                                ? newResult[
-                                                            index]
+                                                                ? newResult[index]
                                                             [
-                                                            "Followup_fee_amount"]
+                                                            "Class"] +
+                                                                newResult[
+                                                                index]
+                                                                [
+                                                                "Division"]
                                                                 : uniqueList[
                                                             index]
                                                             [
-                                                            "Followup_fee_amount"],
+                                                            "Class"] +
+                                                                uniqueList[
+                                                                index]
+                                                                [
+                                                                "Division"],
                                                             style: TextStyle(
-                                                                fontSize:
-                                                                14.sp,
-                                                                color: Color(0xFFFF87A6),
+                                                                fontSize: 14.sp,
+                                                                color: Colors.green,
                                                                 fontWeight:
                                                                 FontWeight
                                                                     .bold),
@@ -718,67 +645,36 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
                                                         ),
                                                       ],
                                                     ),
-                                                    VerticalDivider(
-                                                      thickness: 1,
-                                                      width: 10,
-                                                      color:
-                                                      Colors.blueGrey,
-                                                    ),
-                                                    SizedBox(
-                                                      child: Text(
-                                                        _searchController
-                                                            .text
-                                                            .toString()
-                                                            .isNotEmpty
-                                                            ? newResult[index]
-                                                        [
-                                                        "Class"] +
-                                                            newResult[
-                                                            index]
-                                                            [
-                                                            "Division"]
-                                                            : uniqueList[
-                                                        index]
-                                                        [
-                                                        "Class"] +
-                                                            uniqueList[
-                                                            index]
-                                                            [
-                                                            "Division"],
-                                                        style: TextStyle(
-                                                            fontSize: 14.sp,
-                                                            color: Colors.green,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .bold),
-                                                      ),
-                                                    ),
                                                   ],
                                                 ),
                                               ],
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                      const Divider(
-                                        indent: 20,
-                                        endIndent: 20,
-                                        height: 20,
-                                      )
-                                    ],
-                                  )),
-                            );
-                          },
-                        )),
-                    SizedBox(
-                      height: 210.h,
-                    )
-                  ],
-                ),
+                                          ),
+                                          SizedBox(height: 10,),
+                                          const Divider(
+                                            indent: 5,
+                                            endIndent: 20,
+                                            height: 5,
+
+                                            thickness: 0.3,
+                                            color: Colorutils.chatcolor,
+                                          )
+                                        ],
+                                      )),
+                                );
+                              },
+                            )),
+                        SizedBox(
+                          height: 210.h,
+                        )
+                      ],
+                    ),
+                  )
+                ],
               )
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
   }
@@ -807,7 +703,7 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
             child: ListView(
               children: [
                 SizedBox(
-                  height: 25.h,
+                  height: 10.h,
                 ),
                 Row(
                   children: [
@@ -819,13 +715,13 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
                       child: Image.asset("assets/images/profile.png"),
                     ),
                     SizedBox(
-                      width: 10.w,
+                      width: 15.w,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                            width: 200.w,
+                            width: 240.w,
                             child: Text(studentName,
                                 style: GoogleFonts.spaceGrotesk(
                                     textStyle: TextStyle(
@@ -888,7 +784,7 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
                             Container(
                                 width: 150.w,
                                 child: Text(parentName,
-                                    style: GoogleFonts.roboto(
+                                    style: GoogleFonts.inter(
                                         textStyle: TextStyle(
                                             fontSize: 16.sp,
                                             color: Colors.black,
@@ -921,126 +817,24 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
                 SizedBox(
                   height: 20.h,
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     Row(
-                //       children: [
-                //         Container(
-                //           width: 50.w,
-                //           height: 50.h,
-                //           child: SvgPicture.asset(
-                //             "assets/images/profileTwo.svg",
-                //             color: ColorUtils.MAIN_COLOR,
-                //           ),
-                //         ),
-                //         SizedBox(
-                //           width: 10.w,
-                //         ),
-                //         Column(
-                //           crossAxisAlignment: CrossAxisAlignment.start,
-                //           children: [
-                //             Container(
-                //                 // width: 150.w,
-                //                 child: Text("Jane Cooper",
-                //                     style: GoogleFonts.roboto(
-                //                         textStyle: TextStyle(
-                //                             fontSize: 16.sp,
-                //                             color: ColorUtils.BLACK,
-                //                             fontWeight: FontWeight.bold)))),
-                //             SizedBox(
-                //               height: 6.h,
-                //             ),
-                //             SizedBox(
-                //               child: Text(
-                //                 "9373633636367",
-                //                 style: TextStyle(fontSize: 14.sp),
-                //               ),
-                //             ),
-                //           ],
-                //         ),
-                //       ],
-                //     ),
-                //     GestureDetector(
-                //       onTap: () => Utils.call("64664"),
-                //       child: Container(
-                //         width: 50.w,
-                //         height: 50.h,
-                //         child: SvgPicture.asset(
-                //           "assets/images/callButtonOne.svg",
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
+
                 SizedBox(
                   height: 10.h,
                 ),
                 SizedBox(
                   height: 25.h,
                 ),
-                // result == null || result["data"] == null ? Center(child: CircularProgressIndicator(),) : result["data_status"] == 0 ? Center(child: Text("No Feedback Available")) : SizedBox(
-                //   height: 150.h,
-                //   child: ListView.builder(
-                //       shrinkWrap: true,
-                //       scrollDirection: Axis.vertical,
-                //       itemCount: result!["data"].length,
-                //       itemBuilder: (BuildContext context, int index) {
-                //         return Column(
-                //           crossAxisAlignment: CrossAxisAlignment.start,
-                //           children: [
-                //             SizedBox(height: 15.h,),
-                //             Row(
-                //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //               children: [
-                //                 Text(result!["data"][index]["Feeback_type"] == 1 ? "Committed Calls" : result!["data"][index]["Feeback_type"] == 2 || result!["data"][index]["Feeback_type"] == 3 ? "Invalid or Wrong Number" : result!["data"][index]["Feeback_type"] == 4 ? "Call Not Answered" : "Misbehaved",style: TextStyle(color: Colors.blueGrey)),
-                //                 Image.asset(result!["data"][index]["Feeback_type"] == 1 ? "assets/images/committed.png" : result!["data"][index]["Feeback_type"] == 2 || result!["data"][index]["Feeback_type"] == 3 ? "assets/images/invalidcall.png" : result!["data"][index]["Feeback_type"] == 4 ? "assets/images/callnotanswered.png" : "assets/images/mis.png",height: 50.h,width: 50.h,)
-                //               ],
-                //             ),
-                //             SizedBox(height: 5.h,),
-                //             Container(
-                //               width: MediaQuery.of(context).size.width,
-                //               //margin: EdgeInsets.only(left: 20.w, right: 20.w),
-                //               decoration: BoxDecoration(
-                //                   color: ColorUtils.TEXTFIELD,
-                //                   border: Border.all(color: ColorUtils.BLUE),
-                //                   borderRadius: BorderRadius.all(Radius.circular(10.r))),
-                //               child: Padding(
-                //                 padding: const EdgeInsets.all(10.0),
-                //                 child: Column(
-                //                   mainAxisAlignment: MainAxisAlignment.start,
-                //                   crossAxisAlignment: CrossAxisAlignment.start,
-                //                   children: [
-                //                     const Text(
-                //                       "Remark",
-                //                       style: TextStyle(color: Colors.blueGrey),
-                //                     ),
-                //                     Container(
-                //                       margin: const EdgeInsets.all(20),
-                //                       child: Text(result!["data"][index]["Feeback_comment"]),
-                //                     )
-                //                   ],
-                //                 ),
-                //               ),
-                //             ),
-                //           ],
-                //         );
-                //       }
-                //   ),
-                // ),
+
                 SizedBox(
                   height: 10.h,
                 ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      width: 150.w,
-                      height: 38.h,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            foregroundColor: Color(0xFF4C65E4), elevation: 2),
-                        onPressed: () {
+                    GestureDetector(
+                      onTap: (){
+                        {
                           print("thee  ddd ${parentName}");
                           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                             return HistoryOfStudentActivity(
@@ -1056,30 +850,50 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
                               studentFees: fees,
                             );
                           }));
-                        },
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              "assets/images/icon.svg",
-                              color: Colors.white,
-                            ),
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            Text(
-                              "History",
-                              style: TextStyle(fontSize: 19.sp),
-                            ),
-                          ],
+                        };
+                      },
+                      child: Container(
+                        width: 150.w,
+                        height: 55.h,
+                        decoration: BoxDecoration(
+                          color:  Colorutils.bottomnaviconcolor,
+                          borderRadius: BorderRadius.circular(15),
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //     color:  Colorutils.bottomnaviconcolor,
+                          //
+                          //     // Shadow color
+                          //     spreadRadius: 0.2,
+                          //     blurRadius: 1,
+                          //     offset: Offset(0, 1), // Shadow position
+                          //   ),
+                          // ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                "assets/images/icon.svg",
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 3.w,
+                              ),
+                              Text(
+                                "Call Status",
+                                style: TextStyle(fontSize: 15.sp,color: Colors.white),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
+                    SizedBox(width: 10,),
                     is_fees_paid == false
-                        ? Text("")
-                        : ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white, elevation: 0),
-                      onPressed: () {
+                        ? Text(""):
+                    GestureDetector(
+                      onTap: (){
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                           return HistoryPage(
                             mobileNumber: ParentContact,
@@ -1095,12 +909,20 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
                           );
                         }));
                       },
-                      child: SvgPicture.asset(
-                        "assets/images/Add.svg",
+                      child: CircleAvatar(
+                          backgroundColor: Colorutils.bottomnaviconcolor,
+                          radius: 25,
+
+                          child:Icon(Icons.add,color: Colors.white,shadows: [
+                            BoxShadow(blurRadius: 1,color: Colorutils.userdetailcolor)
+                          ],)
+
                       ),
-                    ),
+                    )
+
                   ],
-                )
+                ),
+
               ],
             ),
           );
