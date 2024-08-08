@@ -87,7 +87,7 @@ class SubjectList extends StatelessWidget {
               // Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Myclasses()));
             },
             child: Container(
-              height: 60.w,
+              // height: 60.w,
               padding: const EdgeInsets.symmetric(horizontal: 5).w,
               decoration: BoxDecoration(
                 color: color,
@@ -111,18 +111,26 @@ class SubjectList extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 5.w),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          Text(
-                            teacherSubjects[index].sub ?? '--',
-                            style: TeacherAppFonts.interW500_16sp_letters1,
+                  Column(
+                    children: [
+                      // Container(
+                      //   height: 10,
+                      //   child: Text("class Teacher",style: TextStyle(fontSize: 8),),
+                      // ),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              Text(
+                                teacherSubjects[index].sub ?? '--',
+                                style: TeacherAppFonts.interW500_16sp_letters1,
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),

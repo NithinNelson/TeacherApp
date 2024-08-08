@@ -4,13 +4,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
+import '../../../Controller/api_controllers/userAuthController.dart';
 import '../../../Models/api_models/time_table_api_model.dart';
 import 'package:teacherapp/Utils/font_util.dart';
 import '../../../Utils/Colors.dart';
 import '../../MyTimeTable/TimeTableScreen.dart';
-class AllTimeTable extends StatelessWidget {
+class AllTimeTable extends StatefulWidget {
   final List<TimeTable> todaySubjects;
-  const AllTimeTable({super.key, required this.todaySubjects});
+
+   AllTimeTable({super.key, required this.todaySubjects});
+
+  @override
+  State<AllTimeTable> createState() => _AllTimeTableState();
+
+}
+
+class _AllTimeTableState extends State<AllTimeTable> {
+  UserAuthController userAuthController = Get.find<UserAuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +35,14 @@ class AllTimeTable extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
+              UserRole? userRole = userAuthController.userRole.value;
+              if(userRole == UserRole.hos){
+                Get.find<PageIndexController>().changePage(
+                    currentPage:5);
+              }else
               Get.find<PageIndexController>().changePage(
-                  currentPage:5);
-              print("kssssskskskskm ....");
-// Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MyTimeTable()));
+                  currentPage:6);
+
             },
             style: const ButtonStyle(
               splashFactory: NoSplash.splashFactory,
@@ -36,16 +50,16 @@ class AllTimeTable extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  '${todaySubjects.length} ',
+                  '${widget.todaySubjects.length} ',
                   style: TeacherAppFonts.interW700_16sp_letters1,
                 ),
                 Text(
-                  todaySubjects.length == 1 || todaySubjects.isEmpty ? 'Class Today' : 'Classes Today',
+                  widget.todaySubjects.length == 1 || widget.todaySubjects.isEmpty ? 'Class Today' : 'Classes Today',
                   style: TeacherAppFonts.interW400_16sp_letters1,
                 ),
 Icon(Icons.arrow_forward_ios,size: 18,color: Colorutils.userdetailcolor,)
               ],
-              
+
             ),
           ),
         ],
