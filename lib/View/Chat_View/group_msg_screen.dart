@@ -113,7 +113,7 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
       );
     });
     chatUpdate = Timer.periodic(
-      const Duration(seconds: 1),
+      const Duration(seconds: 5),
       (timer) async {
         await feedViewController
             .fetchFeedViewMsgListPeriodically(chatFeedViewReqModel);
