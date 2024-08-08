@@ -110,21 +110,53 @@ class SubjectList extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 5.w),
+                  SizedBox(width: 8.w),
                   Column(
+mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Container(
-                      //   height: 10,
-                      //   child: Text("class Teacher",style: TextStyle(fontSize: 8),),
-                      // ),
+                      teacherSubjects[index].isClassTeacher==true?
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Container(
+
+                          height: 12,
+                          decoration: BoxDecoration(
+
+                            borderRadius: BorderRadius.circular(3),
+                            color: Colors.white
+
+                          ),
+
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 1,bottom: 1,left: 5,right: 5),
+                            child: Text("Class Teacher",style: TextStyle(fontSize: 8,color: Colors.black.withOpacity(0.5))),
+                          ),
+                        ),
+                      ):Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Container(
+
+                          height: 12,
+
+
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 1,bottom: 1,left: 5,right: 5),
+                            child: Text("",style: TextStyle(fontSize: 8,color: Colors.black.withOpacity(0.5))),
+                          ),
+                        ),
+                      ),
                       Expanded(
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              Text(
-                                teacherSubjects[index].sub ?? '--',
-                                style: TeacherAppFonts.interW500_16sp_letters1,
+                              Container(
+                                height: 35,
+                                child: Text(
+                                  teacherSubjects[index].sub ?? '--',
+                                  style: TeacherAppFonts.interW500_16sp_letters1,
+                                ),
                               ),
                             ],
                           ),

@@ -93,6 +93,7 @@ class TimeTableController extends GetxController {
               curriculumId: sub.curriculum?.id,
               sessionId: sub.session?.id,
               isClassTeacher: sub.isClassTeacher,
+              studentCount: sub.studentCount,
             ));
           }
         }

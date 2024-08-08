@@ -341,6 +341,7 @@ class OwnList {
     required this.academic,
     required this.subjects,
     this.isClassTeacher,
+      this.studentCount,
   });
 
   final RoleArray? session;
@@ -350,6 +351,7 @@ class OwnList {
   final String? academic;
   final List<RoleArray> subjects;
   final bool? isClassTeacher;
+  final int? studentCount;
 
   factory OwnList.fromJson(Map<String, dynamic> json) {
     return OwnList(
@@ -359,6 +361,7 @@ class OwnList {
           ? null
           : RoleArray.fromJson(json["curriculum"]),
       isClassTeacher: json["is_class_teacher"],
+      studentCount: json["student_count"],
       ownListClass:
           json["class"] == null ? null : RoleArray.fromJson(json["class"]),
       batch: json["batch"] == null ? null : RoleArray.fromJson(json["batch"]),
@@ -378,6 +381,8 @@ class OwnList {
         "academic": academic,
         "subjects": subjects.map((x) => x.toJson()).toList(),
         "is_class_teacher": isClassTeacher,
+        "student_count": studentCount,
+
       };
 }
 

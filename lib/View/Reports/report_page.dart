@@ -1,19 +1,43 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teacherapp/Models/api_models/learning_observation_api_model.dart';
 import 'package:teacherapp/View/Learning_Walk/learning_walk_widgets/question_radio_fields.dart';
 import 'package:teacherapp/View/Lesson_Observation/question_radio_obsfields.dart';
 import '../../Utils/Colors.dart';
+import '../../Utils/api_constants.dart';
 import '../../Utils/font_util.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:http/http.dart' as http;
+
+
+
 
 class ReportScreen extends StatefulWidget {
-  const ReportScreen({
+  var Empcodee;
+  String? teacherName;
+  String? image;
+  String? HOSID;
+  var HOSNAME;
+  var loginname;
+   ReportScreen({
+    this.Empcodee,
+    this.loginname,
+    this.HOSID,
+    this.HOSNAME,
+    this.teacherName,
+    this.image,
     super.key,
   });
 
@@ -22,10 +46,601 @@ class ReportScreen extends StatefulWidget {
 }
 
 class _ReportScreenState extends State<ReportScreen> {
-  bool _isListening = true;
+  var committed;
+  var callnotAnswred;
+  var Invalid;
+  var wrong;
+  bool isSpinner = false;
+  int selected = 0;
+  Map<String, dynamic>? loginCredential;
+  String? img;
+  var duplicateTeacherData = [];
+  var teacherData = [];
+  var newTeacherData;
+  var classB = [];
+  var employeeUnderHOS= [];
+  stt.SpeechToText _speech = stt.SpeechToText();
+  bool _isListening = false;
+  String? _textSpeech = "Search Here";
   bool isChecked = true;
   String? _selectedValue = '';
   Map<String, dynamic>? teacherList;
+  void onListen() async {
+    if (!_isListening) {
+      bool available = await _speech.initialize(
+          debugLogging: true,
+          onStatus: (val) => print("the onStatus $val"),
+          onError: (val) => print("onerror $val"));
+      if (available) {
+        setState(() {
+          _isListening = true;
+        });
+        _speech.listen(
+            onResult: (val) => setState(() {
+              _textSpeech = val.recognizedWords;
+              _searchController.text = _textSpeech!;
+              newReport = newTeacherList
+                  .where((element) => element["employee_name"]
+                  .contains("${_textSpeech!.toUpperCase()}"))
+                  .toList();
+            }));
+      }
+    } else {
+      setState(() {
+        _isListening = false;
+        _speech.stop();
+      });
+    }
+  }
+
+  List newTeacherList = [];
+  List newReport = [];
+  var _searchController = TextEditingController();
+  var employeeid;
+  var loginname;
+  Map<String, dynamic>? notificationResult;
+  int Count = 0;
+  var count;
+
+  getCount() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      count = preferences.get("count");
+    });
+  }
+
+  Timer? timer;
+
+  void initState() {
+    print('Empcodee-----__________________');
+    // teacherData();
+    // _speech = stt.SpeechToText();
+    initialize();
+    super.initState();
+  }
+  Future initialize() async{
+    timer = Timer.periodic(Duration(seconds: 1), (Timer t) => getCount());
+    await getUserLoginCredentials();
+    print('Empcodee--${widget.Empcodee}');
+    print('teacherName${widget.teacherName}');
+    print('teacherName${employeeid}');
+    // print('teacherName${widget.teacherName}');
+    print(count);
+    await getTeacherList();
+  }
+
+  Map<String, dynamic>? teacherListdata;
+
+  Future getTeacherList() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var school_token = preferences.getString("school_token");
+    employeeid = preferences.getString('employeeNumber');
+    print('--widget-----${widget.Empcodee}');
+    //isSpinner=true;
+    Map<String, String> headers = {
+      'API-Key': '525-777-777',
+      'Content-Type': 'application/json'
+    };
+
+    final bdy = {
+      "action": "getFeedbackTotalSummaryData",
+      "token": "$school_token",
+      "employee_code": employeeUnderHOS.isEmpty ? widget.Empcodee : employeeUnderHOS
+    };
+
+    log("the >>>>>>>>>>>>>>>>>>>>> $bdy");
+
+    final response = await http.post(Uri.parse(ApiConstants.DOCME_URL),
+        headers: headers, body: json.encode(bdy));
+
+    //final responseJson = json.decode(response.body);
+    print('responserbodybodyesponse${response.body}');
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      teacherList = json.decode(response.body);
+      print('teachteacherListerList$teacherList');
+
+      newTeacherList = teacherList!["data"];
+      print("newTeacherList--${newTeacherList}");
+    } else {
+      setState(() {
+        // isSpinner=false;
+      });
+    }
+  }
+  Future getUserLoginCredentials() async {
+    // var result = await Connectivity().checkConnectivity();
+    // if (result == ConnectivityResult.none) {
+    //   _checkInternet(context);
+    // } else {
+    var headers = {
+      'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('POST', Uri.parse(ApiConstants.WorkLoad));
+    request.body = json.encode({"user_id": widget.HOSID});
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    print(response.statusCode);
+    print('----rrreeeqqq${request.body}');
+    if (response.statusCode == 200) {
+      var responseData = await response.stream.bytesToString();
+      setState(() {
+        isSpinner = false;
+      });
+      loginCredential = json.decode(responseData);
+      SharedPreferences preference = await SharedPreferences.getInstance();
+      preference.setString('loginCredential', json.encode(loginCredential));
+      log("api resss-----$loginCredential");
+      print('-------------------role ids-----------------');
+      print('array--${loginCredential!["data"]["data"][0]["all_roles_array"]}');
+
+      print('---------------end of----role ids-----------------');
+      // print(loginCredential!["data"]["data"][0]["faculty_data"]
+      // ["teacherComponent"]["is_class_teacher"]);
+
+      img = loginCredential!["data"]["data"][0]["image"];
+
+      print(">>>>>>>$img<<<<<<<");
+      Map<String, dynamic> faculty_data =
+      loginCredential!["data"]["data"][0]["faculty_data"];
+      if (faculty_data.containsKey("teacherComponent") ||
+          faculty_data.containsKey("supervisorComponent") ||
+          faculty_data.containsKey("hosComponent") ||
+          faculty_data.containsKey("hodComponent")) {
+        if (faculty_data.containsKey("teacherComponent")) {
+          if (loginCredential!["data"]["data"][0]["faculty_data"]
+          ["teacherComponent"]["is_class_teacher"] ==
+              true ||
+              loginCredential!["data"]["data"][0]["faculty_data"]
+              ["teacherComponent"]["is_class_teacher"] ==
+                  false) {
+            print("-----------------------------------teacher");
+
+            for (var index = 0;
+            index <
+                loginCredential!["data"]["data"][0]["faculty_data"]
+                ["teacherComponent"]["own_list"]
+                    .length;
+            index++) {
+              var classBatch = loginCredential!["data"]["data"][0]
+              ["faculty_data"]["teacherComponent"]["own_list"][index]
+              ["academic"];
+
+              var sessionId = loginCredential!["data"]["data"][0]
+              ["faculty_data"]["teacherComponent"]["own_list"][index]
+              ["session"]["_id"];
+
+              var curriculumId = loginCredential!["data"]["data"][0]
+              ["faculty_data"]["teacherComponent"]["own_list"][index]
+              ["curriculum"]["_id"];
+
+              var batchID = loginCredential!["data"]["data"][0]["faculty_data"]
+              ["teacherComponent"]["own_list"][index]["batch"]["_id"];
+
+              var classID = loginCredential!["data"]["data"][0]["faculty_data"]
+              ["teacherComponent"]["own_list"][index]["class"]["_id"];
+
+              duplicateTeacherData.add({
+                "class": classBatch.split("/")[2].toString() +
+                    " " +
+                    classBatch.split("/")[3].toString(),
+                "session_id": sessionId,
+                "curriculumId": curriculumId,
+                "batch_id": batchID,
+                "class_id": classID,
+                "is_Class_teacher": loginCredential!["data"]["data"][0]
+                ["faculty_data"]["teacherComponent"]["own_list"][index]
+                ["is_class_teacher"]
+              });
+              print(
+                  '${loginCredential!["data"]["data"][0]["faculty_data"]["teacherComponent"]["own_list"][0]["subjects"]}');
+              for (var ind = 0;
+              ind <
+                  loginCredential!["data"]["data"][0]["faculty_data"]
+                  ["teacherComponent"]["own_list"][index]
+                  ["subjects"]
+                      .length;
+              ind++) {
+                var subjects = loginCredential!["data"]["data"][0]
+                ["faculty_data"]["teacherComponent"]["own_list"][index]
+                ["subjects"][ind]["name"];
+
+                teacherData.add({
+                  "class": classBatch.split("/")[2].toString() +
+                      " " +
+                      classBatch.split("/")[3].toString(),
+                  "subjects": subjects,
+                  "session_id": sessionId,
+                  "curriculumId": curriculumId,
+                  "batch_id": batchID,
+                  "class_id": classID,
+                  "is_Class_teacher": loginCredential!["data"]["data"][0]
+                  ["faculty_data"]["teacherComponent"]["own_list"]
+                  [index]["is_class_teacher"]
+                });
+              }
+            }
+
+            var removeDuplicates = duplicateTeacherData.toSet().toList();
+            var newClassTeacherCLass = removeDuplicates
+                .where((element) => element.containsValue(true))
+                .toSet()
+                .toList();
+
+            newTeacherData = newClassTeacherCLass;
+            log("tdhdhdhdhdhdbhdhd ${newTeacherData.length}");
+
+            log(">>>>>>>>hoslistingteacherData>>>>>>>>$teacherData");
+            // print(" the length of class_group $employeeUnderHOS");
+
+            print(classB);
+
+            print(loginCredential);
+
+            setState(() {
+              isSpinner = false;
+            });
+          }
+        }
+        if (faculty_data.containsKey("supervisorComponent")) {
+          if (loginCredential!["data"]["data"][0]["faculty_data"]
+          ["supervisorComponent"]["is_hos"] ==
+              true) {
+            for (var ind = 0;
+            ind <
+                loginCredential!["data"]["data"][0]["faculty_data"]
+                ["supervisorComponent"]["own_list_groups"]
+                    .length;
+            ind++) {
+              for (var index = 0;
+              index <
+                  loginCredential!["data"]["data"][0]["faculty_data"]
+                  ["supervisorComponent"]["own_list_groups"]
+                  [ind]["class_group"]
+                      .length;
+              index++) {
+                if (loginCredential!["data"]["data"][0]["faculty_data"]
+                ["supervisorComponent"]["own_list_groups"][ind]
+                ["class_group"][index]
+                    .containsKey("class_teacher")) {
+                  var employeeUnderHod = loginCredential!["data"]["data"][0]
+                  ["faculty_data"]["supervisorComponent"]
+                  ["own_list_groups"][ind]["class_group"][index]
+                  ["class_teacher"]["employee_no"];
+                  employeeUnderHOS.add(employeeUnderHod);
+                }
+              }
+            }
+            for (var index = 0;
+            index <
+                loginCredential!["data"]["data"][0]["faculty_data"]
+                ["supervisorComponent"]["own_list_groups"]
+                    .length;
+            index++) {
+              for (var ind = 0;
+              ind <
+                  loginCredential!["data"]["data"][0]["faculty_data"]
+                  ["supervisorComponent"]["own_list_groups"]
+                  [index]["class_group"]
+                      .length;
+              ind++) {
+                var classBatch = loginCredential!["data"]["data"][0]
+                ["faculty_data"]["supervisorComponent"]
+                ["own_list_groups"][index]["class_group"][ind]["academic"];
+                classB.add(classBatch.split("/")[2].toString() +
+                    " " +
+                    classBatch.split("/")[3].toString());
+              }
+            }
+
+            print('employeeUnderHOS__---__$employeeUnderHOS');
+
+            print("???????????????????????????????????????????????????$classB");
+
+            print(loginCredential);
+
+            setState(() {
+              isSpinner = false;
+            });
+          }
+        }
+        if (faculty_data.containsKey("hosComponent")) {
+          print("hos Component");
+          if (loginCredential!["data"]["data"][0]["faculty_data"]
+          ["hosComponent"]["is_hos"] ==
+              true) {
+            for (var ind = 0;
+            ind <
+                loginCredential!["data"]["data"][0]["faculty_data"]
+                ["hosComponent"]["own_list_groups"]
+                    .length;
+            ind++) {
+              for (var index = 0;
+              index <
+                  loginCredential!["data"]["data"][0]["faculty_data"]
+                  ["hosComponent"]["own_list_groups"][ind]
+                  ["class_group"]
+                      .length;
+              index++) {
+                if (loginCredential!["data"]["data"][0]["faculty_data"]
+                ["hosComponent"]["own_list_groups"][ind]
+                ["class_group"][index]
+                    .containsKey("class_teacher")) {
+                  var employeeUnderHod = loginCredential!["data"]["data"][0]
+                  ["faculty_data"]["hosComponent"]
+                  ["own_list_groups"][ind]["class_group"][index]
+                  ["class_teacher"]["employee_no"];
+
+                  print('----empid--$employeeUnderHod');
+                  employeeUnderHOS.add(employeeUnderHod);
+                }
+              }
+            }
+            for (var index = 0;
+            index <
+                loginCredential!["data"]["data"][0]["faculty_data"]
+                ["hosComponent"]["own_list_groups"]
+                    .length;
+            index++) {
+              for (var ind = 0;
+              ind <
+                  loginCredential!["data"]["data"][0]["faculty_data"]
+                  ["hosComponent"]["own_list_groups"][index]
+                  ["class_group"]
+                      .length;
+              ind++) {
+                var classBatch = loginCredential!["data"]["data"][0]
+                ["faculty_data"]["hosComponent"]["own_list_groups"]
+                [index]["class_group"][ind]["academic"];
+                classB.add(classBatch.split("/")[2].toString() +
+                    " " +
+                    classBatch.split("/")[3].toString());
+              }
+            }
+
+            log("print HOS EMP$employeeUnderHOS");
+
+            print(classB);
+
+            print(loginCredential);
+
+            setState(() {
+              isSpinner = false;
+            });
+          }
+        }
+
+        if (faculty_data.containsKey("hodComponent")) {
+          if (loginCredential!["data"]["data"][0]["faculty_data"]
+          ["hodComponent"]["is_hod"] ==
+              true) {
+            for (var ind = 0;
+            ind <
+                loginCredential!["data"]["data"][0]["faculty_data"]
+                ["hodComponent"]["own_list_groups"]
+                    .length;
+            ind++) {
+              for (var index = 0;
+              index <
+                  loginCredential!["data"]["data"][0]["faculty_data"]
+                  ["hodComponent"]["own_list_groups"][ind]
+                  ["class_group"]
+                      .length;
+              index++) {
+                if (loginCredential!["data"]["data"][0]["faculty_data"]
+                ["hodComponent"]["own_list_groups"][ind]
+                ["class_group"][index]
+                    .containsKey("class_teacher")) {
+                  var employeeUnderHod = loginCredential!["data"]["data"][0]
+                  ["faculty_data"]["hodComponent"]
+                  ["own_list_groups"][ind]["class_group"][index]
+                  ["class_teacher"]["employee_no"];
+                  employeeUnderHOS.add(employeeUnderHod);
+                }
+              }
+            }
+            for (var index = 0;
+            index <
+                loginCredential!["data"]["data"][0]["faculty_data"]
+                ["hodComponent"]["own_list_groups"]
+                    .length;
+            index++) {
+              for (var ind = 0;
+              ind <
+                  loginCredential!["data"]["data"][0]["faculty_data"]
+                  ["hodComponent"]["own_list_groups"][index]
+                  ["class_group"]
+                      .length;
+              ind++) {
+                var classBatch = loginCredential!["data"]["data"][0]
+                ["faculty_data"]["hodComponent"]["own_list_groups"]
+                [index]["class_group"][ind]["academic"];
+                classB.add(classBatch.split("/")[2].toString() +
+                    " " +
+                    classBatch.split("/")[3].toString());
+              }
+            }
+
+            print('.....employeeUnderHOS....${employeeUnderHOS}');
+
+            print('.....classB${classB}');
+
+            print('.....${loginCredential}');
+
+            setState(() {
+              isSpinner = false;
+            });
+          }
+        }
+      }
+      //addToLocalDb();
+    }
+  }
+
+  Map<String, dynamic>? committedCalls;
+
+  Future commitedCallsDetail(String employeeCode) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var school_token = preferences.getString("school_token");
+    var empid = preferences.getString("employeeNumber");
+    print("api worked");
+    print("api employeeCode$employeeCode");
+    isSpinner = true;
+    var headers = {
+      'Content-Type': 'application/json',
+      'API-Key': '525-777-777'
+    };
+    var request = http.Request('POST', Uri.parse(ApiConstants.DOCME_URL));
+    request.body =
+    '''{\n  "action" :"getEmployeeFeedbackById",\n  "token":"$school_token",\n  "employee_code": "$employeeCode",\n  "feedback_type_id": [1]\n }\n''';
+    print("commitedCallsDetailrequest.body${request.body}");
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+      // print(await response.stream.bytesToString());
+      var responseJson = await response.stream.bytesToString();
+      committedCalls = json.decode(responseJson);
+      log('committedCallsresponse-----${committedCalls}');
+      if (mounted)
+        setState(() {
+          isSpinner = false;
+        });
+    } else {
+      return Text("Failed to Load Data");
+    }
+  }
+
+  Map<String, dynamic>? callNotAnswered;
+
+  Future callNotAnswerDetail(String employeeCode) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var school_token = preferences.getString("school_token");
+    print("api worked");
+    isSpinner = true;
+    var headers = {
+      'Content-Type': 'application/json',
+      'API-Key': '525-777-777'
+    };
+    var request = http.Request('POST', Uri.parse(ApiConstants.DOCME_URL));
+    request.body =
+    '''{\n  "action" :"getEmployeeFeedbackById",\n  "token":"$school_token",\n  "employee_code": "$employeeCode",\n  "feedback_type_id": [4]\n }\n''';
+    // print(request.body);
+    print("callNotAnswerDetailrequest.body${request.body}");
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+      // print(await response.stream.bytesToString());
+      var responseJson = await response.stream.bytesToString();
+      callNotAnswered = json.decode(responseJson);
+      log('callNotAnsweredresponse-----${callNotAnswered}');
+      if (mounted)
+        setState(() {
+          isSpinner = false;
+        });
+    } else {
+      return Text("Failed to Load Data");
+    }
+  }
+
+  Map<String, dynamic>? wrongNumber;
+
+  Future wrongNumberDetails(String employeeCode) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var school_token = preferences.getString("school_token");
+    print("api worked");
+    isSpinner = true;
+    var headers = {
+      'Content-Type': 'application/json',
+      'API-Key': '525-777-777'
+    };
+    var request = http.Request('POST', Uri.parse(ApiConstants.DOCME_URL));
+    request.body =
+    '''{\n  "action" :"getEmployeeFeedbackById",\n  "token":"$school_token",\n  "employee_code": "$employeeCode",\n  "feedback_type_id": [2,3]\n }\n''';
+    // print(request.body);
+    print("wrongNumberDetailsrequest.body${request.body}");
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+      // print(await response.stream.bytesToString());
+      var responseJson = await response.stream.bytesToString();
+      wrongNumber = json.decode(responseJson);
+      log('wrongNumberresponse-----${wrongNumber}');
+      if (mounted)
+        setState(() {
+          isSpinner = false;
+        });
+    } else {
+      return Text("Failed to Load Data");
+    }
+  }
+
+  Map<String, dynamic>? misbehave;
+
+  Future misbehaveDetails(String employeeCode) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var school_token = preferences.getString("school_token");
+    print("api worked");
+    isSpinner = true;
+    var headers = {
+      'Content-Type': 'application/json',
+      'API-Key': '525-777-777'
+    };
+    var request = http.Request('POST', Uri.parse(ApiConstants.DOCME_URL));
+    request.body =
+    '''{\n  "action" :"getEmployeeFeedbackById",\n  "token": "$school_token",\n  "employee_code": "$employeeCode",\n  "feedback_type_id": [5,6,7]\n }\n''';
+    // print(request.body);
+    print("misbehaveDetailsrequest.body${request.body}");
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+      // print(await response.stream.bytesToString());
+      var responseJson = await response.stream.bytesToString();
+      misbehave = json.decode(responseJson);
+      log('misbehaveresponse-----${misbehave}');
+      if (mounted)
+        setState(() {
+          isSpinner = false;
+        });
+    } else {
+      return Text("Failed to Load Data");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -177,16 +792,57 @@ class _ReportScreenState extends State<ReportScreen> {
                           ),
                         ),
                         Expanded(
-                          child: ListView.builder(
-                            key: Key('builder basb '),
-                            itemCount: 10,
-                            itemBuilder:
-                                (BuildContext context, int index) {
-                              return _getProfileOfStudents(
-                                  'gzh', "swge", "hah", "ssj", 13);
-                            },
-                          ),
-                        ),
+                            child: teacherList == null
+                                ? Center(
+                                child: CircularProgressIndicator(
+
+                                ))
+                                : teacherList!["data_status"] == 0
+                                ? Center(
+                                child:
+                                Image.asset("assets/images/nodata.gif"))
+                                : teacherList!["message"] ==
+                                "employee_code Required"
+                                ? Center(
+                                child: Image.asset(
+                                    "assets/images/nodata.gif"))
+                                : ListView.builder(
+                              key: Key(
+                                  'builder ${selected.toString()}'),
+                              itemCount:
+                              _searchController.text.isNotEmpty
+                                  ? newReport.length
+                                  : teacherList!["data"].length,
+                              itemBuilder:
+                                  (BuildContext context, int index) {
+                                return _getProfileOfStudents(
+                                    "assets/images/nancy.png",
+                                    _searchController.text.isNotEmpty
+                                        ? toBeginningOfSentenceCase(
+                                        newReport[index]["employee_name"]
+                                            .toString()
+                                            .toLowerCase())
+                                        .toString()
+                                        : toBeginningOfSentenceCase(
+                                        teacherList!["data"][index]["employee_name"]
+                                            .toString()
+                                            .toLowerCase())
+                                        .toString(),
+                                    _searchController.text.isNotEmpty
+                                        ? newReport[index]["total_count"]
+                                        .toString()
+                                        : teacherList!["data"][index]
+                                    ["total_count"]
+                                        .toString(),
+                                    _searchController.text.isNotEmpty
+                                        ? newReport[index]["employee_code"]
+                                        .toString()
+                                        : teacherList!["data"][index]
+                                    ["employee_code"]
+                                        .toString(),
+                                    index);
+                              },
+                            )),
                         SizedBox(
                           height: 140.h,
                         )

@@ -22,7 +22,9 @@ class Topic extends StatelessWidget {
   Widget build(BuildContext context) {
     TimeTable? timeTable;
     if(todaySubjects.isNotEmpty) {
+      print("-------rgbth-------${todaySubjects.length}");
       timeTable = findUpcomingTime(todaySubjects);
+      print("-------rgbth-------$timeTable");
       // timeTable ??= todaySubjects.first;
       if(timeTable != null) {
         return Padding(
@@ -234,6 +236,7 @@ class Topic extends StatelessWidget {
 
     for (var entry in timeTable) {
       final startTime = entry.startTime;
+      print("==========$startTime");
       if (startTime != null && startTime.isAfter(now)) {
         upcomingEntries.add(entry);
       }
