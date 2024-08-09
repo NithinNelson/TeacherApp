@@ -2090,49 +2090,108 @@ class _StudentListViewState extends State<StudentListView> {
 
                                               isStudentListnull[index]["late"] == true?
                                               GestureDetector( onTap: ()async {
-                                                showDialog( context: context,
-                                                    builder: (
-                                                        BuildContext context) => AlertDialog(
-                                                        title: Container(
-                                                          decoration: BoxDecoration(
+                                                showDialog(
 
-                                                            borderRadius: BorderRadius
-                                                                .all(
-                                                                Radius
-                                                                    .circular(
-                                                                    50)),),
-                                                          padding: EdgeInsets.only(),
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                  context: context,
+                                                  builder: (BuildContext context) => AlertDialog(
+                                                    backgroundColor: Colors.transparent,
+                                                    title: Container(
+                                                      width: 300,
+                                                      height: 150,
+                                                      margin: EdgeInsets.only(top: 40,bottom: 10),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.black.withOpacity(0.2),
+                                                            spreadRadius: 2,
+                                                            blurRadius: 10,
+                                                            offset: Offset(0, 4),
+                                                          ),
+                                                        ],
+                                                      ),
+
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Row(
+
                                                             children: [
-                                                              Row(
-                                                                children: [
-                                                                  SizedBox(width: 80,),
-                                                                  Text('Remarks',style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w800),),
-                                                                  SizedBox(width: 45,),
-                                                                  GestureDetector(
-                                                                    onTap:() {
-                                                                      Navigator.pop(context);
-                                                                    },
-                                                                    child: Container(
-                                                                      height: 35,
-                                                                      width: 35,
 
-                                                                      child: Icon(Icons.clear,size: 25,),
-                                                                    ),),
-                                                                ],
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(top: 10,left: 40),
+                                                                child: Text(
+                                                                  'REMARKS',
+                                                                  style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+                                                                ),
                                                               ),
-                                          SizedBox(height: 15,),
-
-                                                              Row(
-                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                children: [
-                                                                  Text(afterAttendanceTaken[index]["remarks"],style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w500),),
-                                                                ],
-                                                              ),
+                                                              SizedBox(width: 45),
 
                                                             ],
-                                                          ),)));
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                          ),
+                                                          SizedBox(height: 15),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left: 10,right: 10, ),
+                                                            child: Container(
+                                                              height: 60,
+                                                              decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius.circular(10),
+                                                                color: Colorutils.chatcolor.withOpacity(0.2),
+                                                              ),
+
+                                                              child: Row(
+                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 3,right: 3),
+                                                                    child: Text(
+                                                                      afterAttendanceTaken[index]["remarks"],
+                                                                      style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 10),
+                                                          Center(
+                                                            child: GestureDetector(
+                                                              onTap: () {
+                                                                Navigator.pop(context);
+                                                              },
+                                                              child: Container(
+                                                                decoration: BoxDecoration(
+                                                                  color: Colors.red,
+                                                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                      color: Colors.grey.withOpacity(0.1),
+                                                                      spreadRadius: 1,
+                                                                      blurRadius: 1,
+                                                                      offset: Offset(0, 1),
+                                                                    ),
+                                                                  ],
+                                                                ),
+
+                                                                height: 25,
+                                                                width: 50,
+                                                                child: Center(
+                                                                  child: Text("Close",style: TextStyle(
+                                                                    fontSize: 15,color: Colors.white
+                                                                  ),),
+                                                                ),
+
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+
                                               },
 
                                                   child:  Padding(

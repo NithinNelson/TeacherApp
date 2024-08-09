@@ -13,6 +13,7 @@ import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 import 'package:teacherapp/View/OldScreens/studentListForHos.dart';
 
 import '../../Controller/api_controllers/userAuthController.dart';
+import '../../Utils/Colors.dart';
 import '../../Utils/api_constants.dart';
 import '../../Utils/constants.dart';
 import '../CWidgets/AppBarBackground.dart';
@@ -581,19 +582,42 @@ class _ReportListViewState extends State<ReportListView> {
                 children: [
                   const AppBarBackground(),
                   Positioned(
-
+                    left: 0,
+                    top: -10,
+                    child: Container(
+                      // height: 100.w,
+                      width: ScreenUtil().screenWidth,
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.circular(17.0),
+                      ),
                       child: const UserDetails(
-                          shoBackgroundColor: false,
-                          isWelcome: true,
-                          bellicon: true,
-                          notificationcount: true)),
+                        shoBackgroundColor: false, isWelcome: true,bellicon: true, notificationcount: true,),
+                    ),
+                  ),
+//                   Positioned(
+// top: 1,
+//                       child: const UserDetails(
+//                           shoBackgroundColor: false,
+//                           isWelcome: true,
+//                           bellicon: true,
+//                           notificationcount: true)),
                   Container(
                     margin:
                         EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w),
                     height: MediaQuery.of(context).size.height,
                     decoration: BoxDecoration(
                         color: Colors.white,
-                        border: Border.all(color: Colors.lightBlue.shade50),
+                        border: Border.all(color: Colors.grey.shade50),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colorutils.userdetailcolor.withOpacity(0.2),
+                            // Shadow color
+                            spreadRadius: 1,
+                            blurRadius: 2,
+                            offset: Offset(0, 3), // Shadow position
+                          ),
+                        ],
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -652,13 +676,13 @@ class _ReportListViewState extends State<ReportListView> {
                               });
                             },
                             decoration: InputDecoration(
-                                hintStyle: TextStyle(color: Colors.grey),
+                                hintStyle: TextStyle(color: Colorutils.userdetailcolor.withOpacity(0.5)),
                                 hintText: _isListening
                                     ? "Listening..."
                                     : "Search Here",
                                 prefixIcon: Icon(
                                   Icons.search,
-                                  color: Colors.grey,
+                                  color: Colorutils.userdetailcolor.withOpacity(0.5),
                                 ),
                                 // suffixIcon: GestureDetector(
                                 //   onTap: () => onListen(),
@@ -688,19 +712,19 @@ class _ReportListViewState extends State<ReportListView> {
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color.fromRGBO(230, 236, 254, 8),
+                                      color: Colorutils.userdetailcolor.withOpacity(0.5),
                                       width: 1.0),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color.fromRGBO(230, 236, 254, 8),
+                                      color: Colorutils.userdetailcolor.withOpacity(0.5),
                                       width: 1.0),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10.0)),
                                 ),
-                                fillColor: Color.fromRGBO(230, 236, 254, 8),
+                                fillColor: Colorutils.userdetailcolor.withOpacity(0.1),
                                 filled: true),
                           ),
                         ),

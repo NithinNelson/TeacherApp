@@ -173,325 +173,335 @@ class _HistoryPageState extends State<HistoryPage>
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: systemUiOverlayStyleLight,
       child: Scaffold(
+        // resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
-          child: Column(
-            children: [
-              Stack(children: [
-                Stack(
-                  children: [
-                    const AppBarBackground(),
-                    Positioned(
-
-                        child: const UserDetails(
-                            shoBackgroundColor: false,
-                            isWelcome: false,
-                            bellicon: true,
-                            notificationcount: true)),
-                  ],
-                ),
-
-                Padding(
-                  padding: EdgeInsets.only(top: 130.h, left: 10.w, right: 10.w),
-                  child: Card(
-                    child: Container(
-                        // margin:
-                        //     EdgeInsets.only(left: 50.w, top:100.h, right: 50.w),
-
-                        decoration: BoxDecoration(
-                          //border: Border.all(color: ColorUtils.BLUE),
-                          color: Colors.white54,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15.r),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: 14.h, left: 20.w),
-                              child: Text(
-                                "Call Status Update",
-                                style: TextStyle(
-                                    color: Colorutils.userdetailcolor,
-                                    fontSize: 18.sp),
-                              ),
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Card(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(50.r)),
-                                      side: BorderSide(
-                                          width: 1.w, color: Colors.white)),
-                                  margin: EdgeInsets.all(10),
-                                  child: widget.StudentImage == " "
-                                      ? Container(
-                                          width: 60.w,
-                                          height: 60.h,
-                                          decoration: const BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Color(0xFFEEF1FF)),
-                                          child: Image.asset(
-                                              "assets/images/profile.png"),
-                                        )
-                                      : Container(
-                                          width: 60.w,
-                                          height: 60.h,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                                image: NetworkImage(widget
-                                                    .StudentImage.toString()),
-                                                fit: BoxFit.fill),
-                                          ),
-                                        ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.all(8.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        width: 240.w,
-                                        child: Text(
-                                          widget.studentName.toString(),
-                                          style: GoogleFonts.inter(
-                                              textStyle: TextStyle(
-                                                  fontSize: 18.sp,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold)),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 6),
-                                      widget.studentFees == null
-                                          ? Text("")
-                                          : Row(
-                                              children: [
-                                                const Text(
-                                                  "Pending Fees:",
-                                                  style: TextStyle(
-                                                      color: Colors.grey),
-                                                ),
-                                                SizedBox(
-                                                  width: 2.w,
-                                                ),
-                                                Text(
-                                                  widget.studentFees.toString(),
-                                                  style: TextStyle(
-                                                      color: Colors.red),
-                                                )
-                                              ],
-                                            ),
-                                      const SizedBox(height: 6),
-                                      Row(
-                                        children: [
-                                          const Text(
-                                            "Class:",
-                                            style:
-                                                TextStyle(color: Colors.grey),
-                                          ),
-                                          SizedBox(
-                                            width: 2.w,
-                                          ),
-                                          Text(
-                                            widget.classOfStudent.toString(),
-                                            style: TextStyle(
-                                                color: Color(0xFF587298)),
-                                          )
-                                        ],
-                                      ),
-                                      const SizedBox(height: 6),
-                                      Row(
-                                        children: [
-                                          const Text(
-                                            "Parent Name:",
-                                            style:
-                                                TextStyle(color: Colors.grey),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          SizedBox(
-                                            width: 2.w,
-                                          ),
-                                          Container(
-                                            width: 155.w,
-                                            child: Text(
-                                              widget.parentName.toString(),
-                                              style: TextStyle(
-                                                  color: Color(0xFF587298),
-                                                  overflow:
-                                                      TextOverflow.ellipsis),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      const SizedBox(height: 6),
-                                      Row(
-                                        children: [
-                                          const Text(
-                                            "Mobile No:",
-                                            style:
-                                                TextStyle(color: Colors.grey),
-                                          ),
-                                          SizedBox(
-                                            width: 2.w,
-                                          ),
-                                          Text(
-                                            widget.mobileNumber.toString(),
-                                            style: TextStyle(
-                                                color: Color(0xFF587298)),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 25.h,
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
-                        )),
-                  ),
-                ),
-              ]),
-              SizedBox(
-                height: 10.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+        body: Column(
+          children: [
+            Stack(children: [
+              Stack(
                 children: [
-                  //SizedBox(width:15),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                      foregroundColor:
-                          calender ? Colors.blueAccent : Colors.white,
-                    ),
-                    child: Container(
-                        width: 50.w,
-                        height: 50.h,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(shape: BoxShape.circle),
-                        child: Center(
-                          child: Image.asset(
-                            "assets/images/vectorthree.png",
-                          ),
-                        )),
-                    onPressed: () {
-                      setState(() {
-                        call = false;
-                        invalid = false;
-                        misbe = false;
-                        if (calender == false) {
-                          calender = true;
-                        }
-                        selectedbutton = 0;
-                      });
-                    },
-                  ),
-                  //SizedBox(width:10),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                      foregroundColor: call ? Colors.blueAccent : Colors.white,
-                    ),
-                    child: Container(
-                        width: 50.w,
-                        height: 50.h,
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Image.asset(
-                            "assets/images/vectortwo.png",
-                          ),
-                        )),
-                    onPressed: () {
-                      setState(() {
-                        calender = false;
-                        invalid = false;
-                        misbe = false;
-                        if (call == false) {
-                          call = true;
-                        }
-                        selectedbutton = 1;
-                      });
-                    },
-                  ),
-                  //SizedBox(width:10),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                      foregroundColor:
-                          invalid ? Colors.blueAccent : Colors.white,
-                    ),
-                    child: Container(
-                        width: 50.w,
-                        height: 50.h,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(shape: BoxShape.circle),
-                        child: Center(
-                          child: Image.asset(
-                            "assets/images/vectorfour.png",
-                          ),
-                        )),
-                    onPressed: () {
-                      setState(() {
-                        call = false;
-                        calender = false;
-                        misbe = false;
-                        if (invalid == false) {
-                          invalid = true;
-                        }
-                        selectedbutton = 2;
-                      });
-                    },
-                  ),
-                  //SizedBox(width:10),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                      foregroundColor: misbe ? Colors.blueAccent : Colors.white,
-                    ),
-                    child: Container(
-                        width: 50.w,
-                        height: 50.h,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(shape: BoxShape.circle),
-                        child: Center(
-                          child: Image.asset(
-                            "assets/images/vectorone.png",
-                          ),
-                        )),
-                    onPressed: () {
-                      setState(() {
-                        call = false;
-                        invalid = false;
-                        calender = false;
-                        if (misbe == false) {
-                          misbe = true;
-                        }
-                        selectedbutton = 3;
-                      });
-                    },
-                  ),
+                  const AppBarBackground(),
+                  Positioned(
+
+                      child: const UserDetails(
+                          shoBackgroundColor: false,
+                          isWelcome: false,
+                          bellicon: true,
+                          notificationcount: true)),
                 ],
               ),
-              const SizedBox(
-                height: 10,
+
+              Padding(
+                padding: EdgeInsets.only(top: 130.h, left: 10.w, right: 10.w),
+                child: Card(
+                  child: Container(
+                      // margin:
+                      //     EdgeInsets.only(left: 50.w, top:100.h, right: 50.w),
+
+                      decoration: BoxDecoration(
+                        //border: Border.all(color: ColorUtils.BLUE),
+                        color: Colors.white54,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15.r),
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 14.h, left: 20.w),
+                            child: Text(
+                              "Call Status Update",
+                              style: TextStyle(
+                                  color: Colorutils.userdetailcolor,
+                                  fontSize: 18.sp),
+                            ),
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(50.r)),
+                                    side: BorderSide(
+                                        width: 1.w, color: Colors.white)),
+                                margin: EdgeInsets.all(10),
+                                child: widget.StudentImage == " "
+                                    ? Container(
+                                        width: 60.w,
+                                        height: 60.h,
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color(0xFFEEF1FF)),
+                                        child: Image.asset(
+                                            "assets/images/profile.png"),
+                                      )
+                                    : Container(
+                                        width: 60.w,
+                                        height: 60.h,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: NetworkImage(widget
+                                                  .StudentImage.toString()),
+                                              fit: BoxFit.fill),
+                                        ),
+                                      ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 240.w,
+                                      child: Text(
+                                        widget.studentName.toString(),
+                                        style: GoogleFonts.inter(
+                                            textStyle: TextStyle(
+                                                fontSize: 18.sp,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 6),
+                                    widget.studentFees == null
+                                        ? Text("")
+                                        : Row(
+                                            children: [
+                                              const Text(
+                                                "Pending Fees:",
+                                                style: TextStyle(
+                                                    color: Colors.grey),
+                                              ),
+                                              SizedBox(
+                                                width: 2.w,
+                                              ),
+                                              Text(
+                                                widget.studentFees.toString(),
+                                                style: TextStyle(
+                                                    color: Colors.red),
+                                              )
+                                            ],
+                                          ),
+                                    const SizedBox(height: 6),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          "Class:",
+                                          style:
+                                              TextStyle(color: Colors.grey),
+                                        ),
+                                        SizedBox(
+                                          width: 2.w,
+                                        ),
+                                        Text(
+                                          widget.classOfStudent.toString(),
+                                          style: TextStyle(
+                                              color: Color(0xFF587298)),
+                                        )
+                                      ],
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          "Parent Name:",
+                                          style:
+                                              TextStyle(color: Colors.grey),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        SizedBox(
+                                          width: 2.w,
+                                        ),
+                                        Container(
+                                          width: 155.w,
+                                          child: Text(
+                                            widget.parentName.toString(),
+                                            style: TextStyle(
+                                                color: Color(0xFF587298),
+                                                overflow:
+                                                    TextOverflow.ellipsis),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          "Mobile No:",
+                                          style:
+                                              TextStyle(color: Colors.grey),
+                                        ),
+                                        SizedBox(
+                                          width: 2.w,
+                                        ),
+                                        Text(
+                                          widget.mobileNumber.toString(),
+                                          style: TextStyle(
+                                              color: Color(0xFF587298)),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 25.h,
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      )),
+                ),
               ),
-              _getMenuItem(),
-            ],
-          ),
+            ]),
+            SizedBox(
+              height: 10.h,
+            ),
+
+            Flexible(
+              child: SingleChildScrollView(
+                
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        //SizedBox(width:15),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: CircleBorder(),
+                            foregroundColor:
+                                calender ? Colors.blueAccent : Colors.white,
+                          ),
+                          child: Container(
+                              width: 50.w,
+                              height: 50.h,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(shape: BoxShape.circle),
+                              child: Center(
+                                child: Image.asset(
+                                  "assets/images/vectorthree.png",
+                                ),
+                              )),
+                          onPressed: () {
+                            setState(() {
+                              call = false;
+                              invalid = false;
+                              misbe = false;
+                              if (calender == false) {
+                                calender = true;
+                              }
+                              selectedbutton = 0;
+                            });
+                          },
+                        ),
+                        //SizedBox(width:10),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: CircleBorder(),
+                            foregroundColor: call ? Colors.blueAccent : Colors.white,
+                          ),
+                          child: Container(
+                              width: 50.w,
+                              height: 50.h,
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: Image.asset(
+                                  "assets/images/vectortwo.png",
+                                ),
+                              )),
+                          onPressed: () {
+                            setState(() {
+                              calender = false;
+                              invalid = false;
+                              misbe = false;
+                              if (call == false) {
+                                call = true;
+                              }
+                              selectedbutton = 1;
+                            });
+                          },
+                        ),
+                        //SizedBox(width:10),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: CircleBorder(),
+                            foregroundColor:
+                                invalid ? Colors.blueAccent : Colors.white,
+                          ),
+                          child: Container(
+                              width: 50.w,
+                              height: 50.h,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(shape: BoxShape.circle),
+                              child: Center(
+                                child: Image.asset(
+                                  "assets/images/vectorfour.png",
+                                ),
+                              )),
+                          onPressed: () {
+                            setState(() {
+                              call = false;
+                              calender = false;
+                              misbe = false;
+                              if (invalid == false) {
+                                invalid = true;
+                              }
+                              selectedbutton = 2;
+                            });
+                          },
+                        ),
+                        //SizedBox(width:10),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: CircleBorder(),
+                            foregroundColor: misbe ? Colors.blueAccent : Colors.white,
+                          ),
+                          child: Container(
+                              width: 50.w,
+                              height: 50.h,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(shape: BoxShape.circle),
+                              child: Center(
+                                child: Image.asset(
+                                  "assets/images/vectorone.png",
+                                ),
+                              )),
+                          onPressed: () {
+                            setState(() {
+                              call = false;
+                              invalid = false;
+                              calender = false;
+                              if (misbe == false) {
+                                misbe = true;
+                              }
+                              selectedbutton = 3;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    _getMenuItem(),
+                  ],
+                ),
+              ),
+            ),
+
+          ],
         ),
       ),
     );

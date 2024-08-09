@@ -45,7 +45,7 @@ class _WrongOrInvalidState extends State<WrongOrInvalid> {
     return createDate;
   }
 
-  SubmitRequest() async {
+ Future SubmitRequest() async {
     UserAuthController userAuthController = Get.find<UserAuthController>();
     var newValue;
     if (selectedIndex == 0) {
@@ -173,6 +173,7 @@ class _WrongOrInvalidState extends State<WrongOrInvalid> {
                   height: 50.w,
                   width: 200.w,
                   child: FloatingActionButton(
+
                     onPressed: () async {
                       if (selectedIndex == -1) {
                         snackBar(
@@ -185,7 +186,14 @@ class _WrongOrInvalidState extends State<WrongOrInvalid> {
                         setState(() {
                           isPresses = true;
                         });
-                        SubmitRequest();
+                      await  SubmitRequest();
+                        // Navigator.of(context).pop();
+                        // Navigator.of(context).pop();
+                        setState(() {
+                          isPresses = false;
+                        });
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
                       }
                     },
                     child: Text(
@@ -200,7 +208,10 @@ class _WrongOrInvalidState extends State<WrongOrInvalid> {
                     ),
                   ),
                 ),
-        )
+        ),
+        SizedBox(
+          height: 10.h,
+        ),
       ],
     );
   }

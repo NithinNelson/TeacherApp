@@ -53,18 +53,22 @@ class _ObsResultState extends State<LeaveApply> {
   {
     pickedFrom = await showDatePicker(
       context: context,
+
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
+
       // lastDate: new DateTime(2025),
       lastDate: DateTime(DateTime
           .now()
           .year + 1),
+
     );
     setState(() {
       fromDate = _examformatter.format(pickedFrom!);
       toDate = 'DD-MM-YYYY';
     });
     print(fromDate);
+
   }
 
   Future<Null> _selectToDate(BuildContext context) async
@@ -156,11 +160,11 @@ class _ObsResultState extends State<LeaveApply> {
                       // Border radius
                       boxShadow: [
                         BoxShadow(
-                          color: Colorutils.userdetailcolor.withOpacity(0.3),
+                          color: Colorutils.userdetailcolor.withOpacity(0.2),
                           // Shadow color
                           spreadRadius: 1,
                           blurRadius: 1,
-                          offset: Offset(0, 3), // Shadow position
+                          offset: Offset(0, 1), // Shadow position
                         ),
                       ],
                     ),
@@ -577,11 +581,12 @@ class _ObsResultState extends State<LeaveApply> {
                   _reasonController.clear();
                 });
                 submitFailed(
-                  title: resp['status']['message'],
+                  // title: resp['status']['message'],
+                  title: "Error",
                   message: resp['data']['message'],
                   actionName: "Close",
                   iconData: Icons.info_outline,
-                  iconColor: Colors.green,
+                  iconColor: Colors.red,
 
                 );
               } else {
