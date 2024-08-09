@@ -30,8 +30,10 @@ class ChatClassGroupController extends GetxController {
     isLoaded.value = false;
     try {
       String? teacherId = Get.find<UserAuthController>().userData.value.userId;
+      String? emailId = Get.find<UserAuthController>().userData.value.username;
       Map<String, dynamic> resp = await ApiServices.getClassGroupList(
         teacherId: teacherId.toString(),
+        emailId: emailId.toString(),
       );
       if (resp['status']['code'] == 200) {
         ClassGroupApiModel classGroupApiModel = ClassGroupApiModel.fromJson(resp);
@@ -52,8 +54,10 @@ class ChatClassGroupController extends GetxController {
   Future<void> fetchClassGroupListPeriodically() async {
     try {
       String? teacherId = Get.find<UserAuthController>().userData.value.userId;
+      String? emailId = Get.find<UserAuthController>().userData.value.username;
       Map<String, dynamic> resp = await ApiServices.getClassGroupList(
         teacherId: teacherId.toString(),
+        emailId: emailId.toString(),
       );
       if (resp['status']['code'] == 200) {
         ClassGroupApiModel classGroupApiModel = ClassGroupApiModel.fromJson(resp);

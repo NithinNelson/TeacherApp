@@ -320,11 +320,13 @@ class ApiServices {
 
   static Future<Map<String, dynamic>> getClassGroupList({
     required String teacherId,
+    required String emailId,
   }) async {
     String url = "${ApiConstants.chat}${ApiConstants.classGroup}";
     print(url);
     Map apiBody = {
       "teacher_id": teacherId,
+      "email": emailId,
     };
     try {
       var request = http.Request('POST', Uri.parse(url));

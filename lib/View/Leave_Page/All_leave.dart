@@ -45,25 +45,6 @@ class _allleaveState extends State<allleave> {
                   Icons.search,
                   color:Colors.grey,
                 ),
-                // suffixIcon: GestureDetector(
-                //   onTap: () => onListen(),
-                //   child: AvatarGlow(
-                //     animate: _isListening,
-                //     glowColor: Colors.blue,
-                //     endRadius: 20.0,
-                //     duration: Duration(milliseconds: 2000),
-                //     repeat: true,
-                //     showTwoGlows: true,
-                //     repeatPauseDuration:
-                //         Duration(milliseconds: 100),
-                //     child: Icon(
-                //       _isListening == false
-                //           ? Icons.keyboard_voice_outlined
-                //           : Icons.keyboard_voice_sharp,
-                //       color: ColorUtils.SEARCH_TEXT_COLOR,
-                //     ),
-                //   ),
-                // ),
                 contentPadding:
                     EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                 border: OutlineInputBorder(
@@ -90,12 +71,12 @@ class _allleaveState extends State<allleave> {
         SizedBox(height: 10.h),
         Container(
           width: ScreenUtil().screenWidth,
-          height: 500,
+          height: 550.h,
           child: GetX<LeaveApprovalController>(
             builder: (LeaveApprovalController controller) {
               List<AllLeaves> leaveList = controller.filteredAllLeaves.value;
               return ListView.builder(
-                padding: EdgeInsets.only(bottom: 20.h, top: 0, right: 0, left: 0),
+                padding: EdgeInsets.only(bottom: 80.h, top: 0, right: 0, left: 0),
                 itemCount: leaveList.length,
                   itemBuilder: (context, i) {
                   return Container(
