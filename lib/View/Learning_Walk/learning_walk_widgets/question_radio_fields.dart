@@ -43,7 +43,7 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                 flex: 0,
                 child: Padding(
                   padding: EdgeInsets.only(
-                      left: 20.w, top: 5.h, right: 20.w, bottom: 5),
+                      left: 20.w, top: 5.h, right: 20.w, bottom: 5.h),
                   child: Container(
                     decoration: BoxDecoration(
                       boxShadow: [
@@ -70,7 +70,7 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                           Padding(
                             padding: EdgeInsets.only(
                               left: 10.w,
-                              right: 5,
+                              right: 5.w,
                               top: 15.h,
                               bottom: 20.h,
                             ),
@@ -81,15 +81,16 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                 Container(
                                   height: 22.h,
                                   width: 22.h,
+                                  padding: const EdgeInsets.all(2).h,
                                   decoration: BoxDecoration(
                                     color: Colors.black,
-                                    borderRadius: BorderRadius.circular(100),
+                                    borderRadius: BorderRadius.circular(100).r,
                                   ),
                                   child: Center(
                                     child: FittedBox(
                                       child: Text(
                                         (i + 1).toString(),
-                                        style: TextStyle(color: Colors.white),
+                                        style: const TextStyle(color: Colors.white),
                                       ),
                                     ),
                                   ),
@@ -114,8 +115,8 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                   // height: 170.h,
                                   width: 155.w,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(24),
-                                    color: Color(0xffFEE68B).withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(24).r,
+                                    color: const Color(0xffFEE68B).withOpacity(0.2),
                                   ),
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 15.h),
@@ -223,7 +224,7 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                 // height: 170.h,
                                 width: 155.w,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(24),
+                                  borderRadius: BorderRadius.circular(24).r,
                                   color: Color(0xff79CF62).withOpacity(0.2),
                                 ),
                                 child: Padding(
@@ -334,7 +335,7 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                           Padding(
                             padding: EdgeInsets.only(left: 12.w, top: 10.h),
                             child: Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
+                              padding: EdgeInsets.only(bottom: 10.h),
                               child: InkWell(
                                 onTap: () {
                                   Navigator.of(context).push(

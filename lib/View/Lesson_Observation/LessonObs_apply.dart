@@ -101,7 +101,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.fromLTRB(
-                                          25.w, 10.h, 0, 10.h),
+                                          20.w, 10.h, 0, 10.h),
                                       child: Text(
                                         'Lesson Observation',
                                         style: TextStyle(
@@ -136,7 +136,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                                       horizontal: 10)
                                                       .w,
                                                   child: Container(
-                                                    width: 50.w,
+                                                    width: 50.h,
                                                     height: 50.h,
                                                     decoration: BoxDecoration(
                                                       shape: BoxShape.circle,
