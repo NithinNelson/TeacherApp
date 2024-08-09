@@ -45,10 +45,40 @@ class _MyTimeTableState extends State<MyTimeTable>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 6, vsync: this);
-    _pageController = PageController();
+    // Determine the current day
+    String currentDay = DateFormat("EEEE").format(DateTime.now());
+
+    // Map the current day to the corresponding index
+    switch (currentDay) {
+      case "Sunday":
+        _currentIndex = 0;
+        break;
+      case "Monday":
+        _currentIndex = 1;
+        break;
+      case "Tuesday":
+        _currentIndex = 2;
+        break;
+      case "Wednesday":
+        _currentIndex = 3;
+        break;
+      case "Thursday":
+        _currentIndex = 4;
+        break;
+      case "Friday":
+        _currentIndex = 5;
+        break;
+      case "Saturday":
+        _currentIndex = 6;
+        break;
+
+      default:
+        _currentIndex = 0; // Default to Monday if no match
+    }
+    tabController = TabController(length: 6, vsync: this,initialIndex: _currentIndex);
+    _pageController = PageController(initialPage: _currentIndex);
     tabController.addListener(() {
-      // _currentIndex=DateFormat("EEEE").format(date));
+      // _currentIndex=DateFormat("EEEE").format(DateTime.now())
       print("...........dsdfffff.......${DateFormat("EEEE").format(DateTime.now())}");
       if (tabController.indexIsChanging) {
         setState(() {
@@ -73,14 +103,14 @@ class _MyTimeTableState extends State<MyTimeTable>
   @override
   Widget build(BuildContext context) {
     print("...........dsdfffff.......${DateFormat("EEEE").format(DateTime.now())}");
-    final List<Widget> tabViews = [
-      monday(),
-      Tuesday(),
-      Wednesday(),
-      Thursday(),
-      Friday(),
-      Saturday()
-    ];
+    // final List<Widget> tabViews = [
+    //   monday(),
+    //   Tuesday(),
+    //   Wednesday(),
+    //   Thursday(),
+    //   Friday(),
+    //   Saturday()
+    // ];
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: systemUiOverlayStyleLight,

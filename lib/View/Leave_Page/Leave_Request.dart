@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:teacherapp/Controller/api_controllers/leaveRequestController.dart';
+import 'package:teacherapp/Models/api_models/chat_feed_view_model.dart';
 import 'package:teacherapp/View/Leave_Page/leave_apply.dart';
 
 import '../../Models/api_models/leave_req_list_api_model.dart';
@@ -158,7 +159,8 @@ class _LeaveRequestState extends State<LeaveRequest> {
                           SizedBox(height: 20.w),
                           GetX<LeaveRequestController>(
                             builder: (LeaveRequestController controller) {
-                              List<StudentsData> studentList = controller.filteredStudentList.value;
+                              List<StudentsData> studentList = controller.filteredStudentList;
+                              // studentList.sort((a, b) => a.name!.compareTo(b.name!),);
                               return Container(
                                 height: ScreenUtil().screenHeight * 0.7,
                                 child: SingleChildScrollView(
