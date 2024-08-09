@@ -710,12 +710,12 @@ class ApiServices {
     }
   }
 
-  static Future<Map<String, dynamic>> learningWalkSubmit({
-    required LearningWalkApplyModel reqData,
+  static Future<Map<String, dynamic>> lessonWalkSubmit({
+    required LessonLearningApplyModel reqData,
   }) async {
-    String url = "${ApiConstants.baseUrl}${ApiConstants.learningWalkSubmit}";
+    String url = "${ApiConstants.baseUrl}${reqData.isLesson ? ApiConstants.lessonSubmit : ApiConstants.learningWalkSubmit}";
     print(url);
-    Map apiBody = reqData.toJson();
+    Map apiBody = reqData.lessonLearning.toJson();
     try {
       var request = http.Request('POST', Uri.parse(url));
       request.body = (json.encode(apiBody));

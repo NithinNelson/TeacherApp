@@ -5,7 +5,9 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
 import 'package:teacherapp/View/CWidgets/AppBarBackground.dart';
 import '../../Controller/api_controllers/lessonObservationController.dart';
 import '../../Models/api_models/learning_observation_api_model.dart';
+import '../../Models/api_models/learning_walk_apply_model.dart';
 import '../../Utils/Colors.dart';
+import '../../sqflite_db/lessondatabase/lessondbhelper.dart';
 import '../CWidgets/commons.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
 import '../Learning_Walk/Learningwalk_apply.dart';
@@ -389,8 +391,16 @@ class _LessonObservationState extends State<LessonObservation> {
                               child: Padding(
                                 padding: EdgeInsets.only(top: 25.h),
                                 child: GestureDetector(
-                                  onTap: () {
+                                  onTap: () async {
                                     if (_formKey.currentState!.validate()) {
+                                      List<LessonLearningApplyModel> lessLearn = await LessonDatabase.instance.readAllLessonLearn();
+                                      for (var jkd in lessLearn) {
+                                        print("---------fvbdfvb-------${jkd.isLesson}");
+                                        print("---------fvbdfvb-------${jkd.id}");
+                                        print("---------fvbdfvb-------${jkd.lessonLearning.rollIds.first.name}");
+                                        print("---------fvbdfvb-------${jkd.lessonLearning.isJoin}");
+                                        print("---------fvbdfvb-------${jkd.lessonLearning.remarksData.first.indicators.first?.name}");
+                                      }
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(

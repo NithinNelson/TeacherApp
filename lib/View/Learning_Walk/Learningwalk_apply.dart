@@ -20,6 +20,7 @@ import '../../Utils/Colors.dart';
 import '../../Utils/font_util.dart';
 import '../../sqflite_db/learningdatabase/learningdbhelper.dart';
 import '../../sqflite_db/learningdatabase/learningmodel.dart';
+import '../../sqflite_db/lessondatabase/lessondbhelper.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
 
@@ -476,7 +477,9 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
     UserAuthController userAuthController = Get.find<UserAuthController>();
     LessonObservationController lessonObservationController = Get.find<LessonObservationController>();
 
-    LearningWalkApplyModel learningWalkApplyModel = LearningWalkApplyModel(
+    LessonLearningApplyModel learningWalkApplyModel = LessonLearningApplyModel(
+        isLesson: false,
+      lessonLearning: LessonLearning(
         schoolId: userAuthController.userData.value.schoolId ?? '',
         teacherId: lessonObservationController.selectedTeacher.value?.teacherId ?? '',
         teacherName: lessonObservationController.selectedTeacher.value?.teacherName ?? '',
@@ -502,25 +505,28 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
         remarksData: [
           RemarksData(indicators: lessonObservationController.markedIndicators.value),
         ],
+      ),
     );
 
     bool connection = await CheckConnectivity().check();
 
     if(connection) {
       try {
-        Map<String, dynamic> resp = await ApiServices.learningWalkSubmit(reqData: learningWalkApplyModel);
+        Map<String, dynamic> resp = await ApiServices.lessonWalkSubmit(reqData: learningWalkApplyModel);
         if(resp['status']['code'] == 200) {
-          submitFailed(
-            title: resp['status']['message'].toString(),
-            message: resp['data']['message'].toString(),
+          Get.back();
+          TeacherAppPopUps.submitFailed(
+            title: "Success",
+            message: "Learning Walk Result Added Successfully",
             actionName: "Close",
             iconData: Icons.done,
             iconColor: Colors.green,
           );
           log("------------submit resp-------------$resp");
         } else {
-          await saveNote(learning: learningWalkApplyModel);
-          submitFailed(
+          await LessonDatabase.instance.create(learningWalkApplyModel);
+          Get.back();
+          TeacherAppPopUps.submitFailed(
             title: "Success",
             message: "Learning Walk Result Added Successfully",
             actionName: "Close",
@@ -529,118 +535,27 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
           );
         }
       } catch(e) {
-        try {
-          await saveNote(learning: learningWalkApplyModel);
-        } catch(e) {}
-        submitFailed(
+        await LessonDatabase.instance.create(learningWalkApplyModel);
+        Get.back();
+        TeacherAppPopUps.submitFailed(
           title: "Success",
           message: "Learning Walk Result Added Successfully",
           actionName: "Close",
           iconData: Icons.done,
           iconColor: Colors.green,
         );
-        // snackBar(context: context, message: "Something went wrong", color: Colors.red);
       }
     } else {
-      try {
-        await saveNote(learning: learningWalkApplyModel);
-      } catch(e) {}
-      submitFailed(
+      await LessonDatabase.instance.create(learningWalkApplyModel);
+      Get.back();
+      TeacherAppPopUps.submitFailed(
         title: "Success",
         message: "Learning Walk Result Added Successfully",
         actionName: "Close",
         iconData: Icons.done,
         iconColor: Colors.green,
       );
-      // snackBar(context: context, message: "No internet connection", color: Colors.red);
     }
     context.loaderOverlay.hide();
-  }
-
-  Future<void> saveNote({required LearningWalkApplyModel learning}) async {
-    Note note = Note(
-      teachername: learning.teacherName,
-      observername: learning.observerName,
-      academicyear: learning.academicYear,
-      area: learning.areasForImprovement,
-      batchid: learning.batchId,
-      classid: learning.classId,
-      classname: learning.className,
-      curriculum_id: learning.curriculumId,
-      isJoin: "${learning.isJoin}",
-      observerid: learning.observerId,
-      rol_ids: json.encode([
-        for(int i = 0; i < learning.rollIds.length; i++)
-          learning.rollIds[i].toJson()
-      ]),
-      schoolid: learning.schoolId,
-      session_id: learning.sessionId,
-      strength: learning.strengths,
-      subjectid: learning.subjectId,
-      subjectname: learning.subjectName,
-      suggested: learning.remedialMeasures,
-      teacherid: learning.teacherId,
-      upper_hierrarchy: learning.upperHierarchy,
-      tempname: json.encode(learning.remarksData.first.toJson()),
-    );
-    await NotesDatabase.instance.create(note);
-  }
-
-  static submitFailed({
-    required String title,
-    required String message,
-    required String actionName,
-    required IconData iconData,
-    required Color iconColor,
-  }) {
-    return Get.dialog(
-      AlertDialog(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        ),
-        title: Column(
-          children: [
-            Icon(
-              iconData,
-              color: iconColor,
-              size: 50.w,
-            ),
-            SizedBox(height: 10.w),
-            Text(
-              title,
-              style: TeacherAppFonts.interW600_18sp_textWhite.copyWith(
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
-        content: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16.sp),
-        ),
-        actionsAlignment: MainAxisAlignment.center,
-        actions: [
-          FilledButton(
-            onPressed: () {
-              Get.back();
-              Get.back();
-            },
-            style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all(Colorutils.letters1),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  actionName,
-                  style: TextStyle(color: Colors.white, fontSize: 16.sp),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

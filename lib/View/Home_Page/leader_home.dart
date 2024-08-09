@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,10 +9,14 @@ import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:teacherapp/Controller/api_controllers/lessonObservationController.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
+import 'package:teacherapp/Services/api_services.dart';
+import 'package:teacherapp/Services/check_connectivity.dart';
 import 'package:teacherapp/Services/snackBar.dart';
+import 'package:teacherapp/Utils/api_constants.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 import 'package:teacherapp/View/Learning_Walk/Learning_walk.dart';
 import 'package:teacherapp/View/Lesson_Observation/Lesson_Observation.dart';
+import '../../Models/api_models/learning_walk_apply_model.dart';
 import '../../Utils/Colors.dart';
 import '../../Utils/constants.dart';
 import '../../sqflite_db/learningdatabase/learningdbhelper.dart';
@@ -32,8 +37,8 @@ class Leader extends StatefulWidget {
 
 class _LeaderState extends State<Leader> {
   LessonObservationController lessonObservationController = Get.find<LessonObservationController>();
-  List<Note>? notes;
-  List<Lesson>? not;
+  List<LessonLearningApplyModel> learningData = [];
+  List<LessonLearningApplyModel> lessonData = [];
 
   @override
   void initState() {
@@ -44,6 +49,7 @@ class _LeaderState extends State<Leader> {
   Future<void> initialize() async {
     context.loaderOverlay.show();
     await lessonObservationController.fetchLessonObservation();
+    await refreshLessLearnData();
     if (!mounted) return;
     context.loaderOverlay.hide();
   }
@@ -228,104 +234,104 @@ class _LeaderState extends State<Leader> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                refreshNote().then((_) {
-                                  print('-----not$not');
-                                  if(not!.isEmpty){
+                            if(lessonData.isNotEmpty)
+                              GestureDetector(
+                                onTap: () async {
+                                  context.loaderOverlay.show();
+                                  if(lessonData.isEmpty){
                                     TeacherAppPopUps.submitFailed(
-                                      title: "No Data to \nUpload",
+                                      title: "Message",
+                                      message: "No Data to Upload",
+                                      actionName: "Ok",
+                                      iconData: Icons.info_outline,
+                                      iconColor: Colors.yellow.shade900,
+                                    );
+                                  } else {
+                                    await lessonSubmit();
+                                  }
+                                  context.loaderOverlay.hide();
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(8).w,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: const Color.fromRGBO(0, 136, 170, 8),
+                                  ),
+                                  // height: 28,
+                                  // width: 100,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/Synclesson.png",
+                                        height: 22.h,
+                                        // width: 20,
+                                      ),
+                                      SizedBox(width: 5.w),
+                                      Text(
+                                        "Sync Lesson",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 14.h),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            else
+                              SizedBox(height: 24.h),
+                            SizedBox(width: 20.w),
+                            if(learningData.isNotEmpty)
+                              GestureDetector(
+                                onTap: () async {
+                                  context.loaderOverlay.show();
+                                  if(learningData.isEmpty){
+                                    print('-----notes1$learningData');
+                                    TeacherAppPopUps.submitFailed(
+                                      title: "No Data to Upload",
                                       message: "",
                                       actionName: "Ok",
                                       iconData: Icons.info_outline,
-                                      iconColor: Colors.yellow,
+                                      iconColor: Colors.yellow.shade900,
                                     );
                                   }else{
-                                    //refreshNotes().then((_) {
-                                    SubmitRequestLesson();
-                                    // });
+                                    print('-----notes$learningData');
+                                    await learningSubmit();
                                   }
-                                });
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(8).w,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: const Color.fromRGBO(0, 136, 170, 8),
+                                  context.loaderOverlay.hide();
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(8).w,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: const Color.fromRGBO(0, 136, 170, 8),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/Synclearning.png",
+                                        height: 22.h,
+                                        // width: 20,
+                                      ),
+                                      SizedBox(width: 5.w),
+                                      Center(
+                                          child: Text(
+                                            "Sync Learning",
+                                            style: TextStyle(
+                                                color: Colors.white, fontSize: 14.h),
+                                          )),
+                                    ],
+                                  ),
                                 ),
-                                // height: 28,
-                                // width: 100,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      "assets/images/Synclesson.png",
-                                      height: 22.h,
-                                      // width: 20,
-                                    ),
-                                    SizedBox(width: 5.w),
-                                    Text(
-                                      "Sync Lesson",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 14.h),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 20.w),
-                            GestureDetector(
-                              onTap: () {
-                                refreshNotes().then((_) {
-                                  // print('-----notes$notes');
-                                  if(notes!.isEmpty){
-                                    print('-----notes1$notes');
-                                    TeacherAppPopUps.submitFailed(
-                                        title: "No Data to \nUpload",
-                                        message: "",
-                                        actionName: "Ok",
-                                        iconData: Icons.info_outline,
-                                        iconColor: Colors.yellow,
-                                    );
-                                  }else{
-                                    print('-----notes$notes');
-                                    //refreshNotes().then((_) {
-                                    SubmitRequest();
-                                    // });
-                                  }
-                                });
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(8).w,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: const Color.fromRGBO(0, 136, 170, 8),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      "assets/images/Synclearning.png",
-                                      height: 22.h,
-                                      // width: 20,
-                                    ),
-                                    SizedBox(width: 5.w),
-                                    Center(
-                                        child: Text(
-                                      "Sync Learning",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 14.h),
-                                    )),
-                                  ],
-                                ),
-                              ),
-                            ),
+                              )
+                            else
+                              SizedBox(height: 24.h),
                           ],
                         ),
                         SizedBox(height: 160.h),
@@ -340,77 +346,111 @@ class _LeaderState extends State<Leader> {
     );
   }
 
-  Future refreshNotes() async {
-    this.notes = await NotesDatabase.instance.readAllNotes();
-    print('learning walk db length------->${notes!.length}');
-    //print(notes!.first.teachername);
+  Future<void> refreshLessLearnData() async {
+    List<LessonLearningApplyModel> lessLearn = await LessonDatabase.instance.readAllLessonLearn();
+    learningData = lessLearn.where((data) => data.isLesson == false).toList();
+    lessonData = lessLearn.where((data) => data.isLesson == true).toList();
+    setState(() {});
+    print('lesson learn db length-------${lessLearn.length}');
   }
 
-  Future refreshNote() async {
-    this.not = await LessonDatabase.instance.readAllNotes();
-    print('lesson obs db length-------${not!.length}');
-    // print(not!.first.teachername);
-  }
-
-  SubmitRequest() async {
-    // setState(() {
-    //   isSpinner = true;
-    // });
-    var result = await Connectivity().checkConnectivity();
-    if (result.contains(ConnectivityResult.none)) {
+  Future<void> lessonSubmit() async {
+    bool result = await CheckConnectivity().check();
+    if (!result) {
       await snackBar(context: context, message: "No internet connection", color: Colors.red);
-      // _checkInternet(context);
-      // setState(() {
-      //   isSpinner = false;
-      // });
     } else {
-      // setState(() {
-      //   isSpinner = true;
-      // });
-      for (var learninglist = 0; learninglist < notes!.length; learninglist++) {
-        // isSpinner = true;
-        var url = Uri.parse("https://teamsqa3000.educore.guru/v2/learning_walk/submit_evaluation");
-        var header = {
-          "x-auth-token": "tq355lY3MJyd8Uj2ySzm",
-          "Content-Type": "application/json",
-        };
-        //var areaof  = json.decode(notes[learninglist].area);
-        //var strenghtof = json.decode(notes[learninglist].strength);
-        final bdy = jsonEncode({
-          "school_id": notes![learninglist].schoolid,
-          "teacher_id": notes![learninglist].teacherid,
-          "teacher_name": notes![learninglist].teachername,
-          "observer_id": notes![learninglist].observerid,
-          "observer_name": notes![learninglist].observername,
-          "subject_id": notes![learninglist].subjectid,
-          "subject_name": notes![learninglist].subjectname,
-          "class_id": notes![learninglist].classid,
-          "batch_id": notes![learninglist].batchid,
-          "class_batch_name": notes![learninglist].classname,
-          "academic_year": notes![learninglist].academicyear,
-          "areas_for_improvement": notes![learninglist].area,
-          "strengths": notes![learninglist].strength,
-          "remedial_measures": notes![learninglist].suggested,
-          "roll_ids": notes![learninglist].rol_ids,
-          "upper_hierrarchy": notes![learninglist].upper_hierrarchy,
-          "curriculum_id": notes![learninglist].curriculum_id,
-          "isJoin": notes![learninglist].isJoin,
-          "session_id": notes![learninglist].session_id,
-          "remarks_data": [
-            {"Indicators": jsonDecode(notes![learninglist].tempname.toString())}
-          ]
-        });
-        var jsonresponse = await http.post(url, headers: header, body: bdy);
-        print(bdy);
-        if (jsonresponse.statusCode == 200) {
-          // isSpinner = false;
-        } else {
-          // isSpinner = false;
+      for (var data in lessonData) {
+        try {
+          Map<String, dynamic> resp = await ApiServices.lessonWalkSubmit(reqData: data);
+          if(resp['status']['code'] == 200) {
+            await LessonDatabase.instance.delete(data.id!);
+          } else {
+            TeacherAppPopUps.submitFailed(
+              title: "Error",
+              message: "Failed to sync data.",
+              actionName: "Close",
+              iconData: Icons.error_outline,
+              iconColor: Colors.red.shade900,
+            );
+            break;
+          }
+        } on SocketException catch(e) {
+          TeacherAppPopUps.submitFailed(
+            title: "Error",
+            message: "Internet connection is not stable",
+            actionName: "Close",
+            iconData: Icons.done,
+            iconColor: Colors.green,
+          );
+          break;
+        } catch(e) {
+          TeacherAppPopUps.submitFailed(
+            title: "Error",
+            message: "Something went wrong",
+            actionName: "Close",
+            iconData: Icons.done,
+            iconColor: Colors.green,
+          );
+          break;
         }
       }
-      // isSpinner = true;
-      setState(() {
-        // isSpinner = false;
+    }
+    await refreshLessLearnData().then((_) {
+      if(lessonData.isEmpty) {
+        TeacherAppPopUps.submitFailed(
+          title: "Success",
+          message: "Lesson Observation Result Added Successfully",
+          actionName: "Close",
+          iconData: Icons.done,
+          iconColor: Colors.green,
+        );
+      }
+    });
+  }
+
+  Future<void> learningSubmit() async {
+    bool result = await CheckConnectivity().check();
+    if (!result) {
+      await snackBar(context: context, message: "No internet connection", color: Colors.red);
+    } else {
+      for (var data in learningData) {
+        try {
+          Map<String, dynamic> resp = await ApiServices.lessonWalkSubmit(reqData: data);
+          if(resp['status']['code'] == 200) {
+            await LessonDatabase.instance.delete(data.id!);
+          } else {
+            TeacherAppPopUps.submitFailed(
+              title: "Error",
+              message: "Failed to sync data.",
+              actionName: "Close",
+              iconData: Icons.error_outline,
+              iconColor: Colors.red.shade900,
+            );
+            break;
+          }
+        } on SocketException catch(e) {
+          TeacherAppPopUps.submitFailed(
+            title: "Error",
+            message: "Internet connection is not stable",
+            actionName: "Close",
+            iconData: Icons.done,
+            iconColor: Colors.green,
+          );
+          break;
+        } catch(e) {
+          TeacherAppPopUps.submitFailed(
+            title: "Error",
+            message: "Something went wrong",
+            actionName: "Close",
+            iconData: Icons.done,
+            iconColor: Colors.green,
+          );
+          break;
+        }
+      }
+    }
+    await refreshLessLearnData().then((_) {
+      if(learningData.isEmpty) {
         TeacherAppPopUps.submitFailed(
           title: "Success",
           message: "Learning Walk Result Added Successfully",
@@ -418,82 +458,7 @@ class _LeaderState extends State<Leader> {
           iconData: Icons.done,
           iconColor: Colors.green,
         );
-      });
-    }
-  }
-
-  SubmitRequestLesson() async {
-    // setState(() {
-    //   isSpinner = true;
-    // });
-    var result = await Connectivity().checkConnectivity();
-    if (result.contains(ConnectivityResult.none)) {
-      snackBar(context: context, message: "No internet connection", color: Colors.red);
-    } else {
-      // isSpinner = true;
-      for (var lessonlist = 0; lessonlist < not!.length; lessonlist++) {
-        // isSpinner = true;
-        var url = Uri.parse("https://teamsqa3000.educore.guru/v2/lesson_observation/submit_evaluation");
-        // var lessonstrengt = json.decode(not[lessonlist].areas_for_improvement);
-        // var lessonarea = json.decode(not[lessonlist].strengths);
-        final bdy = jsonEncode({
-          "school_id": not![lessonlist].schoolid,
-          "teacher_id": not![lessonlist].teacherid,
-          "teacher_name": not![lessonlist].teachername,
-          "observer_id": not![lessonlist].observerid,
-          "observer_name": not![lessonlist].observername,
-          "subject_id": not![lessonlist].subjectid,
-          "class_id": not![lessonlist].classid,
-          "class_batch_name": not![lessonlist].classname,
-          "batch_id": not![lessonlist].batchid,
-          "topic": not![lessonlist].topic,
-          "academic_year": not![lessonlist].academicyear,
-          "areas_for_improvement": not![lessonlist].areas_for_improvement,
-          "subject_name": not![lessonlist].subjectname,
-          "remedial_measures": not![lessonlist].remedial_measures,
-          "strengths": not![lessonlist].strengths,
-          //"roll_ids": jsonDecode(not[lessonlist].role_ids.toString()),
-          "roll_ids": not![lessonlist].role_ids,
-          "upper_hierarchy": not![lessonlist].upper_hierarchy,
-          "session_id": not![lessonlist].session_id,
-          "curriculum_id": not![lessonlist].curriculum_id,
-          "isJoin": not![lessonlist].isJoin,
-
-          "remarks_data": [
-            {"Indicators": jsonDecode(not![lessonlist].tempnam.toString())},
-          ]
-        });
-        var header = {
-          "x-auth-token": "tq355lY3MJyd8Uj2ySzm",
-          "Content-Type": "application/json",
-        };
-        print(bdy);
-        var jsonresponse = await http.post(
-          url,
-          headers: header,
-          body: bdy,
-        );
-        print(jsonresponse.body);
-        if (jsonresponse.statusCode == 200) {
-          // isSpinner = false;
-          // var response = await SubmitLesson.fromJson(jsonDecode(
-          //   jsonresponse.body,
-          // ));
-        } else {
-          // isSpinner = false;
-        }
       }
-      TeacherAppPopUps.submitFailed(
-        title: "Success",
-        message: "Lesson Observation Result Added Successfully",
-        actionName: "Close",
-        iconData: Icons.done,
-        iconColor: Colors.green,
-      );
-      // _submitedSuccessfully(context);
-      // setState(() {
-      //   // isSpinner = false;
-      // });
-    }
+    });
   }
 }
