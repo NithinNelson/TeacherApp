@@ -42,6 +42,7 @@ class GroupChatList extends StatelessWidget {
               } catch(e) {}
               String? userId = Get.find<UserAuthController>().userData.value.userId;
               return ChatItems(
+
                 // className: classTeacherGroups[index].subjectName ?? '--',
                 time: formattedDate ?? '',
                 unreadMessages: classTeacherGroups[index].unreadCount ?? 0,
@@ -54,9 +55,11 @@ class GroupChatList extends StatelessWidget {
             },
             separatorBuilder: (BuildContext context, int index) {
               return const Divider(
-                thickness: 0.3,
-                indent: 15,
-                endIndent: 15,
+                thickness: 0.2,
+                indent: 10,
+                endIndent: 10,
+                height: 0,
+                color: Colors.grey,
               );
             },
           );
@@ -120,105 +123,108 @@ class ChatItems extends StatelessWidget {
         //       ));
         // }
       },
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10).w,
-        child: Row(
-          children: [
-            CircleAvatar(
-              backgroundColor: avatarColor,
-              radius: 28.r,
-              child: FittedBox(
-                child: Text(
-                  '${classTeacherGroup?.classTeacherClass}${classTeacherGroup?.batch}',
-                  style: TeacherAppFonts.interW600_14sp_textWhite,
-                ),
-              ),
-            ),
-            SizedBox(width: 15.h),
-            Expanded(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              constraints: const BoxConstraints(
-                                  maxWidth: 120),
-                              child: Text(
-                                // "English",
-                                classTeacherGroup?.subjectName ?? '--',
-                                style: TeacherAppFonts.interW700_16sp_black,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 2.h),
-                        Row(
-                          children: [
-                            if(userId != null && lastMessage != null)
-                              if(userId == lastMessage!.messageFromId)
-                                SizedBox(
-                                  height: 21.h,
-                                  width: 21.h,
-                                  child: SvgPicture.asset(
-                                    "assets/images/Checks.svg",
-                                    color: lastMessage!.read! ? Colors.green : Colors.grey,
-                                  ),
-                                ),
-
-                            if(userId != null && lastMessage != null)
-                              if(userId == lastMessage!.messageFromId)
-                                SizedBox(width: 5.h),
-                            LastSeenMsgGroupChat(lastMessage: lastMessage),
-                          ],
-                        )
-                      ],
-                    ),
+      child: Container(
+        color: Colors.white,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15).w,
+          child: Row(
+            children: [
+              CircleAvatar(
+                backgroundColor: avatarColor,
+                radius: 28.r,
+                child: FittedBox(
+                  child: Text(
+                    '${classTeacherGroup?.classTeacherClass}${classTeacherGroup?.batch}',
+                    style: TeacherAppFonts.interW600_14sp_textWhite,
                   ),
-                ],
-              ),
-            ),
-            SizedBox(height: 15.h),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  time,
-                  style: TeacherAppFonts.interW400_12sp_topicbackground,
                 ),
-                SizedBox(height: 10.h),
-                if(unreadMessages != null)
-                  if(unreadMessages != 0)
-                    Container(
-                      height: 23.h,
-                      width: 23.h,
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colorutils.topicbackground),
-                      child: Center(
-                        child: Text(
-                          unreadMessages.toString(),
-                          style: TeacherAppFonts.interW600_14sp_textWhite,
-                        ),
+              ),
+              SizedBox(width: 15.h),
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                constraints: const BoxConstraints(
+                                    maxWidth: 120),
+                                child: Text(
+                                  // "English",
+                                  classTeacherGroup?.subjectName ?? '--',
+                                  style: TeacherAppFonts.interW700_16sp_black,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 2.h),
+                          Row(
+                            children: [
+                              if(userId != null && lastMessage != null)
+                                if(userId == lastMessage!.messageFromId)
+                                  SizedBox(
+                                    height: 21.h,
+                                    width: 21.h,
+                                    child: SvgPicture.asset(
+                                      "assets/images/Checks.svg",
+                                      color: lastMessage!.read! ? Colors.green : Colors.grey,
+                                    ),
+                                  ),
+
+                              if(userId != null && lastMessage != null)
+                                if(userId == lastMessage!.messageFromId)
+                                  SizedBox(width: 5.h),
+                              LastSeenMsgGroupChat(lastMessage: lastMessage),
+                            ],
+                          )
+                        ],
                       ),
-                    )
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 15.h),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    time,
+                    style: TeacherAppFonts.interW400_12sp_topicbackground,
+                  ),
+                  SizedBox(height: 10.h),
+                  if(unreadMessages != null)
+                    if(unreadMessages != 0)
+                      Container(
+                        height: 23.h,
+                        width: 23.h,
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colorutils.topicbackground),
+                        child: Center(
+                          child: Text(
+                            unreadMessages.toString(),
+                            style: TeacherAppFonts.interW600_14sp_textWhite,
+                          ),
+                        ),
+                      )
+                    else
+                      SizedBox(
+                        height: 23.h,
+                        width: 23.h,
+                      )
                   else
                     SizedBox(
                       height: 23.h,
                       width: 23.h,
-                    )
-                else
-                  SizedBox(
-                    height: 23.h,
-                    width: 23.h,
-                  ),
-              ],
-            )
-          ],
+                    ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

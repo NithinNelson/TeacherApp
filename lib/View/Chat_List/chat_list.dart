@@ -73,12 +73,12 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: systemUiOverlayStyleLight,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colorutils.userdetailcolor,
         // appBar: const ChatAppBar(),
         body: Column(
           children: [
             Container(
-              height: 100.h,
+              height: 105.h,
               width: MediaQuery.of(context).size.width,
               color: Colorutils.userdetailcolor,
               padding: const EdgeInsets.symmetric(horizontal: 16).w,
@@ -90,8 +90,9 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                         if(controller.searchEnabled.value)
                           Expanded(
                             child: Container(
+                              height: 45,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(10)).r,
+                                borderRadius: BorderRadius.all(Radius.circular(15)).r,
                                 color: Colors.white,
                               ),
                               child: Row(
@@ -110,6 +111,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                                   ),
                                   Expanded(
                                     child: CupertinoSearchTextField(
+
                                       backgroundColor: Colors.white,
                                       onChanged: (value) {
                                         if(_tabcontroller?.index == 0) {
@@ -167,6 +169,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                               ],
                             ),
                           ),
+                        SizedBox(width: 10,),
                         if (controller.currentChatTab.value == 1 && !parentChatListController.searchEnabled.value)
                           Padding(
                           padding: const EdgeInsets.only(left: 6).w,
@@ -188,8 +191,9 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                                 snackBar(context: context, message: "Parent chat list is empty.", color: Colors.red);
                               }
                             },
+
                             child: Container(
-                              padding: const EdgeInsets.all(4.0).w,
+
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(100).w),
@@ -210,6 +214,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
               color: Colorutils.userdetailcolor,
               alignment: Alignment.bottomCenter,
               child: TabBar(
+                // indicatorSize: TabBarIndicatorSize.tab,
                 onTap: (index) {
                   _tabcontroller = TabController(
                       length: 2, vsync: this, initialIndex: index);
@@ -224,6 +229,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                 indicatorColor: Colors.white,
                 indicatorSize: TabBarIndicatorSize.label,
                 isScrollable: true,
+
                 tabs: <Widget>[
                   Container(
                     width: 180.w,
@@ -315,20 +321,24 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
               ),
             ),
             Expanded(
-              child: PageView(
-                controller: pageController,
-                onPageChanged: (index) {
-                  // if(_tabcontroller != null) {
-                  _tabcontroller = TabController(
-                      length: 2, vsync: this, initialIndex: index);
-                  setState(() {});
-                  Get.find<ChatClassGroupController>().setCurrentChatTab(index);
-                  // }
-                },
-                children: const [
-                  GroupChatList(),
-                  ParentChatList(),
-                ],
+              child: Container(
+                color: Colors.white,
+                child: PageView(
+
+                  controller: pageController,
+                  onPageChanged: (index) {
+                    // if(_tabcontroller != null) {
+                    _tabcontroller = TabController(
+                        length: 2, vsync: this, initialIndex: index);
+                    setState(() {});
+                    Get.find<ChatClassGroupController>().setCurrentChatTab(index);
+                    // }
+                  },
+                  children: const [
+                    GroupChatList(),
+                    ParentChatList(),
+                  ],
+                ),
               ),
             ),
           ],
