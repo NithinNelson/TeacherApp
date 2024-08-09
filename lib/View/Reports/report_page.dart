@@ -671,7 +671,7 @@ class _ReportScreenState extends State<ReportScreen> {
                                 MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Reports',
+                                'Reportsz',
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),

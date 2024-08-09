@@ -32,42 +32,26 @@ class ClassList extends StatelessWidget {
           Color color = colors[index % colors.length];
 
           return GestureDetector(
-            // onTap: () {
-            //   UserAuthController userAuthController = Get.find<UserAuthController>();
-            //   if(todaySubjects[index].classDetails.isEmpty) {
-            //     Navigator.of(context).push(MaterialPageRoute(builder: (context) => NonTeacherStudentList(
-            //         className: todaySubjects[index].batchName,
-            //         curriculam_id: todaySubjects[index].curriculumId,
-            //         session_id: todaySubjects[index].sessionId,
-            //         class_id: todaySubjects[index].classId,
-            //         batch_id: todaySubjects[index].batchId,
-            //       selectedDate: getCurrentDate(),
-            //       name: userAuthController.userData.value.name,
-            //       images: userAuthController.userData.value.image,
-            //       school_id: userAuthController.userData.value.schoolId,
-            //       academic_year: userAuthController.userData.value.academicYear,
-            //       userId: userAuthController.userData.value.userId,
-            //     )));
-            //   } else {
-            //     Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentListView(
-            //       className: todaySubjects[index].batchName,
-            //       curriculam_id: todaySubjects[index].curriculumId,
-            //       session_id: todaySubjects[index].sessionId,
-            //       class_id: todaySubjects[index].classId,
-            //       batch_id: todaySubjects[index].batchId,
-            //       selectedDate: getCurrentDate(),
-            //       name: userAuthController.userData.value.name,
-            //       images: userAuthController.userData.value.image,
-            //       school_id: userAuthController.userData.value.schoolId,
-            //       academic_year: userAuthController.userData.value.academicYear,
-            //       userId: userAuthController.userData.value.userId,
-            //       ClassAndBatch: todaySubjects[index].batchName,
-            //       subjectName: todaySubjects[index].subject,
-            //       LoginedUserEmployeeCode: userAuthController.userData.value.employeeNo,
-            //     )));
-            //   }
-            //   // Navigator.of(context).push(MaterialPageRoute(builder: (context) => Myclasses()));
-            // },
+            onTap: () {
+              UserAuthController userAuthController = Get.find<UserAuthController>();
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentListView(
+                className: "${classTeacherSubjects[index].classs} ${classTeacherSubjects[index].batch}",
+                curriculam_id: classTeacherSubjects[index].curriculumId,
+                session_id: classTeacherSubjects[index].sessionId,
+                class_id: classTeacherSubjects[index].classId,
+                batch_id: classTeacherSubjects[index].batchId,
+                selectedDate: getCurrentDate(),
+                name: userAuthController.userData.value.name,
+                images: userAuthController.userData.value.image,
+                school_id: userAuthController.userData.value.schoolId,
+                academic_year: userAuthController.userData.value.academicYear,
+                userId: userAuthController.userData.value.userId,
+                ClassAndBatch: "${classTeacherSubjects[index].classs} ${classTeacherSubjects[index].batch}",
+                subjectName: classTeacherSubjects[index].sub,
+                LoginedUserEmployeeCode: userAuthController.userData.value.employeeNo,
+              )));
+              // Navigator.of(context).push(MaterialPageRoute(builder: (context) => Myclasses()));
+            },
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25).r,

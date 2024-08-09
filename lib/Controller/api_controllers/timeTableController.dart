@@ -85,6 +85,7 @@ class TimeTableController extends GetxController {
           }
           if(sub.isClassTeacher==true){
             classTeacherSubjects.add(TeacherSubject(
+
               sub: "Class Teacher",
               classs: sub.ownListClass?.name,
               batch: sub.batch?.name,

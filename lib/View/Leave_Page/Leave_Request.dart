@@ -74,7 +74,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 20.w, top: 120.h, right: 20.w,),
+                  margin: EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w,),
                   // width: 550.w,
                   // height: ScreenUtil().screenHeight ,
                   decoration: BoxDecoration(
@@ -87,11 +87,11 @@ class _LeaveRequestState extends State<LeaveRequest> {
 
                     boxShadow: [
                       BoxShadow(
-                        color: Colorutils.userdetailcolor.withOpacity(0.3),
+                        color: Colorutils.userdetailcolor.withOpacity(0.2),
                         // Shadow color
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3), // Shadow position
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                        offset: Offset(0, 1), // Shadow position
                       ),
                     ],
                   ),
@@ -110,62 +110,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                   style: TextStyle(
                                       fontSize: 16, fontWeight: FontWeight.w600),
                                 ),
-                                // SizedBox(
-                                //   width: 75.w,
-                                // ),
-                                // Row(
-                                //   mainAxisSize: MainAxisSize.min,
-                                //   children: [
-                                //     Text(
-                                //       'My Class',
-                                //       style: TeacherAppFonts.interW600_16sp_black.copyWith(
-                                //         color: Colors.blueGrey,
-                                //       ),
-                                //     ),
-                                //     SizedBox(
-                                //       width: 5.w,
-                                //     ),
-                                //     GetX<LeaveRequestController>(
-                                //       builder: (LeaveRequestController controller) {
-                                //         List<ClassData> classList = controller.classList.value;
-                                //         return Container(
-                                //           height: 40.h,
-                                //           width: classList.length < 2 ? 50.w : 89.w,
-                                //           child: ListView.builder(
-                                //               shrinkWrap: true,
-                                //               scrollDirection: Axis.horizontal,
-                                //               itemCount: classList.length,
-                                //               itemBuilder:
-                                //                   (BuildContext context, int index) {
-                                //                 return Padding(
-                                //                   padding: const EdgeInsets.only(right: 5).w,
-                                //                   child: InkWell(
-                                //                     onTap: () {
-                                //                       controller.setStudentList(selectedClassData: classList[index], index: index);
-                                //                     },
-                                //                     child: Container(
-                                //                       width: 40.w,
-                                //                       height: 40.w,
-                                //                       padding: EdgeInsets.all(8).w,
-                                //                       decoration: BoxDecoration(
-                                //                         shape: BoxShape.circle,
-                                //                         color: Colors.red,
-                                //                       ),
-                                //                       child: FittedBox(
-                                //                         child: Text(
-                                //                           "${classList[index].className}${classList[index].batchName}",
-                                //                           style: TeacherAppFonts.interW400_14sp_textWhite,
-                                //                         ),
-                                //                       ),
-                                //                     ),
-                                //                   ),
-                                //                 );
-                                //               }),
-                                //         );
-                                //       },
-                                //     ),
-                                //   ],
-                                // )
+
                               ],
                             ),
                           ),

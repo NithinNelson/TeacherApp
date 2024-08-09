@@ -75,7 +75,7 @@ class _misbehavState extends State<misbehav> {
             context: context,
             message: "Submitted Successfully",
             color: Colors.green);
-        Navigator.of(context).pop();
+        // Navigator.of(context).pop();
         // Utils.showToastSuccess("Submitted Successfully")
         //     .show(context)
         //     .then((_) {
@@ -147,6 +147,7 @@ class _misbehavState extends State<misbehav> {
                                   isPresses = true;
                                 });
                                 SubmitRequest();
+                                Navigator.of(context).pop();
                               }
                             }
                           },
@@ -162,7 +163,12 @@ class _misbehavState extends State<misbehav> {
                           ),
                         ),
                       ),
-              )
+
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+
             ],
           ),
         ),

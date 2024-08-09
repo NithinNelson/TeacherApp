@@ -43,7 +43,12 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         child: GetMaterialApp(
           title: 'NIMS Teacher',
-          theme: ThemeData(),
+          theme: ThemeData(
+
+
+            primarySwatch:Colors.green,
+
+          ),
           debugShowCheckedModeBanner: false,
           home: SplashScreen(),
         ),

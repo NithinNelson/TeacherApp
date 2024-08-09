@@ -64,7 +64,7 @@ class _CallNotAnsweredState extends State<CallNotAnswered> {
       await snackBar(
           context: context,
           message: "Submitted Successfully",
-          color: Colors.red);
+          color: Colors.green);
       Navigator.of(context).pop();
       // Utils.showToastSuccess("Submitted Successfully").show(context).then((_) {
       //   NavigationUtils.goBack(context);
@@ -130,7 +130,11 @@ class _CallNotAnsweredState extends State<CallNotAnswered> {
                           setState(() {
                             isPresses = true;
                           });
-                          SubmitRequest();
+                         await SubmitRequest();
+                          setState(() {
+                            isPresses = false;
+                          });
+                          Navigator.of(context).pop();
                         }
                       },
                       child: Text(
@@ -145,6 +149,9 @@ class _CallNotAnsweredState extends State<CallNotAnswered> {
                       ),
                     ),
                   ),
+          ),
+          SizedBox(
+            height: 10.h,
           ),
         ],
       ),

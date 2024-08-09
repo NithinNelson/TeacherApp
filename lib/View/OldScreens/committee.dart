@@ -55,7 +55,7 @@ class _CommittedPageState extends State<CommittedPage> {
       });
   }
 
-  SubmitRequest() async {
+  Future SubmitRequest() async {
     UserAuthController userAuthController = Get.find<UserAuthController>();
     print(widget.nameOfLoginTeacher);
     var url = Uri.parse(ApiConstants.DOCME_URL);
@@ -167,7 +167,8 @@ class _CommittedPageState extends State<CommittedPage> {
                             setState(() {
                               isPresses = true;
                             });
-                            SubmitRequest();
+                            await SubmitRequest();
+                            Navigator.of(context).pop();
                           }
                         },
                         child:Text(
@@ -187,6 +188,9 @@ class _CommittedPageState extends State<CommittedPage> {
                       ),
                     ),
                   ),
+                SizedBox(
+                  height: 10.h,
+                ),
 
               ],
             ),

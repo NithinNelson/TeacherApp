@@ -204,14 +204,37 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
               Stack(
                 children: [
                   const AppBarBackground(),
-                  const UserDetails(shoBackgroundColor: false, isWelcome: true, bellicon: true, notificationcount: true),
+                  Positioned(
+                    left: 0,
+                    top: -10,
+                    child: Container(
+                      // height: 100.w,
+                      width: ScreenUtil().screenWidth,
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.circular(17.0),
+                      ),
+                      child: const UserDetails(
+                        shoBackgroundColor: false, isWelcome: false,bellicon: true, notificationcount: true,),
+                    ),
+                  ),
+                  // const UserDetails(shoBackgroundColor: false, isWelcome: true, bellicon: true, notificationcount: true),
 
                   Container(
                     margin: EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w),
                     height: MediaQuery.of(context).size.height,
                     decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xFFCAD3FF)),
+
                         color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colorutils.userdetailcolor.withOpacity(0.2),
+                            // Shadow color
+                            spreadRadius: 1,
+                            blurRadius: 2,
+                            offset: Offset(0, 3), // Shadow position
+                          ),
+                        ],
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -275,7 +298,7 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
                                                       .toString(),
                                                   style: TextStyle(
                                                       fontSize: 14.sp,
-                                                      color: Color(0xFFFF87A6),
+                                                      color: Colors.red,
                                                       fontWeight:
                                                       FontWeight.bold),
                                                 ),
@@ -600,7 +623,7 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
                                                                 style: TextStyle(
                                                                     fontSize:
                                                                     14.sp,
-                                                                    color: Color(0xFFFF87A6),
+                                                                    color: Colors.red,
                                                                     fontWeight:
                                                                     FontWeight
                                                                         .bold),
@@ -744,7 +767,7 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
                                 fees,
                                 style: TextStyle(
                                     fontSize: 14.sp,
-                                    color: Color(0xFFFF87A6),
+                                    color: Colors.red,
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -755,9 +778,11 @@ class _StudentListForHOSState extends State<StudentListForHOS> {
                   ],
                 ),
                 const Divider(
-                  indent: 20,
-                  endIndent: 20,
+                  indent: 5,
+                  endIndent: 5,
                   height: 20,
+                  color: Colorutils.chatcolor,
+
                 ),
                 SizedBox(
                   height: 25.h,
