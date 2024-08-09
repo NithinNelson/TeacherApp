@@ -1,5 +1,49 @@
 import 'login_api_model.dart';
 
+class LearningFields {
+  static final List<String> values = [
+    /// Add all fields
+    id, schoolId, teacherId, teacherName, observerId, observerName, classId,
+    classBatchName, batchId, topic, academicYear, batchName, className,
+    subjectName,
+    subjectId, rollIds, areasForImprovement, strengths, remedialMeasures,
+    upperHierarchy,
+    sessionId, curriculumId, isJoin, remarksData, indicators, name, remark,
+    point, dbKey, alias
+  ];
+
+  static final String id = '_id';
+  static final String schoolId = 'school_id';
+  static final String teacherId = 'teacher_id';
+  static final String teacherName = 'teacher_name';
+  static final String observerId = 'observer_id';
+  static final String observerName = 'observer_name';
+  static final String classId = 'class_id';
+  static final String classBatchName = 'class_batch_name';
+  static final String batchId = 'batch_id';
+  static final String topic = 'topic';
+  static final String academicYear = 'academic_year';
+  static final String batchName = 'batch_name';
+  static final String className = 'class_name';
+  static final String subjectName = 'subject_name';
+  static final String subjectId = 'subject_id';
+  static final String rollIds = 'roll_ids';
+  static final String areasForImprovement = 'areas_for_improvement';
+  static final String strengths = 'strengths';
+  static final String remedialMeasures = 'remedial_measures';
+  static final String upperHierarchy = 'upper_hierarchy';
+  static final String sessionId = 'session_id';
+  static final String curriculumId = 'curriculum_id';
+  static final String isJoin = 'isJoin';
+  static final String remarksData = 'remarks_data';
+  static final String indicators = 'Indicators';
+  static final String name = 'name';
+  static final String remark = 'remark';
+  static final String point = 'point';
+  static final String dbKey = 'db_key';
+  static final String alias = 'alias';
+}
+
 class LearningWalkApplyModel {
   final String schoolId;
   final String teacherId;
@@ -53,30 +97,32 @@ class LearningWalkApplyModel {
 
   factory LearningWalkApplyModel.fromJson(Map<String, dynamic> json) {
     return LearningWalkApplyModel(
-      schoolId: json['school_id'],
-      teacherId: json['teacher_id'],
-      teacherName: json['teacher_name'],
-      observerId: json['observer_id'],
-      observerName: json['observer_name'],
-      classId: json['class_id'],
-      classBatchName: json['class_batch_name'],
-      batchId: json['batch_id'],
-      topic: json['topic'],
-      academicYear: json['academic_year'],
-      batchName: json['batch_name'],
-      className: json['class_name'],
-      subjectName: json['subject_name'],
-      subjectId: json['subject_id'],
-      rollIds:
-          (json['roll_ids'] as List).map((i) => AllRolesArray.fromJson(i)).toList(),
-      areasForImprovement: List<String>.from(json['areas_for_improvement']),
-      strengths: List<String>.from(json['strengths']),
-      remedialMeasures: json['remedial_measures'],
-      upperHierarchy: json['upper_hierarchy'],
-      sessionId: json['session_id'],
-      curriculumId: json['curriculum_id'],
-      isJoin: json['isJoin'],
-      remarksData: (json['remarks_data'] as List)
+      schoolId: json[LearningFields.schoolId],
+      teacherId: json[LearningFields.teacherId],
+      teacherName: json[LearningFields.teacherName],
+      observerId: json[LearningFields.observerId],
+      observerName: json[LearningFields.observerName],
+      classId: json[LearningFields.classId],
+      classBatchName: json[LearningFields.classBatchName],
+      batchId: json[LearningFields.batchId],
+      topic: json[LearningFields.topic],
+      academicYear: json[LearningFields.academicYear],
+      batchName: json[LearningFields.batchName],
+      className: json[LearningFields.className],
+      subjectName: json[LearningFields.subjectName],
+      subjectId: json[LearningFields.subjectId],
+      rollIds: (json[LearningFields.rollIds] as List)
+          .map((i) => AllRolesArray.fromJson(i))
+          .toList(),
+      areasForImprovement:
+          List<String>.from(json[LearningFields.areasForImprovement]),
+      strengths: List<String>.from(json[LearningFields.strengths]),
+      remedialMeasures: json[LearningFields.remedialMeasures],
+      upperHierarchy: json[LearningFields.upperHierarchy],
+      sessionId: json[LearningFields.sessionId],
+      curriculumId: json[LearningFields.curriculumId],
+      isJoin: json[LearningFields.isJoin],
+      remarksData: (json[LearningFields.remarksData] as List)
           .map((i) => RemarksData.fromJson(i))
           .toList(),
     );
@@ -84,29 +130,29 @@ class LearningWalkApplyModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'school_id': schoolId,
-      'teacher_id': teacherId,
-      'teacher_name': teacherName,
-      'observer_id': observerId,
-      'observer_name': observerName,
-      'class_id': classId,
-      'class_batch_name': classBatchName,
-      'batch_id': batchId,
-      'topic': topic,
-      'academic_year': academicYear,
-      'batch_name': batchName,
-      'class_name': className,
-      'subject_name': subjectName,
-      'subject_id': subjectId,
-      'roll_ids': rollIds.map((i) => i.toJson()).toList(),
-      'areas_for_improvement': areasForImprovement,
-      'strengths': strengths,
-      'remedial_measures': remedialMeasures,
-      'upper_hierarchy': upperHierarchy,
-      'session_id': sessionId,
-      'curriculum_id': curriculumId,
-      'isJoin': isJoin,
-      'remarks_data': remarksData.map((i) => i.toJson()).toList(),
+      LearningFields.schoolId: schoolId,
+      LearningFields.teacherId: teacherId,
+      LearningFields.teacherName: teacherName,
+      LearningFields.observerId: observerId,
+      LearningFields.observerName: observerName,
+      LearningFields.classId: classId,
+      LearningFields.classBatchName: classBatchName,
+      LearningFields.batchId: batchId,
+      LearningFields.topic: topic,
+      LearningFields.academicYear: academicYear,
+      LearningFields.batchName: batchName,
+      LearningFields.className: className,
+      LearningFields.subjectName: subjectName,
+      LearningFields.subjectId: subjectId,
+      LearningFields.rollIds: rollIds.map((i) => i.toJson()).toList(),
+      LearningFields.areasForImprovement: areasForImprovement,
+      LearningFields.strengths: strengths,
+      LearningFields.remedialMeasures: remedialMeasures,
+      LearningFields.upperHierarchy: upperHierarchy,
+      LearningFields.sessionId: sessionId,
+      LearningFields.curriculumId: curriculumId,
+      LearningFields.isJoin: isJoin,
+      LearningFields.remarksData: remarksData.map((i) => i.toJson()).toList(),
     };
   }
 }
@@ -120,7 +166,7 @@ class RemarksData {
 
   factory RemarksData.fromJson(Map<String, dynamic> json) {
     return RemarksData(
-      indicators: (json['Indicators'] as List)
+      indicators: (json[LearningFields.indicators] as List)
           .map((i) => Indicator.fromJson(i))
           .toList(),
     );
@@ -128,7 +174,7 @@ class RemarksData {
 
   Map<String, dynamic> toJson() {
     return {
-      'Indicators': indicators.map((i) => i?.toJson()).toList(),
+      LearningFields.indicators: indicators.map((i) => i?.toJson()).toList(),
     };
   }
 }
@@ -150,21 +196,21 @@ class Indicator {
 
   factory Indicator.fromJson(Map<String, dynamic> json) {
     return Indicator(
-      name: json['name'],
-      remark: json['remark'],
-      point: json['point'],
-      dbKey: json['db_key'],
-      alias: json['alias'],
+      name: json[LearningFields.name],
+      remark: json[LearningFields.remark],
+      point: json[LearningFields.point],
+      dbKey: json[LearningFields.dbKey],
+      alias: json[LearningFields.alias],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name,
-      'remark': remark,
-      'point': point,
-      'db_key': dbKey,
-      'alias': alias,
+      LearningFields.name: name,
+      LearningFields.remark: remark,
+      LearningFields.point: point,
+      LearningFields.dbKey: dbKey,
+      LearningFields.alias: alias,
     };
   }
 }
