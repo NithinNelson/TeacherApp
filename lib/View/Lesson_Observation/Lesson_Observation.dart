@@ -6,6 +6,7 @@ import 'package:teacherapp/View/CWidgets/AppBarBackground.dart';
 import '../../Controller/api_controllers/lessonObservationController.dart';
 import '../../Models/api_models/learning_observation_api_model.dart';
 import '../../Utils/Colors.dart';
+import '../CWidgets/commons.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
 import '../Learning_Walk/Learningwalk_apply.dart';
 import 'LessonObs_apply.dart';
@@ -23,7 +24,7 @@ class _LessonObservationState extends State<LessonObservation> {
   TextEditingController _controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-String? selectedValue;
+  String? selectedValue;
   String? selectedValue1;
   String? selectedValue2;
 
@@ -45,7 +46,7 @@ String? selectedValue;
             width: ScreenUtil().screenWidth,
             child: Stack(
               children: [
-                AppBarBackground(),
+                const AppBarBackground(),
                 Positioned(
                   left: 0,
                   top: -10,
@@ -57,55 +58,44 @@ String? selectedValue;
                       borderRadius: BorderRadius.circular(17.0),
                     ),
                     child: const UserDetails(
-                        shoBackgroundColor: false, isWelcome: false, bellicon: true, notificationcount: true,),
+                      shoBackgroundColor: false,
+                      isWelcome: false,
+                      bellicon: true,
+                      notificationcount: true,
+                    ),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 20.w, top: 120.h, right: 20.w),
+                  margin: EdgeInsets.only(
+                      left: 20.w, top: 120.h, right: 20.w, bottom: 10.h),
                   // width: 550.w,
                   // height: 600.h,
-                  height: ScreenUtil().screenHeight * 0.8,
-                  decoration: BoxDecoration(
-                    color: Colorutils.Whitecolor,
-                    // Container color
-                    borderRadius: BorderRadius.circular(20.r),
-                    // Border radius
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colorutils.userdetailcolor.withOpacity(0.3),
-                        // Shadow color
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3), // Shadow position
-                      ),
-                    ],
-                  ),
+                  // height: ScreenUtil().screenHeight * 0.8,
+                  decoration: themeCardDecoration,
                   child: Form(
                     key: _formKey,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20, top: 30),
-                            child: Text(
-                              "Lesson Observation",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600),
+                    child: SingleChildScrollView(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left: 25.w, top: 30.h),
+                              child: Text(
+                                "Lesson Observation",
+                                style: TextStyle(
+                                    fontSize: 18.h,
+                                    fontWeight: FontWeight.w600),
+                              ),
                             ),
-                          ),
-                          GetX<LessonObservationController>(
-                            builder: (LessonObservationController controller) {
-                              List<TeacherData> teacherList =
-                                  controller.teacherNameList.value;
-                              List<TeacherDetails?> teacherDetails =
-                                  controller.teacherClassList.value;
-                              List<SubjectDetail> subList =
-                                  controller.teacherSubjectList.value;
-                              // if (teacherList.isEmpty) {
-                              //   return Image.asset(
-                              //     "assets/images/nodata.gif",
-                              //   );
-                              // } else {
+                            GetX<LessonObservationController>(
+                              builder:
+                                  (LessonObservationController controller) {
+                                List<TeacherData> teacherList =
+                                    controller.teacherNameList.value;
+                                List<TeacherDetails?> teacherDetails =
+                                    controller.teacherClassList.value;
+                                List<SubjectDetail> subList =
+                                    controller.teacherSubjectList.value;
                                 return Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -115,45 +105,63 @@ String? selectedValue;
                                       child: DropdownButtonFormField(
                                         decoration: InputDecoration(
                                             hintStyle: TextStyle(
-                                                color: Colors.black.withOpacity(0.5)),
-                                            contentPadding: EdgeInsets.symmetric(
-                                                vertical: 15.0, horizontal: 20.0),
+                                                color: Colors.black
+                                                    .withOpacity(0.5)),
+                                            contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    vertical: 18.h,
+                                                    horizontal: 20.w),
                                             hintText: "Teacher",
-
                                             border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
+                                              borderRadius:
+                                                  const BorderRadius.all(
                                                 Radius.circular(10.0),
-                                              ),
+                                              ).r,
                                             ),
                                             enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Color.fromRGBO(230, 236, 254, 8),
+                                              borderSide: const BorderSide(
+                                                color: Color.fromRGBO(
+                                                    230, 236, 254, 8),
                                                 width: 1.0,
                                               ),
                                               borderRadius:
-                                              BorderRadius.all(Radius.circular(10.0)),
+                                                  const BorderRadius.all(
+                                                          Radius.circular(10.0))
+                                                      .r,
                                             ),
                                             focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Color.fromRGBO(230, 236, 254, 8),
+                                              borderSide: const BorderSide(
+                                                color: Color.fromRGBO(
+                                                    230, 236, 254, 8),
                                                 width: 1.0,
                                               ),
                                               borderRadius:
-                                              BorderRadius.all(Radius.circular(10.0)),
+                                                  const BorderRadius.all(
+                                                          Radius.circular(10.0))
+                                                      .r,
                                             ),
-                                            fillColor: Color.fromRGBO(230, 236, 254, 8),
-                                            filled: true),isExpanded: true,
-                                        padding: const EdgeInsets.only(left: 10, right: 5).w,
+                                            fillColor: const Color.fromRGBO(
+                                                230, 236, 254, 8),
+                                            filled: true),
+                                        isExpanded: true,
+                                        padding: EdgeInsets.only(
+                                            left: 10.w, right: 5.w),
                                         hint: const Text('Teacher'),
                                         validator: (dynamic value) =>
-                                        value == null ? 'Field Required' : null,
+                                            value == null
+                                                ? 'Field Required'
+                                                : null,
                                         items: teacherList
                                             .map((teacher) =>
-                                            DropdownMenuItem<String>(
-                                              value:
-                                              teacher.teacherName,
-                                              child: Text(teacher.teacherName.toString(), overflow: TextOverflow.ellipsis,),
-                                            ))
+                                                DropdownMenuItem<String>(
+                                                  value: teacher.teacherName,
+                                                  child: Text(
+                                                    teacher.teacherName
+                                                        .toString(),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                ))
                                             .toList(),
                                         value: selectedValue,
                                         onChanged: (teacher) {
@@ -162,7 +170,8 @@ String? selectedValue;
                                             selectedValue1 = null;
                                             selectedValue2 = null;
                                           });
-                                          controller.getTeacherClassData(teacherName: teacher.toString());
+                                          controller.getTeacherClassData(
+                                              teacherName: teacher.toString());
                                         },
                                       ),
                                     ),
@@ -172,40 +181,54 @@ String? selectedValue;
                                       child: DropdownButtonFormField(
                                         decoration: InputDecoration(
                                             hintStyle: TextStyle(
-                                                color: Colors.black.withOpacity(0.5)),
-                                            contentPadding: EdgeInsets.symmetric(
-                                                vertical: 15.0, horizontal: 20.0),
+                                                color: Colors.black
+                                                    .withOpacity(0.5)),
+                                            contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    vertical: 18.h,
+                                                    horizontal: 20.w),
                                             hintText: "Class",
-
                                             border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
+                                              borderRadius:
+                                                  const BorderRadius.all(
                                                 Radius.circular(10.0),
-                                              ),
+                                              ).r,
                                             ),
                                             enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Color.fromRGBO(230, 236, 254, 8),
+                                              borderSide: const BorderSide(
+                                                color: Color.fromRGBO(
+                                                    230, 236, 254, 8),
                                                 width: 1.0,
                                               ),
                                               borderRadius:
-                                              BorderRadius.all(Radius.circular(10.0)),
+                                                  const BorderRadius.all(
+                                                          Radius.circular(10.0))
+                                                      .r,
                                             ),
                                             focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Color.fromRGBO(230, 236, 254, 8),
+                                              borderSide: const BorderSide(
+                                                color: Color.fromRGBO(
+                                                    230, 236, 254, 8),
                                                 width: 1.0,
                                               ),
                                               borderRadius:
-                                              BorderRadius.all(Radius.circular(10.0)),
+                                                  const BorderRadius.all(
+                                                          Radius.circular(10.0))
+                                                      .r,
                                             ),
-                                            fillColor: Color.fromRGBO(230, 236, 254, 8),
+                                            fillColor: const Color.fromRGBO(
+                                                230, 236, 254, 8),
                                             filled: true),
-                                        padding: const EdgeInsets.only(left: 10, right: 5).w,
+                                        padding: EdgeInsets.only(
+                                            left: 10.w, right: 5.w),
                                         hint: const Text('Class'),
                                         validator: (dynamic value) =>
-                                        value == null ? 'Field Required' : null,
+                                            value == null
+                                                ? 'Field Required'
+                                                : null,
                                         items: teacherDetails.map((batchData) {
-                                          String uniqueValue = "${batchData?.className} ${batchData?.batchName}";
+                                          String uniqueValue =
+                                              "${batchData?.className} ${batchData?.batchName}";
                                           return DropdownMenuItem<String>(
                                             value: uniqueValue,
                                             child: SizedBox(
@@ -223,7 +246,9 @@ String? selectedValue;
                                             selectedValue1 = newValue;
                                             selectedValue2 = null;
                                           });
-                                          controller.getTeacherSubjectData(classAndBatch: selectedValue1.toString());
+                                          controller.getTeacherSubjectData(
+                                              classAndBatch:
+                                                  selectedValue1.toString());
                                         },
                                       ),
                                     ),
@@ -233,148 +258,174 @@ String? selectedValue;
                                       child: DropdownButtonFormField(
                                         decoration: InputDecoration(
                                             hintStyle: TextStyle(
-                                                color: Colors.black.withOpacity(0.5)),
-                                            contentPadding: EdgeInsets.symmetric(
-                                                vertical: 15.0, horizontal: 20.0),
+                                                color: Colors.black
+                                                    .withOpacity(0.5)),
+                                            contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    vertical: 18.h,
+                                                    horizontal: 20.w),
                                             hintText: "Subject",
-
                                             border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
+                                              borderRadius:
+                                                  const BorderRadius.all(
                                                 Radius.circular(10.0),
-                                              ),
+                                              ).r,
                                             ),
                                             enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Color.fromRGBO(230, 236, 254, 8),
+                                              borderSide: const BorderSide(
+                                                color: Color.fromRGBO(
+                                                    230, 236, 254, 8),
                                                 width: 1.0,
                                               ),
                                               borderRadius:
-                                              BorderRadius.all(Radius.circular(10.0)),
+                                                  const BorderRadius.all(
+                                                          Radius.circular(10.0))
+                                                      .r,
                                             ),
                                             focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Color.fromRGBO(230, 236, 254, 8),
+                                              borderSide: const BorderSide(
+                                                color: Color.fromRGBO(
+                                                    230, 236, 254, 8),
                                                 width: 1.0,
                                               ),
                                               borderRadius:
-                                              BorderRadius.all(Radius.circular(10.0)),
+                                                  const BorderRadius.all(
+                                                          Radius.circular(10.0))
+                                                      .r,
                                             ),
-                                            fillColor: Color.fromRGBO(230, 236, 254, 8),
+                                            fillColor: const Color.fromRGBO(
+                                                230, 236, 254, 8),
                                             filled: true),
-                                        padding: const EdgeInsets.only(left: 10, right: 5).w,
+                                        padding: EdgeInsets.only(
+                                            left: 10.w, right: 5.w),
                                         hint: const Text('Subject'),
                                         validator: (dynamic value) =>
-                                        value == null ? 'Field Required' : null,
+                                            value == null
+                                                ? 'Field Required'
+                                                : null,
                                         items: subList
-                                            .map((sub) => DropdownMenuItem<String>(
-                                          value: sub.subjectName,
-                                          child: SizedBox(
-                                            width: 190.w,
-                                            child: Text(
-                                              sub.subjectName.toString(),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                        )).toList(),
+                                            .map((sub) =>
+                                                DropdownMenuItem<String>(
+                                                  value: sub.subjectName,
+                                                  child: SizedBox(
+                                                    width: 190.w,
+                                                    child: Text(
+                                                      sub.subjectName
+                                                          .toString(),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                ))
+                                            .toList(),
                                         value: selectedValue2,
                                         onChanged: (value) {
                                           setState(() {
                                             selectedValue2 = value;
                                           });
-                                          controller.setTeacherSubjectData(subName: selectedValue2.toString());
+                                          controller.setTeacherSubjectData(
+                                              subName:
+                                                  selectedValue2.toString());
                                         },
                                       ),
                                     ),
                                   ],
                                 );
-
-                            },
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 20.w, right: 20.w, top: 20.h),
-                            child: TextFormField(
-                              controller: _controller,
-                              validator: (dynamic value) =>
-                              value.toString().trim().isEmpty ? 'Field Required' : null,
-                              decoration: InputDecoration(
-                                  hintStyle: TextStyle(
-                                      color: Colors.black.withOpacity(0.5)),
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 15.0, horizontal: 20.0),
-                                  hintText: "Topics",
-
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0),
-                                    ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromRGBO(230, 236, 254, 8),
-                                        width: 1.0),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromRGBO(230, 236, 254, 8),
-                                        width: 1.0),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10.0)),
-                                  ),
-                                  fillColor: Color.fromRGBO(230, 236, 254, 8),
-                                  filled: true),
-                              cursorColor: Colors.grey,
-                              keyboardType: TextInputType.text,
-                              maxLength: 100,
-                              maxLines: 5,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 280, top: 2),
-                            child: Text(
-                              '',
-                              style: TextStyle(
-                                  fontSize: 11, fontWeight: FontWeight.w400),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 25.h),
-                            child: GestureDetector(
-                              onTap: () {
-                                if(_formKey.currentState!.validate()) {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              LessonObservationApply(
-                                                teacherName: selectedValue!,
-                                                classAndBatch: selectedValue1!,
-                                                subjectName: selectedValue2!,
-                                                topic: _controller.text,
-                                              )));
-                                }
                               },
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 75, right: 75),
-                                child: Container(
-                                    height: 50.h,
-                                    width: 220.w,
-                                    decoration: BoxDecoration(
-                                      color: Colorutils.userdetailcolor,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(15)),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: 20.w, right: 20.w, top: 20.h),
+                              child: TextFormField(
+                                controller: _controller,
+                                validator: (dynamic value) =>
+                                    value.toString().trim().isEmpty
+                                        ? 'Field Required'
+                                        : null,
+                                decoration: InputDecoration(
+                                    hintStyle: TextStyle(
+                                        color: Colors.black.withOpacity(0.5)),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 18.h, horizontal: 20.w),
+                                    hintText: "Topics",
+                                    border: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(10.0),
+                                      ).r,
                                     ),
-                                    child: Center(
-                                      child: Text(
-                                        'Continue',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    )),
+                                    enabledBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color:
+                                              Color.fromRGBO(230, 236, 254, 8),
+                                          width: 1.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color:
+                                              Color.fromRGBO(230, 236, 254, 8),
+                                          width: 1.0),
+                                      borderRadius: const BorderRadius.all(
+                                              Radius.circular(10.0))
+                                          .r,
+                                    ),
+                                    fillColor:
+                                        const Color.fromRGBO(230, 236, 254, 8),
+                                    filled: true),
+                                cursorColor: Colors.grey,
+                                keyboardType: TextInputType.text,
+                                maxLength: 100,
+                                maxLines: 5,
                               ),
                             ),
-                          ),
-                        ]),
+                            const Padding(
+                              padding: EdgeInsets.only(left: 280, top: 2),
+                              child: Text(
+                                '',
+                                style: TextStyle(
+                                    fontSize: 11, fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 25.h),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LessonObservationApply(
+                                                    teacherName: selectedValue!,
+                                                    classAndBatch:
+                                                        selectedValue1!,
+                                                    subjectName:
+                                                        selectedValue2!,
+                                                    topic: _controller.text,
+                                                  )));
+                                    }
+                                  },
+                                  child: Container(
+                                      height: 50.h,
+                                      width: 220.w,
+                                      decoration: BoxDecoration(
+                                        color: Colorutils.userdetailcolor,
+                                        borderRadius: const BorderRadius.all(
+                                                Radius.circular(15))
+                                            .r,
+                                      ),
+                                      child: const Center(
+                                        child: Text(
+                                          'Continue',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      )),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 150.h),
+                          ]),
+                    ),
                   ),
                 ),
               ],

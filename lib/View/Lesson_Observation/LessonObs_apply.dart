@@ -12,6 +12,7 @@ import 'package:teacherapp/Services/api_services.dart';
 import 'package:teacherapp/Services/check_connectivity.dart';
 import 'package:teacherapp/Services/snackBar.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
+import 'package:teacherapp/View/CWidgets/custom_check_box.dart';
 import 'package:teacherapp/View/Learning_Walk/learning_walk_widgets/question_radio_fields.dart';
 import '../../Models/api_models/learning_walk_apply_model.dart';
 import '../../Utils/Colors.dart';
@@ -21,6 +22,7 @@ import '../../sqflite_db/learningdatabase/learningmodel.dart';
 import '../../sqflite_db/lessondatabase/lessondbhelper.dart';
 import '../../sqflite_db/lessondatabase/lessonmodel.dart';
 import '../CWidgets/AppBarBackground.dart';
+import '../CWidgets/commons.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
 
 class LessonObservationApply extends StatefulWidget {
@@ -79,26 +81,10 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w),
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  decoration: BoxDecoration(
-                    color: Colorutils.Whitecolor,
-                    // Container color
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        topLeft: Radius.circular(20)),
-                    // Border radius
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colorutils.userdetailcolor.withOpacity(0.3),
-                        // Shadow color
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3), // Shadow position
-                      ),
-                    ],
-                  ),
+                  margin: EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w, bottom: 20.h),
+                  // width: MediaQuery.of(context).size.width,
+                  // height: MediaQuery.of(context).size.height,
+                  decoration: themeCardDecoration,
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -114,12 +100,12 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                   //crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          25, 10, 0, 10),
+                                      padding: EdgeInsets.fromLTRB(
+                                          25.w, 10.h, 0, 10.h),
                                       child: Text(
                                         'Lesson Observation',
                                         style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 18.h,
                                             fontWeight: FontWeight.w600),
                                       ),
                                     ),
@@ -128,14 +114,14 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                           left: 20.w,
                                           top: 5.h,
                                           right: 20.w,
-                                          bottom: 5),
+                                          bottom: 5.h),
                                       child: Container(
                                         // height: 80.h,
-                                        width: 280.w,
+                                        // width: 280.w,
                                         decoration: BoxDecoration(
                                             color: Colorutils.userdetailcolor,
                                             borderRadius:
-                                            BorderRadius.circular(15)),
+                                            BorderRadius.circular(15).r),
                                         child: Column(
                                           mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -168,10 +154,10 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                                     child: ClipRRect(
                                                       borderRadius:
                                                       BorderRadius.circular(
-                                                          100),
+                                                          100).r,
                                                       child: CachedNetworkImage(
-                                                        width: 50,
-                                                        height: 50,
+                                                        width: 50.h,
+                                                        height: 50.h,
                                                         fit: BoxFit.fill,
                                                         imageUrl: "__",
                                                         errorWidget: (context,
@@ -180,12 +166,11 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                                               child: Text(
                                                                 placeholderName ?? '--',
                                                                 style: TextStyle(
-                                                                    color: Color(
-                                                                        0xFFB1BFFF),
+                                                                    color: Color(0xFFB1BFFF),
                                                                     fontWeight:
                                                                     FontWeight
                                                                         .bold,
-                                                                    fontSize: 20),
+                                                                    fontSize: 22.h),
                                                               ),
                                                             ),
                                                       ),
@@ -197,17 +182,16 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                                   CrossAxisAlignment.start,
                                                   children: [
                                                     Container(
-                                                      width: 180.w,
+                                                      width: 200.w,
                                                       child:
                                                       SingleChildScrollView(
                                                         scrollDirection:
                                                         Axis.horizontal,
                                                         child: Text(
-                                                          "${widget.teacherName}",
+                                                          widget.teacherName,
                                                           style: TextStyle(
-                                                              color: Color(
-                                                                  0xffFFFFFF),
-                                                              fontSize: 15.sp,
+                                                              color: const Color(0xffFFFFFF),
+                                                              fontSize: 14.h,
                                                               fontWeight:
                                                               FontWeight
                                                                   .w400),
@@ -224,10 +208,10 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                                         scrollDirection:
                                                         Axis.horizontal,
                                                         child: Text(
-                                                          "${widget.classAndBatch}",
+                                                          widget.classAndBatch,
                                                           style: TextStyle(
                                                               color: Colors.white,
-                                                              fontSize: 14.sp,
+                                                              fontSize: 13.h,
                                                               fontWeight:
                                                               FontWeight
                                                                   .w400),
@@ -242,10 +226,10 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                                       child:
                                                       SingleChildScrollView(
                                                         child: Text(
-                                                          "${widget.subjectName}",
+                                                          widget.subjectName,
                                                           style: TextStyle(
                                                               color: Colors.white,
-                                                              fontSize: 14.sp,
+                                                              fontSize: 13.h,
                                                               fontWeight:
                                                               FontWeight
                                                                   .w400),
@@ -260,7 +244,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                                           "Topic: ${widget.topic}",
                                                           style: TextStyle(
                                                               color: Colors.white,
-                                                              fontSize: 14.sp,
+                                                              fontSize: 13.h,
                                                               fontWeight:
                                                               FontWeight
                                                                   .w400),
@@ -278,11 +262,11 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                     ),
                                     Padding(
                                       padding:
-                                      const EdgeInsets.fromLTRB(25, 5, 0, 5),
+                                      EdgeInsets.fromLTRB(25.w, 5.h, 0, 5.h),
                                       child: Text(
                                         'Criteria',
                                         style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 18.h,
                                             fontWeight: FontWeight.w600),
                                       ),
                                     ),
@@ -292,7 +276,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                           left: 20.w,
                                           top: 10.h,
                                           right: 20.w,
-                                          bottom: 5),
+                                          bottom: 5.h),
                                       child: TextFormField(
                                         maxLength: 1000,
                                         validator: (val) => val!.isEmpty
@@ -300,32 +284,31 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                             : null,
                                         controller: _summaryController,
                                         decoration: InputDecoration(
-                                            hintStyle:
-                                            TextStyle(color: Colors.black26),
+                                            hintStyle: const TextStyle(color: Colors.black26),
                                             contentPadding: EdgeInsets.symmetric(
-                                                vertical: 10.0, horizontal: 20.0),
+                                                vertical: 10.h, horizontal: 20.w),
                                             hintText: " Summary  ",
 
                                             border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
+                                              borderRadius: const BorderRadius.all(
                                                 Radius.circular(10.0),
-                                              ),
+                                              ).r,
                                             ),
                                             enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
+                                              borderSide: const BorderSide(
                                                   color: Color.fromRGBO(
                                                       230, 236, 254, 8),
                                                   width: 1.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(22)),
+                                              borderRadius: const BorderRadius.all(
+                                                  Radius.circular(22)).r,
                                             ),
                                             focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
+                                              borderSide: const BorderSide(
                                                   color: Color.fromRGBO(
                                                       230, 236, 254, 8),
                                                   width: 1.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(30.0)),
+                                              borderRadius: const BorderRadius.all(
+                                                  Radius.circular(30.0)).r,
                                             ),
                                             fillColor: Colorutils.chatcolor
                                                 .withOpacity(0.3),
@@ -338,7 +321,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                           left: 20.w,
                                           top: 5.h,
                                           right: 20.w,
-                                          bottom: 5),
+                                          bottom: 5.h),
                                       child: TextFormField(
                                         controller: _whatWentWellController,
                                         maxLength: 1000,
@@ -347,31 +330,31 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                             : null,
                                         decoration: InputDecoration(
                                             hintStyle:
-                                            TextStyle(color: Colors.black26),
+                                            const TextStyle(color: Colors.black26),
                                             contentPadding: EdgeInsets.symmetric(
-                                                vertical: 10.0, horizontal: 20.0),
+                                                vertical: 10.h, horizontal: 20.w),
                                             hintText: " What went well   ",
 
                                             border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
+                                              borderRadius: const BorderRadius.all(
                                                 Radius.circular(10.0),
-                                              ),
+                                              ).r,
                                             ),
                                             enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
+                                              borderSide: const BorderSide(
                                                   color: Color.fromRGBO(
                                                       230, 236, 254, 8),
                                                   width: 1.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(22)),
+                                              borderRadius: const BorderRadius.all(
+                                                  Radius.circular(22)).r,
                                             ),
                                             focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
+                                              borderSide: const BorderSide(
                                                   color: Color.fromRGBO(
                                                       230, 236, 254, 8),
                                                   width: 1.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(30.0)),
+                                              borderRadius: const BorderRadius.all(
+                                                  Radius.circular(30.0)).r,
                                             ),
                                             fillColor: Colorutils.chatcolor
                                                 .withOpacity(0.3),
@@ -384,6 +367,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                         left: 20.w,
                                         top: 5.h,
                                         right: 20.w,
+                                        bottom: 5.h,
                                       ),
                                       child: TextFormField(
                                         maxLength: 1000,
@@ -393,31 +377,31 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                         controller: _evenBetterIfController,
                                         decoration: InputDecoration(
                                             hintStyle:
-                                            TextStyle(color: Colors.black26),
+                                            const TextStyle(color: Colors.black26),
                                             contentPadding: EdgeInsets.symmetric(
-                                                vertical: 10.0, horizontal: 20.0),
+                                                vertical: 10.h, horizontal: 20.w),
                                             hintText: " Even better if   ",
 
                                             border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
+                                              borderRadius: const BorderRadius.all(
                                                 Radius.circular(10.0),
-                                              ),
+                                              ).r,
                                             ),
                                             enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
+                                              borderSide: const BorderSide(
                                                   color: Color.fromRGBO(
                                                       230, 236, 254, 8),
                                                   width: 1.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(22)),
+                                              borderRadius: const BorderRadius.all(
+                                                  Radius.circular(22)).r,
                                             ),
                                             focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
+                                              borderSide: const BorderSide(
                                                   color: Color.fromRGBO(
                                                       230, 236, 254, 8),
                                                   width: 1.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(30.0)),
+                                              borderRadius: const BorderRadius.all(
+                                                  Radius.circular(30.0)).r,
                                             ),
                                             fillColor: Colorutils.chatcolor
                                                 .withOpacity(0.3),
@@ -427,57 +411,73 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                     ),
                                     Padding(
                                       padding:
-                                      const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                      EdgeInsets.fromLTRB(10.w, 0, 0, 0),
                                       child: Row(
                                         children: [
-                                          Checkbox(
-                                            activeColor:
-                                            Colorutils.userdetailcolor,
-                                            value: isChecked,
-                                            onChanged: (value) {
+                                          SizedBox(width: 10.w),
+                                          CustomCheckbox(
+                                            onChange: (value) {
                                               setState(() {
                                                 isChecked = !isChecked;
                                               });
                                             },
+                                            borderRadius: BorderRadius.circular(3).r,
+                                            checkIcon: Icon(Icons.done),
+                                            borderColor: Colors.teal,
+                                            selectedColor: Colors.teal,
+                                            isChecked: isChecked,
+                                            size: 23,
                                           ),
+                                          // Checkbox(
+                                          //   activeColor:
+                                          //   Colorutils.userdetailcolor,
+                                          //   value: isChecked,
+                                          //   onChanged: (value) {
+                                          //     setState(() {
+                                          //       isChecked = !isChecked;
+                                          //     });
+                                          //   },
+                                          // ),
+                                          SizedBox(width: 10.w),
                                           Text(
                                             'Joined Observation',
                                             style: TextStyle(
-                                              fontSize: 12,
+                                              fontSize: 14.h,
                                             ),
                                           )
                                         ],
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.fromLTRB(35, 20, 35, 0),
-                                      child: GestureDetector(
-                                        onTap: () async {
-                                          if(_formKey.currentState!.validate()) {
-                                            await submitLearningWalk();
-                                          }
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 55, right: 55),
-                                          child: Container(
-                                            height: 40.h,
-                                            // width: 180.w,
-                                            decoration: BoxDecoration(
-                                                color: Colorutils.userdetailcolor,
-                                                borderRadius:
-                                                BorderRadius.circular(30)),
-                                            child: Center(
-                                                child: Text(
-                                                  'SUBMIT',
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      color: Colors.white),
-                                                )),
+                                    SizedBox(height: 50.h),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        if(_formKey.currentState!.validate()) {
+                                          await submitLearningWalk();
+                                        }
+                                      },
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 80.w, right: 80.w),
+                                        child: Container(
+                                          height: 50.h,
+                                          // width: 180.w,
+                                          decoration: BoxDecoration(
+                                              color: Colorutils.userdetailcolor,
+                                              borderRadius: BorderRadius.circular(30).r,
+                                          ),
+                                          child: Center(
+                                              child: Text(
+                                                'SUBMIT',
+                                                style: TextStyle(
+                                                    fontSize: 18.h,
+                                                    letterSpacing: 1,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white),
+                                              ),
                                           ),
                                         ),
                                       ),
                                     ),
+                                    SizedBox(height: 50.h),
                                   ]),
                             ),
                           )
