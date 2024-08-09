@@ -48,6 +48,8 @@ class _MyTimeTableState extends State<MyTimeTable>
     tabController = TabController(length: 6, vsync: this);
     _pageController = PageController();
     tabController.addListener(() {
+      // _currentIndex=DateFormat("EEEE").format(date));
+      print("...........dsdfffff.......${DateFormat("EEEE").format(DateTime.now())}");
       if (tabController.indexIsChanging) {
         setState(() {
           _currentIndex = tabController.index;
@@ -70,6 +72,7 @@ class _MyTimeTableState extends State<MyTimeTable>
 
   @override
   Widget build(BuildContext context) {
+    print("...........dsdfffff.......${DateFormat("EEEE").format(DateTime.now())}");
     final List<Widget> tabViews = [
       monday(),
       Tuesday(),
