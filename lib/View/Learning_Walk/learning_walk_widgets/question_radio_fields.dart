@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:teacherapp/Controller/api_controllers/lessonObservationController.dart';
+import 'package:teacherapp/Controller/api_controllers/lessonLearningController.dart';
 import 'package:teacherapp/View/Learning_Walk/learning_walk_widgets/rubrics_info.dart';
 import '../../../Models/api_models/learning_observation_api_model.dart';
 import '../../../Models/api_models/learning_walk_apply_model.dart';
@@ -16,8 +16,8 @@ class QuestionRadioFields extends StatefulWidget {
 }
 
 class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
-  LessonObservationController lessonObservationController =
-  Get.find<LessonObservationController>();
+  LessonLearningController lessonObservationController =
+  Get.find<LessonLearningController>();
   List<int?> selectedQuestions = [];
 
   @override
@@ -33,8 +33,8 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<LessonObservationController>(
-      builder: (LessonObservationController controller) {
+    return GetX<LessonLearningController>(
+      builder: (LessonLearningController controller) {
         List<ListElement> lessonWalkList = widget.topicData == null ? controller.learningWalkList.value : controller.lessonObservationList.value;
         return Column(
           children: [

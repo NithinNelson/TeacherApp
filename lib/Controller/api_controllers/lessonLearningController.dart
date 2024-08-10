@@ -11,7 +11,7 @@ import '../../Services/snackBar.dart';
 import '../../View/CWidgets/TeacherAppPopUps.dart';
 import '../../sqflite_db/lessonLearnDatabase/lessonLearnDbHelper.dart';
 
-class LessonObservationController extends GetxController {
+class LessonLearningController extends GetxController {
   RxList<TeacherData> teacherNameList = <TeacherData>[].obs;
   Rx<TeacherData?> selectedTeacher = Rx<TeacherData?>(null);
   RxList<TeacherDetails> teacherClassList = <TeacherDetails>[].obs;

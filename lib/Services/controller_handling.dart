@@ -6,7 +6,7 @@ import '../Controller/api_controllers/groupedViewController.dart';
 import '../Controller/api_controllers/groupedViewListController.dart';
 import '../Controller/api_controllers/leaveApprovalController.dart';
 import '../Controller/api_controllers/leaveRequestController.dart';
-import '../Controller/api_controllers/lessonObservationController.dart';
+import '../Controller/api_controllers/lessonLearningController.dart';
 import '../Controller/api_controllers/markAsReadController.dart';
 import '../Controller/api_controllers/notificationController.dart';
 import '../Controller/api_controllers/parentChatController.dart';
@@ -28,7 +28,7 @@ class HandleControllers {
   Get.put(TextFieldController());
   Get.put(TimeTableController());
   Get.put(ChatClassGroupController());
-  Get.put(LessonObservationController());
+  Get.put(LessonLearningController());
   Get.put(ParentChatListController());
   Get.put(FeedViewController());
   Get.put(NotificationController());
@@ -49,7 +49,7 @@ class HandleControllers {
     Get.delete<TextFieldController>();
     Get.delete<TimeTableController>();
     Get.delete<ChatClassGroupController>();
-    Get.delete<LessonObservationController>();
+    Get.delete<LessonLearningController>();
     Get.delete<ParentChatListController>();
     Get.delete<FeedViewController>();
     Get.delete<NotificationController>();

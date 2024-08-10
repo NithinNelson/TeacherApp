@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:teacherapp/Controller/api_controllers/lessonObservationController.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Controller/ui_controllers/keyboardController.dart';
 import 'package:teacherapp/Services/api_services.dart';
@@ -13,6 +12,7 @@ import 'package:teacherapp/Services/check_connectivity.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 import 'package:teacherapp/View/CWidgets/custom_check_box.dart';
 import 'package:teacherapp/View/Learning_Walk/learning_walk_widgets/question_radio_fields.dart';
+import '../../Controller/api_controllers/lessonLearningController.dart';
 import '../../Models/api_models/learning_walk_apply_model.dart';
 import '../../Utils/Colors.dart';
 import '../../sqflite_db/lessonLearnDatabase/lessonLearnDbHelper.dart';
@@ -503,7 +503,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
   Future<void> submitLessonObs() async {
     context.loaderOverlay.show();
     UserAuthController userAuthController = Get.find<UserAuthController>();
-    LessonObservationController lessonObservationController = Get.find<LessonObservationController>();
+    LessonLearningController lessonObservationController = Get.find<LessonLearningController>();
 
     LessonLearningApplyModel lessonLearningApplyModel = LessonLearningApplyModel(
         isLesson: true,

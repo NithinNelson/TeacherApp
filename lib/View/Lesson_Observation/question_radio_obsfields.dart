@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:teacherapp/Controller/api_controllers/lessonObservationController.dart';
+import 'package:teacherapp/Controller/api_controllers/lessonLearningController.dart';
 import 'package:teacherapp/View/Learning_Walk/learning_walk_widgets/rubrics_info.dart';
 import '../../../Models/api_models/learning_observation_api_model.dart';
 import '../../../Utils/Colors.dart';
@@ -14,8 +14,8 @@ class QuestionRadioObsfields extends StatefulWidget {
 }
 
 class _QuestionRadioObsfieldsState extends State<QuestionRadioObsfields> {
-  LessonObservationController lessonObservationController =
-  Get.find<LessonObservationController>();
+  LessonLearningController lessonObservationController =
+  Get.find<LessonLearningController>();
   List<int?> selectedValues = [];
 
   @override
@@ -27,8 +27,8 @@ class _QuestionRadioObsfieldsState extends State<QuestionRadioObsfields> {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<LessonObservationController>(
-      builder: (LessonObservationController controller) {
+    return GetX<LessonLearningController>(
+      builder: (LessonLearningController controller) {
         List<ListElement> lessonObservationList = controller.lessonObservationList.value;
         return Column(
           children: [

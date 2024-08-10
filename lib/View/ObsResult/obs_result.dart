@@ -9,18 +9,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
-
 import '../../Utils/Colors.dart';
 import '../../Utils/api_constants.dart';
 import '../../Utils/constants.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
-import '../Notification/Notification.dart';
 import 'Obsresult_display.dart';
 import 'package:http/http.dart' as http;
+
 class ObsResult extends StatefulWidget {
   var loginedUserName;
   String? images;

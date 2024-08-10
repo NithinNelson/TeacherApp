@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
 import 'package:teacherapp/View/CWidgets/AppBarBackground.dart';
-import '../../Controller/api_controllers/lessonObservationController.dart';
+import '../../Controller/api_controllers/lessonLearningController.dart';
 import '../../Models/api_models/learning_observation_api_model.dart';
 import '../../Utils/Colors.dart';
 import '../CWidgets/commons.dart';
@@ -87,9 +87,9 @@ class _LessonObservationState extends State<LessonObservation> {
                                       fontWeight: FontWeight.w600),
                                 ),
                               ),
-                              GetX<LessonObservationController>(
+                              GetX<LessonLearningController>(
                                 builder:
-                                    (LessonObservationController controller) {
+                                    (LessonLearningController controller) {
                                   List<TeacherData> teacherList =
                                       controller.teacherNameList.value;
                                   List<TeacherDetails?> teacherDetails =

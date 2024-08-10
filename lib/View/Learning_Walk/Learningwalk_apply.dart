@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:teacherapp/Controller/api_controllers/lessonObservationController.dart';
+import 'package:teacherapp/Controller/api_controllers/lessonLearningController.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Services/api_services.dart';
 import 'package:teacherapp/Services/check_connectivity.dart';
@@ -486,7 +486,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
   Future<void> submitLearningWalk() async {
     context.loaderOverlay.show();
     UserAuthController userAuthController = Get.find<UserAuthController>();
-    LessonObservationController lessonObservationController = Get.find<LessonObservationController>();
+    LessonLearningController lessonObservationController = Get.find<LessonLearningController>();
 
     LessonLearningApplyModel learningWalkApplyModel = LessonLearningApplyModel(
         isLesson: false,

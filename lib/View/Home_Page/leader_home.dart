@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:teacherapp/Controller/api_controllers/lessonObservationController.dart';
+import 'package:teacherapp/Controller/api_controllers/lessonLearningController.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 import 'package:teacherapp/View/Learning_Walk/Learning_walk.dart';
@@ -22,7 +22,7 @@ class Leader extends StatefulWidget {
 }
 
 class _LeaderState extends State<Leader> {
-  LessonObservationController lessonObservationController = Get.find<LessonObservationController>();
+  LessonLearningController lessonObservationController = Get.find<LessonLearningController>();
 
   @override
   void initState() {
@@ -169,7 +169,7 @@ class _LeaderState extends State<Leader> {
                               left: 20.w, right: 20.w, top: 35.h),
                           child: GestureDetector(
                             onTap: () {
-                              Get.find<LessonObservationController>().resetLearningWalkDropdownData();
+                              Get.find<LessonLearningController>().resetLearningWalkDropdownData();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => const LearningWalk()));
@@ -215,8 +215,8 @@ class _LeaderState extends State<Leader> {
                           ),
                         ),
                         SizedBox(height: 100.h),
-                        GetX<LessonObservationController>(
-                          builder: (LessonObservationController controller) {
+                        GetX<LessonLearningController>(
+                          builder: (LessonLearningController controller) {
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

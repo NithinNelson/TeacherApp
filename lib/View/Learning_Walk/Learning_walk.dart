@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../Controller/api_controllers/lessonObservationController.dart';
+import '../../Controller/api_controllers/lessonLearningController.dart';
 import '../../Models/api_models/learning_observation_api_model.dart';
 import '../../Utils/Colors.dart';
 import '../CWidgets/AppBarBackground.dart';
@@ -65,8 +65,8 @@ class _LearningWalkState extends State<LearningWalk> {
                                   fontSize: 18.h, fontWeight: FontWeight.w600),
                             ),
                           ),
-                          GetX<LessonObservationController>(
-                            builder: (LessonObservationController controller) {
+                          GetX<LessonLearningController>(
+                            builder: (LessonLearningController controller) {
                               List<TeacherData> teacherList = controller.teacherNameList.value;
                               List<TeacherDetails?> teacherDetails = controller.teacherClassList.value;
                               List<SubjectDetail> subList = controller.teacherSubjectList.value;
