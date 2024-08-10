@@ -232,18 +232,26 @@ class Topic extends StatelessWidget {
 
   TimeTable? findUpcomingTime(List<TimeTable> timeTable) {
     final now = DateTime.now();
+    DateFormat timeFormat = DateFormat("h:mm a");
     List<TimeTable> upcomingEntries = [];
 
     for (var entry in timeTable) {
-      final startTime = entry.startTime;
-      print("==========$startTime");
-      if (startTime != null && startTime.isAfter(now)) {
+      String? startTime = entry.timeString?.replaceAll("[", "").replaceAll("]", "").split("-").last;
+      DateTime time = timeFormat.parse(startTime!);
+      DateTime timeTableToday = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        time.hour,
+        time.minute,
+      );
+      print("==========$timeTableToday");
+      if (timeTableToday.isAfter(now)) {
         upcomingEntries.add(entry);
       }
     }
 
     if (upcomingEntries.isNotEmpty) {
-      upcomingEntries.sort((a, b) => a.startTime!.compareTo(b.startTime!));
       return upcomingEntries.first; // Return the earliest upcoming entry
     }
 

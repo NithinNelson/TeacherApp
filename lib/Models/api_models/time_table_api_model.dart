@@ -163,6 +163,7 @@ class TimeTable {
     required this.batchName,
     required this.subject,
     required this.timeString,
+    required this.studentCount,
   });
 
   final List<dynamic> classDetails;
@@ -173,6 +174,7 @@ class TimeTable {
   final String? batchName;
   final String? subject;
   final String? timeString;
+  final int? studentCount;
 
   factory TimeTable.fromJson(Map<String, dynamic> json) {
     return TimeTable(
@@ -186,6 +188,7 @@ class TimeTable {
       batchName: json["batchName"],
       subject: json["subject"],
       timeString: json["timeString"],
+      studentCount: json["student_count"],
     );
   }
 
@@ -198,27 +201,8 @@ class TimeTable {
         "batchName": batchName,
         "subject": subject,
         "timeString": timeString,
+        "student_count": studentCount,
       };
-
-  DateTime? get startTime {
-    final RegExp timeRegex = RegExp(r'\[(\d{1,2}:\d{2} [APM]{2})-(\d{1,2}:\d{2} [APM]{2})\]');
-    final match = timeRegex.firstMatch(timeString!);
-    if (match != null) {
-      final startTimeString = match.group(1);
-      return DateFormat.jm().parse(startTimeString!); // Parse the time string to DateTime
-    }
-    return null;
-  }
-  DateTime? get endTime {
-    final RegExp timeRegex = RegExp(r'\[(\d{1,2}:\d{2} [APM]{2})-(\d{1,2}:\d{2} [APM]{2})\]');
-    final match = timeRegex.firstMatch(timeString!);
-    if (match != null) {
-      final endTimeString = match.group(2);
-      return DateFormat.jm().parse(endTimeString!); // Parse the time string to DateTime
-    }
-    return null;
-  }
-
 }
 
 class Timetable {

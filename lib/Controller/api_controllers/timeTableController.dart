@@ -14,6 +14,7 @@ class TimeTableController extends GetxController {
 
   RxList<ResultArray> teacherTimeTable = <ResultArray>[].obs;
   RxList<TimeTable> teacherTimeTableToday = <TimeTable>[].obs;
+  RxInt currentTabIndex = 0.obs;
   RxList<TimeTable> selectedTimetable = <TimeTable>[].obs;
 
   void resetStatus() {
@@ -40,6 +41,7 @@ class TimeTableController extends GetxController {
         for (var week in teacherTimeTable) {
           if(week.id == weekDay) {
             teacherTimeTableToday.value = week.timeTable;
+            currentTabIndex.value = week.id ?? 0;
           }
         }
       }

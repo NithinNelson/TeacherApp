@@ -92,7 +92,7 @@ class _ObsResultState extends State<ObsResult> {
                             List<ObsResultData> obsList =
                                 controller.obsResultList.value;
                             if (controller.isLoading.value) {
-                              return const Center(child: Text('Loading...'));
+                              return const Center(child: CircularProgressIndicator(color: Colors.teal));
                             } else if (!controller.isLoading.value &&
                                 obsList.isEmpty) {
                               return Center(child: Image.asset("assets/images/nodata.gif"));

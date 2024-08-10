@@ -1,26 +1,14 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:horizontal_card_pager/card_item.dart';
-import 'package:horizontal_card_pager/horizontal_card_pager.dart';
-import 'package:intl/intl.dart';
 import 'package:teacherapp/Controller/api_controllers/timeTableController.dart';
 import 'package:teacherapp/Models/api_models/time_table_api_model.dart';
-import 'package:teacherapp/View/MyTimeTable/Friday.dart';
-import 'package:teacherapp/View/MyTimeTable/Saturday.dart';
-import 'package:teacherapp/View/MyTimeTable/Thursday.dart';
-import 'package:teacherapp/View/MyTimeTable/Tuesday.dart';
-import 'package:teacherapp/View/MyTimeTable/Wednesday.dart';
-
 import '../../Utils/Colors.dart';
 import '../../Utils/constants.dart';
-import '../../Utils/font_util.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
-import 'monday.dart';
 
 class MyTimeTable extends StatefulWidget {
   const MyTimeTable({super.key});
@@ -29,89 +17,19 @@ class MyTimeTable extends StatefulWidget {
   State<MyTimeTable> createState() => _MyTimeTableState();
 }
 
-class _MyTimeTableState extends State<MyTimeTable>
-    with SingleTickerProviderStateMixin {
-  late TabController tabController;
+class _MyTimeTableState extends State<MyTimeTable> {
   int _currentIndex = 0;
-  // bool isCalenderSelectedOnMonday = false;
-  // bool isCalenderSelectedOnTuesday = false;
-  // bool isCalenderSelectedOnWednesday = false;
-  // bool isCalenderSelectedOnThursday = false;
-  // bool isCalenderSelectedOnFriday = false;
-  // bool isCalenderSelectedOnSaturday = false;
-  late PageController _pageController;
-  bool isClicked = false;
 
   @override
   void initState() {
-    super.initState();
-    // Determine the current day
-    String currentDay = DateFormat("EEEE").format(DateTime.now());
-
-    // Map the current day to the corresponding index
-    switch (currentDay) {
-      case "Sunday":
-        _currentIndex = 0;
-        break;
-      case "Monday":
-        _currentIndex = 1;
-        break;
-      case "Tuesday":
-        _currentIndex = 2;
-        break;
-      case "Wednesday":
-        _currentIndex = 3;
-        break;
-      case "Thursday":
-        _currentIndex = 4;
-        break;
-      case "Friday":
-        _currentIndex = 5;
-        break;
-      case "Saturday":
-        _currentIndex = 6;
-        break;
-
-      default:
-        _currentIndex = 0; // Default to Monday if no match
-    }
-    tabController = TabController(length: 6, vsync: this,initialIndex: _currentIndex);
-    _pageController = PageController(initialPage: _currentIndex);
-    tabController.addListener(() {
-      // _currentIndex=DateFormat("EEEE").format(DateTime.now())
-      print("...........dsdfffff.......${DateFormat("EEEE").format(DateTime.now())}");
-      if (tabController.indexIsChanging) {
-        setState(() {
-          _currentIndex = tabController.index;
-        });
-      }
-    });
-  }
-
-  void _handleTap() {
     setState(() {
-      isClicked = !isClicked;
+      _currentIndex = Get.find<TimeTableController>().currentTabIndex.value;
     });
-  }
-
-  @override
-  void dispose() {
-    tabController.dispose();
-    super.dispose();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print("...........dsdfffff.......${DateFormat("EEEE").format(DateTime.now())}");
-    // final List<Widget> tabViews = [
-    //   monday(),
-    //   Tuesday(),
-    //   Wednesday(),
-    //   Thursday(),
-    //   Friday(),
-    //   Saturday()
-    // ];
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: systemUiOverlayStyleLight,
       child: Scaffold(
@@ -120,7 +38,7 @@ class _MyTimeTableState extends State<MyTimeTable>
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: [
-              AppBarBackground(),
+              const AppBarBackground(),
               Positioned(
                 left: 0,
                 top: -10,
@@ -427,7 +345,7 @@ class _MyTimeTableState extends State<MyTimeTable>
                                                   width: 150,
                                                   child: Center(
                                                     child: Text(
-                                                      " ${DateFormat('HH:mm a').format(DateTime.parse(data[index].startTime.toString()).toLocal())} - ${DateFormat('HH:mm a').format(DateTime.parse(data[index].endTime.toString()).toLocal())}",
+                                                      "${data[index].timeString?.replaceAll("[", "").replaceAll("]", "").split("-").first} - ${data[index].timeString?.replaceAll("[", "").replaceAll("]", "").split("-").last}",
                                                       style: TextStyle(
                                                           color: color,
                                                           fontSize: 12),
