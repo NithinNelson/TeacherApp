@@ -16,6 +16,7 @@ import '../Controller/api_controllers/userAuthController.dart';
 import '../Controller/forward_controller.dart/forward_controller.dart';
 import '../Controller/message_info_controller/message_info_controller.dart';
 import '../Controller/reaction_controller/reaction_controller.dart';
+import '../Controller/ui_controllers/keyboardController.dart';
 import '../Controller/ui_controllers/page_controller.dart';
 import '../Controller/ui_controllers/textFieldController.dart';
 
@@ -23,6 +24,7 @@ class HandleControllers {
   static createGetControllers() {
   Get.put(UserAuthController());
   Get.put(PageIndexController());
+  Get.put(KeyboardController());
   Get.put(TextFieldController());
   Get.put(TimeTableController());
   Get.put(ChatClassGroupController());
@@ -43,6 +45,7 @@ class HandleControllers {
   static deleteAllGetControllers() {
     Get.delete<UserAuthController>();
     Get.delete<PageIndexController>();
+    Get.delete<KeyboardController>();
     Get.delete<TextFieldController>();
     Get.delete<TimeTableController>();
     Get.delete<ChatClassGroupController>();
