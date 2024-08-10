@@ -602,7 +602,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                                 // height: ObservationResultList.length * 110.h,
                                                 child: ListView.builder(
                                                   physics: NeverScrollableScrollPhysics(),
-                                                  itemCount: 10,
+                                                  itemCount: ObservationResultList.length,
                                                   shrinkWrap: true,
                                                   itemBuilder:
                                                       (BuildContext context, int index) {

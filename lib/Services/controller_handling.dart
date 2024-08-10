@@ -9,6 +9,7 @@ import '../Controller/api_controllers/leaveRequestController.dart';
 import '../Controller/api_controllers/lessonLearningController.dart';
 import '../Controller/api_controllers/markAsReadController.dart';
 import '../Controller/api_controllers/notificationController.dart';
+import '../Controller/api_controllers/obsResultController.dart';
 import '../Controller/api_controllers/parentChatController.dart';
 import '../Controller/api_controllers/parentChatListController.dart';
 import '../Controller/api_controllers/timeTableController.dart';
@@ -41,6 +42,7 @@ class HandleControllers {
   Get.put(ForwardController());
   Get.put(MessageInfoController());
   Get.put(ReactionController());
+  Get.put(ObsResultController());
   }
   static deleteAllGetControllers() {
     Get.delete<UserAuthController>();
@@ -62,5 +64,6 @@ class HandleControllers {
     Get.delete<ForwardController>();
     Get.delete<MessageInfoController>();
     Get.delete<ReactionController>();
+    Get.delete<ObsResultController>();
   }
 }

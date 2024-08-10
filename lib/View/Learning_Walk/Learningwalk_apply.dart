@@ -488,6 +488,18 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
     UserAuthController userAuthController = Get.find<UserAuthController>();
     LessonLearningController lessonObservationController = Get.find<LessonLearningController>();
 
+    List<Indicator> indicatorsToRemove = [];
+    for (var indicator in lessonObservationController.markedIndicators.value) {
+      if (indicator.name == null &&
+          indicator.alias == null &&
+          indicator.point == null &&
+          indicator.dbKey == null &&
+          indicator.remark == null) {
+        indicatorsToRemove.add(indicator);
+      }
+    }
+    lessonObservationController.markedIndicators.value.removeWhere((indicator) => indicatorsToRemove.contains(indicator));
+
     LessonLearningApplyModel learningWalkApplyModel = LessonLearningApplyModel(
         isLesson: false,
       lessonLearning: LessonLearning(
