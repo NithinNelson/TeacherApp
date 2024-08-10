@@ -2,12 +2,12 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../Models/api_models/learning_walk_apply_model.dart';
 
-class LessonDatabase {
-  static final LessonDatabase instance = LessonDatabase._init();
+class LessonLearningDatabase {
+  static final LessonLearningDatabase instance = LessonLearningDatabase._init();
 
   static Database? _database;
 
-  LessonDatabase._init();
+  LessonLearningDatabase._init();
 
   Future<Database> get database async {
     if (_database != null) return _database!;
@@ -40,14 +40,6 @@ class LessonDatabase {
   Future<LessonLearningApplyModel> create(LessonLearningApplyModel lessLearn) async {
     final db = await instance.database;
 
-    // final json = note.toJson();
-    // final columns =
-    //     '${NoteFields.title}, ${NoteFields.description}, ${NoteFields.time}';
-    // final values =
-    //     '${json[NoteFields.title]}, ${json[NoteFields.description]}, ${json[NoteFields.time]}';
-    // final id = await db
-    //     .rawInsert('INSERT INTO table_name ($columns) VALUES ($values)');
-
     final id = await db.insert(tableLessLearn, lessLearn.toJsonForDb());
     return lessLearn.copy(id: id);
   }
@@ -71,10 +63,6 @@ class LessonDatabase {
 
   Future<List<LessonLearningApplyModel>> readAllLessonLearn() async {
     final db = await instance.database;
-
-    //final orderBy = '${NoteFields.time} ASC';
-    // final result =
-    //     await db.rawQuery('SELECT * FROM $tableNotes ORDER BY $orderBy');
 
     final result = await db.query(tableLessLearn);
 

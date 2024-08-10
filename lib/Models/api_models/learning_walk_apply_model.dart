@@ -82,12 +82,12 @@ class LessonLearningApplyModel {
         LessonLearningFields.id: id,
         LessonLearningFields.isLesson: isLesson ? 1 : 0,
         LessonLearningFields.lessonLearning:
-            jsonEncode(lessonLearning.toJson()),
+            jsonEncode(lessonLearning.toJsonForDb()),
       };
 
   Map<String, dynamic> toJson() => {
         LessonLearningFields.id: id,
-        LessonLearningFields.isLesson: isLesson ? 1 : 0,
+        LessonLearningFields.isLesson: isLesson,
         LessonLearningFields.lessonLearning: lessonLearning,
       };
 }
@@ -227,7 +227,7 @@ class LessonLearning {
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJsonForDb() {
     return {
       LessonLearningFields.schoolId: schoolId,
       LessonLearningFields.teacherId: teacherId,
@@ -251,6 +251,35 @@ class LessonLearning {
       LessonLearningFields.sessionId: sessionId,
       LessonLearningFields.curriculumId: curriculumId,
       LessonLearningFields.isJoin: isJoin ? 1 : 0,
+      LessonLearningFields.remarksData:
+          remarksData.map((i) => i.toJson()).toList(),
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      LessonLearningFields.schoolId: schoolId,
+      LessonLearningFields.teacherId: teacherId,
+      LessonLearningFields.teacherName: teacherName,
+      LessonLearningFields.observerId: observerId,
+      LessonLearningFields.observerName: observerName,
+      LessonLearningFields.classId: classId,
+      LessonLearningFields.classBatchName: classBatchName,
+      LessonLearningFields.batchId: batchId,
+      LessonLearningFields.topic: topic,
+      LessonLearningFields.academicYear: academicYear,
+      LessonLearningFields.batchName: batchName,
+      LessonLearningFields.className: className,
+      LessonLearningFields.subjectName: subjectName,
+      LessonLearningFields.subjectId: subjectId,
+      LessonLearningFields.rollIds: rollIds.map((i) => i.toJson()).toList(),
+      LessonLearningFields.areasForImprovement: areasForImprovement,
+      LessonLearningFields.strengths: strengths,
+      LessonLearningFields.remedialMeasures: remedialMeasures,
+      LessonLearningFields.upperHierarchy: upperHierarchy,
+      LessonLearningFields.sessionId: sessionId,
+      LessonLearningFields.curriculumId: curriculumId,
+      LessonLearningFields.isJoin: isJoin,
       LessonLearningFields.remarksData:
           remarksData.map((i) => i.toJson()).toList(),
     };

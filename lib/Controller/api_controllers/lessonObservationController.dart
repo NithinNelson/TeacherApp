@@ -1,10 +1,15 @@
 
+import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import '../../Models/api_models/learning_observation_api_model.dart';
 import '../../Models/api_models/learning_walk_apply_model.dart';
 import '../../Services/api_services.dart';
+import '../../Services/check_connectivity.dart';
+import '../../Services/snackBar.dart';
+import '../../View/CWidgets/TeacherAppPopUps.dart';
+import '../../sqflite_db/lessonLearnDatabase/lessonLearnDbHelper.dart';
 
 class LessonObservationController extends GetxController {
   RxList<TeacherData> teacherNameList = <TeacherData>[].obs;
@@ -17,6 +22,8 @@ class LessonObservationController extends GetxController {
   RxList<ListElement> learningWalkList = <ListElement>[].obs;
   RxList<ListElement> lessonObservationList = <ListElement>[].obs;
   RxList<Indicator> markedIndicators = <Indicator>[].obs;
+  RxList<LessonLearningApplyModel> learningData = <LessonLearningApplyModel>[].obs;
+  RxList<LessonLearningApplyModel> lessonData = <LessonLearningApplyModel>[].obs;
 
   void resetData() {
     teacherNameList.value = [];
@@ -38,7 +45,7 @@ class LessonObservationController extends GetxController {
 
   Future<void> fetchLessonObservation() async {
     resetData();
-    // try {
+    try {
       String? userId = Get.find<UserAuthController>().userData.value.userId;
       String? acYr = Get.find<UserAuthController>().userData.value.academicYear;
       Map<String, dynamic> resp = await ApiServices.getLeadership(
@@ -51,9 +58,9 @@ class LessonObservationController extends GetxController {
         learningWalkList.value = lessonDataApi.value.data?.details?.learningWalk?.list ?? [];
         lessonObservationList.value = lessonDataApi.value.data?.details?.lessonObservations?.list ?? [];
       }
-    // } catch (e) {
-    //   print("-----------lesson obs error--------------");
-    // } finally {}
+    } catch (e) {
+      print("-----------lesson obs error--------------");
+    } finally {}
   }
 
   Future<void> getTeacherClassData({required String teacherName}) async {
@@ -96,9 +103,118 @@ class LessonObservationController extends GetxController {
     } catch (e) {}
   }
 
-  // void addIndicator({required Indicator indicator}) {
-  //   markedIndicators.value.add(
-  //       indicator,
-  //   );
-  // }
+  Future<void> refreshLessLearnData() async {
+    List<LessonLearningApplyModel> lessLearn = await LessonLearningDatabase.instance.readAllLessonLearn();
+    learningData.value = lessLearn.where((data) => data.isLesson == false).toList();
+    lessonData.value = lessLearn.where((data) => data.isLesson == true).toList();
+    print('lesson learn db length-------${lessLearn.length}');
+  }
+
+  Future<void> lessonSubmit(BuildContext context) async {
+    bool result = await CheckConnectivity().check();
+    if (!result) {
+      await snackBar(context: context, message: "No internet connection", color: Colors.red);
+    } else {
+      for (var data in lessonData) {
+        try {
+          Map<String, dynamic> resp = await ApiServices.lessonWalkSubmit(reqData: data);
+          if(resp['status']['code'] == 200) {
+            await LessonLearningDatabase.instance.delete(data.id!);
+          } else {
+            TeacherAppPopUps.submitFailed(
+              title: "Error",
+              message: "Failed to sync data.",
+              actionName: "Close",
+              iconData: Icons.error_outline,
+              iconColor: Colors.red.shade900,
+            );
+            break;
+          }
+        } on SocketException catch(e) {
+          TeacherAppPopUps.submitFailed(
+            title: "Error",
+            message: "Internet connection is not stable",
+            actionName: "Close",
+            iconData: Icons.done,
+            iconColor: Colors.green,
+          );
+          break;
+        } catch(e) {
+          TeacherAppPopUps.submitFailed(
+            title: "Error",
+            message: "Something went wrong",
+            actionName: "Close",
+            iconData: Icons.done,
+            iconColor: Colors.green,
+          );
+          break;
+        }
+      }
+    }
+    await refreshLessLearnData().then((_) {
+      if(lessonData.isEmpty) {
+        TeacherAppPopUps.submitFailed(
+          title: "Success",
+          message: "Lesson Observation Result Added Successfully",
+          actionName: "Close",
+          iconData: Icons.done,
+          iconColor: Colors.green,
+        );
+      }
+    });
+  }
+
+  Future<void> learningSubmit(BuildContext context) async {
+    bool result = await CheckConnectivity().check();
+    if (!result) {
+      await snackBar(context: context, message: "No internet connection", color: Colors.red);
+    } else {
+      for (var data in learningData) {
+        try {
+          Map<String, dynamic> resp = await ApiServices.lessonWalkSubmit(reqData: data);
+          if(resp['status']['code'] == 200) {
+            await LessonLearningDatabase.instance.delete(data.id!);
+          } else {
+            TeacherAppPopUps.submitFailed(
+              title: "Error",
+              message: "Failed to sync data.",
+              actionName: "Close",
+              iconData: Icons.error_outline,
+              iconColor: Colors.red.shade900,
+            );
+            break;
+          }
+        } on SocketException catch(e) {
+          TeacherAppPopUps.submitFailed(
+            title: "Error",
+            message: "Internet connection is not stable",
+            actionName: "Close",
+            iconData: Icons.done,
+            iconColor: Colors.green,
+          );
+          break;
+        } catch(e) {
+          TeacherAppPopUps.submitFailed(
+            title: "Error",
+            message: "Something went wrong",
+            actionName: "Close",
+            iconData: Icons.done,
+            iconColor: Colors.green,
+          );
+          break;
+        }
+      }
+    }
+    await refreshLessLearnData().then((_) {
+      if(learningData.isEmpty) {
+        TeacherAppPopUps.submitFailed(
+          title: "Success",
+          message: "Learning Walk Result Added Successfully",
+          actionName: "Close",
+          iconData: Icons.done,
+          iconColor: Colors.green,
+        );
+      }
+    });
+  }
 }

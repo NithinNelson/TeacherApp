@@ -1,6 +1,5 @@
-import 'dart:convert';
+
 import 'dart:developer';
-import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,17 +9,12 @@ import 'package:teacherapp/Controller/api_controllers/lessonObservationControlle
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Services/api_services.dart';
 import 'package:teacherapp/Services/check_connectivity.dart';
-import 'package:teacherapp/Services/snackBar.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 import 'package:teacherapp/View/CWidgets/custom_check_box.dart';
 import 'package:teacherapp/View/Learning_Walk/learning_walk_widgets/question_radio_fields.dart';
 import '../../Models/api_models/learning_walk_apply_model.dart';
 import '../../Utils/Colors.dart';
-import '../../Utils/font_util.dart';
-import '../../sqflite_db/learningdatabase/learningdbhelper.dart';
-import '../../sqflite_db/learningdatabase/learningmodel.dart';
-import '../../sqflite_db/lessondatabase/lessondbhelper.dart';
-import '../../sqflite_db/lessondatabase/lessonmodel.dart';
+import '../../sqflite_db/lessonLearnDatabase/lessonLearnDbHelper.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../CWidgets/commons.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
@@ -65,7 +59,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
             width: MediaQuery.of(context).size.width,
             child: Stack(
               children: [
-                AppBarBackground(),
+                const AppBarBackground(),
                 Positioned(
                   left: 0,
                   top: -10,
@@ -144,12 +138,6 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                                           color:
                                                           Color(0xFFD6E4FA)),
                                                       color: Colors.white,
-                                                      // image: DecorationImage(
-                                                      //     image: NetworkImage(widget.teacherImage == ""
-                                                      //         ? "https://raw.githubusercontent.com/abdulmanafpfassal/image/master/profile.jpg"
-                                                      //         : ApiConstants.IMAGE_BASE_URL +
-                                                      //         "${widget.teacherImage}"),
-                                                      //     fit: BoxFit.cover),
                                                     ),
                                                     child: ClipRRect(
                                                       borderRadius:
@@ -530,7 +518,6 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
 
     if(connection) {
       try {
-        await LessonDatabase.instance.create(lessonLearningApplyModel);
         Map<String, dynamic> resp = await ApiServices.lessonWalkSubmit(reqData: lessonLearningApplyModel);
         if(resp['status']['code'] == 200) {
           Get.back();
@@ -543,7 +530,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
           );
           log("------------submit resp-------------$resp");
         } else {
-          await LessonDatabase.instance.create(lessonLearningApplyModel);
+          await LessonLearningDatabase.instance.create(lessonLearningApplyModel);
           Get.back();
           TeacherAppPopUps.submitFailed(
             title: "Success",
@@ -554,7 +541,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
           );
         }
       } catch(e) {
-        await LessonDatabase.instance.create(lessonLearningApplyModel);
+        await LessonLearningDatabase.instance.create(lessonLearningApplyModel);
         Get.back();
         TeacherAppPopUps.submitFailed(
           title: "Success",
@@ -565,7 +552,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
         );
       }
     } else {
-      await LessonDatabase.instance.create(lessonLearningApplyModel);
+      await LessonLearningDatabase.instance.create(lessonLearningApplyModel);
       Get.back();
       TeacherAppPopUps.submitFailed(
         title: "Success",

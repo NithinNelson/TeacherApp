@@ -7,11 +7,10 @@ import 'package:http/http.dart' as http;
 class CheckConnectivity {
   Future<bool> check() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult.contains(ConnectivityResult.mobile) ||
-        connectivityResult.contains(ConnectivityResult.wifi)) {
-      return true;
-    } else {
+    if (connectivityResult.contains(ConnectivityResult.none)) {
       return false;
+    } else {
+      return true;
     }
   }
 
