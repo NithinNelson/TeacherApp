@@ -445,7 +445,7 @@ class FeedViewController extends GetxController {
         selectedParentDataList.value = List.generate(parentDataList.length, (index) {
           return ParentDataSelected(
             name: parentDataList[index].name,
-            gender: parentDataList[index].image,
+            gender: parentDataList[index].gender,
             sId: parentDataList[index].sId,
             studentId: parentDataList[index].studentId,
             studentName: parentDataList[index].studentName,

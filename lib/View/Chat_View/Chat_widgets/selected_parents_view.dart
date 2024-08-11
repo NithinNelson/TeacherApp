@@ -66,7 +66,7 @@ class SelectedParentsList extends StatelessWidget {
             ),
             SizedBox(width: 10.w),
             Container(
-              width: stackWidth,
+              width: 22 + (44 * (controller.showSelectedParentDataStack.length >5 ?4:controller.showSelectedParentDataStack.length).toDouble()),
               height: 45,
               child:Stack(
                 children: [

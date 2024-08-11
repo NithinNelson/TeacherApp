@@ -111,7 +111,7 @@ class _allleaveState extends State<allleave> {
                                           width: 40,
                                           height: 40,
                                           fit: BoxFit.fill,
-                                          imageUrl: leaveList[i].profileImage ?? '',
+                                          imageUrl: "${ApiConstants.downloadUrl}${leaveList[i].profileImage}",
                                           errorWidget: (context, url, error) => Center(
                                             child: Text(
                                               "${leaveList[i].studentName?.substring(0, 2).toUpperCase()}",
@@ -521,9 +521,7 @@ class _allleaveState extends State<allleave> {
                                                             style:
                                                             TextStyle(fontSize: 14),
                                                           ),
-                                                          SizedBox(
-                                                            width: 40.w,
-                                                          ),
+                                                          Spacer(),
                                                           Text(
                                                             "To: ${leaveList[i].endDate.toString().split('T')[0].split('-').last}-${leaveList[i].endDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].endDate.toString().split('T')[0].split('-').first}",
                                                             style:

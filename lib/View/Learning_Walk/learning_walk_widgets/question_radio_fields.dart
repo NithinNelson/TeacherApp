@@ -18,13 +18,14 @@ class QuestionRadioFields extends StatefulWidget {
 class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
   LessonLearningController lessonObservationController =
   Get.find<LessonLearningController>();
-  List<int?> selectedQuestions = [];
 
   @override
   void initState() {
-    selectedQuestions = List.generate(
-        lessonObservationController.learningWalkList.length, (_) => null);
     lessonObservationController.markedIndicators.value = List.generate(
+        widget.topicData == null ? lessonObservationController.learningWalkList.length : lessonObservationController.lessonObservationList.length, (_) {
+          return Indicator(name: null, remark: null, point: null, dbKey: null, alias: null);
+    });
+    lessonObservationController.markedIndicators1.value = List.generate(
         widget.topicData == null ? lessonObservationController.learningWalkList.length : lessonObservationController.lessonObservationList.length, (_) {
           return Indicator(name: null, remark: null, point: null, dbKey: null, alias: null);
     });
@@ -136,10 +137,17 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                                   return Colors.red[700];
                                                 }),
                                                 value: 0,
-                                                groupValue: controller.markedIndicators.value[i].point,
+                                                groupValue: controller.markedIndicators1.value[i].point,
                                                 onChanged: (int? value) {
                                                   setState(() {
                                                     controller.markedIndicators.value[i] = Indicator(
+                                                        name: lessonWalkList[i].indicator ?? '',
+                                                        remark: 'NA',
+                                                        point: 0,
+                                                        dbKey: 'NA',
+                                                        alias: 'NA',
+                                                    );
+                                                    controller.markedIndicators1.value[i] = Indicator(
                                                         name: lessonWalkList[i].indicator ?? '',
                                                         remark: 'NA',
                                                         point: 0,
@@ -167,10 +175,17 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                                   return Colors.yellow[900];
                                                 }),
                                                 value: 3,
-                                                groupValue: controller.markedIndicators.value[i].point,
+                                                groupValue: controller.markedIndicators1.value[i].point,
                                                 onChanged: (int? value) {
                                                   setState(() {
                                                     controller.markedIndicators.value[i] = Indicator(
+                                                      name: lessonWalkList[i].indicator ?? '',
+                                                      remark: 'Weak',
+                                                      point: 3,
+                                                      dbKey: 'Weak',
+                                                      alias: 'Weak',
+                                                    );
+                                                    controller.markedIndicators1.value[i] = Indicator(
                                                       name: lessonWalkList[i].indicator ?? '',
                                                       remark: 'Weak',
                                                       point: 3,
@@ -198,10 +213,17 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                                   return Colors.yellow[700];
                                                 }),
                                                 value: 5,
-                                                groupValue: controller.markedIndicators.value[i].point,
+                                                groupValue: controller.markedIndicators1.value[i].point,
                                                 onChanged: (int? value) {
                                                   setState(() {
                                                     controller.markedIndicators.value[i] = Indicator(
+                                                      name: lessonWalkList[i].indicator ?? '',
+                                                      remark: 'Acceptable',
+                                                      point: 5,
+                                                      dbKey: 'Acceptable',
+                                                      alias: 'Acceptable',
+                                                    );
+                                                    controller.markedIndicators1.value[i] = Indicator(
                                                       name: lessonWalkList[i].indicator ?? '',
                                                       remark: 'Acceptable',
                                                       point: 5,
@@ -245,10 +267,17 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                                 return Colors.green;
                                               }),
                                               value: 7,
-                                              groupValue: controller.markedIndicators.value[i].point,
+                                              groupValue: controller.markedIndicators1.value[i].point,
                                               onChanged: (int? value) {
                                                 setState(() {
                                                   controller.markedIndicators.value[i] = Indicator(
+                                                    name: lessonWalkList[i].indicator ?? '',
+                                                    remark: 'Good',
+                                                    point: 7,
+                                                    dbKey: 'Good',
+                                                    alias: 'Good',
+                                                  );
+                                                  controller.markedIndicators1.value[i] = Indicator(
                                                     name: lessonWalkList[i].indicator ?? '',
                                                     remark: 'Good',
                                                     point: 7,
@@ -276,10 +305,17 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                                 return Colors.green[700];
                                               }),
                                               value: 9,
-                                              groupValue: controller.markedIndicators.value[i].point,
+                                              groupValue: controller.markedIndicators1.value[i].point,
                                               onChanged: (int? value) {
                                                 setState(() {
                                                   controller.markedIndicators.value[i] = Indicator(
+                                                    name: lessonWalkList[i].indicator ?? '',
+                                                    remark: 'Very Good',
+                                                    point: 9,
+                                                    dbKey: 'Very_good',
+                                                    alias: 'Very good',
+                                                  );
+                                                  controller.markedIndicators1.value[i] = Indicator(
                                                     name: lessonWalkList[i].indicator ?? '',
                                                     remark: 'Very Good',
                                                     point: 9,
@@ -309,10 +345,17 @@ class _QuestionRadioFieldsState extends State<QuestionRadioFields> {
                                               hoverColor:
                                               Colorutils.userdetailcolor,
                                               value: 10,
-                                              groupValue: controller.markedIndicators.value[i].point,
+                                              groupValue: controller.markedIndicators1.value[i].point,
                                               onChanged: (int? value) {
                                                 setState(() {
                                                   controller.markedIndicators.value[i] = Indicator(
+                                                    name: lessonWalkList[i].indicator ?? '',
+                                                    remark: 'Outstanding',
+                                                    point: 10,
+                                                    dbKey: 'Outstanding',
+                                                    alias: 'Outstanding',
+                                                  );
+                                                  controller.markedIndicators1.value[i] = Indicator(
                                                     name: lessonWalkList[i].indicator ?? '',
                                                     remark: 'Outstanding',
                                                     point: 10,

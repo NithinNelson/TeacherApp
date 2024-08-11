@@ -22,6 +22,7 @@ class LessonLearningController extends GetxController {
   RxList<ListElement> learningWalkList = <ListElement>[].obs;
   RxList<ListElement> lessonObservationList = <ListElement>[].obs;
   RxList<Indicator> markedIndicators = <Indicator>[].obs;
+  RxList<Indicator> markedIndicators1 = <Indicator>[].obs;
   RxList<LessonLearningApplyModel> learningData = <LessonLearningApplyModel>[].obs;
   RxList<LessonLearningApplyModel> lessonData = <LessonLearningApplyModel>[].obs;
 

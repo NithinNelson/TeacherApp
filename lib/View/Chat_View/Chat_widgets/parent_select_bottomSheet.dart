@@ -207,7 +207,6 @@ class ParentSelectionBottomSheet extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: selectedParentList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      String subTitle = selectedParentList[index].gender?.substring(0, 1).toUpperCase() == 'F' ? "Daughter of ${capitalizeEachWord(selectedParentList[index].name) ?? '--'}" : selectedParentList[index].gender?.substring(0, 1).toUpperCase() == 'M' ? "Son of ${capitalizeEachWord(selectedParentList[index].name) ?? '--'}" : '--';
                       List<Color> colors = [
                         Colorutils.letters1,
                         Colorutils.svguicolour2,
@@ -264,7 +263,7 @@ class ParentSelectionBottomSheet extends StatelessWidget {
                           ),
                         ),
                         subtitle: Text(
-                          subTitle,
+                          selectRelation(selectedParentList[index]),
                           style: TeacherAppFonts.poppinsW500_12sp_lightGreenForParent,
                         ),
                         onTap: () {
@@ -280,5 +279,17 @@ class ParentSelectionBottomSheet extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String selectRelation(ParentDataSelected parentData) {
+    String? gender = parentData.gender?.substring(0, 1).toUpperCase();
+    if(gender != null) {
+      if(gender == "F") {
+        return "Daughter of ${capitalizeEachWord(parentData.name) ?? '--'}";
+      } else if(gender == "M") {
+        return "Son of ${capitalizeEachWord(parentData.name) ?? '--'}";
+      }
+    }
+    return "--";
   }
 }
