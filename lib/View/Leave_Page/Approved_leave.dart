@@ -159,20 +159,20 @@ class _PendingLeaveState extends State<PendingLeave> {
                                   SizedBox(
                                     width: 5,
                                   ),
-                                  Container(
-                                    height: 25,
-                                    width: 25,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: Colors.red),
-                                    ),
-                                    child: Center(
-                                        child: Text(
-                                          "${leaveList[i].days ?? '--'}",
-                                          style: TextStyle(
-                                              color: Colors.red, fontSize: 12.sp),
-                                        )),
-                                  )
+                                  // Container(
+                                  //   height: 25,
+                                  //   width: 25,
+                                  //   decoration: BoxDecoration(
+                                  //     shape: BoxShape.circle,
+                                  //     border: Border.all(color: Colors.red),
+                                  //   ),
+                                  //   child: Center(
+                                  //       child: Text(
+                                  //         "${leaveList[i].days ?? '--'}",
+                                  //         style: TextStyle(
+                                  //             color: Colors.red, fontSize: 12.sp),
+                                  //       )),
+                                  // )
                                 ],
 
                               ),
@@ -329,7 +329,7 @@ class _PendingLeaveState extends State<PendingLeave> {
                                                               GestureDetector(
                                                                 onTap: () async {
                                                                   try {
-                                                                    await launchUrl(Uri.parse("${ApiConstants.baseUrl}${leaveList[i].documentPath}"));
+                                                                    await launchUrl(Uri.parse("${ApiConstants.downloadUrl}${leaveList[i].documentPath}"));
                                                                   } catch(e) {}
                                                                 },
                                                                 child: attchIcon(

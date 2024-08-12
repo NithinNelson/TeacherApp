@@ -66,10 +66,11 @@ class _ObsResultState extends State<ObsResult> {
                   ),
                 ),
                 Container(
+
                   margin: EdgeInsets.only(
-                      left: 10.w, top: 120.h, right: 10.w, bottom: 10.h),
+                      left: 10.w, top: 120.h, right: 10.w),
                   height: ScreenUtil().screenHeight,
-                  decoration: themeCardDecoration,
+                  decoration: themeCardDecoration2,
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
