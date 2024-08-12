@@ -58,7 +58,7 @@ class ApproveRejected extends StatelessWidget {
         SizedBox(height: 10.h),
         Container(
           width: ScreenUtil().screenWidth,
-          height: 550.h,
+          height: 600.h,
           child: GetX<LeaveApprovalController>
             (builder: (LeaveApprovalController controller) {
             List<ApprovedOrRejected> leaveList = controller.filteredApprovedOrRejectedLeaves.value;
@@ -144,20 +144,20 @@ class ApproveRejected extends StatelessWidget {
                                   SizedBox(
                                     width: 5,
                                   ),
-                                  Container(
-                                    height: 25,
-                                    width: 25,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: Colors.red),
-                                    ),
-                                    child: Center(
-                                        child: Text(
-                                          "${leaveList[i].days ?? '--'}",
-                                          style: TextStyle(
-                                              color: Colors.red, fontSize: 12.sp),
-                                        )),
-                                  )
+                                  // Container(
+                                  //   height: 25,
+                                  //   width: 25,
+                                  //   decoration: BoxDecoration(
+                                  //     shape: BoxShape.circle,
+                                  //     border: Border.all(color: Colors.red),
+                                  //   ),
+                                  //   child: Center(
+                                  //       child: Text(
+                                  //         "${leaveList[i].days ?? '--'}",
+                                  //         style: TextStyle(
+                                  //             color: Colors.red, fontSize: 12.sp),
+                                  //       )),
+                                  // )
                                 ],
 
                               ),
@@ -167,8 +167,8 @@ class ApproveRejected extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                      width: 140.w, child: Text("Adm No: ${leaveList[i].admissionNumber ?? '--'}")),
-                                  Text('Class: ${leaveList[i].classs ?? '-'} ${leaveList[i].batch ?? '-'}'),
+                                      width: 210.w,child: Text("Adm No: ${leaveList[i].admissionNumber ?? '--'}")),
+                                  Container(width: 210.w,child: Text('Class: ${leaveList[i].classs ?? '-'} ${leaveList[i].batch ?? '-'}')),
                                 ],
                               ),
                               SizedBox(
@@ -190,6 +190,13 @@ class ApproveRejected extends StatelessWidget {
 
                                 ],
                               ),
+                              SizedBox(
+                                height: 8.w,
+                              ),
+                              Container(
+                                  width: 210.w,child: Text("No.of Days: ${leaveList[i].days ?? '--'}", style: TextStyle(
+                                fontWeight: FontWeight.bold
+                              ),),),
                               SizedBox(
                                 height: 8.w,
                               ),

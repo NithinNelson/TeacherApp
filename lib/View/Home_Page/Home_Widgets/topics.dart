@@ -135,7 +135,7 @@ class Topic extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     Text(
-                                      "Linear Algebra Equations dsfsdg werfahgbfg",
+                                     "sample text",
                                       style: TeacherAppFonts.interW400_14sp_timecolortopicsOp80,                              ),
                                   ],
                                 ),
@@ -144,57 +144,66 @@ class Topic extends StatelessWidget {
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                SizedBox(
-                                  height: 50.w,
-                                  width: 110.w,
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      Positioned(
-                                        left: 0,
-                                        child: CircleAvatar(
-                                          radius: 12,
-                                          child: Image.asset('assets/images/profile2.png'),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        left: 15,
-                                        child: CircleAvatar(
-                                          radius: 12,
-                                          child: Image.asset('assets/images/profile2.png'),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        left: 30,
-                                        child: CircleAvatar(
-                                          radius: 12,
-                                          child: Image.asset('assets/images/profile2.png'),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        left: 45,
-                                        child: CircleAvatar(
-                                          radius: 12,
-                                          child: Image.asset('assets/images/profile2.png'),
-                                        ),
-                                      ),
-                                      const Positioned(
-                                        left: 60,
-                                        child: CircleAvatar(
-                                          backgroundColor:  Colorutils.userdetailcolor,
-                                          radius: 12,
-                                          child: Text('23',style: TextStyle(
-                                            color: Colorutils.Whitecolor,
-                                            fontSize: 12,
-                                          ),),
-                                        ),
-                                      ),
-                                    ],
+                                Text(
+                                  timeTable.studentCount.toString(),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,fontSize: 16,
                                   ),
                                 ),
+                                // SizedBox(
+                                //   height: 50.w,
+                                //   width: 110.w,
+
+                                  // child: Stack(
+                                  //   alignment: Alignment.center,
+                                  //   children: [
+                                  //     Positioned(
+                                  //       left: 0,
+                                  //       child: CircleAvatar(
+                                  //         radius: 12,
+                                  //         child: Image.asset('assets/images/profile2.png'),
+                                  //       ),
+                                  //     ),
+                                  //     Positioned(
+                                  //       left: 15,
+                                  //       child: CircleAvatar(
+                                  //         radius: 12,
+                                  //         child: Image.asset('assets/images/profile2.png'),
+                                  //       ),
+                                  //     ),
+                                  //     Positioned(
+                                  //       left: 30,
+                                  //       child: CircleAvatar(
+                                  //         radius: 12,
+                                  //         child: Image.asset('assets/images/profile2.png'),
+                                  //       ),
+                                  //     ),
+                                  //     Positioned(
+                                  //       left: 45,
+                                  //       child: CircleAvatar(
+                                  //         radius: 12,
+                                  //         child: Image.asset('assets/images/profile2.png'),
+                                  //       ),
+                                  //     ),
+                                  //     const Positioned(
+                                  //       left: 60,
+                                  //       child: CircleAvatar(
+                                  //         backgroundColor:  Colorutils.userdetailcolor,
+                                  //         radius: 12,
+                                  //         child: Text('23',style: TextStyle(
+                                  //           color: Colorutils.Whitecolor,
+                                  //           fontSize: 12,
+                                  //         ),),
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                // ),
                                 Text(
-                                  'Students',
-                                  style: TeacherAppFonts.interW600_12sp_timecolortopicsOp80,
+                                  ' Students',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,fontSize: 16,
+                                  ),
                                 ),
                               ],
                             ),

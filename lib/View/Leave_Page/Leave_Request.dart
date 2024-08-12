@@ -112,6 +112,68 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                       fontSize: 16, fontWeight: FontWeight.w600),
                                 ),
 
+
+                                Row(
+                                  children: [
+                                    // Text(
+                                    //   'My Class',
+                                    //   style: TextStyle(
+                                    //       fontWeight: FontWeight.bold,
+                                    //       fontSize: 15.sp,
+                                    //       color: Colors.black),
+                                    // ),
+                                    SizedBox(width: 2.w,),
+                                    Container(
+                                      height: 50.h,
+                                      width: 120.w,
+                                      child: ListView.builder(
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: 3,
+                                          itemBuilder:
+                                              (BuildContext context, int index) {
+                                            return  Row(
+                                              children: [
+                                                SizedBox(
+                                                  width: 5.w,
+                                                ),
+                                                SingleChildScrollView(
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        //newResult.clear();
+
+                                                        // if(newResult.isNotEmpty){
+                                                        //   newResult.clear();
+                                                        // }
+
+                                                      });
+
+                                                    },
+                                                    child: Container(
+                                                      width: 45.w,
+                                                      height: 45.h,
+                                                      decoration: BoxDecoration(
+                                                          color:  Colors.grey,
+                                                          borderRadius: BorderRadius.all(Radius.circular(50.r))),
+                                                      child: Center(
+                                                        child: Text(
+                                                         "5E",
+                                                          style: TextStyle(
+                                                              fontSize: 10.sp,
+                                                              color: Colors.white,
+                                                              fontWeight: FontWeight.bold),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          }),
+                                    ),
+                                  ],
+                                )
                               ],
                             ),
                           ),

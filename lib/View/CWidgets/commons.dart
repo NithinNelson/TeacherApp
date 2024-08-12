@@ -14,3 +14,15 @@ BoxDecoration themeCardDecoration = BoxDecoration(
     ),
   ],
 );
+BoxDecoration themeCardDecoration2 = BoxDecoration(
+  color: Colorutils.Whitecolor,
+  borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
+  boxShadow: [
+    BoxShadow(
+      color: Colors.teal.shade50,
+      spreadRadius: 1,
+      blurRadius: 0,
+      offset: const Offset(0, 1),
+    ),
+  ],
+);

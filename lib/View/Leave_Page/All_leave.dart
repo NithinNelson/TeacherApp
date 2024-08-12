@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
+import 'package:teacherapp/Services/common_services.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
@@ -71,7 +72,7 @@ class _allleaveState extends State<allleave> {
         SizedBox(height: 10.h),
         Container(
           width: ScreenUtil().screenWidth,
-          height: 550.h,
+          height: 600.h,
           child: GetX<LeaveApprovalController>(
             builder: (LeaveApprovalController controller) {
               List<AllLeaves> leaveList = controller.filteredAllLeaves.value;
@@ -156,20 +157,20 @@ class _allleaveState extends State<allleave> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Container(
-                                  height: 25,
-                                  width: 25,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: Colors.red),
-                                  ),
-                                  child: Center(
-                                      child: Text(
-                                        "${leaveList[i].days ?? '--'}",
-                                        style: TextStyle(
-                                            color: Colors.red, fontSize: 12.sp),
-                                      )),
-                                )
+                                // Container(
+                                //   height: 25,
+                                //   width: 25,
+                                //   decoration: BoxDecoration(
+                                //     shape: BoxShape.circle,
+                                //     border: Border.all(color: Colors.red),
+                                //   ),
+                                //   child: Center(
+                                //       child: Text(
+                                //         "${leaveList[i].days ?? '--'}",
+                                //         style: TextStyle(
+                                //             color: Colors.red, fontSize: 12.sp),
+                                //       )),
+                                // )
                               ],
 
                             ),
@@ -179,8 +180,8 @@ class _allleaveState extends State<allleave> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                    width: 140.w, child: Text("Adm.No: ${leaveList[i].admissionNumber ?? '--'}")),
-                                Text('Class: ${leaveList[i].classs ?? '-'} ${leaveList[i].batch ?? '-'}'),
+                                    width: 210.w, child: Text("Adm.No: ${leaveList[i].admissionNumber ?? '--'}")),
+                                Container(width:210.w,child: Text('Class: ${leaveList[i].classs ?? '-'} ${leaveList[i].batch ?? '-'}')),
                               ],
                             ),
                             SizedBox(
@@ -206,6 +207,13 @@ class _allleaveState extends State<allleave> {
                               height: 8.w,
                             ),
                             Container(
+                              width: 210.w,child: Text("No.of Days: ${leaveList[i].days ?? '--'}", style: TextStyle(
+                                fontWeight: FontWeight.bold
+                            ),),),
+                            SizedBox(
+                              height: 8.w,
+                            ),
+                            Container(
                               width: MediaQuery.of(context).size.width * 0.60,
                               height: 40.h,
                               child: Row(
@@ -213,7 +221,7 @@ class _allleaveState extends State<allleave> {
                                 children: [
                                   // Flexible(flex: 1, child: Container()),
                                   Text(
-                                    "Status: ${leaveList[i].status ?? '--'}",
+                                    "Status: ${capitalizeEachWord(leaveList[i].status) ?? '--'}",
                                     style: TextStyle(
                                       color: _leaveStatus(leaveList[i].status?.toLowerCase() ?? ''),
                                       // color: statusleave == "Approved"
@@ -271,35 +279,43 @@ class _allleaveState extends State<allleave> {
                                                   SizedBox(
                                                     height: 8.h,
                                                   ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        // "From: ${fromdate!.split('T')[0]}",
-                                                        "From: ${leaveList[i].startDate.toString().split('T')[0].split('-').last}-${leaveList[i].startDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].startDate.toString().split('T')[0].split('-').first}",
-                                                        style: TextStyle(fontSize: 14),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 40.w,
-                                                      ),
-                                                      Text(
-                                                        "To: ${leaveList[i].endDate.toString().split('T')[0].split('-').last}-${leaveList[i].endDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].endDate.toString().split('T')[0].split('-').first}",
-                                                        style: TextStyle(fontSize: 14),
-                                                      ),
-                                                    ],
+                                                  Text(
+                                                    // "From: ${fromdate!.split('T')[0]}",
+                                                    "From: ${leaveList[i].startDate.toString().split('T')[0].split('-').last}-${leaveList[i].startDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].startDate.toString().split('T')[0].split('-').first}",
+                                                    style: TextStyle(fontSize: 14),
                                                   ),
+                                                  SizedBox(
+                                                    height: 8.h,
+                                                  ),
+                                                  Text(
+                                                    "To: ${leaveList[i].endDate.toString().split('T')[0].split('-').last}-${leaveList[i].endDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].endDate.toString().split('T')[0].split('-').first}",
+                                                    style: TextStyle(fontSize: 14),
+                                                  ),
+
                                                   SizedBox(
                                                     height: 10.h,
                                                   ),
                                                   (leaveList[i].documentPath != null)
                                                       ? Row(
                                                     children: [
-                                                      Text('Document :',
-                                                          style: TextStyle(fontSize: 14)),
+                                                      Row(
+                                                        children: [
+                                                          Text('Document :',
+                                                              style: TextStyle(fontSize: 14)),
+
+                                                        ],
+                                                      ),
                                                       GestureDetector(
                                                         onTap: () async {
-                                                          await launchUrl(Uri.parse("${ApiConstants.IMAGE_BASE_URL}${leaveList[i].documentPath}"));
+                                                          try {
+                                                            await launchUrl(Uri.parse("${ApiConstants.downloadUrl}${leaveList[i].documentPath}"));
+                                                          } catch(e) {
+                                                            print("--------vrgvg-------${e.toString()}");
+                                                          }
                                                         },
-                                                        child: attchIcon(type: leaveList[i].documentPath.toString().split(".").last, document: leaveList[i].documentPath.toString()),
+                                                        child: attchIcon(
+                                                            type: leaveList[i].documentPath.toString().split(".").last,
+                                                            document: leaveList[i].documentPath.toString().toString()),
                                                       ),
                                                     ],
                                                   )
@@ -442,8 +458,8 @@ class _allleaveState extends State<allleave> {
                                       );
                                     },
                                     child: Container(
-                                        height: 30.h,
-                                        width: 70.w,
+                                        height: 40.h,
+                                        width: 90.w,
                                         decoration: BoxDecoration(
                                             color: Colors.red[500],
                                             borderRadius:
@@ -513,22 +529,21 @@ class _allleaveState extends State<allleave> {
                                                       SizedBox(
                                                         height: 8.h,
                                                       ),
-                                                      Row(
-                                                        children: [
-                                                          Text(
-                                                            // "From: ${fromdate!.split('T')[0]}",
-                                                            "From: ${leaveList[i].startDate.toString().split('T')[0].split('-').last}-${leaveList[i].startDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].startDate.toString().split('T')[0].split('-').first}",
-                                                            style:
-                                                            TextStyle(fontSize: 14),
-                                                          ),
-                                                          Spacer(),
-                                                          Text(
-                                                            "To: ${leaveList[i].endDate.toString().split('T')[0].split('-').last}-${leaveList[i].endDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].endDate.toString().split('T')[0].split('-').first}",
-                                                            style:
-                                                            TextStyle(fontSize: 14),
-                                                          ),
-                                                        ],
+                                                      Text(
+                                                        // "From: ${fromdate!.split('T')[0]}",
+                                                        "From: ${leaveList[i].startDate.toString().split('T')[0].split('-').last}-${leaveList[i].startDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].startDate.toString().split('T')[0].split('-').first}",
+                                                        style:
+                                                        TextStyle(fontSize: 14),
                                                       ),
+                                                      SizedBox(
+                                                        height: 10.h,
+                                                      ),
+                                                      Text(
+                                                        "To: ${leaveList[i].endDate.toString().split('T')[0].split('-').last}-${leaveList[i].endDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].endDate.toString().split('T')[0].split('-').first}",
+                                                        style:
+                                                        TextStyle(fontSize: 14),
+                                                      ),
+
                                                       SizedBox(
                                                         height: 10.h,
                                                       ),
@@ -541,12 +556,12 @@ class _allleaveState extends State<allleave> {
                                                           GestureDetector(
                                                             onTap: () async {
                                                               try {
-                                                                await launchUrl(Uri.parse("${ApiConstants.baseUrl}${leaveList[i].documentPath}"));
+                                                                await launchUrl(Uri.parse("${ApiConstants.downloadUrl}${leaveList[i].documentPath}"));
                                                               } catch(e) {}
                                                             },
                                                             child: attchIcon(
                                                                 type: leaveList[i].documentPath.toString().split(".").last,
-                                                                document: leaveList[i].documentPath.toString().toString()),
+                                                                document: leaveList[i].documentPath.toString()),
                                                           ),
                                                         ],
                                                       )
@@ -1365,7 +1380,7 @@ class _allleaveState extends State<allleave> {
         width: 100.w,
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: NetworkImage("${ApiConstants.baseUrl}$document")),
+                image: NetworkImage("${ApiConstants.downloadUrl}$document")),
             borderRadius: BorderRadius.circular(10)),
       );
     } else if (type == 'pdf') {

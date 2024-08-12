@@ -431,6 +431,16 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                                         onTap: () async {
                                           if(_formKey.currentState!.validate()) {
                                             await submitLearningWalk();
+                                            Get.back();
+                                            Get.back();
+                                            TeacherAppPopUps.submitFailed(
+                                              title: "Success",
+                                              message: "Learning Walk Result Added Successfully",
+                                              actionName: "Close",
+                                              iconData: Icons.done,
+                                              iconColor: Colors.green,
+                                            );
+
                                           }
                                         },
                                         child: Padding(
@@ -483,7 +493,8 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
     );
   }
 
-  Future<void> submitLearningWalk() async {
+  Future<void>
+  submitLearningWalk() async {
     context.loaderOverlay.show();
     UserAuthController userAuthController = Get.find<UserAuthController>();
     LessonLearningController lessonObservationController = Get.find<LessonLearningController>();
@@ -537,47 +548,47 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
       try {
         Map<String, dynamic> resp = await ApiServices.lessonWalkSubmit(reqData: learningWalkApplyModel);
         if(resp['status']['code'] == 200) {
-          Get.back();
-          TeacherAppPopUps.submitFailed(
-            title: "Success",
-            message: "Learning Walk Result Added Successfully",
-            actionName: "Close",
-            iconData: Icons.done,
-            iconColor: Colors.green,
-          );
+          // Get.back();
+          // TeacherAppPopUps.submitFailed(
+          //   title: "Success",
+          //   message: "Learning Walk Result Added Successfully",
+          //   actionName: "Close",
+          //   iconData: Icons.done,
+          //   iconColor: Colors.green,
+          // );
           log("------------submit resp-------------$resp");
         } else {
           await LessonLearningDatabase.instance.create(learningWalkApplyModel);
           Get.back();
-          TeacherAppPopUps.submitFailed(
-            title: "Success",
-            message: "Learning Walk Result Added Successfully",
-            actionName: "Close",
-            iconData: Icons.done,
-            iconColor: Colors.green,
-          );
+          // TeacherAppPopUps.submitFailed(
+          //   title: "Success",
+          //   message: "Learning Walk Result Added Successfully",
+          //   actionName: "Close",
+          //   iconData: Icons.done,
+          //   iconColor: Colors.green,
+          // );
         }
       } catch(e) {
         await LessonLearningDatabase.instance.create(learningWalkApplyModel);
         Get.back();
-        TeacherAppPopUps.submitFailed(
-          title: "Success",
-          message: "Learning Walk Result Added Successfully",
-          actionName: "Close",
-          iconData: Icons.done,
-          iconColor: Colors.green,
-        );
+        // TeacherAppPopUps.submitFailed(
+        //   title: "Success",
+        //   message: "Learning Walk Result Added Successfully",
+        //   actionName: "Close",
+        //   iconData: Icons.done,
+        //   iconColor: Colors.green,
+        // );
       }
     } else {
       await LessonLearningDatabase.instance.create(learningWalkApplyModel);
       Get.back();
-      TeacherAppPopUps.submitFailed(
-        title: "Success",
-        message: "Learning Walk Result Added Successfully",
-        actionName: "Close",
-        iconData: Icons.done,
-        iconColor: Colors.green,
-      );
+      // TeacherAppPopUps.submitFailed(
+      //   title: "Success",
+      //   message: "Learning Walk Result Added Successfully",
+      //   actionName: "Close",
+      //   iconData: Icons.done,
+      //   iconColor: Colors.green,
+      // );
     }
     context.loaderOverlay.hide();
   }

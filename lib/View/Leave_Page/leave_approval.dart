@@ -76,10 +76,10 @@ class _LeaveApprovalState extends State<LeaveApproval> with SingleTickerProvider
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w, bottom: 10.h),
+                  margin: EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w),
                   // width: 500.w,
-                  // height: double.infinity,
-                  decoration: themeCardDecoration,
+                  height: double.infinity,
+                  decoration: themeCardDecoration2,
                   child: Padding(
                     padding: EdgeInsets.only(top: 20.h, left: 8.w, right: 8.w),
                     child: Column(

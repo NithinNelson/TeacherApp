@@ -582,11 +582,11 @@ class _ObsResultState extends State<LeaveApply> {
                 });
                 submitFailed(
                   // title: resp['status']['message'],
-                  title: "Error",
+                  title: "Success",
                   message: resp['data']['message'],
                   actionName: "Close",
                   iconData: Icons.info_outline,
-                  iconColor: Colors.red,
+                  iconColor: Colors.green,
 
                 );
               } else {

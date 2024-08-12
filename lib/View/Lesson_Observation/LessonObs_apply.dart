@@ -448,6 +448,15 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                         onTap: () async {
                                           if(_formKey.currentState!.validate()) {
                                             await submitLessonObs();
+                                            Get.back();
+                                            Get.back();
+                                            TeacherAppPopUps.submitFailed(
+                                              title: "Success",
+                                              message: "Lesson Observation Result Added Successfully",
+                                              actionName: "Close",
+                                              iconData: Icons.done,
+                                              iconColor: Colors.green,
+                                            );
                                           }
                                         },
                                         child: Padding(
@@ -555,47 +564,47 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
       try {
         Map<String, dynamic> resp = await ApiServices.lessonWalkSubmit(reqData: lessonLearningApplyModel);
         if(resp['status']['code'] == 200) {
-          Get.back();
-          TeacherAppPopUps.submitFailed(
-            title: "Success",
-            message: "Lesson Observation Result Added Successfully",
-            actionName: "Close",
-            iconData: Icons.done,
-            iconColor: Colors.green,
-          );
+          // Get.back();
+          // TeacherAppPopUps.submitFailed(
+          //   title: "Success",
+          //   message: "Lesson Observation Result Added Successfully",
+          //   actionName: "Close",
+          //   iconData: Icons.done,
+          //   iconColor: Colors.green,
+          // );
           log("------------submit resp-------------$resp");
         } else {
           await LessonLearningDatabase.instance.create(lessonLearningApplyModel);
-          Get.back();
-          TeacherAppPopUps.submitFailed(
-            title: "Success",
-            message: "Lesson Observation Result Added Successfully",
-            actionName: "Close",
-            iconData: Icons.done,
-            iconColor: Colors.green,
-          );
+          // Get.back();
+          // TeacherAppPopUps.submitFailed(
+          //   title: "Success",
+          //   message: "Lesson Observation Result Added Successfully",
+          //   actionName: "Close",
+          //   iconData: Icons.done,
+          //   iconColor: Colors.green,
+          // );
         }
       } catch(e) {
         await LessonLearningDatabase.instance.create(lessonLearningApplyModel);
-        Get.back();
-        TeacherAppPopUps.submitFailed(
-          title: "Success",
-          message: "Lesson Observation Result Added Successfully",
-          actionName: "Close",
-          iconData: Icons.done,
-          iconColor: Colors.green,
-        );
+        // Get.back();
+        // TeacherAppPopUps.submitFailed(
+        //   title: "Success",
+        //   message: "Lesson Observation Result Added Successfully",
+        //   actionName: "Close",
+        //   iconData: Icons.done,
+        //   iconColor: Colors.green,
+        // );
       }
     } else {
       await LessonLearningDatabase.instance.create(lessonLearningApplyModel);
-      Get.back();
-      TeacherAppPopUps.submitFailed(
-        title: "Success",
-        message: "Lesson Observation Result Added Successfully",
-        actionName: "Close",
-        iconData: Icons.done,
-        iconColor: Colors.green,
-      );
+      // Get.back();
+      // TeacherAppPopUps.submitFailed(
+      //   title: "Success",
+      //   message: "Lesson Observation Result Added Successfully",
+      //   actionName: "Close",
+      //   iconData: Icons.done,
+      //   iconColor: Colors.green,
+      // );
     }
     context.loaderOverlay.hide();
   }

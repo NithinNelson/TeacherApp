@@ -146,6 +146,7 @@ class _StudentListViewState extends State<StudentListView> {
   void initState() {
     getlateattendance();
     getStudentAttendanceList();
+
     // timer = Timer.periodic(Duration(seconds: 1), (Timer t) => getCount());
     // print(count);
     // getNotification();
@@ -503,61 +504,9 @@ class _StudentListViewState extends State<StudentListView> {
 
 
 
-  // getNotification() async {
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   var userID = preferences.getString('userID');
-  //
-  //   var headers = {
-  //     'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
-  //     'Content-Type': 'application/json'
-  //   };
-  //   var request = http.Request(
-  //       'GET',
-  //       Uri.parse(
-  //           '${ApiConstants.Notification}$userID${ApiConstants.NotificationEnd}'));
-  //
-  //   request.headers.addAll(headers);
-  //
-  //   http.StreamedResponse response = await request.send();
-  //
-  //   if (response.statusCode == 200) {
-  //     // print(await response.stream.bytesToString());
-  //     var responseJson = await response.stream.bytesToString();
-  //     setState(() {
-  //       notificationResult = json.decode(responseJson);
-  //     });
-  //
-  //     for (var index = 0;
-  //     index <
-  //         notificationResult!["data"]["details"]["recentNotifications"]
-  //             .length;
-  //     index++) {
-  //       if (notificationResult!["data"]["details"]["recentNotifications"][index]
-  //       ["status"] ==
-  //           "active") {
-  //         Count += 1;
-  //       }
-  //     }
-  //     SharedPreferences preferences = await SharedPreferences.getInstance();
-  //     preferences.setInt("count", Count);
-  //
-  //     print(Count);
-  //   } else {
-  //     print(response.reasonPhrase);
-  //   }
-  // }
-
-  // var count;
-
-  // getCount() async {
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     count = preferences.get("count");
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: systemUiOverlayStyleLight,
       child: Scaffold(
@@ -666,8 +615,10 @@ class _StudentListViewState extends State<StudentListView> {
                                 print('isStudentListnull.....--------$isStudentListnull');
                                 print('afterAttendanceTaken.....--------$afterAttendanceTaken');
                                 newResult = isStudentListnull
-                                    .where((element) => element["username"].toString()
-                                    .contains("${value}"))
+                                    .where((element) => element["username"]
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(value.toLowerCase()))
                                     .toList();
                                 //newResult = afterAttendanceTaken.where((element) => element["feeDetails"]["username"].contains("${value.toUpperCase()}")).toList();
                                 //print(_searchController.text.toString());
@@ -746,6 +697,7 @@ class _StudentListViewState extends State<StudentListView> {
                             : newResult.isEmpty ? Center(child: Container(height:300,child: Image.asset("assets/images/nodata.gif"))) : Expanded(
                             child: ListView.builder(
                               padding: EdgeInsets.only(top: 2,),
+                               // Sort in ascending order
                               itemCount:
                               _searchController.text.toString().isNotEmpty
                                   ? newResult.length

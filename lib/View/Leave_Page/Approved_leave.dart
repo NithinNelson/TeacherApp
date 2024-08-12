@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 import '../../Controller/api_controllers/leaveApprovalController.dart';
 import '../../Controller/api_controllers/userAuthController.dart';
 import '../../Models/api_models/leave_approval_api_model.dart';
+import '../../Services/common_services.dart';
 import '../../Utils/api_constants.dart';
 
 class PendingLeave extends StatefulWidget {
@@ -72,7 +73,7 @@ class _PendingLeaveState extends State<PendingLeave> {
         SizedBox(height: 10.h),
         Container(
           width: ScreenUtil().screenWidth,
-          height: 550.h,
+          height: 600.h,
           child: GetX<LeaveApprovalController>(
             builder: (LeaveApprovalController controller) {
               List<Pendings> leaveList = controller.filteredPendingLeaves.value;
@@ -181,8 +182,8 @@ class _PendingLeaveState extends State<PendingLeave> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                      width: 140.w, child: Text("Adm No:${leaveList[i].admissionNumber ?? '--'}")),
-                                  Text('Class: ${leaveList[i].classs ?? '-'} ${leaveList[i].batch ?? '-'}'),
+                                      width: 210.w, child: Text("Adm No:${leaveList[i].admissionNumber ?? '--'}")),
+                                  Container(width: 210.w,child: Text('Class: ${leaveList[i].classs ?? '-'} ${leaveList[i].batch ?? '-'}')),
                                 ],
                               ),
                               SizedBox(
@@ -208,13 +209,22 @@ class _PendingLeaveState extends State<PendingLeave> {
                                 height: 8.w,
                               ),
                               Container(
+                                width: 210.w,child: Text("No.of Days: ${leaveList[i].days ?? '--'}", style: TextStyle(
+                                  fontWeight: FontWeight.bold
+                              ),),),
+                              SizedBox(
+                                height: 8.w,
+                              ),
+                              Container(
                                 width: MediaQuery.of(context).size.width * 0.60,
                                 height: 40.h,
                                 child: Row(
                                   children: [
                                     // Flexible(flex: 1, child: Container()),
                                     Text(
-                                      "Status: ${leaveList[i].status ?? '--'}",
+                                      "Status: ${capitalizeEachWord(leaveList[i].status) ?? '--'}",
+
+
                                       style: TextStyle(
                                         color: _leaveStatus(leaveList[i].status?.toLowerCase() ?? ''),
                                         // color: statusleave == "Approved"
@@ -305,9 +315,17 @@ class _PendingLeaveState extends State<PendingLeave> {
                                                           (leaveList[i].documentPath != null)
                                                               ? Row(
                                                             children: [
-                                                              Text('Document :',
-                                                                  style: TextStyle(
-                                                                      fontSize: 14)),
+                                                              Row(
+                                                                children: [
+                                                                  Text('Document :',
+                                                                      style: TextStyle(
+                                                                          fontSize: 14)),
+                                                                  Container(
+                                                                    child: Icon(Icons.attach_file,color: Colors.cyan,),
+                                                                  )
+                                                                ],
+
+                                                              ),
                                                               GestureDetector(
                                                                 onTap: () async {
                                                                   try {
@@ -642,7 +660,7 @@ class _PendingLeaveState extends State<PendingLeave> {
                                                                                   GestureDetector(
                                                                                     onTap: () async {
                                                                                       try {
-                                                                                        await launchUrl(Uri.parse("${ApiConstants.baseUrl}${leaveList[i].documentPath}"));
+                                                                                        await launchUrl(Uri.parse("${ApiConstants.downloadUrl}${leaveList[i].documentPath}"));
                                                                                       } catch(e) {}
                                                                                     },
                                                                                     child: attchIcon(
