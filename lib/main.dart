@@ -44,10 +44,7 @@ class MyApp extends StatelessWidget {
         child: GetMaterialApp(
           title: 'NIMS Teacher',
           theme: ThemeData(
-
-
-            primarySwatch:Colors.green,
-
+            primarySwatch: Colors.green,
           ),
           debugShowCheckedModeBanner: false,
           home: SplashScreen(),
@@ -56,3 +53,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// arun //
