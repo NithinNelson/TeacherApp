@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:teacherapp/Controller/api_controllers/feedViewController.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/View/Chat_View/Chat_widgets/replay_in_message_widget.dart';
@@ -24,7 +25,8 @@ class SentMessageBubble extends StatelessWidget {
       this.fileName,
       this.fileLink,
       // this.senderId,
-      this.messageData});
+      this.messageData,
+      required this.index});
 
   late Offset _tapPosition;
 
@@ -35,167 +37,176 @@ class SentMessageBubble extends StatelessWidget {
   String? audio;
   String? fileName;
   String? fileLink;
-  // String? senderId;
+  // String? senderId;+
+  final int index;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Padding(
-        padding: EdgeInsets.only(right: 20.h),
-        child: Stack(
-          children: [
-            Positioned(
-              bottom: 0,
-              right: -5.w,
-              child: SizedBox(
-                width: 20.w,
-                height: 20.w,
-                child: SvgPicture.asset(
-                  "assets/images/MessageBubbleShape.svg",
-                  fit: BoxFit.fill,
+    return AutoScrollTag(
+      index: index,
+      highlightColor: Colors.teal.shade200,
+      controller:
+          Get.find<FeedViewController>().chatFeedViewScrollController.value,
+      key: ValueKey(index),
+      child: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: EdgeInsets.only(right: 20.h),
+          child: Stack(
+            children: [
+              Positioned(
+                bottom: 0,
+                right: -5.w,
+                child: SizedBox(
+                  width: 20.w,
+                  height: 20.w,
+                  child: SvgPicture.asset(
+                    "assets/images/MessageBubbleShape.svg",
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
-            ),
-            Row(
-              children: [
-                const Spacer(),
-                Padding(
-                  padding: EdgeInsets.only(right: 10.w),
-                  child: GestureDetector(
-                    onTapDown: (TapDownDetails details) {
-                      _tapPosition = details.globalPosition;
-                      print(_tapPosition);
-                      print(ScreenUtil().screenHeight);
-                    },
-                    onLongPress: () {
-                      Get.find<FeedViewController>().seletedMsgData =
-                          messageData;
-                      final renderObject =
-                          context.findRenderObject() as RenderBox;
-                      final position = renderObject.localToGlobal(Offset.zero);
+              Row(
+                children: [
+                  const Spacer(),
+                  Padding(
+                    padding: EdgeInsets.only(right: 10.w),
+                    child: GestureDetector(
+                      onTapDown: (TapDownDetails details) {
+                        _tapPosition = details.globalPosition;
+                        print(_tapPosition);
+                        print(ScreenUtil().screenHeight);
+                      },
+                      onLongPress: () {
+                        Get.find<FeedViewController>().seletedMsgData =
+                            messageData;
+                        final renderObject =
+                            context.findRenderObject() as RenderBox;
+                        final position =
+                            renderObject.localToGlobal(Offset.zero);
 
-                      messageMoreShowDialog(
-                          context, this, position, _tapPosition);
+                        messageMoreShowDialog(
+                            context, this, position, _tapPosition);
 
-                      print(
-                          "msg ============= id ${Get.find<FeedViewController>().seletedMsgData!.messageId}");
-                    },
-                    child: IntrinsicWidth(
-                      child: Container(
-                        constraints: BoxConstraints(maxWidth: 310.w),
-                        decoration: BoxDecoration(
-                            color: Colorutils.msgBubbleColor1,
-                            borderRadius: BorderRadius.circular(10.h)),
-                        child: Padding(
-                          padding: EdgeInsets.all(10.h),
-                          child: Column(
-                            children: [
-                              messageData!.isForward ?? false
-                                  ? Row(
+                        print(
+                            "msg ============= id ${Get.find<FeedViewController>().seletedMsgData!.messageId}");
+                      },
+                      child: IntrinsicWidth(
+                        child: Container(
+                          constraints: BoxConstraints(maxWidth: 310.w),
+                          decoration: BoxDecoration(
+                              color: Colorutils.msgBubbleColor1,
+                              borderRadius: BorderRadius.circular(10.h)),
+                          child: Padding(
+                            padding: EdgeInsets.all(10.h),
+                            child: Column(
+                              children: [
+                                messageData!.isForward ?? false
+                                    ? Row(
+                                        children: [
+                                          SizedBox(
+                                            height: 14.h,
+                                            width: 14.h,
+                                            child: SvgPicture.asset(
+                                              "assets/images/ArrowBendUpRight.svg",
+                                              color:
+                                                  Colors.black.withOpacity(.25),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 5.w,
+                                          ),
+                                          Text("Forwarded",
+                                              style: TextStyle(
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.black
+                                                      .withOpacity(0.25))),
+                                        ],
+                                      )
+                                    : const SizedBox(),
+                                messageData!.replyData != null
+                                    ? ReplayMessageWidget(
+                                        senderId: messageData!.messageFromId,
+                                        replyData: messageData!.replyData!,
+                                      )
+                                    : const SizedBox(),
+                                fileName != null
+                                    ? FileWidget1(
+                                        fileType: fileName!.split(".").last,
+                                        fileName: fileName!,
+                                        fileLink: fileLink!,
+                                      )
+                                    : const SizedBox(),
+                                audio != null
+                                    ? AudioWidget(content: audio!)
+                                    : const SizedBox(),
+                                message != null && fileName != null ||
+                                        audio != null
+                                    ? SizedBox(height: 5.h)
+                                    : const SizedBox(),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Column(
                                       children: [
-                                        SizedBox(
-                                          height: 14.h,
-                                          width: 14.h,
-                                          child: SvgPicture.asset(
-                                            "assets/images/ArrowBendUpRight.svg",
-                                            color:
-                                                Colors.black.withOpacity(.25),
+                                        ConstrainedBox(
+                                          constraints: BoxConstraints(
+                                            maxWidth: 200.w,
+                                          ),
+                                          child: Text(
+                                            message ?? "",
+                                            // maxLines: 100,
+                                            style: TeacherAppFonts
+                                                .interW400_16sp_letters1
+                                                .copyWith(color: Colors.black),
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: 5.w,
+                                        SizedBox(height: 5.h)
+                                      ],
+                                    ),
+                                    SizedBox(width: 20.h),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          // "17:47",
+                                          messageBubbleTimeFormat(time),
+                                          style: TeacherAppFonts
+                                              .interW400_12sp_topicbackground
+                                              .copyWith(
+                                                  color: Colors.black
+                                                      .withOpacity(.25)),
                                         ),
-                                        Text("Forwarded",
-                                            style: TextStyle(
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w400,
-                                                fontStyle: FontStyle.italic,
-                                                color: Colors.black
-                                                    .withOpacity(0.25))),
+                                        SizedBox(width: 5.h),
+                                        SizedBox(
+                                          height: 21.h,
+                                          width: 21.h,
+                                          child: SvgPicture.asset(
+                                              "assets/images/Checks.svg",
+                                              color: messageData?.read == null
+                                                  ? Colors.grey
+                                                  : messageData!.read!
+                                                      ? Colors.green.shade900
+                                                      : Colors.grey),
+                                        ),
                                       ],
                                     )
-                                  : const SizedBox(),
-                              messageData!.replyData != null
-                                  ? ReplayMessageWidget(
-                                      senderId: messageData!.messageFromId,
-                                      replyData: messageData!.replyData!,
-                                    )
-                                  : const SizedBox(),
-                              fileName != null
-                                  ? FileWidget1(
-                                      fileType: fileName!.split(".").last,
-                                      fileName: fileName!,
-                                      fileLink: fileLink!,
-                                    )
-                                  : const SizedBox(),
-                              audio != null
-                                  ? AudioWidget(content: audio!)
-                                  : const SizedBox(),
-                              message != null && fileName != null ||
-                                      audio != null
-                                  ? SizedBox(height: 5.h)
-                                  : const SizedBox(),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Column(
-                                    children: [
-                                      ConstrainedBox(
-                                        constraints: BoxConstraints(
-                                          maxWidth: 200.w,
-                                        ),
-                                        child: Text(
-                                          message ?? "",
-                                          // maxLines: 100,
-                                          style: TeacherAppFonts
-                                              .interW400_16sp_letters1
-                                              .copyWith(color: Colors.black),
-                                        ),
-                                      ),
-                                      SizedBox(height: 5.h)
-                                    ],
-                                  ),
-                                  SizedBox(width: 20.h),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        // "17:47",
-                                        messageBubbleTimeFormat(time),
-                                        style: TeacherAppFonts
-                                            .interW400_12sp_topicbackground
-                                            .copyWith(
-                                                color: Colors.black
-                                                    .withOpacity(.25)),
-                                      ),
-                                      SizedBox(width: 5.h),
-                                      SizedBox(
-                                        height: 21.h,
-                                        width: 21.h,
-                                        child: SvgPicture.asset(
-                                            "assets/images/Checks.svg",
-                                            color: messageData?.read == null
-                                                ? Colors.grey
-                                                : messageData!.read!
-                                                    ? Colors.green.shade900
-                                                    : Colors.grey),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -15,24 +15,32 @@ String convertDateFormat(String? inputDate) {
   if (inputDate == null) {
     return "--";
   }
-  // Parse the input date string to DateTime
-  DateTime dateTime = DateTime.parse(inputDate);
+  try {
+    // Parse the input date string to DateTime
+    DateTime dateTime = DateTime.parse(inputDate);
 
-  // Format the DateTime to the desired format
-  String formattedDate = DateFormat('MM/dd/yy').format(dateTime);
+    // Format the DateTime to the desired format
+    String formattedDate = DateFormat('MM/dd/yy').format(dateTime);
 
-  return formattedDate;
+    return formattedDate;
+  } catch (e) {
+    return "--";
+  }
 }
 
 String convertTimeFormat(String? inputDate) {
   if (inputDate == null) {
     return "--";
   }
-  // Parse the input date string to DateTime
-  DateTime dateTime = DateTime.parse(inputDate);
+  try {
+    // Parse the input date string to DateTime
+    DateTime dateTime = DateTime.parse(inputDate);
 
-  // Format the DateTime to the desired format
-  String formattedTime = DateFormat('hh:mma').format(dateTime).toUpperCase();
+    // Format the DateTime to the desired format
+    String formattedTime = DateFormat('hh:mma').format(dateTime).toUpperCase();
 
-  return formattedTime;
+    return formattedTime;
+  } catch (e) {
+    return "--";
+  }
 }

@@ -1,12 +1,11 @@
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:teacherapp/Models/api_models/sent_msg_by_teacher_model.dart';
 import 'package:teacherapp/Services/api_services.dart';
-import 'package:teacherapp/View/Chat_View/Chat_widgets/selected_parents_view.dart';
 import '../../Models/api_models/chat_feed_view_model.dart';
 import '../../Models/api_models/parent_list_api_model.dart';
 import '../../Services/check_connectivity.dart';
@@ -19,18 +18,22 @@ class FeedViewController extends GetxController {
   RxBool isError = false.obs;
   // Rx<ChatFeedViewModel> chatFeedData = ChatFeedViewModel().obs;
   Rx<ParentListApiModel> parentListApiData = ParentListApiModel().obs;
-  RxList<MsgData> chatMsgList = <MsgData>[].obs;
+  RxList<MsgData> chatMsgList = RxList([]);
   RxList<ParentData> parentDataList = <ParentData>[].obs;
   // RxList<ParentData> parentDataListCopy = <ParentData>[].obs;
   // RxList<String> allParentDataList = <String>[].obs;
   RxList<ParentDataSelected> tempList = <ParentDataSelected>[].obs;
-  RxList<ParentDataSelected> selectedParentDataList = <ParentDataSelected>[].obs;
-  RxList<ParentDataSelected> selectedParentDataStack = <ParentDataSelected>[].obs;
-  RxList<ParentDataSelected> showSelectedParentDataStack = <ParentDataSelected>[].obs;
+  RxList<ParentDataSelected> selectedParentDataList =
+      <ParentDataSelected>[].obs;
+  RxList<ParentDataSelected> selectedParentDataStack =
+      <ParentDataSelected>[].obs;
+  RxList<ParentDataSelected> showSelectedParentDataStack =
+      <ParentDataSelected>[].obs;
   // RxList<ParentDataSelected> selectedParentDataListCopy = <ParentDataSelected>[].obs;
   // RxList<String> finalParentDataList = <String>[].obs;
   RxInt feedUnreadCount = 0.obs;
-  Rx<ScrollController> chatFeedViewScrollController = ScrollController().obs;
+  late Rx<AutoScrollController> chatFeedViewScrollController;
+
   Rx<FocusNode> focusNode = FocusNode().obs;
   Rx<String?> isReplay = Rx(null);
   MsgData replayMessage = MsgData();
@@ -46,6 +49,18 @@ class FeedViewController extends GetxController {
   String? lastMessageId;
   RxInt tabControllerIndex = 0.obs;
 
+  late int chatMsgCount;
+  int messageCount = 10;
+  bool showScrollIcon = true;
+  int? previousMessageListLenght;
+  RxBool showLoaderMoreMessage = true.obs;
+
+  @override
+  void onClose() {
+    chatFeedViewScrollController.value.dispose();
+    super.onClose();
+  }
+
   void resetStatus() {
     isLoading.value = false;
     isError.value = false;
@@ -53,19 +68,27 @@ class FeedViewController extends GetxController {
 
   Future<void> fetchFeedViewMsgList(ChatFeedViewReqModel reqBody) async {
     isLoading.value = true;
+    ChatFeedViewReqModel chatFeedViewReqModel = ChatFeedViewReqModel(
+      teacherId: reqBody.teacherId,
+      schoolId: reqBody.schoolId,
+      classs: reqBody.classs,
+      batch: reqBody.batch,
+      subjectId: reqBody.subjectId,
+      offset: 0,
+      limit: Get.find<FeedViewController>().chatMsgCount,
+    );
     try {
       Map<String, dynamic> resp =
-          await ApiServices.getChatFeedView(reqBodyData: reqBody);
+          await ApiServices.getChatFeedView(reqBodyData: chatFeedViewReqModel);
       if (resp['status']['code'] == 200) {
         ChatFeedViewModel chatFeedData = ChatFeedViewModel.fromJson(resp);
         feedUnreadCount.value = chatFeedData.data?.count ?? 0;
         chatMsgList.value = chatFeedData.data?.data ?? [];
-        // chatMsgList.sort((a, b) => a.sendAt!.compareTo(b.sendAt!));
-        chatMsgList.sort((a, b) {
-          DateTime dateA = DateTime.parse(a.sendAt!);
-          DateTime dateB = DateTime.parse(b.sendAt!);
-          return dateA.compareTo(dateB);
-        });
+        if (chatMsgList.isNotEmpty) {
+          chatMsgList.add(chatMsgList[chatMsgList.length - 1]);
+          print("Chat list -- worked----------------- ${chatMsgList.length}");
+        }
+        update();
       }
       await fetchParentList(
         classs: reqBody.classs ?? '--',
@@ -85,42 +108,72 @@ class FeedViewController extends GetxController {
   Future<void> fetchFeedViewMsgListPeriodically(
       ChatFeedViewReqModel reqBody) async {
     ChatFeedViewModel? chatFeedData;
+    ChatFeedViewReqModel chatFeedViewReqModel = ChatFeedViewReqModel(
+      teacherId: reqBody.teacherId,
+      schoolId: reqBody.schoolId,
+      classs: reqBody.classs,
+      batch: reqBody.batch,
+      subjectId: reqBody.subjectId,
+      offset: 0,
+      limit: Get.find<FeedViewController>().chatMsgCount,
+    );
     try {
       Map<String, dynamic> resp =
-          await ApiServices.getChatFeedView(reqBodyData: reqBody);
+          await ApiServices.getChatFeedView(reqBodyData: chatFeedViewReqModel);
       if (resp['status']['code'] == 200) {
         chatFeedData = ChatFeedViewModel.fromJson(resp);
       }
     } catch (e) {
       print('--------feed view error--------');
-    } finally {}
-    MsgData? lastMsg = chatFeedData?.data?.data?.first;
-    String? newLastMessageId =
-        "${lastMsg?.messageId}${lastMsg?.messageFromId}${lastMsg?.sendAt}";
-
-    if (lastMessageId == null || newLastMessageId != lastMessageId) {
-      lastMessageId = newLastMessageId;
-      // update();
+    } finally {
       feedUnreadCount.value = chatFeedData?.data?.count ?? 0;
       chatMsgList.value = chatFeedData?.data?.data ?? [];
-      chatMsgList.sort((a, b) {
-        DateTime dateA = DateTime.parse(a.sendAt!);
-        DateTime dateB = DateTime.parse(b.sendAt!);
-        return dateA.compareTo(dateB);
-      });
-      // chatMsgList.sort(
-      //   (a, b) => a.sendAt!.compareTo(b.sendAt!),
-      // );
-      Future.delayed(
-        const Duration(milliseconds: 50),
-        () {
-          chatFeedViewScrollController.value.animateTo(
-            chatFeedViewScrollController.value.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeOut,
-          );
-        },
-      );
+
+      print("chat list lenght ---------------------- ${chatMsgList.length}");
+
+      if (chatMsgList.isNotEmpty) {
+        chatMsgList.add(chatMsgList[chatMsgList.length - 1]);
+      }
+      // }
+      update();
+    }
+  }
+
+  void fetchMoreMessage({required ChatFeedViewReqModel reqBody}) async {
+    ChatFeedViewModel? chatFeedData;
+    ChatFeedViewReqModel chatFeedViewReqModel = ChatFeedViewReqModel(
+      teacherId: reqBody.teacherId,
+      schoolId: reqBody.schoolId,
+      classs: reqBody.classs,
+      batch: reqBody.batch,
+      subjectId: reqBody.subjectId,
+      offset: 0,
+      limit: Get.find<FeedViewController>().chatMsgCount,
+    );
+    try {
+      Map<String, dynamic> resp =
+          await ApiServices.getChatFeedView(reqBodyData: chatFeedViewReqModel);
+      if (resp['status']['code'] == 200) {
+        chatFeedData = ChatFeedViewModel.fromJson(resp);
+
+        chatMsgList.value = chatFeedData.data?.data ?? [];
+        print("Chat list -- worked----------------- ${chatMsgList.length}");
+        if (chatMsgList.isNotEmpty) {
+          chatMsgList.add(chatMsgList[chatMsgList.length - 1]);
+        }
+        if (previousMessageListLenght == null ||
+            chatMsgList.length == previousMessageListLenght) {
+          showLoaderMoreMessage.value = false;
+          // print("working show no");
+        } else {
+          showLoaderMoreMessage.value = true;
+          // print("working show");
+        }
+        previousMessageListLenght = chatMsgList.length;
+      }
+      update();
+    } catch (e) {
+      print("periodicGetMsgList Error :-------------- $e");
     }
   }
 
@@ -388,35 +441,33 @@ class FeedViewController extends GetxController {
     }
   }
 
-  selectedDoneFunction(){
+  selectedDoneFunction() {
     showSelectedParentDataStack.value = [];
-    for(ParentDataSelected element in selectedParentDataList){
-      if(element.isSelected == true){
+    for (ParentDataSelected element in selectedParentDataList) {
+      if (element.isSelected == true) {
         showSelectedParentDataStack.add(element);
       }
     }
     update();
   }
 
-
-  search(String value){
-
-
-
-    selectedParentDataList.value = tempList.where((parent) => parent.studentName.toString().toUpperCase().contains(value.toUpperCase())).toList();
+  search(String value) {
+    selectedParentDataList.value = tempList
+        .where((parent) => parent.studentName
+            .toString()
+            .toUpperCase()
+            .contains(value.toUpperCase()))
+        .toList();
     update();
-
   }
 
-  showParentListFilteredToSelectedList(){
-    for(ParentDataSelected element in selectedParentDataList){
-   if(showSelectedParentDataStack.contains(element)){
-
-     element.isSelected = true;
-
-   }else{
-     element.isSelected = false;
-   }
+  showParentListFilteredToSelectedList() {
+    for (ParentDataSelected element in selectedParentDataList) {
+      if (showSelectedParentDataStack.contains(element)) {
+        element.isSelected = true;
+      } else {
+        element.isSelected = false;
+      }
     }
   }
 
@@ -442,20 +493,23 @@ class FeedViewController extends GetxController {
       if (resp['status']['code'] == 200) {
         parentListApiData.value = ParentListApiModel.fromJson(resp);
         parentDataList.value = parentListApiData.value.data?.parentData ?? [];
-        selectedParentDataList.value = List.generate(parentDataList.length, (index) {
-          return ParentDataSelected(
-            name: parentDataList[index].name,
-            gender: parentDataList[index].gender,
-            sId: parentDataList[index].sId,
-            studentId: parentDataList[index].studentId,
-            studentName: parentDataList[index].studentName,
-            username: parentDataList[index].username,
-            image: parentDataList[index].image,
-            isSelected: true,
-          );
-        },);
+        selectedParentDataList.value = List.generate(
+          parentDataList.length,
+          (index) {
+            return ParentDataSelected(
+              name: parentDataList[index].name,
+              gender: parentDataList[index].gender,
+              sId: parentDataList[index].sId,
+              studentId: parentDataList[index].studentId,
+              studentName: parentDataList[index].studentName,
+              username: parentDataList[index].username,
+              image: parentDataList[index].image,
+              isSelected: true,
+            );
+          },
+        );
         selectedParentDataStack.value = selectedParentDataList.value;
-        showSelectedParentDataStack.value =  selectedParentDataList.value;
+        showSelectedParentDataStack.value = selectedParentDataList.value;
         tempList.value = selectedParentDataList.value;
         update();
         // for (var parent in parentDataList) {
@@ -485,11 +539,14 @@ class FeedViewController extends GetxController {
 
   List<String> setFinalParentList() {
     List<String> finalList = [];
-    List.generate(showSelectedParentDataStack.length, (index) {
-      // if(selectedParentDataStack[index].isSelected == true) {
+    List.generate(
+      showSelectedParentDataStack.length,
+      (index) {
+        // if(selectedParentDataStack[index].isSelected == true) {
         finalList.add(showSelectedParentDataStack[index].sId.toString());
-      // }
-    },);
+        // }
+      },
+    );
     return finalList;
     // for (var parent in selectedParentDataList) {
     //   finalParentDataList.add(parent.sId ?? '');
@@ -499,7 +556,7 @@ class FeedViewController extends GetxController {
   void takeSelectedListForSubmit() {
     selectedParentDataStack.value = [];
     for (var parent in selectedParentDataList.value) {
-      if(parent.isSelected == true) {
+      if (parent.isSelected == true) {
         selectedParentDataStack.add(parent);
       }
     }
@@ -519,7 +576,7 @@ class FeedViewController extends GetxController {
         image: parent.image,
         isSelected: true,
       );
-      if(!selectedParentDataList.value.contains(parentDataSelected)) {
+      if (!selectedParentDataList.value.contains(parentDataSelected)) {
         selectedParentDataList.add(ParentDataSelected(
           name: parent.name,
           gender: parent.image,
@@ -535,18 +592,37 @@ class FeedViewController extends GetxController {
     update();
   }
 
-  unselectAll(){
-  showSelectedParentDataStack.value = [];
+  unselectAll() {
+    showSelectedParentDataStack.value = [];
     update();
   }
 
-  void addAllSelectedParents() {
-
-  }
-
-
+  void addAllSelectedParents() {}
 
   // bool showSelectionIcon(ParentData parent) {
   //   return selectedParentDataList.contains(parent);
   // }
+
+  Future<int?> findMessageIndex({
+    required ChatFeedViewReqModel reqBody,
+    required int? msgId,
+  }) async {
+    print(reqBody.limit);
+    // chatMsgCount = 1000;
+    await fetchFeedViewMsgListPeriodically(reqBody);
+    print(chatMsgList.length);
+    for (int i = 0; i < chatMsgList.length; i++) {
+      MsgData element = chatMsgList[i];
+
+      if (element.messageId == msgId.toString()) {
+        print("message number = i = $i");
+        return i;
+      }
+    }
+    return null;
+  }
+
+  setScrollerIcon() {
+    update(); // for showing scroll indicator for go down side of chat list
+  }
 }
