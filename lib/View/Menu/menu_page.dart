@@ -85,7 +85,7 @@ class MenuScreen extends StatelessWidget {
                   // height: 50.h,
                   child: CachedNetworkImage(
                       imageUrl:
-                          'https://alpha.docme.cloud/schooldiary-logo/CPpbKPQTcuG97i3kv.png',
+                      'https://alpha.docme.cloud/schooldiary-logo/${Get.find<UserAuthController>().userData.value.schoolId?? '--'}.png',
                       placeholder: (context, url) => const SizedBox(),
                       errorWidget: (context, url, error) => const SizedBox()),
                 ),

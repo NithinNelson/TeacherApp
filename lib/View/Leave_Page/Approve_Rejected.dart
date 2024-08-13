@@ -179,12 +179,12 @@ class ApproveRejected extends StatelessWidget {
                                   Container(
                                     width: 120.w,
                                     child: Text(
-                                      "From: ${leaveList[i].startDate}",
+                                      "From: ${leaveList[i].startDate.toString().split('T')[0].split('-').last}-${leaveList[i].startDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].startDate.toString().split('T')[0].split('-').first}",
                                       style: TextStyle(fontSize: 12),
                                     ),
                                   ),
                                   Text(
-                                    "To: ${leaveList[i].endDate}",
+                                    "To: ${leaveList[i].endDate.toString().split('T')[0].split('-').last}-${leaveList[i].startDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].startDate.toString().split('T')[0].split('-').first}",
                                     style: TextStyle(fontSize: 12),
                                   ),
 

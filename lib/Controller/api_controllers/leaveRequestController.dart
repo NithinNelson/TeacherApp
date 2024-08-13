@@ -55,6 +55,7 @@ class LeaveRequestController extends GetxController {
           filteredStudentList.value = studentList.value;
           claass.value = classList.value.first.className ?? '--';
           batch.value = classList.value.first.batchName ?? '--';
+
         }
       }
     } catch (e) {
@@ -68,7 +69,9 @@ class LeaveRequestController extends GetxController {
   void setStudentList({required ClassData selectedClassData, required int index}) {
     currentClassIndex.value = index;
     studentList.value = selectedClassData.students ?? [];
+
     classData.value = selectedClassData;
+
     filteredStudentList.value = studentList.value;
     claass.value = selectedClassData.className ?? '--';
     batch.value = selectedClassData.batchName ?? '--';

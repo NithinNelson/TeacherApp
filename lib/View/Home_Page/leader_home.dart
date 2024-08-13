@@ -94,7 +94,7 @@ class _LeaderState extends State<Leader> {
                                       child: Row(
                                         children: [
                                           Text(
-                                            "HOS:${hosName}",
+                                            "HOS : ${hosName}",
                                             style: TextStyle(fontSize: 17.h,fontWeight: FontWeight.bold),
                                           ),
 

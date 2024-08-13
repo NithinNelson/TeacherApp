@@ -71,12 +71,14 @@ class _PendingLeaveState extends State<PendingLeave> {
           ),
         ),
         SizedBox(height: 10.h),
+
         Container(
           width: ScreenUtil().screenWidth,
           height: 600.h,
           child: GetX<LeaveApprovalController>(
             builder: (LeaveApprovalController controller) {
               List<Pendings> leaveList = controller.filteredPendingLeaves.value;
+              if(leaveList.isNotEmpty){
               return ListView.builder(
                 padding: EdgeInsets.only(bottom: 80.h, top: 0, right: 0, left: 0),
                 itemCount: leaveList.length,
@@ -194,12 +196,12 @@ class _PendingLeaveState extends State<PendingLeave> {
                                   Container(
                                     width: 120.w,
                                     child: Text(
-                                      "From: ${leaveList[i].startDate}",
+                                      "From: ${leaveList[i].startDate.toString().split('T')[0].split('-').last}-${leaveList[i].startDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].startDate.toString().split('T')[0].split('-').first}",
                                       style: TextStyle(fontSize: 12),
                                     ),
                                   ),
                                   Text(
-                                    "To: ${leaveList[i].endDate}",
+                                    "To: ${leaveList[i].endDate.toString().split('T')[0].split('-').last}-${leaveList[i].startDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].startDate.toString().split('T')[0].split('-').first}",
                                     style: TextStyle(fontSize: 12),
                                   ),
 
@@ -472,6 +474,7 @@ class _PendingLeaveState extends State<PendingLeave> {
                                                                               GestureDetector(
                                                                                 onTap: () {
                                                                                   Navigator.pop(context);
+                                                                                  Navigator.of(context).pop();
                                                                                   context.loaderOverlay.show();
                                                                                   UserAuthController userAuthController = Get.find<UserAuthController>();
                                                                                   submitleavedata(
@@ -513,6 +516,7 @@ class _PendingLeaveState extends State<PendingLeave> {
                                                                               // if(int.parse(totaldays) < 4)
                                                                               GestureDetector(
                                                                                 onTap: () {
+                                                                                  Navigator.of(context).pop();
                                                                                   Navigator.of(context).pop();
                                                                                   context.loaderOverlay.show();
                                                                                   UserAuthController userAuthController = Get.find<UserAuthController>();
@@ -558,21 +562,24 @@ class _PendingLeaveState extends State<PendingLeave> {
                                                                 ),
                                                               );
                                                             },
-                                                            child: Container(
-                                                                height: 40.h,
-                                                                width: 70.w,
-                                                                decoration: BoxDecoration(
-                                                                    color: Colors.red[500],
-                                                                    borderRadius:
-                                                                    BorderRadius.circular(10)),
-                                                                child: Center(
-                                                                    child: Text(
-                                                                      'Update',
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight.bold,
-                                                                          fontSize: 12.sp,
-                                                                          color: Colors.white),
-                                                                    ))),
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(top: 20),
+                                                              child: Container(
+                                                                  height: 40.h,
+                                                                  width: 70.w,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Colors.red[500],
+                                                                      borderRadius:
+                                                                      BorderRadius.circular(10)),
+                                                                  child: Center(
+                                                                      child: Text(
+                                                                        'Update',
+                                                                        style: TextStyle(
+                                                                            fontWeight: FontWeight.bold,
+                                                                            fontSize: 14.sp,
+                                                                            color: Colors.white),
+                                                                      ))),
+                                                            ),
                                                           )
                                                               : GestureDetector(
                                                             onTap: () async {
@@ -812,6 +819,7 @@ class _PendingLeaveState extends State<PendingLeave> {
                                                       color: Colors.white),
                                                 ))),
                                       ),
+
                                     // Flexible(flex: 1, child: Container()),
                                   ],
                                 ),
@@ -822,7 +830,17 @@ class _PendingLeaveState extends State<PendingLeave> {
                       ),
                     );
                   },
-              );
+              );}
+              else{
+                return Container(
+                  child: Container(
+                    height: 250.h,
+                    child: Center(
+                      child: Image.asset("assets/images/nodata.gif"),
+                    ),
+                  ),
+                );
+              }
             },
           ),
         ),
