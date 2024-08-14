@@ -18,6 +18,7 @@ class GroupedViewChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("message number === ${msgData?.batch}");
     return GetX<GroupedViewListController>(
       builder: (GroupedViewListController controller) {
         List<RoomData> room = controller.roomList.value;

@@ -1,4 +1,3 @@
-
 import 'package:get/get.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import '../../Models/api_models/chat_group_api_model.dart';
@@ -36,11 +35,12 @@ class ChatClassGroupController extends GetxController {
         emailId: emailId.toString(),
       );
       if (resp['status']['code'] == 200) {
-        ClassGroupApiModel classGroupApiModel = ClassGroupApiModel.fromJson(resp);
+        ClassGroupApiModel classGroupApiModel =
+            ClassGroupApiModel.fromJson(resp);
         unreadCount.value = classGroupApiModel.data?.unreadCount ?? 0;
         classGroupList.value = classGroupApiModel.data?.classTeacher ?? [];
         classGroupListCopy.value = classGroupApiModel.data?.classTeacher ?? [];
-        classGroupList.addAll(classGroupApiModel.data?.data ?? []);
+        // classGroupList.addAll(classGroupApiModel.data?.data ?? []);
         classGroupListCopy.addAll(classGroupApiModel.data?.data ?? []);
       }
     } catch (e) {
@@ -60,11 +60,12 @@ class ChatClassGroupController extends GetxController {
         emailId: emailId.toString(),
       );
       if (resp['status']['code'] == 200) {
-        ClassGroupApiModel classGroupApiModel = ClassGroupApiModel.fromJson(resp);
+        ClassGroupApiModel classGroupApiModel =
+            ClassGroupApiModel.fromJson(resp);
         unreadCount.value = classGroupApiModel.data?.unreadCount ?? 0;
         classGroupList.value = classGroupApiModel.data?.classTeacher ?? [];
         classGroupListCopy.value = classGroupApiModel.data?.classTeacher ?? [];
-        classGroupList.addAll(classGroupApiModel.data?.data ?? []);
+        // classGroupList.addAll(classGroupApiModel.data?.data ?? []);
         classGroupListCopy.addAll(classGroupApiModel.data?.data ?? []);
       }
     } catch (e) {
@@ -77,6 +78,9 @@ class ChatClassGroupController extends GetxController {
   }
 
   void filterGroupList({required String text}) {
-    classGroupList.value = classGroupListCopy.value.where((chat) => chat.subjectName!.toUpperCase().contains(text.toUpperCase())).toList();
+    classGroupList.value = classGroupListCopy.value
+        .where((chat) =>
+            chat.subjectName!.toUpperCase().contains(text.toUpperCase()))
+        .toList();
   }
 }

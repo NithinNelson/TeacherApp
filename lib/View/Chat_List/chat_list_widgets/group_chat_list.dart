@@ -22,14 +22,17 @@ class GroupChatList extends StatelessWidget {
     // int colorInt = 0;
     return GetX<ChatClassGroupController>(
       builder: (ChatClassGroupController controller) {
-        List<ClassTeacherGroup> classTeacherGroups = controller.classGroupList.value;
-        if(classTeacherGroups.isNotEmpty) {
+        List<ClassTeacherGroup> classTeacherGroups = controller.classGroupList;
+        if (classTeacherGroups.isNotEmpty) {
           return ListView.separated(
             shrinkWrap: true,
             itemCount: classTeacherGroups.length,
             padding: const EdgeInsets.all(0),
             itemBuilder: (BuildContext context, int index) {
-              LastMessageGroupChat? lastMsg = controller.classGroupList[index].lastMessage!.isNotEmpty ? controller.classGroupList[index].lastMessage?.first : LastMessageGroupChat();
+              LastMessageGroupChat? lastMsg =
+                  controller.classGroupList[index].lastMessage!.isNotEmpty
+                      ? controller.classGroupList[index].lastMessage?.first
+                      : LastMessageGroupChat();
               DateTime? sentTime = lastMsg?.sandAt;
               String? formattedDate;
               // if(colorInt > 4) {
@@ -39,10 +42,10 @@ class GroupChatList extends StatelessWidget {
               // print("-------colorInt---------$colorInt");
               try {
                 formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
-              } catch(e) {}
-              String? userId = Get.find<UserAuthController>().userData.value.userId;
+              } catch (e) {}
+              String? userId =
+                  Get.find<UserAuthController>().userData.value.userId;
               return ChatItems(
-
                 // className: classTeacherGroups[index].subjectName ?? '--',
                 time: formattedDate ?? '',
                 unreadMessages: classTeacherGroups[index].unreadCount ?? 0,
@@ -86,7 +89,8 @@ class ChatItems extends StatelessWidget {
   final ClassTeacherGroup? classTeacherGroup;
   final Color? avatarColor;
 
-  const ChatItems({super.key,
+  const ChatItems({
+    super.key,
     required this.time,
     required this.unreadMessages,
     required this.userId,
@@ -100,19 +104,19 @@ class ChatItems extends StatelessWidget {
     return InkWell(
       onTap: () {
         Get.find<GroupedViewListController>().setPayload(
-            stdClass: classTeacherGroup?.classTeacherClass ?? '',
-            stdBatch: classTeacherGroup?.batch ?? '',
-            subId: classTeacherGroup?.subjectId ?? '',
+          stdClass: classTeacherGroup?.classTeacherClass ?? '',
+          stdBatch: classTeacherGroup?.batch ?? '',
+          subId: classTeacherGroup?.subjectId ?? '',
         );
         // if(classTeacherGroup?.subjectId == "class_group") {
-          Get.find<FeedViewController>().tabControllerIndex.value = 0;
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => GroupMsgScreen(
-                  msgData: classTeacherGroup,
-                ),
-              ));
+        Get.find<FeedViewController>().tabControllerIndex.value = 0;
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => GroupMsgScreen(
+                msgData: classTeacherGroup,
+              ),
+            ));
         // } else {
         //   Navigator.push(
         //       context,
@@ -150,8 +154,8 @@ class ChatItems extends StatelessWidget {
                           Row(
                             children: [
                               Container(
-                                constraints: const BoxConstraints(
-                                    maxWidth: 120),
+                                constraints:
+                                    const BoxConstraints(maxWidth: 120),
                                 child: Text(
                                   // "English",
                                   classTeacherGroup?.subjectName ?? '--',
@@ -164,19 +168,20 @@ class ChatItems extends StatelessWidget {
                           SizedBox(height: 2.h),
                           Row(
                             children: [
-                              if(userId != null && lastMessage != null)
-                                if(userId == lastMessage!.messageFromId)
+                              if (userId != null && lastMessage != null)
+                                if (userId == lastMessage!.messageFromId)
                                   SizedBox(
                                     height: 21.h,
                                     width: 21.h,
                                     child: SvgPicture.asset(
                                       "assets/images/Checks.svg",
-                                      color: lastMessage!.read! ? Colors.green : Colors.grey,
+                                      color: lastMessage!.read!
+                                          ? Colors.green
+                                          : Colors.grey,
                                     ),
                                   ),
-
-                              if(userId != null && lastMessage != null)
-                                if(userId == lastMessage!.messageFromId)
+                              if (userId != null && lastMessage != null)
+                                if (userId == lastMessage!.messageFromId)
                                   SizedBox(width: 5.h),
                               LastSeenMsgGroupChat(lastMessage: lastMessage),
                             ],
@@ -196,8 +201,8 @@ class ChatItems extends StatelessWidget {
                     style: TeacherAppFonts.interW400_12sp_topicbackground,
                   ),
                   SizedBox(height: 10.h),
-                  if(unreadMessages != null)
-                    if(unreadMessages != 0)
+                  if (unreadMessages != null)
+                    if (unreadMessages != 0)
                       Container(
                         height: 23.h,
                         width: 23.h,
