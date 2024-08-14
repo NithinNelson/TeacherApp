@@ -1,17 +1,10 @@
 
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:teacherapp/Models/api_models/sent_msg_by_teacher_model.dart';
 import 'package:teacherapp/Services/api_services.dart';
 import '../../Models/api_models/chat_feed_view_model.dart';
-import '../../Models/api_models/parent_list_api_model.dart';
-import '../../Services/check_connectivity.dart';
-import '../../Services/dialog_box.dart';
-import '../../Services/snackBar.dart';
 
 class GroupedViewController extends GetxController {
   RxBool isLoading = false.obs;

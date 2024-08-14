@@ -27,7 +27,8 @@ class GroupedViewMsgScreen extends StatefulWidget {
 }
 
 class _GroupedViewMsgScreenState extends State<GroupedViewMsgScreen> {
-  GroupedViewController groupedViewController = Get.find<GroupedViewController>();
+  GroupedViewController groupedViewController =
+      Get.find<GroupedViewController>();
 
   @override
   void initState() {
@@ -51,12 +52,13 @@ class _GroupedViewMsgScreenState extends State<GroupedViewMsgScreen> {
     await groupedViewController.fetchFeedViewMsgList(chatFeedViewReqModel);
     await Future.delayed(const Duration(milliseconds: 50), () {
       groupedViewController.chatGroupedViewScrollController.value.animateTo(
-        groupedViewController.chatGroupedViewScrollController.value.position.maxScrollExtent,
+        groupedViewController
+            .chatGroupedViewScrollController.value.position.maxScrollExtent,
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeOut,
       );
     });
-    if(!mounted) return;
+    if (!mounted) return;
     context.loaderOverlay.hide();
   }
 
@@ -96,14 +98,17 @@ class _GroupedViewMsgScreenState extends State<GroupedViewMsgScreen> {
                     ),
                     SizedBox(width: 8.w),
                     Container(
-                      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10).w,
+                      padding: const EdgeInsets.symmetric(
+                              vertical: 2, horizontal: 10)
+                          .w,
                       decoration: BoxDecoration(
                         color: Colorutils.Whitecolor,
                         borderRadius: BorderRadius.circular(28).r,
                       ),
                       child: Text(
                         "${widget.roomData?.classs ?? ''}${widget.roomData?.batch ?? ''}",
-                        style: TeacherAppFonts.interW500_12sp_textWhite.copyWith(
+                        style:
+                            TeacherAppFonts.interW500_12sp_textWhite.copyWith(
                           color: const Color(0xFF003D36),
                         ),
                       ),
@@ -170,7 +175,8 @@ class ChatList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String userId = Get.find<UserAuthController>().userData.value.userId ?? '--';
+    String userId =
+        Get.find<UserAuthController>().userData.value.userId ?? '--';
     return GetX<GroupedViewController>(
       builder: (GroupedViewController controller) {
         List<MsgData> msgData = controller.chatMsgList.value;
@@ -195,29 +201,33 @@ class ChatList extends StatelessWidget {
           },
           itemBuilder: (context, messageData) {
             List<StudentData> student = messageData.studentData ?? [];
-            StudentData? relation = student.isNotEmpty ? student.first : StudentData();
-            String relationData = "${relation.relation ?? ''} ${relation.relation != null ? 'of' : ''} ${messageData.messageFrom ?? '--'}";
+            StudentData? relation =
+                student.isNotEmpty ? student.first : StudentData();
+            String relationData =
+                "${relation.relation ?? ''} ${relation.relation != null ? 'of' : ''} ${messageData.messageFrom ?? '--'}";
             return "${messageData.messageFromId}" == userId
                 ? SentMessageBubble(
-                  message: messageData.message ?? '',
-                  time: messageData.sendAt,
-                  replay: true,
-                  audio: messageData.messageAudio,
-                  fileName: messageData.fileName,
-                  fileLink: messageData.messageFile,
-                  messageData: messageData,
-                )
+                    message: messageData.message ?? '',
+                    time: messageData.sendAt,
+                    replay: true,
+                    audio: messageData.messageAudio,
+                    fileName: messageData.fileName,
+                    fileLink: messageData.messageFile,
+                    messageData: messageData,
+                  )
                 : ReceiveMessageBubble(
-                  senderName: student.isNotEmpty ? messageData.studentData?.first.studentName ?? '--' : '--',
-                  message: messageData.message,
-                  time: messageData.sendAt,
-                  replay: true,
-                  audio: messageData.messageAudio,
-                  fileName: messageData.fileName,
-                  fileLink: messageData.messageFile,
-                  messageData: messageData,
-                  relation: relationData,
-                );
+                    senderName: student.isNotEmpty
+                        ? messageData.studentData?.first.studentName ?? '--'
+                        : '--',
+                    message: messageData.message,
+                    time: messageData.sendAt,
+                    replay: true,
+                    audio: messageData.messageAudio,
+                    fileName: messageData.fileName,
+                    fileLink: messageData.messageFile,
+                    messageData: messageData,
+                    relation: relationData,
+                  );
           },
           separator: SizedBox(
             height: 5.h,
@@ -231,14 +241,14 @@ class ChatList extends StatelessWidget {
 class SentMessageBubble extends StatelessWidget {
   SentMessageBubble(
       {super.key,
-        this.message,
-        this.time,
-        this.replay,
-        this.audio,
-        this.fileName,
-        this.fileLink,
-        // this.senderId,
-        this.messageData});
+      this.message,
+      this.time,
+      this.replay,
+      this.audio,
+      this.fileName,
+      this.fileLink,
+      // this.senderId,
+      this.messageData});
 
   late Offset _tapPosition;
 
@@ -288,27 +298,25 @@ class SentMessageBubble extends StatelessWidget {
                           children: [
                             messageData!.replyData != null
                                 ? ReplayMessageWidget(
-                              senderId: messageData!.messageFromId,
-                              replyData: messageData!.replyData!,
-                            )
+                                    senderId: messageData!.messageFromId,
+                                    replyData: messageData!.replyData!,
+                                  )
                                 : const SizedBox(),
                             fileName != null
                                 ? FileWidget1(
-                              fileType: fileName!.split(".").last,
-                              fileName: fileName!,
-                              fileLink: fileLink!,
-                            )
+                                    fileType: fileName!.split(".").last,
+                                    fileName: fileName!,
+                                    fileLink: fileLink!,
+                                  )
                                 : const SizedBox(),
                             audio != null
                                 ? AudioWidget(content: audio!)
                                 : const SizedBox(),
-                            message != null && fileName != null ||
-                                audio != null
+                            message != null && fileName != null || audio != null
                                 ? SizedBox(height: 5.h)
                                 : const SizedBox(),
                             Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Column(
@@ -337,8 +345,8 @@ class SentMessageBubble extends StatelessWidget {
                                       style: TeacherAppFonts
                                           .interW400_12sp_topicbackground
                                           .copyWith(
-                                          color: Colors.black
-                                              .withOpacity(.25)),
+                                              color: Colors.black
+                                                  .withOpacity(.25)),
                                     ),
                                     SizedBox(width: 5.h),
                                     SizedBox(
@@ -349,8 +357,8 @@ class SentMessageBubble extends StatelessWidget {
                                           color: messageData?.read == null
                                               ? Colors.grey
                                               : messageData!.read!
-                                              ? Colors.green.shade900
-                                              : Colors.grey),
+                                                  ? Colors.green.shade900
+                                                  : Colors.grey),
                                     ),
                                   ],
                                 )
@@ -374,15 +382,15 @@ class SentMessageBubble extends StatelessWidget {
 class ReceiveMessageBubble extends StatelessWidget {
   ReceiveMessageBubble(
       {super.key,
-        this.message,
-        this.time,
-        this.replay,
-        this.audio,
-        this.fileLink,
-        this.fileName,
-        this.senderName,
-        this.messageData,
-        this.relation});
+      this.message,
+      this.time,
+      this.replay,
+      this.audio,
+      this.fileLink,
+      this.fileName,
+      this.senderName,
+      this.messageData,
+      this.relation});
 
   bool? replay;
   String? time;
@@ -429,12 +437,10 @@ class ReceiveMessageBubble extends StatelessWidget {
                           // mainAxisSize: MainAxisSize.min,
                           children: [
                             Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  constraints:
-                                  BoxConstraints(maxWidth: 70.w),
+                                  constraints: BoxConstraints(maxWidth: 70.w),
                                   child: Text(
                                     senderName == null
                                         ? "--"
@@ -442,8 +448,7 @@ class ReceiveMessageBubble extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                     style: TeacherAppFonts
                                         .interW500_12sp_textWhite
-                                        .copyWith(
-                                        color: Colorutils.fontColor5),
+                                        .copyWith(color: Colorutils.fontColor5),
                                   ),
                                 ),
                                 SizedBox(width: 10.w),
@@ -458,7 +463,7 @@ class ReceiveMessageBubble extends StatelessWidget {
                                     style: TeacherAppFonts
                                         .interW400_12sp_textWhite_italic
                                         .copyWith(
-                                        color: Colorutils.fontColor10),
+                                            color: Colorutils.fontColor10),
                                   ),
                                 ),
                               ],
@@ -466,27 +471,25 @@ class ReceiveMessageBubble extends StatelessWidget {
                             SizedBox(height: 10.h),
                             messageData!.replyData != null
                                 ? ReplayMessageWidget(
-                              senderId: messageData!.messageFromId,
-                              replyData: messageData!.replyData!,
-                            )
+                                    senderId: messageData!.messageFromId,
+                                    replyData: messageData!.replyData!,
+                                  )
                                 : const SizedBox(),
                             fileName != null
                                 ? FileWidget2(
-                              fileType: fileName!.split(".").last,
-                              fileName: fileName!,
-                              fileLink: fileLink!,
-                            )
+                                    fileType: fileName!.split(".").last,
+                                    fileName: fileName!,
+                                    fileLink: fileLink!,
+                                  )
                                 : const SizedBox(),
                             audio != null
                                 ? AudioWidget(content: audio!)
                                 : const SizedBox(),
-                            message != null && fileName != null ||
-                                audio != null
+                            message != null && fileName != null || audio != null
                                 ? SizedBox(height: 5.h)
                                 : const SizedBox(),
                             Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Column(
@@ -510,8 +513,10 @@ class ReceiveMessageBubble extends StatelessWidget {
                                 Text(
                                   // "17:47",
                                   messageBubbleTimeFormat(time),
-                                  style: TeacherAppFonts.interW400_12sp_topicbackground.copyWith(
-                                      color: Colors.black.withOpacity(.25)),
+                                  style: TeacherAppFonts
+                                      .interW400_12sp_topicbackground
+                                      .copyWith(
+                                          color: Colors.black.withOpacity(.25)),
                                 )
                               ],
                             ),
