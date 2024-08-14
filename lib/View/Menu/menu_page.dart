@@ -80,6 +80,7 @@ class MenuScreen extends StatelessWidget {
                 bottom: 25.h,
                 left: 20.h,
                 child: Container(
+                  color: Colors.transparent,
                   alignment: Alignment.centerLeft,
                   width: 190.w,
                   // height: 50.h,

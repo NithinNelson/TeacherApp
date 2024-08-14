@@ -52,7 +52,7 @@ class SubjectList extends StatelessWidget {
           return GestureDetector(
             onTap: (){
               UserAuthController userAuthController = Get.find<UserAuthController>();
-              if(teacherSubjects[index].isClassTeacher == null) {
+              if(teacherSubjects[index].isClassTeacher == false) {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => NonTeacherStudentList(
                   className: "${teacherSubjects[index].classs} ${teacherSubjects[index].batch}",
                   curriculam_id: teacherSubjects[index].curriculumId,

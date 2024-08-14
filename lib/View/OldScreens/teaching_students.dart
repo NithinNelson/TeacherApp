@@ -136,7 +136,7 @@ class _StudentListViewState extends State<StudentListView> {
   List forSearch = [];
   var absenties = [];
   var StudentIds = [];
-  var ourStudentList;
+   late List ourStudentList;
   var newStudendList;
   var modifiedStudentList = [];
   var isStudentListnull = [];
@@ -243,6 +243,8 @@ class _StudentListViewState extends State<StudentListView> {
           if (newStudentList != null && newStudentList.length != 0) {
             ourStudentList = newStudentList[0]
             ["feeDetails"];
+            ourStudentList
+                .sort((a, b) => a['username'].compareTo(b['username']));
             // You can safely access the element here.
             // modifiedStudentList = newStudentList[0]['feeDetails'];
           }
