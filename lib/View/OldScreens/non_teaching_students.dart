@@ -744,7 +744,7 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
                                                           badges.BadgePosition
                                                               .bottomEnd(
                                                                   end: 0,
-                                                                  bottom: -7),
+                                                                  bottom: -10),
                                                       badgeContent: Text(
                                                         "${index + 1}",
                                                         style: TextStyle(

@@ -101,7 +101,7 @@ class _StudentListViewState extends State<StudentListView> {
     print('late attendance pref--->$lateattendence');
   }
 
-g  // void onListen() async {
+  // void onListen() async {
   //   if (!_isListening) {
   //     bool available = await _speech.initialize(
   //         debugLogging: true,
@@ -136,7 +136,7 @@ g  // void onListen() async {
   List forSearch = [];
   var absenties = [];
   var StudentIds = [];
-   late List ourStudentList;
+  List ourStudentList = [];
   var newStudendList;
   var modifiedStudentList = [];
   var isStudentListnull = [];
@@ -280,6 +280,8 @@ g  // void onListen() async {
           if (newStudentList != null && newStudentList.length != 0) {
             afterAttendanceTaken =
             newStudentList[0]; //
+            // afterAttendanceTaken
+            //     .sort((a, b) => a['username'].compareTo(b['username']));
             // You can safely access the element here.
             // modifiedStudentList = newStudentList[0]['feeDetails'];
             print(">>>>>>>>>>>>>>>>>>newstudentlist>>>>>>>>> $ourStudentList");
@@ -1562,7 +1564,7 @@ g  // void onListen() async {
                                               children: [
                                                 badges.Badge(
 
-                                                  position: badges.BadgePosition.bottomEnd(end: 0, bottom: -7),
+                                                  position: badges.BadgePosition.bottomEnd(end: 0, bottom: -10),
 
                                                   badgeContent: Text(
                                                     "${index + 1}",

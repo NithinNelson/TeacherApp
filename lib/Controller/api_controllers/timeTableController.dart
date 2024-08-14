@@ -41,6 +41,7 @@ class TimeTableController extends GetxController {
         for (var week in teacherTimeTable) {
           if(week.id == weekDay) {
             teacherTimeTableToday.value = week.timeTable;
+            selectedTimetable.value = week.timeTable;
             currentTabIndex.value = week.id ?? 0;
           }
         }

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:teacherapp/Controller/api_controllers/timeTableController.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
@@ -17,10 +18,16 @@ import '../../Models/api_models/time_table_api_model.dart';
 import '../My_Class/Myclass.dart';
 import '../OldScreens/teaching_students.dart';
 
-class MenuScreen extends StatelessWidget {
+class MenuScreen extends StatefulWidget {
 
-  const MenuScreen({super.key});
 
+  const MenuScreen({super.key, });
+
+  @override
+  State<MenuScreen> createState() => _MenuScreenState();
+}
+
+class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     PageIndexController pageIndexController = Get.find<PageIndexController>();
@@ -92,7 +99,7 @@ class MenuScreen extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 28, top: 50).h,
+                padding: const EdgeInsets.only(left: 25, top: 50).h,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -101,29 +108,33 @@ class MenuScreen extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 35.w,
+
                           // backgroundImage:
                           //     AssetImage('assets/images/profile2.png'),
                           child: CachedNetworkImage(
                               imageUrl: Get.find<UserAuthController>().userData.value.image ?? '--',
                               placeholder: (context, url) => Icon(Icons.person, color: Colors.grey, size: 40,),
-                              errorWidget: (context, url, error) => Icon(Icons.person, color: Colors.grey, size: 40,)),
-                        ),
+                              errorWidget: (context, url, error) => Icon(Icons.person, color: Colors.grey, size: 40,),
+                               )),
+
+
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: GetX<TimeTableController>(
                             builder: (TimeTableController controller) {
-                              List<TimeTable> todaySubjects = controller.teacherTimeTableToday.value;
+                              List<TeacherSubject> classTeacherSubject = controller.classTeacherSubjects.value;
+                              // List<TimeTable> todaySubjects = controller.teacherTimeTableToday.value;
                               return SizedBox(width: 120,
                                 child: SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
                                     children: [
-                                      for (int i=0;i<todaySubjects.length;i++ )
+                                      for (int i=0;i<classTeacherSubject.length;i++ )
 
                                         Padding(
                                           padding: const EdgeInsets.only(left: 8),
                                           child: ClassIndicator(
-                                              className:"${todaySubjects[i].batchName}" , isActive: true),
+                                            classTeacherSubject: classTeacherSubject[i],isActive: true),
                                         ),
 
 
@@ -273,25 +284,7 @@ class MenuScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // ElevatedButton.icon(
-                    //   onPressed: () {},
-                    //   icon: Image.asset(
-                    //     'assets/images/newchat.png',
-                    //     width: 25.w,
-                    //     fit: BoxFit.fitWidth,
-                    //   ),
-                    //   label: Text(
-                    //       'Chat with Parents',
-                    //     style: TeacherAppFonts.interW600_14sp_letters1,
-                    //   ),
-                    //   style: ElevatedButton.styleFrom(
-                    //     foregroundColor: Colors.teal,
-                    //     backgroundColor: Colors.white,
-                    //     shape: RoundedRectangleBorder(
-                    //       borderRadius: BorderRadius.circular(12), // set your desired border radius
-                    //     ),
-                    //   ),
-                    // )
+
                   ],
                 ),
               ),
@@ -334,24 +327,42 @@ class MenuItem extends StatelessWidget {
 }
 
 class ClassIndicator extends StatelessWidget {
-  final String className;
   final bool isActive;
+  TeacherSubject classTeacherSubject;
 
-  const ClassIndicator(
-      {super.key, required this.className, required this.isActive});
+
+   ClassIndicator(
+      {super.key, required this.isActive,required this.classTeacherSubject});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentListView()));
+        UserAuthController userAuthController = Get.find<UserAuthController>();
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentListView(
+          className: "${classTeacherSubject.classs} ${classTeacherSubject.batch}",
+          curriculam_id: classTeacherSubject.curriculumId,
+          session_id: classTeacherSubject.sessionId,
+          class_id: classTeacherSubject.classId,
+          batch_id: classTeacherSubject.batchId,
+          selectedDate: getCurrentDate(),
+          name: userAuthController.userData.value.name,
+          images: userAuthController.userData.value.image,
+          school_id: userAuthController.userData.value.schoolId,
+          academic_year: userAuthController.userData.value.academicYear,
+          userId: userAuthController.userData.value.userId,
+          ClassAndBatch: "${classTeacherSubject.classs} ${classTeacherSubject.batch}",
+          subjectName: classTeacherSubject.sub,
+          LoginedUserEmployeeCode: userAuthController.userData.value.employeeNo,
+        )));
+        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => Myclasses()));
       },
       child: CircleAvatar(
         radius: 24,
         backgroundColor: isActive ? Colorutils.Whitecolor : Colorutils.Whitecolor,
         child: Center(
           child: Text(
-            className.replaceAll(" ", ''),
+            "${classTeacherSubject.classs}" "${classTeacherSubject.batch}".replaceAll(" ", ''),
             style: const TextStyle(
               color: Colorutils.userdetailcolor,
               fontWeight: FontWeight.bold,
@@ -361,4 +372,10 @@ class ClassIndicator extends StatelessWidget {
       ),
     );
   }
+  getCurrentDate() {
+    final DateFormat formatter = DateFormat('d-MMMM-y');
+    String createDate = formatter.format(DateTime.now());
+    return createDate;
+  }
+
 }
