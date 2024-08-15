@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:teacherapp/Models/api_models/sent_msg_by_teacher_model.dart';
@@ -48,6 +49,8 @@ class FeedViewController extends GetxController {
   MsgData? seletedMsgData;
   String? lastMessageId;
   RxInt tabControllerIndex = 0.obs;
+  RxInt selectedParentCount = 0.obs; // for showing selected parent count //
+  RxBool showSelectAllIcon = false.obs; // for showing selected parent count //
 
   late int chatMsgCount;
   int messageCount = 10;
@@ -61,10 +64,10 @@ class FeedViewController extends GetxController {
     super.onClose();
   }
 
-  void resetStatus() {
-    isLoading.value = false;
-    isError.value = false;
-  }
+  // void resetStatus() {
+  //   isLoading.value = false;
+  //   isError.value = false;
+  // }
 
   Future<void> fetchFeedViewMsgList(ChatFeedViewReqModel reqBody) async {
     isLoading.value = true;
@@ -102,6 +105,7 @@ class FeedViewController extends GetxController {
       print('--------feed view error--------');
     } finally {
       isLoading.value = false;
+      print("Finaly worked");
     }
   }
 
@@ -508,9 +512,9 @@ class FeedViewController extends GetxController {
             );
           },
         );
-        selectedParentDataStack.value = selectedParentDataList.value;
-        showSelectedParentDataStack.value = selectedParentDataList.value;
-        tempList.value = selectedParentDataList.value;
+        selectedParentDataStack.value = selectedParentDataList;
+        showSelectedParentDataStack.value = selectedParentDataList;
+        tempList.value = selectedParentDataList;
         update();
         // for (var parent in parentDataList) {
         //   allParentDataList.add(parent.sId.toString());
@@ -524,6 +528,8 @@ class FeedViewController extends GetxController {
   void addParentList(ParentDataSelected parent) {
     parent.isSelected = !parent.isSelected;
     update();
+    getSelectedParentCount();
+    getSelectAllIconData();
     // List<ParentData> parents = selectedParentDataList.where((emp) => emp.sId == parent.sId).toList();
     // if (parents.isEmpty) {
     //   selectedParentDataList.add(parent);
@@ -535,6 +541,7 @@ class FeedViewController extends GetxController {
   void removeParentList(ParentDataSelected parent) {
     parent.isSelected = false;
     update();
+    getSelectedParentCount();
   }
 
   List<String> setFinalParentList() {
@@ -555,7 +562,7 @@ class FeedViewController extends GetxController {
 
   void takeSelectedListForSubmit() {
     selectedParentDataStack.value = [];
-    for (var parent in selectedParentDataList.value) {
+    for (var parent in selectedParentDataList) {
       if (parent.isSelected == true) {
         selectedParentDataStack.add(parent);
       }
@@ -564,8 +571,8 @@ class FeedViewController extends GetxController {
 
   void rebuildSelectedParentList() {
     selectedParentDataList.clear();
-    selectedParentDataList.value = selectedParentDataStack.value;
-    for (var parent in parentDataList.value) {
+    selectedParentDataList.value = selectedParentDataStack;
+    for (var parent in parentDataList) {
       ParentDataSelected parentDataSelected = ParentDataSelected(
         name: parent.name,
         gender: parent.image,
@@ -576,7 +583,7 @@ class FeedViewController extends GetxController {
         image: parent.image,
         isSelected: true,
       );
-      if (!selectedParentDataList.value.contains(parentDataSelected)) {
+      if (!selectedParentDataList.contains(parentDataSelected)) {
         selectedParentDataList.add(ParentDataSelected(
           name: parent.name,
           gender: parent.image,
@@ -624,5 +631,49 @@ class FeedViewController extends GetxController {
 
   setScrollerIcon() {
     update(); // for showing scroll indicator for go down side of chat list
+  }
+
+  getSelectedParentCount() {
+    selectedParentCount.value = 0;
+    selectedParentDataList.forEach(
+      (element) {
+        if (element.isSelected) {
+          selectedParentCount.value++;
+        }
+      },
+    );
+  }
+
+  selectAllParents() {
+    for (var element in selectedParentDataList) {
+      element.isSelected = true;
+      // addParentList(element);
+    }
+    update();
+    getSelectAllIconData();
+  }
+
+  unselectAllParents() {
+    for (var element in selectedParentDataList) {
+      element.isSelected = false;
+      // addParentList(element);
+    }
+    update();
+    getSelectAllIconData();
+  }
+
+  getSelectAllIconData() {
+    for (var element in selectedParentDataList) {
+      if (element.isSelected == false) {
+        showSelectAllIcon.value = false;
+        return;
+      }
+    }
+    showSelectAllIcon.value = true;
+  }
+
+  sortSelectedParent() {
+    selectedParentDataList.sort(
+        (a, b) => b.isSelected.toString().compareTo(a.isSelected.toString()));
   }
 }
