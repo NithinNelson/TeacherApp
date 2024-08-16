@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,18 +10,15 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Models/api_models/chat_feed_view_model.dart';
-import 'package:teacherapp/Models/api_models/chat_group_api_model.dart';
 import 'package:teacherapp/Services/snackBar.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
 import 'package:teacherapp/View/Chat_View/Chat_widgets/text_and_file_widget.dart';
-import 'package:teacherapp/View/Chat_View/group_msg_screen.dart';
 import '../../Controller/api_controllers/groupedViewController.dart';
 import '../../Models/api_models/grouped_view_list_api_model.dart';
 import 'Chat_widgets/audio_widget.dart';
 import 'Chat_widgets/chat_date_widget.dart';
 import 'Chat_widgets/file_widget.dart';
-import 'Chat_widgets/replay_in_message_widget.dart';
 import 'Chat_widgets/sent_bubble_widget.dart';
 
 class GroupedViewMsgScreen extends StatefulWidget {
@@ -34,15 +32,58 @@ class GroupedViewMsgScreen extends StatefulWidget {
 class _GroupedViewMsgScreenState extends State<GroupedViewMsgScreen> {
   GroupedViewController groupedViewController =
       Get.find<GroupedViewController>();
+  UserAuthController userAuthController = Get.find<UserAuthController>();
+  Timer? chatUpdate;
 
   @override
   void initState() {
     initialize();
     super.initState();
+
+    ChatFeedViewReqModel chatFeedViewReqModel = ChatFeedViewReqModel(
+      teacherId: userAuthController.userData.value.userId,
+      schoolId: userAuthController.userData.value.schoolId,
+      classs: widget.roomData?.classs,
+      batch: widget.roomData?.batch,
+      subjectId: widget.roomData?.subjectId,
+      offset: 0,
+      limit: groupedViewController.chatMsgCount,
+    );
+
+    groupedViewController.chatGroupedViewScrollController.value.addListener(() {
+      print(
+          "List Controller Working times ${groupedViewController.chatGroupedViewScrollController.value.offset}");
+      if (groupedViewController
+              .chatGroupedViewScrollController.value.position.maxScrollExtent ==
+          groupedViewController.chatGroupedViewScrollController.value.offset) {
+        print("List Controller Working");
+
+        print("List Con ${groupedViewController.chatMsgCount}");
+
+        groupedViewController.chatMsgCount =
+            groupedViewController.chatMsgCount +
+                groupedViewController.messageCount;
+        groupedViewController.fetchMoreMessage(
+            reqBody:
+                // timer: _timer,
+                chatFeedViewReqModel);
+      }
+
+      if (groupedViewController.chatGroupedViewScrollController.value.offset ==
+          groupedViewController
+              .chatGroupedViewScrollController.value.position.minScrollExtent) {
+        groupedViewController.showScrollIcon = false;
+        groupedViewController.setScrollerIcon();
+      } else {
+        groupedViewController.showScrollIcon = true;
+      }
+    });
   }
 
   void initialize() async {
     context.loaderOverlay.show();
+    groupedViewController.chatMsgCount =
+        groupedViewController.messageCount; // for set message count//
     String? userId = Get.find<UserAuthController>().userData.value.userId;
     String? schoolId = Get.find<UserAuthController>().userData.value.schoolId;
     ChatFeedViewReqModel chatFeedViewReqModel = ChatFeedViewReqModel(
@@ -51,13 +92,20 @@ class _GroupedViewMsgScreenState extends State<GroupedViewMsgScreen> {
       subjectId: widget.roomData?.subjectId ?? '--',
       teacherId: userId ?? '--',
       schoolId: schoolId ?? '--',
-      limit: 100,
+      limit: groupedViewController.chatMsgCount,
       offset: 0,
     );
     await groupedViewController.fetchFeedViewMsgList(chatFeedViewReqModel);
 
     if (!mounted) return;
     context.loaderOverlay.hide();
+    chatUpdate = Timer.periodic(
+      const Duration(seconds: 5),
+      (timer) async {
+        await groupedViewController
+            .fetchFeedViewMsgListPeriodically(chatFeedViewReqModel);
+      },
+    );
   }
 
   @override
@@ -183,64 +231,149 @@ class ChatList extends StatelessWidget {
     return GetBuilder<GroupedViewController>(
       builder: (GroupedViewController controller) {
         List<MsgData> msgData = controller.chatMsgList;
-        return GroupedListView<MsgData, String>(
-          useStickyGroupSeparators: true,
-          cacheExtent: 10000,
-          floatingHeader: true,
-          shrinkWrap: true,
-          padding: EdgeInsets.only(top: 5.h, bottom: 5.h),
-          controller: controller.chatGroupedViewScrollController.value,
-          groupBy: (element) {
-            try {
-              return DateFormat('yyyy-MM-dd')
-                  .format(DateTime.parse(element.sendAt!));
-            } catch (e) {
-              return "--";
-            }
-          },
-          sort: true,
-          reverse: true,
-          groupComparator: (value1, value2) => value2.compareTo(value1),
-          elements: msgData,
-          groupSeparatorBuilder: (String groupByValue) {
-            return ChatDateWidget(date: groupByValue);
-          },
-          indexedItemBuilder: (context, messageDatas, index) {
-            final messageData = controller.chatMsgList[index];
-            List<StudentData> student = messageData.studentData ?? [];
-            StudentData? relation =
-                student.isNotEmpty ? student.first : StudentData();
-            String relationData =
-                "${relation.relation ?? ''} ${relation.relation != null ? 'of' : ''} ${messageData.messageFrom ?? '--'}";
-            return "${messageData.messageFromId}" == userId
-                ? SentMessageBubble(
-                    message: messageData.message ?? '',
-                    time: messageData.sendAt,
-                    replay: true,
-                    audio: messageData.messageAudio,
-                    fileName: messageData.fileName,
-                    fileLink: messageData.messageFile,
-                    messageData: messageData,
-                    index: index,
-                  )
-                : ReceiveMessageBubble(
-                    senderName: student.isNotEmpty
-                        ? messageData.studentData?.first.studentName ?? '--'
-                        : '--',
-                    message: messageData.message,
-                    time: messageData.sendAt,
-                    replay: true,
-                    audio: messageData.messageAudio,
-                    fileName: messageData.fileName,
-                    fileLink: messageData.messageFile,
-                    messageData: messageData,
-                    relation: relationData,
-                    index: index,
-                  );
-          },
-          separator: SizedBox(
-            height: 5.h,
-          ),
+        return Stack(
+          children: [
+            GroupedListView<MsgData, String>(
+              useStickyGroupSeparators: true,
+              cacheExtent: 10000,
+              floatingHeader: true,
+              shrinkWrap: true,
+              padding: EdgeInsets.only(top: 5.h, bottom: 5.h),
+              controller: controller.chatGroupedViewScrollController.value,
+              groupBy: (element) {
+                try {
+                  return DateFormat('yyyy-MM-dd')
+                      .format(DateTime.parse(element.sendAt!));
+                } catch (e) {
+                  return "--";
+                }
+              },
+              sort: true,
+              reverse: true,
+              groupComparator: (value1, value2) => value2.compareTo(value1),
+              elements: msgData,
+              groupSeparatorBuilder: (String groupByValue) {
+                return ChatDateWidget(date: groupByValue);
+              },
+              indexedItemBuilder: (context, messageDatas, index) {
+                final messageData = controller.chatMsgList[index];
+                List<StudentData> student = messageData.studentData ?? [];
+                StudentData? relation =
+                    student.isNotEmpty ? student.first : StudentData();
+                String relationData =
+                    "${relation.relation ?? ''} ${relation.relation != null ? 'of' : ''} ${messageData.messageFrom ?? '--'}";
+                if (index < controller.chatMsgList.length - 1) {
+                  return "${messageData.messageFromId}" == userId
+                      ? SentMessageBubble(
+                          message: messageData.message ?? '',
+                          time: messageData.sendAt,
+                          replay: true,
+                          audio: messageData.messageAudio,
+                          fileName: messageData.fileName,
+                          fileLink: messageData.messageFile,
+                          messageData: messageData,
+                          index: index,
+                        )
+                      : ReceiveMessageBubble(
+                          senderName: student.isNotEmpty
+                              ? messageData.studentData?.first.studentName ??
+                                  '--'
+                              : '--',
+                          message: messageData.message,
+                          time: messageData.sendAt,
+                          replay: true,
+                          audio: messageData.messageAudio,
+                          fileName: messageData.fileName,
+                          fileLink: messageData.messageFile,
+                          messageData: messageData,
+                          relation: relationData,
+                          index: index,
+                        );
+                } else {
+                  return controller.showLoaderMoreMessage.value &&
+                          controller.chatMsgList.length >
+                              controller.messageCount
+                      ? Align(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5.h),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                      height: 25.h,
+                                      width: 25.h,
+                                      child: const Center(
+                                          child: CircularProgressIndicator())),
+                                  SizedBox(
+                                    width: 10.w,
+                                  ),
+                                  Text(
+                                    "Load More...",
+                                    style: TeacherAppFonts
+                                        .interW400_16sp_letters1
+                                        .copyWith(color: Colors.black),
+                                  )
+                                ]),
+                          ),
+                        )
+                      : const SizedBox();
+                }
+              },
+              separator: SizedBox(
+                height: 5.h,
+              ),
+            ),
+            GetBuilder<GroupedViewController>(builder: (controller2) {
+              return controller2.showScrollIcon
+                  ? Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: EdgeInsets.all(15.h),
+                        child: InkWell(
+                          onTap: () {
+                            Future.delayed(
+                              const Duration(milliseconds: 50),
+                              () {
+                                Get.find<GroupedViewController>()
+                                    .chatGroupedViewScrollController
+                                    .value
+                                    .animateTo(
+                                      Get.find<GroupedViewController>()
+                                          .chatGroupedViewScrollController
+                                          .value
+                                          .position
+                                          .minScrollExtent,
+                                      duration:
+                                          const Duration(milliseconds: 200),
+                                      curve: Curves.easeOut,
+                                    );
+                              },
+                            );
+                          },
+                          child: Container(
+                            width: 45.h,
+                            height: 45.h,
+                            decoration: const BoxDecoration(
+                              color: Colorutils.Whitecolor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(3.h),
+                              child: const FittedBox(
+                                child: Icon(
+                                  Icons.keyboard_double_arrow_down_rounded,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox();
+            })
+          ],
         );
       },
     );
