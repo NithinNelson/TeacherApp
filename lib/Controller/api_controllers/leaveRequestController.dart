@@ -53,6 +53,7 @@ class LeaveRequestController extends GetxController {
           studentList.value = classList.value.first.students ?? [];
           classData.value = classList.value.first;
           filteredStudentList.value = studentList.value;
+          filteredStudentList.sort((a, b) => a.name!.compareTo(b.name!));
           claass.value = classList.value.first.className ?? '--';
           batch.value = classList.value.first.batchName ?? '--';
 
@@ -73,6 +74,7 @@ class LeaveRequestController extends GetxController {
     classData.value = selectedClassData;
 
     filteredStudentList.value = studentList.value;
+    filteredStudentList.sort((a, b) => a.name!.compareTo(b.name!));
     claass.value = selectedClassData.className ?? '--';
     batch.value = selectedClassData.batchName ?? '--';
   }

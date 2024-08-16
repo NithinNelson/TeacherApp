@@ -19,6 +19,7 @@ class ApproveRejected extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(left: 6.w, right: 6.w),
           child: TextFormField(
+
             onChanged: (value) {
               Get.find<LeaveApprovalController>().filterLeaveList(text: value);
             },
@@ -58,7 +59,7 @@ class ApproveRejected extends StatelessWidget {
         SizedBox(height: 10.h),
         Container(
           width: ScreenUtil().screenWidth,
-          height: 600.h,
+        
           child: GetX<LeaveApprovalController>
             (builder: (LeaveApprovalController controller) {
             List<ApprovedOrRejected> leaveList = controller.filteredApprovedOrRejectedLeaves.value;
@@ -69,6 +70,7 @@ class ApproveRejected extends StatelessWidget {
                     return Container(
                       margin: EdgeInsets.fromLTRB(10, 2, 10, 5),
                       padding: EdgeInsets.fromLTRB(5, 20, 5, 10),
+
                       width: MediaQuery.of(context).size.width,
                       // height: 120.h,
                       decoration: BoxDecoration(
@@ -353,33 +355,7 @@ class ApproveRejected extends StatelessWidget {
           },
           ),
         ),
-        // Container(
-        //   child: ListView.builder(
-        //     shrinkWrap: true,
-        //     itemCount: 10,
-        //     itemBuilder:
-        //   (BuildContext context, int index) {
-        // return _allleave(
-        //   name: "newResult[index]['studentName']",
-        //   fromdate: "30-08-1998",
-        //   todate: "30-08-1998",
-        //   totaldays: 7,
-        //   classes: "3",
-        //   batches:"B",
-        //   leavereason:"gwdywgdywdgqwud sbghuqwoidhqweiud ",
-        //   admissionNo: "30267",
-        //   applieddate: "5-09-9987",
-        //   academicyear: "2023",
-        //   statusleave:"applied",
-        //   i: index,
-        //   leaveId: "1233",
-        //   studimage:"mjsj",
-        //   document: "sndjiksw",
-        //   mypendings:true
-        // );
-        //     },
-        //   ),
-        // )
+
       ],
     );
   }

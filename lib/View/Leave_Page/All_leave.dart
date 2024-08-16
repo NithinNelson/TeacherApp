@@ -1310,51 +1310,7 @@ class _allleaveState extends State<allleave> {
             },
           ),
         ),
-        // for (int i = 0; i < 10; i++)
-        //   _allleave(
-        //       name: "newResult[index]['studentName']",
-        //       fromdate: "30-08-1998",
-        //       todate: "30-08-1998",
-        //       totaldays: 7,
-        //       classes: "3",
-        //       batches: "B",
-        //       leavereason: "gwdywgdywdgqwud sbghuqwoidhqweiud ",
-        //       admissionNo: "30267",
-        //       applieddate: "5-09-9987",
-        //       academicyear: "2023",
-        //       statusleave: "applied",
-        //       i: i,
-        //       leaveId: "1233",
-        //       studimage: "mjsj",
-        //       document: "sndjiksw",
-        //       mypendings: true)
-        // Container(
-        //   child: ListView.builder(
-        //     shrinkWrap: true,
-        //     itemCount: 10,
-        //     itemBuilder:
-        //   (BuildContext context, int index) {
-        // return _allleave(
-        //   name: "newResult[index]['studentName']",
-        //   fromdate: "30-08-1998",
-        //   todate: "30-08-1998",
-        //   totaldays: 7,
-        //   classes: "3",
-        //   batches:"B",
-        //   leavereason:"gwdywgdywdgqwud sbghuqwoidhqweiud ",
-        //   admissionNo: "30267",
-        //   applieddate: "5-09-9987",
-        //   academicyear: "2023",
-        //   statusleave:"applied",
-        //   i: index,
-        //   leaveId: "1233",
-        //   studimage:"mjsj",
-        //   document: "sndjiksw",
-        //   mypendings:true
-        // );
-        //     },
-        //   ),
-        // )
+
       ],
     );
   }
