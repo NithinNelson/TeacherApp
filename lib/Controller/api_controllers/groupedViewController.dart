@@ -11,13 +11,13 @@ class GroupedViewController extends GetxController {
   RxBool isLoaded = false.obs;
   RxBool isError = false.obs;
   RxList<MsgData> chatMsgList = <MsgData>[].obs;
-  Rx<AutoScrollController> chatGroupedViewScrollController =
-      AutoScrollController().obs;
+  late Rx<AutoScrollController> chatGroupedViewScrollController;
+
   Rx<FocusNode> focusNode = FocusNode().obs;
   String? lastMessageId;
 
   late int chatMsgCount;
-  int messageCount = 15;
+  int messageCount = 30;
   bool showScrollIcon = true;
   int? previousMessageListLenght;
   RxBool showLoaderMoreMessage = true.obs;

@@ -37,6 +37,8 @@ class _GroupedViewMsgScreenState extends State<GroupedViewMsgScreen> {
 
   @override
   void initState() {
+    groupedViewController.chatGroupedViewScrollController =
+        AutoScrollController().obs;
     initialize();
     super.initState();
 
@@ -106,6 +108,13 @@ class _GroupedViewMsgScreenState extends State<GroupedViewMsgScreen> {
             .fetchFeedViewMsgListPeriodically(chatFeedViewReqModel);
       },
     );
+  }
+
+  @override
+  void dispose() {
+    groupedViewController.chatGroupedViewScrollController.value.dispose();
+    chatUpdate!.cancel();
+    super.dispose();
   }
 
   @override
