@@ -35,6 +35,7 @@ class ParentSelectionBottomSheet extends StatelessWidget {
             List<ParentDataSelected> selectedParentList =
                 controller.selectedParentDataList.value;
             controller.getSelectedParentCount();
+            controller.getSelectAllIconData();
 
             return Column(
               children: [

@@ -1133,7 +1133,12 @@ messageMoreShowDialog(
                           )
                         : const SizedBox(),
                     SizedBox(height: 20.h),
-                    const ReactionContainerWidget2(),
+                    Get.find<ParentChattingController>()
+                                .seletedMsgData!
+                                .messageFromId ==
+                            Get.find<UserAuthController>().userData.value.userId
+                        ? SizedBox()
+                        : const ReactionContainerWidget2(),
                     SizedBox(height: 80.h),
                     ScreenUtil().screenHeight / 1.7 > tapPosition.dy
                         ? MessageMoreContainer2(

@@ -1305,7 +1305,12 @@ messageMoreShowDialog(
                           )
                         : const SizedBox(),
                     SizedBox(height: 20.h),
-                    const ReactionContainerWidget(),
+                    Get.find<FeedViewController>()
+                                .seletedMsgData!
+                                .messageFromId ==
+                            Get.find<UserAuthController>().userData.value.userId
+                        ? SizedBox()
+                        : const ReactionContainerWidget(),
                     SizedBox(height: 80.h),
                     ScreenUtil().screenHeight / 1.7 > tapPosition.dy
                         ? MessageMoreContainer(
