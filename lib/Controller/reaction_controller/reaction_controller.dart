@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teacherapp/Services/reaction_service/reaction_service.dart';
 import 'package:teacherapp/Services/snackBar.dart';
-import 'package:teacherapp/View/Chat_View/group_msg_screen.dart';
+import 'package:teacherapp/View/Chat_View/feed_view%20_chat_screen.dart';
 
 class ReactionController extends GetxController {
   postReaction(

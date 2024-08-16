@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teacherapp/Controller/api_controllers/parentChatListController.dart';
 import 'package:teacherapp/Utils/font_util.dart';
-import 'package:teacherapp/View/Chat_View/parent_msg_screen.dart';
+import 'package:teacherapp/View/Chat_View/parent_chat_screen.dart';
 import '../../../Models/api_models/parent_chat_list_api_model.dart';
 import '../../../Utils/Colors.dart';
 
@@ -17,7 +17,6 @@ class NewParentChat extends StatefulWidget {
 }
 
 class _NewParentChatState extends State<NewParentChat> {
-
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -55,12 +54,12 @@ class _NewParentChatState extends State<NewParentChat> {
                     height: 5.w,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100).r,
-                        color: Colors.grey.withOpacity(0.5)
-                    ),
+                        color: Colors.grey.withOpacity(0.5)),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 16, top: 5, bottom: 5).w,
+                  padding:
+                      const EdgeInsets.only(right: 16, top: 5, bottom: 5).w,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -122,11 +121,13 @@ class _NewParentChatState extends State<NewParentChat> {
                         ),
                       ),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0), // Border radius
-                        borderSide: BorderSide.none, // Removes the outline border
+                        borderRadius:
+                            BorderRadius.circular(20.0), // Border radius
+                        borderSide:
+                            BorderSide.none, // Removes the outline border
                       ),
-                      contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 10.0),
                     ),
                     style: TextStyle(color: Colors.black), // Text color
                     cursorColor: Colors.black, // Cursor color
@@ -151,7 +152,8 @@ class _NewParentChatState extends State<NewParentChat> {
                           padding: const EdgeInsets.only(right: 5, left: 5).w,
                           child: InkWell(
                             onTap: () {
-                              controller.setCurrentFilterClass(currentClass: classNameList[index]);
+                              controller.setCurrentFilterClass(
+                                  currentClass: classNameList[index]);
                               controller.filterByClass(classNameList[index]);
                             },
                             child: Container(
@@ -161,10 +163,8 @@ class _NewParentChatState extends State<NewParentChat> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100).r,
                                 color: color,
-                                border: Border.all(
-                                    color: Colors.white,
-                                    width: 2.w
-                                ),
+                                border:
+                                    Border.all(color: Colors.white, width: 2.w),
                               ),
                               child: FittedBox(
                                 child: Text(
@@ -186,7 +186,8 @@ class _NewParentChatState extends State<NewParentChat> {
                 Expanded(
                   child: ListView.builder(
                     itemCount: filteredChatList.length,
-                    padding: EdgeInsets.only(bottom: View.of(context).viewInsets.bottom * 0.5),
+                    padding: EdgeInsets.only(
+                        bottom: View.of(context).viewInsets.bottom * 0.5),
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
                         contentPadding: const EdgeInsets.all(0),
@@ -194,7 +195,7 @@ class _NewParentChatState extends State<NewParentChat> {
                         leading: CircleAvatar(
                           radius: 25.r,
                           backgroundImage:
-                          AssetImage('assets/images/profile image.png'),
+                              AssetImage('assets/images/profile image.png'),
                         ),
                         title: Padding(
                           padding: const EdgeInsets.only(right: 16).w,
@@ -213,12 +214,15 @@ class _NewParentChatState extends State<NewParentChat> {
                           child: Text(
                             filteredChatList[index].studentName ?? '--',
                             overflow: TextOverflow.ellipsis,
-                            style: TeacherAppFonts.poppinsW500_12sp_lightGreenForParent,
+                            style: TeacherAppFonts
+                                .poppinsW500_12sp_lightGreenForParent,
                           ),
                         ),
                         onTap: () {
                           Navigator.of(context).pop();
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ParentMsgScreen(msgData: filteredChatList[index])));
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ParentChatScreen(
+                                  msgData: filteredChatList[index])));
                         },
                       );
                     },

@@ -35,15 +35,15 @@ import 'Chat_widgets/receive_bubble_widget.dart';
 import 'Chat_widgets/sent_bubble_widget.dart';
 import 'Chat_widgets/swape_to.dart';
 
-class GroupMsgScreen extends StatefulWidget {
+class FeedViewChatScreen extends StatefulWidget {
   final ClassTeacherGroup? msgData;
-  const GroupMsgScreen({super.key, this.msgData});
+  const FeedViewChatScreen({super.key, this.msgData});
 
   @override
-  State<GroupMsgScreen> createState() => _GroupMsgScreenState();
+  State<FeedViewChatScreen> createState() => _FeedViewChatScreenState();
 }
 
-class _GroupMsgScreenState extends State<GroupMsgScreen>
+class _FeedViewChatScreenState extends State<FeedViewChatScreen>
     with SingleTickerProviderStateMixin {
   TextEditingController messageCtr = TextEditingController();
   FeedViewController feedViewController = Get.find<FeedViewController>();
@@ -61,9 +61,11 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
   @override
   void initState() {
     super.initState();
-
+    Get.find<FeedViewController>().chatMsgCount =
+        Get.find<FeedViewController>().messageCount; // for set message count//
     Get.find<FeedViewController>().chatFeedViewScrollController =
         AutoScrollController().obs;
+    Get.find<FeedViewController>().showScrollIcon = false;
     tabController = TabController(length: 2, vsync: this);
     tabController?.addListener(() async {
       feedViewController.tabControllerIndex.value = tabController!.index;
@@ -143,8 +145,7 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
 
   Future<void> initialize() async {
     context.loaderOverlay.show();
-    Get.find<FeedViewController>().chatMsgCount =
-        Get.find<FeedViewController>().messageCount; // for set message count//
+
     ChatFeedViewReqModel chatFeedViewReqModel = ChatFeedViewReqModel(
       teacherId: userAuthController.userData.value.userId,
       schoolId: userAuthController.userData.value.schoolId,
@@ -880,6 +881,14 @@ class _GroupMsgScreenState extends State<GroupMsgScreen>
                                                   null &&
                                               controller.filePath.value == null
                                           ? GestureDetector(
+                                              onTap: () {
+                                                snackBar(
+                                                    context: context,
+                                                    message:
+                                                        "Tap and hold to record",
+                                                    color:
+                                                        Colorutils.fontColor11);
+                                              },
                                               onLongPress: () async {
                                                 await Permission.microphone
                                                     .request();

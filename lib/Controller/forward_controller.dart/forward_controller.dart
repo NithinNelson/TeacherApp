@@ -15,7 +15,7 @@ import 'package:teacherapp/Services/forward_service/forward_service.dart';
 import 'package:teacherapp/Services/snackBar.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
-import 'package:teacherapp/View/Chat_View/group_msg_screen.dart';
+import 'package:teacherapp/View/Chat_View/feed_view%20_chat_screen.dart';
 
 class ForwardController extends GetxController {
   List<ForwardModelChatList> forwardClassGroupList = [];
