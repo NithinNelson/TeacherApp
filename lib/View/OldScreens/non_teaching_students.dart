@@ -5,6 +5,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -21,6 +22,7 @@ import 'package:teacherapp/View/CWidgets/AppBarBackground.dart';
 import 'package:teacherapp/View/Home_Page/Home_Widgets/user_details.dart';
 
 import '../../Utils/Colors.dart';
+import '../../Utils/constants.dart';
 
 class NonTeacherStudentList extends StatefulWidget {
   String? name;
@@ -45,25 +47,25 @@ class NonTeacherStudentList extends StatefulWidget {
 
   NonTeacherStudentList(
       {Key? key,
-        this.name,
-        this.isAClassTeacher,
-        this.isTeacher,
-        this.subjectName,
-        this.ClassAndBatch,
-        this.LoginedUserDesignation,
-        this.LoginedUserEmployeeCode,
-        this.images,
-        this.school_id,
-        this.userId,
-        this.batchName,
-        this.academic_year,
-        this.batch_id,
-        this.class_id,
-        this.className,
-        this.curriculam_id,
-        this.selectedDate,
-        this.session_id,
-        this.timeString})
+      this.name,
+      this.isAClassTeacher,
+      this.isTeacher,
+      this.subjectName,
+      this.ClassAndBatch,
+      this.LoginedUserDesignation,
+      this.LoginedUserEmployeeCode,
+      this.images,
+      this.school_id,
+      this.userId,
+      this.batchName,
+      this.academic_year,
+      this.batch_id,
+      this.class_id,
+      this.className,
+      this.curriculam_id,
+      this.selectedDate,
+      this.session_id,
+      this.timeString})
       : super(key: key);
 
   @override
@@ -76,6 +78,7 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
   bool newSpinner = false;
   bool disableKey = false;
   var _searchController = TextEditingController();
+
   // stt.SpeechToText _speech = stt.SpeechToText();
   bool _isListening = false;
   String? _textSpeech = "Search Here";
@@ -112,11 +115,12 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
   List searchedStudentName = [];
   List newResult = [];
   var newStudentList = [];
+
   // Timer? timer;
   List forSearch = [];
   var absenties = [];
   var StudentIds = [];
-  var ourStudentList;
+  List ourStudentList = [];
   var newStudendList;
   var modifiedStudentList = [];
   var isStudentListnull = [];
@@ -163,7 +167,8 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
       'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
       'Content-Type': 'application/json'
     };
-    var request = http.Request('POST', Uri.parse(ApiConstants.baseUrl + ApiConstants.studentListApi));
+    var request = http.Request(
+        'POST', Uri.parse(ApiConstants.baseUrl + ApiConstants.studentListApi));
     request.body = json.encode({
       "school_id": widget.school_id,
       "academic_year": widget.academic_year,
@@ -173,7 +178,7 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
       "batch_id": widget.batch_id,
       "for_attendance": true,
       "selected_date":
-      DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(DateTime.now()),
+          DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(DateTime.now()),
       "att_type": "once",
       "fileServerUrl": "https://teamsqa4000.educore.guru",
       "xclass": widget.className.toString().split(" ")[0],
@@ -200,16 +205,18 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
         StudentList = json.decode(jsonResponse);
       });
       for (var i = 0;
-      i < StudentList!["data"]["attendance_settings"].length;
-      i++) {
+          i < StudentList!["data"]["attendance_settings"].length;
+          i++) {
         if (StudentList!["data"]["attendance_settings"][i]["taken_status"] ==
             false) {
           newStudentList.add(
               StudentList!["data"]["attendance_settings"][i]["full_students"]);
           if (newStudentList != null && newStudentList.length != 0) {
             ourStudentList = newStudentList[0]
-            ["feeDetails"]; // You can safely access the element here.
+                ["feeDetails"]; // You can safely access the element here.
             // modifiedStudentList = newStudentList[0]['feeDetails'];
+            ourStudentList
+                .sort((a, b) => a['username'].compareTo(b['username']));
           }
           for (var index = 0; index < ourStudentList.length; index++) {
             ourStudentList[index].addAll({"is_present": true});
@@ -217,7 +224,6 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
           setState(() {
             isStudentListnull = ourStudentList;
             newResult = isStudentListnull;
-
           });
           for (var ind = 0; ind < ourStudentList.length; ind++) {
             modifiedStudentList.add({
@@ -233,13 +239,16 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
           }
         } else {
           print("attendance taken");
-          snackBar(context: context, message: "Attendance Taken", color: Colors.green);
+          snackBar(
+              context: context,
+              message: "Attendance Taken",
+              color: Colors.green);
           // Utils.showToastSuccess("Attendance Taken").show(context);
           newStudentList.add(
               StudentList!["data"]["attendance_settings"][i]["full_students"]);
           if (newStudentList != null && newStudentList.length != 0) {
             afterAttendanceTaken =
-            newStudentList[0]; // You can safely access the element here.
+                newStudentList[0]; // You can safely access the element here.
             // modifiedStudentList = newStudentList[0]['feeDetails'];
           }
           for (var index = 0; index < afterAttendanceTaken.length; index++) {
@@ -293,8 +302,8 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
   Future SubmitAttendance() async {
     attendance_flag = true;
     for (var i = 0;
-    i < StudentList!["data"]["attendance_settings"].length;
-    i++) {
+        i < StudentList!["data"]["attendance_settings"].length;
+        i++) {
       if (StudentList!["data"]["attendance_settings"][i]["taken_status"] ==
           false) {
         for (var index = 0; index < ourStudentList.length; index++) {
@@ -333,27 +342,27 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
               "user_id": afterAttendanceTaken[index]["feeDetails"]["user_id"],
               "username": afterAttendanceTaken[index]["feeDetails"]["username"],
               "user_name": afterAttendanceTaken[index]["feeDetails"]
-              ["username"],
+                  ["username"],
               "contact_no": afterAttendanceTaken[index]["feeDetails"]
-              ["contact_no"],
+                  ["contact_no"],
               "admission_number": afterAttendanceTaken[index]["feeDetails"]
-              ["admission_number"],
+                  ["admission_number"],
               "image": afterAttendanceTaken[index]["feeDetails"]["image"],
               "joined_date": afterAttendanceTaken[index]["feeDetails"]
-              ["joined_date"],
+                  ["joined_date"],
               "selected": afterAttendanceTaken[index]["feeDetails"]["selected"],
               "parent_name": afterAttendanceTaken[index]["feeDetails"]
-              ["parent_name"],
+                  ["parent_name"],
               "parent_email": afterAttendanceTaken[index]["feeDetails"]
-              ["parent_email"],
+                  ["parent_email"],
               "parent_phone": afterAttendanceTaken[index]["feeDetails"]
-              ["parent_phone"],
+                  ["parent_phone"],
               "fee_arrear": afterAttendanceTaken[index]["feeDetails"]
-              ["fee_arrear"],
+                  ["fee_arrear"],
               "fee_amount": afterAttendanceTaken[index]["feeDetails"]
-              ["fee_amount"],
+                  ["fee_amount"],
               "roll_number": afterAttendanceTaken[index]["feeDetails"]
-              ["roll_number"],
+                  ["roll_number"],
               "reason": "absent"
             });
           }
@@ -369,8 +378,8 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
       'Content-Type': 'application/json'
     };
 
-    var request =
-    http.Request('POST', Uri.parse(ApiConstants.baseUrl + ApiConstants.attendanceSubmit));
+    var request = http.Request('POST',
+        Uri.parse(ApiConstants.baseUrl + ApiConstants.attendanceSubmit));
     request.body = json.encode({
       "selections": {
         "school_id": widget.school_id,
@@ -378,7 +387,7 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
         "user_id": widget.userId,
         "user_role_id": "role12123rqwer",
         "date":
-        DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(DateTime.now()),
+            DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(DateTime.now()),
         "is_attendance": "attendance",
         "class_batch_obj": {
           "class_id": widget.class_id,
@@ -423,7 +432,10 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
 
     if (response.statusCode == 200) {
       print("Successfully submitted");
-      await snackBar(context: context, message: "Attendance Submitted Successfully", color: Colors.green);
+      await snackBar(
+          context: context,
+          message: "Attendance Submitted Successfully",
+          color: Colors.green);
       // Utils.showToastSuccess("Attendance Submitted Successfully")
       //     .show(context)
       Navigator.of(context).pop();
@@ -507,12 +519,13 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: ListView(
-        physics: NeverScrollableScrollPhysics(),
-        children: [
-          Stack(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: systemUiOverlayStyleLight,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
+          child: Stack(
             children: [
               const AppBarBackground(),
               // SizedBox(
@@ -521,86 +534,14 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
               //       "assets/images/header.png",
               //       fit: BoxFit.fill,
               //     )),
-              const UserDetails(shoBackgroundColor: false, isWelcome: false, bellicon: true, notificationcount: true),
-              // Row(
-              //   children: [
-              //     GestureDetector(
-              //       onTap: () async {
-              //         Navigator.of(context).pop();
-              //       },
-              //       child: Container(
-              //           margin: const EdgeInsets.all(6),
-              //           child: Image.asset("assets/images/goback.png")),
-              //     ),
-              //     Container(
-              //       margin: const EdgeInsets.all(15),
-              //       child: Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: [
-              //           Container(
-              //             child: Text(
-              //               "Hello,",
-              //               style: TextStyle(
-              //                   fontFamily: "Nunito",
-              //                   fontSize: 15.sp,
-              //                   color: Colors.white),
-              //             ),
-              //           ),
-              //           Container(
-              //             width: 150.w,
-              //             height: 40.h,
-              //             child: SingleChildScrollView(
-              //               scrollDirection: Axis.horizontal,
-              //               child: Text(
-              //                 widget.name.toString(),
-              //                 style: TextStyle(
-              //                     fontFamily: "WorkSans",
-              //                     fontSize: 15.sp,
-              //                     color: Colors.white),
-              //               ),
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //     SizedBox(
-              //       width: 40.w,
-              //     ),
-              //     GestureDetector(
-              //       // onTap: () => NavigationUtils.goNext(
-              //       //     context,
-              //       //     NotificationPage(
-              //       //       name: widget.name,
-              //       //       image: widget.images,
-              //       //     )),
-              //       child: Padding(
-              //         padding: const EdgeInsets.all(8.0),
-              //         child: badges.Badge(
-              //             position: badges.BadgePosition.bottomEnd(end: -7, bottom: 12),
-              //             badgeContent: Text(
-              //               '5',
-              //               style: TextStyle(color: Colors.white),
-              //             ),
-              //             child: SvgPicture.asset("assets/images/bell.svg")),
-              //       ),
-              //     ),
-              //     Container(
-              //       width: 50.w,
-              //       height: 50.h,
-              //       decoration: BoxDecoration(
-              //         shape: BoxShape.circle,
-              //         border: Border.all(color: Color(0xFFD6E4FA)),
-              //         image: DecorationImage(
-              //             image: NetworkImage(widget.images == ""
-              //                 ? "https://raw.githubusercontent.com/abdulmanafpfassal/image/master/profile.jpg"
-              //                 : "${ApiConstants.downloadUrl}${widget.images}"),
-              //             fit: BoxFit.cover),
-              //       ),
-              //     ),
-              //   ],
-              // ),
+               UserDetails(
+                  shoBackgroundColor: false,
+                  isWelcome: false,
+                  bellicon: true,
+                  notificationcount: true),
+
               Container(
-                margin: EdgeInsets.only(left: 10.w, top: 100.h, right: 10.w),
+                margin: EdgeInsets.only(left: 10.w, top: 128.h, right: 10.w),
                 height: MediaQuery.of(context).size.height,
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -629,12 +570,14 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
                               width: 20.w,
                               height: 20.h,
                               child: Image.asset(
-                                "assets/images/studentCalender.png",color: Colorutils.userdetailcolor.withOpacity(0.4),),
+                                "assets/images/studentCalender.png",
+                                color:
+                                    Colorutils.userdetailcolor.withOpacity(0.4),
+                              ),
                             ),
                             SizedBox(
                               width: 3.w,
                             ),
-
                             Padding(
                               padding: const EdgeInsets.only(right: 13),
                               child: Text(
@@ -645,9 +588,11 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
                             SizedBox(
                               width: 5.w,
                             ),
-                            widget.timeString == null ? Text(" ") : Text(
-                                widget.timeString.toString().split("-")[0],
-                                style: TextStyle(fontSize: 14.sp))
+                            widget.timeString == null
+                                ? Text(" ")
+                                : Text(
+                                    widget.timeString.toString().split("-")[0],
+                                    style: TextStyle(fontSize: 14.sp))
                           ],
                         ),
                       ],
@@ -658,27 +603,30 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
                         controller: _searchController,
                         onChanged: (value) {
                           setState(() {
-                            print('isStudentListnull.....--------$isStudentListnull');
-                            print('afterAttendanceTaken.....--------$afterAttendanceTaken');
+                            print(
+                                'isStudentListnull.....--------$isStudentListnull');
+                            print(
+                                'afterAttendanceTaken.....--------$afterAttendanceTaken');
                             print(isStudentListnull);
                             newResult = isStudentListnull
                                 .where((element) => element["username"]
-                                .toString()
-                                .toLowerCase()
-                                .contains("${value}"))
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains("${value}"))
                                 .toList();
-                            print('NON_TEACHER_STUDENTLIST____newResult$newResult');
+                            print(
+                                'NON_TEACHER_STUDENTLIST____newResult$newResult');
                             print(_searchController.text);
                           });
                         },
                         validator: (val) =>
-                        val!.isEmpty ? 'Enter the Topic' : null,
+                            val!.isEmpty ? 'Enter the Topic' : null,
                         cursorColor: Colors.grey,
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
                             hintStyle: TextStyle(color: Colors.grey),
                             hintText:
-                            _isListening ? "Listening..." : "Search Here",
+                                _isListening ? "Listening..." : "Search Here",
                             prefixIcon: Icon(
                               Icons.search,
                               color: Colors.grey,
@@ -714,14 +662,14 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
                                   color: Color.fromRGBO(230, 236, 254, 8),
                                   width: 1.0),
                               borderRadius:
-                              BorderRadius.all(Radius.circular(10)),
+                                  BorderRadius.all(Radius.circular(10)),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: Color.fromRGBO(230, 236, 254, 8),
                                   width: 1.0),
                               borderRadius:
-                              BorderRadius.all(Radius.circular(10.0)),
+                                  BorderRadius.all(Radius.circular(10.0)),
                             ),
                             fillColor: Color.fromRGBO(230, 236, 254, 8),
                             filled: true),
@@ -730,352 +678,342 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
                     afterAttendanceTaken == null
                         ? Text("")
                         : Padding(
-                          padding: const EdgeInsets.only(left: 8),
-                          child: Row(
-                           mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 20,
-                                  margin: EdgeInsets.all(8),
-                                  child: Text(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                    height: 20,
+                                    margin: EdgeInsets.all(8),
+                                    child: Text(
                                       "Note: Attendance has already been taken.",
-                                    style: TextStyle(
-                                        fontSize: 18.sp,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.red),
-                                  )),
-                            ],
+                                      style: TextStyle(
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.red),
+                                    )),
+                              ],
+                            ),
                           ),
-                        ),
                     SizedBox(
                       height: 8.h,
                     ),
                     isSpinner
-                        ?Expanded(
-                      child:Center(
-                        child: Container(
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(Colorutils.chatcolor),
-                              backgroundColor: Colorutils.userdetailcolor,
-                              strokeWidth: 5.0,
+                        ? Expanded(
+                            child: Center(
+                              child: Container(
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colorutils.chatcolor),
+                                    backgroundColor: Colorutils.userdetailcolor,
+                                    strokeWidth: 5.0,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-
-                      ),
-                    ): newResult.isEmpty ? Center(child: Image.asset("assets/images/nodata.gif"))
-                        : Expanded(
-                      child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: _searchController.text
-                              .toString()
-                              .isNotEmpty
-                              ? newResult.length
-                              : afterAttendanceTaken == null
-                              ? ourStudentList.length
-                              : afterAttendanceTaken.length,
-                          itemBuilder:
-                              (BuildContext context, int index) {
-                            return Container(
-                                margin: EdgeInsets.only(left: 10.w),
-                                child: Column(
-                                  children: [
-                                    Theme(
-                                      data: ThemeData().copyWith(
-                                          dividerColor:
-                                          Colors.transparent),
-                                      child: Row(
-                                        children: [
-                                          badges.Badge(
-                                            position: badges.BadgePosition.bottomEnd(end: 0, bottom: -12),
-                                            badgeContent: Text(
-                                              "${index + 1}",
-                                              style: TextStyle(
-                                                  color: Colors.lightBlue),
-                                            ),badgeStyle: badges.BadgeStyle(elevation: 0,badgeColor:Colors.white, ),
-                                            child: Container(
-                                              width: 50.w,
-                                              height: 50.h,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                border: Border.all(
-                                                    color: Colorutils.chatcolor),
-                                                // image: DecorationImage(
-                                                //     image: NetworkImage(afterAttendanceTaken !=
-                                                //             null
-                                                //         ? (afterAttendanceTaken[index]["feeDetails"]["image"] ==
-                                                //                 "avathar"
-                                                //             ? "https://raw.githubusercontent.com/abdulmanafpfassal/image/master/profile.jpg"
-                                                //             : _searchController
-                                                //                     .text
-                                                //                     .isNotEmpty
-                                                //                 ? ApiConstants.IMAGE_BASE_URL +
-                                                //                     newResult[index]["feeDetails"]["image"].replaceAll(
-                                                //                         '"', '')
-                                                //                 : ApiConstants.IMAGE_BASE_URL +
-                                                //                     afterAttendanceTaken[index]["feeDetails"]["image"].replaceAll(
-                                                //                         '"', ''))
-                                                //         : (ourStudentList[index]["image"].replaceAll(
-                                                //                     '"',
-                                                //                     '') ==
-                                                //                 null
-                                                //             ? "https://raw.githubusercontent.com/abdulmanafpfassal/image/master/profile.jpg"
-                                                //             : _searchController
-                                                //                     .text
-                                                //                     .isNotEmpty
-                                                //                 ? ApiConstants.IMAGE_BASE_URL + newResult[index]["image"].replaceAll('"', '')
-                                                //                 : ApiConstants.IMAGE_BASE_URL + ourStudentList[index]["image"].replaceAll('"', ''))),
-                                                //     fit: BoxFit.fill),
-                                              ),
-                                              child:
-                                              afterAttendanceTaken ==
-                                                  null
-                                                  ? ClipRRect(
-                                                borderRadius: BorderRadius.circular(100),
-                                                child: CachedNetworkImage(
-                                                  width: 50,
-                                                  height: 50,
-                                                  fit: BoxFit.fill,
-                                                  imageUrl: "${ApiConstants.downloadUrl}${ourStudentList[index]["image"]}",
-                                                  placeholder:
-                                                      (context,
-                                                      url) =>
-                                                      Center(
-                                                        child: Text(
-                                                          '${ourStudentList[index]["username"]!.split(' ')[0].toString()[0]}'
-                                                          // '${ourStudentList[index]["username"].split(' ')[1].toString()[0]}'
-                                                          ,
-                                                          style: TextStyle(
-                                                              color: Colorutils.chatcolor,
-                                                              fontWeight: FontWeight
-                                                                  .bold,
-                                                              fontSize:
-                                                              20),
-                                                        ),
-                                                      ),
-                                                  errorWidget: (context,
-                                                      url,
-                                                      error) =>
-                                                      Center(
-                                                        child: Text(
-                                                          '${ourStudentList[index]["username"]!.split(' ')[0].toString()[0]}'
-                                                          // '${ourStudentList[index]["username"].split(' ')[1].toString()[0]}'
-                                                          ,
-                                                          style: TextStyle(
-                                                              color: Colorutils.chatcolor,
-                                                              fontWeight: FontWeight
-                                                                  .bold,
-                                                              fontSize:
-                                                              20),
-                                                        ),
-                                                      ),
-                                                ),
-                                              )
-                                                  : ClipRRect(
-                                                borderRadius: BorderRadius.circular(100),
-                                                child: CachedNetworkImage(
-                                                  width: 50,
-                                                  height: 50,
-                                                  fit: BoxFit.fill,
-                                                  imageUrl: "${ApiConstants.downloadUrl}${afterAttendanceTaken[index]["image"]}",
-                                                  placeholder:
-                                                      (context,
-                                                      url) =>
-                                                      Center(
-                                                        child: Text(
-                                                          '${afterAttendanceTaken[index]["username"]!.split(' ')[0].toString()[0]}'
-                                                          // '${afterAttendanceTaken[index]["username"].split(' ')[1].toString()[0]}'
-                                                          ,
-                                                          style: TextStyle(
-                                                              color: Color(
-                                                                  0xFFB1BFFF),
-                                                              fontWeight: FontWeight
-                                                                  .bold,
-                                                              fontSize:
-                                                              20),
-                                                        ),
-                                                      ),
-                                                  errorWidget: (context,
-                                                      url,
-                                                      error) =>
-                                                      Center(
-                                                        child: Text(
-                                                          '${afterAttendanceTaken[index]["username"]!.split(' ')[0].toString()[0]}'
-                                                          // '${afterAttendanceTaken[index]["username"].split(' ')[1].toString()[0]}'
-                                                          ,
-                                                          style: TextStyle(
-                                                              color: Color(
-                                                                  0xFFB1BFFF),
-                                                              fontWeight: FontWeight
-                                                                  .bold,
-                                                              fontSize:
-                                                              20),
-                                                        ),
-                                                      ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 10.w,
-                                          ),
-                                          Expanded(
-                                            child: Row(
-                                              children: [
-                                                Column(
+                          )
+                        : newResult.isEmpty
+                            ? Center(
+                                child: Image.asset("assets/images/nodata.gif"))
+                            : Expanded(
+                                child: ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    itemCount: _searchController.text
+                                            .toString()
+                                            .isNotEmpty
+                                        ? newResult.length
+                                        : afterAttendanceTaken == null
+                                            ? ourStudentList.length
+                                            : afterAttendanceTaken.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Container(
+                                          margin: EdgeInsets.only(left: 10.w),
+                                          child: Column(
+                                            children: [
+                                              Theme(
+                                                data: ThemeData().copyWith(
+                                                    dividerColor:
+                                                        Colors.transparent),
+                                                child: Row(
                                                   children: [
-                                                    Container(
-                                                        width: 180.w,
+                                                    badges.Badge(
+                                                      position:
+                                                          badges.BadgePosition
+                                                              .bottomEnd(
+                                                                  end: 0,
+                                                                  bottom: -10),
+                                                      badgeContent: Text(
+                                                        "${index + 1}",
+                                                        style: TextStyle(
+                                                            color: Colorutils
+                                                                .userdetailcolor),
+                                                      ),
+                                                      badgeStyle:
+                                                          badges.BadgeStyle(
+                                                        elevation: 0,
+                                                        badgeColor:
+                                                            Colors.white,
+                                                        borderSide: BorderSide(
+                                                          color: Colorutils
+                                                              .chatcolor,
+                                                          // Replace with your desired border color
+                                                          width:
+                                                              1.0, // Adjust the width of the border
+                                                        ),
+                                                      ),
+                                                      child: Container(
+                                                        width: 50.w,
+                                                        height: 50.h,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          border: Border.all(
+                                                              color: Colorutils
+                                                                  .chatcolor),
+                                                          // image: DecorationImage(
+                                                          //     image: NetworkImage(afterAttendanceTaken !=
+                                                          //             null
+                                                          //         ? (afterAttendanceTaken[index]["feeDetails"]["image"] ==
+                                                          //                 "avathar"
+                                                          //             ? "https://raw.githubusercontent.com/abdulmanafpfassal/image/master/profile.jpg"
+                                                          //             : _searchController
+                                                          //                     .text
+                                                          //                     .isNotEmpty
+                                                          //                 ? ApiConstants.IMAGE_BASE_URL +
+                                                          //                     newResult[index]["feeDetails"]["image"].replaceAll(
+                                                          //                         '"', '')
+                                                          //                 : ApiConstants.IMAGE_BASE_URL +
+                                                          //                     afterAttendanceTaken[index]["feeDetails"]["image"].replaceAll(
+                                                          //                         '"', ''))
+                                                          //         : (ourStudentList[index]["image"].replaceAll(
+                                                          //                     '"',
+                                                          //                     '') ==
+                                                          //                 null
+                                                          //             ? "https://raw.githubusercontent.com/abdulmanafpfassal/image/master/profile.jpg"
+                                                          //             : _searchController
+                                                          //                     .text
+                                                          //                     .isNotEmpty
+                                                          //                 ? ApiConstants.IMAGE_BASE_URL + newResult[index]["image"].replaceAll('"', '')
+                                                          //                 : ApiConstants.IMAGE_BASE_URL + ourStudentList[index]["image"].replaceAll('"', ''))),
+                                                          //     fit: BoxFit.fill),
+                                                        ),
                                                         child:
-                                                        SingleChildScrollView(
-                                                          scrollDirection:
-                                                          Axis.horizontal,
-                                                          child: Text(
-                                                              _searchController
-                                                                  .text
-                                                                  .toString()
-                                                                  .isNotEmpty
-                                                                  ? toBeginningOfSentenceCase(newResult[index]["username"]
-                                                                  .toString()
-                                                                  .toLowerCase())
-                                                                  .toString()
-                                                                  : afterAttendanceTaken ==
-                                                                  null ||
-                                                                  afterAttendanceTaken
-                                                                      .isEmpty
-                                                                  ? toBeginningOfSentenceCase(ourStudentList[index]["username"].toString().toLowerCase())
-                                                                  .toString()
-                                                                  .toUpperCase()
-                                                                  : toBeginningOfSentenceCase(afterAttendanceTaken[index]["username"].toString().toLowerCase())
-                                                                  .toString()
-                                                                  .toUpperCase(),
-                                                              style: GoogleFonts.spaceGrotesk(
-                                                                  textStyle: TextStyle(
-                                                                      fontSize: 16
-                                                                          .sp,
-                                                                      color: Colors.black,
-                                                                      fontWeight:
-                                                                      FontWeight.bold))),
-                                                        )),
-                                            
+                                                            afterAttendanceTaken ==
+                                                                    null
+                                                                ? ClipRRect(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            100),
+                                                                    child:
+                                                                        CachedNetworkImage(
+                                                                      width: 50,
+                                                                      height:
+                                                                          50,
+                                                                      fit: BoxFit
+                                                                          .fill,
+                                                                      imageUrl:
+                                                                          "${ApiConstants.downloadUrl}${ourStudentList[index]["image"]}",
+                                                                      placeholder:
+                                                                          (context, url) =>
+                                                                              Center(
+                                                                        child:
+                                                                            Text(
+                                                                          '${ourStudentList[index]["username"]!.split(' ')[0].toString()[0]}'
+                                                                          // '${ourStudentList[index]["username"].split(' ')[1].toString()[0]}'
+                                                                          ,
+                                                                          style: TextStyle(
+                                                                              color: Colorutils.chatcolor,
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 20),
+                                                                        ),
+                                                                      ),
+                                                                      errorWidget: (context,
+                                                                              url,
+                                                                              error) =>
+                                                                          Center(
+                                                                        child:
+                                                                            Text(
+                                                                          '${ourStudentList[index]["username"]!.split(' ')[0].toString()[0]}'
+                                                                          // '${ourStudentList[index]["username"].split(' ')[1].toString()[0]}'
+                                                                          ,
+                                                                          style: TextStyle(
+                                                                              color: Colorutils.chatcolor,
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 20),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                : ClipRRect(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            100),
+                                                                    child: CachedNetworkImage(
+                                                                        width: 50,
+                                                                        height: 50,
+                                                                        fit: BoxFit.fill,
+                                                                        imageUrl: "${ApiConstants.downloadUrl}${afterAttendanceTaken[index]["image"]}",
+                                                                        placeholder: (context, url) => Center(
+                                                                              child: Text(
+                                                                                '${afterAttendanceTaken[index]["username"]!.split(' ')[0].toString()[0]}'
+                                                                                // '${afterAttendanceTaken[index]["username"].split(' ')[1].toString()[0]}'
+                                                                                ,
+                                                                                style: TextStyle(color: Color(0xFFB1BFFF), fontWeight: FontWeight.bold, fontSize: 20),
+                                                                              ),
+                                                                            ),
+                                                                        errorWidget: (context, url, error) {
+                                                                          return Center(
+                                                                            child:
+                                                                                Text(
+                                                                              '${afterAttendanceTaken[index]["username"]!.trim().toString()[0]}'
+                                                                              // '${afterAttendanceTaken[index]["username"].split(' ')[1].toString()[0]}'
+                                                                              ,
+                                                                              style: TextStyle(color: Color(0xFFB1BFFF), fontWeight: FontWeight.bold, fontSize: 20),
+                                                                            ),
+                                                                          );
+                                                                        }),
+                                                                  ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10.w,
+                                                    ),
+                                                    Expanded(
+                                                      child: Row(
+                                                        children: [
+                                                          Column(
+                                                            children: [
+                                                              Container(
+                                                                  width: 180.w,
+                                                                  child:
+                                                                      SingleChildScrollView(
+                                                                    scrollDirection:
+                                                                        Axis.horizontal,
+                                                                    child: Text(
+                                                                        _searchController.text.toString().isNotEmpty
+                                                                            ? toBeginningOfSentenceCase(newResult[index]["username"].toString().toLowerCase()).toString()
+                                                                            : afterAttendanceTaken == null || afterAttendanceTaken.isEmpty
+                                                                                ? toBeginningOfSentenceCase(ourStudentList[index]["username"].toString().toLowerCase()).toString()
+                                                                                : toBeginningOfSentenceCase(afterAttendanceTaken[index]["username"].toString().toLowerCase()).toString(),
+                                                                        style: GoogleFonts.inter(textStyle: TextStyle(fontSize: 16.sp, color: Colors.black, fontWeight: FontWeight.bold))),
+                                                                  )),
+                                                            ],
+                                                          ),
+
+                                                          // SizedBox(
+                                                          //   width: 40.w,
+                                                          // ),
+
+                                                          Spacer(),
+                                                          Container(
+                                                            child:
+                                                                FlutterSwitch(
+                                                              width: 80.w,
+                                                              height: 35.h,
+                                                              valueFontSize:
+                                                                  16.sp,
+                                                              toggleSize: 35.h,
+                                                              toggleBorder: Border.all(
+                                                                  color: Color(
+                                                                      0xFFD6E4FA),
+                                                                  width: 2),
+                                                              value: afterAttendanceTaken ==
+                                                                          null ||
+                                                                      afterAttendanceTaken
+                                                                          .isEmpty
+                                                                  ? _searchController
+                                                                          .text
+                                                                          .isNotEmpty
+                                                                      ? newResult[
+                                                                              index]
+                                                                          [
+                                                                          "is_present"]
+                                                                      : ourStudentList[
+                                                                              index]
+                                                                          [
+                                                                          "is_present"]
+                                                                  : _searchController
+                                                                          .text
+                                                                          .isNotEmpty
+                                                                      ? newResult[
+                                                                              index]
+                                                                          [
+                                                                          "selected"]
+                                                                      : afterAttendanceTaken[
+                                                                              index]
+                                                                          [
+                                                                          "selected"],
+                                                              borderRadius:
+                                                                  30.0,
+                                                              padding: 0,
+                                                              activeColor: Colorutils
+                                                                  .userdetailcolor
+                                                                  .withOpacity(
+                                                                      0.8),
+                                                              inactiveColor:
+                                                                  Colors.red,
+                                                              activeText: "P",
+                                                              inactiveText: "A",
+                                                              inactiveTextColor:
+                                                                  Colors.white,
+                                                              activeTextColor:
+                                                                  Colors.white,
+                                                              showOnOff: true,
+                                                              onToggle: (val) {
+                                                                setState(() {
+                                                                  afterAttendanceTaken == null ||
+                                                                          afterAttendanceTaken
+                                                                              .isEmpty
+                                                                      ? _searchController
+                                                                              .text
+                                                                              .isNotEmpty
+                                                                          ? newResult[index]["is_present"] =
+                                                                              val
+                                                                          : ourStudentList[index]["is_present"] =
+                                                                              val
+                                                                      : _searchController
+                                                                              .text
+                                                                              .isNotEmpty
+                                                                          ? newResult[index]["selected"] =
+                                                                              val
+                                                                          : afterAttendanceTaken[index]["selected"] =
+                                                                              val;
+
+                                                                  if (attendance_flag ==
+                                                                      true) {
+                                                                    attendance_flag =
+                                                                        false;
+                                                                  }
+                                                                });
+
+                                                                print(
+                                                                    "the selected value is $ourStudentList");
+                                                              },
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 15.w,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
-                                            
-                                                // SizedBox(
-                                                //   width: 40.w,
-                                                // ),
-                                            
-                                                Spacer(),
-                                                Container(
-
-                                                  child: FlutterSwitch(
-                                                    width: 80.w,
-                                                    height: 35.h,
-                                                    valueFontSize: 16.sp,
-                                                    toggleSize: 35.h,
-                                                    toggleBorder:
-                                                    Border.all(
-                                                        color: Color(
-                                                            0xFFD6E4FA),
-                                                        width: 2),
-                                                    value: afterAttendanceTaken ==
-                                                        null ||
-                                                        afterAttendanceTaken
-                                                            .isEmpty
-                                                        ? _searchController
-                                                        .text
-                                                        .isNotEmpty
-                                                        ? newResult[
-                                                    index][
-                                                    "is_present"]
-                                                        : ourStudentList[
-                                                    index][
-                                                    "is_present"]
-                                                        : _searchController
-                                                        .text
-                                                        .isNotEmpty
-                                                        ? newResult[
-                                                    index]
-                                                    [
-                                                    "selected"]
-                                                        : afterAttendanceTaken[
-                                                    index]
-                                                    [
-                                                    "selected"],
-                                                    borderRadius: 30.0,
-                                                    padding: 0,
-                                                    activeColor:
-                                                    Colors.green,
-                                                    inactiveColor: Colors.red,
-                                                    activeText: "P",
-                                                    inactiveText: "A",
-                                                    inactiveTextColor:
-                                                    Colors.white,
-                                                    activeTextColor:
-                                                    Colors.white,
-                                                    showOnOff: true,
-                                                    onToggle: (val) {
-                                                      setState(() {
-                                                        afterAttendanceTaken ==
-                                                            null ||
-                                                            afterAttendanceTaken
-                                                                .isEmpty
-                                                            ? _searchController
-                                                            .text
-                                                            .isNotEmpty
-                                                            ? newResult[index]
-                                                        [
-                                                        "is_present"] =
-                                                            val
-                                                            : ourStudentList[index]
-                                                        [
-                                                        "is_present"] =
-                                                            val
-                                                            : _searchController
-                                                            .text
-                                                            .isNotEmpty
-                                                            ? newResult[index]
-                                                        [
-                                                        "selected"] =
-                                                            val
-                                                            : afterAttendanceTaken[
-                                                        index]
-                                                        [
-                                                        "selected"] = val;
-                                            
-                                                        if (attendance_flag ==
-                                                            true) {
-                                                          attendance_flag =
-                                                          false;
-                                                        }
-                                                      });
-                                            
-                                                      print(
-                                                          "the selected value is $ourStudentList");
-                                                    },
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 15.w,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Divider(
-                                      indent: 20,
-                                      endIndent: 20,
-                                      height: 20,
-                                      color: Colors.lightBlue.shade50,
-                                    )
-                                  ],
-                                ));
-                          }),
-                    ),
+                                              ),
+                                              Divider(
+                                                indent: 20,
+                                                endIndent: 20,
+                                                height: 20,
+                                                color: Colors.lightBlue.shade50,
+                                              )
+                                            ],
+                                          ));
+                                    }),
+                              ),
                     SizedBox(
                       height: 210.h,
                     )
@@ -1084,55 +1022,62 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
               )
             ],
           ),
-        ],
-      ),
-      // floatingActionButton: button(),
-      floatingActionButton:
-
-           Container(
-        height: 50.w,
-        width: 200.w,
-            child: FloatingActionButton.extended(
-                    elevation:
-                    isStudentListnull.isEmpty || disableKey || newSpinner ? 0 : 8,
-                    onPressed: isStudentListnull.isEmpty || disableKey
-              ? () {}
-              : () {
-            if (_searchController.text.isNotEmpty &&
-                newResult.isEmpty) {
-              snackBar(context: context, message: "No Data Available to Submit", color: Colors.red);
-              // Utils.showToastError("No Data Available to Submit")
-              //     .show(context);
-            } else {
-              context.loaderOverlay.show();
-              setState(() {
-                newSpinner = true;
-                disableKey = true;
-              });
-              if (attendance_flag == true) {
-                print("kckkckckckkkckc");
-                snackBar(context: context, message: "Please wait the data is uploading", color: Colors.red);
-                // Utils.showToastError(
-                //     "Please wait the data is uploading")
-                //     .show(context);
-              } else {
-                SubmitAttendance();
-                context.loaderOverlay.hide();
-              }
-            }
-                    },
-                    backgroundColor: isStudentListnull.isEmpty || disableKey
-              ? Colors.transparent
-              : Colors.blue,
-                    label: const Text("SUBMIT", style: TextStyle(color: Colors.white),),
-                  ),
+        ),
+        // floatingActionButton: button(),
+        floatingActionButton: Container(
+          height: 50.w,
+          width: 200.w,
+          child: FloatingActionButton.extended(
+            elevation:
+                isStudentListnull.isEmpty || disableKey || newSpinner ? 0 : 8,
+            onPressed: isStudentListnull.isEmpty || disableKey
+                ? () {}
+                : () {
+                    if (_searchController.text.isNotEmpty &&
+                        newResult.isEmpty) {
+                      snackBar(
+                          context: context,
+                          message: "No Data Available to Submit",
+                          color: Colors.red);
+                      // Utils.showToastError("No Data Available to Submit")
+                      //     .show(context);
+                    } else {
+                      context.loaderOverlay.show();
+                      setState(() {
+                        newSpinner = true;
+                        disableKey = true;
+                      });
+                      if (attendance_flag == true) {
+                        print("kckkckckckkkckc");
+                        snackBar(
+                            context: context,
+                            message: "Please wait the data is uploading",
+                            color: Colors.red);
+                        // Utils.showToastError(
+                        //     "Please wait the data is uploading")
+                        //     .show(context);
+                      } else {
+                        SubmitAttendance();
+                        context.loaderOverlay.hide();
+                      }
+                    }
+                  },
+            backgroundColor: isStudentListnull.isEmpty || disableKey
+                ? Colors.transparent
+                : Colorutils.bottomnaviconcolor,
+            label: const Text(
+              "SUBMIT",
+              style: TextStyle(color: Colors.white),
+            ),
           ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      ),
     );
   }
 
   Widget NonTeacherStudentList(
-      String images, String nameOfStudent, var attendanceArray) =>
+          String images, String nameOfStudent, var attendanceArray) =>
       Column(
         children: [
           Theme(
@@ -1145,8 +1090,7 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                        image:
-                        NetworkImage(ApiConstants.downloadUrl + images),
+                        image: NetworkImage(ApiConstants.downloadUrl + images),
                         fit: BoxFit.fill),
                   ),
                 ),
@@ -1220,29 +1164,35 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
     } else {
       return FloatingActionButton.extended(
         elevation:
-        isStudentListnull.isEmpty || disableKey || newSpinner ? 0 : 8,
+            isStudentListnull.isEmpty || disableKey || newSpinner ? 0 : 8,
         onPressed: isStudentListnull.isEmpty || disableKey
             ? () {}
             : () {
-          if (_searchController.text.isNotEmpty && newResult.isEmpty) {
-            snackBar(context: context, message: "No Data Available to Submit", color: Colors.red);
-            // Utils.showToastError("No Data Available to Submit")
-            //     .show(context);
-          } else {
-            setState(() {
-              newSpinner = true;
-              disableKey = true;
-            });
-            if (attendance_flag == true) {
-              print("kckkckckckkkckc");
-              snackBar(context: context, message: "Please wait the data is uploading", color: Colors.red);
-              // Utils.showToastError("Please wait the data is uploading")
-              //     .show(context);
-            } else {
-              SubmitAttendance();
-            }
-          }
-        },
+                if (_searchController.text.isNotEmpty && newResult.isEmpty) {
+                  snackBar(
+                      context: context,
+                      message: "No Data Available to Submit",
+                      color: Colors.red);
+                  // Utils.showToastError("No Data Available to Submit")
+                  //     .show(context);
+                } else {
+                  setState(() {
+                    newSpinner = true;
+                    disableKey = true;
+                  });
+                  if (attendance_flag == true) {
+                    print("kckkckckckkkckc");
+                    snackBar(
+                        context: context,
+                        message: "Please wait the data is uploading",
+                        color: Colors.red);
+                    // Utils.showToastError("Please wait the data is uploading")
+                    //     .show(context);
+                  } else {
+                    SubmitAttendance();
+                  }
+                }
+              },
         backgroundColor: isStudentListnull.isEmpty || disableKey
             ? Colors.transparent
             : Colors.blue,

@@ -918,19 +918,7 @@ Widget _getProfileOfStudents(String image, String nameOfTeacher,
           ),
         ],
       ),
-      children: [
-        ProfileContainer(
-          12,
-          12,
-          12,
-          12,
-          12,
-          12,
-          12,
-          12,
-          12,
-        ),
-      ],
+
     ),
   );
 }

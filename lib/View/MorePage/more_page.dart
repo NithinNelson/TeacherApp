@@ -1,167 +1,125 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:path/path.dart';
 
 import '../../Utils/Colors.dart';
 import '../../Utils/constants.dart';
-import '../../Utils/font_util.dart';
-import '../CWidgets/AppBarBackground.dart';
-import '../Home_Page/Home_Widgets/user_details.dart';
+import 'all_Students.dart';
 
 class MorePage extends StatefulWidget {
   const MorePage({super.key});
 
   @override
-  State<MorePage> createState() => _ObsResultState();
+  State<MorePage> createState() => _MorePageState();
 }
 
-class _ObsResultState extends State<MorePage> {
-  get questionData => null;
-
-  get isChecked => null;
-  var fromDate = 'DD-MM-YYYY';
-  var toDate = 'DD-MM-YYYY';
-  DateFormat _examformatter = DateFormat('dd-MM-yyyy');
-  DateFormat _examFFormatter1 = DateFormat('dd-MM-yyyy');
-  DateTime? pickedFrom;
-  DateTime? pickedTo;
-  String? _fileName;
-  String? _filePath;
-
-  Future<void> _selectFromDate(BuildContext context) async
-  {
-    pickedFrom = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      // lastDate: new DateTime(2025),
-      lastDate: DateTime(DateTime
-          .now()
-          .year + 1),
-    );
-    fromDate = _examformatter.format(pickedFrom!);
-    print(fromDate);
-    setState(() {
-      toDate = 'DD-MM-YYYY';
-    });
-  }
-
-  Future<Null> _selectToDate(BuildContext context) async
-  {
-    pickedTo = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      // lastDate: new DateTime(2025),
-      lastDate: DateTime(DateTime
-          .now()
-          .year + 1),
-    );
-    toDate = _examFFormatter1.format(pickedTo!);
-    print(fromDate);
-    setState(() {
-      fromDate = 'DD-MM-YYYY';
-    });
-  }
-
-  Future<void> _pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['jpg', 'pdf', 'doc'],
-    );
-
-    if (result != null) {
-      // If the user picked a file
-      setState(() {
-        _fileName = result.files.single.name;
-        _filePath = result.files.single.path;
-      });
-    } else {
-      // User canceled the picker
-      setState(() {
-        _fileName = null;
-        _filePath = null;
-      });
-    }
-  }
-
+class _MorePageState extends State<MorePage> {
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
 
-      value: systemUiOverlayStyleLight,
+    return SafeArea(
       child: Scaffold(
-          backgroundColor: Colors.white,
-          body: Container(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.98,
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
-            child: Stack(
-                children: [
-                AppBarBackground(),
-            Positioned(
-              left: 0,
-              top: -10,
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+
+          leading:   GestureDetector(
+            onTap: () {
+              ZoomDrawer.of(context)?.toggle();
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15,top: 8,bottom: 8),
               child: Container(
-                // height: 100.w,
-                width: ScreenUtil().screenWidth,
+                height: 50.h,
+                width: 50.h,
+                padding: const EdgeInsets.symmetric(horizontal: 9).h,
                 decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(17.0),
+                  color: Colorutils.chatcolor.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(8).r,
                 ),
-                child: const UserDetails(
-                  shoBackgroundColor: false,
-                  isWelcome: true,
-                  bellicon: true,
-                  notificationcount: true,),
+                child: SvgPicture.asset(
+                  // width: 50.h,
+                  "assets/images/menu_icon.svg",
+                  fit: BoxFit.contain,
+                  color: Colors.grey,
+                ),
               ),
             ),
-            Container(
-              margin:
-              EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w,),
-              width: 500.w,
-              height: double.infinity,
-              decoration: BoxDecoration(
-                color: Colorutils.Whitecolor,
-                // Container color
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(20.r),
-                    topLeft: Radius.circular(20.r)),
-                // Border radius
-                boxShadow: [
-                  BoxShadow(
-                    color: Colorutils.userdetailcolor.withOpacity(0.3),
-                    // Shadow color
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 3), // Shadow position
-                  ),
-                ],
+          ),
+          title: Padding(
+            padding: const EdgeInsets.only(left: 80),
+            child: Text(
+              "More",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            ),
+          ),
+          backgroundColor: Colors.white,
+        ),
+        body: Column(
+          children: [
+
+
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: GestureDetector(
+                onTap: (){
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) =>AllStudents() ));
+                },
+                child: Stack(
+                  children: [
+                    Container(
+                      height: 120.h,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colorutils.morebrown,
+                        borderRadius: BorderRadius.all(Radius.circular(24)),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+
+                          Container(
+
+                            child: SvgPicture.asset(
+                              'assets/images/Routing 4.svg',
+                              width: 42.w,
+                              color: Colorutils.Whitecolor,
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              child: Text('Student Tracking',style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+
+                              ),),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: SvgPicture.asset(
+                        'assets/images/Union.svg',
+                        width: 100.w,
+                        color: Colorutils.Whitecolor,
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
+                  ],
+
+                ),
               ),
-              child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "The feature is not in use.",
-                      style: (TextStyle(
-                      color: Colors.red,
-                    )),),
-                  ),
-          )
+            ),
+          ],
+        ),
       ),
-      ],
-    ),)
-    )
-    ,
     );
   }
 
