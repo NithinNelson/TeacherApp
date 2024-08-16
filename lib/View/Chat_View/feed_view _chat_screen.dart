@@ -175,6 +175,7 @@ class _FeedViewChatScreenState extends State<FeedViewChatScreen>
     return ChatRoomDataInheritedWidget(
       msgData: widget.msgData,
       child: Scaffold(
+        backgroundColor: Colorutils.userdetailcolor,
         appBar: AppBar(
           backgroundColor: Colorutils.userdetailcolor,
           leadingWidth: 50.w,

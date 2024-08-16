@@ -19,43 +19,46 @@ class GroupedViewChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("message number === ${msgData?.batch}");
-    return GetX<GroupedViewListController>(
-      builder: (GroupedViewListController controller) {
-        List<RoomData> room = controller.roomList.value;
-        return ListView.separated(
-          shrinkWrap: true,
-          itemCount: room.length,
-          padding: const EdgeInsets.all(0),
-          itemBuilder: (BuildContext context, int index) {
-            DateTime? sentTime;
-            try {
-              sentTime =
-                  DateTime.parse(room[index].lastMessage!.sandAt.toString());
-            } catch (e) {}
-            String? formattedDate;
-            try {
-              formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
-            } catch (e) {}
-            String? userId =
-                Get.find<UserAuthController>().userData.value.userId;
-            return ChatItem(
-              time: formattedDate ?? '',
-              lastMessage: room[index].lastMessage,
-              userId: userId,
-              classTeacherGroup: room[index],
-              avatarColor: Colorutils.chatLeadingColors[index % 5],
-              unreadMessages: 0,
-            );
-          },
-          separatorBuilder: (BuildContext context, int index) {
-            return const Divider(
-              thickness: 0.3,
-              indent: 15,
-              endIndent: 15,
-            );
-          },
-        );
-      },
+    return Container(
+      color: Colorutils.Whitecolor,
+      child: GetX<GroupedViewListController>(
+        builder: (GroupedViewListController controller) {
+          List<RoomData> room = controller.roomList.value;
+          return ListView.separated(
+            shrinkWrap: true,
+            itemCount: room.length,
+            padding: const EdgeInsets.all(0),
+            itemBuilder: (BuildContext context, int index) {
+              DateTime? sentTime;
+              try {
+                sentTime =
+                    DateTime.parse(room[index].lastMessage!.sandAt.toString());
+              } catch (e) {}
+              String? formattedDate;
+              try {
+                formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
+              } catch (e) {}
+              String? userId =
+                  Get.find<UserAuthController>().userData.value.userId;
+              return ChatItem(
+                time: formattedDate ?? '',
+                lastMessage: room[index].lastMessage,
+                userId: userId,
+                classTeacherGroup: room[index],
+                avatarColor: Colorutils.chatLeadingColors[index % 5],
+                unreadMessages: 0,
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return const Divider(
+                thickness: 0.3,
+                indent: 15,
+                endIndent: 15,
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
