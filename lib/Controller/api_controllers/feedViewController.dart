@@ -679,3 +679,4 @@ class FeedViewController extends GetxController {
         (a, b) => b.isSelected.toString().compareTo(a.isSelected.toString()));
   }
 }
+

@@ -21,15 +21,15 @@ import 'Chat_widgets/chat_date_widget.dart';
 import 'Chat_widgets/file_widget.dart';
 import 'Chat_widgets/sent_bubble_widget.dart';
 
-class GroupedViewMsgScreen extends StatefulWidget {
+class GroupedViewChatScreen extends StatefulWidget {
   final RoomData? roomData;
-  const GroupedViewMsgScreen({super.key, this.roomData});
+  const GroupedViewChatScreen({super.key, this.roomData});
 
   @override
-  State<GroupedViewMsgScreen> createState() => _GroupedViewMsgScreenState();
+  State<GroupedViewChatScreen> createState() => _GroupedViewChatScreenState();
 }
 
-class _GroupedViewMsgScreenState extends State<GroupedViewMsgScreen> {
+class _GroupedViewChatScreenState extends State<GroupedViewChatScreen> {
   GroupedViewController groupedViewController =
       Get.find<GroupedViewController>();
   UserAuthController userAuthController = Get.find<UserAuthController>();
@@ -39,6 +39,7 @@ class _GroupedViewMsgScreenState extends State<GroupedViewMsgScreen> {
   void initState() {
     groupedViewController.chatGroupedViewScrollController =
         AutoScrollController().obs;
+    groupedViewController.showScrollIcon = false;
     initialize();
     super.initState();
 

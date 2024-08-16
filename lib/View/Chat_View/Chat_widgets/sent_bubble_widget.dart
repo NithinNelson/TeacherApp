@@ -11,7 +11,7 @@ import 'package:teacherapp/View/Chat_View/Chat_widgets/replay_in_message_widget.
 
 import '../../../Models/api_models/chat_feed_view_model.dart';
 import '../../../Utils/font_util.dart';
-import '../group_msg_screen.dart';
+import '../feed_view _chat_screen.dart';
 import 'audio_widget.dart';
 import 'file_widget.dart';
 

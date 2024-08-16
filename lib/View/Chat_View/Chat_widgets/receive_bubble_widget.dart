@@ -10,7 +10,7 @@ import 'package:teacherapp/View/Chat_View/Chat_widgets/replay_in_message_widget.
 import 'package:teacherapp/View/Chat_View/Chat_widgets/sent_bubble_widget.dart';
 
 import '../../../Utils/font_util.dart';
-import '../group_msg_screen.dart';
+import '../feed_view _chat_screen.dart';
 import 'audio_widget.dart';
 import 'file_widget.dart';
 
