@@ -17,7 +17,7 @@ class GroupedViewController extends GetxController {
   String? lastMessageId;
 
   late int chatMsgCount;
-  int messageCount = 10;
+  int messageCount = 15;
   bool showScrollIcon = true;
   int? previousMessageListLenght;
   RxBool showLoaderMoreMessage = true.obs;
@@ -44,6 +44,11 @@ class GroupedViewController extends GetxController {
       if (resp['status']['code'] == 200) {
         ChatFeedViewModel chatFeedData = ChatFeedViewModel.fromJson(resp);
         chatMsgList.value = chatFeedData.data?.data ?? [];
+        if (chatMsgList.isNotEmpty) {
+          chatMsgList.add(chatMsgList[chatMsgList.length - 1]);
+          print("Chat list -- worked----------------- ${chatMsgList.length}");
+        }
+
         update();
         // chatMsgList.sort((a, b) {
         //   DateTime dateA = DateTime.parse(a.sendAt!);
@@ -70,6 +75,11 @@ class GroupedViewController extends GetxController {
         ChatFeedViewModel chatFeedData = ChatFeedViewModel.fromJson(resp);
         chatMsgList.value = chatFeedData.data?.data ?? [];
         print("message number = chat list lenth = ${chatMsgList.length}");
+        if (chatMsgList.isNotEmpty) {
+          chatMsgList.add(chatMsgList[chatMsgList.length - 1]);
+          print("Chat list -- worked----------------- ${chatMsgList.length}");
+        }
+
         update();
       }
     } catch (e) {
@@ -119,5 +129,47 @@ class GroupedViewController extends GetxController {
       }
     }
     return null;
+  }
+
+  void fetchMoreMessage({required ChatFeedViewReqModel reqBody}) async {
+    ChatFeedViewModel? chatFeedData;
+    ChatFeedViewReqModel chatFeedViewReqModel = ChatFeedViewReqModel(
+      teacherId: reqBody.teacherId,
+      schoolId: reqBody.schoolId,
+      classs: reqBody.classs,
+      batch: reqBody.batch,
+      subjectId: reqBody.subjectId,
+      offset: 0,
+      limit: chatMsgCount,
+    );
+    try {
+      Map<String, dynamic> resp =
+          await ApiServices.getChatFeedView(reqBodyData: chatFeedViewReqModel);
+      if (resp['status']['code'] == 200) {
+        chatFeedData = ChatFeedViewModel.fromJson(resp);
+
+        chatMsgList.value = chatFeedData.data?.data ?? [];
+        print("Chat list -- worked----------------- ${chatMsgList.length}");
+        if (chatMsgList.isNotEmpty) {
+          chatMsgList.add(chatMsgList[chatMsgList.length - 1]);
+        }
+        if (previousMessageListLenght == null ||
+            chatMsgList.length == previousMessageListLenght) {
+          showLoaderMoreMessage.value = false;
+          // print("working show no");
+        } else {
+          showLoaderMoreMessage.value = true;
+          // print("working show");
+        }
+        previousMessageListLenght = chatMsgList.length;
+      }
+      update();
+    } catch (e) {
+      print("periodicGetMsgList Error :-------------- $e");
+    }
+  }
+
+  setScrollerIcon() {
+    update(); // for showing scroll indicator for go down side of chat list
   }
 }
