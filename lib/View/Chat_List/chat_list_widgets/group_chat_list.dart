@@ -12,7 +12,7 @@ import '../../../Controller/api_controllers/chatClassGroupController.dart';
 import '../../../Models/api_models/chat_group_api_model.dart';
 import '../../../Utils/Colors.dart';
 import '../../../Utils/font_util.dart';
-import '../../Chat_View/group_msg_screen.dart';
+import '../../Chat_View/feed_view _chat_screen.dart';
 
 class GroupChatList extends StatelessWidget {
   const GroupChatList({super.key});
@@ -113,7 +113,7 @@ class ChatItems extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => GroupMsgScreen(
+              builder: (context) => FeedViewChatScreen(
                 msgData: classTeacherGroup,
               ),
             ));

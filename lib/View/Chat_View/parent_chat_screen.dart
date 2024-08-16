@@ -32,15 +32,15 @@ import 'Chat_widgets/more_option_widget.dart';
 import 'Chat_widgets/reaction_widget.dart';
 import 'Chat_widgets/swape_to.dart';
 
-class ParentMsgScreen extends StatefulWidget {
+class ParentChatScreen extends StatefulWidget {
   final Datum? msgData;
-  const ParentMsgScreen({super.key, this.msgData});
+  const ParentChatScreen({super.key, this.msgData});
 
   @override
-  State<ParentMsgScreen> createState() => _ParentMsgScreenState();
+  State<ParentChatScreen> createState() => _ParentChatScreenState();
 }
 
-class _ParentMsgScreenState extends State<ParentMsgScreen> {
+class _ParentChatScreenState extends State<ParentChatScreen> {
   TextEditingController messageCtr = TextEditingController();
   ParentChattingController parentChattingController =
       Get.find<ParentChattingController>();
@@ -52,6 +52,7 @@ class _ParentMsgScreenState extends State<ParentMsgScreen> {
     super.initState();
     parentChattingController.parentChatScrollController =
         AutoScrollController().obs;
+    parentChattingController.showScrollIcon = false;
     ParentChattingReqModel chattingReqModel = ParentChattingReqModel(
       teacherId: userAuthController.userData.value.userId,
       schoolId: userAuthController.userData.value.schoolId,
@@ -682,6 +683,14 @@ class _ParentMsgScreenState extends State<ParentMsgScreen> {
                                                 null &&
                                             controller.filePath.value == null
                                         ? GestureDetector(
+                                            onTap: () {
+                                              snackBar(
+                                                  context: context,
+                                                  message:
+                                                      "Tap and hold to record",
+                                                  color:
+                                                      Colorutils.fontColor11);
+                                            },
                                             onLongPress: () async {
                                               await Permission.microphone
                                                   .request();
@@ -1133,7 +1142,12 @@ messageMoreShowDialog(
                           )
                         : const SizedBox(),
                     SizedBox(height: 20.h),
-                    const ReactionContainerWidget2(),
+                    Get.find<ParentChattingController>()
+                                .seletedMsgData!
+                                .messageFromId ==
+                            Get.find<UserAuthController>().userData.value.userId
+                        ? SizedBox()
+                        : const ReactionContainerWidget2(),
                     SizedBox(height: 80.h),
                     ScreenUtil().screenHeight / 1.7 > tapPosition.dy
                         ? MessageMoreContainer2(

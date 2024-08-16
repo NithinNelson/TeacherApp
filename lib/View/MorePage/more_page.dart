@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:path/path.dart';
 
 import '../../Utils/Colors.dart';
@@ -24,11 +25,28 @@ class _MorePageState extends State<MorePage> {
         backgroundColor: Colors.white,
         appBar: AppBar(
 
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              // Navigator.push(context, MaterialPageRoute(builder: (context) =>HOM ))
+          leading:   GestureDetector(
+            onTap: () {
+              ZoomDrawer.of(context)?.toggle();
             },
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15,top: 8,bottom: 8),
+              child: Container(
+                height: 50.h,
+                width: 50.h,
+                padding: const EdgeInsets.symmetric(horizontal: 9).h,
+                decoration: BoxDecoration(
+                  color: Colorutils.chatcolor.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(8).r,
+                ),
+                child: SvgPicture.asset(
+                  // width: 50.h,
+                  "assets/images/menu_icon.svg",
+                  fit: BoxFit.contain,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
           ),
           title: Padding(
             padding: const EdgeInsets.only(left: 80),
@@ -47,7 +65,7 @@ class _MorePageState extends State<MorePage> {
               padding: const EdgeInsets.all(10.0),
               child: GestureDetector(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) =>AllStudents() ));
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) =>AllStudents() ));
                 },
                 child: Stack(
                   children: [

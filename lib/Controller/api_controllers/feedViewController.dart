@@ -53,7 +53,7 @@ class FeedViewController extends GetxController {
   RxBool showSelectAllIcon = false.obs; // for showing selected parent count //
 
   late int chatMsgCount;
-  int messageCount = 10;
+  int messageCount = 30;
   bool showScrollIcon = true;
   int? previousMessageListLenght;
   RxBool showLoaderMoreMessage = true.obs;
@@ -674,6 +674,9 @@ class FeedViewController extends GetxController {
 
   sortSelectedParent() {
     selectedParentDataList.sort(
+        (a, b) => a.studentName.toString().compareTo(b.studentName.toString()));
+    selectedParentDataList.sort(
         (a, b) => b.isSelected.toString().compareTo(a.isSelected.toString()));
   }
 }
+
