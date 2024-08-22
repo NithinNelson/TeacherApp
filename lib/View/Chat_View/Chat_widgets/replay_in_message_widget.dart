@@ -21,38 +21,40 @@ class ReplayMessageWidget extends StatelessWidget {
     final data = ChatRoomDataInheritedWidget.of(context);
     return GestureDetector(
       onTap: () async {
-        Get.find<FeedViewController>().chatMsgCount = 1000;
-        ChatFeedViewReqModel chatFeedViewReqModel = ChatFeedViewReqModel(
-          teacherId: userAuthController.userData.value.userId,
-          schoolId: userAuthController.userData.value.schoolId,
-          classs: data?.msgData?.classTeacherClass,
-          batch: data?.msgData?.batch,
-          subjectId: data?.msgData?.subjectId,
-          offset: 0,
-          limit: Get.find<FeedViewController>().chatMsgCount,
-        );
-        int? index = await Get.find<FeedViewController>().findMessageIndex(
-            reqBody: chatFeedViewReqModel, msgId: replyData.messageId);
+        if (!Get.find<FeedViewController>().isShowDialogShow) {
+          Get.find<FeedViewController>().chatMsgCount = 1000;
+          ChatFeedViewReqModel chatFeedViewReqModel = ChatFeedViewReqModel(
+            teacherId: userAuthController.userData.value.userId,
+            schoolId: userAuthController.userData.value.schoolId,
+            classs: data?.msgData?.classTeacherClass,
+            batch: data?.msgData?.batch,
+            subjectId: data?.msgData?.subjectId,
+            offset: 0,
+            limit: Get.find<FeedViewController>().chatMsgCount,
+          );
+          int? index = await Get.find<FeedViewController>().findMessageIndex(
+              reqBody: chatFeedViewReqModel, msgId: replyData.messageId);
 
-        if (index != null) {
-          await Get.find<FeedViewController>()
-              .chatFeedViewScrollController
-              .value
-              .scrollToIndex(
-                index,
-                preferPosition: AutoScrollPosition.middle,
-              );
-          await Get.find<FeedViewController>()
-              .chatFeedViewScrollController
-              .value
-              .highlight(index,
-                  highlightDuration: const Duration(seconds: 1),
-                  animated: true);
-        } else {
-          snackBar(
-              context: context,
-              message: "Message not found",
-              color: Colorutils.Classcolour1);
+          if (index != null) {
+            await Get.find<FeedViewController>()
+                .chatFeedViewScrollController
+                .value
+                .scrollToIndex(
+                  index,
+                  preferPosition: AutoScrollPosition.middle,
+                );
+            await Get.find<FeedViewController>()
+                .chatFeedViewScrollController
+                .value
+                .highlight(index,
+                    highlightDuration: const Duration(seconds: 1),
+                    animated: true);
+          } else {
+            snackBar(
+                context: context,
+                message: "Message not found",
+                color: Colorutils.Classcolour1);
+          }
         }
       },
       child: Padding(

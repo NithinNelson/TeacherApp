@@ -73,10 +73,10 @@ class MessageMoreContainer extends StatelessWidget {
             //   text: "View Chat",
             //   icon: "assets/images/View_chat.svg",
             // ),
-            const Divider(
-              color: Colorutils.dividerColor2,
-              height: 0,
-            ),
+            // const Divider(
+            //   color: Colorutils.dividerColor2,
+            //   height: 0,
+            // ),
             MessageMoreSettingsTile(
               function: () async {
                 Get.find<FeedViewController>().isReplay.value =
@@ -250,10 +250,10 @@ class MessageMoreContainer2 extends StatelessWidget {
             //   text: "View Chat",
             //   icon: "assets/images/View_chat.svg",
             // ),
-            const Divider(
-              color: Colorutils.dividerColor2,
-              height: 0,
-            ),
+            // const Divider(
+            //   color: Colorutils.dividerColor2,
+            //   height: 0,
+            // ),
             MessageMoreSettingsTile(
               function: () async {
                 Get.find<ParentChattingController>().isReplay.value =

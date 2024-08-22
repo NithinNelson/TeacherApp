@@ -1,5 +1,5 @@
-
 import 'package:get/get.dart';
+import 'package:teacherapp/Controller/search_controller/search_controller.dart';
 import '../Controller/api_controllers/chatClassGroupController.dart';
 import '../Controller/api_controllers/feedViewController.dart';
 import '../Controller/api_controllers/groupedViewController.dart';
@@ -23,27 +23,29 @@ import '../Controller/ui_controllers/textFieldController.dart';
 
 class HandleControllers {
   static createGetControllers() {
-  Get.put(UserAuthController());
-  Get.put(PageIndexController());
-  Get.put(KeyboardController());
-  Get.put(TextFieldController());
-  Get.put(TimeTableController());
-  Get.put(ChatClassGroupController());
-  Get.put(LessonLearningController());
-  Get.put(ParentChatListController());
-  Get.put(FeedViewController());
-  Get.put(NotificationController());
-  Get.put(MarkAsReadController());
-  Get.put(GroupedViewListController());
-  Get.put(GroupedViewController());
-  Get.put(ParentChattingController());
-  Get.put(LeaveRequestController());
-  Get.put(LeaveApprovalController());
-  Get.put(ForwardController());
-  Get.put(MessageInfoController());
-  Get.put(ReactionController());
-  Get.put(ObsResultController());
+    Get.put(UserAuthController());
+    Get.put(PageIndexController());
+    Get.put(KeyboardController());
+    Get.put(TextFieldController());
+    Get.put(TimeTableController());
+    Get.put(ChatClassGroupController());
+    Get.put(LessonLearningController());
+    Get.put(ParentChatListController());
+    Get.put(FeedViewController());
+    Get.put(NotificationController());
+    Get.put(MarkAsReadController());
+    Get.put(GroupedViewListController());
+    Get.put(GroupedViewController());
+    Get.put(ParentChattingController());
+    Get.put(LeaveRequestController());
+    Get.put(LeaveApprovalController());
+    Get.put(ForwardController());
+    Get.put(MessageInfoController());
+    Get.put(ReactionController());
+    Get.put(ObsResultController());
+    Get.put(ChatSearchController());
   }
+
   static deleteAllGetControllers() {
     Get.delete<UserAuthController>();
     Get.delete<PageIndexController>();
@@ -65,5 +67,6 @@ class HandleControllers {
     Get.delete<MessageInfoController>();
     Get.delete<ReactionController>();
     Get.delete<ObsResultController>();
+    Get.delete<ChatSearchController>();
   }
 }

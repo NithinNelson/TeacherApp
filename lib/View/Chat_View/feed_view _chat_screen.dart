@@ -14,9 +14,11 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:teacherapp/Controller/api_controllers/feedViewController.dart';
 import 'package:teacherapp/Controller/api_controllers/groupedViewListController.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
+import 'package:teacherapp/Controller/search_controller/search_controller.dart';
 import 'package:teacherapp/Models/api_models/sent_msg_by_teacher_model.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
+import 'package:teacherapp/View/Chat_View/Chat_widgets/chat_search.dart';
 import 'package:teacherapp/View/Chat_View/Chat_widgets/parent_select_bottomSheet.dart';
 import 'package:teacherapp/View/Chat_View/Chat_widgets/selected_parents_view.dart';
 import '../../Models/api_models/chat_feed_view_model.dart';
@@ -61,6 +63,9 @@ class _FeedViewChatScreenState extends State<FeedViewChatScreen>
   @override
   void initState() {
     super.initState();
+    Get.find<ChatSearchController>().setValueDefault(); // for set default//
+    Get.find<FeedViewController>().isShowDialogShow =
+        false; // for set default//
     Get.find<FeedViewController>().chatMsgCount =
         Get.find<FeedViewController>().messageCount; // for set message count//
     Get.find<FeedViewController>().chatFeedViewScrollController =
@@ -182,7 +187,14 @@ class _FeedViewChatScreenState extends State<FeedViewChatScreen>
           titleSpacing: 5,
           leading: InkWell(
             onTap: () {
-              Navigator.of(context).pop();
+              if (Get.find<ChatSearchController>().isSearch) {
+                Get.find<ChatSearchController>().hideSearch();
+                Get.find<ChatSearchController>().searchValue.value = "";
+                Get.find<ChatSearchController>().searchCtr.clear();
+                print("searchList ============== onsearch");
+              } else {
+                Navigator.of(context).pop();
+              }
             },
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -194,33 +206,62 @@ class _FeedViewChatScreenState extends State<FeedViewChatScreen>
               ],
             ),
           ),
-          title: Row(
-            children: [
-              Container(
-                width: 44.w,
-                height: 44.w,
-                padding: const EdgeInsets.all(10).w,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: FittedBox(
-                  child: Text(
-                    "${widget.msgData?.classTeacherClass}${widget.msgData?.batch}",
-                    style: TeacherAppFonts.interW600_16sp_black,
-                  ),
-                ),
-              ),
-              SizedBox(width: 10.w),
-              Text(
-                widget.msgData?.subjectName ?? '--',
-                style: GoogleFonts.inter(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white),
-              ),
-            ],
-          ),
+          title: GetBuilder<ChatSearchController>(builder: (controller) {
+            return controller.isSearch
+                ? ChatSearchTextFieldWidget(
+                    controller: controller,
+                    searchListType: "feedMsgList",
+                  )
+                : Row(
+                    children: [
+                      Container(
+                        width: 44.w,
+                        height: 44.w,
+                        padding: const EdgeInsets.all(10).w,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: FittedBox(
+                          child: Text(
+                            "${widget.msgData?.classTeacherClass}${widget.msgData?.batch}",
+                            style: TeacherAppFonts.interW600_16sp_black,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10.w),
+                      Text(
+                        widget.msgData?.subjectName ?? '--',
+                        style: GoogleFonts.inter(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
+                      ),
+                      const Spacer(),
+                      GetX<FeedViewController>(builder: (controller2) {
+                        return feedViewController.tabControllerIndex.value == 0
+                            ? Padding(
+                                padding: const EdgeInsets.only(right: 20),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    controller.showSearch();
+                                  },
+                                  child: SizedBox(
+                                    height: 27.w,
+                                    width: 27.w,
+                                    child: SvgPicture.asset(
+                                      'assets/images/MagnifyingGlass.svg',
+                                      width: 200,
+                                      height: 200,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : const SizedBox();
+                      })
+                    ],
+                  );
+          }),
           // actions: [
           //   Padding(
           //     padding: const EdgeInsets.only(right: 20),
@@ -891,12 +932,12 @@ class _FeedViewChatScreenState extends State<FeedViewChatScreen>
                                                         Colorutils.fontColor11);
                                               },
                                               onLongPress: () async {
+                                                HapticFeedback.vibrate();
                                                 await Permission.microphone
                                                     .request();
 
                                                 if (await Permission.microphone
                                                     .status.isGranted) {
-                                                  HapticFeedback.vibrate();
                                                   feedViewController
                                                       .showAudioRecordWidget
                                                       .value = true;
@@ -1289,51 +1330,53 @@ messageMoreShowDialog(
     builder: (context) {
       return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.h),
-          child: Stack(
-            children: [
-              Positioned(
-                top: position.dy - safeAreaVerticalPadding,
-                left: 0,
-                right: 0,
-                child: Container(child: widget),
+        child: Stack(
+          children: [
+            Positioned(
+              top: position.dy - 40,
+              left: 0,
+              right: 0,
+              child: Container(child: widget),
+            ),
+            Positioned(
+              top: tapPosition.dy -
+                  safeAreaVerticalPadding -
+                  ((ScreenUtil().screenHeight / 1.7) > tapPosition.dy
+                      ? 100.h
+                      : 420.h),
+              right: 0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  ScreenUtil().screenHeight / 1.7 < tapPosition.dy
+                      ? MessageMoreContainer(
+                          widget: widget,
+                        )
+                      : const SizedBox(),
+                  SizedBox(height: 20.h),
+                  Get.find<FeedViewController>()
+                              .seletedMsgData!
+                              .messageFromId ==
+                          Get.find<UserAuthController>().userData.value.userId
+                      ? const SizedBox()
+                      : const ReactionContainerWidget(),
+                  SizedBox(height: 80.h),
+                  ScreenUtil().screenHeight / 1.7 > tapPosition.dy
+                      ? MessageMoreContainer(
+                          widget: widget,
+                        )
+                      : const SizedBox(),
+                ],
               ),
-              Positioned(
-                top: tapPosition.dy -
-                    safeAreaVerticalPadding -
-                    ((ScreenUtil().screenHeight / 1.7) > tapPosition.dy
-                        ? 100.h
-                        : 420.h),
-                right: 0,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    ScreenUtil().screenHeight / 1.7 < tapPosition.dy
-                        ? MessageMoreContainer(
-                            widget: widget,
-                          )
-                        : const SizedBox(),
-                    SizedBox(height: 20.h),
-                    Get.find<FeedViewController>()
-                                .seletedMsgData!
-                                .messageFromId ==
-                            Get.find<UserAuthController>().userData.value.userId
-                        ? SizedBox()
-                        : const ReactionContainerWidget(),
-                    SizedBox(height: 80.h),
-                    ScreenUtil().screenHeight / 1.7 > tapPosition.dy
-                        ? MessageMoreContainer(
-                            widget: widget,
-                          )
-                        : const SizedBox(),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
+    },
+  ).then(
+    (value) {
+      Get.find<FeedViewController>().isShowDialogShow = false;
+      // print("Selected msg Show dialog dismissed");
     },
   );
 }
