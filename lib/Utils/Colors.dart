@@ -90,4 +90,6 @@ class Colorutils {
   static const gradientColorStart = Color(0xff967FF9);
   static const gradientColorEnd = Color(0xff7455F7);
   static const Color greenDark = Color(0xFF00A884);
+  static const gradientColor1 = Color(0xff158DA8);
+  static const  gradientColor2 = Color(0xFF024BB8);
 }
