@@ -16,6 +16,11 @@ Future<void> main() async {
     statusBarIconBrightness: Brightness.light, // dark icons
     statusBarBrightness: Brightness.light, // iOS uses this property
   ));
+  SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+    ]
+  );
   final sharedPrefs = SharedPrefs();
   await sharedPrefs.initialize();
   runApp(const MyApp());

@@ -34,7 +34,7 @@ class ParentChattingController extends GetxController {
   RxInt tabControllerIndex = 0.obs;
 
   late int chatMsgCount;
-  int messageCount = 10;
+  int messageCount = 30;
   bool showScrollIcon = true;
   int? previousMessageListLenght;
   RxBool showLoaderMoreMessage = true.obs;

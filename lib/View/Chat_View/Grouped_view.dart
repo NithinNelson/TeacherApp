@@ -10,7 +10,7 @@ import '../../Models/api_models/chat_group_api_model.dart';
 import '../../Utils/Colors.dart';
 import '../../Utils/font_util.dart';
 import '../Chat_List/chat_list_widgets/last_seen_msg.dart';
-import 'grouped_view_msg_screen.dart';
+import 'grouped_view_chat_screen.dart';
 
 class GroupedViewChat extends StatelessWidget {
   final ClassTeacherGroup? msgData;
@@ -18,6 +18,7 @@ class GroupedViewChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("message number === ${msgData?.batch}");
     return GetX<GroupedViewListController>(
       builder: (GroupedViewListController controller) {
         List<RoomData> room = controller.roomList.value;
@@ -84,7 +85,7 @@ class ChatItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => GroupedViewMsgScreen(
+              builder: (context) => GroupedViewChatScreen(
                 roomData: classTeacherGroup,
               ),
             ));

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teacherapp/Models/api_models/message_info_model.dart';
 import 'package:teacherapp/Services/message_info_service/message_info_service.dart';
-import 'package:teacherapp/View/Chat_View/group_msg_screen.dart';
+import 'package:teacherapp/View/Chat_View/feed_view%20_chat_screen.dart';
 
 class MessageInfoController extends GetxController {
   // Rx<String?> deliveryTime = Rx(null);
