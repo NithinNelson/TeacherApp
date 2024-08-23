@@ -25,10 +25,11 @@ class LeaveRequest extends StatefulWidget {
 }
 
 class _LeaveRequestState extends State<LeaveRequest> {
-  LeaveRequestController leaveRequestController = Get.find<LeaveRequestController>();
+  LeaveRequestController leaveRequestController =
+      Get.find<LeaveRequestController>();
   TextEditingController _searchController = TextEditingController();
-int _currentIndex=0;
-late bool selected ;
+  int _currentIndex = 0;
+  late bool selected;
 
   @override
   void initState() {
@@ -42,7 +43,7 @@ late bool selected ;
   Future<void> initialize() async {
     context.loaderOverlay.show();
     await leaveRequestController.fetchLeaveReqList();
-    if(!mounted) return;
+    if (!mounted) return;
     context.loaderOverlay.hide();
   }
 
@@ -77,7 +78,11 @@ late bool selected ;
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 10.w, top: 120.h, right: 10.w,),
+                  margin: EdgeInsets.only(
+                    left: 10.w,
+                    top: 120.h,
+                    right: 10.w,
+                  ),
                   // width: 550.w,
                   // height: ScreenUtil().screenHeight ,
                   decoration: BoxDecoration(
@@ -104,17 +109,17 @@ late bool selected ;
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
+                            padding: const EdgeInsets.only(
+                                left: 20, top: 20, right: 20),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   'Leave Request',
                                   style: TextStyle(
-                                      fontSize: 16, fontWeight: FontWeight.w600),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600),
                                 ),
-
-
                                 Row(
                                   children: [
                                     // Text(
@@ -124,22 +129,25 @@ late bool selected ;
                                     //       fontSize: 15.sp,
                                     //       color: Colors.black),
                                     // ),
-                                    SizedBox(width: 2.w,),
+                                    SizedBox(
+                                      width: 2.w,
+                                    ),
                                     Container(
                                       height: 60.h,
                                       width: 150.w,
                                       child: GetX<LeaveRequestController>(
-
-                                        builder: (LeaveRequestController controller) {
-
-                                          List<ClassData> classlist = controller.classList.value;
-                                          return  ListView.builder(
+                                        builder: (LeaveRequestController
+                                            controller) {
+                                          List<ClassData> classlist =
+                                              controller.classList.value;
+                                          return ListView.builder(
                                               shrinkWrap: true,
                                               scrollDirection: Axis.horizontal,
                                               itemCount: classlist.length,
                                               itemBuilder:
-                                                  (BuildContext context, int index) {
-                                                return  Row(
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return Row(
                                                   children: [
                                                     SizedBox(
                                                       width: 5.w,
@@ -148,36 +156,63 @@ late bool selected ;
                                                       child: GestureDetector(
                                                         onTap: () {
                                                           setState(() {
-                                                            print("object----------------------------------");
-                                                            _currentIndex = index;
-controller.setStudentList(selectedClassData: classlist[index], index: index);
-
+                                                            print(
+                                                                "object----------------------------------");
+                                                            _currentIndex =
+                                                                index;
+                                                            controller.setStudentList(
+                                                                selectedClassData:
+                                                                    classlist[
+                                                                        index],
+                                                                index: index);
                                                           });
-
                                                         },
                                                         child: Container(
                                                           width: 50.w,
                                                           height: 50.h,
-                                                          decoration: BoxDecoration(
-                                                              boxShadow: [
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  boxShadow: [
                                                                 BoxShadow(
-                                                                  color: Colors.black
-                                                                      .withOpacity(0.1),
-                                                                  spreadRadius: 1,
+                                                                  color: Colors
+                                                                      .black
+                                                                      .withOpacity(
+                                                                          0.1),
+                                                                  spreadRadius:
+                                                                      1,
                                                                   blurRadius: 1,
-                                                                  offset: Offset(0, 1),
+                                                                  offset:
+                                                                      Offset(
+                                                                          0, 1),
                                                                 ),
                                                               ],
-                                                            color: _currentIndex == index ? Colorutils.bottomnaviconcolor: Colors.grey.shade200,
-                                                              // color: controller.currentClassIndex.value == index ? Colors.green : Colors.red,
-                                                              borderRadius: BorderRadius.all(Radius.circular(50.r))),
+                                                                  color: _currentIndex == index
+                                                                      ? Colorutils
+                                                                          .bottomnaviconcolor
+                                                                      : Colors
+                                                                          .grey
+                                                                          .shade200,
+                                                                  // color: controller.currentClassIndex.value == index ? Colors.green : Colors.red,
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              50.r))),
                                                           child: Center(
                                                             child: Text(
-                                                              "${classlist[index].className}" "${classlist[index].batchName}",
+                                                              "${classlist[index].className}"
+                                                              "${classlist[index].batchName}",
                                                               style: TextStyle(
-                                                                  fontSize: 20.sp,
-                                                                  color: _currentIndex == index ?Colors.white:Colors.black,
-                                                                  fontWeight: FontWeight.bold),
+                                                                  fontSize:
+                                                                      20.sp,
+                                                                  color: _currentIndex ==
+                                                                          index
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Colors
+                                                                          .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
                                                             ),
                                                           ),
                                                         ),
@@ -187,7 +222,6 @@ controller.setStudentList(selectedClassData: classlist[index], index: index);
                                                 );
                                               });
                                         },
-
                                       ),
                                     ),
                                   ],
@@ -221,54 +255,59 @@ controller.setStudentList(selectedClassData: classlist[index], index: index);
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colorutils.chatcolor, width: 1.0),
+                                        color: Colorutils.chatcolor,
+                                        width: 1.0),
                                     borderRadius:
-                                    BorderRadius.all(Radius.circular(15)),
+                                        BorderRadius.all(Radius.circular(15)),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colorutils.chatcolor, width: 1.0),
+                                        color: Colorutils.chatcolor,
+                                        width: 1.0),
                                     borderRadius:
-                                    BorderRadius.all(Radius.circular(15.0)),
+                                        BorderRadius.all(Radius.circular(15.0)),
                                   ),
                                   fillColor:
-                                  Colorutils.chatcolor.withOpacity(0.15),
+                                      Colorutils.chatcolor.withOpacity(0.15),
                                   filled: true),
                             ),
                           ),
                           SizedBox(height: 20.w),
                           GetX<LeaveRequestController>(
                             builder: (LeaveRequestController controller) {
-                              List<StudentsData> studentList = controller.filteredStudentList;
+                              List<StudentsData> studentList =
+                                  controller.filteredStudentList;
                               // studentList.sort((a, b) => a.name!.compareTo(b.name!),);
 
-                              if(studentList.isNotEmpty) {
+                              if (studentList.isNotEmpty) {
                                 return Container(
                                   height: ScreenUtil().screenHeight * 0.7,
                                   child: SingleChildScrollView(
-                                    padding: EdgeInsets
-                                        .only(bottom: View
-                                        .of(context)
-                                        .viewInsets
-                                        .bottom + 150)
+                                    padding: EdgeInsets.only(
+                                            bottom: View.of(context)
+                                                    .viewInsets
+                                                    .bottom +
+                                                150)
                                         .w,
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        for (int i = 0; i <
-                                            studentList.length; i++)
+                                        for (int i = 0;
+                                            i < studentList.length;
+                                            i++)
                                           InkWell(
                                             onTap: () {
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
                                                   builder: (context) =>
                                                       LeaveApply(
-                                                        studentsData: studentList[i],
-                                                        claas: controller.claass
-                                                            .value,
-                                                        batch: controller.batch
-                                                            .value,
-                                                      ),
+                                                    studentsData:
+                                                        studentList[i],
+                                                    claas:
+                                                        controller.claass.value,
+                                                    batch:
+                                                        controller.batch.value,
+                                                  ),
                                                 ),
                                               );
                                             },
@@ -280,8 +319,9 @@ controller.setStudentList(selectedClassData: classlist[index], index: index);
                                                   bottom: 5),
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius
-                                                        .circular(10),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
                                                     color: Colorutils.chatcolor
                                                         .withOpacity(0.05),
                                                     border: Border.all(
@@ -289,54 +329,62 @@ controller.setStudentList(selectedClassData: classlist[index], index: index);
                                                             .chatcolor)),
                                                 child: Padding(
                                                   padding: const EdgeInsets
-                                                      .symmetric(horizontal: 8,
+                                                      .symmetric(
+                                                      horizontal: 8,
                                                       vertical: 8),
                                                   child: Row(
                                                     children: [
                                                       Container(
                                                         width: 50.w,
                                                         height: 50.h,
-                                                        decoration: BoxDecoration(
-                                                          shape: BoxShape
-                                                              .circle,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
                                                           border: Border.all(
                                                               color: Colorutils
                                                                   .chatcolor),
                                                         ),
                                                         child: Center(
-                                                          child: CachedNetworkImage(
+                                                          child:
+                                                              CachedNetworkImage(
                                                             imageUrl: "--",
-                                                            placeholder: (
-                                                                context, url) =>
-                                                                Text(
-                                                                  studentList[i]
+                                                            placeholder:
+                                                                (context,
+                                                                        url) =>
+                                                                    Text(
+                                                              studentList[i]
                                                                       .name
                                                                       ?.substring(
-                                                                      0, 1) ??
-                                                                      '',
-                                                                  style: TextStyle(
-                                                                      color: Color(
-                                                                          0xFFB1BFFF),
-                                                                      fontWeight: FontWeight
+                                                                          0,
+                                                                          1) ??
+                                                                  '',
+                                                              style: TextStyle(
+                                                                  color: Color(
+                                                                      0xFFB1BFFF),
+                                                                  fontWeight:
+                                                                      FontWeight
                                                                           .bold,
-                                                                      fontSize: 20),
-                                                                ),
-                                                            errorWidget: (
-                                                                context, url,
-                                                                error) =>
-                                                                Text(
-                                                                  studentList[i]
+                                                                  fontSize: 20),
+                                                            ),
+                                                            errorWidget:
+                                                                (context, url,
+                                                                        error) =>
+                                                                    Text(
+                                                              studentList[i]
                                                                       .name
                                                                       ?.substring(
-                                                                      0, 1) ??
-                                                                      '',
-                                                                  style: TextStyle(
-                                                                      color: Color(
-                                                                          0xFFB1BFFF),
-                                                                      fontWeight: FontWeight
+                                                                          0,
+                                                                          1) ??
+                                                                  '',
+                                                              style: TextStyle(
+                                                                  color: Color(
+                                                                      0xFFB1BFFF),
+                                                                  fontWeight:
+                                                                      FontWeight
                                                                           .bold,
-                                                                      fontSize: 20),
-                                                                ),
+                                                                  fontSize: 20),
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -344,38 +392,41 @@ controller.setStudentList(selectedClassData: classlist[index], index: index);
                                                         width: 10.w,
                                                       ),
                                                       Padding(
-                                                        padding: const EdgeInsets
-                                                            .only(left: 5),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(left: 5),
                                                         child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment
-                                                              .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
                                                           children: [
                                                             SizedBox(
                                                               width: 250.w,
                                                               child: Text(
                                                                 studentList[i]
-                                                                    .name ??
+                                                                        .name ??
                                                                     '--',
-                                                                overflow: TextOverflow
-                                                                    .ellipsis,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
                                                                 style: TextStyle(
-                                                                    fontSize: 16
-                                                                        .sp,
-                                                                    fontWeight: FontWeight
-                                                                        .w600),
+                                                                    fontSize:
+                                                                        16.sp,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600),
                                                               ),
                                                             ),
                                                             SizedBox(
                                                               width: 250.w,
                                                               child: Text(
-                                                                "Adm. No. : ${studentList[i]
-                                                                    .admissionNumber ??
-                                                                    '--'}",
+                                                                "Adm. No. : ${studentList[i].admissionNumber ?? '--'}",
                                                                 style: TextStyle(
-                                                                    fontSize: 16
-                                                                        .sp,
-                                                                    fontWeight: FontWeight
-                                                                        .w400),
+                                                                    fontSize:
+                                                                        16.sp,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
                                                               ),
                                                             ),
                                                           ],
@@ -391,14 +442,14 @@ controller.setStudentList(selectedClassData: classlist[index], index: index);
                                     ),
                                   ),
                                 );
-                              }
-                              else {
+                              } else {
                                 return Container(
                                   height: ScreenUtil().screenHeight * 0.7,
                                   child: Container(
                                     height: 250.h,
                                     child: Center(
-                                      child: Image.asset("assets/images/nodata.gif"),
+                                      child: Image.asset(
+                                          "assets/images/nodata.gif"),
                                     ),
                                   ),
                                 );

@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teacherapp/View/MorePage/scan.dart';
 import 'package:teacherapp/View/MorePage/scanData.dart';
+import 'package:teacherapp/View/MorePage/search_page.dart';
 import 'package:teacherapp/View/MorePage/viewAll.dart';
 
 import '../../Utils/Colors.dart';
@@ -22,22 +24,30 @@ class AllStudents extends StatelessWidget {
           children: [
             Container(
               height: 60,
-              child: Row(
+              child:  Row(
                 children: [
                   Padding(
                       padding: EdgeInsets.only(left: 18),
-                      child: Icon(
-                        Icons.arrow_back_outlined,
-                        size: 30,
+                      child: GestureDetector(
+                        onTap: (){
+                          Navigator.of(context).pop();
+                        },
+                        child: Icon(
+
+                          Icons.arrow_back_outlined,
+                          size: 30,
+                        ),
                       )),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 70),
-                    child: Text(
-                      "Add Students",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-                    ),
-                  )
+                  Spacer(
+                    flex: 2,
+                  ),
+                  Text(
+                    "Add Students",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  ),
+                  Spacer(
+                    flex: 3,
+                  ),
                 ],
               ),
             ),
@@ -50,6 +60,10 @@ class AllStudents extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(10))),
                 width: double.infinity,
                 child: TextFormField(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchPage()));
+                  },
+                  readOnly: true,
                   onChanged: (value) {
                     // Get.find<LeaveApprovalController>().filterLeaveList(text: value);
                   },
@@ -71,10 +85,7 @@ class AllStudents extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Scandata()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => QRViewExample()));
                             },
                             child: Container(
                                 height: 25,
@@ -135,13 +146,14 @@ class AllStudents extends StatelessWidget {
               ),
             ),
             Expanded(
+
                 child: ListView.builder(
+                    padding: const EdgeInsets.only(bottom: 70),
                     itemCount: 15,
                     itemBuilder: (context, index) => listcontainer()))
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(),
       floatingActionButton: Container(
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
         width: 150,
@@ -194,7 +206,7 @@ class listcontainer extends StatelessWidget {
           color: Colors.white,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 5,top: 8,bottom: 8,right: 5),
           child: Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -239,7 +251,7 @@ class listcontainer extends StatelessWidget {
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                               vertical: 2.h, horizontal: 10.w),
-                          child: Text("Sent to Clinic",
+                          child: Text("Sent to Clinic ",
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.inter(
                                   textStyle: TextStyle(
@@ -250,7 +262,7 @@ class listcontainer extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  width: 2,
+                  width: 1,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,

@@ -71,6 +71,7 @@ dependencies:
   timelines: ^0.1.0
   qr_code_scanner: ^1.0.1
   slider_button: ^2.1.0
+  qr_flutter: ^4.0.0
 
   easy_date_timeline: ^1.1.3
 

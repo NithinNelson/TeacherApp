@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http_parser/http_parser.dart';
@@ -57,17 +56,17 @@ class ApiServices {
       "username": userName,
     };
     // try {
-      var request = http.Request('POST', Uri.parse(url));
-      request.body = (json.encode(apiBody));
-      print('Api body---------------------->${request.body}');
-      request.headers.addAll(ApiConstants.headers);
-      http.StreamedResponse response = await request.send();
-      var respString = await response.stream.bytesToString();
-      // if (response.statusCode == 200) {
-        return json.decode(respString);
-      // } else {
-      //   throw Exception(response.statusCode);
-      // }
+    var request = http.Request('POST', Uri.parse(url));
+    request.body = (json.encode(apiBody));
+    print('Api body---------------------->${request.body}');
+    request.headers.addAll(ApiConstants.headers);
+    http.StreamedResponse response = await request.send();
+    var respString = await response.stream.bytesToString();
+    // if (response.statusCode == 200) {
+    return json.decode(respString);
+    // } else {
+    //   throw Exception(response.statusCode);
+    // }
     // } catch (e) {
     //   throw Exception("Service Error");
     // }
@@ -79,11 +78,7 @@ class ApiServices {
   }) async {
     String url = "${ApiConstants.baseUrl}${ApiConstants.hosList}";
     print(url);
-    Map apiBody = {
-      "user_id": userId,
-      "academic_year": acYr,
-      "hos": false
-    };
+    Map apiBody = {"user_id": userId, "academic_year": acYr, "hos": false};
     try {
       var request = http.Request('POST', Uri.parse(url));
       request.body = (json.encode(apiBody));
@@ -126,11 +121,10 @@ class ApiServices {
 
   //brineshleadership
 
-  static Future<Map<String, dynamic>> getLeadership({
-    required String userId,
-    required String academicYear,
-    required bool hosStatus
-  }) async {
+  static Future<Map<String, dynamic>> getLeadership(
+      {required String userId,
+      required String academicYear,
+      required bool hosStatus}) async {
     String url = "${ApiConstants.baseUrl}${ApiConstants.lessonObservation}";
     print(url);
     Map apiBody = {
@@ -155,25 +149,40 @@ class ApiServices {
     }
   }
 
+//Qr
 
-
-
-
-
-
-
-  static Future<Map<String, dynamic>> getTimeTableData({
-    required String schoolId,
-    required String academicYear,
-    required String teacherId
-  }) async {
-    String url = "${ApiConstants.baseUrl}${ApiConstants.timeTable}";
+  static Future<List<dynamic>> getQRdata(
+      {required String searchKey,
+        required String instId,
+        required String type}) async {
+    String url = ApiConstants.Qrscan;
     print(url);
-    Map apiBody = {
-      "school_id": schoolId,
-      "academic_year": academicYear,
-      "teacher_id": teacherId
-    };
+    Map apiBody = {"searchkey": searchKey, "inst_id": instId, "type": type};
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+
+  static Future<List<dynamic>> getSearchdata(
+      {required String searchKey,
+        required String instId,
+        required String type}) async {
+    String url = ApiConstants.Qrscan;
+    print(url);
+    Map apiBody = {"searchkey": searchKey, "inst_id": instId, "type": type};
     try {
       var request = http.Request('POST', Uri.parse(url));
       request.body = (json.encode(apiBody));
@@ -201,20 +210,42 @@ class ApiServices {
 
 
 
-
-
-
-
+  static Future<Map<String, dynamic>> getTimeTableData(
+      {required String schoolId,
+      required String academicYear,
+      required String teacherId}) async {
+    String url = "${ApiConstants.baseUrl}${ApiConstants.timeTable}";
+    print(url);
+    Map apiBody = {
+      "school_id": schoolId,
+      "academic_year": academicYear,
+      "teacher_id": teacherId
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
 
   static Future<Map<String, dynamic>> getNotification({
     required String userId,
-
   }) async {
-    String url = '${ApiConstants.baseUrl}${ApiConstants.notification}$userId${ApiConstants.notificationEnd}';
+    String url =
+        '${ApiConstants.baseUrl}${ApiConstants.notification}$userId${ApiConstants.notificationEnd}';
     print(url);
     Map apiBody = {
       "user_id": userId,
-
     };
     try {
       var request = http.Request('GET', Uri.parse(url));
@@ -226,7 +257,6 @@ class ApiServices {
       if (response.statusCode == 200) {
         return json.decode(respString);
       } else {
-
         throw Exception(response.statusCode);
       }
     } catch (e) {
@@ -234,37 +264,13 @@ class ApiServices {
     }
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   static Future<Map<String, dynamic>> getMarkasReadNotification({
     required String userId,
     required String notificationId,
   }) async {
     String url = '${ApiConstants.baseUrl}${ApiConstants.updatenotification}';
     print(url);
-    Map apiBody = {
-      "user_id": userId,
-      "notification_id": notificationId
-    };
+    Map apiBody = {"user_id": userId, "notification_id": notificationId};
     try {
       var request = http.Request('PUT', Uri.parse(url));
       request.body = (json.encode(apiBody));
@@ -275,18 +281,12 @@ class ApiServices {
       if (response.statusCode == 200) {
         return json.decode(respString);
       } else {
-
         throw Exception(response.statusCode);
       }
     } catch (e) {
       throw Exception("Service Error");
     }
   }
-
-
-
-
-
 
   static Future<Map<String, dynamic>> getTimeTable({
     required String userId,
@@ -670,8 +670,8 @@ class ApiServices {
       MediaType mediaType = MediaType.parse(mimeType);
       var request = http.MultipartRequest('POST', Uri.parse(url));
       var file = await http.MultipartFile.fromPath(
-          'file',
-          filePath,
+        'file',
+        filePath,
         filename: fileName,
         contentType: mediaType,
       );
@@ -713,7 +713,8 @@ class ApiServices {
   static Future<Map<String, dynamic>> lessonWalkSubmit({
     required LessonLearningApplyModel reqData,
   }) async {
-    String url = "${ApiConstants.baseUrl}${reqData.isLesson ? ApiConstants.lessonSubmit : ApiConstants.learningWalkSubmit}";
+    String url =
+        "${ApiConstants.baseUrl}${reqData.isLesson ? ApiConstants.lessonSubmit : ApiConstants.learningWalkSubmit}";
     print(url);
     Map apiBody = reqData.lessonLearning.toJson();
     try {
