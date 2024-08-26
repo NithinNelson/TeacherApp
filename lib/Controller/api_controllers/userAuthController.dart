@@ -43,7 +43,9 @@ class UserAuthController extends GetxController {
           if (schoolId != null) {
             setSchoolTokenAndRoll(schoolId);
           }
-          await SharedPrefs().setLoginData(loginApi);
+          if(list.first.roleIds != null && !list.first.roleIds!.contains('student')) {
+            await SharedPrefs().setLoginData(loginApi);
+          }
           isLoaded.value = true;
         }
       } else {
