@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -54,9 +55,9 @@ class _ViewallState extends State<Viewall> {
             ),
             EasyDateTimeLine(
 
-              initialDate: DateTime.now(
+              initialDate:  DateTime(1900, 1, 1),
 
-              ),
+
               onDateChange: (selectedDate) {
                 //`selectedDate` the new date selected.
               },

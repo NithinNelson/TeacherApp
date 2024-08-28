@@ -744,20 +744,28 @@ class _StudentListViewState extends State<StudentListView> {
                                           Dialogbox(
                                             context,
                                             _searchController.text.isNotEmpty
-                                                ? toBeginningOfSentenceCase(
+
+
+
+
+
+
+
+
+                                                ? capitalizeFirstLetterOfEachWord(
                                                 newResult[index]["username"]
                                                     .toString()
                                                     .toLowerCase())
                                                 .toString()
                                                 : afterAttendanceTaken == null ||
                                                 afterAttendanceTaken.isEmpty
-                                                ? toBeginningOfSentenceCase(
+                                                ? capitalizeFirstLetterOfEachWord(
                                                 ourStudentList[index]
                                                 ["username"]
                                                     .toString()
                                                     .toLowerCase())
                                                 .toString()
-                                                : toBeginningOfSentenceCase(
+                                                : capitalizeFirstLetterOfEachWord(
                                                 afterAttendanceTaken[
                                                 index]["username"]
                                                     .toString()
@@ -849,20 +857,20 @@ class _StudentListViewState extends State<StudentListView> {
                                           DialogboxWithoutMotherDetails(
                                             context,
                                             _searchController.text.isNotEmpty
-                                                ? toBeginningOfSentenceCase(
+                                                ? capitalizeFirstLetterOfEachWord(
                                                 newResult[index]["username"]
                                                     .toString()
                                                     .toLowerCase())
                                                 .toString()
                                                 : afterAttendanceTaken == null ||
                                                 afterAttendanceTaken.isEmpty
-                                                ? toBeginningOfSentenceCase(
+                                                ? capitalizeFirstLetterOfEachWord(
                                                 ourStudentList[index]
                                                 ["username"]
                                                     .toString()
                                                     .toLowerCase())
                                                 .toString()
-                                                : toBeginningOfSentenceCase(
+                                                : capitalizeFirstLetterOfEachWord(
                                                 afterAttendanceTaken[
                                                 index]["username"]
                                                     .toString()
@@ -941,20 +949,20 @@ class _StudentListViewState extends State<StudentListView> {
                                           Dialogbox(
                                             context,
                                             _searchController.text.isNotEmpty
-                                                ? toBeginningOfSentenceCase(
+                                                ? capitalizeFirstLetterOfEachWord(
                                                 newResult[index]["username"]
                                                     .toString()
                                                     .toLowerCase())
                                                 .toString()
                                                 : afterAttendanceTaken == null ||
                                                 afterAttendanceTaken.isEmpty
-                                                ? toBeginningOfSentenceCase(
+                                                ? capitalizeFirstLetterOfEachWord(
                                                 ourStudentList[index]
                                                 ["username"]
                                                     .toString()
                                                     .toLowerCase())
                                                 .toString()
-                                                : toBeginningOfSentenceCase(
+                                                : capitalizeFirstLetterOfEachWord(
                                                 afterAttendanceTaken[
                                                 index]["username"]
                                                     .toString()
@@ -1046,20 +1054,20 @@ class _StudentListViewState extends State<StudentListView> {
                                           DialogboxWithoutMotherDetails(
                                             context,
                                             _searchController.text.isNotEmpty
-                                                ? toBeginningOfSentenceCase(
+                                                ? capitalizeFirstLetterOfEachWord(
                                                 newResult[index]["username"]
                                                     .toString()
                                                     .toLowerCase())
                                                 .toString()
                                                 : afterAttendanceTaken == null ||
                                                 afterAttendanceTaken.isEmpty
-                                                ? toBeginningOfSentenceCase(
+                                                ? capitalizeFirstLetterOfEachWord(
                                                 ourStudentList[index]
                                                 ["username"]
                                                     .toString()
                                                     .toLowerCase())
                                                 .toString()
-                                                : toBeginningOfSentenceCase(
+                                                : capitalizeFirstLetterOfEachWord(
                                                 afterAttendanceTaken[
                                                 index]["username"]
                                                     .toString()
@@ -1137,20 +1145,20 @@ class _StudentListViewState extends State<StudentListView> {
                                           Dialogbox(
                                             context,
                                             _searchController.text.isNotEmpty
-                                                ? toBeginningOfSentenceCase(
+                                                ? capitalizeFirstLetterOfEachWord(
                                                 newResult[index]["username"]
                                                     .toString()
                                                     .toLowerCase())
                                                 .toString()
                                                 : afterAttendanceTaken == null ||
                                                 afterAttendanceTaken.isEmpty
-                                                ? toBeginningOfSentenceCase(
+                                                ? capitalizeFirstLetterOfEachWord(
                                                 ourStudentList[index]
                                                 ["username"]
                                                     .toString()
                                                     .toLowerCase())
                                                 .toString()
-                                                : toBeginningOfSentenceCase(
+                                                : capitalizeFirstLetterOfEachWord(
                                                 afterAttendanceTaken[
                                                 index]["username"]
                                                     .toString()
@@ -1246,20 +1254,20 @@ class _StudentListViewState extends State<StudentListView> {
                                           DialogboxWithoutMotherDetails(
                                             context,
                                             _searchController.text.isNotEmpty
-                                                ? toBeginningOfSentenceCase(
+                                                ? capitalizeFirstLetterOfEachWord(
                                                 newResult[index]["username"]
                                                     .toString()
                                                     .toLowerCase())
                                                 .toString()
                                                 : afterAttendanceTaken == null ||
                                                 afterAttendanceTaken.isEmpty
-                                                ? toBeginningOfSentenceCase(
+                                                ? capitalizeFirstLetterOfEachWord(
                                                 ourStudentList[index]
                                                 ["username"]
                                                     .toString()
                                                     .toLowerCase())
                                                 .toString()
-                                                : toBeginningOfSentenceCase(
+                                                : capitalizeFirstLetterOfEachWord(
                                                 afterAttendanceTaken[
                                                 index]["username"]
                                                     .toString()
@@ -1342,20 +1350,20 @@ class _StudentListViewState extends State<StudentListView> {
                                           Dialogbox(
                                             context,
                                             _searchController.text.isNotEmpty
-                                                ? toBeginningOfSentenceCase(
+                                                ? capitalizeFirstLetterOfEachWord(
                                                 newResult[index]["username"]
                                                     .toString()
                                                     .toLowerCase())
                                                 .toString()
                                                 : afterAttendanceTaken == null ||
                                                 afterAttendanceTaken.isEmpty
-                                                ? toBeginningOfSentenceCase(
+                                                ? capitalizeFirstLetterOfEachWord(
                                                 ourStudentList[index]
                                                 ["username"]
                                                     .toString()
                                                     .toLowerCase())
                                                 .toString()
-                                                : toBeginningOfSentenceCase(
+                                                : capitalizeFirstLetterOfEachWord(
                                                 afterAttendanceTaken[
                                                 index]["username"]
                                                     .toString()
@@ -1451,20 +1459,20 @@ class _StudentListViewState extends State<StudentListView> {
                                           DialogboxWithoutMotherDetails(
                                             context,
                                             _searchController.text.isNotEmpty
-                                                ? toBeginningOfSentenceCase(
+                                                ? capitalizeFirstLetterOfEachWord(
                                                 newResult[index]["username"]
                                                     .toString()
                                                     .toLowerCase())
                                                 .toString()
                                                 : afterAttendanceTaken == null ||
                                                 afterAttendanceTaken.isEmpty
-                                                ? toBeginningOfSentenceCase(
+                                                ? capitalizeFirstLetterOfEachWord(
                                                 ourStudentList[index]
                                                 ["username"]
                                                     .toString()
                                                     .toLowerCase())
                                                 .toString()
-                                                : toBeginningOfSentenceCase(
+                                                : capitalizeFirstLetterOfEachWord(
                                                 afterAttendanceTaken[
                                                 index]["username"]
                                                     .toString()
@@ -1690,7 +1698,7 @@ class _StudentListViewState extends State<StudentListView> {
                                                               _searchController
                                                                   .text
                                                                   .isNotEmpty
-                                                                  ? toBeginningOfSentenceCase(newResult[index]["username"]
+                                                                  ? capitalizeFirstLetterOfEachWord(newResult[index]["username"]
                                                                   .toString()
                                                                   .toLowerCase())
                                                                   .toString()
@@ -1698,9 +1706,9 @@ class _StudentListViewState extends State<StudentListView> {
                                                                   null ||
                                                                   afterAttendanceTaken
                                                                       .isEmpty
-                                                                  ? toBeginningOfSentenceCase(ourStudentList[index]["username"].toString().toLowerCase())
+                                                                  ? capitalizeFirstLetterOfEachWord(ourStudentList[index]["username"].toString().toLowerCase())
                                                                   .toString()
-                                                                  : toBeginningOfSentenceCase(afterAttendanceTaken[index]["username"].toString().toLowerCase())
+                                                                  : capitalizeFirstLetterOfEachWord(afterAttendanceTaken[index]["username"].toString().toLowerCase())
                                                                   .toString(),
                                                               overflow: TextOverflow.ellipsis,
                                                               style: GoogleFonts.inter(
@@ -1888,7 +1896,7 @@ class _StudentListViewState extends State<StudentListView> {
                                                                               crossAxisAlignment: CrossAxisAlignment
                                                                                   .start,
                                                                               children: [
-                                                                                Text(afterAttendanceTaken[index]["feeDetails"]["username"].toString().toUpperCase(),style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w800),),
+                                                                                Text(afterAttendanceTaken[index]["feeDetails"]["username"].toString().toUpperCase(),style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w800,),),
                                                                                 SizedBox(
                                                                                   height: 15
                                                                                       .h,),
@@ -2078,7 +2086,7 @@ class _StudentListViewState extends State<StudentListView> {
                                                               Padding(
                                                                 padding: const EdgeInsets.only(top: 10,left: 40),
                                                                 child: Text(
-                                                                  'REMARKS',
+                                                                  'Remarks ',
                                                                   style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
                                                                 ),
                                                               ),
@@ -2392,7 +2400,7 @@ class _StudentListViewState extends State<StudentListView> {
                             children: [
                               Container(
                                   width: 150.w,
-                                  child: Text(parentName,
+                                  child: Text(capitalizeFirstLetterOfEachWord(parentName).toUpperCase(),
                                       style: GoogleFonts.inter(
                                           textStyle: TextStyle(
                                               fontSize: 16.sp,
@@ -2447,7 +2455,7 @@ class _StudentListViewState extends State<StudentListView> {
                           children: [
                             Container(
                                 width: 150.w,
-                                child: Text( motherName,
+                                child: Text( capitalizeFirstLetterOfEachWord(motherName).toUpperCase(),
                                     style: GoogleFonts.roboto(
                                         textStyle: TextStyle(
                                             fontSize: 16.sp,
@@ -2721,7 +2729,7 @@ backgroundColor: Colors.white,
                             children: [
                               Container(
                                   width: 150.w,
-                                  child: Text(parentName,
+                                  child: Text(capitalizeFirstLetterOfEachWord(parentName),
                                       style: GoogleFonts.inter(
                                           textStyle: TextStyle(
                                               fontSize: 18.sp,
@@ -2965,3 +2973,17 @@ backgroundColor: Colors.white,
   //   super.dispose();
   // }
 }
+String capitalizeFirstLetterOfEachWord(String input) {
+  return input
+      .trim()
+      .split(' ')
+      .where((word) => word.isNotEmpty) // Filter out empty strings
+      .map((word) {
+    print("$input...........input..............");
+    String removeSpace = word.trim();
+    print("$removeSpace...........removeSpace..............");
+    return removeSpace[0].toUpperCase() + removeSpace.substring(1);
+  })
+      .join(' ');
+}
+

@@ -67,11 +67,11 @@ class _LoginPageState extends State<LoginPage> {
       if (gUser!.email.isEmpty) {
         print("No User found");
         TeacherAppPopUps.submitFailed(
-            title: 'Failed',
-            message: 'Something went wrong.',
-            actionName: 'Try again',
-            iconData: Icons.error_outline,
-            iconColor: Colorutils.svguicolour2,
+          title: 'Failed',
+          message: 'Something went wrong.',
+          actionName: 'Try again',
+          iconData: Icons.error_outline,
+          iconColor: Colorutils.svguicolour2,
         );
       } else {
         await userAuthController.googleSignInUser(username: gUser.email);
@@ -166,7 +166,8 @@ class _LoginPageState extends State<LoginPage> {
                                   // border: UnderlineInputBorder(),
                                   labelText: 'Username',
                                   labelStyle: TextStyle(
-                                      color: Colorutils.userdetailcolor, fontSize: 16.h)),
+                                      color: Colorutils.userdetailcolor,
+                                      fontSize: 16.h)),
                             ),
                           ),
                           Padding(
@@ -191,7 +192,8 @@ class _LoginPageState extends State<LoginPage> {
                                   // border: UnderlineInputBorder(borderSide: BorderSide(color: Colorutils.userdetailcolor)),
                                   labelText: 'Password',
                                   labelStyle: TextStyle(
-                                      color: Colorutils.userdetailcolor, fontSize: 16.h),
+                                      color: Colorutils.userdetailcolor,
+                                      fontSize: 16.h),
                                   suffixIcon: GestureDetector(
                                       onTap: () {
                                         setState(() {
@@ -211,11 +213,18 @@ class _LoginPageState extends State<LoginPage> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 InkWell(
-                                  onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassword() ));
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ForgotPassword()));
                                   },
                                   child: Text(
                                     "Forgot Password?",
-                                    style: TextStyle(fontSize: 10.h,color: Colors.blue[900],fontStyle:FontStyle.italic),
+                                    style: TextStyle(
+                                        fontSize: 11.h,
+                                        color: Colors.blue[900],
+                                        fontStyle: FontStyle.italic),
                                   ),
                                 ),
                               ],
@@ -224,45 +233,94 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(height: 30.h),
                           Center(
                               child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30).w,
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 30).w,
                             child: GestureDetector(
                               onTap: () async {
-                                String? user = _usernameController?.text != "" ? _usernameController?.text : null;
-                                String? psw = _passwordController?.text != "" ? _passwordController?.text : null;
-                                if(user != null && psw != null) {
+                                String? user = _usernameController?.text.trim() != ""
+                                    ? _usernameController?.text.trim()
+                                    : null;
+                                String? psw = _passwordController?.text.trim() != ""
+                                    ? _passwordController?.text.trim()
+                                    : null;
+                                if (user != null && psw != null) {
                                   context.loaderOverlay.show();
                                   await userAuthController.fetchUserData(
-                                      username: user,
+                                    username: user,
                                     password: psw,
                                   );
                                   context.loaderOverlay.hide();
-                                  if(userAuthController.isLoaded.value) {
-                                    UserRole? userRole = userAuthController.userRole.value;
-                                    if(userRole != null) {
-                                      if(userRole == UserRole.principal) {
-                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HosListing()));
+                                  if (userAuthController.isLoaded.value) {
+                                    UserRole? userRole =
+                                        userAuthController.userRole.value;
+                                    if (userRole != null) {
+                                      if (userRole == UserRole.principal) {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const HosListing()));
                                       }
-                                      if(userRole == UserRole.hos) {
-                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ChoicePage()));
+                                      if (userRole == UserRole.hos) {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const ChoicePage()));
                                       }
-                                      if(userRole == UserRole.teacher) {
-                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const DrawerScreen()));
+                                      if (userRole == UserRole.teacher) {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const DrawerScreen()));
                                       }
                                     } else {
                                       TeacherAppPopUps.submitFailed(
                                         title: "Error",
-                                        message: "Not fined role",
+                                        message: "You are not an authorized user.",
                                         actionName: "Close",
-                                        iconData: Icons.cancel_outlined,
+                                        iconData: Icons.info_outline,
                                         iconColor: Colors.red,
                                       );
                                     }
                                   }
-                                } else {
+                                }
+                                else if (user == null && psw == null) {
                                   TeacherAppPopUps.submitFailed(
-                                      title: "Failed",
-                                      message: "Invalid Username/Password! Please Try Again",
-                                      actionName: "Try again",
+                                    title: "Error",
+                                    message: "Please Enter the Username/Password!",
+                                    actionName: "Close",
+                                    iconData: Icons.info_outline,
+                                    iconColor: Colors.red,
+                                  );
+                                }
+
+                                else if (user == null && psw != null ) {
+                                  TeacherAppPopUps.submitFailed(
+                                    title: "Error",
+                                    message: "Please Enter the Username!",
+                                    actionName: "Close",
+                                    iconData: Icons.info_outline,
+                                    iconColor: Colors.red,
+                                  );
+                                }
+                                else if ( user != null && psw == null) {
+                                  TeacherAppPopUps.submitFailed(
+                                    title: "Error",
+                                    message: "Please Enter the Password!",
+                                    actionName: "Close",
+                                    iconData: Icons.info_outline,
+                                    iconColor: Colors.red,
+                                  );
+                                }
+
+                                else {
+                                  TeacherAppPopUps.submitFailed(
+                                    title: "Failed",
+                                    message:
+                                        "Invalid Username/Password! Please Try Again",
+                                    actionName: "Try again",
                                     iconData: Icons.error_outline,
                                     iconColor: Colorutils.svguicolour2,
                                   );
@@ -300,8 +358,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                               Padding(
-                                padding:
-                                EdgeInsets.symmetric(horizontal: 8.w),
+                                padding: EdgeInsets.symmetric(horizontal: 8.w),
                                 child: Text(
                                   'or',
                                   style: TextStyle(
@@ -327,7 +384,8 @@ class _LoginPageState extends State<LoginPage> {
                               child: GestureDetector(
                                 onTap: () async {
                                   context.loaderOverlay.show();
-                                  await signIn().then((_) => context.loaderOverlay.hide());
+                                  await signIn().then(
+                                      (_) => context.loaderOverlay.hide());
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

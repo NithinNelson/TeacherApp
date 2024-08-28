@@ -237,7 +237,7 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                                         Container(
                                             width: 230.w,
                                             child: Text(
-                                                toBeginningOfSentenceCase(widget
+                                                capitalizeFirstLetterOfEachWord(widget
                                                         .studentName
                                                         .toString()
                                                         .toLowerCase())
@@ -315,7 +315,7 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                                                     width: 230.w,
                                                     child: Text(
                                                         widget.parentName
-                                                            .toString(),
+                                                            .toString().toUpperCase(),
                                                         style: GoogleFonts.roboto(
                                                             textStyle: TextStyle(
                                                                 fontSize: 16.sp,
@@ -681,4 +681,17 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
 //   timer!.cancel();
 //   super.dispose();
 // }
+}
+String capitalizeFirstLetterOfEachWord(String input) {
+  return input
+      .trim()
+      .split(' ')
+      .where((word) => word.isNotEmpty) // Filter out empty strings
+      .map((word) {
+    print("$input...........input..............");
+    String removeSpace = word.trim();
+    print("$removeSpace...........removeSpace..............");
+    return removeSpace[0].toUpperCase() + removeSpace.substring(1);
+  })
+      .join(' ');
 }

@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:teacherapp/Services/api_services.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
@@ -35,23 +37,41 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
-        height: ScreenUtil().screenHeight,
+        height:double.infinity,
         width: ScreenUtil().screenWidth,
         child: SingleChildScrollView(
           child: Stack(
             children: [
               const AppBarBackground(),
               Container(
+height:ScreenUtil().screenHeight ,
                 margin: EdgeInsets.only(
                   left: 20.w,
                   top: 120.h,
                   right: 20.w,
-                  bottom: 10.h,
+                  bottom: 20.h,
                 ),
                 decoration: themeCardDecoration,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+
+                     Padding(
+                      padding:  EdgeInsets.only(left: 20,top: 20),
+                      child:  GestureDetector(
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
+                        child: const Row(
+                          children: [
+                            Icon(Icons.arrow_back_ios),
+                            Text("Back",style: TextStyle(
+                              fontSize: 18,
+                            ),)
+                          ],
+                        ),
+                      ),
+                    ),
                     Center(
                       child: Container(
                         width: 250.w,
@@ -93,7 +113,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         bottom: 5.h,
                       ),
                       child: Text(
-                        "Enter Your Email ID",
+                        "Enter Your Username",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 13.h,
@@ -124,6 +144,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         ),
                       ),
                     ),
+                    SizedBox(height: 80,),
                     Center(
                       child: spinner
                           ? Container(
@@ -139,7 +160,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 if (forgotPasswordController.text
                                     .trim()
                                     .isEmpty) {
-                                  print("empty");
+                                  TeacherAppPopUps.submitFailed(
+                                    title: "Error",
+                                    message: "Please Enter your Username!",
+                                    actionName: "Close",
+                                    iconData: Icons.info_outline,
+                                    iconColor: Colors.red,
+                                  );
                                 } else {
                                   print("submit");
                                   try {
@@ -147,19 +174,23 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                       userName: forgotPasswordController.text,
                                     );
                                     if(resp['status']['code'] == 200) {
+                                      forgotPasswordController.clear();
+                                      FocusManager.instance.primaryFocus?.unfocus();
                                       TeacherAppPopUps.submitFailed(
                                         title: resp['status']['message'].toString(),
                                         message: "We have emailed you the instructions to reset the password",
                                         actionName: "Close",
                                         iconData: Icons.done,
                                         iconColor: Colors.green,
+
                                       );
+
                                     } else {
                                       TeacherAppPopUps.submitFailed(
-                                        title: "${resp['status']['code']}: ${resp['status']['message']}",
+                                        title: "${resp['status']['message']}",
                                         message: resp['error']['message'] ?? "Something went wrong.",
                                         actionName: "Close",
-                                        iconData: Icons.block_outlined,
+                                        iconData: Icons.info_outline,
                                         iconColor: Colors.red,
                                       );
                                     }
@@ -173,19 +204,30 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 });
                               },
                               child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
+                                margin: EdgeInsets.only(
+                                  left: 30.w,
+                                  right: 30.w,
                                 ),
-                                width: 300.w,
-                                height: 70.h,
-                                margin: EdgeInsets.only(top: 100.h),
-                                child: Image.asset(
-                                  "assets/images/submitbutton.png",
+                                decoration: BoxDecoration(
+                                  color: Colorutils.userdetailcolor,
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                                // width: 250.w,
+                                height: 50.h,
+                                child: Center(
+                                  child: Text(
+                                    'Submit',
+                                    style: GoogleFonts.inter(
+                                        color: Colors.white,
+                                        fontSize: 18.h,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               ),
                             ),
                     ),
-                    SizedBox(height: 200.h),
+
+
                   ],
                 ),
               ),

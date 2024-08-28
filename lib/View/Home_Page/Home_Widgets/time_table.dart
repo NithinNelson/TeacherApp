@@ -39,9 +39,10 @@ class _AllTimeTableState extends State<AllTimeTable> {
               if(userRole == UserRole.hos){
                 Get.find<PageIndexController>().changePage(
                     currentPage:5);
-              }else
-              Get.find<PageIndexController>().changePage(
+              }else {
+                Get.find<PageIndexController>().changePage(
                   currentPage:6);
+              }
 
             },
             style: const ButtonStyle(
@@ -57,7 +58,7 @@ class _AllTimeTableState extends State<AllTimeTable> {
                   widget.todaySubjects.length == 1 || widget.todaySubjects.isEmpty ? 'Class Today' : 'Classes Today',
                   style: TeacherAppFonts.interW400_16sp_letters1,
                 ),
-Icon(Icons.arrow_forward_ios,size: 18,color: Colorutils.userdetailcolor,)
+                const Icon(Icons.arrow_forward_ios,size: 18,color: Colorutils.userdetailcolor,)
               ],
 
             ),
