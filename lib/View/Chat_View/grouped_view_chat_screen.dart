@@ -9,10 +9,12 @@ import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
+import 'package:teacherapp/Controller/search_controller/search_controller.dart';
 import 'package:teacherapp/Models/api_models/chat_feed_view_model.dart';
 import 'package:teacherapp/Services/snackBar.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
+import 'package:teacherapp/View/Chat_View/Chat_widgets/chat_search.dart';
 import 'package:teacherapp/View/Chat_View/Chat_widgets/text_and_file_widget.dart';
 import '../../Controller/api_controllers/groupedViewController.dart';
 import '../../Models/api_models/grouped_view_list_api_model.dart';
@@ -37,6 +39,7 @@ class _GroupedViewChatScreenState extends State<GroupedViewChatScreen> {
 
   @override
   void initState() {
+    Get.find<ChatSearchController>().setValueDefault(); // for set default//
     groupedViewController.chatGroupedViewScrollController =
         AutoScrollController().obs;
     groupedViewController.showScrollIcon = false;
@@ -124,106 +127,148 @@ class _GroupedViewChatScreenState extends State<GroupedViewChatScreen> {
       batch: widget.roomData?.batch,
       classs: widget.roomData?.classs,
       subjectId: widget.roomData?.subjectId,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colorutils.userdetailcolor,
-          leadingWidth: 40.w,
-          titleSpacing: 5,
-          leading: InkWell(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.white,
-                ),
-              ],
-            ),
-          ),
-          title: Row(
-            children: [
-              CircleAvatar(radius: 20.r, backgroundColor: Colors.white),
-              SizedBox(width: 10.w),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      child: PopScope(
+        onPopInvoked: (didPop) {
+          Get.find<ChatSearchController>().hideSearch();
+          Get.find<ChatSearchController>().searchValue.value = "";
+          Get.find<ChatSearchController>().searchCtr.clear();
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colorutils.userdetailcolor,
+            leadingWidth: 40.w,
+            titleSpacing: 5,
+            leading: InkWell(
+              onTap: () {
+                if (Get.find<ChatSearchController>().isSearch) {
+                  Get.find<ChatSearchController>().hideSearch();
+                  Get.find<ChatSearchController>().searchValue.value = "";
+                  Get.find<ChatSearchController>().searchCtr.clear();
+                  print("searchList ============== onsearch");
+                } else {
+                  Navigator.of(context).pop();
+                }
+              },
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        widget.roomData?.subjectName ?? '--',
-                        style: TeacherAppFonts.interW600_18sp_textWhite,
-                      ),
-                      SizedBox(width: 8.w),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                                vertical: 2, horizontal: 10)
-                            .w,
-                        decoration: BoxDecoration(
-                          color: Colorutils.Whitecolor,
-                          borderRadius: BorderRadius.circular(28).r,
-                        ),
-                        child: Text(
-                          "${widget.roomData?.classs ?? ''}${widget.roomData?.batch ?? ''}",
-                          style:
-                              TeacherAppFonts.interW500_12sp_textWhite.copyWith(
-                            color: const Color(0xFF003D36),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    widget.roomData?.teacherName ?? '--',
-                    style: TeacherAppFonts.interW400_14sp_textWhite,
+                  Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.white,
                   ),
                 ],
               ),
-            ],
+            ),
+            title: GetBuilder<ChatSearchController>(builder: (controller) {
+              return controller.isSearch
+                  ? ChatSearchTextFieldWidget(
+                      controller: controller,
+                      searchListType: "groupMsgList",
+                    )
+                  : Row(
+                      children: [
+                        CircleAvatar(
+                            radius: 20.r, backgroundColor: Colors.white),
+                        SizedBox(width: 10.w),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  widget.roomData?.subjectName ?? '--',
+                                  style:
+                                      TeacherAppFonts.interW600_18sp_textWhite,
+                                ),
+                                SizedBox(width: 8.w),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                          vertical: 2, horizontal: 10)
+                                      .w,
+                                  decoration: BoxDecoration(
+                                    color: Colorutils.Whitecolor,
+                                    borderRadius: BorderRadius.circular(28).r,
+                                  ),
+                                  child: Text(
+                                    "${widget.roomData?.classs ?? ''}${widget.roomData?.batch ?? ''}",
+                                    style: TeacherAppFonts
+                                        .interW500_12sp_textWhite
+                                        .copyWith(
+                                      color: const Color(0xFF003D36),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              widget.roomData?.teacherName ?? '--',
+                              style: TeacherAppFonts.interW400_14sp_textWhite,
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: GestureDetector(
+                            onTap: () {
+                              controller.showSearch();
+                            },
+                            child: SizedBox(
+                              height: 27.w,
+                              width: 27.w,
+                              child: SvgPicture.asset(
+                                'assets/images/MagnifyingGlass.svg',
+                                width: 200,
+                                height: 200,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    );
+            }),
+            // actions: [
+            //   Padding(
+            //     padding: const EdgeInsets.only(right: 20),
+            //     child: Container(
+            //       height: 27.w,
+            //       width: 27.w,
+            //       child: SvgPicture.asset(
+            //         'assets/images/MagnifyingGlass.svg',
+            //         width: 200,
+            //         height: 200,
+            //       ),
+            //     ),
+            //   )
+            // ],
           ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: Container(
-                height: 27.w,
-                width: 27.w,
-                child: SvgPicture.asset(
-                  'assets/images/MagnifyingGlass.svg',
-                  width: 200,
-                  height: 200,
-                ),
-              ),
-            )
-          ],
-        ),
-        body: SizedBox(
-          // height: screenHeight,
+          body: SizedBox(
+            // height: screenHeight,
 
-          child: Column(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage(
-                        "assets/images/chatBg.png",
+            child: Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage(
+                          "assets/images/chatBg.png",
+                        ),
                       ),
                     ),
-                  ),
-                  child: Stack(
-                    children: [
-                      Container(
-                        color: Colors.white.withOpacity(0.8),
-                      ),
-                      const ChatList(),
-                    ],
+                    child: Stack(
+                      children: [
+                        Container(
+                          color: Colors.white.withOpacity(0.8),
+                        ),
+                        const ChatList(),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -484,16 +529,59 @@ class SentMessageBubble extends StatelessWidget {
                                 children: [
                                   Column(
                                     children: [
+                                      // ConstrainedBox(
+                                      //   constraints: BoxConstraints(
+                                      //     maxWidth: 200.w,
+                                      //   ),
+                                      //   child: Text(
+                                      //     message ?? "",
+                                      //     // maxLines: 100,
+                                      //     style: TeacherAppFonts
+                                      //         .interW400_16sp_letters1
+                                      //         .copyWith(color: Colors.black),
+                                      //   ),
+                                      // ),
                                       ConstrainedBox(
                                         constraints: BoxConstraints(
-                                          maxWidth: 200.w,
+                                          maxWidth: 210.w,
                                         ),
-                                        child: Text(
-                                          message ?? "",
-                                          // maxLines: 100,
-                                          style: TeacherAppFonts
-                                              .interW400_16sp_letters1
-                                              .copyWith(color: Colors.black),
+                                        child: GetX<ChatSearchController>(
+                                          builder: (chatSerchController) {
+                                            if (chatSerchController
+                                                .searchValue.value.isEmpty) {
+                                              return RichText(
+                                                text: TextSpan(
+                                                    children: Get.find<
+                                                            GroupedViewController>()
+                                                        .getMessageText(
+                                                            text: message ?? "",
+                                                            context: context),
+                                                    style: TeacherAppFonts
+                                                        .interW400_16sp_letters1
+                                                        .copyWith(
+                                                            color:
+                                                                Colors.black)),
+                                              );
+                                            } else {
+                                              return RichText(
+                                                text: TextSpan(
+                                                    children: Get.find<
+                                                            ChatSearchController>()
+                                                        .getCombinedTextSpan(
+                                                            searchTerm:
+                                                                chatSerchController
+                                                                    .searchValue
+                                                                    .value,
+                                                            text: message ?? "",
+                                                            context: context),
+                                                    style: TeacherAppFonts
+                                                        .interW400_16sp_letters1
+                                                        .copyWith(
+                                                            color:
+                                                                Colors.black)),
+                                              );
+                                            }
+                                          },
                                         ),
                                       ),
                                       SizedBox(height: 5.h)
@@ -672,16 +760,59 @@ class ReceiveMessageBubble extends StatelessWidget {
                                 children: [
                                   Column(
                                     children: [
+                                      // ConstrainedBox(
+                                      //   constraints: BoxConstraints(
+                                      //     maxWidth: 210.w,
+                                      //   ),
+                                      //   child: Text(
+                                      //     message ?? "",
+                                      //     maxLines: 100,
+                                      //     style: TeacherAppFonts
+                                      //         .interW400_16sp_letters1
+                                      //         .copyWith(color: Colors.black),
+                                      //   ),
+                                      // ),
                                       ConstrainedBox(
                                         constraints: BoxConstraints(
                                           maxWidth: 210.w,
                                         ),
-                                        child: Text(
-                                          message ?? "",
-                                          maxLines: 100,
-                                          style: TeacherAppFonts
-                                              .interW400_16sp_letters1
-                                              .copyWith(color: Colors.black),
+                                        child: GetX<ChatSearchController>(
+                                          builder: (chatSerchController) {
+                                            if (chatSerchController
+                                                .searchValue.value.isEmpty) {
+                                              return RichText(
+                                                text: TextSpan(
+                                                    children: Get.find<
+                                                            GroupedViewController>()
+                                                        .getMessageText(
+                                                            text: message ?? "",
+                                                            context: context),
+                                                    style: TeacherAppFonts
+                                                        .interW400_16sp_letters1
+                                                        .copyWith(
+                                                            color:
+                                                                Colors.black)),
+                                              );
+                                            } else {
+                                              return RichText(
+                                                text: TextSpan(
+                                                    children: Get.find<
+                                                            ChatSearchController>()
+                                                        .getCombinedTextSpan(
+                                                            searchTerm:
+                                                                chatSerchController
+                                                                    .searchValue
+                                                                    .value,
+                                                            text: message ?? "",
+                                                            context: context),
+                                                    style: TeacherAppFonts
+                                                        .interW400_16sp_letters1
+                                                        .copyWith(
+                                                            color:
+                                                                Colors.black)),
+                                              );
+                                            }
+                                          },
                                         ),
                                       ),
                                       SizedBox(height: 5.h),

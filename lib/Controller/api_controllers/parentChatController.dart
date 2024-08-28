@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:teacherapp/Models/api_models/sent_msg_by_teacher_model.dart';
 import 'package:teacherapp/Services/api_services.dart';
+import 'package:teacherapp/Services/common_services.dart';
 import '../../Models/api_models/parent_chatting_model.dart';
 import '../../Services/check_connectivity.dart';
 import '../../Services/dialog_box.dart';
@@ -38,6 +40,7 @@ class ParentChattingController extends GetxController {
   bool showScrollIcon = true;
   int? previousMessageListLenght;
   RxBool showLoaderMoreMessage = true.obs;
+  bool isShowDialogShow = false;
 
   void resetStatus() {
     isLoading.value = false;
@@ -467,5 +470,60 @@ class ParentChattingController extends GetxController {
 
   setScrollerIcon() {
     update(); // for showing scroll indicator for go down side of chat list
+  }
+
+  List<TextSpan> getMessageText(
+      {required String text, required BuildContext context}) {
+    const urlPattern =
+        r'((https?:\/\/)?(?:www\.)?[^\s]+(?:\.[^\s]+)+(?:\/[^\s]*)?)';
+    final regex = RegExp(urlPattern);
+    final matches = regex.allMatches(text);
+
+    final List<TextSpan> spans = [];
+    int lastMatchEnd = 0;
+
+    for (final match in matches) {
+      final url = match.group(0)!;
+      final String formattedUrl;
+
+      // Check if the URL starts with a scheme (http:// or https://)
+      if (url.startsWith('http://') || url.startsWith('https://')) {
+        formattedUrl = url;
+      } else {
+        // If not, prepend "https://" to the URL
+        formattedUrl = 'https://$url';
+      }
+
+      // Add text before the URL
+      if (match.start > lastMatchEnd) {
+        spans.add(TextSpan(text: text.substring(lastMatchEnd, match.start)));
+      }
+
+      // Add the URL as a clickable span
+      spans.add(
+        TextSpan(
+          text: url,
+          style: const TextStyle(
+            color: Colors.blue,
+            // decoration: TextDecoration.underline,
+          ),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () async {
+              openUrl(message: formattedUrl, context: context);
+            },
+        ),
+      );
+
+      lastMatchEnd = match.end;
+    }
+
+    // Add any remaining text after the last URL
+    if (lastMatchEnd < text.length) {
+      spans.add(
+        TextSpan(text: text.substring(lastMatchEnd)),
+      );
+    }
+
+    return spans;
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:teacherapp/Controller/api_controllers/feedViewController.dart';
+import 'package:teacherapp/Controller/search_controller/search_controller.dart';
 import 'package:teacherapp/Models/api_models/chat_feed_view_model.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/View/Chat_View/Chat_widgets/replay_in_message_widget.dart';
@@ -90,8 +91,18 @@ class ReceiveMessageBubble extends StatelessWidget {
                             final position =
                                 renderObject.localToGlobal(Offset.zero);
 
-                            messageMoreShowDialog(
-                                context, this, position, _tapPosition);
+                            if (Get.find<FeedViewController>()
+                                    .isShowDialogShow ==
+                                false) {
+                              Get.find<FeedViewController>().seletedMsgData =
+                                  messageData;
+
+                              messageMoreShowDialog(
+                                  context, this, position, _tapPosition);
+                              Get.find<FeedViewController>().isShowDialogShow =
+                                  true;
+                            }
+
                             print(
                                 "msg ============= id ${Get.find<FeedViewController>().seletedMsgData!.messageId}");
                             print(
@@ -208,18 +219,73 @@ class ReceiveMessageBubble extends StatelessWidget {
                                           children: [
                                             Column(
                                               children: [
+                                                // ConstrainedBox(
+                                                //   constraints: BoxConstraints(
+                                                //     maxWidth: 210.w,
+                                                //   ),
+                                                //   child: Text(
+                                                //     message ?? "",
+                                                //     maxLines: 100,
+                                                //     style: TeacherAppFonts
+                                                //         .interW400_16sp_letters1
+                                                //         .copyWith(
+                                                //             color:
+                                                //                 Colors.black),
+                                                //   ),
+                                                // ),
                                                 ConstrainedBox(
                                                   constraints: BoxConstraints(
                                                     maxWidth: 210.w,
                                                   ),
-                                                  child: Text(
-                                                    message ?? "",
-                                                    maxLines: 100,
-                                                    style: TeacherAppFonts
-                                                        .interW400_16sp_letters1
-                                                        .copyWith(
-                                                            color:
-                                                                Colors.black),
+                                                  child: GetX<
+                                                      ChatSearchController>(
+                                                    builder:
+                                                        (chatSerchController) {
+                                                      if (chatSerchController
+                                                          .searchValue
+                                                          .value
+                                                          .isEmpty) {
+                                                        return RichText(
+                                                          text: TextSpan(
+                                                              children: Get.find<
+                                                                      FeedViewController>()
+                                                                  .getMessageText(
+                                                                      text:
+                                                                          message ??
+                                                                              "",
+                                                                      context:
+                                                                          context),
+                                                              style: TeacherAppFonts
+                                                                  .interW400_16sp_letters1
+                                                                  .copyWith(
+                                                                      color: Colors
+                                                                          .black)),
+                                                        );
+                                                      } else {
+                                                        return RichText(
+                                                          text: TextSpan(
+                                                            children: Get
+                                                                    .find<
+                                                                        ChatSearchController>()
+                                                                .getCombinedTextSpan(
+                                                                    searchTerm:
+                                                                        chatSerchController
+                                                                            .searchValue
+                                                                            .value,
+                                                                    text:
+                                                                        message ??
+                                                                            "",
+                                                                    context:
+                                                                        context),
+                                                            style: TeacherAppFonts
+                                                                .interW400_16sp_letters1
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .black),
+                                                          ),
+                                                        );
+                                                      }
+                                                    },
                                                   ),
                                                 ),
                                                 SizedBox(height: 5.h),

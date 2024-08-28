@@ -14,9 +14,11 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
+import 'package:teacherapp/Controller/search_controller/search_controller.dart';
 import 'package:teacherapp/Models/api_models/sent_msg_by_teacher_model.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
+import 'package:teacherapp/View/Chat_View/Chat_widgets/chat_search.dart';
 import '../../Controller/api_controllers/parentChatController.dart';
 import '../../Models/api_models/parent_chat_list_api_model.dart';
 import '../../Models/api_models/parent_chatting_model.dart';
@@ -50,6 +52,9 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
   @override
   void initState() {
     super.initState();
+    Get.find<ChatSearchController>().setValueDefault(); // for set default//
+    Get.find<ParentChattingController>().isShowDialogShow =
+        false; // for set default//
     parentChattingController.parentChatScrollController =
         AutoScrollController().obs;
     parentChattingController.showScrollIcon = false;
@@ -137,7 +142,14 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
           titleSpacing: 5,
           leading: InkWell(
             onTap: () {
-              Navigator.of(context).pop();
+              if (Get.find<ChatSearchController>().isSearch) {
+                Get.find<ChatSearchController>().hideSearch();
+                Get.find<ChatSearchController>().searchValue.value = "";
+                Get.find<ChatSearchController>().searchCtr.clear();
+                print("searchList ============== onsearch");
+              } else {
+                Navigator.of(context).pop();
+              }
             },
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -149,63 +161,90 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
               ],
             ),
           ),
-          title: Row(
-            children: [
-              Container(
-                width: 44.w,
-                height: 44.w,
-                padding: const EdgeInsets.all(10).w,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: FittedBox(
-                  child: Text(
-                    "${widget.msgData?.datumClass}${widget.msgData?.batch}",
-                    style: TeacherAppFonts.interW600_16sp_black,
-                  ),
-                ),
-              ),
-              SizedBox(width: 10.w),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+          title: GetBuilder<ChatSearchController>(builder: (controller) {
+            return controller.isSearch
+                ? ChatSearchTextFieldWidget(
+                    controller: controller,
+                    searchListType: "parentMsgList",
+                  )
+                : Row(
                     children: [
-                      Text(
-                        widget.msgData?.subjectName ?? '--',
-                        style: GoogleFonts.inter(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white),
-                      ),
-                      SizedBox(width: 8.w),
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                                vertical: 2, horizontal: 10)
-                            .w,
-                        decoration: BoxDecoration(
-                          color: Colorutils.Whitecolor,
-                          borderRadius: BorderRadius.circular(28).r,
+                        width: 44.w,
+                        height: 44.w,
+                        padding: const EdgeInsets.all(10).w,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
                         ),
-                        child: Text(
-                          "${widget.msgData?.datumClass ?? ''}${widget.msgData?.batch ?? ''}",
-                          style:
-                              TeacherAppFonts.interW500_12sp_textWhite.copyWith(
-                            color: const Color(0xFF003D36),
+                        child: FittedBox(
+                          child: Text(
+                            "${widget.msgData?.datumClass}${widget.msgData?.batch}",
+                            style: TeacherAppFonts.interW600_16sp_black,
                           ),
                         ),
                       ),
+                      SizedBox(width: 10.w),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                widget.msgData?.subjectName ?? '--',
+                                style: GoogleFonts.inter(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white),
+                              ),
+                              SizedBox(width: 8.w),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                        vertical: 2, horizontal: 10)
+                                    .w,
+                                decoration: BoxDecoration(
+                                  color: Colorutils.Whitecolor,
+                                  borderRadius: BorderRadius.circular(28).r,
+                                ),
+                                child: Text(
+                                  "${widget.msgData?.datumClass ?? ''}${widget.msgData?.batch ?? ''}",
+                                  style: TeacherAppFonts
+                                      .interW500_12sp_textWhite
+                                      .copyWith(
+                                    color: const Color(0xFF003D36),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 3.h),
+                          Text(studentRelation,
+                              style: TeacherAppFonts
+                                  .interW400_12sp_textWhite_italic
+                                  .copyWith(color: Colors.white)),
+                        ],
+                      ),
+                      const Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: GestureDetector(
+                          onTap: () {
+                            controller.showSearch();
+                          },
+                          child: SizedBox(
+                            height: 27.w,
+                            width: 27.w,
+                            child: SvgPicture.asset(
+                              'assets/images/MagnifyingGlass.svg',
+                              width: 200,
+                              height: 200,
+                            ),
+                          ),
+                        ),
+                      )
                     ],
-                  ),
-                  SizedBox(height: 3.h),
-                  Text(studentRelation,
-                      style: TeacherAppFonts.interW400_12sp_textWhite_italic
-                          .copyWith(color: Colors.white)),
-                ],
-              ),
-            ],
-          ),
+                  );
+          }),
           // actions: [
           //   Padding(
           //     padding: const EdgeInsets.only(right: 20),
@@ -227,6 +266,63 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
             builder: (ParentChattingController controller) {
               return Column(
                 children: [
+                  // Container(
+                  //   height: 121.h,
+                  //   width: double.infinity,
+                  //   color: Colorutils.userdetailcolor,
+                  //   child: SafeArea(
+                  //     child: Padding(
+                  //       padding: EdgeInsets.symmetric(
+                  //           vertical: 10.h, horizontal: 20.h),
+                  //       child: GetBuilder<ChatSearchController>(
+                  //         builder: (controller) {
+                  //           return controller.isSearch
+                  //               ? ChatSearchTextFieldWidget(
+                  //                   controller: controller,
+                  //                 )
+                  //               : Row(
+                  //                   children: [
+                  //                     const Row(
+                  //                       mainAxisAlignment:
+                  //                           MainAxisAlignment.end,
+                  //                       children: [
+                  //                         Icon(
+                  //                           Icons.arrow_back_ios,
+                  //                           color: Colors.white,
+                  //                         ),
+                  //                       ],
+                  //                     ),
+                  //                     // InkWell(
+                  //                     //   onTap: () {
+                  //                     //     Navigator.pop(context);
+                  //                     //   },
+                  //                     //   child: SizedBox(
+                  //                     //     height: 24.h,
+                  //                     //     width: 24.h,
+                  //                     //     child: SvgPicture.asset(
+                  //                     //         "assets/svg/back.svg"),
+                  //                     //   ),
+                  //                     // ),
+                  //                     const Spacer(),
+                  //                     wSpace(10.h),
+                  //                     GestureDetector(
+                  //                       onTap: () {
+                  //                         controller.showSearch();
+                  //                       },
+                  //                       child: SizedBox(
+                  //                         height: 32.h,
+                  //                         width: 32.h,
+                  //                         child: SvgPicture.asset(
+                  //                             "assets/svg/Search.svg"),
+                  //                       ),
+                  //                     ),
+                  //                   ],
+                  //                 );
+                  //         },
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   Container(height: 10.h, color: Colorutils.userdetailcolor),
                   Expanded(
                     child: Container(
@@ -692,12 +788,12 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
                                                       Colorutils.fontColor11);
                                             },
                                             onLongPress: () async {
+                                              HapticFeedback.vibrate();
                                               await Permission.microphone
                                                   .request();
 
                                               if (await Permission.microphone
                                                   .status.isGranted) {
-                                                HapticFeedback.vibrate();
                                                 parentChattingController
                                                     .showAudioRecordWidget
                                                     .value = true;
@@ -721,7 +817,7 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
                                                 height: 25.w,
                                                 width: 25.w,
                                                 child:
-                                                    CircularProgressIndicator(),
+                                                    const CircularProgressIndicator(),
                                               )
                                             : InkWell(
                                                 onTap: () async {
@@ -930,7 +1026,7 @@ class ChatList extends StatelessWidget {
               useStickyGroupSeparators: true,
               cacheExtent: 2000,
               floatingHeader: true,
-              padding: EdgeInsets.only(top: 5.h, bottom: 5.h),
+              padding: EdgeInsets.only(bottom: 10.h),
               controller: controller.parentChatScrollController.value,
               groupBy: (element) {
                 try {
@@ -1117,11 +1213,11 @@ messageMoreShowDialog(
       return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.h),
+          padding: EdgeInsets.symmetric(horizontal: 0),
           child: Stack(
             children: [
               Positioned(
-                top: position.dy - safeAreaVerticalPadding,
+                top: position.dy - 40,
                 left: 0,
                 right: 0,
                 child: Container(child: widget),
@@ -1146,7 +1242,7 @@ messageMoreShowDialog(
                                 .seletedMsgData!
                                 .messageFromId ==
                             Get.find<UserAuthController>().userData.value.userId
-                        ? SizedBox()
+                        ? const SizedBox()
                         : const ReactionContainerWidget2(),
                     SizedBox(height: 80.h),
                     ScreenUtil().screenHeight / 1.7 > tapPosition.dy
@@ -1161,6 +1257,11 @@ messageMoreShowDialog(
           ),
         ),
       );
+    },
+  ).then(
+    (value) {
+      Get.find<ParentChattingController>().isShowDialogShow = false;
+      // print("Selected msg Show dialog dismissed");
     },
   );
 }
@@ -1251,15 +1352,22 @@ class SentMessageBubble extends StatelessWidget {
                         print(ScreenUtil().screenHeight);
                       },
                       onLongPress: () {
-                        Get.find<ParentChattingController>().seletedMsgData =
-                            messageData;
+                        HapticFeedback.vibrate();
                         final renderObject =
                             context.findRenderObject() as RenderBox;
                         final position =
                             renderObject.localToGlobal(Offset.zero);
 
-                        messageMoreShowDialog(
-                            context, this, position, _tapPosition);
+                        if (Get.find<ParentChattingController>()
+                                .isShowDialogShow ==
+                            false) {
+                          Get.find<ParentChattingController>().seletedMsgData =
+                              messageData;
+                          messageMoreShowDialog(
+                              context, this, position, _tapPosition);
+                          Get.find<ParentChattingController>()
+                              .isShowDialogShow = true;
+                        }
                       },
                       child: IntrinsicWidth(
                         child: Container(
@@ -1323,16 +1431,61 @@ class SentMessageBubble extends StatelessWidget {
                                   children: [
                                     Column(
                                       children: [
+                                        // ConstrainedBox(
+                                        //   constraints: BoxConstraints(
+                                        //     maxWidth: 200.w,
+                                        //   ),
+                                        //   child: Text(
+                                        //     message ?? "",
+                                        //     // maxLines: 100,
+                                        //     style: TeacherAppFonts
+                                        //         .interW400_16sp_letters1
+                                        //         .copyWith(color: Colors.black),
+                                        //   ),
+                                        // ),
                                         ConstrainedBox(
                                           constraints: BoxConstraints(
-                                            maxWidth: 200.w,
+                                            maxWidth: 210.w,
                                           ),
-                                          child: Text(
-                                            message ?? "",
-                                            // maxLines: 100,
-                                            style: TeacherAppFonts
-                                                .interW400_16sp_letters1
-                                                .copyWith(color: Colors.black),
+                                          child: GetX<ChatSearchController>(
+                                            builder: (chatSerchController) {
+                                              if (chatSerchController
+                                                  .searchValue.value.isEmpty) {
+                                                return RichText(
+                                                  text: TextSpan(
+                                                      children: Get.find<
+                                                              ParentChattingController>()
+                                                          .getMessageText(
+                                                              text:
+                                                                  message ?? "",
+                                                              context: context),
+                                                      style: TeacherAppFonts
+                                                          .interW400_16sp_letters1
+                                                          .copyWith(
+                                                              color: Colors
+                                                                  .black)),
+                                                );
+                                              } else {
+                                                return RichText(
+                                                  text: TextSpan(
+                                                      children: Get.find<
+                                                              ChatSearchController>()
+                                                          .getCombinedTextSpan(
+                                                              searchTerm:
+                                                                  chatSerchController
+                                                                      .searchValue
+                                                                      .value,
+                                                              text:
+                                                                  message ?? "",
+                                                              context: context),
+                                                      style: TeacherAppFonts
+                                                          .interW400_16sp_letters1
+                                                          .copyWith(
+                                                              color: Colors
+                                                                  .black)),
+                                                );
+                                              }
+                                            },
                                           ),
                                         ),
                                         SizedBox(height: 5.h)
@@ -1423,39 +1576,41 @@ class ReplayMessageWidget2 extends StatelessWidget {
     final data = ChatRoomParentDataInheritedWidget.of(context);
     return GestureDetector(
       onTap: () async {
-        Get.find<ParentChattingController>().chatMsgCount = 1000;
-        ParentChattingReqModel chatFeedViewReqModel = ParentChattingReqModel(
-          teacherId: userAuthController.userData.value.userId,
-          schoolId: userAuthController.userData.value.schoolId,
-          classs: data?.msgData?.datumClass,
-          batch: data?.msgData?.batch,
-          parentId: data?.msgData?.parentId,
-          offset: 0,
-          limit: Get.find<ParentChattingController>().chatMsgCount,
-        );
-        int? index = await Get.find<ParentChattingController>()
-            .findMessageIndex(
-                reqBody: chatFeedViewReqModel, msgId: replyData.messageId);
+        if (!Get.find<ParentChattingController>().isShowDialogShow) {
+          Get.find<ParentChattingController>().chatMsgCount = 1000;
+          ParentChattingReqModel chatFeedViewReqModel = ParentChattingReqModel(
+            teacherId: userAuthController.userData.value.userId,
+            schoolId: userAuthController.userData.value.schoolId,
+            classs: data?.msgData?.datumClass,
+            batch: data?.msgData?.batch,
+            parentId: data?.msgData?.parentId,
+            offset: 0,
+            limit: Get.find<ParentChattingController>().chatMsgCount,
+          );
+          int? index = await Get.find<ParentChattingController>()
+              .findMessageIndex(
+                  reqBody: chatFeedViewReqModel, msgId: replyData.messageId);
 
-        if (index != null) {
-          await Get.find<ParentChattingController>()
-              .parentChatScrollController
-              .value
-              .scrollToIndex(
-                index,
-                preferPosition: AutoScrollPosition.middle,
-              );
-          await Get.find<ParentChattingController>()
-              .parentChatScrollController
-              .value
-              .highlight(index,
-                  highlightDuration: const Duration(seconds: 1),
-                  animated: true);
-        } else {
-          snackBar(
-              context: context,
-              message: "Message not found",
-              color: Colorutils.Classcolour1);
+          if (index != null) {
+            await Get.find<ParentChattingController>()
+                .parentChatScrollController
+                .value
+                .scrollToIndex(
+                  index,
+                  preferPosition: AutoScrollPosition.middle,
+                );
+            await Get.find<ParentChattingController>()
+                .parentChatScrollController
+                .value
+                .highlight(index,
+                    highlightDuration: const Duration(seconds: 1),
+                    animated: true);
+          } else {
+            snackBar(
+                context: context,
+                message: "Message not found",
+                color: Colorutils.Classcolour1);
+          }
         }
       },
       child: Padding(
@@ -1564,7 +1719,7 @@ class TextAndFileWidget extends StatelessWidget {
             SizedBox(
               width: 22,
               height: 15.h,
-              child: SvgPicture.asset("assets/svg/Record Audio.svg"),
+              child: SvgPicture.asset("assets/images/Record Audio.svg"),
             ),
             SizedBox(width: 1.w),
             Expanded(
@@ -1663,15 +1818,22 @@ class ReceiveMessageBubble extends StatelessWidget {
                             print(ScreenUtil().screenHeight);
                           },
                           onLongPress: () {
-                            Get.find<ParentChattingController>()
-                                .seletedMsgData = messageData;
+                            HapticFeedback.vibrate();
                             final renderObject =
                                 context.findRenderObject() as RenderBox;
                             final position =
                                 renderObject.localToGlobal(Offset.zero);
 
-                            messageMoreShowDialog(
-                                context, this, position, _tapPosition);
+                            if (Get.find<ParentChattingController>()
+                                    .isShowDialogShow ==
+                                false) {
+                              Get.find<ParentChattingController>()
+                                  .seletedMsgData = messageData;
+                              messageMoreShowDialog(
+                                  context, this, position, _tapPosition);
+                              Get.find<ParentChattingController>()
+                                  .isShowDialogShow = true;
+                            }
                           },
                           child: Container(
                             constraints: BoxConstraints(maxWidth: 310.w),
@@ -1784,18 +1946,71 @@ class ReceiveMessageBubble extends StatelessWidget {
                                           children: [
                                             Column(
                                               children: [
+                                                // ConstrainedBox(
+                                                //   constraints: BoxConstraints(
+                                                //     maxWidth: 210.w,
+                                                //   ),
+                                                //   child: Text(
+                                                //     message ?? "",
+                                                //     maxLines: 100,
+                                                //     style: TeacherAppFonts
+                                                //         .interW400_16sp_letters1
+                                                //         .copyWith(
+                                                //             color:
+                                                //                 Colors.black),
+                                                //   ),
+                                                // ),
                                                 ConstrainedBox(
                                                   constraints: BoxConstraints(
                                                     maxWidth: 210.w,
                                                   ),
-                                                  child: Text(
-                                                    message ?? "",
-                                                    maxLines: 100,
-                                                    style: TeacherAppFonts
-                                                        .interW400_16sp_letters1
-                                                        .copyWith(
-                                                            color:
-                                                                Colors.black),
+                                                  child: GetX<
+                                                      ChatSearchController>(
+                                                    builder:
+                                                        (chatSerchController) {
+                                                      if (chatSerchController
+                                                          .searchValue
+                                                          .value
+                                                          .isEmpty) {
+                                                        return RichText(
+                                                          text: TextSpan(
+                                                              children: Get.find<
+                                                                      ParentChattingController>()
+                                                                  .getMessageText(
+                                                                      text:
+                                                                          message ??
+                                                                              "",
+                                                                      context:
+                                                                          context),
+                                                              style: TeacherAppFonts
+                                                                  .interW400_16sp_letters1
+                                                                  .copyWith(
+                                                                      color: Colors
+                                                                          .black)),
+                                                        );
+                                                      } else {
+                                                        return RichText(
+                                                          text: TextSpan(
+                                                              children: Get
+                                                                      .find<
+                                                                          ChatSearchController>()
+                                                                  .getCombinedTextSpan(
+                                                                      searchTerm: chatSerchController
+                                                                          .searchValue
+                                                                          .value,
+                                                                      text:
+                                                                          message ??
+                                                                              "",
+                                                                      context:
+                                                                          context),
+                                                              style: TeacherAppFonts
+                                                                  .interW400_16sp_letters1
+                                                                  .copyWith(
+                                                                      color: Colors
+                                                                          .black)),
+                                                        );
+                                                      }
+                                                    },
                                                   ),
                                                 ),
                                                 SizedBox(height: 5.h),
