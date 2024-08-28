@@ -106,28 +106,31 @@ class TeacherAppPopUps {
             children: [
               Container(
                 width: 100.w,
-                child: FilledButton(
-
-                  onPressed: () async {
-                    Navigator.pop(context);
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(Colors.red),
-                  ),
-                  child: Row(
-                    children: [
-                      Center(
-                        child: Text(
-                          "Cancel",
-                          style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                child: FittedBox(
+                  child: FilledButton(
+                  
+                    onPressed: () async {
+                      Navigator.pop(context);
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(Colors.red),
+                    ),
+                    child: Row(
+                      children: [
+                        Center(
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
               Container(
                 width: 100.w,
+                
                 child: FilledButton(
                   onPressed: () async {
                     HandleControllers.deleteAllGetControllers();
@@ -138,18 +141,9 @@ class TeacherAppPopUps {
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(Colorutils.letters1),
                   ),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 13),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Ok",
-                            style: TextStyle(color: Colors.white, fontSize: 16.sp),
-                          ),
-                        ],
-                      ),
-                    ),
+                  child: Text(
+                    "Ok",
+                    style: TextStyle(color: Colors.white, fontSize: 16.sp),
                   ),
                 ),
               ),

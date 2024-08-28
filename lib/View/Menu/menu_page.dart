@@ -123,7 +123,8 @@ class _MenuScreenState extends State<MenuScreen> {
                           child: GetX<TimeTableController>(
                             builder: (TimeTableController controller) {
                               List<TeacherSubject> classTeacherSubject = controller.classTeacherSubjects.value;
-                              // List<TimeTable> todaySubjects = controller.teacherTimeTableToday.value;
+                              classTeacherSubject.sort((a, b) => "${a.classs!}${a.batch!}".compareTo("${b.classs!}${b.batch!}"));
+
                               return SizedBox(width: 120,
                                 child: SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
@@ -132,7 +133,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                       for (int i=0;i<classTeacherSubject.length;i++ )
 
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 8),
+                                          padding: const EdgeInsets.only(left: 8,right: 3),
                                           child: ClassIndicator(
                                             classTeacherSubject: classTeacherSubject[i],isActive: true),
                                         ),

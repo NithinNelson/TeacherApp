@@ -54,7 +54,7 @@ class _TeacherState extends State<Teacher> {
                   child: ListView(
                     padding: const EdgeInsets.only(bottom: 50).w,
                     children: [
-                      if(controller.classTeacherSubjects.isNotEmpty && controller.teacherSubjects.isNotEmpty)
+                      if(controller.classTeacherSubjects.isNotEmpty || controller.teacherSubjects.isNotEmpty)
                         MyClass(),
                       ClassList(classTeacherSubjects: controller.classTeacherSubjects.value,),
                       SubjectList(teacherSubjects: controller.teacherSubjects.value),
