@@ -214,8 +214,8 @@ class _HistoryPageState extends State<HistoryPage>
                             child: Text(
                               "Call Status Update",
                               style: TextStyle(
-                                  color: Colorutils.userdetailcolor,
-                                  fontSize: 18.sp),
+                                  color:Colors.black,
+                                  fontSize: 18.sp,fontWeight: FontWeight.bold),
                             ),
                           ),
                           Row(
@@ -260,7 +260,7 @@ class _HistoryPageState extends State<HistoryPage>
                                     Container(
                                       width: 240.w,
                                       child: Text(
-                                        widget.studentName.toString(),
+                                        widget.studentName.toString().toUpperCase(),
                                         style: GoogleFonts.inter(
                                             textStyle: TextStyle(
                                                 fontSize: 18.sp,
@@ -565,4 +565,17 @@ class _HistoryPageState extends State<HistoryPage>
 //   timer!.cancel();
 //   super.dispose();
 // }
+}
+String capitalizeFirstLetterOfEachWord(String input) {
+  return input
+      .trim()
+      .split(' ')
+      .where((word) => word.isNotEmpty) // Filter out empty strings
+      .map((word) {
+    print("$input...........input..............");
+    String removeSpace = word.trim();
+    print("$removeSpace...........removeSpace..............");
+    return removeSpace[0].toUpperCase() + removeSpace.substring(1);
+  })
+      .join(' ');
 }

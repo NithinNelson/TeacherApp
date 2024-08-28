@@ -135,7 +135,7 @@ class Topic extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     Text(
-                                     "sample text",
+                                     " ",
                                       style: TeacherAppFonts.interW400_14sp_timecolortopicsOp80,                              ),
                                   ],
                                 ),

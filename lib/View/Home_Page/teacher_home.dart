@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:teacherapp/Controller/api_controllers/timeTableController.dart';
 import 'package:teacherapp/View/Home_Page/Home_Widgets/my_class.dart';
@@ -51,7 +54,8 @@ class _TeacherState extends State<Teacher> {
                   child: ListView(
                     padding: const EdgeInsets.only(bottom: 50).w,
                     children: [
-                      const MyClass(),
+                      if(controller.classTeacherSubjects.isNotEmpty && controller.teacherSubjects.isNotEmpty)
+                        MyClass(),
                       ClassList(classTeacherSubjects: controller.classTeacherSubjects.value,),
                       SubjectList(teacherSubjects: controller.teacherSubjects.value),
                       AllTimeTable(todaySubjects: controller.teacherTimeTableToday.value),

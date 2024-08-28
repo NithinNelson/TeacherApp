@@ -43,12 +43,13 @@ class UserAuthController extends GetxController {
           if (schoolId != null) {
             setSchoolTokenAndRoll(schoolId);
           }
-          if(list.first.roleIds != null && !list.first.roleIds!.contains('student')) {
+          if(list.first.roleIds != null && !list.first.roleIds!.contains("")) {
             await SharedPrefs().setLoginData(loginApi);
           }
           isLoaded.value = true;
         }
       } else {
+        print(".......${resp['error']['message']}");
         TeacherAppPopUps.submitFailed(
           title: "Failed",
           message: "Something went wrong.",
@@ -62,7 +63,7 @@ class UserAuthController extends GetxController {
       print("-----------login error-----------");
       TeacherAppPopUps.submitFailed(
         title: "Failed",
-        message: "Something went wrong.",
+        message: "Invalid credentials. Please check your Username/Password and try again.",
         actionName: "Try again",
         iconData: Icons.error_outline,
         iconColor: Colorutils.svguicolour2,

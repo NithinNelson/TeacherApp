@@ -895,10 +895,10 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
                                                                         Axis.horizontal,
                                                                     child: Text(
                                                                         _searchController.text.toString().isNotEmpty
-                                                                            ? toBeginningOfSentenceCase(newResult[index]["username"].toString().toLowerCase()).toString()
+                                                                            ? capitalizeFirstLetterOfEachWord(newResult[index]["username"].toString().toLowerCase()).toString()
                                                                             : afterAttendanceTaken == null || afterAttendanceTaken.isEmpty
-                                                                                ? toBeginningOfSentenceCase(ourStudentList[index]["username"].toString().toLowerCase()).toString()
-                                                                                : toBeginningOfSentenceCase(afterAttendanceTaken[index]["username"].toString().toLowerCase()).toString(),
+                                                                                ? capitalizeFirstLetterOfEachWord(ourStudentList[index]["username"].toString().toLowerCase()).toString()
+                                                                                : capitalizeFirstLetterOfEachWord(afterAttendanceTaken[index]["username"].toString().toLowerCase()).toString(),
                                                                         style: GoogleFonts.inter(textStyle: TextStyle(fontSize: 16.sp, color: Colors.black, fontWeight: FontWeight.bold))),
                                                                   )),
                                                             ],
@@ -1200,4 +1200,17 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
       );
     }
   }
+}
+String capitalizeFirstLetterOfEachWord(String input) {
+  return input
+      .trim()
+      .split(' ')
+      .where((word) => word.isNotEmpty) // Filter out empty strings
+      .map((word) {
+    print("$input...........input..............");
+    String removeSpace = word.trim();
+    print("$removeSpace...........removeSpace..............");
+    return removeSpace[0].toUpperCase() + removeSpace.substring(1);
+  })
+      .join(' ');
 }
