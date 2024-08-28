@@ -94,8 +94,10 @@ class _MenuScreenState extends State<MenuScreen> {
                   child: CachedNetworkImage(
                       imageUrl:
                       'https://alpha.docme.cloud/schooldiary-logo/${Get.find<UserAuthController>().userData.value.schoolId?? '--'}.png',
+
                       placeholder: (context, url) => const SizedBox(),
                       errorWidget: (context, url, error) => const SizedBox()),
+
                 ),
               ),
               Padding(

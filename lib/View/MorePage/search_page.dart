@@ -88,7 +88,7 @@ class SearchPage extends StatelessWidget {
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                           hintStyle: TextStyle(color: Colors.grey),
-                          hintText: "Student Name or Admission Number",
+                          hintText: "Search Student Name or Adm.No",
                           prefixIcon: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(

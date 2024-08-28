@@ -154,7 +154,7 @@ class _LessonObservationState extends State<LessonObservation> {
                                             hint: const Text('Teacher'),
                                             validator: (dynamic value) =>
                                                 value == null
-                                                    ? 'Field Required'
+                                                    ? 'Please Select Teacher'
                                                     : null,
                                             items: teacherList
                                                 .map((teacher) =>
@@ -230,7 +230,7 @@ class _LessonObservationState extends State<LessonObservation> {
                                             hint: const Text('Class'),
                                             validator: (dynamic value) =>
                                                 value == null
-                                                    ? 'Field Required'
+                                                    ? 'Please Select Class'
                                                     : null,
                                             items:
                                                 teacherDetails.map((batchData) {
@@ -309,7 +309,7 @@ class _LessonObservationState extends State<LessonObservation> {
                                             hint: const Text('Subject'),
                                             validator: (dynamic value) =>
                                                 value == null
-                                                    ? 'Field Required'
+                                                    ? 'Please Select Subject'
                                                     : null,
                                             items: subList
                                                 .map((sub) =>
@@ -344,7 +344,7 @@ class _LessonObservationState extends State<LessonObservation> {
                                             controller: _controller,
                                             validator: (dynamic value) =>
                                                 value.toString().trim().isEmpty
-                                                    ? 'Field Required'
+                                                    ? 'Please Enter the Topic'
                                                     : null,
                                             decoration: InputDecoration(
                                                 hintStyle: TextStyle(
@@ -354,7 +354,7 @@ class _LessonObservationState extends State<LessonObservation> {
                                                     EdgeInsets.symmetric(
                                                         vertical: 18.h,
                                                         horizontal: 20.w),
-                                                hintText: "Topics",
+                                                hintText: "Topic",
                                                 border: OutlineInputBorder(
                                                   borderRadius:
                                                       const BorderRadius.all(

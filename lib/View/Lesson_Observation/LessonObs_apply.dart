@@ -44,6 +44,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
   TextEditingController _whatWentWellController = TextEditingController();
   TextEditingController _evenBetterIfController = TextEditingController();
   KeyboardController keyboardController = Get.find<KeyboardController>();
+  RxList<Indicator> markedIndicators = <Indicator>[].obs;
 
   @override
   Widget build(BuildContext context) {
@@ -272,7 +273,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                         child: TextFormField(
                                           maxLength: 1000,
                                           validator: (val) => val!.isEmpty
-                                              ? '  *Fill the Field to Submit'
+                                              ? 'Please Enter the  Summary.'
                                               : null,
                                           controller: _summaryController,
                                           focusNode: keyboardController.summaryFocusNode.value,
@@ -320,7 +321,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                           focusNode: keyboardController.whatWentWellFocusNode.value,
                                           maxLength: 1000,
                                           validator: (val) => val!.isEmpty
-                                              ? '  *Fill the Field to Submit'
+                                              ? 'Please Enter the What went well.'
                                               : null,
                                           decoration: InputDecoration(
                                               hintStyle:
@@ -366,7 +367,7 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                         child: TextFormField(
                                           maxLength: 1000,
                                           validator: (val) => val!.isEmpty
-                                              ? '  *Fill the Field to Submit'
+                                              ? 'Please Enter the Even better if.'
                                               : null,
                                           controller: _evenBetterIfController,
                                           focusNode: keyboardController.evenBetterIfFocusNode.value,
@@ -446,17 +447,45 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
                                       SizedBox(height: 50.h),
                                       GestureDetector(
                                         onTap: () async {
+                                          bool radioNotSelected = false;
                                           if(_formKey.currentState!.validate()) {
-                                            await submitLessonObs();
-                                            Get.back();
-                                            Get.back();
+                                            for(var point in Get.find<LessonLearningController>().markedIndicators.value){
+                                              if(point.point == null) {
+                                                radioNotSelected = true;
+                                                TeacherAppPopUps.submitFailed(
+                                                  title: "Error",
+                                                  message: "Please Enter all Fields",
+                                                  actionName: "Close",
+                                                  iconData: Icons.info,
+                                                  iconColor: Colors.red,
+                                                );
+                                                break;
+                                              }
+                                            }
+                                            if(!radioNotSelected) {
+                                              await submitLessonObs();
+                                              Get.back();
+                                              Get.back();
+                                              TeacherAppPopUps.submitFailed(
+                                                title: "Success",
+                                                message: "Lesson Observation Result Added Successfully",
+                                                actionName: "Close",
+                                                iconData: Icons.done,
+                                                iconColor: Colors.green,
+                                              );
+                                            }
+                                          }
+                                          else{
                                             TeacherAppPopUps.submitFailed(
-                                              title: "Success",
-                                              message: "Lesson Observation Result Added Successfully",
+                                              title: "Error",
+                                              message: "Please Enter all Mandatory Fields",
                                               actionName: "Close",
-                                              iconData: Icons.done,
-                                              iconColor: Colors.green,
+                                              iconData: Icons.info,
+                                              iconColor: Colors.red,
                                             );
+
+
+
                                           }
                                         },
                                         child: Padding(

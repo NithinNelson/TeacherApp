@@ -104,6 +104,8 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
       'Content-Type': 'application/json'
     };
 
+    print("----------url--------------${ApiConstants.ObservationResultlist}${widget.Observerid}");
+
     var request = http.Request('GET',
         Uri.parse('${ApiConstants.ObservationResultlist}${widget.Observerid}'));
     request.headers.addAll(headers);
@@ -135,7 +137,13 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
         topic_lesson = ObservationResult!['data']['details']['topic'];
         isjoin = ObservationResult!['data']['details']['isJoin'];
         total_percentage = ObservationResult!['data']['details']['evaluation']['total_percentage'];
-        total_grade = ObservationResult!['data']['details']['evaluation']['total_grade'];
+        if(ObservationResult!['data']['details']['updated_grade'] != null) {
+          total_grade = 'Updated Grade : ${ObservationResult!['data']['details']['updated_grade'].toString()[0].toUpperCase()}${ObservationResult!['data']['details']['updated_grade'].toString().substring(1, ObservationResult!['data']['details']['updated_grade'].toString().length)}';
+          total_percentage = "";
+        } else {
+          total_grade = 'Grade : ${ObservationResult!['data']['details']['evaluation']['total_grade'].toString()[0].toUpperCase()}${ObservationResult!['data']['details']['evaluation']['total_grade'].toString().substring(1, ObservationResult!['data']['details']['evaluation']['total_grade'].toString().length)}';
+        }
+        // total_grade = ObservationResult!['data']['details']['evaluation']['total_grade'];
         TeacherComment =
             ObservationResult!['data']['details']['teacherComment'] ?? '';
         _teachertextController.text = TeacherComment ?? '';
@@ -897,14 +905,13 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                               child: Row(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-
-                                                  Text('Grade :${total_grade.toString()[0].toUpperCase()}${total_grade.toString().substring(1, total_grade.toString().length)} ',style: TextStyle(
+                                                  Text( total_grade ?? '--',style: TextStyle(
                                                       fontSize: 14.sp,
                                                       fontWeight: FontWeight.bold),),
                                                   // SizedBox(
                                                   //   height: 5.h,
                                                   // ),
-                                                  Text('(${_percentage(total_percentage)})',style: TextStyle(
+                                                  Text('  ${_percentage(total_percentage)}',style: TextStyle(
                                                       fontSize: 14.sp,
                                                       fontWeight: FontWeight.w500),),
                                                 ],
@@ -1215,6 +1222,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
         ],
       );
   String _percentage(percent){
+    if (percent == "") return "";
     if(percent.toString().contains('.')){
       if(percent.toString().length>5){
         return '${percent.toString().split('.').first}.${percent.toString().split('.').last.substring(0,2)}%';
