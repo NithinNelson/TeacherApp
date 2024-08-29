@@ -624,7 +624,7 @@ class _StudentListViewState extends State<StudentListView> {
                                     .toLowerCase()
                                     .contains(value.toLowerCase()))
                                     .toList();
-                                //newResult = afterAttendanceTaken.where((element) => element["feeDetails"]["username"].contains("${value.toUpperCase()}")).toList();
+                                // newResult = afterAttendanceTaken.where((element) => element["feeDetails"]["username"].contains("${value.toUpperCase()}")).toList();
                                 //print(_searchController.text.toString());
                                 log("the new result is   $newResult");
                               });
@@ -636,7 +636,7 @@ class _StudentListViewState extends State<StudentListView> {
                             decoration: InputDecoration(
                                 hintStyle: TextStyle(color: Colors.grey),
                                 hintText:
-                                _isListening ? "Listening..." : "Search Here",
+                                _isListening ? "Listening..." : "Search Students",
                                 prefixIcon: Icon(
                                   Icons.search,
                                   color: Colorutils.userdetailcolor,
