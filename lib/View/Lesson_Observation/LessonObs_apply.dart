@@ -606,6 +606,8 @@ class _LessonObservationApplyState extends State<LessonObservationApply> {
       //   iconColor: Colors.green,
       // );
     }
+    await lessonObservationController.refreshLessLearnData();
+    if(!mounted) return;
     context.loaderOverlay.hide();
   }
 }

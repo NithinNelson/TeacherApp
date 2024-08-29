@@ -559,7 +559,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
           log("------------submit resp-------------$resp");
         } else {
           await LessonLearningDatabase.instance.create(learningWalkApplyModel);
-          Get.back();
+          // Get.back();
           // TeacherAppPopUps.submitFailed(
           //   title: "Success",
           //   message: "Learning Walk Result Added Successfully",
@@ -570,7 +570,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
         }
       } catch(e) {
         await LessonLearningDatabase.instance.create(learningWalkApplyModel);
-        Get.back();
+        // Get.back();
         // TeacherAppPopUps.submitFailed(
         //   title: "Success",
         //   message: "Learning Walk Result Added Successfully",
@@ -581,7 +581,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
       }
     } else {
       await LessonLearningDatabase.instance.create(learningWalkApplyModel);
-      Get.back();
+      // Get.back();
       // TeacherAppPopUps.submitFailed(
       //   title: "Success",
       //   message: "Learning Walk Result Added Successfully",
@@ -590,6 +590,8 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
       //   iconColor: Colors.green,
       // );
     }
+    await lessonObservationController.refreshLessLearnData();
+    if(!mounted) return;
     context.loaderOverlay.hide();
   }
 }
