@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
         TeacherAppPopUps.submitFailed(
           title: 'Failed',
           message: 'Something went wrong.',
-          actionName: 'Try again',
+          actionName: 'Close',
           iconData: Icons.error_outline,
           iconColor: Colorutils.svguicolour2,
         );
@@ -80,10 +80,10 @@ class _LoginPageState extends State<LoginPage> {
       print(e);
       TeacherAppPopUps.submitFailed(
         title: 'Failed',
-        message: 'Something went wrong.',
-        actionName: 'Try again',
+        message: 'You are not an authorized user.',
+        actionName: 'Close',
         iconData: Icons.error_outline,
-        iconColor: Colorutils.svguicolour2,
+        iconColor: Colorutils.red,
       );
     }
   }
@@ -286,6 +286,7 @@ class _LoginPageState extends State<LoginPage> {
                                     }
                                   }
                                 }
+
                                 else if (user == null && psw == null) {
                                   TeacherAppPopUps.submitFailed(
                                     title: "Error",
@@ -320,7 +321,7 @@ class _LoginPageState extends State<LoginPage> {
                                     title: "Failed",
                                     message:
                                         "Invalid Username/Password! Please Try Again",
-                                    actionName: "Try again",
+                                    actionName: "Close",
                                     iconData: Icons.error_outline,
                                     iconColor: Colorutils.svguicolour2,
                                   );

@@ -242,8 +242,8 @@ class _LeaveRequestState extends State<LeaveRequest> {
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                   hintStyle: TextStyle(color: Colors.grey),
-                                  hintText: "Search Here",
-                                  prefixIcon: Icon(
+                                  hintText: "Search Student Name or Adm.No",
+                                  prefixIcon: const Icon(
                                     Icons.search,
                                     color: Colorutils.userdetailcolor,
                                   ),

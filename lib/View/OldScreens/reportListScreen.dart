@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 import 'package:teacherapp/View/OldScreens/studentListForHos.dart';
@@ -68,6 +69,9 @@ class _ReportListViewState extends State<ReportListView> {
   Map<String, dynamic>? teacherList;
 
   Future getTeacherList() async {
+
+    context.loaderOverlay.show();
+  try{
     Map<String, String> headers = {
       'API-Key': '525-777-777',
       'Content-Type': 'application/json'
@@ -89,7 +93,7 @@ class _ReportListViewState extends State<ReportListView> {
     print(response.statusCode);
     if (response.statusCode == 200) {
       teacherList = json.decode(response.body);
-      print('teachteacherListerList$teacherList');
+      print('teachteacherListerList.........................$teacherList');
 
       newTeacherList = teacherList!["data"];
       print("newTeacherList--${newTeacherList}");
@@ -99,6 +103,11 @@ class _ReportListViewState extends State<ReportListView> {
         // isSpinner=false;
       });
     }
+  } catch (e) {
+
+  }
+    context.loaderOverlay.hide();
+
   }
 
   Future getUserLoginCredentials() async {
@@ -729,9 +738,12 @@ class _ReportListViewState extends State<ReportListView> {
                           ),
                         ),
                         Expanded(
-                            child: teacherList == null
+
+                            child: teacherList== null
                                 ? Center(
-                                    child: CircularProgressIndicator())
+                                    child: CircularProgressIndicator(
+                                      color: Colorutils.chatcolor,
+                                    ))
                                 : teacherList!["data_status"] == 0
                                     ? Center(
                                         child: Image.asset(

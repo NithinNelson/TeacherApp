@@ -180,7 +180,7 @@ class _ObsResultState extends State<LeaveApply> {
                                 padding: const EdgeInsets.only(left: 20),
                                 child: Row(
                                   children: [
-                                    Text('Leave Apply', style: TextStyle(
+                                    const Text('Leave Apply', style: TextStyle(
                                         fontSize: 16, fontWeight: FontWeight.w600),),
                                     SizedBox(
                                       width: 120.w,
@@ -580,15 +580,24 @@ class _ObsResultState extends State<LeaveApply> {
                   _filePath = null;
                   _reasonController.clear();
                 });
-                submitFailed(
+                if(resp['data']['message'] == "Leave Applied Successfully"){submitFailed(
+                  // title: resp['status']['message'],
+                  title: "Success",
+                  message: resp['data']['message'],
+                  actionName: "Close",
+                  iconData: Icons.check_circle_outline_sharp,
+                  iconColor: Colors.green,
+
+                );} else {submitFailed(
                   // title: resp['status']['message'],
                   title: "Error",
                   message: resp['data']['message'],
                   actionName: "Close",
-                  iconData: Icons.info_outline,
+                  iconData: Icons.error_outline,
                   iconColor: Colors.red,
 
-                );
+                );}
+
               } else {
                 submitFailed(
                   title: "Failed",

@@ -20,8 +20,10 @@ class SubjectList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int itemLength = teacherSubjects.length;
+    teacherSubjects.sort((a, b) => "${a.classs!}${a.batch!}".compareTo("${b.classs!}${b.batch!}"));
+
     return Container(
-      height: 63.5.h * (itemLength % 2 == 1 ? ((itemLength - 1)/2) : (itemLength/2)) + (itemLength % 2 == 1 ? 63.5.h : 0.h),
+      height: 65.0.h * (itemLength % 2 == 1 ? ((itemLength - 1)/2) : (itemLength/2)) + (itemLength % 2 == 1 ? 63.5.h : 0.h),
       padding: const EdgeInsets.only(top: 8, left: 8, right: 8).w,
       child: GridView.builder(
         physics: const NeverScrollableScrollPhysics(),

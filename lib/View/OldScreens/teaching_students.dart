@@ -624,7 +624,7 @@ class _StudentListViewState extends State<StudentListView> {
                                     .toLowerCase()
                                     .contains(value.toLowerCase()))
                                     .toList();
-                                //newResult = afterAttendanceTaken.where((element) => element["feeDetails"]["username"].contains("${value.toUpperCase()}")).toList();
+                                // newResult = afterAttendanceTaken.where((element) => element["feeDetails"]["username"].contains("${value.toUpperCase()}")).toList();
                                 //print(_searchController.text.toString());
                                 log("the new result is   $newResult");
                               });
@@ -636,7 +636,7 @@ class _StudentListViewState extends State<StudentListView> {
                             decoration: InputDecoration(
                                 hintStyle: TextStyle(color: Colors.grey),
                                 hintText:
-                                _isListening ? "Listening..." : "Search Here",
+                                _isListening ? "Listening..." : "Search Students",
                                 prefixIcon: Icon(
                                   Icons.search,
                                   color: Colorutils.userdetailcolor,
@@ -2631,9 +2631,12 @@ class _StudentListViewState extends State<StudentListView> {
                 Row(
                   children: [
 
-                    CircleAvatar(
-                      radius: 25,
-backgroundColor: Colors.white,
+                    Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.lightBlue.shade50)
+                      ),
+
                       child: CachedNetworkImage(
                         width: 50,
                         height: 50,
@@ -2729,7 +2732,7 @@ backgroundColor: Colors.white,
                             children: [
                               Container(
                                   width: 150.w,
-                                  child: Text(capitalizeFirstLetterOfEachWord(parentName),
+                                  child: Text(capitalizeFirstLetterOfEachWord(parentName).toUpperCase(),
                                       style: GoogleFonts.inter(
                                           textStyle: TextStyle(
                                               fontSize: 18.sp,
