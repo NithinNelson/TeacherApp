@@ -42,7 +42,7 @@ class LeaveApprovalController extends GetxController {
     resetData();
     isLoading.value = true;
     isLoaded.value = false;
-    // try {
+    try {
       String usrId = Get.find<UserAuthController>().userData.value.userId ?? '';
       String acYr = Get.find<UserAuthController>().userData.value.academicYear ?? '';
       String scId = Get.find<UserAuthController>().userData.value.schoolId ?? '';
@@ -59,12 +59,12 @@ class LeaveApprovalController extends GetxController {
         filteredAllLeaves.value = allLeaves.value;
         isLoaded.value = true;
       }
-    // } catch (e) {
-    //   isLoaded.value = false;
-    //   print("-----------leave approval error-----------");
-    // } finally {
-    //   resetStatus();
-    // }
+    } catch (e) {
+      isLoaded.value = false;
+      print("-----------leave approval error-----------");
+    } finally {
+      resetStatus();
+    }
   }
 
   void filterLeaveList({required String text}) {
