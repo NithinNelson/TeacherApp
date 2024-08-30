@@ -74,3 +74,35 @@ wSpace(double size) {
     width: size,
   );
 }
+
+String chatRoomDateAndTimeFormat(String? dateTimeString) {
+  if (dateTimeString == null) {
+    return "--";
+  }
+
+  try {
+    DateTime dateTime = DateTime.parse(dateTimeString);
+    DateTime now = DateTime.now();
+    DateTime today = DateTime(now.year, now.month, now.day);
+    DateTime yesterday = today.subtract(Duration(days: 1));
+    DateTime startOfWeek = today.subtract(
+        Duration(days: today.weekday - 1)); // Start of the current week
+
+    DateFormat timeFormat = DateFormat('h:mm a'); // e.g., 3:41 PM
+    DateFormat dayFormat = DateFormat('EEE h:mm a'); // e.g., Wed 3:41 PM
+    DateFormat dateFormat =
+        DateFormat('MM/dd/yyyy'); // e.g., 10/10/2024 10:50 PM
+
+    if (dateTime.isAfter(today)) {
+      return '${timeFormat.format(dateTime)}';
+    } else if (dateTime.isAfter(yesterday)) {
+      return 'Yesterday ${timeFormat.format(dateTime)}';
+    } else if (dateTime.isAfter(startOfWeek)) {
+      return dayFormat.format(dateTime);
+    } else {
+      return dateFormat.format(dateTime);
+    }
+  } catch (e) {
+    return "--";
+  }
+}

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -52,10 +53,10 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
     chatUpdate = Timer.periodic(
       const Duration(seconds: 10),
       (timer) async {
-        if(!chatClassGroupController.searchEnabled.value) {
+        if (!chatClassGroupController.searchEnabled.value) {
           await chatClassGroupController.fetchClassGroupListPeriodically();
         }
-        if(!parentChatListController.searchEnabled.value) {
+        if (!parentChatListController.searchEnabled.value) {
           await parentChatListController.fetchParentChatListPeriodically();
         }
       },
@@ -86,99 +87,136 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
               child: GetX<ChatClassGroupController>(
                 builder: (ChatClassGroupController controller) {
                   return Row(
-                      children: [
-                        if(controller.searchEnabled.value)
-                          Expanded(
-                            child: Container(
-                              height: 45,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(15)).r,
-                                color: Colors.white,
-                              ),
-                              child: Row(
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      controller.searchEnabled.value = false;
-                                      parentChatListController.searchEnabled.value = false;
-                                    },
-                                    child: Container(
-                                      width: 30,
-                                        height: 15,
-                                        padding: const EdgeInsets.only(left: 10),
-                                        child: FittedBox(child: Icon(Icons.arrow_back_ios, color: Colors.black,)),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: CupertinoSearchTextField(
-
-                                      backgroundColor: Colors.white,
-                                      onChanged: (value) {
-                                        if(_tabcontroller?.index == 0) {
-                                          controller.filterGroupList(text: value);
-                                        } else if(_tabcontroller?.index == 1) {
-                                          parentChatListController.filterGroupList(text: value);
-                                        }
-                                      },
-                                      // decoration: ,
-                                    ),
-                                      // child: TextFormField(
-                                      //   onTap: () {
-                                      //     controller.searchEnabled.value = false;
-                                      //   },
-                                      //   decoration: InputDecoration(
-                                      //     enabledBorder: OutlineInputBorder(
-                                      //       borderRadius: BorderRadius.circular(20).r,
-                                      //       borderSide: BorderSide(
-                                      //         color: Colors.grey,
-                                      //       ),
-                                      //     ),
-                                      //     contentPadding: EdgeInsets.all(0)
-                                      //   ),
-                                      // ),
-                                  ),
-                                ],
-                              ),
+                    children: [
+                      if (controller.searchEnabled.value)
+                        Expanded(
+                          child: Container(
+                            height: 45,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)).r,
+                              color: Colors.white,
                             ),
-                          )
-                        else
-                          Expanded(
                             child: Row(
-                              // mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(
-                                  'Chat with parents',
-                                  style: GoogleFonts.inter(
-                                    fontSize: 25.h,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                const Spacer(),
                                 InkWell(
                                   onTap: () {
-                                    controller.searchEnabled.value = true;
-                                    parentChatListController.searchEnabled.value = true;
+                                    controller.searchEnabled.value = false;
+                                    parentChatListController
+                                        .searchEnabled.value = false;
                                   },
-                                  child: SvgPicture.asset(
-                                    'assets/images/MagnifyingGlass.svg',
-                                    width: 27.h,
-                                    fit: BoxFit.fitWidth,
+                                  child: Container(
+                                    width: 30,
+                                    height: 15,
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: FittedBox(
+                                        child: Icon(
+                                      Icons.arrow_back_ios,
+                                      color: Colors.black,
+                                    )),
                                   ),
+                                ),
+                                Expanded(
+                                  child: CupertinoSearchTextField(
+                                    backgroundColor: Colors.white,
+                                    onChanged: (value) {
+                                      if (_tabcontroller?.index == 0) {
+                                        controller.filterGroupList(text: value);
+                                      } else if (_tabcontroller?.index == 1) {
+                                        parentChatListController
+                                            .filterGroupList(text: value);
+                                      }
+                                    },
+                                    // decoration: ,
+                                  ),
+                                  // child: TextFormField(
+                                  //   onTap: () {
+                                  //     controller.searchEnabled.value = false;
+                                  //   },
+                                  //   decoration: InputDecoration(
+                                  //     enabledBorder: OutlineInputBorder(
+                                  //       borderRadius: BorderRadius.circular(20).r,
+                                  //       borderSide: BorderSide(
+                                  //         color: Colors.grey,
+                                  //       ),
+                                  //     ),
+                                  //     contentPadding: EdgeInsets.all(0)
+                                  //   ),
+                                  // ),
                                 ),
                               ],
                             ),
                           ),
-                        SizedBox(width: 10,),
-                        if (controller.currentChatTab.value == 1 && !parentChatListController.searchEnabled.value)
-                          Padding(
+                        )
+                      else
+                        Expanded(
+                          child: Row(
+                            // mainAxisSize: MainAxisSize.min,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  ZoomDrawer.of(context)?.toggle();
+                                },
+                                child: Container(
+                                  height: 50.h,
+                                  width: 50.h,
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 9)
+                                          .h,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        Colorutils.Whitecolor.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(8).r,
+                                  ),
+                                  child: SvgPicture.asset(
+                                    // width: 50.h,
+                                    "assets/images/menu_icon.svg",
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                'Chat with Parents',
+                                style: GoogleFonts.inter(
+                                  fontSize: 25.h,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const Spacer(),
+                              InkWell(
+                                onTap: () {
+                                  controller.searchEnabled.value = true;
+                                  parentChatListController.searchEnabled.value =
+                                      true;
+                                },
+                                child: SvgPicture.asset(
+                                  'assets/images/MagnifyingGlass.svg',
+                                  width: 27.h,
+                                  fit: BoxFit.fitWidth,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      if (controller.currentChatTab.value == 1 &&
+                          !parentChatListController.searchEnabled.value)
+                        Padding(
                           padding: const EdgeInsets.only(left: 6).w,
                           child: InkWell(
                             onTap: () {
                               parentChatListController.setCurrentFilterClass(
                                   currentClass: 'All');
-                              parentChatListController.filterParentList(text: '');
-                              if(parentChatListController.parentChatList.value.isNotEmpty) {
+                              parentChatListController.filterParentList(
+                                  text: '');
+                              if (parentChatListController
+                                  .parentChatList.value.isNotEmpty) {
                                 showModalBottomSheet(
                                   context: context,
                                   backgroundColor: Colors.transparent,
@@ -188,12 +226,13 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                                   },
                                 );
                               } else {
-                                snackBar(context: context, message: "Parent chat list is empty.", color: Colors.red);
+                                snackBar(
+                                    context: context,
+                                    message: "Parent chat list is empty.",
+                                    color: Colors.red);
                               }
                             },
-
                             child: Container(
-
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(100).w),
@@ -204,8 +243,8 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                             ),
                           ),
                         ),
-                      ],
-                    );
+                    ],
+                  );
                 },
               ),
             ),
@@ -324,14 +363,14 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
               child: Container(
                 color: Colors.white,
                 child: PageView(
-
                   controller: pageController,
                   onPageChanged: (index) {
                     // if(_tabcontroller != null) {
                     _tabcontroller = TabController(
                         length: 2, vsync: this, initialIndex: index);
                     setState(() {});
-                    Get.find<ChatClassGroupController>().setCurrentChatTab(index);
+                    Get.find<ChatClassGroupController>()
+                        .setCurrentChatTab(index);
                     // }
                   },
                   children: const [

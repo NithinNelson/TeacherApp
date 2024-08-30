@@ -54,7 +54,7 @@ class _ChatWithParentsDummyLayerState extends State<ChatWithParentsDummyLayer> w
               child: Row(
                 children: [
                   Text(
-                    'Chat with parents',
+                    'Chat with Parents',
                     style: GoogleFonts.inter(
                       fontSize: 25.h,
                       fontWeight: FontWeight.w600,

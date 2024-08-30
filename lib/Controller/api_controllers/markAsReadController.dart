@@ -1,11 +1,8 @@
-import 'dart:ffi';
-
 import 'package:get/get.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 
 import '../../Models/api_models/makasread_api_Model.dart';
 import '../../Services/api_services.dart';
-import 'notificationController.dart';
 
 class MarkAsReadController extends GetxController {
   Rx<MarkasreadData> markAsReadValue = MarkasreadData().obs;

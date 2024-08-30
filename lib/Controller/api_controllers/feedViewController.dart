@@ -54,6 +54,8 @@ class FeedViewController extends GetxController {
   RxInt selectedParentCount = 0.obs; // for showing selected parent count //
   RxBool showSelectAllIcon = false.obs; // for showing selected parent count //
 
+  
+
   late int chatMsgCount;
   int messageCount = 30;
   bool showScrollIcon = true;
@@ -459,7 +461,7 @@ class FeedViewController extends GetxController {
   }
 
   search(String value) {
-    selectedParentDataList.value = tempList
+    tempList.value = selectedParentDataList
         .where((parent) => parent.studentName
             .toString()
             .toUpperCase()

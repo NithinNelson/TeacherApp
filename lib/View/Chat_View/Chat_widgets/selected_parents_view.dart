@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,9 +16,9 @@ class SelectedParentsList extends StatelessWidget {
     return GetBuilder<FeedViewController>(
       builder: (FeedViewController controller) {
         List<ParentDataSelected> selectedParents =
-            controller.showSelectedParentDataStack.value;
+            controller.showSelectedParentDataStack;
         int stackLength =
-            controller.showSelectedParentDataStack.value.length > 5
+            controller.showSelectedParentDataStack.length > 5
                 ? 4
                 : selectedParents.length;
         double stackWidth = stackLength * 44;
@@ -123,7 +121,7 @@ class SelectedParentsList extends StatelessWidget {
                                 backgroundColor: Colors.transparent,
                                 isScrollControlled: true,
                                 builder: (context) {
-                                  return const ParentSelectionBottomSheet();
+                                  return  ParentSelectionBottomSheet();
                                 },
                               );
                             },

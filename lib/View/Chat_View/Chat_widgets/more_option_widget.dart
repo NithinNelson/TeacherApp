@@ -50,14 +50,11 @@ class MessageMoreContainer extends StatelessWidget {
                               text: Get.find<FeedViewController>()
                                   .seletedMsgData!
                                   .message!));
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text('Copied to clipboard'),
-                          ));
-                          // snackBar(
-                          //     context: context,
-                          //     message: "Copy to clipboard",
-                          //     color: Colorutils.black);
+                          // ScaffoldMessenger.of(context)
+                          //     .showSnackBar(const SnackBar(
+                          //   content: Text('Copied to clipboard'),
+                          // ));
+                          Navigator.pop(context);
                         },
                         text: "Copy",
                         icon: "assets/images/Copy.svg",
@@ -227,14 +224,11 @@ class MessageMoreContainer2 extends StatelessWidget {
                               text: Get.find<ParentChattingController>()
                                   .seletedMsgData!
                                   .message!));
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text('Copied to clipboard'),
-                          ));
-                          // snackBar(
-                          //     context: context,
-                          //     message: "Copy to clipboard",
-                          //     color: Colorutils.black);
+                          // ScaffoldMessenger.of(context)
+                          //     .showSnackBar(const SnackBar(
+                          //   content: Text('Copied to clipboard'),
+                          // ));
+                          Navigator.pop(context);
                         },
                         text: "Copy",
                         icon: "assets/images/Copy.svg",

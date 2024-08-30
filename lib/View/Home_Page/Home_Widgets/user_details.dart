@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,10 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
-import 'package:teacherapp/Utils/font_util.dart';
 import 'package:text_scroll/text_scroll.dart';
 import '../../../Controller/api_controllers/notificationController.dart';
-import '../../../Models/api_models/notification_api_model.dart';
 import '../../../Utils/Colors.dart';
 import '../../Notification/Notification.dart';
 
@@ -72,7 +68,8 @@ class UserDetails extends StatelessWidget {
                         child: Container(
                           height: 50.h,
                           width: 50.h,
-                          padding: EdgeInsets.only(top: 8.h, bottom: 8.h, left: 5.w, right: 8.w),
+                          padding: EdgeInsets.only(
+                              top: 8.h, bottom: 8.h, left: 5.w, right: 8.w),
                           decoration: BoxDecoration(
                             color: Colorutils.Whitecolor.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(8).r,
@@ -155,7 +152,8 @@ class UserDetails extends StatelessWidget {
                             child: Stack(
                               children: [
                                 Padding(
-                                    padding: EdgeInsets.only(right: 5.w, top: 5.h),
+                                    padding:
+                                        EdgeInsets.only(right: 5.w, top: 5.h),
                                     child: bellicon
                                         ? SvgPicture.asset(
                                             'assets/images/bell 1.svg',
@@ -182,7 +180,8 @@ class UserDetails extends StatelessWidget {
                                                 fontFamily: 'Inter',
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 10.h,
-                                                color: Colorutils.userdetailcolor,
+                                                color:
+                                                    Colorutils.userdetailcolor,
                                               ),
                                             ),
                                           ),
@@ -205,8 +204,11 @@ class UserDetails extends StatelessWidget {
                           child: CachedNetworkImage(
                             imageUrl: controller.userData.value.image ?? '--',
                             errorWidget: (context, url, error) {
-                              return const Icon(Icons.person,
-                                  color: Colors.grey, size: 30,);
+                              return const Icon(
+                                Icons.person,
+                                color: Colors.grey,
+                                size: 30,
+                              );
                             },
                           ),
                         ),

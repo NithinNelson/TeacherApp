@@ -9,8 +9,23 @@ import '../../../Utils/Colors.dart';
 import '../../../Utils/font_util.dart';
 import '../../../Models/api_models/parent_list_api_model.dart';
 
-class ParentSelectionBottomSheet extends StatelessWidget {
-  const ParentSelectionBottomSheet({super.key});
+class ParentSelectionBottomSheet extends StatefulWidget {
+  ParentSelectionBottomSheet({super.key});
+
+  @override
+  State<ParentSelectionBottomSheet> createState() =>
+      _ParentSelectionBottomSheetState();
+}
+
+class _ParentSelectionBottomSheetState
+    extends State<ParentSelectionBottomSheet> {
+  late TextEditingController textCtr;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    textCtr = TextEditingController(); // for search parentlist //
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +48,7 @@ class ParentSelectionBottomSheet extends StatelessWidget {
             int count = controller.parentListApiData.value.data?.count ?? 0;
             // List<ParentData> parentList = controller.parentDataList.value;
             List<ParentDataSelected> selectedParentList =
-                controller.selectedParentDataList.value;
+                controller.selectedParentDataList;
             controller.getSelectedParentCount();
             controller.getSelectAllIconData();
 
@@ -107,6 +122,7 @@ class ParentSelectionBottomSheet extends StatelessWidget {
                     onChanged: (value) {
                       controller.search(value);
                     },
+                    controller: textCtr,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       filled: true,
@@ -239,80 +255,163 @@ class ParentSelectionBottomSheet extends StatelessWidget {
                 ),
                 SizedBox(height: 16.h),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: selectedParentList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      List<Color> colors = [
-                        Colorutils.letters1,
-                        Colorutils.svguicolour2,
-                        Colorutils.Subjectcolor4
-                      ];
+                  child: textCtr.text.isEmpty
+                      ? ListView.builder(
+                          itemCount: selectedParentList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            List<Color> colors = [
+                              Colorutils.letters1,
+                              Colorutils.svguicolour2,
+                              Colorutils.Subjectcolor4
+                            ];
 
-                      Color color = colors[index % colors.length];
-                      return ListTile(
-                        contentPadding: const EdgeInsets.all(0),
-                        minVerticalPadding: 0,
-                        leading: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            if (selectedParentList[index].isSelected)
-                              const Icon(Icons.check_circle,
-                                  color: Colors.green)
-                            else
-                              const Icon(Icons.circle_outlined,
-                                  color: Colors.green),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            Container(
-                              width: 55.w,
-                              height: 55.w,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: color,
-                                  )),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100).r,
-                                child: FittedBox(
-                                  child: CachedNetworkImage(
-                                    imageUrl:
-                                        selectedParentList[index].image ?? '',
-                                    fit: BoxFit.cover,
-                                    errorWidget: (context, url, error) {
-                                      return Padding(
-                                        padding: const EdgeInsets.all(10).w,
-                                        child: const Icon(Icons.person,
-                                            color: Colors.grey),
-                                      );
-                                    },
+                            Color color = colors[index % colors.length];
+                            return ListTile(
+                              contentPadding: const EdgeInsets.all(0),
+                              minVerticalPadding: 0,
+                              leading: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if (selectedParentList[index].isSelected)
+                                    const Icon(Icons.check_circle,
+                                        color: Colors.green)
+                                  else
+                                    const Icon(Icons.circle_outlined,
+                                        color: Colors.green),
+                                  SizedBox(
+                                    width: 10.w,
                                   ),
+                                  Container(
+                                    width: 55.w,
+                                    height: 55.w,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: color,
+                                        )),
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.circular(100).r,
+                                      child: FittedBox(
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                              selectedParentList[index].image ??
+                                                  '',
+                                          fit: BoxFit.cover,
+                                          errorWidget: (context, url, error) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.all(10).w,
+                                              child: const Icon(Icons.person,
+                                                  color: Colors.grey),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              title: Text(
+                                capitalizeEachWord(selectedParentList[index]
+                                        .studentName) ??
+                                    '--',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.sp,
+                                  color: Colors.black,
                                 ),
                               ),
-                            ),
-                          ],
+                              subtitle: Text(
+                                selectRelation(selectedParentList[index]),
+                                style: TeacherAppFonts
+                                    .poppinsW500_12sp_lightGreenForParent,
+                              ),
+                              onTap: () {
+                                controller
+                                    .addParentList(selectedParentList[index]);
+                              },
+                            );
+                          },
+                        )
+                      : ListView.builder(
+                          itemCount: controller.tempList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            List<Color> colors = [
+                              Colorutils.letters1,
+                              Colorutils.svguicolour2,
+                              Colorutils.Subjectcolor4
+                            ];
+
+                            Color color = colors[index % colors.length];
+                            return ListTile(
+                              contentPadding: const EdgeInsets.all(0),
+                              minVerticalPadding: 0,
+                              leading: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if (controller.tempList[index].isSelected)
+                                    const Icon(Icons.check_circle,
+                                        color: Colors.green)
+                                  else
+                                    const Icon(Icons.circle_outlined,
+                                        color: Colors.green),
+                                  SizedBox(
+                                    width: 10.w,
+                                  ),
+                                  Container(
+                                    width: 55.w,
+                                    height: 55.w,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: color,
+                                        )),
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.circular(100).r,
+                                      child: FittedBox(
+                                        child: CachedNetworkImage(
+                                          imageUrl: controller
+                                                  .tempList[index].image ??
+                                              '',
+                                          fit: BoxFit.cover,
+                                          errorWidget: (context, url, error) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.all(10).w,
+                                              child: const Icon(Icons.person,
+                                                  color: Colors.grey),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              title: Text(
+                                capitalizeEachWord(controller
+                                        .tempList[index].studentName) ??
+                                    '--',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.sp,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              subtitle: Text(
+                                selectRelation(controller.tempList[index]),
+                                style: TeacherAppFonts
+                                    .poppinsW500_12sp_lightGreenForParent,
+                              ),
+                              onTap: () {
+                                controller
+                                    .addParentList(controller.tempList[index]);
+                              },
+                            );
+                          },
                         ),
-                        title: Text(
-                          capitalizeEachWord(
-                                  selectedParentList[index].studentName) ??
-                              '--',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16.sp,
-                            color: Colors.black,
-                          ),
-                        ),
-                        subtitle: Text(
-                          selectRelation(selectedParentList[index]),
-                          style: TeacherAppFonts
-                              .poppinsW500_12sp_lightGreenForParent,
-                        ),
-                        onTap: () {
-                          controller.addParentList(selectedParentList[index]);
-                        },
-                      );
-                    },
-                  ),
                 ),
               ],
             );
