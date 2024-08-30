@@ -137,9 +137,7 @@ class _ScandataState extends State<Scandata> {
                                       "Grade ${Studentdetail.batch?.split("/")[0]}""-""${Studentdetail.batch?.split("/")[1]}",
                                       style: TextStyle(fontSize: 14),
                                     ),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
+
                                     Text(
                                       "${Studentdetail.admnNo}",
                                       style: TextStyle(

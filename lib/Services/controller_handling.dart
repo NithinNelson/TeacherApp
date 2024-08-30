@@ -13,6 +13,7 @@ import '../Controller/api_controllers/obsResultController.dart';
 import '../Controller/api_controllers/parentChatController.dart';
 import '../Controller/api_controllers/parentChatListController.dart';
 import '../Controller/api_controllers/qrController.dart';
+import '../Controller/api_controllers/recentListApiController.dart';
 import '../Controller/api_controllers/timeTableController.dart';
 import '../Controller/api_controllers/userAuthController.dart';
 import '../Controller/forward_controller.dart/forward_controller.dart';
@@ -46,6 +47,7 @@ class HandleControllers {
     Get.put(ObsResultController());
     Get.put(ChatSearchController());
     Get.put(Qrcontroller());
+    Get.put(RecentListApiController());
   }
 
   static deleteAllGetControllers() {
@@ -71,5 +73,6 @@ class HandleControllers {
     Get.delete<ObsResultController>();
     Get.delete<ChatSearchController>();
     Get.delete<Qrcontroller>();
+    Get.delete<RecentListApiController>();
   }
 }

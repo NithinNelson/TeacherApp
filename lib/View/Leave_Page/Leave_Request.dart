@@ -143,6 +143,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                           classlist.sort((a, b) => "${a.className!}${a.batchName!}".compareTo("${b.className!}${b.batchName!}"));
                                           return ListView.builder(
                                               shrinkWrap: true,
+
                                               scrollDirection: Axis.horizontal,
                                               itemCount: classlist.length,
                                               itemBuilder:
@@ -154,6 +155,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                                       width: 5.w,
                                                     ),
                                                     SingleChildScrollView(
+
                                                       child: GestureDetector(
                                                         onTap: () {
                                                           setState(() {

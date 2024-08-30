@@ -7,6 +7,7 @@ import 'package:teacherapp/Models/api_models/leave_req_list_api_model.dart';
 
 import '../Models/api_models/chat_feed_view_model.dart';
 import '../Models/api_models/parent_chatting_model.dart';
+import '../Models/api_models/recentlist_model.dart';
 import '../Models/api_models/sent_msg_by_teacher_model.dart';
 import '../Utils/api_constants.dart';
 import 'package:http/http.dart' as http;
@@ -762,4 +763,38 @@ class ApiServices {
       throw Exception("Service Error");
     }
   }
+  static Future<Map<String, dynamic>> getRecentList({
+    required String schoolId,
+    required String academicYear,
+    required List<EndorsedClass> endorsedClass,
+  }) async {
+    String url = ApiConstants.RecentVisit;
+    print(url);
+    Map apiBody = {
+      "school_id": schoolId,
+      "academic_year": academicYear,
+      "Endorsed_class": endorsedClass,
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      log('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+
+
+
+
+
 }
