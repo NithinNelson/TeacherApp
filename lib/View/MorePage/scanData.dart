@@ -6,12 +6,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/View/Home_Page/Home_Widgets/bottom_navigationbar.dart';
 import 'package:teacherapp/View/MorePage/trackingPage.dart';
 
 import '../../Controller/api_controllers/qrController.dart';
+import '../../Controller/api_controllers/recentListApiController.dart';
+import '../../Controller/api_controllers/studentModelController.dart';
 import '../../Models/api_models/qr_clinic_model.dart';
+import '../../Models/api_models/student_add_Model.dart';
 import '../../Utils/Colors.dart';
+import '../CWidgets/TeacherAppPopUps.dart';
 
 class Scandata extends StatefulWidget {
   const Scandata({
@@ -25,8 +30,8 @@ class Scandata extends StatefulWidget {
 class _ScandataState extends State<Scandata> {
   bool isClicked = false;
   bool isClicked1 = false;
-  bool isClicked2= false;
-
+  bool isClicked2 = false;
+  TextEditingController _Remarkscontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +51,7 @@ class _ScandataState extends State<Scandata> {
                         Padding(
                             padding: EdgeInsets.only(left: 18),
                             child: GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 Navigator.of(context).pop();
                               },
                               child: Icon(
@@ -59,7 +64,8 @@ class _ScandataState extends State<Scandata> {
                         ),
                         Text(
                           "Add Students",
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w600),
                         ),
                         Spacer(
                           flex: 3,
@@ -75,22 +81,21 @@ class _ScandataState extends State<Scandata> {
                       width: double.infinity,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-              
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.only(left:5,right: 3),
+                        padding: const EdgeInsets.only(left: 5, right: 3),
                         child: Row(
                           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CircleAvatar(
-              
                               radius: 32.r,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(90.h),
                                 child: CachedNetworkImage(
                                   imageUrl: "${Studentdetail.profileImage}",
                                   placeholder: (context, url) => Text(
-                                    Studentdetail.studentName?.substring(0, 1) ??
+                                    Studentdetail.studentName
+                                            ?.substring(0, 1) ??
                                         '',
                                     style: TextStyle(
                                         color: Color(0xFFB1BFFF),
@@ -98,7 +103,8 @@ class _ScandataState extends State<Scandata> {
                                         fontSize: 20),
                                   ),
                                   errorWidget: (context, url, error) => Text(
-                                    Studentdetail.studentName?.substring(0, 1) ??
+                                    Studentdetail.studentName
+                                            ?.substring(0, 1) ??
                                         '',
                                     style: TextStyle(
                                         color: Color(0xFFB1BFFF),
@@ -108,12 +114,16 @@ class _ScandataState extends State<Scandata> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 5,),
+                            SizedBox(
+                              width: 5,
+                            ),
                             Container(
                               width: 230.w,
                               child: Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 6, bottom: 6,),
+                                  top: 6,
+                                  bottom: 6,
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -134,10 +144,11 @@ class _ScandataState extends State<Scandata> {
                                       height: 3,
                                     ),
                                     Text(
-                                      "Grade ${Studentdetail.batch?.split("/")[0]}""-""${Studentdetail.batch?.split("/")[1]}",
+                                      "Grade ${Studentdetail.batch?.split("/")[0]}"
+                                      "-"
+                                      "${Studentdetail.batch?.split("/")[1]}",
                                       style: TextStyle(fontSize: 14),
                                     ),
-
                                     Text(
                                       "${Studentdetail.admnNo}",
                                       style: TextStyle(
@@ -182,7 +193,7 @@ class _ScandataState extends State<Scandata> {
                           setState(() {
                             isClicked = true;
                             isClicked1 = false;
-                            isClicked2= false;
+                            isClicked2 = false;
                           });
                         },
                         child: Container(
@@ -191,15 +202,20 @@ class _ScandataState extends State<Scandata> {
                           child: Column(
                             children: [
                               Container(
-                                height: 50,
-                                width: 50,
-                                  child: isClicked?Image.asset("assets/images/2Clinic Selected.png"):Image.asset("assets/images/1Clinic .png")
-
-                              ),
+                                  height: 50,
+                                  width: 50,
+                                  child: isClicked
+                                      ? Image.asset(
+                                          "assets/images/2Clinic Selected.png")
+                                      : Image.asset(
+                                          "assets/images/1Clinic .png")),
                               SizedBox(
                                 height: 5,
                               ),
-                              Text("Clinic",style: TextStyle(fontSize: 13),)
+                              Text(
+                                "Clinic",
+                                style: TextStyle(fontSize: 13),
+                              )
                             ],
                           ),
                         ),
@@ -217,23 +233,28 @@ class _ScandataState extends State<Scandata> {
                             children: [
                               GestureDetector(
                                 child: Container(
-                                  height: 50,
-                                  width: 50,
-                                    child: isClicked1?Image.asset("assets/images/2Washroom selecetd.png"):Image.asset("assets/images/1Washroom.png")
-
-                                ),
+                                    height: 50,
+                                    width: 50,
+                                    child: isClicked1
+                                        ? Image.asset(
+                                            "assets/images/2Washroom selecetd.png")
+                                        : Image.asset(
+                                            "assets/images/1Washroom.png")),
                                 onTap: () {
                                   setState(() {
                                     isClicked1 = true;
                                     isClicked = false;
-                                    isClicked2= false;
+                                    isClicked2 = false;
                                   });
                                 },
                               ),
                               SizedBox(
                                 height: 5,
                               ),
-                              Text("Washroom",style: TextStyle(fontSize: 13),)
+                              Text(
+                                "Washroom",
+                                style: TextStyle(fontSize: 13),
+                              )
                             ],
                           ),
                         ),
@@ -243,7 +264,7 @@ class _ScandataState extends State<Scandata> {
                           setState(() {
                             isClicked2 = true;
                             isClicked = false;
-                            isClicked1= false;
+                            isClicked1 = false;
                           });
                         },
                         child: Container(
@@ -252,14 +273,20 @@ class _ScandataState extends State<Scandata> {
                           child: Column(
                             children: [
                               Container(
-                                height: 50,
-                                width: 50,
-                               child: isClicked2?Image.asset("assets/images/2Counsellor selected.png"):Image.asset("assets/images/1Counsellor.png")
-                              ),
+                                  height: 50,
+                                  width: 50,
+                                  child: isClicked2
+                                      ? Image.asset(
+                                          "assets/images/2Counsellor selected.png")
+                                      : Image.asset(
+                                          "assets/images/1Counsellor.png")),
                               SizedBox(
                                 height: 5,
                               ),
-                              Text("Councellor",style: TextStyle(fontSize: 13),)
+                              Text(
+                                "Councellor",
+                                style: TextStyle(fontSize: 13),
+                              )
                             ],
                           ),
                         ),
@@ -290,7 +317,7 @@ class _ScandataState extends State<Scandata> {
                       bottom: 5.h,
                     ),
                     child: TextFormField(
-
+                      controller: _Remarkscontroller,
                       validator: (val) =>
                           val!.isEmpty ? '  *Fill the Field to Submit' : null,
                       decoration: InputDecoration(
@@ -302,22 +329,18 @@ class _ScandataState extends State<Scandata> {
                             borderRadius: const BorderRadius.all(
                               Radius.circular(10.0),
                             ).r,
-
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color:  Colorutils.chatcolor,
-                                width: 1.0),
+                                color: Colorutils.chatcolor, width: 1.0),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(10)).r,
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: Colorutils.chatcolor,
-                                width: 1.0),
+                                color: Colorutils.chatcolor, width: 1.0),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(10.0)).r,
-
                           ),
                           fillColor: Colors.white,
                           filled: true),
@@ -328,11 +351,46 @@ class _ScandataState extends State<Scandata> {
                     child: Padding(
                       padding: EdgeInsets.only(top: 25.h),
                       child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => TrackingPage()));
+                        onTap: () async {
+                          String type = isClicked ? "clinic" : isClicked1 ? "washroom" : isClicked2 ? "councellor" : '';
+                          StudentAddModel sentData = StudentAddModel(
+                            academicYear: Get.find<UserAuthController>()
+                                    .userData
+                                    .value
+                                    .academicYear ??
+                                '',
+                            admnNo: Studentdetail.admnNo,
+                            age: Studentdetail.age,
+                            batchDetails: Studentdetail.batch,
+                            dob: Studentdetail.dob,
+                            studentName: Studentdetail.studentName,
+                            fatherEmail: Studentdetail.fatherEmail,
+                            fatherName: Studentdetail.fatherName,
+                            fatherPhone: Studentdetail.fatherPhone,
+                            gender: Studentdetail.gender,
+                            profilePic: Studentdetail.profileImage,
+                            instID: Studentdetail.instID,
+                            remarks: _Remarkscontroller.text,
+                       sentBy: Get.find<UserAuthController>()
+                              .userData
+                              .value
+                              .username ??
+                              '',
+                            sentById: Get.find<UserAuthController>()
+                                .userData
+                                .value
+                                .userId ??
+                                '',
+                            sentByToken:
+                                ' ',
+                            visitStatus: "Sent to ${type[0].toUpperCase()}${type.substring(1, type.length)}",
+                            appType: type,
+
+
+                          );
+
+                          await Get.find<Studentmodelcontroller>().sendStudentData(data: sentData);
+                          await Get.find<RecentListApiController>().fetchRecentList();
                         },
                         child: Padding(
                           padding: EdgeInsets.only(
@@ -340,13 +398,15 @@ class _ScandataState extends State<Scandata> {
                             top: 5.h,
                             right: 20.w,
                             bottom: 5.h,
-                          ),                          child: Container(
+                          ),
+                          child: Container(
                               height: 50.h,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: Colorutils.userdetailcolor,
                                 borderRadius:
-                                    const BorderRadius.all(Radius.circular(15)).r,
+                                    const BorderRadius.all(Radius.circular(15))
+                                        .r,
                               ),
                               child: const Center(
                                 child: Text(

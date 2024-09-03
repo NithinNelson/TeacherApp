@@ -224,7 +224,7 @@ class TrackingPage extends StatelessWidget {
                             SizedBox(width: 10,),
                             GestureDetector(
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => trackingDetails()));
+                                // Navigator.push(context, MaterialPageRoute(builder: (context) => trackingDetails()));
                               },
                               child: CircleAvatar(
                                 radius: 20,

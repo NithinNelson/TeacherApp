@@ -68,5 +68,5 @@ class ApiConstants {
   static String WorkLoad = "https://teamsqa3000.educore.guru/v2/get/workloads/from/credentials";
   static String Qrscan = "https://sqa.docme.online/bm-school/Docme-UI/registration/get_student_search_data";
   static String RecentVisit = "https://apiqa-bmclinic.docme.online/v2/recent_visit";
-
+  static String AddClinicStudents = "https://apiqa-bmclinic.docme.online/v2/add_student";
 }

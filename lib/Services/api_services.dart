@@ -9,6 +9,8 @@ import '../Models/api_models/chat_feed_view_model.dart';
 import '../Models/api_models/parent_chatting_model.dart';
 import '../Models/api_models/recentlist_model.dart';
 import '../Models/api_models/sent_msg_by_teacher_model.dart';
+import '../Models/api_models/student_add_Model.dart';
+import '../Models/api_models/time_table_api_model.dart';
 import '../Utils/api_constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -766,7 +768,7 @@ class ApiServices {
   static Future<Map<String, dynamic>> getRecentList({
     required String schoolId,
     required String academicYear,
-    required List<EndorsedClass> endorsedClass,
+    required List<Map<String, dynamic>> endorsedClass,
   }) async {
     String url = ApiConstants.RecentVisit;
     print(url);
@@ -791,8 +793,48 @@ class ApiServices {
       throw Exception("Service Error");
     }
   }
-
-
+//summit data
+  static Future<Map<String, dynamic>> getSubmit({
+    required StudentAddModel data,
+  }) async {
+    String url = ApiConstants.AddClinicStudents;
+    print(url);
+    Map apiBody = {
+      "Admn_No": data.admnNo,
+      "student_name": data.studentName,
+      "profile_pic": data.profilePic,
+      "batch_details": data.batchDetails,
+      "academic_year": data.academicYear,
+      "inst_ID": data.instID,
+      "age": data.age,
+      "dob": data.dob,
+      "gender": data.gender,
+      "father_name":data.fatherName ,
+      "father_phone":data.fatherPhone,
+      "father_email": data.fatherEmail,
+      "remarks": data.remarks,
+      "app_type": data.appType,
+      "visit_status": data.visitStatus,
+      "sent_by": data.sentBy,
+      "sent_by_id": data.sentById,
+      "sent_by_token": data.sentByToken
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      log('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
 
 
 
