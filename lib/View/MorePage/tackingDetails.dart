@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:slider_button/slider_button.dart';
@@ -11,12 +13,17 @@ import 'package:teacherapp/View/MorePage/tackingDetails.dart';
 import 'package:teacherapp/View/MorePage/trackingPage.dart';
 import 'package:timelines/timelines.dart';
 
+import '../../Controller/api_controllers/recentListApiController.dart';
+import '../../Controller/api_controllers/studentUpdateController.dart';
+import '../../Controller/api_controllers/userAuthController.dart';
 import '../../Models/api_models/recentlist_model.dart';
+import '../../Models/api_models/student_updateModel.dart';
 import '../../Utils/Colors.dart';
 
 class trackingDetails extends StatelessWidget {
+  final DateTime starttime;
   final RecentData inProgressList;
-  const trackingDetails({super.key, required this.inProgressList});
+  const trackingDetails({super.key, required this.inProgressList, required this.starttime});
 
   @override
   Widget build(BuildContext context) {
@@ -155,16 +162,28 @@ class trackingDetails extends StatelessWidget {
                 ),
               ),
             ),
-          if(inProgressList.status?.length == 1 )
-            Container1( inProgressData: inProgressList,
-
+            GetX<RecentListApiController>(
+              builder: (RecentListApiController controller) {
+                RecentData data = inProgressList;
+                for (var progressData in controller.inProgressData.value) {
+                  if(progressData.id == inProgressList.id) {
+                    data = progressData;
+                  }
+                }
+                return Column(
+                  children: [
+                    if(data.status?.length == 1 )
+                      Container1(inProgressData: data, starttime: starttime),
+                    if(data.status?.length == 2 )
+                      Container2(),
+                    if(data.status?.length == 3 )
+                      Container3(),
+                    if(data.status?.length == 4 )
+                      Container4(),
+                  ],
+                );
+              },
             ),
-            if(inProgressList.status?.length == 2 )
-              Container2(),
-            if(inProgressList.status?.length == 3 )
-              Container3(),
-            if(inProgressList.status?.length == 4 )
-              Container4(),
           ],
         ),
       ),
@@ -172,12 +191,66 @@ class trackingDetails extends StatelessWidget {
   }
 }
 
-class Container1 extends StatelessWidget {
+class Container1 extends StatefulWidget {
+
+  final DateTime starttime;
   final RecentData inProgressData;
-  const Container1({super.key, required this.inProgressData,});
+  const Container1({super.key, required this.inProgressData, required this.starttime,});
 
   @override
+  State<Container1> createState() => _Container1State();
+}
+
+class _Container1State extends State<Container1> {
+  static const int countdownDuration = 15 * 60; // 5 minutes in seconds
+
+  late DateTime endTime; // The end time for the countdown
+  late Timer timer;
+
+  @override
+  void initState() {
+    super.initState();
+    endTime = widget.starttime.add(Duration(
+        seconds:
+        countdownDuration)); // Calculate the end time based on the start time
+    startTimer(); // Start the timer when the screen is initialized
+  }
+
+  String? startTimer() {
+
+    bool text = false;
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (DateTime.now().isBefore(endTime)) {
+          // Countdown is still in progress
+        } else {
+          timer
+              .cancel();
+
+          text = true
+          ;// Stop the timer when the current time reaches or exceeds the end time
+        }
+      });
+    });
+    if(text=true){
+      return "Not Yet Reached";
+    }
+
+  }
+
+  @override
+  void dispose() {
+    timer.cancel(); // Cancel the timer when the widget is disposed
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
+    int remainingTime = endTime.difference(DateTime.now()).inSeconds;
+    remainingTime = remainingTime > 0
+        ? remainingTime
+        : 0;
+
+    double progress = (countdownDuration - remainingTime) / countdownDuration;
     return Column(
       children: [
         Padding(
@@ -187,7 +260,7 @@ class Container1 extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  inProgressData.status?[0].visitStatus ?? '--',
+                  widget.inProgressData.status?[0].visitStatus ?? '--',
                   style: TextStyle(
                       fontSize: 18.w, fontWeight: FontWeight.bold),
                   maxLines: 3,
@@ -225,7 +298,7 @@ class Container1 extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(DateFormat('HH : mm').format(DateTime.parse(inProgressData.status?[0].addedOn  ?? '--').toLocal()),
+                      Text(DateFormat('HH : mm').format(DateTime.parse(widget.inProgressData.status?[0].addedOn  ?? '--').toLocal()),
 
                           style: TextStyle(color: Colors.grey,fontSize: 12)),
                       Text("-- : --",
@@ -247,12 +320,12 @@ class Container1 extends StatelessWidget {
                               child: Positioned(
                                 child: CustomLinearProgressIndicator(
 
-                                  value: 0.7,
+                                  value: progress,
 
                                   backgroundColor:Colors.grey.withOpacity(0.3),
                                   textColor: Colors.white,
                                   borderRadius: BorderRadius.circular(15),
-                                  text: "05.25 left", gradient: LinearGradient(
+                                  text:"${formatTime(remainingTime)}"" Left", gradient: const LinearGradient(
                                   colors: [Colorutils.userdetailcolor,Colorutils.userdetailcolor],
                                 ),
                                 ),
@@ -307,8 +380,8 @@ class Container1 extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("${inProgressData.status?[0].visitStatus}",style: TextStyle(fontSize: 12),),
-                      Text( "Reached ""${Reachedstatus("${inProgressData.status?[0].visitStatus}")}",style: TextStyle(fontSize: 12),),
+                      Text("${widget.inProgressData.status?[0].visitStatus}",style: TextStyle(fontSize: 12),),
+                      Text( "Reached ""${Reachedstatus("${widget.inProgressData.status?[0].visitStatus}")}",style: TextStyle(fontSize: 12),),
 
                     ],
                   ),
@@ -328,7 +401,17 @@ class Container1 extends StatelessWidget {
                             radius: 50,
                             buttonSize: 50,
                             action: () async {
-                              // return false;
+                              StudentUpdateModel updateData = StudentUpdateModel(user: Get.find<UserAuthController>()
+                                  .userData
+                                  .value
+                                  .username ??
+                                  '',userId: Get.find<UserAuthController>()
+                                  .userData
+                                  .value
+                                  .userId ??
+                                  '',userToken:"",visitId:widget.inProgressData.id );
+                              await Get.find<Studentupdatecontroller>().sendStudentDatas(data: updateData);
+await Get.find<RecentListApiController>().fetchRecentList();
                             },
                             label: const Text(
                               "Slide to Confirm Arrival",
@@ -1102,54 +1185,9 @@ String Reachedstatus (String status ){
 
 
 
-class CountdownTimer {
-  final DateTime startTime;
-  final int durationInMinutes = 10; // Duration for the countdown in minutes
-  late Timer _timer;
 
-  CountdownTimer(this.startTime) {
-    _startTimer();
-  }
-
-  // Function to calculate the remaining time as a string
-  String getRemainingTimeString(String format) {
-    final now = DateTime.now();
-    final difference = startTime.difference(now);
-
-    if (difference.isNegative) {
-      return difference.toString();
-    }
-
-    final remainingMinutes = difference.inMinutes;
-    final remainingSeconds = difference.inSeconds % 60;
-
-    return "$remainingMinutes min ${remainingSeconds}s till start";
-  }
-
-  // Function to get progress for progress indicator
-  double getProgress() {
-    final now = DateTime.now();
-    final difference = startTime.difference(now);
-
-    if (difference.isNegative) {
-      return 1.0; // Completed
-    }
-
-    final totalDuration = Duration(minutes: durationInMinutes);
-    final remainingDuration = Duration(seconds: difference.inSeconds);
-
-    return 1.0 - (remainingDuration.inSeconds / totalDuration.inSeconds);
-  }
-
-  // Start the timer to update progress and remaining time
-  void _startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      // Update UI with new progress and remaining time
-      // For example: setState in a StatefulWidget
-    });
-  }
-
-  void dispose() {
-    _timer.cancel();
-  }
+String formatTime(int seconds) {
+  int minutes = seconds ~/ 60; // Calculate minutes
+  int remainingSeconds = seconds % 60; // Calculate remaining seconds
+  return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}'; // Format as mm:ss
 }

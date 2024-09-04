@@ -216,7 +216,7 @@ class TrackingPage extends StatelessWidget {
                                 backgroundColor: Colors.white,
                                 textColor: Colors.white,
                                 borderRadius: BorderRadius.circular(15),
-                                text: "05.25 left", gradient: LinearGradient(
+                                text:"formatTime(remainingTime)", gradient: LinearGradient(
                                 colors: [Colorutils.gradientColor1,Colorutils.gradientColor2],
                               ),
                               ),
@@ -327,7 +327,7 @@ class CustomLinearProgressIndicator extends StatelessWidget {
           text,
           style: TextStyle(
             fontSize: 12,
-            color: textColor,
+            color: Colors.grey,
             fontWeight: FontWeight.bold,
           ),
         ),

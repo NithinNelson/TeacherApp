@@ -10,6 +10,7 @@ import '../Models/api_models/parent_chatting_model.dart';
 import '../Models/api_models/recentlist_model.dart';
 import '../Models/api_models/sent_msg_by_teacher_model.dart';
 import '../Models/api_models/student_add_Model.dart';
+import '../Models/api_models/student_updateModel.dart';
 import '../Models/api_models/time_table_api_model.dart';
 import '../Utils/api_constants.dart';
 import 'package:http/http.dart' as http;
@@ -793,7 +794,7 @@ class ApiServices {
       throw Exception("Service Error");
     }
   }
-//summit data
+//summit data add students
   static Future<Map<String, dynamic>> getSubmit({
     required StudentAddModel data,
   }) async {
@@ -836,7 +837,34 @@ class ApiServices {
     }
   }
 
-
+//summit data add students
+  static Future<Map<String, dynamic>> getSubmitdata({
+    required StudentUpdateModel data,
+  }) async {
+    String url = ApiConstants.studentsUpdateClinc;
+    print(url);
+    Map apiBody = {
+      "visit_id": data.visitId,
+      "user": data.user,
+      "user_id": data.userId,
+      "user_token": data.userToken
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      log('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
 
 
 }

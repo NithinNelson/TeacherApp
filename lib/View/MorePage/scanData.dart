@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,7 @@ import '../../Models/api_models/qr_clinic_model.dart';
 import '../../Models/api_models/student_add_Model.dart';
 import '../../Utils/Colors.dart';
 import '../CWidgets/TeacherAppPopUps.dart';
+import 'all_Students.dart';
 
 class Scandata extends StatefulWidget {
   const Scandata({
@@ -391,6 +394,7 @@ class _ScandataState extends State<Scandata> {
 
                           await Get.find<Studentmodelcontroller>().sendStudentData(data: sentData);
                           await Get.find<RecentListApiController>().fetchRecentList();
+
                         },
                         child: Padding(
                           padding: EdgeInsets.only(

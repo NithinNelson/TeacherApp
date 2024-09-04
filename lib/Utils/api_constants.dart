@@ -69,4 +69,5 @@ class ApiConstants {
   static String Qrscan = "https://sqa.docme.online/bm-school/Docme-UI/registration/get_student_search_data";
   static String RecentVisit = "https://apiqa-bmclinic.docme.online/v2/recent_visit";
   static String AddClinicStudents = "https://apiqa-bmclinic.docme.online/v2/add_student";
+  static String studentsUpdateClinc = "https://apiqa-bmclinic.docme.online/v2/update_visit";
 }
