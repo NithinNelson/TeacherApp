@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:teacherapp/Controller/api_controllers/groupedViewListController.dart';
 import 'package:teacherapp/Models/api_models/grouped_view_list_api_model.dart';
+import 'package:teacherapp/Services/common_services.dart';
 import '../../Controller/api_controllers/userAuthController.dart';
 import '../../Models/api_models/chat_group_api_model.dart';
 import '../../Utils/Colors.dart';
@@ -41,7 +42,7 @@ class GroupedViewChat extends StatelessWidget {
               String? userId =
                   Get.find<UserAuthController>().userData.value.userId;
               return ChatItem(
-                time: formattedDate ?? '',
+                time: sentTime.toString(),
                 lastMessage: room[index].lastMessage,
                 userId: userId,
                 classTeacherGroup: room[index],
@@ -177,7 +178,7 @@ class ChatItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  time,
+                  chatRoomDateAndTimeFormat(time),
                   style: TeacherAppFonts.interW400_12sp_topicbackground,
                 ),
                 SizedBox(height: 10.h),

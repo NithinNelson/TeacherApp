@@ -123,6 +123,8 @@ class _GroupedViewChatScreenState extends State<GroupedViewChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("fhsahifh");
+    print("${widget.roomData?.subjectName}  fhsahifh " ?? "fhsahifh");
     return AllChatRoomDataInheritedWidget(
       batch: widget.roomData?.batch,
       classs: widget.roomData?.classs,
@@ -167,8 +169,23 @@ class _GroupedViewChatScreenState extends State<GroupedViewChatScreen> {
                     )
                   : Row(
                       children: [
-                        CircleAvatar(
-                            radius: 20.r, backgroundColor: Colors.white),
+                        Container(
+                          width: 44.w,
+                          height: 44.w,
+                          padding: const EdgeInsets.all(10).w,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child: FittedBox(
+                            child: Text(
+                              "${widget.roomData?.classs}${widget.roomData?.batch}",
+                              style: TeacherAppFonts.interW600_16sp_black,
+                            ),
+                          ),
+                        ),
+                        // CircleAvatar(
+                        //     radius: 20.r, backgroundColor: Colors.white),
                         SizedBox(width: 10.w),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
