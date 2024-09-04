@@ -791,10 +791,30 @@ class ApiServices {
       throw Exception("Service Error");
     }
   }
-
-
-
-
-
-
+  static Future<Map<String, dynamic>> fcmTokenSent({
+    required String fcmToken,
+    required String emailId,
+  }) async {
+    String url = ApiConstants.baseUrl + ApiConstants.fcmSentApi;
+    print(url);
+    Map apiBody = {
+      "username": emailId,
+      "device_id": fcmToken,
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      log('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
 }

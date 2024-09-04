@@ -56,6 +56,7 @@ class ApiConstants {
   static String lessonSubmit = "/v2/lesson_observation/submit_evaluation";
   static String learningWalkSubmit = "/v2/learning_walk/submit_evaluation";
   static String observationResult = "/v0/learning-observation/get/userSubmissions";
+  static String fcmSentApi = "/v0/educare/add/login_tracker";
 
 
   static String DOCME_URL = "https://sqa.docme.online/bm-school/api/App";
