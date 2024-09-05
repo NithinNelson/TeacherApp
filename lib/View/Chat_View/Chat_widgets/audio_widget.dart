@@ -107,8 +107,8 @@ class _AudioWidgetState extends State<AudioWidget> {
                     icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
                   ),
                 if (_audioDuration == Duration.zero)
-                  Padding(
-                    padding: const EdgeInsets.all(13.0),
+                  const Padding(
+                    padding: EdgeInsets.all(13.0),
                     child: SizedBox(
                       width: 20,
                       height: 20,

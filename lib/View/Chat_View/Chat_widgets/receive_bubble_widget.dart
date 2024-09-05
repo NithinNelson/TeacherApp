@@ -46,8 +46,14 @@ class ReceiveMessageBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     List<StudentData> student = messageData?.studentData ?? [];
     StudentData? relation = student.isNotEmpty ? student.first : StudentData();
-    String relationData =
-        "${relation.relation ?? ''} ${relation.relation != null ? 'of' : ''} ${messageData?.messageFrom ?? '--'}";
+    String msgLeftSideTitle = student.isNotEmpty
+        ? student.first.studentName ?? "--"
+        : messageData?.messageFrom ?? "--";
+    // String relationData =
+    //     "${relation.relation ?? ''} ${relation.relation != null ? 'of' : ''} ${messageData?.messageFrom ?? '--'}";
+    String msgRightSideTitle = student.isNotEmpty
+        ? "${relation.relation ?? ''} ${relation.relation != null ? 'of' : ''} ${messageData?.messageFrom ?? '--'}"
+        : messageData?.subjectName ?? "--";
     return AutoScrollTag(
       index: index,
       highlightColor: Colors.teal.shade200,
@@ -157,9 +163,11 @@ class ReceiveMessageBubble extends StatelessWidget {
                                               constraints: BoxConstraints(
                                                   maxWidth: 70.w),
                                               child: Text(
-                                                senderName == null
-                                                    ? "--"
-                                                    : "~ ${senderName?.split(" ").first ?? ""}",
+                                                "~ ${msgLeftSideTitle}",
+                                                // ",",
+                                                // senderName == null
+                                                //     ? "--"
+                                                //     : "~ ${senderName?.split(" ").first ?? ""}",
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TeacherAppFonts
                                                     .interW500_12sp_textWhite
@@ -176,7 +184,7 @@ class ReceiveMessageBubble extends StatelessWidget {
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.right,
                                                 // "Arabic",
-                                                relationData,
+                                                msgRightSideTitle,
 
                                                 style: TeacherAppFonts
                                                     .interW400_12sp_textWhite_italic

@@ -44,7 +44,7 @@ class ChatClassGroupController extends GetxController {
         classGroupListCopy.addAll(classGroupApiModel.data?.data ?? []);
       }
     } catch (e) {
-      print("------class group error---------");
+      print("------class group error--------- $e");
       isLoaded.value = false;
     } finally {
       resetStatus();

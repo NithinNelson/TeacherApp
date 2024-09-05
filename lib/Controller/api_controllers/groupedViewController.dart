@@ -178,7 +178,7 @@ class GroupedViewController extends GetxController {
   List<TextSpan> getMessageText(
       {required String text, required BuildContext context}) {
     const urlPattern =
-        r'((https?:\/\/)?(?:www\.)?[^\s]+(?:\.[^\s]+)+(?:\/[^\s]*)?)';
+        r'((https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.(com|org|net|edu|gov|mil|int|info|biz|co|us|io|me)([\/\w\-.?&=%#]*)?)';
     final regex = RegExp(urlPattern);
     final matches = regex.allMatches(text);
 

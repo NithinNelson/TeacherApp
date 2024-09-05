@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Controller/search_controller/search_controller.dart';
 import 'package:teacherapp/Models/api_models/sent_msg_by_teacher_model.dart';
+import 'package:teacherapp/Services/common_services.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
 import 'package:teacherapp/View/Chat_View/Chat_widgets/chat_search.dart';
@@ -351,6 +352,106 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 20.h),
                       child: Column(
                         children: [
+                          controller.filePathList.isEmpty
+                              ? const SizedBox()
+                              : Column(
+                                  children: [
+                                    hSpace(10.h),
+                                    Text(
+                                      "Attachments (${controller.filePathList.length})",
+                                      style: TeacherAppFonts
+                                          .interW600_16sp_black
+                                          .copyWith(color: Colors.teal),
+                                    ),
+                                    hSpace(10.h),
+                                    Container(
+                                      constraints:
+                                          BoxConstraints(maxHeight: 200.h),
+                                      child: ListView.separated(
+                                          padding: EdgeInsets.zero,
+                                          shrinkWrap: true,
+                                          itemBuilder: (context, index) {
+                                            return Container(
+                                              decoration: BoxDecoration(
+                                                color: Colorutils.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10.h),
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(5.0),
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      width: 35.w,
+                                                      height: 40.w,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        image: DecorationImage(
+                                                          fit: BoxFit.fill,
+                                                          image: AssetImage(
+                                                              "assets/images/new-document.png"),
+                                                        ),
+                                                      ),
+                                                      child: Center(
+                                                          child: Text(
+                                                        controller
+                                                            .filePathList[index]
+                                                            .split(".")
+                                                            .last,
+                                                        style: TeacherAppFonts
+                                                            .interW500_12sp_textWhite
+                                                            .copyWith(
+                                                          fontSize: 10.sp,
+                                                          color: Colors.black,
+                                                        ),
+                                                      )),
+                                                    ),
+                                                    wSpace(5),
+                                                    Expanded(
+                                                      child: Text(
+                                                        controller
+                                                            .filePathList[index]
+                                                            .split("/")
+                                                            .last,
+                                                        style: TeacherAppFonts
+                                                            .interW400_16sp_letters1
+                                                            .copyWith(
+                                                                color: Colors
+                                                                    .black),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        controller
+                                                            .removeSelectedAttachment(
+                                                                index);
+                                                      },
+                                                      child: SizedBox(
+                                                        width: 25.w,
+                                                        height: 40.w,
+                                                        child: const Icon(
+                                                          Icons.close,
+                                                          color:
+                                                              Colorutils.grey,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          separatorBuilder: (context, index) {
+                                            return hSpace(5.h);
+                                          },
+                                          itemCount:
+                                              controller.filePathList.length),
+                                    ),
+                                  ],
+                                ),
                           controller.filePath.value == null
                               ? const SizedBox()
                               : Padding(
@@ -746,38 +847,43 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
                                     SizedBox(
                                       width: 20.w,
                                     ),
-                                    controller.audioPath.value == null
-                                        ? InkWell(
-                                            onTap: () async {
-                                              bool permission =
-                                                  await parentChattingController
-                                                      .permissionCheck(context);
-                                              if (permission) {
-                                                Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                    builder: (context) {
-                                                      return const CameraScreen(
-                                                          isParentChat: true);
-                                                    },
-                                                  ),
-                                                );
-                                              }
-                                            },
-                                            child: SizedBox(
-                                              height: 25.w,
-                                              width: 25.w,
-                                              child: SvgPicture.asset(
-                                                  "assets/images/Camera.svg"),
-                                            ),
-                                          )
-                                        : const SizedBox(),
+                                    controller.filePathList.isNotEmpty
+                                        ? const SizedBox()
+                                        : controller.audioPath.value == null
+                                            ? InkWell(
+                                                onTap: () async {
+                                                  bool permission =
+                                                      await parentChattingController
+                                                          .permissionCheck(
+                                                              context);
+                                                  if (permission) {
+                                                    Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                        builder: (context) {
+                                                          return const CameraScreen(
+                                                              isParentChat:
+                                                                  true);
+                                                        },
+                                                      ),
+                                                    );
+                                                  }
+                                                },
+                                                child: SizedBox(
+                                                  height: 25.w,
+                                                  width: 25.w,
+                                                  child: SvgPicture.asset(
+                                                      "assets/images/Camera.svg"),
+                                                ),
+                                              )
+                                            : const SizedBox(),
                                     SizedBox(
                                       width: 20.w,
                                     ),
                                     controller.ontype.value.trim() == "" &&
                                             controller.audioPath.value ==
                                                 null &&
-                                            controller.filePath.value == null
+                                            controller.filePath.value == null &&
+                                            controller.filePathList.isEmpty
                                         ? GestureDetector(
                                             onTap: () {
                                               snackBar(
@@ -826,106 +932,166 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
                                                   await checkInternet(
                                                     context: context,
                                                     function: () async {
-                                                      if (parentChattingController
-                                                                  .audioPath
-                                                                  .value !=
-                                                              null ||
-                                                          parentChattingController
-                                                                  .filePath
-                                                                  .value !=
-                                                              null) {
-                                                        await parentChattingController
-                                                            .sendAttach(
-                                                          classs: widget.msgData
-                                                                  ?.datumClass ??
-                                                              '--',
-                                                          batch: widget.msgData
-                                                                  ?.batch ??
-                                                              '--',
-                                                          subId: widget.msgData
-                                                                  ?.subjectId ??
-                                                              '--',
-                                                          sub: widget.msgData
-                                                                  ?.subjectName ??
-                                                              '--',
-                                                          teacherId:
-                                                              userAuthController
-                                                                      .userData
-                                                                      .value
-                                                                      .userId ??
-                                                                  '--',
-                                                          context: context,
-                                                          filePath:
-                                                              parentChattingController
-                                                                      .audioPath
-                                                                      .value ??
-                                                                  parentChattingController
-                                                                      .filePath
-                                                                      .value,
-                                                          message: messageCtr
-                                                                  .text
-                                                                  .isNotEmpty
-                                                              ? messageCtr.text
-                                                              : null,
-                                                          parent: [
-                                                            widget.msgData
-                                                                    ?.parentId ??
-                                                                ''
-                                                          ],
-                                                        );
-                                                      } else {
-                                                        if (messageCtr
-                                                            .text.isNotEmpty) {
-                                                          SentMsgByTeacherModel
-                                                              sentMsgData =
-                                                              SentMsgByTeacherModel(
-                                                            subjectId: widget
+                                                      if (controller
+                                                          .filePathList
+                                                          .isNotEmpty) {
+                                                        // for sent multiple attachemnt //
+                                                        for (final file
+                                                            in controller
+                                                                .filePathList) {
+                                                          await parentChattingController
+                                                              .sendAttach(
+                                                            classs: widget
                                                                     .msgData
-                                                                    ?.subjectId ??
+                                                                    ?.datumClass ??
                                                                 '--',
                                                             batch: widget
                                                                     .msgData
                                                                     ?.batch ??
                                                                 '--',
-                                                            classs: widget
+                                                            subId: widget
                                                                     .msgData
-                                                                    ?.datumClass ??
+                                                                    ?.subjectId ??
                                                                 '--',
+                                                            sub: widget.msgData
+                                                                    ?.subjectName ??
+                                                                '--',
+                                                            teacherId:
+                                                                userAuthController
+                                                                        .userData
+                                                                        .value
+                                                                        .userId ??
+                                                                    '--',
+                                                            context: context,
+                                                            filePath: file,
                                                             message: messageCtr
                                                                     .text
                                                                     .isNotEmpty
                                                                 ? messageCtr
                                                                     .text
                                                                 : null,
-                                                            messageFrom:
-                                                                userAuthController
-                                                                        .userData
-                                                                        .value
-                                                                        .userId ??
-                                                                    '--',
-                                                            subject: widget
-                                                                    .msgData
-                                                                    ?.subjectName ??
-                                                                '--',
-                                                            replyId: controller
-                                                                .isReplay.value,
-                                                            fileData: FileData(
-                                                              name: null,
-                                                              orgName: null,
-                                                              extension: null,
-                                                            ),
-                                                            parents: [
+                                                            parent: [
                                                               widget.msgData
                                                                       ?.parentId ??
                                                                   ''
                                                             ],
                                                           );
+
+                                                          messageCtr.clear();
+                                                        }
+                                                        controller.filePathList
+                                                            .value = [];
+
+                                                        controller.isSentLoading
+                                                            .value = false;
+                                                      } else {
+                                                        if (parentChattingController
+                                                                    .audioPath
+                                                                    .value !=
+                                                                null ||
+                                                            parentChattingController
+                                                                    .filePath
+                                                                    .value !=
+                                                                null) {
                                                           await parentChattingController
-                                                              .sendAttachMsg(
-                                                            sentMsgData:
-                                                                sentMsgData,
+                                                              .sendAttach(
+                                                            classs: widget
+                                                                    .msgData
+                                                                    ?.datumClass ??
+                                                                '--',
+                                                            batch: widget
+                                                                    .msgData
+                                                                    ?.batch ??
+                                                                '--',
+                                                            subId: widget
+                                                                    .msgData
+                                                                    ?.subjectId ??
+                                                                '--',
+                                                            sub: widget.msgData
+                                                                    ?.subjectName ??
+                                                                '--',
+                                                            teacherId:
+                                                                userAuthController
+                                                                        .userData
+                                                                        .value
+                                                                        .userId ??
+                                                                    '--',
                                                             context: context,
+                                                            filePath: parentChattingController
+                                                                    .audioPath
+                                                                    .value ??
+                                                                parentChattingController
+                                                                    .filePath
+                                                                    .value,
+                                                            message: messageCtr
+                                                                    .text
+                                                                    .isNotEmpty
+                                                                ? messageCtr
+                                                                    .text
+                                                                : null,
+                                                            parent: [
+                                                              widget.msgData
+                                                                      ?.parentId ??
+                                                                  ''
+                                                            ],
                                                           );
+                                                        } else {
+                                                          if (messageCtr.text
+                                                              .isNotEmpty) {
+                                                            SentMsgByTeacherModel
+                                                                sentMsgData =
+                                                                SentMsgByTeacherModel(
+                                                              subjectId: widget
+                                                                      .msgData
+                                                                      ?.subjectId ??
+                                                                  '--',
+                                                              batch: widget
+                                                                      .msgData
+                                                                      ?.batch ??
+                                                                  '--',
+                                                              classs: widget
+                                                                      .msgData
+                                                                      ?.datumClass ??
+                                                                  '--',
+                                                              message: messageCtr
+                                                                      .text
+                                                                      .isNotEmpty
+                                                                  ? messageCtr
+                                                                      .text
+                                                                  : null,
+                                                              messageFrom:
+                                                                  userAuthController
+                                                                          .userData
+                                                                          .value
+                                                                          .userId ??
+                                                                      '--',
+                                                              subject: widget
+                                                                      .msgData
+                                                                      ?.subjectName ??
+                                                                  '--',
+                                                              replyId:
+                                                                  controller
+                                                                      .isReplay
+                                                                      .value,
+                                                              fileData:
+                                                                  FileData(
+                                                                name: null,
+                                                                orgName: null,
+                                                                extension: null,
+                                                              ),
+                                                              parents: [
+                                                                widget.msgData
+                                                                        ?.parentId ??
+                                                                    ''
+                                                              ],
+                                                            );
+                                                            await parentChattingController
+                                                                .sendAttachMsg(
+                                                              sentMsgData:
+                                                                  sentMsgData,
+                                                              context: context,
+                                                            );
+                                                          }
                                                         }
                                                       }
                                                     },
@@ -1228,9 +1394,9 @@ messageMoreShowDialog(
                     ((ScreenUtil().screenHeight / 1.7) > tapPosition.dy
                         ? 100.h
                         : 420.h),
-                right: 0,
+                left: 20,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ScreenUtil().screenHeight / 1.7 < tapPosition.dy
                         ? MessageMoreContainer2(
