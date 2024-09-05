@@ -24,6 +24,9 @@ class ClassList extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: List.generate(classTeacherSubjects.length, (index) {
+
+          classTeacherSubjects.sort((a, b) => "${a.classs!}${a.batch!}".compareTo("${b.classs!}${b.batch!}"));
+
           List<Color> colors = [
             Colorutils.Classcolour1,
             Colorutils.Classcolour2,

@@ -19,7 +19,7 @@ class TeacherAppPopUps {
   }
 
   static submitFailed({
-    required String title,
+    String? title,
     required String message,
     required String actionName,
     required IconData iconData,
@@ -37,13 +37,15 @@ class TeacherAppPopUps {
               color: iconColor,
               size: 50.w,
             ),
-            SizedBox(height: 10.w),
-            Text(
-              title,
-              style: TeacherAppFonts.interW600_18sp_textWhite.copyWith(
-                color: Colors.black,
+            if(title != null)
+              SizedBox(height: 10.w),
+            if(title != null)
+              Text(
+                title,
+                style: TeacherAppFonts.interW600_18sp_textWhite.copyWith(
+                  color: Colors.black,
+                ),
               ),
-            ),
           ],
         ),
         content: Text(
@@ -55,6 +57,126 @@ class TeacherAppPopUps {
         actions: [
           FilledButton(
             onPressed: () {
+              Get.back();
+            },
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.all(Colorutils.letters1),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  actionName,
+                  style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static submitFailedTwoBack({
+    String? title,
+    required String message,
+    required String actionName,
+    required IconData iconData,
+    required Color iconColor,
+  }) {
+    return Get.dialog(
+      AlertDialog(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        ),
+        title: Column(
+          children: [
+            Icon(
+              iconData,
+              color: iconColor,
+              size: 50.w,
+            ),
+            if(title != null)
+              SizedBox(height: 10.w),
+            if(title != null)
+              Text(
+                title,
+                style: TeacherAppFonts.interW600_18sp_textWhite.copyWith(
+                  color: Colors.black,
+                ),
+              ),
+          ],
+        ),
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 16.sp),
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          FilledButton(
+            onPressed: () {
+              Get.back();
+              Get.back();
+            },
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.all(Colorutils.letters1),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  actionName,
+                  style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  static submitFailedThreeBack({
+    String? title,
+    required String message,
+    required String actionName,
+    required IconData iconData,
+    required Color iconColor,
+  }) {
+    return Get.dialog(
+      AlertDialog(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        ),
+        title: Column(
+          children: [
+            Icon(
+              iconData,
+              color: iconColor,
+              size: 50.w,
+            ),
+            if(title != null)
+              SizedBox(height: 10.w),
+            if(title != null)
+              Text(
+                title,
+                style: TeacherAppFonts.interW600_18sp_textWhite.copyWith(
+                  color: Colors.black,
+                ),
+              ),
+          ],
+        ),
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 16.sp),
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          FilledButton(
+            onPressed: () {
+              Get.back();
+              Get.back();
               Get.back();
             },
             style: ButtonStyle(
@@ -99,23 +221,55 @@ class TeacherAppPopUps {
         ),
         actionsAlignment: MainAxisAlignment.center,
         actions: [
-          FilledButton(
-            onPressed: () async {
-              HandleControllers.deleteAllGetControllers();
-              await SharedPrefs().removeLoginData();
-              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (_) => false);
-              HandleControllers.createGetControllers();
-            },
-            style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all(Colorutils.letters1),
-            ),
+          Padding(
+            padding: const EdgeInsets.only(left: 18,right: 18),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Log Out",
-                  style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                Container(
+                  width: 100.w,
+                  child: FittedBox(
+                    child: FilledButton(
+
+                      onPressed: () async {
+                        Navigator.pop(context);
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all(Colors.red),
+                      ),
+                      child: Row(
+                        children: [
+                          Center(
+                            child: Text(
+                              "Cancel",
+                              style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
+                Container(
+                  width: 100.w,
+
+                  child: FilledButton(
+                    onPressed: () async {
+                      HandleControllers.deleteAllGetControllers();
+                      await SharedPrefs().removeLoginData();
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (_) => false);
+                      HandleControllers.createGetControllers();
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(Colorutils.letters1),
+                    ),
+                    child: Text(
+                      "Ok",
+                      style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                    ),
+                  ),
+                ),
+
               ],
             ),
           ),

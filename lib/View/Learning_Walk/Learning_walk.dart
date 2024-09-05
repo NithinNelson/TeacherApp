@@ -130,7 +130,7 @@ class _LearningWalkState extends State<LearningWalk> {
                                           hint: const Text('Teacher'),
                                           validator: (dynamic value) =>
                                           value == null
-                                              ? 'Field Required'
+                                              ? 'Please Select the Teacher'
                                               : null,
                                           items: teacherList
                                               .map((teacher) =>
@@ -206,7 +206,7 @@ class _LearningWalkState extends State<LearningWalk> {
                                           hint: const Text('Class'),
                                           validator: (dynamic value) =>
                                           value == null
-                                              ? 'Field Required'
+                                              ? 'Please Select the Class'
                                               : null,
                                           items:
                                           teacherDetails.map((batchData) {
@@ -285,7 +285,7 @@ class _LearningWalkState extends State<LearningWalk> {
                                           hint: const Text('Subject'),
                                           validator: (dynamic value) =>
                                           value == null
-                                              ? 'Field Required'
+                                              ? 'Please Select the Subject'
                                               : null,
                                           items: subList
                                               .map((sub) =>
@@ -327,6 +327,7 @@ class _LearningWalkState extends State<LearningWalk> {
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         LessonWalkApply(
+
                                                           teacherName: selectedValue!,
                                                           classAndBatch: selectedValue1!,
                                                           subjectName: selectedValue2!,

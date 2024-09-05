@@ -7,7 +7,7 @@ class ApiConstants {
     return _instance;
   }
 
-  static String appVersion = "Version : 1.3.0";
+  static String appVersion = "Version : 2.0.0";
   static Map<String, String> headers = {
     'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
     'Content-Type': 'application/json'
@@ -56,6 +56,7 @@ class ApiConstants {
   static String lessonSubmit = "/v2/lesson_observation/submit_evaluation";
   static String learningWalkSubmit = "/v2/learning_walk/submit_evaluation";
   static String observationResult = "/v0/learning-observation/get/userSubmissions";
+  static String fcmSentApi = "/v0/educare/add/login_tracker";
 
 
   static String DOCME_URL = "https://sqa.docme.online/bm-school/api/App";
@@ -66,5 +67,8 @@ class ApiConstants {
   static String ObservationResultSubmitLessonObservation = "https://teamsqa3000.educore.guru/v0/lesson-observation/addTeacherCmnt";
   static String LeaveApprovalRequest = "https://teamsqa3000.educore.guru/v0/update/leave";
   static String WorkLoad = "https://teamsqa3000.educore.guru/v2/get/workloads/from/credentials";
-
+  static String Qrscan = "https://sqa.docme.online/bm-school/Docme-UI/registration/get_student_search_data";
+  static String RecentVisit = "https://apiqa-bmclinic.docme.online/v2/recent_visit";
+  static String AddClinicStudents = "https://apiqa-bmclinic.docme.online/v2/add_student";
+  static String studentsUpdateClinc = "https://apiqa-bmclinic.docme.online/v2/update_visit";
 }

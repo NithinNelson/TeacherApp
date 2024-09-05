@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http_parser/http_parser.dart';
@@ -7,7 +8,11 @@ import 'package:teacherapp/Models/api_models/leave_req_list_api_model.dart';
 
 import '../Models/api_models/chat_feed_view_model.dart';
 import '../Models/api_models/parent_chatting_model.dart';
+import '../Models/api_models/recentlist_model.dart';
 import '../Models/api_models/sent_msg_by_teacher_model.dart';
+import '../Models/api_models/student_add_Model.dart';
+import '../Models/api_models/student_updateModel.dart';
+import '../Models/api_models/time_table_api_model.dart';
 import '../Utils/api_constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -148,6 +153,67 @@ class ApiServices {
       throw Exception("Service Error");
     }
   }
+
+//Qr
+
+  static Future<List<dynamic>> getQRdata(
+      {required String searchKey,
+        required String instId,
+        required String type}) async {
+    String url = ApiConstants.Qrscan;
+    print(url);
+    Map apiBody = {"searchkey": searchKey, "inst_id": instId, "type": type};
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+
+  static Future<List<dynamic>> getSearchdata(
+      {required String searchKey,
+        required String instId,
+        required String type}) async {
+    String url = ApiConstants.Qrscan;
+    print(url);
+    Map apiBody = {"searchkey": searchKey, "inst_id": instId, "type": type};
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      print('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+
+
+
+
+
+
+
+
+
 
   static Future<Map<String, dynamic>> getTimeTableData(
       {required String schoolId,
@@ -684,6 +750,133 @@ class ApiServices {
       "school_id": schoolId,
       "academic_year": academicYear,
       "teacher_id": teacherId,
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      log('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+  static Future<Map<String, dynamic>> getRecentList({
+    required String schoolId,
+    required String academicYear,
+    required List<Map<String, dynamic>> endorsedClass,
+  }) async {
+    String url = ApiConstants.RecentVisit;
+    print(url);
+    Map apiBody = {
+      "school_id": schoolId,
+      "academic_year": academicYear,
+      "Endorsed_class": endorsedClass,
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      log('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+//summit data add students
+  static Future<Map<String, dynamic>> getSubmit({
+    required StudentAddModel data,
+  }) async {
+    String url = ApiConstants.AddClinicStudents;
+    print(url);
+    Map apiBody = {
+      "Admn_No": data.admnNo,
+      "student_name": data.studentName,
+      "profile_pic": data.profilePic,
+      "batch_details": data.batchDetails,
+      "academic_year": data.academicYear,
+      "inst_ID": data.instID,
+      "age": data.age,
+      "dob": data.dob,
+      "gender": data.gender,
+      "father_name":data.fatherName ,
+      "father_phone":data.fatherPhone,
+      "father_email": data.fatherEmail,
+      "remarks": data.remarks,
+      "app_type": data.appType,
+      "visit_status": data.visitStatus,
+      "sent_by": data.sentBy,
+      "sent_by_id": data.sentById,
+      "sent_by_token": data.sentByToken
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      log('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+//summit data add students
+  static Future<Map<String, dynamic>> getSubmitdata({
+    required StudentUpdateModel data,
+  }) async {
+    String url = ApiConstants.studentsUpdateClinc;
+    print(url);
+    Map apiBody = {
+      "visit_id": data.visitId,
+      "user": data.user,
+      "user_id": data.userId,
+      "user_token": data.userToken
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      log('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+
+  static Future<Map<String, dynamic>> fcmTokenSent({
+    required String fcmToken,
+    required String emailId,
+  }) async {
+    String url = ApiConstants.baseUrl + ApiConstants.fcmSentApi;
+    print(url);
+    Map apiBody = {
+      "username": emailId,
+      "device_id": fcmToken,
     };
     try {
       var request = http.Request('POST', Uri.parse(url));

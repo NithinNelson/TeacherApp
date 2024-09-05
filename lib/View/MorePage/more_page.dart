@@ -65,7 +65,7 @@ class _MorePageState extends State<MorePage> {
               padding: const EdgeInsets.all(10.0),
               child: GestureDetector(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) =>AllStudents() ));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) =>AllStudents() ));
                 },
                 child: Stack(
                   children: [

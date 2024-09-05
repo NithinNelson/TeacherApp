@@ -78,11 +78,20 @@ class _PendingLeaveState extends State<PendingLeave> {
           child: GetX<LeaveApprovalController>(
             builder: (LeaveApprovalController controller) {
               List<Pendings> leaveList = controller.filteredPendingLeaves.value;
+              UserRole? userRole = Get.find<UserAuthController>().userRole.value;
               if(leaveList.isNotEmpty){
               return ListView.builder(
                 padding: EdgeInsets.only(bottom: 80.h, top: 0, right: 0, left: 0),
                 itemCount: leaveList.length,
                   itemBuilder: (context, i) {
+                  bool approvalAccess = userRole == UserRole.teacher && leaveList[i].days! <= 3
+                      ? true
+                      : userRole == UserRole.hos && leaveList[i].days! <= 7
+                      ? true
+
+                      : userRole == UserRole.principal && leaveList[i].days! > 7
+                      ? true
+                      : false;
                     return Container(
                       margin: EdgeInsets.fromLTRB(10, 2, 10, 5),
                       padding: EdgeInsets.fromLTRB(5, 20, 5, 10),
@@ -341,7 +350,7 @@ class _PendingLeaveState extends State<PendingLeave> {
                                                             ],
                                                           )
                                                               : Container(),
-                                                          (leaveList[i].myPending == true)
+                                                          (leaveList[i].myPending == true && approvalAccess)
                                                               ? GestureDetector(
                                                             onTap: () {
                                                               showDialog(

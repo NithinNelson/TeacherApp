@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teacherapp/View/Home_Page/Home_Widgets/bottom_navigationbar.dart';
+import 'package:teacherapp/View/MorePage/scan.dart';
+import 'package:teacherapp/View/MorePage/search_page.dart';
 import 'package:teacherapp/View/MorePage/tackingDetails.dart';
 
 import '../../Utils/Colors.dart';
@@ -28,6 +30,11 @@ class TrackingPage extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(10))),
                 width: double.infinity,
                 child: TextFormField(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchPage()));
+
+                  },
+                  readOnly: true,
                   onChanged: (value) {
                     // Get.find<LeaveApprovalController>().filterLeaveList(text: value);
                   },
@@ -36,7 +43,7 @@ class TrackingPage extends StatelessWidget {
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                       hintStyle: TextStyle(color: Colors.grey),
-                      hintText: "Student Name or Scan",
+                      hintText: "Student Nameee or Scan",
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -49,7 +56,7 @@ class TrackingPage extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
                             onTap: () {
-                              // Navigator.push(context, MaterialPageRoute(builder: (context) => Scandata()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => QRViewExample()));
                             },
                             child: Container(
                                 height: 30,
@@ -108,13 +115,13 @@ class TrackingPage extends StatelessWidget {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(left: 5,top: 8,bottom: 8,right: 5),
                       child: Expanded(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             CircleAvatar(
-                              radius: 25,
+                              radius: 22,
                               backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -148,12 +155,12 @@ class TrackingPage extends StatelessWidget {
                                   // height: 18.h,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(4),
-                                      color: Colors.red.withOpacity(0.2),
+                                      color: Colors.red.withOpacity(0.3),
                                     ),
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
-                                          vertical: 1.h, horizontal: 10.w),
-                                      child: Text("Sent to Clinic",
+                                          vertical: 2.h, horizontal: 10.w),
+                                      child: Text("Sent to Clinic ",
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.inter(
                                               textStyle: TextStyle(
@@ -164,13 +171,13 @@ class TrackingPage extends StatelessWidget {
                               ],
                             ),
                             SizedBox(
-                              width: 2,
+                              width: 1,
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  "10.45AM",
+                                  "10-December-2024",
                                   style: GoogleFonts.inter(
                                     textStyle: TextStyle(
                                         fontSize: 12.sp,
@@ -198,7 +205,7 @@ class TrackingPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 10,right: 10),
                       child: Container(
-                        width: 300,
+                       width: double.infinity,
                         height: 25,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -209,7 +216,7 @@ class TrackingPage extends StatelessWidget {
                                 backgroundColor: Colors.white,
                                 textColor: Colors.white,
                                 borderRadius: BorderRadius.circular(15),
-                                text: "05.25 left", gradient: LinearGradient(
+                                text:"formatTime(remainingTime)", gradient: LinearGradient(
                                 colors: [Colorutils.gradientColor1,Colorutils.gradientColor2],
                               ),
                               ),
@@ -217,7 +224,7 @@ class TrackingPage extends StatelessWidget {
                             SizedBox(width: 10,),
                             GestureDetector(
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => trackingDetails()));
+                                // Navigator.push(context, MaterialPageRoute(builder: (context) => trackingDetails()));
                               },
                               child: CircleAvatar(
                                 radius: 20,
@@ -262,7 +269,6 @@ class TrackingPage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }
@@ -299,7 +305,7 @@ class CustomLinearProgressIndicator extends StatelessWidget {
             borderRadius: borderRadius,
             border: Border.all(
               color: Colors.grey.withOpacity(0.4),
-              width: 2.0,
+              width: 1.0,
             ),
           ),
           child: ClipRRect(
@@ -320,7 +326,8 @@ class CustomLinearProgressIndicator extends StatelessWidget {
         Text(
           text,
           style: TextStyle(
-            color: textColor,
+            fontSize: 12,
+            color: Colors.grey,
             fontWeight: FontWeight.bold,
           ),
         ),

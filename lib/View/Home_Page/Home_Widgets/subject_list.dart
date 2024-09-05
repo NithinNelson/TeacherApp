@@ -20,11 +20,13 @@ class SubjectList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int itemLength = teacherSubjects.length;
+    teacherSubjects.sort((a, b) => "${a.classs!}${a.batch!}".compareTo("${b.classs!}${b.batch!}"));
+
     return Container(
-      height: 70.w * (itemLength % 2 == 1 ? ((itemLength - 1)/2) : (itemLength/2)) + (itemLength % 2 == 1 ? 70.w : 0.w),
+      // height: 65.0.h * (itemLength % 2 == 1 ? ((itemLength - 1)/2) : (itemLength/2)) + (itemLength % 2 == 1 ? 63.5.h : 0.h),
       padding: const EdgeInsets.only(top: 8, left: 8, right: 8).w,
       child: GridView.builder(
-
+        shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: itemLength,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -124,15 +126,15 @@ class SubjectList extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(top: 4),
                               child: Container(
-                    
+
                                 height: 12,
                                 decoration: BoxDecoration(
-                    
+
                                   borderRadius: BorderRadius.circular(3),
                                   color: Colors.white
-                    
+
                                 ),
-                    
+
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 1,bottom: 1,left: 5,right: 5),
                                   child: Text("Class Teacher",style: TextStyle(fontSize: 8,color: Colors.black.withOpacity(0.5))),
@@ -143,10 +145,10 @@ class SubjectList extends StatelessWidget {
                         ):Padding(
                           padding: const EdgeInsets.only(top: 4),
                           child: Container(
-                    
+
                             height: 12,
-                    
-                    
+
+
                             child: Padding(
                               padding: const EdgeInsets.only(top: 1,bottom: 1,left: 5,right: 5),
                               child: Text("",style: TextStyle(fontSize: 8,color: Colors.black.withOpacity(0.5))),

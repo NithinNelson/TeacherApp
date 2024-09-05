@@ -2,7 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:teacherapp/View/MorePage/scanData.dart';
+
+import '../../Controller/api_controllers/qrController.dart';
+import '../../Models/api_models/qr_clinic_model.dart';
+import '../../Services/api_services.dart';
 
 class QRViewExample extends StatefulWidget {
   @override
@@ -34,7 +40,9 @@ class _QRViewExampleState extends State<QRViewExample> {
             flex: 5,
             child: QRView(
               key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
+              onQRViewCreated: (QRViewController qrController) {
+                _onQRViewCreated(qrController, context);
+              },
               overlay: QrScannerOverlayShape(
                 borderColor: Colors.white,
                 borderRadius: 20,
@@ -58,14 +66,28 @@ class _QRViewExampleState extends State<QRViewExample> {
     );
   }
 
-  void _onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        qrText = scanData.code;
-      });
+  void _onQRViewCreated(QRViewController controller, BuildContext mainContext) async {
+    print("....................................");
+
+    controller.scannedDataStream.listen((scanData) async {
+      print(".qrData:.........................${scanData.code}");
+      if (scanData.code != null) {
+        print("..........................$scanData");
+        await Get.find<Qrcontroller>().fetchQrData(qrCode: scanData.code.toString().trim());
+        // if(!mounted) return;
+        Navigator.of(mainContext).pushReplacement(MaterialPageRoute(builder: (context) => const Scandata()));
+      }
     });
   }
+
+  // void _onQRViewCreated(QRViewController controller) {
+  //   this.controller = controller;
+  //   controller.scannedDataStream.listen((scanData) {
+  //     setState(() {
+  //       qrText = scanData.code;
+  //     });
+  //   });
+  // }
 
   @override
   void dispose() {

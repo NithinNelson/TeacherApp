@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,11 +7,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:teacherapp/Controller/api_controllers/leaveRequestController.dart';
+import 'package:teacherapp/Models/api_models/chat_feed_view_model.dart';
 import 'package:teacherapp/View/Leave_Page/leave_apply.dart';
 
 import '../../Models/api_models/leave_req_list_api_model.dart';
 import '../../Utils/Colors.dart';
 import '../../Utils/constants.dart';
+import '../../Utils/font_util.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
 
@@ -134,10 +138,12 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                       child: GetX<LeaveRequestController>(
                                         builder: (LeaveRequestController
                                             controller) {
-                                          List<ClassData> classlist =
-                                              controller.classList.value;
+
+                                          List<ClassData> classlist = controller.classList.value;
+                                          classlist.sort((a, b) => "${a.className!}${a.batchName!}".compareTo("${b.className!}${b.batchName!}"));
                                           return ListView.builder(
                                               shrinkWrap: true,
+
                                               scrollDirection: Axis.horizontal,
                                               itemCount: classlist.length,
                                               itemBuilder:
@@ -149,6 +155,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                                       width: 5.w,
                                                     ),
                                                     SingleChildScrollView(
+
                                                       child: GestureDetector(
                                                         onTap: () {
                                                           setState(() {
@@ -237,8 +244,8 @@ class _LeaveRequestState extends State<LeaveRequest> {
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                   hintStyle: TextStyle(color: Colors.grey),
-                                  hintText: "Search Here",
-                                  prefixIcon: Icon(
+                                  hintText: "Search Student Name or Adm.No",
+                                  prefixIcon: const Icon(
                                     Icons.search,
                                     color: Colorutils.userdetailcolor,
                                   ),
@@ -400,7 +407,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                                               width: 250.w,
                                                               child: Text(
                                                                 studentList[i]
-                                                                        .name ??
+                                                                        .name?.toUpperCase() ??
                                                                     '--',
                                                                 overflow:
                                                                     TextOverflow
@@ -460,4 +467,17 @@ class _LeaveRequestState extends State<LeaveRequest> {
           )),
     );
   }
+}
+String capitalizeFirstLetterOfEachWord(String input) {
+  return input
+      .trim()
+      .split(' ')
+      .where((word) => word.isNotEmpty) // Filter out empty strings
+      .map((word) {
+    print("$input...........input..............");
+    String removeSpace = word.trim();
+    print("$removeSpace...........removeSpace..............");
+    return removeSpace[0].toUpperCase() + removeSpace.substring(1);
+  })
+      .join(' ');
 }

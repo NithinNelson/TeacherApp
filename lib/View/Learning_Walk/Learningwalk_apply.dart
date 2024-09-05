@@ -46,7 +46,14 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> nameParts = widget.teacherName.split(" ");
+    List<String> nameParts = widget.teacherName
+        .split(" ")
+        .map((x) => x.replaceAll(" ", ""))
+        .where((x) => x.isNotEmpty)
+        .toList();
+    nameParts.forEach((val) {
+      print(".....ddefdrf......${val}");
+    });
     String placeholderName = nameParts.length > 1 ? "${nameParts[0].trim().substring(0, 1)}${nameParts[1].trim().substring(0, 1)}".toUpperCase() : nameParts[0].trim().substring(0, 2).toUpperCase();
 
     return GestureDetector(
@@ -255,7 +262,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                                         child: TextFormField(
                                           maxLength: 1000,
                                           validator: (val) => val!.isEmpty
-                                              ? '  *Fill the Field to Submit'
+                                              ? 'Please Enter the Summary'
                                               : null,
                                           controller: _summaryController,
                                           focusNode: keyboardController.summaryFocusNode.value,
@@ -303,7 +310,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                                           focusNode: keyboardController.whatWentWellFocusNode.value,
                                           maxLength: 1000,
                                           validator: (val) => val!.isEmpty
-                                              ? '  *Fill the Field to Submit'
+                                              ? 'Please Enter What went well'
                                               : null,
                                           decoration: InputDecoration(
                                               hintStyle:
@@ -349,7 +356,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                                         child: TextFormField(
                                           maxLength: 1000,
                                           validator: (val) => val!.isEmpty
-                                              ? '  *Fill the Field to Submit'
+                                              ? 'Please Enter Even better if'
                                               : null,
                                           controller: _evenBetterIfController,
                                           focusNode: keyboardController.evenBetterIfFocusNode.value,
@@ -428,21 +435,76 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
                                       ),
                                       SizedBox(height: 50.h),
                                       GestureDetector(
+
+
                                         onTap: () async {
+                                          bool radioNotSelected = false;
                                           if(_formKey.currentState!.validate()) {
-                                            await submitLearningWalk();
-                                            Get.back();
-                                            Get.back();
+                                            for(var point in Get.find<LessonLearningController>().markedIndicators.value){
+                                              if(point.point == null) {
+                                                radioNotSelected = true;
+                                                TeacherAppPopUps.submitFailed(
+                                                  title: "Error",
+                                                  message: "Please Enter all Fields",
+                                                  actionName: "Close",
+                                                  iconData: Icons.info,
+                                                  iconColor: Colors.red,
+                                                );
+                                                break;
+                                              }
+                                            }
+                                            if(!radioNotSelected) {
+                                              await submitLearningWalk();
+                                              Get.back();
+                                              Get.back();
+                                              TeacherAppPopUps.submitFailed(
+                                                title: "Success",
+                                                message: "Learning Walk Result Added Successfully",
+                                                actionName: "Close",
+                                                iconData: Icons.done,
+                                                iconColor: Colors.green,
+                                              );
+                                            }
+                                          }
+                                          else{
                                             TeacherAppPopUps.submitFailed(
-                                              title: "Success",
-                                              message: "Learning Walk Result Added Successfully",
+                                              title: "Error",
+                                              message: "Please Enter all Mandatory Fields",
                                               actionName: "Close",
-                                              iconData: Icons.done,
-                                              iconColor: Colors.green,
+                                              iconData: Icons.info,
+                                              iconColor: Colors.red,
                                             );
+
+
 
                                           }
                                         },
+
+
+
+
+
+
+
+
+
+
+
+                                        // onTap: () async {
+                                        //   if(_formKey.currentState!.validate()) {
+                                        //     await submitLearningWalk();
+                                        //     Get.back();
+                                        //     Get.back();
+                                        //     TeacherAppPopUps.submitFailed(
+                                        //       title: "Success",
+                                        //       message: "Learning Walk Result Added Successfully",
+                                        //       actionName: "Close",
+                                        //       iconData: Icons.done,
+                                        //       iconColor: Colors.green,
+                                        //     );
+                                        //
+                                        //   }
+                                        // },
                                         child: Padding(
                                           padding: EdgeInsets.only(left: 80.w, right: 80.w),
                                           child: Container(
@@ -559,7 +621,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
           log("------------submit resp-------------$resp");
         } else {
           await LessonLearningDatabase.instance.create(learningWalkApplyModel);
-          Get.back();
+          // Get.back();
           // TeacherAppPopUps.submitFailed(
           //   title: "Success",
           //   message: "Learning Walk Result Added Successfully",
@@ -570,7 +632,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
         }
       } catch(e) {
         await LessonLearningDatabase.instance.create(learningWalkApplyModel);
-        Get.back();
+        // Get.back();
         // TeacherAppPopUps.submitFailed(
         //   title: "Success",
         //   message: "Learning Walk Result Added Successfully",
@@ -581,7 +643,7 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
       }
     } else {
       await LessonLearningDatabase.instance.create(learningWalkApplyModel);
-      Get.back();
+      // Get.back();
       // TeacherAppPopUps.submitFailed(
       //   title: "Success",
       //   message: "Learning Walk Result Added Successfully",
@@ -590,6 +652,8 @@ class _LessonWalkApplyState extends State<LessonWalkApply> {
       //   iconColor: Colors.green,
       // );
     }
+    await lessonObservationController.refreshLessLearnData();
+    if(!mounted) return;
     context.loaderOverlay.hide();
   }
 }

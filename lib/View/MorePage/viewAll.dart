@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -54,9 +55,9 @@ class _ViewallState extends State<Viewall> {
             ),
             EasyDateTimeLine(
 
-              initialDate: DateTime.now(
+              initialDate:  DateTime(1900, 1, 1),
 
-              ),
+
               onDateChange: (selectedDate) {
                 //`selectedDate` the new date selected.
               },
@@ -115,7 +116,6 @@ class _ViewallState extends State<Viewall> {
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }
@@ -135,13 +135,13 @@ class listcontainer extends StatelessWidget {
           color: Colors.white,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 5,top: 8,bottom: 8,right: 5),
           child: Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  radius: 25,
+                  radius: 22,
                   backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -171,8 +171,8 @@ class listcontainer extends StatelessWidget {
                       height: 5.h,
                     ),
                     Container(
-                        // width: 130.w,
-                        // height: 18.h,
+                      // width: 130.w,
+                      // height: 18.h,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4),
                           color: Colors.red.withOpacity(0.3),
@@ -180,18 +180,18 @@ class listcontainer extends StatelessWidget {
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                               vertical: 2.h, horizontal: 10.w),
-                          child: Text("Sent to Clinic",
+                          child: Text("Sent to Clinic ",
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.inter(
                                   textStyle: TextStyle(
-                                fontSize: 13.sp,
-                                color: Colors.red,
-                              ))),
+                                    fontSize: 13.sp,
+                                    color: Colors.red,
+                                  ))),
                         )),
                   ],
                 ),
                 SizedBox(
-                  width: 2,
+                  width: 1,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,

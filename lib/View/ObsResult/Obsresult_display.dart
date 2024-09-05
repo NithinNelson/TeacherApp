@@ -21,6 +21,7 @@ import '../../Utils/api_constants.dart';
 import '../../Utils/constants.dart';
 import '../../Utils/font_util.dart';
 import '../CWidgets/AppBarBackground.dart';
+import '../CWidgets/TeacherAppPopUps.dart';
 import '../Home_Page/Home_Widgets/user_details.dart';
 
 class ObsResultdisplay extends StatefulWidget {
@@ -104,6 +105,8 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
       'Content-Type': 'application/json'
     };
 
+    print("----------url--------------${ApiConstants.ObservationResultlist}${widget.Observerid}");
+
     var request = http.Request('GET',
         Uri.parse('${ApiConstants.ObservationResultlist}${widget.Observerid}'));
     request.headers.addAll(headers);
@@ -135,10 +138,16 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
         topic_lesson = ObservationResult!['data']['details']['topic'];
         isjoin = ObservationResult!['data']['details']['isJoin'];
         total_percentage = ObservationResult!['data']['details']['evaluation']['total_percentage'];
-        total_grade = ObservationResult!['data']['details']['evaluation']['total_grade'];
+        if(ObservationResult!['data']['details']['updated_grade'] != null) {
+          total_grade = 'Updated Grade : ${ObservationResult!['data']['details']['updated_grade'].toString()[0].toUpperCase()}${ObservationResult!['data']['details']['updated_grade'].toString().substring(1, ObservationResult!['data']['details']['updated_grade'].toString().length)}';
+          total_percentage = "";
+        } else {
+          total_grade = 'Grade : ${ObservationResult!['data']['details']['evaluation']['total_grade'].toString()[0].toUpperCase()}${ObservationResult!['data']['details']['evaluation']['total_grade'].toString().substring(1, ObservationResult!['data']['details']['evaluation']['total_grade'].toString().length)}';
+        }
+        // total_grade = ObservationResult!['data']['details']['evaluation']['total_grade'];
         TeacherComment =
-            ObservationResult!['data']['details']['teacherComment'] ?? '';
-        _teachertextController.text = TeacherComment ?? '';
+            ObservationResult!['data']['details']['teacherComment'];
+        _teachertextController = TextEditingController(text: TeacherComment);
         print('....Strength$Strength');
         print('....total_percentage$total_percentage');
         print('....total_grade$total_grade');
@@ -180,7 +189,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
     };
     var body = {
       "class_id": class_id,
-      "comment": _reasontextController.text,
+      "comment": _teachertextController.text,
       "curriculum_id": curriculum_id,
       "loId": loId,
       "observer_id": observer_id,
@@ -200,15 +209,22 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
       print('----------rsssssobsubmitLessonObservation${response['data']}');
       print(
           '----------rsssssobsubmitLessonObservation${response['data']['message']}');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('${response['data']['message']}'),
-        backgroundColor: Colors.green,
-      ));
+
+      TeacherAppPopUps.submitFailedTwoBack(
+        title: "Success",
+        message: response['data']['message'] ?? "Something went wrong.",
+        actionName: "Close",
+        iconData: Icons.check_circle_outline_sharp,
+        iconColor: Colors.green,
+      );
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   content: Text('${response['data']['message']}'),
+      //   backgroundColor: Colors.green,
+      // ));
     }
     setState(() {
       isSpinner = false;
     });
-    Navigator.of(context).pop();
   }
 
   Future submitRemarksLearningWalk() async {
@@ -221,7 +237,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
     };
     var body = {
       "class_id": class_id,
-      "comment": _reasontextController.text,
+      "comment": _teachertextController.text,
       "curriculum_id": curriculum_id,
       "loId": loId,
       "observer_id": observer_id,
@@ -897,14 +913,13 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                               child: Row(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-
-                                                  Text('Grade :${total_grade.toString()[0].toUpperCase()}${total_grade.toString().substring(1, total_grade.toString().length)} ',style: TextStyle(
+                                                  Text( total_grade ?? '--',style: TextStyle(
                                                       fontSize: 14.sp,
                                                       fontWeight: FontWeight.bold),),
                                                   // SizedBox(
                                                   //   height: 5.h,
                                                   // ),
-                                                  Text('(${_percentage(total_percentage)})',style: TextStyle(
+                                                  Text('  ${_percentage(total_percentage)}',style: TextStyle(
                                                       fontSize: 14.sp,
                                                       fontWeight: FontWeight.w500),),
                                                 ],
@@ -925,13 +940,14 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                             SizedBox(
                                               height: 5.h,
                                             ),
-                                            (TeacherComment.toString().isEmpty)?
+                                            // (TeacherComment.toString().isEmpty)?
                                             Focus(
                                               autofocus: true,
                                               child: Form(
                                                 key: _formKey,
                                               child: TextFormField(
-                                              
+                                                controller: _teachertextController,
+                                              readOnly: TeacherComment != null,
                                                 maxLength: 1000,
                                               
                                                 decoration: InputDecoration(
@@ -964,87 +980,49 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                                 maxLines: 5,
                                               ),
                                             ),
-                                            )
+                                            ),
 
-//                                                  Focus(
-//                                               autofocus: true,
-//                                               child: Form(
-//                                                 child: TextFormField(
-//                                                   maxLength: 500,
-//                                                   validator: (val) => val!.isEmpty
-//                                                       ? '  *Enter the Reason'
-//                                                       : null,
-//
-// \                                                  cursorColor: Colors.grey,
-//                                                   decoration: InputDecoration(
-//                                                     border: OutlineInputBorder(
-//                                                       borderSide: BorderSide(
-//                                                           width: 1,
-//                                                           color: Colors.grey),
-//                                                       borderRadius:
-//                                                       BorderRadius.all(
-//                                                         Radius.circular(20),
-//                                                       ),
-//                                                     ),
-//                                                     enabledBorder:
-//                                                     OutlineInputBorder(
-//                                                         borderSide: BorderSide(
-//                                                             width: 1,
-//                                                             color: Colors.grey),
-//                                                         borderRadius:
-//                                                         BorderRadius
-//                                                             .circular(10)),
-//                                                     focusedBorder:
-//                                                     OutlineInputBorder(
-//                                                         borderSide: BorderSide(
-//                                                             width: 1,
-//                                                             color: Colors.grey),
-//                                                         borderRadius:
-//                                                         BorderRadius
-//                                                             .circular(10)),
-//                                                   ),
-//                                                   keyboardType: TextInputType.text,
-//                                                   maxLines: 5,
-//                                                 ),
-//                                               ),
-//                                             )
 
-                                : TextFormField(
-                        readOnly: true,
-                        controller: _teachertextController,
-                            cursorColor: Colors.grey,
-                            decoration: InputDecoration(
-                                hintStyle: TextStyle(color: Colors.grey),
-                                contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(0),
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                  BorderSide(color: Color.fromRGBO(230, 236, 254, 8), width: 1.0),
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                  BorderSide(color: Color.fromRGBO(230, 236, 254, 8), width: 1.0),
-                                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                                ),
-                                fillColor: Color.fromRGBO(230, 236, 254, 8),
-                                filled: true),
-                            keyboardType: TextInputType.text,
-                            maxLines: 5,
-                        ),
-                                            (TeacherComment.toString().isEmpty)?
-                                            GestureDetector(
+                        //         : TextFormField(
+                        // readOnly: true,
+                        // controller: _teachertextController,
+                        //     cursorColor: Colors.grey,
+                        //     decoration: InputDecoration(
+                        //         hintStyle: TextStyle(color: Colors.grey),
+                        //         contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                        //         border: OutlineInputBorder(
+                        //           borderRadius: BorderRadius.all(
+                        //             Radius.circular(0),
+                        //           ),
+                        //         ),
+                        //         enabledBorder: OutlineInputBorder(
+                        //           borderSide:
+                        //           BorderSide(color: Color.fromRGBO(230, 236, 254, 8), width: 1.0),
+                        //           borderRadius: BorderRadius.all(Radius.circular(10)),
+                        //         ),
+                        //         focusedBorder: OutlineInputBorder(
+                        //           borderSide:
+                        //           BorderSide(color: Color.fromRGBO(230, 236, 254, 8), width: 1.0),
+                        //           borderRadius: BorderRadius.all(Radius.circular(5)),
+                        //         ),
+                        //         fillColor: Color.fromRGBO(230, 236, 254, 8),
+                        //         filled: true),
+                        //     keyboardType: TextInputType.text,
+                        //     maxLines: 5,
+                        // ),
+                                            if(TeacherComment == null)
+                                              GestureDetector(
                                               onTap: () {
                                                 if (_formKey.currentState!
                                                     .validate()) {
                                                   if (Type ==
                                                       'lesson_observation') {
-                                                    submitRemarksLesonObservation();
-                                                    // Navigator.of(context).pop();
+
+                                                    submitRemarksLesonObservation(
+
+
+                                                    );
+
                                                   } else {
                                                     if (Type == 'learning_walk') {
                                                       submitRemarksLearningWalk();
@@ -1076,9 +1054,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                                       )),
                                                 ],
                                               ),
-                                            )
-
-                                           : Container(),
+                                            ),
                     ]
                                         ),
                                       ),
@@ -1215,6 +1191,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
         ],
       );
   String _percentage(percent){
+    if (percent == "") return "";
     if(percent.toString().contains('.')){
       if(percent.toString().length>5){
         return '${percent.toString().split('.').first}.${percent.toString().split('.').last.substring(0,2)}%';

@@ -30,6 +30,14 @@
           }
         },
         {
+          "client_id": "560185133261-9ina5b7v4frhk43nb044ufr8fbcduarq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.educore.bmteacher",
+            "certificate_hash": "e0b58f403df429dc805b26b10ce811219acad9f9"
+          }
+        },
+        {
           "client_id": "560185133261-qm6afc7td8efmpl5lo95joq9tl50fe9c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
