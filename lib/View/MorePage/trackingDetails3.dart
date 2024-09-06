@@ -11,10 +11,10 @@ import '../../Models/api_models/recent_date_model.dart';
 import '../../Models/api_models/recentlist_model.dart';
 import '../../Utils/Colors.dart';
 
-class trackingDetails2 extends StatelessWidget {
+class trackingDetails3 extends StatelessWidget {
 
-  final RecentData progressCompletedList;
-  const trackingDetails2({super.key, required this.progressCompletedList});
+  final ListItem progressCompletedList;
+  const trackingDetails3({super.key, required this.progressCompletedList});
 
   @override
   Widget build(BuildContext context) {
@@ -218,7 +218,7 @@ class trackingDetails2 extends StatelessWidget {
                               alignment: Alignment.center,
                               children: [
                                 Container(
-                                  height: 15.0,
+                                  height: 18.0,
                                   decoration: BoxDecoration(
                                     color: Colorutils.userdetailcolor,
                                     borderRadius: BorderRadius.circular(10.0),
@@ -268,7 +268,7 @@ class trackingDetails2 extends StatelessWidget {
                                 ),
                                 Positioned(
                                   child: Text("Reached",
-                                      style: TextStyle(color: Colors.white,fontSize: 10)),
+                                      style: TextStyle(color: Colors.grey,fontSize: 12,fontWeight: FontWeight.bold)),
                                 ),
                               ],
                             ),
@@ -277,7 +277,7 @@ class trackingDetails2 extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 5.0),
-                     Padding(
+                    Padding(
                       padding: EdgeInsets.only(left: 40, right: 30),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -353,7 +353,7 @@ class trackingDetails2 extends StatelessWidget {
                               alignment: Alignment.center,
                               children: [
                                 Container(
-                                  height: 15.0,
+                                  height: 18.0,
                                   decoration: BoxDecoration(
                                     color: Colorutils.userdetailcolor,
                                     borderRadius: BorderRadius.circular(10.0),
@@ -403,7 +403,7 @@ class trackingDetails2 extends StatelessWidget {
                                 ),
                                 Positioned(
                                   child: Text("Reached",
-                                      style: TextStyle(color: Colors.white,fontSize: 10)),
+                                      style: TextStyle(color: Colors.grey,fontSize: 12,fontWeight: FontWeight.bold)),
                                 ),
                               ],
                             ),
@@ -412,7 +412,7 @@ class trackingDetails2 extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 5.0),
-                     Padding(
+                    Padding(
                       padding: EdgeInsets.only(left: 30, right: 40),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

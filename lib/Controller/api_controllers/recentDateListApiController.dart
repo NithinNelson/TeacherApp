@@ -1,19 +1,22 @@
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:teacherapp/Controller/api_controllers/timeTableController.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import '../../Models/api_models/obs_result_api_model.dart';
+import '../../Models/api_models/recent_date_model.dart';
 import '../../Models/api_models/recentlist_model.dart';
 import '../../Models/api_models/time_table_api_model.dart';
 import '../../Services/api_services.dart';
 import 'leaveRequestController.dart';
 
-class RecentListApiController extends GetxController {
+class RecentDateListApiController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isLoaded = false.obs;
   RxBool isError = false.obs;
-  RxList<RecentData> recentData = <RecentData>[].obs;
-  RxList<RecentData> inProgressData = <RecentData>[].obs;
-  RxList<RecentData> progressCompletedData = <RecentData>[].obs;
+  RxInt currentTabIndex = 0.obs;
+  RxList<ListItem> recentData = <ListItem>[].obs;
+  RxList<ListItem> inProgressData = <ListItem>[].obs;
+  RxList<ListItem> progressCompletedData = <ListItem>[].obs;
 
   void resetStatus() {
     isLoading.value = false;
@@ -26,12 +29,13 @@ class RecentListApiController extends GetxController {
     progressCompletedData.value = [];
   }
 
-  Future<void> fetchRecentList() async {
+  Future<void> fetchRecentDateList({DateTime? date}) async {
     print("--------------here---");
     resetData();
     isLoading.value = true;
     isLoaded.value = false;
     try {
+      String? selectedDate = DateFormat("yyyy-MM-dd").format(date ?? DateTime.now());
       String acYr =
           Get.find<UserAuthController>().userData.value.academicYear ?? '';
       String scId =
@@ -49,28 +53,25 @@ class RecentListApiController extends GetxController {
         );
       }
 
-      Map<String, dynamic> resp = await ApiServices.getRecentList(
-          schoolId: scId, academicYear: acYr, endorsedClass: classList);
+      Map<String, dynamic> resp = await ApiServices.getRecentDateList(
+          schoolId: scId, academicYear: acYr, endorsedClass: classList, date: selectedDate);
 
       if (resp['status']['code'] == 200) {
-        RecentTrackingModel recentTrackingModel =
-            RecentTrackingModel.fromJson(resp);
+        TrackingDateModel recentdateTrackingModel =
+        TrackingDateModel.fromJson(resp);
 
-        recentData.value = recentTrackingModel.data?.data ?? [];
-        print(
-            "-----------inprogressdacccccta..${recentData.value.length}-----------");
+        recentData.value = recentdateTrackingModel.data?.data?? [];
+
         isLoaded.value = true;
+
         for (var sub in recentData.value) {
           if (sub.isprogress ?? false) {
             inProgressData.add(sub);
-            print(
-                "-----------inprogressdata..${inProgressData.first.id}-----------");
-            print(
-                "-----------inprogressdata..${inProgressData.first.studentName}-----------");
+            print("----------${inProgressData}-obs result list-----------");
           } else {
             progressCompletedData.add(sub);
-            print(
-                "-----------inprogressdata..$progressCompletedData-----------");
+
+
           }
         }
         // print("-----------endorsedclasseslist${endorsedClassesList.value}-----------");

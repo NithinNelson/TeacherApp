@@ -794,6 +794,37 @@ class ApiServices {
       throw Exception("Service Error");
     }
   }
+
+  static Future<Map<String, dynamic>> getRecentDateList({
+    required String schoolId,
+    required String academicYear,
+    required List<Map<String, dynamic>> endorsedClass,
+    required String date,
+  }) async {
+    String url = ApiConstants.RecentVisit;
+    print(url);
+    Map apiBody = {
+      "school_id": schoolId,
+      "academic_year": academicYear,
+      "Endorsed_class": endorsedClass,
+      "Date":date,
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      log('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
 //summit data add students
   static Future<Map<String, dynamic>> getSubmit({
     required StudentAddModel data,
