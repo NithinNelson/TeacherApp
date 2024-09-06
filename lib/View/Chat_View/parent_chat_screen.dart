@@ -15,6 +15,7 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Controller/search_controller/search_controller.dart';
+// import 'package:teacherapp/Models/api_models/chat_feed_view_model.dart';
 import 'package:teacherapp/Models/api_models/sent_msg_by_teacher_model.dart';
 import 'package:teacherapp/Services/common_services.dart';
 import 'package:teacherapp/Utils/Colors.dart';
@@ -340,7 +341,10 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
                           Container(
                             color: Colors.white.withOpacity(0.8),
                           ),
-                          ChatList(studentRelation: studentRelation),
+                          ChatList(
+                            studentRelation: studentRelation,
+                            studentName: widget.msgData?.studentName ?? "--",
+                          ),
                         ],
                       ),
                     ),
@@ -1174,7 +1178,9 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
 
 class ChatList extends StatelessWidget {
   final String studentRelation;
-  const ChatList({super.key, required this.studentRelation});
+  final String studentName;
+  const ChatList(
+      {super.key, required this.studentRelation, required this.studentName});
 
   @override
   Widget build(BuildContext context) {
@@ -1265,6 +1271,7 @@ class ChatList extends StatelessWidget {
                                 relation: studentRelation,
                                 messageData: messageData,
                                 index: index,
+                                studentName: studentName,
                               ),
                             ),
                           ],
@@ -1669,7 +1676,7 @@ class SentMessageBubble extends StatelessWidget {
                                                   color: Colors.black
                                                       .withOpacity(.25)),
                                         ),
-                                        SizedBox(width: 5.h),
+                                        // SizedBox(width: 5.h),
                                         // SizedBox(
                                         //   height: 21.h,
                                         //   width: 21.h,
@@ -1808,7 +1815,28 @@ class ReplayMessageWidget2 extends StatelessWidget {
                           bottomRight: Radius.circular(5.h))),
                   child: Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: TextAndFileWidget(replyData: replyData)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            child: Text(
+                                replyData.messageFromId ==
+                                        Get.find<UserAuthController>()
+                                            .userData
+                                            .value
+                                            .userId
+                                    ? "You"
+                                    : replyData.messageFromName ?? "--",
+                                overflow: TextOverflow.ellipsis,
+                                style: TeacherAppFonts.interW600_16sp_letters1
+                                // style: FontsStyle()
+                                //     .interW600_16sp
+                                //     .copyWith(color: ColorUtil.gradientColorEnd),
+                                ),
+                          ),
+                          TextAndFileWidget(replyData: replyData),
+                        ],
+                      )),
                 ),
               ),
             ],
@@ -1930,7 +1958,8 @@ class ReceiveMessageBubble extends StatelessWidget {
       this.relation,
       this.messageData,
       this.subject,
-      required this.index});
+      required this.index,
+      this.studentName});
 
   late Offset _tapPosition;
 
@@ -1945,6 +1974,7 @@ class ReceiveMessageBubble extends StatelessWidget {
   String? subject;
   ParentMsgData? messageData;
   final int index;
+  String? studentName;
 
   @override
   Widget build(BuildContext context) {
@@ -2050,9 +2080,9 @@ class ReceiveMessageBubble extends StatelessWidget {
                                               constraints: BoxConstraints(
                                                   maxWidth: 70.w),
                                               child: Text(
-                                                senderName == null
+                                                studentName == null
                                                     ? "--"
-                                                    : "~ ${senderName?.split(" ").first ?? ""}",
+                                                    : "~ $studentName",
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TeacherAppFonts
                                                     .interW500_12sp_textWhite

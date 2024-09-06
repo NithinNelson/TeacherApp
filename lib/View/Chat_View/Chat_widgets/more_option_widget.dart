@@ -91,7 +91,8 @@ class MessageMoreContainer extends StatelessWidget {
                             .messageFrom!;
 
                 Navigator.pop(context);
-                await Future.delayed(Duration(milliseconds: 50)).then((value) {
+                await Future.delayed(const Duration(milliseconds: 50))
+                    .then((value) {
                   Get.find<FeedViewController>().focusNode.value.requestFocus();
                 });
               },
@@ -104,38 +105,54 @@ class MessageMoreContainer extends StatelessWidget {
             ),
             MessageMoreSettingsTile(
               function: () {
+                Navigator.pop(context);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ForwardScreen(),
+                      builder: (context) => const ForwardScreen(),
                     ));
               },
               text: "Forward",
               icon: "assets/images/ArrowBendUpRight.svg",
             ),
-            const Divider(
-              color: Colorutils.dividerColor2,
-              height: 0,
-            ),
-            MessageMoreSettingsTile(
-              function: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MessageInfoScreen(
-                        widget: widget,
-                        messageId: int.parse(Get.find<FeedViewController>()
-                            .seletedMsgData!
-                            .messageId!),
+            Get.find<UserAuthController>().userData.value.userId ==
+                    Get.find<FeedViewController>()
+                        .seletedMsgData!
+                        .messageFromId!
+                ? Column(
+                    children: [
+                      const Divider(
+                        color: Colorutils.dividerColor2,
+                        height: 0,
                       ),
-                    ));
-              },
-              text: "Message info",
-              icon: "assets/images/Info.svg",
-            ),
+                      MessageMoreSettingsTile(
+                        function: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MessageInfoScreen(
+                                  widget: widget,
+                                  messageId: int.parse(
+                                      Get.find<FeedViewController>()
+                                          .seletedMsgData!
+                                          .messageId!),
+                                ),
+                              ));
+                        },
+                        text: "Message info",
+                        icon: "assets/images/Info.svg",
+                      ),
+                    ],
+                  )
+                : const SizedBox(),
             Get.find<FeedViewController>().showDelete(
-                    Get.find<FeedViewController>().seletedMsgData!.sendAt ??
-                        '--')
+                        Get.find<FeedViewController>().seletedMsgData!.sendAt ??
+                            '--') &&
+                    Get.find<UserAuthController>().userData.value.userId ==
+                        Get.find<FeedViewController>()
+                            .seletedMsgData!
+                            .messageFromId!
                 ? Column(
                     children: [
                       const Divider(
@@ -267,7 +284,8 @@ class MessageMoreContainer2 extends StatelessWidget {
                             .messageFrom!;
 
                 Navigator.pop(context);
-                await Future.delayed(Duration(milliseconds: 50)).then((value) {
+                await Future.delayed(const Duration(milliseconds: 50))
+                    .then((value) {
                   Get.find<ParentChattingController>()
                       .focusNode
                       .value
@@ -283,41 +301,57 @@ class MessageMoreContainer2 extends StatelessWidget {
             ),
             MessageMoreSettingsTile(
               function: () {
+                Navigator.pop(context);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ForwardScreen(),
+                      builder: (context) => const ForwardScreen(),
                     ));
               },
               text: "Forward",
               icon: "assets/images/ArrowBendUpRight.svg",
             ),
-            const Divider(
-              color: Colorutils.dividerColor2,
-              height: 0,
-            ),
-            MessageMoreSettingsTile(
-              function: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MessageInfoScreen(
-                        widget: widget,
-                        messageId: int.parse(
-                            Get.find<ParentChattingController>()
-                                .seletedMsgData!
-                                .messageId!),
-                      ),
-                    ));
-              },
-              text: "Message info",
-              icon: "assets/images/Info.svg",
-            ),
-            Get.find<ParentChattingController>().showDelete(
+
+            Get.find<UserAuthController>().userData.value.userId ==
                     Get.find<ParentChattingController>()
+                        .seletedMsgData!
+                        .messageFromId!
+                ? Column(
+                    children: [
+                      const Divider(
+                        color: Colorutils.dividerColor2,
+                        height: 0,
+                      ),
+                      MessageMoreSettingsTile(
+                        function: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MessageInfoScreen(
+                                  widget: widget,
+                                  messageId: int.parse(
+                                      Get.find<ParentChattingController>()
+                                          .seletedMsgData!
+                                          .messageId!),
+                                ),
+                              ));
+                        },
+                        text: "Message info",
+                        icon: "assets/images/Info.svg",
+                      ),
+                    ],
+                  )
+                : const SizedBox(),
+            Get.find<UserAuthController>().userData.value.userId ==
+                        Get.find<ParentChattingController>()
                             .seletedMsgData!
-                            .sendAt ??
-                        '--')
+                            .messageFromId! &&
+                    Get.find<ParentChattingController>().showDelete(
+                        Get.find<ParentChattingController>()
+                                .seletedMsgData!
+                                .sendAt ??
+                            '--')
                 ? Column(
                     children: [
                       const Divider(

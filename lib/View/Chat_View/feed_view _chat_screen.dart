@@ -412,7 +412,7 @@ class _FeedViewChatScreenState extends State<FeedViewChatScreen>
                                     Container(
                                       color: Colors.white.withOpacity(0.8),
                                     ),
-                                    const ChatList(),
+                                    ChatList(widget: widget),
                                     Positioned(
                                       bottom: 0,
                                       left: 0,
@@ -453,7 +453,9 @@ class _FeedViewChatScreenState extends State<FeedViewChatScreen>
                                   Container(
                                     color: Colors.white.withOpacity(0.8),
                                   ),
-                                  const ChatList(),
+                                  ChatList(
+                                    widget: widget,
+                                  ),
                                   Positioned(
                                     bottom: 0,
                                     left: 0,
@@ -1507,8 +1509,8 @@ class FeedViewTextField extends StatelessWidget {
 }
 
 class ChatList extends StatelessWidget {
-  const ChatList({super.key});
-
+  const ChatList({super.key, required this.widget});
+  final FeedViewChatScreen widget;
   @override
   Widget build(BuildContext context) {
     String userId =
@@ -1579,6 +1581,7 @@ class ChatList extends StatelessWidget {
                                 fileLink: messageData.messageFile,
                                 messageData: messageData,
                                 index: index,
+                                widget: widget,
                               ),
                             ),
                           ],

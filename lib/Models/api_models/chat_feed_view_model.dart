@@ -187,6 +187,8 @@ class ReplyData {
   String? messageFile;
   String? fileName;
   String? messageAudio;
+  String? messageFromId;
+  String? messageFromName;
   String? sandAt;
 
   ReplyData(
@@ -196,6 +198,8 @@ class ReplyData {
       this.messageFile,
       this.fileName,
       this.messageAudio,
+      this.messageFromId,
+      this.messageFromName,
       this.sandAt});
 
   ReplyData.fromJson(Map<String, dynamic> json) {
@@ -205,21 +209,66 @@ class ReplyData {
     messageFile = json['message_file'];
     fileName = json['file_name'];
     messageAudio = json['message_audio'];
+    messageFromId = json['message_from_id'];
+    messageFromName = json['message_from_name'];
     sandAt = json['sand_at'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['message_id'] = messageId;
-    data['type'] = type;
-    data['message'] = message;
-    data['message_file'] = messageFile;
-    data['file_name'] = fileName;
-    data['message_audio'] = messageAudio;
-    data['sand_at'] = sandAt;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['message_id'] = this.messageId;
+    data['type'] = this.type;
+    data['message'] = this.message;
+    data['message_file'] = this.messageFile;
+    data['file_name'] = this.fileName;
+    data['message_audio'] = this.messageAudio;
+    data['message_from_id'] = this.messageFromId;
+    data['message_from_name'] = this.messageFromName;
+    data['sand_at'] = this.sandAt;
     return data;
   }
 }
+
+// class ReplyData {
+//   int? messageId;
+//   String? type;
+//   String? message;
+//   String? messageFile;
+//   String? fileName;
+//   String? messageAudio;
+//   String? sandAt;
+
+//   ReplyData(
+//       {this.messageId,
+//       this.type,
+//       this.message,
+//       this.messageFile,
+//       this.fileName,
+//       this.messageAudio,
+//       this.sandAt});
+
+//   ReplyData.fromJson(Map<String, dynamic> json) {
+//     messageId = json['message_id'];
+//     type = json['type'];
+//     message = json['message'];
+//     messageFile = json['message_file'];
+//     fileName = json['file_name'];
+//     messageAudio = json['message_audio'];
+//     sandAt = json['sand_at'];
+//   }
+
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = <String, dynamic>{};
+//     data['message_id'] = messageId;
+//     data['type'] = type;
+//     data['message'] = message;
+//     data['message_file'] = messageFile;
+//     data['file_name'] = fileName;
+//     data['message_audio'] = messageAudio;
+//     data['sand_at'] = sandAt;
+//     return data;
+//   }
+// }
 
 class ChatFeedViewReqModel {
   String? classs;

@@ -951,7 +951,28 @@ class ReplayMessageWidget3 extends StatelessWidget {
                           bottomRight: Radius.circular(5.h))),
                   child: Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: TextAndFileWidget(replyData: replyData)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            child: Text(
+                                replyData.messageFromId ==
+                                        Get.find<UserAuthController>()
+                                            .userData
+                                            .value
+                                            .userId
+                                    ? "You"
+                                    : replyData.messageFromName ?? "--",
+                                overflow: TextOverflow.ellipsis,
+                                style: TeacherAppFonts.interW600_16sp_letters1
+                                // style: FontsStyle()
+                                //     .interW600_16sp
+                                //     .copyWith(color: ColorUtil.gradientColorEnd),
+                                ),
+                          ),
+                          TextAndFileWidget(replyData: replyData),
+                        ],
+                      )),
                 ),
               ),
             ],
