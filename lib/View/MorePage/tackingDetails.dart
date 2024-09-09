@@ -530,7 +530,7 @@ class Container2 extends StatelessWidget {
                     children: [
                       Text(
                           DateFormat('HH : mm').format(DateTime.parse(
-                                  inProgressData.status?[1].addedOn ?? '--')
+                                  inProgressData.status?[0].addedOn ?? '--')
                               .toLocal()),
                           style: TextStyle(color: Colors.grey, fontSize: 12)),
                       Text(
@@ -746,7 +746,7 @@ class _Container3State extends State<Container3> {
                     children: [
                       Text(
                           DateFormat('HH : mm').format(DateTime.parse(
-                                  widget.inProgressData.status?[1].addedOn ??
+                                  widget.inProgressData.status?[0].addedOn ??
                                       '--')
                               .toLocal()),
                           style: TextStyle(color: Colors.grey, fontSize: 12)),
@@ -895,7 +895,7 @@ class _Container3State extends State<Container3> {
                     children: [
                       Text(
                           DateFormat('HH : mm').format(DateTime.parse(
-                                  widget.inProgressData.status?[1].addedOn ??
+                                  widget.inProgressData.status?[2].addedOn ??
                                       '--')
                               .toLocal()),
                           style: const TextStyle(

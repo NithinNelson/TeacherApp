@@ -36,8 +36,7 @@ class AllStudents extends StatelessWidget {
       body: SafeArea(
         child: GetX<RecentListApiController>(
           builder: (RecentListApiController controller) {
-            List<RecentData> inProgressList =
-                controller.inProgressData.value;
+            List<RecentData> inProgressList = controller.inProgressData.value;
             return Column(
               children: [
                 Container(
@@ -60,7 +59,8 @@ class AllStudents extends StatelessWidget {
                       ),
                       const Text(
                         "Add Students",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       Spacer(
                         flex: 3,
@@ -87,7 +87,8 @@ class AllStudents extends StatelessWidget {
                       onChanged: (value) {
                         // Get.find<LeaveApprovalController>().filterLeaveList(text: value);
                       },
-                      validator: (val) => val!.isEmpty ? 'Enter the Topic' : null,
+                      validator: (val) =>
+                          val!.isEmpty ? 'Enter the Topic' : null,
                       cursorColor: Colors.grey,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
@@ -108,7 +109,8 @@ class AllStudents extends StatelessWidget {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => QRViewExample()));
+                                          builder: (context) =>
+                                              QRViewExample()));
                                 },
                                 child: Container(
                                     height: 25,
@@ -125,7 +127,7 @@ class AllStudents extends StatelessWidget {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide:
-                            BorderSide(color: Colors.grey.withOpacity(0.2)),
+                                BorderSide(color: Colors.grey.withOpacity(0.2)),
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -139,113 +141,142 @@ class AllStudents extends StatelessWidget {
                     ),
                   ),
                 ),
-                inProgressList.isNotEmpty?
-                Expanded(
-                    child: GetX<RecentListApiController>(
-                      builder: (RecentListApiController controller) {
-                        List<RecentData> inProgressList =
-                            controller.inProgressData.value;
-                        return  inProgressList.isNotEmpty? Column(
-                          children: [
-
-                            Padding(
-                              padding: const EdgeInsets.only(left: 18, right: 18,),
-                              child: SizedBox(
-                                height: 40,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                inProgressList.isNotEmpty
+                    ? Expanded(child: GetX<RecentListApiController>(
+                        builder: (RecentListApiController controller) {
+                          List<RecentData> inProgressList =
+                              controller.inProgressData.value;
+                          return inProgressList.isNotEmpty
+                              ? Column(
                                   children: [
-                                    Text(
-                                      'Tracking',
-                                      style: TextStyle(
-                                          fontSize: 16.w, fontWeight: FontWeight.bold),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(context,
-                                            MaterialPageRoute(builder: (context) => Viewall()));
-                                      },
-                                      child: Text(
-                                        'Recent List',
-                                        style: TextStyle(
-                                            fontSize: 16.w,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colorutils.userdetailcolor),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 18,
+                                        right: 18,
+                                      ),
+                                      child: SizedBox(
+                                        height: 40,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'Tracking',
+                                              style: TextStyle(
+                                                  fontSize: 16.w,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Viewall()));
+                                              },
+                                              child: Text(
+                                                'Recent List',
+                                                style: TextStyle(
+                                                    fontSize: 16.w,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colorutils
+                                                        .userdetailcolor),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
+                                    Expanded(
+                                      child: ListView.builder(
+                                          shrinkWrap: true,
+                                          padding:
+                                              const EdgeInsets.only(bottom: 70),
+                                          itemCount: inProgressList.length,
+                                          itemBuilder: (context, index) =>
+                                              TrackingContainer(
+                                                startTime: DateTime.parse(
+                                                        "${inProgressList[index].status?.last.addedOn}")
+                                                    .toLocal(),
+                                                inProgressList:
+                                                    inProgressList[index],
+                                              )),
+                                    ),
                                   ],
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  padding: const EdgeInsets.only(bottom: 70),
-                                  itemCount: inProgressList.length,
-                                  itemBuilder: (context, index) => TrackingContainer(
-                                    startTime: DateTime.parse(
-                                        "${inProgressList[index].status?.last.addedOn}")
-                                        .toLocal(),
-                                    inProgressList: inProgressList[index],
-                                  )),
-                            ),
-                          ],
-                        ):SizedBox();
-                      },
-                    )):
+                                )
+                              : SizedBox();
+                        },
+                      ))
+                    : Expanded(child: GetX<RecentListApiController>(
+                        builder: (RecentListApiController controller) {
+                          List<RecentData> progressCompletedList =
+                              controller.progressCompletedData.value;
 
-                Expanded(child: GetX<RecentListApiController>(
-                  builder: (RecentListApiController controller) {
-                    List<RecentData> progressCompletedList =
-                        controller.progressCompletedData.value;
-
-                     return progressCompletedList.isNotEmpty?
-                       Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 18, right: 18),
-                          child: Container(
-                            height: 40,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Recent List',
-                                  style: TextStyle(
-                                      fontSize: 16.w, fontWeight: FontWeight.bold),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) => Viewall()));
-                                  },
+                          return progressCompletedList.isNotEmpty
+                              ? Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 18, right: 18),
+                                      child: Container(
+                                        height: 40,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'Recent List',
+                                              style: TextStyle(
+                                                  fontSize: 16.w,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Viewall()));
+                                              },
+                                              child: Text(
+                                                'View All',
+                                                style: TextStyle(
+                                                    fontSize: 16.w,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colorutils
+                                                        .userdetailcolor),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: ListView.builder(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 70),
+                                          itemCount:
+                                              progressCompletedList.length,
+                                          itemBuilder: (context, index) =>
+                                              listcontainer(
+                                                  progressCompletedList:
+                                                      progressCompletedList[
+                                                          index])),
+                                    ),
+                                  ],
+                                )
+                              : const Center(
                                   child: Text(
-                                    'View All',
-                                    style: TextStyle(
-                                        fontSize: 16.w,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colorutils.userdetailcolor),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: ListView.builder(
-                              padding: const EdgeInsets.only(bottom: 70),
-                              itemCount: progressCompletedList.length,
-                              itemBuilder: (context, index) => listcontainer(
-                                  progressCompletedList: progressCompletedList[index])),
-                        ),
-                      ],
-                    ):  const Center(child: Text("Oops! No Data Found",style: TextStyle(color: Colors.red,fontStyle: FontStyle.italic),));
-                  },
-                ))
+                                  "Oops! No Data Found",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontStyle: FontStyle.italic),
+                                ));
+                        },
+                      ))
               ],
             );
           },
-
         ),
       ),
       floatingActionButton: Container(
@@ -415,14 +446,16 @@ class listcontainer extends StatelessWidget {
 class TrackingContainer extends StatefulWidget {
   final RecentData inProgressList;
   final DateTime startTime;
-  const TrackingContainer({super.key, required this.inProgressList, required this.startTime});
+
+  const TrackingContainer(
+      {super.key, required this.inProgressList, required this.startTime});
 
   @override
   State<TrackingContainer> createState() => _TrackingContainerState();
 }
 
 class _TrackingContainerState extends State<TrackingContainer> {
-  static const int countdownDuration = 1*60; // 5 minutes in seconds
+  static const int countdownDuration = 1 * 60; // 5 minutes in seconds
 
   late DateTime endTime; // The end time for the countdown
   late Timer timer;
@@ -430,11 +463,10 @@ class _TrackingContainerState extends State<TrackingContainer> {
   @override
   void initState() {
     super.initState();
-    endTime = widget.startTime.add(Duration(
-        seconds:
-        countdownDuration));
-    if(widget.inProgressList.status?.length == 1 || widget.inProgressList.status!.length == 3  )
-    startTimer(); // Start the timer when the screen is initialized
+    endTime = widget.startTime.add(Duration(seconds: countdownDuration));
+    if (widget.inProgressList.status?.length == 1 ||
+        widget.inProgressList.status!.length == 3)
+      startTimer(); // Start the timer when the screen is initialized
   }
 
   String? startTimer() {
@@ -451,31 +483,27 @@ class _TrackingContainerState extends State<TrackingContainer> {
         //   text = true;
         // }
 
-        if (DateTime.now().isBefore(endTime )) {
+        if (DateTime.now().isBefore(endTime)) {
           text = false;
         } else {
-          if(DateTime.now().isAfter(endTime) && DateTime.now().isBefore(endTime.add(Duration(seconds: 1)))){
-         _playAlertSoundAndVibrate();
-          // _playAlertSoundAndVibrate();
+          if (DateTime.now().isAfter(endTime) &&
+              DateTime.now().isBefore(endTime.add(Duration(seconds: 1)))) {
+            _playAlertSoundAndVibrate();
+            // _playAlertSoundAndVibrate();
           }
           timer.cancel();
           text = true;
-
-
         }
       });
     });
 
     // Return status based on the timer status
     if (!text) {
-
-
       return "Not Yet Reached";
     } else {
       return "Timer Reached";
     }
   }
-
 
   @override
   void dispose() {
@@ -483,14 +511,9 @@ class _TrackingContainerState extends State<TrackingContainer> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     int remainingTime = endTime.difference(DateTime.now()).inSeconds;
-
-
-
-
 
     double progress = (countdownDuration - remainingTime) / countdownDuration;
     return Padding(
@@ -613,15 +636,18 @@ class _TrackingContainerState extends State<TrackingContainer> {
                   children: [
                     Expanded(
                       child: CustomLinearProgressIndicator(
-                        value: widget.inProgressList.status?.length == 1 || widget.inProgressList.status?.length == 3? progress :10,
+                        value: widget.inProgressList.status?.length == 1 ||
+                                widget.inProgressList.status?.length == 3
+                            ? progress
+                            : 10,
                         backgroundColor: Colors.white,
                         textColor: Colors.white,
                         borderRadius: BorderRadius.circular(15),
-
-
-
-                        text:widget.inProgressList.status?.length == 2 ?  "Reached": remainingTime > 0? "${formatTime(remainingTime)}" :"Not Yet Reached",
-
+                        text: widget.inProgressList.status?.length == 2
+                            ? "Reached"
+                            : remainingTime > 0
+                                ? "${formatTime(remainingTime)}"
+                                : "Not Yet Reached",
                         gradient: LinearGradient(
                           colors: [
                             Colorutils.gradientColor1,
@@ -634,35 +660,29 @@ class _TrackingContainerState extends State<TrackingContainer> {
                       width: 10,
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => trackingDetails(
-                                      inProgressList: widget.inProgressList, starttime:DateTime.parse(
-                                "${widget.inProgressList.status?.last.addedOn}")
-                                    .toLocal(),
-
-                                    )));
-                      },
-                      child: CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colorutils.userdetailcolor,
-                        child: Padding(
-                          padding: const EdgeInsets.all(7.0),
-                          child: Transform.rotate(
-                            angle: 25.9, // This rotates the image 180 degrees (in radians).
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => trackingDetails(
+                                        inProgressList: widget.inProgressList,
+                                        starttime: DateTime.parse(
+                                                "${widget.inProgressList.status?.last.addedOn}")
+                                            .toLocal(),
+                                      )));
+                        },
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Colorutils.userdetailcolor,
+                          child: Padding(
+                            padding: const EdgeInsets.all(7.0),
                             child: SvgPicture.asset("assets/images/arrow.svg"),
                           ),
-                        ),
-                      )
-
-                    )
+                        ))
                   ],
                 ),
               ),
             ),
-
           ],
         ),
       ),
@@ -694,21 +714,22 @@ String Converteddate(String Date) {
 // }
 
 void _playAlertSoundAndVibrate() async {
-  // Check if the device has a vibrator and vibrate for 5 seconds
   if (await Vibration.hasVibrator() ?? false) {
-    Vibration.vibrate(duration: 5000); // Vibrate for 5 seconds
+    Vibration.vibrate(duration: 10000);
   }
 
-  // Initialize the audio player
   final player = AudioPlayer();
 
-  // Load and play the sound from assets
-  await player.setSourceAsset('assets/images/vintage_alarm_clock.mp3');
-  await player.resume();
+  try {
 
-  // Stop vibration after 5 seconds
+    await player.play(AssetSource('images/vintage_alarm_clock-[AudioTrimmer.com].mp3'));
+  } catch (e) {
+    print('Error playing audio: $e');
+  }
+
   Future.delayed(Duration(seconds: 5), () {
     Vibration.cancel();
+    player.stop();
   });
 }
 
@@ -718,4 +739,3 @@ String formatTime(int seconds) {
   int remainingSeconds = seconds % 60; // Calculate remaining seconds
   return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}'; // Format as mm:ss
 }
-

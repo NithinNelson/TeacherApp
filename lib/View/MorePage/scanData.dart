@@ -31,13 +31,16 @@ class Scandata extends StatefulWidget {
 }
 
 class _ScandataState extends State<Scandata> {
-  bool isClicked = false;
+  bool isClicked = true;
+  // bool isClicked = false;
   bool isClicked1 = false;
   bool isClicked2 = false;
   TextEditingController _Remarkscontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
+
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       body: SafeArea(
@@ -223,77 +226,77 @@ class _ScandataState extends State<Scandata> {
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isClicked1 = true;
-                          });
-                        },
-                        child: Container(
-                          height: 80,
-                          width: 90,
-                          child: Column(
-                            children: [
-                              GestureDetector(
-                                child: Container(
-                                    height: 50,
-                                    width: 50,
-                                    child: isClicked1
-                                        ? Image.asset(
-                                            "assets/images/2Washroom selecetd.png")
-                                        : Image.asset(
-                                            "assets/images/1Washroom.png")),
-                                onTap: () {
-                                  setState(() {
-                                    isClicked1 = true;
-                                    isClicked = false;
-                                    isClicked2 = false;
-                                  });
-                                },
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Washroom",
-                                style: TextStyle(fontSize: 13),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isClicked2 = true;
-                            isClicked = false;
-                            isClicked1 = false;
-                          });
-                        },
-                        child: Container(
-                          height: 80,
-                          width: 90,
-                          child: Column(
-                            children: [
-                              Container(
-                                  height: 50,
-                                  width: 50,
-                                  child: isClicked2
-                                      ? Image.asset(
-                                          "assets/images/2Counsellor selected.png")
-                                      : Image.asset(
-                                          "assets/images/1Counsellor.png")),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Councellor",
-                                style: TextStyle(fontSize: 13),
-                              )
-                            ],
-                          ),
-                        ),
-                      )
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     setState(() {
+                      //       isClicked1 = true;
+                      //     });
+                      //   },
+                      //   child: Container(
+                      //     height: 80,
+                      //     width: 90,
+                      //     child: Column(
+                      //       children: [
+                      //         GestureDetector(
+                      //           child: Container(
+                      //               height: 50,
+                      //               width: 50,
+                      //               child: isClicked1
+                      //                   ? Image.asset(
+                      //                       "assets/images/2Washroom selecetd.png")
+                      //                   : Image.asset(
+                      //                       "assets/images/1Washroom.png")),
+                      //           onTap: () {
+                      //             setState(() {
+                      //               // isClicked1 = true;
+                      //               // isClicked = false;
+                      //               // isClicked2 = false;
+                      //             });
+                      //           },
+                      //         ),
+                      //         SizedBox(
+                      //           height: 5,
+                      //         ),
+                      //         Text(
+                      //           "Washroom",
+                      //           style: TextStyle(fontSize: 13),
+                      //         )
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     setState(() {
+                      //       // isClicked2 = true;
+                      //       // isClicked = false;
+                      //       // isClicked1 = false;
+                      //     });
+                      //   },
+                      //   child: Container(
+                      //     height: 80,
+                      //     width: 90,
+                      //     child: Column(
+                      //       children: [
+                      //         Container(
+                      //             height: 50,
+                      //             width: 50,
+                      //             child: isClicked2
+                      //                 ? Image.asset(
+                      //                     "assets/images/2Counsellor selected.png")
+                      //                 : Image.asset(
+                      //                     "assets/images/1Counsellor.png")),
+                      //         SizedBox(
+                      //           height: 5,
+                      //         ),
+                      //         Text(
+                      //           "Councellor",
+                      //           style: TextStyle(fontSize: 13),
+                      //         )
+                      //       ],
+                      //     ),
+                      //   ),
+                      // )
                     ],
                   ),
                   Padding(
@@ -319,35 +322,38 @@ class _ScandataState extends State<Scandata> {
                       right: 20.w,
                       bottom: 5.h,
                     ),
-                    child: TextFormField(
-                      controller: _Remarkscontroller,
-                      validator: (val) =>
-                          val!.isEmpty ? '  *Fill the Field to Submit' : null,
-                      decoration: InputDecoration(
-                          hintStyle: const TextStyle(color: Colors.black26),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.h, horizontal: 20.w),
-                          hintText: " Enter Remarks   ",
-                          border: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10.0),
-                            ).r,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colorutils.chatcolor, width: 1.0),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)).r,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colorutils.chatcolor, width: 1.0),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10.0)).r,
-                          ),
-                          fillColor: Colors.white,
-                          filled: true),
-                      maxLines: 5,
+                    child: Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        controller: _Remarkscontroller,
+                        validator: (val) =>
+                            val!.isEmpty ? 'Please Enter Remarks.': null,
+                        decoration: InputDecoration(
+                            hintStyle: const TextStyle(color: Colors.black26),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.h, horizontal: 20.w),
+                            hintText: " Enter Remarks   ",
+                            border: OutlineInputBorder(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10.0),
+                              ).r,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colorutils.chatcolor, width: 1.0),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)).r,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colorutils.chatcolor, width: 1.0),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10.0)).r,
+                            ),
+                            fillColor: Colors.white,
+                            filled: true),
+                        maxLines: 5,
+                      ),
                     ),
                   ),
                   Center(
@@ -356,7 +362,8 @@ class _ScandataState extends State<Scandata> {
                       child: GestureDetector(
                         onTap: () async {
                           String type = isClicked ? "clinic" : isClicked1 ? "washroom" : isClicked2 ? "councellor" : '';
-                          StudentAddModel sentData = StudentAddModel(
+                          if(_formKey.currentState!.validate()) {
+                            StudentAddModel sentData = StudentAddModel(
                             academicYear: Get.find<UserAuthController>()
                                     .userData
                                     .value
@@ -391,9 +398,20 @@ class _ScandataState extends State<Scandata> {
 
 
                           );
+                            await Get.find<Studentmodelcontroller>().sendStudentData(data: sentData);
+                            await Get.find<RecentListApiController>().fetchRecentList();
 
-                          await Get.find<Studentmodelcontroller>().sendStudentData(data: sentData);
-                          await Get.find<RecentListApiController>().fetchRecentList();
+                          }
+                          // else{
+                          //   TeacherAppPopUps.submitFailed(
+                          //     title: "Failed",
+                          //     message: "Failed to submit.",
+                          //     actionName: "Close",
+                          //     iconData: Icons.info_outline,
+                          //     iconColor: Colors.red,
+                          //   );
+                          // }
+
 
                         },
                         child: Padding(

@@ -401,7 +401,7 @@ class trackingDetails3 extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                Positioned(
+                                const Positioned(
                                   child: Text("Reached",
                                       style: TextStyle(color: Colors.grey,fontSize: 12,fontWeight: FontWeight.bold)),
                                 ),
