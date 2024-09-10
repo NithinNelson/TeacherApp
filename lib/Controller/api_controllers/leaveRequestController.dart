@@ -49,6 +49,7 @@ class LeaveRequestController extends GetxController {
       if (resp['status']['code'] == 200) {
         LeaveRequestListApiModel leaveRequestListApiModel = LeaveRequestListApiModel.fromJson(resp);
         classList.value = leaveRequestListApiModel.data?.details ?? [];
+
         if(classList.value.isNotEmpty) {
           studentList.value = classList.value.first.students ?? [];
           classData.value = classList.value.first;

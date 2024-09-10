@@ -115,7 +115,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Leave Request',
+                                  'Leave Apply',
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600),
@@ -143,6 +143,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                           classlist.sort((a, b) => "${a.className!}${a.batchName!}".compareTo("${b.className!}${b.batchName!}"));
                                           return ListView.builder(
                                               shrinkWrap: true,
+
                                               scrollDirection: Axis.horizontal,
                                               itemCount: classlist.length,
                                               itemBuilder:
@@ -154,6 +155,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                                       width: 5.w,
                                                     ),
                                                     SingleChildScrollView(
+
                                                       child: GestureDetector(
                                                         onTap: () {
                                                           setState(() {
@@ -234,7 +236,8 @@ class _LeaveRequestState extends State<LeaveRequest> {
                           Container(
                             margin: EdgeInsets.only(left: 15.w, right: 15.w),
                             child: TextFormField(
-                              controller: _searchController,
+
+                            controller: _searchController,
                               onChanged: (value) {
                                 leaveRequestController.filterList(text: value);
                               },

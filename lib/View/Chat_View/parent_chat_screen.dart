@@ -774,7 +774,7 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
                                     SizedBox(
                                       width: 20.w,
                                     ),
-                                    controller.ontype.value == "" &&
+                                    controller.ontype.value.trim() == "" &&
                                             controller.audioPath.value ==
                                                 null &&
                                             controller.filePath.value == null

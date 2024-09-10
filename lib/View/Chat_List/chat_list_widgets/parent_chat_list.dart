@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:teacherapp/Controller/api_controllers/parentChatListController.dart';
+import 'package:teacherapp/Services/common_services.dart';
 import 'package:teacherapp/View/Chat_View/parent_chat_screen.dart';
 import '../../../Controller/api_controllers/userAuthController.dart';
 import '../../../Models/api_models/parent_chat_list_api_model.dart';
@@ -135,7 +136,7 @@ class ParentChatList extends StatelessWidget {
                     String? userId =
                         Get.find<UserAuthController>().userData.value.userId;
                     return ChatItem(
-                      time: formattedDate ?? '',
+                      time: sentTime.toString(),
                       userId: userId,
                       leadColor: Colorutils.chatLeadingColors[index % 5],
                       parentRoom: chatParentList[index],
@@ -435,7 +436,7 @@ class ChatItem extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      "Class ${parentRoom.datumClass}",
+                      "Class ${parentRoom.datumClass}${parentRoom.batch}",
                       style: TeacherAppFonts.interW500_12sp_textWhite.copyWith(
                         color: leadColor,
                       ),
@@ -443,7 +444,7 @@ class ChatItem extends StatelessWidget {
                   ),
                   SizedBox(height: 5.h),
                   Text(
-                    time,
+                    chatRoomDateAndTimeFormat(time),
                     style: TeacherAppFonts.interW400_12sp_topicbackground,
                   ),
                   SizedBox(height: 5.h),

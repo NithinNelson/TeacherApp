@@ -1,13 +1,11 @@
-import 'dart:core';
-
-class RecentTrackingModel {
+class TrackingDateModel {
   Status? status;
   int? count;
   Data? data;
 
-  RecentTrackingModel({this.status, this.count, this.data});
+  TrackingDateModel({this.status, this.count, this.data});
 
-  RecentTrackingModel.fromJson(Map<String, dynamic> json) {
+  TrackingDateModel.fromJson(Map<String, dynamic> json) {
     status = json['status'] != null ? new Status.fromJson(json['status']) : null;
     count = json['count'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
@@ -47,7 +45,7 @@ class Status {
 
 class Data {
   String? message;
-  List<RecentData>? data;
+  List<ListItem>? data;
   int? status;
 
   Data({this.message, this.data, this.status});
@@ -55,8 +53,8 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     if (json['data'] != null) {
-      data = <RecentData>[];
-      json['data'].forEach((v) { data!.add(new RecentData.fromJson(v)); });
+      data = <ListItem>[];
+      json['data'].forEach((v) { data!.add(new ListItem.fromJson(v)); });
     }
     status = json['status'];
   }
@@ -72,7 +70,7 @@ class Data {
   }
 }
 
-class RecentData {
+class ListItem {
   int? id;
   String? studentName;
   String? classs;
@@ -80,11 +78,11 @@ class RecentData {
   String? visitDate;
   String? visitStatus;
   bool? isprogress;
-  List<Statuses>? status;
+  List<DataStatus>? status;
 
-  RecentData({this.id, this.studentName, this.classs, this.batch, this.visitDate, this.visitStatus, this.isprogress, this.status});
+  ListItem({this.id, this.studentName, this.classs, this.batch, this.visitDate, this.visitStatus, this.isprogress, this.status});
 
-  RecentData.fromJson(Map<String, dynamic> json) {
+  ListItem.fromJson(Map<String, dynamic> json) {
   id = json['id'];
   studentName = json['student_name'];
   classs = json['class'];
@@ -93,8 +91,8 @@ class RecentData {
   visitStatus = json['visit_status'];
   isprogress = json['isprogress'];
   if (json['status'] != null) {
-  status = <Statuses>[];
-  json['status'].forEach((v) { status!.add(new Statuses.fromJson(v)); });
+  status = <DataStatus>[];
+  json['status'].forEach((v) { status!.add(new DataStatus.fromJson(v)); });
   }
   }
 
@@ -114,16 +112,16 @@ class RecentData {
   }
 }
 
-class Statuses {
+class DataStatus {
   String? sentBy;
   String? sentById;
   String? sentByToken;
   String? visitStatus;
   String? addedOn;
 
-  Statuses({this.sentBy, this.sentById, this.sentByToken, this.visitStatus, this.addedOn});
+  DataStatus({this.sentBy, this.sentById, this.sentByToken, this.visitStatus, this.addedOn});
 
-  Statuses.fromJson(Map<String, dynamic> json) {
+  DataStatus.fromJson(Map<String, dynamic> json) {
     sentBy = json['sent_by'];
     sentById = json['sent_by_id'];
     sentByToken = json['sent_by_token'];

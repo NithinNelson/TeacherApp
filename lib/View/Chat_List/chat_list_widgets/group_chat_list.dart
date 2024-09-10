@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:teacherapp/Controller/api_controllers/feedViewController.dart';
 import 'package:teacherapp/Controller/api_controllers/groupedViewListController.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
+import 'package:teacherapp/Services/common_services.dart';
 import 'package:teacherapp/View/Chat_List/chat_list_widgets/last_seen_msg.dart';
 
 import '../../../Controller/api_controllers/chatClassGroupController.dart';
@@ -41,13 +42,14 @@ class GroupChatList extends StatelessWidget {
               // colorInt++;
               // print("-------colorInt---------$colorInt");
               try {
+                print("date = $sentTime");
                 formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
               } catch (e) {}
               String? userId =
                   Get.find<UserAuthController>().userData.value.userId;
               return ChatItems(
                 // className: classTeacherGroups[index].subjectName ?? '--',
-                time: formattedDate ?? '',
+                time: sentTime.toString(),
                 unreadMessages: classTeacherGroups[index].unreadCount ?? 0,
                 // classs: '${classTeacherGroups[imkvkosdmvksfmnvbndex].classTeacherClass}${classTeacherGroups[index].batch}',
                 lastMessage: lastMsg,
@@ -197,7 +199,7 @@ class ChatItems extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    time,
+                    chatRoomDateAndTimeFormat(time),
                     style: TeacherAppFonts.interW400_12sp_topicbackground,
                   ),
                   SizedBox(height: 10.h),

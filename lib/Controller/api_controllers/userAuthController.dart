@@ -1,4 +1,5 @@
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teacherapp/Controller/api_controllers/notificationController.dart';
@@ -41,6 +42,7 @@ class UserAuthController extends GetxController {
           userData.value = loginApi.data?.data?.first ?? UserData();
           String? schoolId = userData.value.schoolId;
           if (schoolId != null) {
+            await setFirebaseToken();
             setSchoolTokenAndRoll(schoolId);
           }
           if(list.first.roleIds != null && !list.first.roleIds!.contains("")) {
@@ -85,6 +87,7 @@ class UserAuthController extends GetxController {
           userData.value = loginApi.data?.data?.first ?? UserData();
           String? schoolId = userData.value.schoolId;
           if (schoolId != null) {
+            await setFirebaseToken();
             setSchoolTokenAndRoll(schoolId);
             getNotificationPeriodically();
           }
@@ -123,6 +126,7 @@ class UserAuthController extends GetxController {
     if (userId != null) {
       // await Get.find<ChatClassGroupController>().fetchClassGroupList();
       isLoaded.value = true;
+      await setFirebaseToken();
       getNotificationPeriodically();
     } else {
       isLoaded.value = false;
@@ -240,6 +244,20 @@ class UserAuthController extends GetxController {
           }
         }
       }
+    }
+  }
+
+  Future<void> setFirebaseToken() async {
+    String? fcmToken;
+    try {
+      fcmToken = await FirebaseMessaging.instance.getToken();
+      if(fcmToken != null) {
+        print("--------fcm token-----------$fcmToken");
+        Map<String, dynamic> resp = await ApiServices.fcmTokenSent(fcmToken: fcmToken, emailId: userData.value.username ?? '');
+        print("--------fcm api resp-----------$resp");
+      }
+    } catch(e) {
+      print("-------fcm token error----------${e.toString()}");
     }
   }
 }

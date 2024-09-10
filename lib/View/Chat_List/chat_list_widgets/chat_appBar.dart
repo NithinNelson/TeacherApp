@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -22,7 +20,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: Row(
         children: [
           Text(
-            'Chat with parents',
+            'Chat with Parents',
             style: GoogleFonts.inter(
               fontSize: 25.h,
               fontWeight: FontWeight.w600,
@@ -37,29 +35,28 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           GetX<ChatClassGroupController>(
             builder: (ChatClassGroupController controller) {
-              if(controller.currentChatTab.value == 1) {
+              if (controller.currentChatTab.value == 1) {
                 return Padding(
                   padding: const EdgeInsets.only(left: 6).w,
                   child: InkWell(
                     onTap: () {
                       showModalBottomSheet(
-                          context: context,
-                          backgroundColor: Colors.transparent,
-                          isScrollControlled: true,
-                          builder: (context) {
-                            return const NewParentChat();
-                          },
+                        context: context,
+                        backgroundColor: Colors.transparent,
+                        isScrollControlled: true,
+                        builder: (context) {
+                          return const NewParentChat();
+                        },
                       );
                     },
                     child: Container(
                       padding: const EdgeInsets.all(4.0).w,
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(100).w
-                      ),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(100).w),
                       child: Icon(
-                          Icons.add,
-                          color: Colorutils.letters1,
+                        Icons.add,
+                        color: Colorutils.letters1,
                       ),
                     ),
                   ),

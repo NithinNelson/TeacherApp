@@ -56,6 +56,7 @@ class ApiConstants {
   static String lessonSubmit = "/v2/lesson_observation/submit_evaluation";
   static String learningWalkSubmit = "/v2/learning_walk/submit_evaluation";
   static String observationResult = "/v0/learning-observation/get/userSubmissions";
+  static String fcmSentApi = "/v0/educare/add/login_tracker";
 
 
   static String DOCME_URL = "https://sqa.docme.online/bm-school/api/App";
@@ -67,5 +68,7 @@ class ApiConstants {
   static String LeaveApprovalRequest = "https://teamsqa3000.educore.guru/v0/update/leave";
   static String WorkLoad = "https://teamsqa3000.educore.guru/v2/get/workloads/from/credentials";
   static String Qrscan = "https://sqa.docme.online/bm-school/Docme-UI/registration/get_student_search_data";
-
+  static String RecentVisit = "https://apiqa-bmclinic.docme.online/v2/recent_visit";
+  static String AddClinicStudents = "https://apiqa-bmclinic.docme.online/v2/add_student";
+  static String studentsUpdateClinc = "https://apiqa-bmclinic.docme.online/v2/update_visit";
 }

@@ -1779,7 +1779,7 @@ class _StudentListViewState extends State<StudentListView> {
                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: [
                                                         Container(
-                                                          width: 35.w ,
+                                                          width: 40.w ,
                                                           child: Text(
                                                             "AED : ",
                                                             style: TextStyle(
@@ -1788,7 +1788,7 @@ class _StudentListViewState extends State<StudentListView> {
                                                           ),
                                                         ),
                                                         Container(
-                                                          width: 60.w ,
+                                                          width: 90.w ,
                                                           child: Text(
                                                             afterAttendanceTaken == null ||
                                                                 afterAttendanceTaken
@@ -2111,7 +2111,7 @@ class _StudentListViewState extends State<StudentListView> {
                                                                   Padding(
                                                                     padding: const EdgeInsets.only(left: 3,right: 3),
                                                                     child: Text(
-                                                                      afterAttendanceTaken[index]["remarks"],
+                                                                      afterAttendanceTaken[index]["remarks"] ?? "No Remarks Added",
                                                                       style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
                                                                     ),
                                                                   ),
