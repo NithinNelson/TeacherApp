@@ -15,7 +15,9 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Controller/search_controller/search_controller.dart';
+// import 'package:teacherapp/Models/api_models/chat_feed_view_model.dart';
 import 'package:teacherapp/Models/api_models/sent_msg_by_teacher_model.dart';
+import 'package:teacherapp/Services/common_services.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
 import 'package:teacherapp/View/Chat_View/Chat_widgets/chat_search.dart';
@@ -104,7 +106,7 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
   }
 
   Future<void> initialize() async {
-    context.loaderOverlay.show();
+    // context.loaderOverlay.show();
     parentChattingController.chatMsgCount =
         parentChattingController.messageCount;
     ParentChattingReqModel chattingReqModel = ParentChattingReqModel(
@@ -339,7 +341,10 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
                           Container(
                             color: Colors.white.withOpacity(0.8),
                           ),
-                          ChatList(studentRelation: studentRelation),
+                          ChatList(
+                            studentRelation: studentRelation,
+                            studentName: widget.msgData?.studentName ?? "--",
+                          ),
                         ],
                       ),
                     ),
@@ -351,6 +356,106 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 20.h),
                       child: Column(
                         children: [
+                          controller.filePathList.isEmpty
+                              ? const SizedBox()
+                              : Column(
+                                  children: [
+                                    hSpace(10.h),
+                                    Text(
+                                      "Attachments (${controller.filePathList.length})",
+                                      style: TeacherAppFonts
+                                          .interW600_16sp_black
+                                          .copyWith(color: Colors.teal),
+                                    ),
+                                    hSpace(10.h),
+                                    Container(
+                                      constraints:
+                                          BoxConstraints(maxHeight: 200.h),
+                                      child: ListView.separated(
+                                          padding: EdgeInsets.zero,
+                                          shrinkWrap: true,
+                                          itemBuilder: (context, index) {
+                                            return Container(
+                                              decoration: BoxDecoration(
+                                                color: Colorutils.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10.h),
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(5.0),
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      width: 35.w,
+                                                      height: 40.w,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        image: DecorationImage(
+                                                          fit: BoxFit.fill,
+                                                          image: AssetImage(
+                                                              "assets/images/new-document.png"),
+                                                        ),
+                                                      ),
+                                                      child: Center(
+                                                          child: Text(
+                                                        controller
+                                                            .filePathList[index]
+                                                            .split(".")
+                                                            .last,
+                                                        style: TeacherAppFonts
+                                                            .interW500_12sp_textWhite
+                                                            .copyWith(
+                                                          fontSize: 10.sp,
+                                                          color: Colors.black,
+                                                        ),
+                                                      )),
+                                                    ),
+                                                    wSpace(5),
+                                                    Expanded(
+                                                      child: Text(
+                                                        controller
+                                                            .filePathList[index]
+                                                            .split("/")
+                                                            .last,
+                                                        style: TeacherAppFonts
+                                                            .interW400_16sp_letters1
+                                                            .copyWith(
+                                                                color: Colors
+                                                                    .black),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        controller
+                                                            .removeSelectedAttachment(
+                                                                index);
+                                                      },
+                                                      child: SizedBox(
+                                                        width: 25.w,
+                                                        height: 40.w,
+                                                        child: const Icon(
+                                                          Icons.close,
+                                                          color:
+                                                              Colorutils.grey,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          separatorBuilder: (context, index) {
+                                            return hSpace(5.h);
+                                          },
+                                          itemCount:
+                                              controller.filePathList.length),
+                                    ),
+                                  ],
+                                ),
                           controller.filePath.value == null
                               ? const SizedBox()
                               : Padding(
@@ -746,38 +851,43 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
                                     SizedBox(
                                       width: 20.w,
                                     ),
-                                    controller.audioPath.value == null
-                                        ? InkWell(
-                                            onTap: () async {
-                                              bool permission =
-                                                  await parentChattingController
-                                                      .permissionCheck(context);
-                                              if (permission) {
-                                                Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                    builder: (context) {
-                                                      return const CameraScreen(
-                                                          isParentChat: true);
-                                                    },
-                                                  ),
-                                                );
-                                              }
-                                            },
-                                            child: SizedBox(
-                                              height: 25.w,
-                                              width: 25.w,
-                                              child: SvgPicture.asset(
-                                                  "assets/images/Camera.svg"),
-                                            ),
-                                          )
-                                        : const SizedBox(),
+                                    controller.filePathList.isNotEmpty
+                                        ? const SizedBox()
+                                        : controller.audioPath.value == null
+                                            ? InkWell(
+                                                onTap: () async {
+                                                  bool permission =
+                                                      await parentChattingController
+                                                          .permissionCheck(
+                                                              context);
+                                                  if (permission) {
+                                                    Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                        builder: (context) {
+                                                          return const CameraScreen(
+                                                              isParentChat:
+                                                                  true);
+                                                        },
+                                                      ),
+                                                    );
+                                                  }
+                                                },
+                                                child: SizedBox(
+                                                  height: 25.w,
+                                                  width: 25.w,
+                                                  child: SvgPicture.asset(
+                                                      "assets/images/Camera.svg"),
+                                                ),
+                                              )
+                                            : const SizedBox(),
                                     SizedBox(
                                       width: 20.w,
                                     ),
                                     controller.ontype.value.trim() == "" &&
                                             controller.audioPath.value ==
                                                 null &&
-                                            controller.filePath.value == null
+                                            controller.filePath.value == null &&
+                                            controller.filePathList.isEmpty
                                         ? GestureDetector(
                                             onTap: () {
                                               snackBar(
@@ -826,106 +936,166 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
                                                   await checkInternet(
                                                     context: context,
                                                     function: () async {
-                                                      if (parentChattingController
-                                                                  .audioPath
-                                                                  .value !=
-                                                              null ||
-                                                          parentChattingController
-                                                                  .filePath
-                                                                  .value !=
-                                                              null) {
-                                                        await parentChattingController
-                                                            .sendAttach(
-                                                          classs: widget.msgData
-                                                                  ?.datumClass ??
-                                                              '--',
-                                                          batch: widget.msgData
-                                                                  ?.batch ??
-                                                              '--',
-                                                          subId: widget.msgData
-                                                                  ?.subjectId ??
-                                                              '--',
-                                                          sub: widget.msgData
-                                                                  ?.subjectName ??
-                                                              '--',
-                                                          teacherId:
-                                                              userAuthController
-                                                                      .userData
-                                                                      .value
-                                                                      .userId ??
-                                                                  '--',
-                                                          context: context,
-                                                          filePath:
-                                                              parentChattingController
-                                                                      .audioPath
-                                                                      .value ??
-                                                                  parentChattingController
-                                                                      .filePath
-                                                                      .value,
-                                                          message: messageCtr
-                                                                  .text
-                                                                  .isNotEmpty
-                                                              ? messageCtr.text
-                                                              : null,
-                                                          parent: [
-                                                            widget.msgData
-                                                                    ?.parentId ??
-                                                                ''
-                                                          ],
-                                                        );
-                                                      } else {
-                                                        if (messageCtr
-                                                            .text.isNotEmpty) {
-                                                          SentMsgByTeacherModel
-                                                              sentMsgData =
-                                                              SentMsgByTeacherModel(
-                                                            subjectId: widget
+                                                      if (controller
+                                                          .filePathList
+                                                          .isNotEmpty) {
+                                                        // for sent multiple attachemnt //
+                                                        for (final file
+                                                            in controller
+                                                                .filePathList) {
+                                                          await parentChattingController
+                                                              .sendAttach(
+                                                            classs: widget
                                                                     .msgData
-                                                                    ?.subjectId ??
+                                                                    ?.datumClass ??
                                                                 '--',
                                                             batch: widget
                                                                     .msgData
                                                                     ?.batch ??
                                                                 '--',
-                                                            classs: widget
+                                                            subId: widget
                                                                     .msgData
-                                                                    ?.datumClass ??
+                                                                    ?.subjectId ??
                                                                 '--',
+                                                            sub: widget.msgData
+                                                                    ?.subjectName ??
+                                                                '--',
+                                                            teacherId:
+                                                                userAuthController
+                                                                        .userData
+                                                                        .value
+                                                                        .userId ??
+                                                                    '--',
+                                                            context: context,
+                                                            filePath: file,
                                                             message: messageCtr
                                                                     .text
                                                                     .isNotEmpty
                                                                 ? messageCtr
                                                                     .text
                                                                 : null,
-                                                            messageFrom:
-                                                                userAuthController
-                                                                        .userData
-                                                                        .value
-                                                                        .userId ??
-                                                                    '--',
-                                                            subject: widget
-                                                                    .msgData
-                                                                    ?.subjectName ??
-                                                                '--',
-                                                            replyId: controller
-                                                                .isReplay.value,
-                                                            fileData: FileData(
-                                                              name: null,
-                                                              orgName: null,
-                                                              extension: null,
-                                                            ),
-                                                            parents: [
+                                                            parent: [
                                                               widget.msgData
                                                                       ?.parentId ??
                                                                   ''
                                                             ],
                                                           );
+
+                                                          messageCtr.clear();
+                                                        }
+                                                        controller.filePathList
+                                                            .value = [];
+
+                                                        controller.isSentLoading
+                                                            .value = false;
+                                                      } else {
+                                                        if (parentChattingController
+                                                                    .audioPath
+                                                                    .value !=
+                                                                null ||
+                                                            parentChattingController
+                                                                    .filePath
+                                                                    .value !=
+                                                                null) {
                                                           await parentChattingController
-                                                              .sendAttachMsg(
-                                                            sentMsgData:
-                                                                sentMsgData,
+                                                              .sendAttach(
+                                                            classs: widget
+                                                                    .msgData
+                                                                    ?.datumClass ??
+                                                                '--',
+                                                            batch: widget
+                                                                    .msgData
+                                                                    ?.batch ??
+                                                                '--',
+                                                            subId: widget
+                                                                    .msgData
+                                                                    ?.subjectId ??
+                                                                '--',
+                                                            sub: widget.msgData
+                                                                    ?.subjectName ??
+                                                                '--',
+                                                            teacherId:
+                                                                userAuthController
+                                                                        .userData
+                                                                        .value
+                                                                        .userId ??
+                                                                    '--',
                                                             context: context,
+                                                            filePath: parentChattingController
+                                                                    .audioPath
+                                                                    .value ??
+                                                                parentChattingController
+                                                                    .filePath
+                                                                    .value,
+                                                            message: messageCtr
+                                                                    .text
+                                                                    .isNotEmpty
+                                                                ? messageCtr
+                                                                    .text
+                                                                : null,
+                                                            parent: [
+                                                              widget.msgData
+                                                                      ?.parentId ??
+                                                                  ''
+                                                            ],
                                                           );
+                                                        } else {
+                                                          if (messageCtr.text
+                                                              .isNotEmpty) {
+                                                            SentMsgByTeacherModel
+                                                                sentMsgData =
+                                                                SentMsgByTeacherModel(
+                                                              subjectId: widget
+                                                                      .msgData
+                                                                      ?.subjectId ??
+                                                                  '--',
+                                                              batch: widget
+                                                                      .msgData
+                                                                      ?.batch ??
+                                                                  '--',
+                                                              classs: widget
+                                                                      .msgData
+                                                                      ?.datumClass ??
+                                                                  '--',
+                                                              message: messageCtr
+                                                                      .text
+                                                                      .isNotEmpty
+                                                                  ? messageCtr
+                                                                      .text
+                                                                  : null,
+                                                              messageFrom:
+                                                                  userAuthController
+                                                                          .userData
+                                                                          .value
+                                                                          .userId ??
+                                                                      '--',
+                                                              subject: widget
+                                                                      .msgData
+                                                                      ?.subjectName ??
+                                                                  '--',
+                                                              replyId:
+                                                                  controller
+                                                                      .isReplay
+                                                                      .value,
+                                                              fileData:
+                                                                  FileData(
+                                                                name: null,
+                                                                orgName: null,
+                                                                extension: null,
+                                                              ),
+                                                              parents: [
+                                                                widget.msgData
+                                                                        ?.parentId ??
+                                                                    ''
+                                                              ],
+                                                            );
+                                                            await parentChattingController
+                                                                .sendAttachMsg(
+                                                              sentMsgData:
+                                                                  sentMsgData,
+                                                              context: context,
+                                                            );
+                                                          }
                                                         }
                                                       }
                                                     },
@@ -1008,7 +1178,9 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
 
 class ChatList extends StatelessWidget {
   final String studentRelation;
-  const ChatList({super.key, required this.studentRelation});
+  final String studentName;
+  const ChatList(
+      {super.key, required this.studentRelation, required this.studentName});
 
   @override
   Widget build(BuildContext context) {
@@ -1017,186 +1189,196 @@ class ChatList extends StatelessWidget {
     return GetX<ParentChattingController>(
       builder: (ParentChattingController controller) {
         List<ParentMsgData> msgList = controller.chatMsgList.value;
-        return Stack(
-          children: [
-            GroupedListView<ParentMsgData, String>(
-              groupComparator: (value1, value2) => value2.compareTo(value1),
-              reverse: true,
-              shrinkWrap: true,
-              useStickyGroupSeparators: true,
-              cacheExtent: 2000,
-              floatingHeader: true,
-              padding: EdgeInsets.only(bottom: 10.h),
-              controller: controller.parentChatScrollController.value,
-              groupBy: (element) {
-                try {
-                  return DateFormat('yyyy-MM-dd')
-                      .format(DateTime.parse(element.sendAt!));
-                } catch (e) {
-                  return "--";
-                }
-              },
-              sort: true,
-              elements: msgList,
-              groupSeparatorBuilder: (String groupByValue) {
-                return ChatDateWidget(date: groupByValue);
-              },
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (controller.isError.value) {
+          return const Center(child: Text("Error Occurred"));
+        } else if (controller.chatMsgList.isEmpty) {
+          return const Center(child: Text("No chat"));
+        } else {
+          return Stack(
+            children: [
+              GroupedListView<ParentMsgData, String>(
+                groupComparator: (value1, value2) => value2.compareTo(value1),
+                reverse: true,
+                shrinkWrap: true,
+                useStickyGroupSeparators: true,
+                cacheExtent: 2000,
+                floatingHeader: true,
+                padding: EdgeInsets.only(bottom: 10.h),
+                controller: controller.parentChatScrollController.value,
+                groupBy: (element) {
+                  try {
+                    return DateFormat('yyyy-MM-dd')
+                        .format(DateTime.parse(element.sendAt!));
+                  } catch (e) {
+                    return "--";
+                  }
+                },
+                sort: true,
+                elements: msgList,
+                groupSeparatorBuilder: (String groupByValue) {
+                  return ChatDateWidget(date: groupByValue);
+                },
 
-              itemComparator: (item1, item2) =>
-                  item2.sendAt!.compareTo(item1.sendAt!),
-              indexedItemBuilder: (context, messageData, index) {
-                if (index < controller.chatMsgList.length - 1) {
-                  return "${messageData.messageFromId}" == userId
-                      ? Column(
-                          children: [
-                            SwapeToWidget(
-                              function: () {
-                                controller.focusTextField();
-                                controller.isReplay.value =
-                                    messageData.messageId;
-                                controller.replayName.value = "You";
-                                controller.replayMessage = messageData;
-                              },
-                              iconWidget: SvgPicture.asset(
-                                  "assets/images/ArrowBendUpLeft.svg"),
-                              child: SentMessageBubble(
-                                message: messageData.message ?? '',
-                                time: messageData.sendAt,
-                                replay: true,
-                                audio: messageData.messageAudio,
-                                fileName: messageData.fileName,
-                                fileLink: messageData.messageFile,
-                                messageData: messageData,
-                                index: index,
+                itemComparator: (item1, item2) =>
+                    item2.sendAt!.compareTo(item1.sendAt!),
+                indexedItemBuilder: (context, messageData, index) {
+                  if (index < controller.chatMsgList.length - 1) {
+                    return "${messageData.messageFromId}" == userId
+                        ? Column(
+                            children: [
+                              SwapeToWidget(
+                                function: () {
+                                  controller.focusTextField();
+                                  controller.isReplay.value =
+                                      messageData.messageId;
+                                  controller.replayName.value = "You";
+                                  controller.replayMessage = messageData;
+                                },
+                                iconWidget: SvgPicture.asset(
+                                    "assets/images/ArrowBendUpLeft.svg"),
+                                child: SentMessageBubble(
+                                  message: messageData.message ?? '',
+                                  time: messageData.sendAt,
+                                  replay: true,
+                                  audio: messageData.messageAudio,
+                                  fileName: messageData.fileName,
+                                  fileLink: messageData.messageFile,
+                                  messageData: messageData,
+                                  index: index,
+                                ),
                               ),
-                            ),
-                          ],
-                        )
-                      : Column(
-                          children: [
-                            SwapeToWidget(
-                              function: () {
-                                controller.focusTextField();
-                                // FocusScope.of(context)
-                                //     .requestFocus(controller.focusNode);
-                                controller.isReplay.value =
-                                    messageData.messageId;
-                                controller.replayName.value =
-                                    messageData.messageFrom ?? "";
-                                controller.replayMessage = messageData;
-                              },
-                              iconWidget: SvgPicture.asset(
-                                  "assets/images/ArrowBendUpLeft.svg"),
-                              child: ReceiveMessageBubble(
-                                senderName: messageData.messageFrom,
-                                message: messageData.message,
-                                time: messageData.sendAt,
-                                replay: true,
-                                audio: messageData.messageAudio,
-                                fileName: messageData.fileName,
-                                fileLink: messageData.messageFile,
-                                subject: messageData.subjectName,
-                                relation: studentRelation,
-                                messageData: messageData,
-                                index: index,
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              SwapeToWidget(
+                                function: () {
+                                  controller.focusTextField();
+                                  // FocusScope.of(context)
+                                  //     .requestFocus(controller.focusNode);
+                                  controller.isReplay.value =
+                                      messageData.messageId;
+                                  controller.replayName.value =
+                                      messageData.messageFrom ?? "";
+                                  controller.replayMessage = messageData;
+                                },
+                                iconWidget: SvgPicture.asset(
+                                    "assets/images/ArrowBendUpLeft.svg"),
+                                child: ReceiveMessageBubble(
+                                  senderName: messageData.messageFrom,
+                                  message: messageData.message,
+                                  time: messageData.sendAt,
+                                  replay: true,
+                                  audio: messageData.messageAudio,
+                                  fileName: messageData.fileName,
+                                  fileLink: messageData.messageFile,
+                                  subject: messageData.subjectName,
+                                  relation: studentRelation,
+                                  messageData: messageData,
+                                  index: index,
+                                  studentName: studentName,
+                                ),
                               ),
-                            ),
-                          ],
-                        );
-                } else {
-                  return controller.showLoaderMoreMessage.value &&
-                          controller.chatMsgList.length >
-                              controller.messageCount
-                      ? Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5.h),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                      height: 25.h,
-                                      width: 25.h,
-                                      child: const Center(
-                                          child: CircularProgressIndicator())),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  Text(
-                                    "Load More...",
-                                    style: TeacherAppFonts
-                                        .interW400_16sp_letters1
-                                        .copyWith(color: Colors.black),
-                                  )
-                                ]),
-                          ),
-                        )
-                      : const SizedBox();
-                }
-
-                // final messageData = msgList[index];
-              },
-              separator: SizedBox(
-                height: 5.h,
-              ),
-              // separatorBuilder: (context, index) {
-              //   return SizedBox(
-              //     height: 5.h,
-              //   );
-              // },
-              // itemCount: msgList.length,
-            ),
-            GetBuilder<ParentChattingController>(builder: (controller2) {
-              return controller2.showScrollIcon
-                  ? Align(
-                      alignment: Alignment.bottomRight,
-                      child: Padding(
-                        padding: EdgeInsets.all(15.h),
-                        child: InkWell(
-                          onTap: () {
-                            Future.delayed(
-                              const Duration(milliseconds: 50),
-                              () {
-                                Get.find<ParentChattingController>()
-                                    .parentChatScrollController
-                                    .value
-                                    .animateTo(
-                                      Get.find<ParentChattingController>()
-                                          .parentChatScrollController
-                                          .value
-                                          .position
-                                          .minScrollExtent,
-                                      duration:
-                                          const Duration(milliseconds: 200),
-                                      curve: Curves.easeOut,
-                                    );
-                              },
-                            );
-                          },
-                          child: Container(
-                            width: 45.h,
-                            height: 45.h,
-                            decoration: const BoxDecoration(
-                              color: Colorutils.Whitecolor,
-                              shape: BoxShape.circle,
-                            ),
+                            ],
+                          );
+                  } else {
+                    return controller.showLoaderMoreMessage.value &&
+                            controller.chatMsgList.length >
+                                controller.messageCount
+                        ? Align(
+                            alignment: Alignment.center,
                             child: Padding(
-                              padding: EdgeInsets.all(3.h),
-                              child: const FittedBox(
-                                child: Icon(
-                                  Icons.keyboard_double_arrow_down_rounded,
-                                  color: Colors.grey,
+                              padding: EdgeInsets.symmetric(vertical: 5.h),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                        height: 25.h,
+                                        width: 25.h,
+                                        child: const Center(
+                                            child:
+                                                CircularProgressIndicator())),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    Text(
+                                      "Load More...",
+                                      style: TeacherAppFonts
+                                          .interW400_16sp_letters1
+                                          .copyWith(color: Colors.black),
+                                    )
+                                  ]),
+                            ),
+                          )
+                        : const SizedBox();
+                  }
+
+                  // final messageData = msgList[index];
+                },
+                separator: SizedBox(
+                  height: 5.h,
+                ),
+                // separatorBuilder: (context, index) {
+                //   return SizedBox(
+                //     height: 5.h,
+                //   );
+                // },
+                // itemCount: msgList.length,
+              ),
+              GetBuilder<ParentChattingController>(builder: (controller2) {
+                return controller2.showScrollIcon
+                    ? Align(
+                        alignment: Alignment.bottomRight,
+                        child: Padding(
+                          padding: EdgeInsets.all(15.h),
+                          child: InkWell(
+                            onTap: () {
+                              Future.delayed(
+                                const Duration(milliseconds: 50),
+                                () {
+                                  Get.find<ParentChattingController>()
+                                      .parentChatScrollController
+                                      .value
+                                      .animateTo(
+                                        Get.find<ParentChattingController>()
+                                            .parentChatScrollController
+                                            .value
+                                            .position
+                                            .minScrollExtent,
+                                        duration:
+                                            const Duration(milliseconds: 200),
+                                        curve: Curves.easeOut,
+                                      );
+                                },
+                              );
+                            },
+                            child: Container(
+                              width: 45.h,
+                              height: 45.h,
+                              decoration: const BoxDecoration(
+                                color: Colorutils.Whitecolor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(3.h),
+                                child: const FittedBox(
+                                  child: Icon(
+                                    Icons.keyboard_double_arrow_down_rounded,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    )
-                  : const SizedBox();
-            })
-          ],
-        );
+                      )
+                    : const SizedBox();
+              })
+            ],
+          );
+        }
       },
     );
   }
@@ -1213,7 +1395,7 @@ messageMoreShowDialog(
       return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 0),
+          padding: const EdgeInsets.symmetric(horizontal: 0),
           child: Stack(
             children: [
               Positioned(
@@ -1228,9 +1410,9 @@ messageMoreShowDialog(
                     ((ScreenUtil().screenHeight / 1.7) > tapPosition.dy
                         ? 100.h
                         : 420.h),
-                right: 0,
+                left: 20,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ScreenUtil().screenHeight / 1.7 < tapPosition.dy
                         ? MessageMoreContainer2(
@@ -1504,17 +1686,17 @@ class SentMessageBubble extends StatelessWidget {
                                                       .withOpacity(.25)),
                                         ),
                                         SizedBox(width: 5.h),
-                                        // SizedBox(
-                                        //   height: 21.h,
-                                        //   width: 21.h,
-                                        //   child: SvgPicture.asset(
-                                        //       "assets/images/Checks.svg",
-                                        //       color: messageData?.read == null
-                                        //           ? Colors.grey
-                                        //           : messageData!.read!
-                                        //           ? Colors.green.shade900
-                                        //           : Colors.grey),
-                                        // ),
+                                        SizedBox(
+                                          height: 21.h,
+                                          width: 21.h,
+                                          child: SvgPicture.asset(
+                                              "assets/images/Checks.svg",
+                                              color: messageData?.read == null
+                                                  ? Colors.grey
+                                                  : messageData!.read!
+                                                      ? Colors.green.shade900
+                                                      : Colors.grey),
+                                        ),
                                       ],
                                     )
                                   ],
@@ -1642,7 +1824,28 @@ class ReplayMessageWidget2 extends StatelessWidget {
                           bottomRight: Radius.circular(5.h))),
                   child: Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: TextAndFileWidget(replyData: replyData)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            child: Text(
+                                replyData.messageFromId ==
+                                        Get.find<UserAuthController>()
+                                            .userData
+                                            .value
+                                            .userId
+                                    ? "You"
+                                    : replyData.messageFromName ?? "--",
+                                overflow: TextOverflow.ellipsis,
+                                style: TeacherAppFonts.interW600_16sp_letters1
+                                // style: FontsStyle()
+                                //     .interW600_16sp
+                                //     .copyWith(color: ColorUtil.gradientColorEnd),
+                                ),
+                          ),
+                          TextAndFileWidget(replyData: replyData),
+                        ],
+                      )),
                 ),
               ),
             ],
@@ -1764,7 +1967,8 @@ class ReceiveMessageBubble extends StatelessWidget {
       this.relation,
       this.messageData,
       this.subject,
-      required this.index});
+      required this.index,
+      this.studentName});
 
   late Offset _tapPosition;
 
@@ -1779,6 +1983,7 @@ class ReceiveMessageBubble extends StatelessWidget {
   String? subject;
   ParentMsgData? messageData;
   final int index;
+  String? studentName;
 
   @override
   Widget build(BuildContext context) {
@@ -1884,9 +2089,9 @@ class ReceiveMessageBubble extends StatelessWidget {
                                               constraints: BoxConstraints(
                                                   maxWidth: 70.w),
                                               child: Text(
-                                                senderName == null
+                                                studentName == null
                                                     ? "--"
-                                                    : "~ ${senderName?.split(" ").first ?? ""}",
+                                                    : "~ $studentName",
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TeacherAppFonts
                                                     .interW500_12sp_textWhite

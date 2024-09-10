@@ -28,7 +28,8 @@ class SentMessageBubble extends StatelessWidget {
       this.fileLink,
       // this.senderId,
       this.messageData,
-      required this.index});
+      required this.index,
+      required this.widget});
 
   late Offset _tapPosition;
 
@@ -41,7 +42,8 @@ class SentMessageBubble extends StatelessWidget {
   String? fileLink;
   // String? senderId;+
   final int index;
-
+  final FeedViewChatScreen widget;
+  @override
   @override
   Widget build(BuildContext context) {
     return AutoScrollTag(
@@ -242,13 +244,29 @@ class SentMessageBubble extends StatelessWidget {
                                         SizedBox(
                                           height: 21.h,
                                           width: 21.h,
-                                          child: SvgPicture.asset(
-                                              "assets/images/Checks.svg",
-                                              color: messageData?.read == null
-                                                  ? Colors.grey
-                                                  : messageData!.read!
-                                                      ? Colors.green.shade900
-                                                      : Colors.grey),
+                                          child: widget.msgData
+                                                      ?.isClassTeacher ==
+                                                  true
+                                              ? SizedBox(
+                                                  height: 21.h,
+                                                  width: 21.h,
+                                                  child: Center(
+                                                    child: Icon(
+                                                      Icons.check,
+                                                      color: Colors.grey,
+                                                      size: 16.h,
+                                                    ),
+                                                  ),
+                                                )
+                                              : SvgPicture.asset(
+                                                  "assets/images/Checks.svg",
+                                                  color:
+                                                      messageData?.read == null
+                                                          ? Colors.grey
+                                                          : messageData!.read!
+                                                              ? Colors.green
+                                                                  .shade900
+                                                              : Colors.grey),
                                         ),
                                       ],
                                     )

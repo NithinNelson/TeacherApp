@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
@@ -18,7 +17,7 @@ class GroupedViewListController extends GetxController {
 
   void resetStatus() {
     isLoading.value = false;
-    isError.value = false;
+    // isError.value = false;
   }
 
   void resetData() {
@@ -26,7 +25,10 @@ class GroupedViewListController extends GetxController {
     roomList.value = [];
   }
 
-  void setPayload({required String stdClass, required String stdBatch, required String subId}) {
+  void setPayload(
+      {required String stdClass,
+      required String stdBatch,
+      required String subId}) {
     classs.value = stdClass;
     batch.value = stdBatch;
     subjectId.value = subId;
@@ -36,6 +38,7 @@ class GroupedViewListController extends GetxController {
     resetData();
     isLoading.value = true;
     isLoaded.value = false;
+    isError.value = false;
     try {
       String? teacherId = Get.find<UserAuthController>().userData.value.userId;
       String? schoolId = Get.find<UserAuthController>().userData.value.schoolId;
@@ -47,13 +50,15 @@ class GroupedViewListController extends GetxController {
         teacherId: teacherId.toString(),
       );
       if (resp['status']['code'] == 200) {
-        GroupedViewApiModel groupedViewApiModel = GroupedViewApiModel.fromJson(resp);
+        GroupedViewApiModel groupedViewApiModel =
+            GroupedViewApiModel.fromJson(resp);
         unreadCount.value = groupedViewApiModel.data?.count ?? 0;
         roomList.value = groupedViewApiModel.data?.data ?? [];
       }
     } catch (e) {
       print("------class group error---------");
       isLoaded.value = false;
+      isError.value = true;
     } finally {
       resetStatus();
     }
@@ -71,7 +76,8 @@ class GroupedViewListController extends GetxController {
         teacherId: teacherId.toString(),
       );
       if (resp['status']['code'] == 200) {
-        GroupedViewApiModel groupedViewApiModel = GroupedViewApiModel.fromJson(resp);
+        GroupedViewApiModel groupedViewApiModel =
+            GroupedViewApiModel.fromJson(resp);
         unreadCount.value = groupedViewApiModel.data?.count ?? 0;
         roomList.value = groupedViewApiModel.data?.data ?? [];
       }

@@ -17,6 +17,7 @@ import 'package:teacherapp/Controller/api_controllers/groupedViewListController.
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Controller/search_controller/search_controller.dart';
 import 'package:teacherapp/Models/api_models/sent_msg_by_teacher_model.dart';
+import 'package:teacherapp/Services/common_services.dart';
 import 'package:teacherapp/Services/warning_dialog.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
@@ -141,6 +142,7 @@ class _FeedViewChatScreenState extends State<FeedViewChatScreen>
         Get.find<FeedViewController>().showScrollIcon = true;
       }
     });
+    Get.find<FeedViewController>().isSentLoading.value = false;
   }
 
   @override
@@ -151,7 +153,7 @@ class _FeedViewChatScreenState extends State<FeedViewChatScreen>
   }
 
   Future<void> initialize() async {
-    context.loaderOverlay.show();
+    // context.loaderOverlay.show();
 
     ChatFeedViewReqModel chatFeedViewReqModel = ChatFeedViewReqModel(
       teacherId: userAuthController.userData.value.userId,
@@ -410,7 +412,7 @@ class _FeedViewChatScreenState extends State<FeedViewChatScreen>
                                     Container(
                                       color: Colors.white.withOpacity(0.8),
                                     ),
-                                    const ChatList(),
+                                    ChatList(widget: widget),
                                     Positioned(
                                       bottom: 0,
                                       left: 0,
@@ -451,7 +453,9 @@ class _FeedViewChatScreenState extends State<FeedViewChatScreen>
                                   Container(
                                     color: Colors.white.withOpacity(0.8),
                                   ),
-                                  const ChatList(),
+                                  ChatList(
+                                    widget: widget,
+                                  ),
                                   Positioned(
                                     bottom: 0,
                                     left: 0,
@@ -512,6 +516,95 @@ class FeedViewTextField extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20.h),
             child: Column(
               children: [
+                controller.filePathList.isEmpty
+                    ? const SizedBox()
+                    : Column(
+                        children: [
+                          hSpace(10.h),
+                          Text(
+                            "Attachments (${controller.filePathList.length})",
+                            style: TeacherAppFonts.interW600_16sp_black
+                                .copyWith(color: Colors.teal),
+                          ),
+                          hSpace(10.h),
+                          Container(
+                            constraints: BoxConstraints(maxHeight: 200.h),
+                            child: ListView.separated(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      color: Colorutils.white,
+                                      borderRadius: BorderRadius.circular(10.h),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 35.w,
+                                            height: 40.w,
+                                            decoration: const BoxDecoration(
+                                              image: DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: AssetImage(
+                                                    "assets/images/new-document.png"),
+                                              ),
+                                            ),
+                                            child: Center(
+                                                child: Text(
+                                              controller.filePathList[index]
+                                                  .split(".")
+                                                  .last,
+                                              style: TeacherAppFonts
+                                                  .interW500_12sp_textWhite
+                                                  .copyWith(
+                                                fontSize: 10.sp,
+                                                color: Colors.black,
+                                              ),
+                                            )),
+                                          ),
+                                          wSpace(5),
+                                          Expanded(
+                                            child: Text(
+                                              controller.filePathList[index]
+                                                  .split("/")
+                                                  .last,
+                                              style: TeacherAppFonts
+                                                  .interW400_16sp_letters1
+                                                  .copyWith(
+                                                      color: Colors.black),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              controller
+                                                  .removeSelectedAttachment(
+                                                      index);
+                                            },
+                                            child: SizedBox(
+                                              width: 25.w,
+                                              height: 40.w,
+                                              child: const Icon(
+                                                Icons.close,
+                                                color: Colorutils.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return hSpace(5.h);
+                                },
+                                itemCount: controller.filePathList.length),
+                          ),
+                        ],
+                      ),
                 controller.filePath.value == null
                     ? const SizedBox()
                     : Padding(
@@ -903,37 +996,40 @@ class FeedViewTextField extends StatelessWidget {
                           SizedBox(
                             width: 20.w,
                           ),
-                          controller.audioPath.value == null
-                              ? InkWell(
-                                  onTap: () async {
-                                    bool permission =
-                                        await Get.find<FeedViewController>()
-                                            .permissionCheck(context);
-                                    if (permission) {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return const CameraScreen(
-                                                isParentChat: false);
-                                          },
-                                        ),
-                                      );
-                                    }
-                                  },
-                                  child: SizedBox(
-                                    height: 25.w,
-                                    width: 25.w,
-                                    child: SvgPicture.asset(
-                                        "assets/images/Camera.svg"),
-                                  ),
-                                )
-                              : const SizedBox(),
+                          controller.filePathList.isNotEmpty
+                              ? const SizedBox()
+                              : controller.audioPath.value == null
+                                  ? InkWell(
+                                      onTap: () async {
+                                        bool permission =
+                                            await Get.find<FeedViewController>()
+                                                .permissionCheck(context);
+                                        if (permission) {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return const CameraScreen(
+                                                    isParentChat: false);
+                                              },
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      child: SizedBox(
+                                        height: 25.w,
+                                        width: 25.w,
+                                        child: SvgPicture.asset(
+                                            "assets/images/Camera.svg"),
+                                      ),
+                                    )
+                                  : const SizedBox(),
                           SizedBox(
                             width: 20.w,
                           ),
                           controller.ontype.value.trim() == "" &&
                                   controller.audioPath.value == null &&
-                                  controller.filePath.value == null
+                                  controller.filePath.value == null &&
+                                  controller.filePathList.isEmpty
                               ? GestureDetector(
                                   onTap: () {
                                     snackBar(
@@ -985,95 +1081,147 @@ class FeedViewTextField extends StatelessWidget {
                                                 controller
                                                     .selectedParentDataList
                                                     .length) {
+                                          // for sent message without showdialog //
                                           controller.isSentLoading.value = true;
                                           await checkInternet(
                                             context: context,
                                             function: () async {
-                                              if (feedViewController
-                                                          .audioPath.value !=
-                                                      null ||
-                                                  feedViewController
-                                                          .filePath.value !=
-                                                      null) {
-                                                await Get.find<
-                                                        FeedViewController>()
-                                                    .sendAttach(
-                                                  classs: widget.msgData
-                                                          ?.classTeacherClass ??
-                                                      '--',
-                                                  batch:
-                                                      widget.msgData?.batch ??
-                                                          '--',
-                                                  subId: widget
-                                                          .msgData?.subjectId ??
-                                                      '--',
-                                                  sub: widget.msgData
-                                                          ?.subjectName ??
-                                                      '--',
-                                                  teacherId: userAuthController
-                                                          .userData
-                                                          .value
-                                                          .userId ??
-                                                      '--',
-                                                  context: context,
-                                                  filePath: Get.find<
-                                                              FeedViewController>()
-                                                          .audioPath
-                                                          .value ??
-                                                      Get.find<
-                                                              FeedViewController>()
-                                                          .filePath
-                                                          .value,
-                                                  message:
-                                                      messageCtr.text.isNotEmpty
-                                                          ? messageCtr.text
-                                                          : null,
-                                                );
-                                              } else {
-                                                if (messageCtr
-                                                    .text.isNotEmpty) {
-                                                  SentMsgByTeacherModel
-                                                      sentMsgData =
-                                                      SentMsgByTeacherModel(
-                                                    subjectId: widget.msgData
-                                                            ?.subjectId ??
+                                              print(
+                                                  "msg test ============= in ");
+                                              /////////////////////////////////////
+                                              if (controller
+                                                  .filePathList.isNotEmpty) {
+                                                // for sent multiple attachemnt //
+                                                for (final file in controller
+                                                    .filePathList) {
+                                                  print(
+                                                      "msg test ============= $file");
+                                                  await Get.find<
+                                                          FeedViewController>()
+                                                      .sendAttach(
+                                                    classs: widget.msgData
+                                                            ?.classTeacherClass ??
                                                         '--',
                                                     batch:
                                                         widget.msgData?.batch ??
                                                             '--',
-                                                    classs: widget.msgData
-                                                            ?.classTeacherClass ??
+                                                    subId: widget.msgData
+                                                            ?.subjectId ??
                                                         '--',
-                                                    message: messageCtr
-                                                            .text.isNotEmpty
-                                                        ? messageCtr.text
-                                                        : null,
-                                                    messageFrom:
+                                                    sub: widget.msgData
+                                                            ?.subjectName ??
+                                                        '--',
+                                                    teacherId:
                                                         userAuthController
                                                                 .userData
                                                                 .value
                                                                 .userId ??
                                                             '--',
-                                                    parents: feedViewController
-                                                        .setFinalParentList(),
-                                                    subject: widget.msgData
+                                                    context: context,
+                                                    filePath: file,
+                                                    message: messageCtr
+                                                            .text.isNotEmpty
+                                                        ? messageCtr.text
+                                                        : null,
+                                                  );
+                                                  messageCtr.clear();
+                                                }
+                                                controller.filePathList.value =
+                                                    [];
+
+                                                controller.isSentLoading.value =
+                                                    false;
+                                              } else {
+                                                // for sent single attachemnt //
+                                                if (feedViewController
+                                                            .audioPath.value !=
+                                                        null ||
+                                                    feedViewController
+                                                            .filePath.value !=
+                                                        null) {
+                                                  await Get.find<
+                                                          FeedViewController>()
+                                                      .sendAttach(
+                                                    classs: widget.msgData
+                                                            ?.classTeacherClass ??
+                                                        '--',
+                                                    batch:
+                                                        widget.msgData?.batch ??
+                                                            '--',
+                                                    subId: widget.msgData
+                                                            ?.subjectId ??
+                                                        '--',
+                                                    sub: widget.msgData
                                                             ?.subjectName ??
                                                         '--',
-                                                    replyId: controller
-                                                        .isReplay.value,
-                                                    fileData: FileData(
-                                                      name: null,
-                                                      orgName: null,
-                                                      extension: null,
-                                                    ),
-                                                  );
-                                                  await feedViewController
-                                                      .sendAttachMsg(
-                                                    sentMsgData: sentMsgData,
+                                                    teacherId:
+                                                        userAuthController
+                                                                .userData
+                                                                .value
+                                                                .userId ??
+                                                            '--',
                                                     context: context,
+                                                    filePath: Get.find<
+                                                                FeedViewController>()
+                                                            .audioPath
+                                                            .value ??
+                                                        Get.find<
+                                                                FeedViewController>()
+                                                            .filePath
+                                                            .value,
+                                                    message: messageCtr
+                                                            .text.isNotEmpty
+                                                        ? messageCtr.text
+                                                        : null,
                                                   );
+                                                } else {
+                                                  // for sent text message //
+                                                  if (messageCtr
+                                                      .text.isNotEmpty) {
+                                                    SentMsgByTeacherModel
+                                                        sentMsgData =
+                                                        SentMsgByTeacherModel(
+                                                      subjectId: widget.msgData
+                                                              ?.subjectId ??
+                                                          '--',
+                                                      batch: widget
+                                                              .msgData?.batch ??
+                                                          '--',
+                                                      classs: widget.msgData
+                                                              ?.classTeacherClass ??
+                                                          '--',
+                                                      message: messageCtr
+                                                              .text.isNotEmpty
+                                                          ? messageCtr.text
+                                                          : null,
+                                                      messageFrom:
+                                                          userAuthController
+                                                                  .userData
+                                                                  .value
+                                                                  .userId ??
+                                                              '--',
+                                                      parents: feedViewController
+                                                          .setFinalParentList(),
+                                                      subject: widget.msgData
+                                                              ?.subjectName ??
+                                                          '--',
+                                                      replyId: controller
+                                                          .isReplay.value,
+                                                      fileData: FileData(
+                                                        name: null,
+                                                        orgName: null,
+                                                        extension: null,
+                                                      ),
+                                                    );
+                                                    await feedViewController
+                                                        .sendAttachMsg(
+                                                      sentMsgData: sentMsgData,
+                                                      context: context,
+                                                    );
+                                                  }
                                                 }
                                               }
+                                              /////////////////////////////////
                                             },
                                           );
                                           controller.isSentLoading.value =
@@ -1082,6 +1230,7 @@ class FeedViewTextField extends StatelessWidget {
                                           messageCtr.clear();
                                           controller.ontype.value = "";
                                         } else {
+                                          // for sent message with showdialog //
                                           await showChatWarningDialog(
                                             context: context,
                                             function: () async {
@@ -1090,93 +1239,145 @@ class FeedViewTextField extends StatelessWidget {
                                               await checkInternet(
                                                 context: context,
                                                 function: () async {
-                                                  if (feedViewController
-                                                              .audioPath
-                                                              .value !=
-                                                          null ||
-                                                      feedViewController
-                                                              .filePath.value !=
-                                                          null) {
-                                                    await Get.find<
-                                                            FeedViewController>()
-                                                        .sendAttach(
-                                                      classs: widget.msgData
-                                                              ?.classTeacherClass ??
-                                                          '--',
-                                                      batch: widget
-                                                              .msgData?.batch ??
-                                                          '--',
-                                                      subId: widget.msgData
-                                                              ?.subjectId ??
-                                                          '--',
-                                                      sub: widget.msgData
-                                                              ?.subjectName ??
-                                                          '--',
-                                                      teacherId:
-                                                          userAuthController
-                                                                  .userData
-                                                                  .value
-                                                                  .userId ??
-                                                              '--',
-                                                      context: context,
-                                                      filePath: Get.find<
-                                                                  FeedViewController>()
-                                                              .audioPath
-                                                              .value ??
-                                                          Get.find<
-                                                                  FeedViewController>()
-                                                              .filePath
-                                                              .value,
-                                                      message: messageCtr
-                                                              .text.isNotEmpty
-                                                          ? messageCtr.text
-                                                          : null,
-                                                    );
-                                                  } else {
-                                                    if (messageCtr
-                                                        .text.isNotEmpty) {
-                                                      SentMsgByTeacherModel
-                                                          sentMsgData =
-                                                          SentMsgByTeacherModel(
-                                                        subjectId: widget
-                                                                .msgData
-                                                                ?.subjectId ??
+                                                  if (controller.filePathList
+                                                      .isNotEmpty) {
+                                                    // for sent multiple attachemnt //
+                                                    for (final file
+                                                        in controller
+                                                            .filePathList) {
+                                                      print(
+                                                          "msg test ============= $file");
+                                                      await Get.find<
+                                                              FeedViewController>()
+                                                          .sendAttach(
+                                                        classs: widget.msgData
+                                                                ?.classTeacherClass ??
                                                             '--',
                                                         batch: widget.msgData
                                                                 ?.batch ??
                                                             '--',
-                                                        classs: widget.msgData
-                                                                ?.classTeacherClass ??
+                                                        subId: widget.msgData
+                                                                ?.subjectId ??
                                                             '--',
-                                                        message: messageCtr
-                                                                .text.isNotEmpty
-                                                            ? messageCtr.text
-                                                            : null,
-                                                        messageFrom:
+                                                        sub: widget.msgData
+                                                                ?.subjectName ??
+                                                            '--',
+                                                        teacherId:
                                                             userAuthController
                                                                     .userData
                                                                     .value
                                                                     .userId ??
                                                                 '--',
-                                                        parents: feedViewController
-                                                            .setFinalParentList(),
-                                                        subject: widget.msgData
+                                                        context: context,
+                                                        filePath: file,
+                                                        message: messageCtr
+                                                                .text.isNotEmpty
+                                                            ? messageCtr.text
+                                                            : null,
+                                                      );
+                                                      messageCtr.clear();
+                                                    }
+
+                                                    controller.filePathList
+                                                        .value = [];
+
+                                                    controller.isSentLoading
+                                                        .value = false;
+                                                  } else {
+                                                    // for sent single attachemnt //
+                                                    if (feedViewController
+                                                                .audioPath
+                                                                .value !=
+                                                            null ||
+                                                        feedViewController
+                                                                .filePath
+                                                                .value !=
+                                                            null) {
+                                                      await Get.find<
+                                                              FeedViewController>()
+                                                          .sendAttach(
+                                                        classs: widget.msgData
+                                                                ?.classTeacherClass ??
+                                                            '--',
+                                                        batch: widget.msgData
+                                                                ?.batch ??
+                                                            '--',
+                                                        subId: widget.msgData
+                                                                ?.subjectId ??
+                                                            '--',
+                                                        sub: widget.msgData
                                                                 ?.subjectName ??
                                                             '--',
-                                                        replyId: controller
-                                                            .isReplay.value,
-                                                        fileData: FileData(
-                                                          name: null,
-                                                          orgName: null,
-                                                          extension: null,
-                                                        ),
-                                                      );
-                                                      await feedViewController
-                                                          .sendAttachMsg(
-                                                        sentMsgData:
-                                                            sentMsgData,
+                                                        teacherId:
+                                                            userAuthController
+                                                                    .userData
+                                                                    .value
+                                                                    .userId ??
+                                                                '--',
                                                         context: context,
+                                                        filePath: Get.find<
+                                                                    FeedViewController>()
+                                                                .audioPath
+                                                                .value ??
+                                                            Get.find<
+                                                                    FeedViewController>()
+                                                                .filePath
+                                                                .value,
+                                                        message: messageCtr
+                                                                .text.isNotEmpty
+                                                            ? messageCtr.text
+                                                            : null,
                                                       );
+                                                    } else {
+                                                      // for sent text message //
+                                                      if (messageCtr
+                                                          .text.isNotEmpty) {
+                                                        SentMsgByTeacherModel
+                                                            sentMsgData =
+                                                            SentMsgByTeacherModel(
+                                                          subjectId: widget
+                                                                  .msgData
+                                                                  ?.subjectId ??
+                                                              '--',
+                                                          batch: widget.msgData
+                                                                  ?.batch ??
+                                                              '--',
+                                                          classs: widget.msgData
+                                                                  ?.classTeacherClass ??
+                                                              '--',
+                                                          message: messageCtr
+                                                                  .text
+                                                                  .isNotEmpty
+                                                              ? messageCtr.text
+                                                              : null,
+                                                          messageFrom:
+                                                              userAuthController
+                                                                      .userData
+                                                                      .value
+                                                                      .userId ??
+                                                                  '--',
+                                                          parents:
+                                                              feedViewController
+                                                                  .setFinalParentList(),
+                                                          subject: widget
+                                                                  .msgData
+                                                                  ?.subjectName ??
+                                                              '--',
+                                                          replyId: controller
+                                                              .isReplay.value,
+                                                          fileData: FileData(
+                                                            name: null,
+                                                            orgName: null,
+                                                            extension: null,
+                                                          ),
+                                                        );
+                                                        await feedViewController
+                                                            .sendAttachMsg(
+                                                          sentMsgData:
+                                                              sentMsgData,
+                                                          context: context,
+                                                        );
+                                                      }
                                                     }
                                                   }
                                                 },
@@ -1308,8 +1509,8 @@ class FeedViewTextField extends StatelessWidget {
 }
 
 class ChatList extends StatelessWidget {
-  const ChatList({super.key});
-
+  const ChatList({super.key, required this.widget});
+  final FeedViewChatScreen widget;
   @override
   Widget build(BuildContext context) {
     String userId =
@@ -1321,6 +1522,11 @@ class ChatList extends StatelessWidget {
       // if (controller.isLoaded.value == true) {
       //   return const Center(child: CircularProgressIndicator());
       // } else
+      if (controller.isLoading.value) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (controller.isError.value) {
+        return const Center(child: Text("Error Occurred"));
+      }
       if (controller.chatMsgList.isEmpty) {
         return const Center(child: Text("No chat"));
       } else {
@@ -1380,6 +1586,7 @@ class ChatList extends StatelessWidget {
                                 fileLink: messageData.messageFile,
                                 messageData: messageData,
                                 index: index,
+                                widget: widget,
                               ),
                             ),
                           ],
@@ -1410,6 +1617,7 @@ class ChatList extends StatelessWidget {
                                 subject: messageData.subjectName,
                                 messageData: messageData,
                                 index: index,
+                                widget: widget,
                               ),
                             ),
                           ],
@@ -1535,9 +1743,9 @@ messageMoreShowDialog(
                   ((ScreenUtil().screenHeight / 1.7) > tapPosition.dy
                       ? 100.h
                       : 420.h),
-              right: 0,
+              left: 20,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ScreenUtil().screenHeight / 1.7 < tapPosition.dy
                       ? MessageMoreContainer(

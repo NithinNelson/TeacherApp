@@ -27,6 +27,8 @@ class ParentChattingController extends GetxController {
   Rx<String?> filePath = Rx(null);
   Rx<String?> audioPath = Rx(null);
   Rx<String?> cameraImagePath = Rx(null);
+  RxList<String> filePathList = RxList([]);
+
   RxBool isSentLoading = false.obs;
   RxString ontype = "".obs;
   RxBool showAudioRecordWidget = false.obs;
@@ -58,6 +60,7 @@ class ParentChattingController extends GetxController {
       limit: chatMsgCount,
     );
     isLoading.value = true;
+    isError.value = false;
     try {
       Map<String, dynamic> resp =
           await ApiServices.getParentChatting(reqBodyData: chattingReqModel);
@@ -79,6 +82,7 @@ class ParentChattingController extends GetxController {
       isLoaded.value = true;
     } catch (e) {
       isLoaded.value = false;
+      isError.value = true;
       print('--------parent chatting error--------');
     } finally {
       isLoading.value = false;
@@ -179,28 +183,29 @@ class ParentChattingController extends GetxController {
     }
   }
 
+  /////////////////////////////
   selectAttachment({required BuildContext context}) async {
+    filePath.value = null;
     bool connected = await CheckConnectivity().check();
 
     try {
-      FilePickerResult? result = await FilePicker.platform
-          .pickFiles(
-        type: FileType.any,
-        // allowedExtensions: [
-        //   'pdf',
-        //   'jpg',
-        //   'jpeg',
-        //   'png',
-        //   'mp4',
-        //   'mov',
-        //   'avi',
-        //   'mkv',
-        //   'mp3',
-        //   'wav',
-        //   'opus',
-        //   'm4a',
-        // ],
-      )
+      FilePickerResult? data = await FilePicker.platform
+          .pickFiles(type: FileType.any, allowMultiple: true
+              // allowedExtensions: [
+              //   'pdf',
+              //   'jpg',
+              //   'jpeg',
+              //   'png',
+              //   'mp4',
+              //   'mov',
+              //   'avi',
+              //   'mkv',
+              //   'mp3',
+              //   'wav',
+              //   'opus',
+              //   'm4a',
+              // ],
+              )
           .whenComplete(() {
         if (!connected) {
           snackBar(
@@ -209,56 +214,50 @@ class ParentChattingController extends GetxController {
               color: Colors.red);
         }
       });
-      // const XTypeGroup typeGroup = XTypeGroup(
-      //   label: 'images',
-      //   extensions: <String>[
-      //     // 'pdf',
-      //     // 'jpg',
-      //     // 'jpeg',
-      //     // 'png',
-      //     // 'mp4',
-      //     // 'mov',
-      //     // 'avi',
-      //     // 'mkv',
-      //     // 'mp3',
-      //     // 'wav',
-      //     // 'opus',
-      //     // 'm4a',
-      //     // 'xlsx',
-      //     // 'xlsm',
-      //     // 'xlsb',
-      //     // 'xltx',
-      //     // 'doc',
-      //     // 'docm',
-      //     // 'docx',
-      //     // 'dot',
-      //   ],
-      // );
 
-      // final File? result =
-      // await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup])
-      //     .whenComplete(() {
-      //   if (!connected) {
-      //     snackBar(
-      //         context: context,
-      //         message: "No Internet Connection.",
-      //         color: Colors.red);
-      //   }
-      // });
+      if (data != null) {
+        List<File> result = data.paths.map((path) => File(path!)).toList();
+        if (result.length == 1) {
+          File file = File(result[0].path);
 
-      if (result != null && result.files.isNotEmpty) {
-        File file = File(result.files.first.path!);
+          int fileSizeInBytes = await file.length();
 
-        int fileSizeInBytes = await file.length();
-
-        if (fileSizeInBytes < 30 * 1024 * 1024) {
-          filePath.value = result.files.first.path!;
-        } else {
-          filePath.value = null;
+          if (fileSizeInBytes < 30 * 1024 * 1024) {
+            filePath.value = result[0].path;
+          } else {
+            filePath.value = null;
+            snackBar(
+                context: context,
+                message: "The selected file is above 30 MB",
+                color: Colors.red);
+          }
+        } else if (result.length > 10) {
           snackBar(
               context: context,
-              message: "The selected file is above 30 MB",
+              message: "You cannot select more than 10 attachments.",
               color: Colors.red);
+        } else {
+          if (result.isNotEmpty) {
+            filePathList.value = [];
+            for (final fileData in result) {
+              File file = File(fileData.path);
+              int fileSizeInBytes = await file.length();
+
+              if (fileSizeInBytes < 30 * 1024 * 1024) {
+                print("Loop working test");
+                // filePath.value = result[0].path;
+
+                filePathList.add(fileData.path);
+              } else {
+                filePath.value = null;
+                snackBar(
+                    context: context,
+                    message:
+                        "The selected file ${fileData.path} is above 30 MB",
+                    color: Colors.red);
+              }
+            }
+          }
         }
       }
     } catch (e) {
@@ -271,6 +270,105 @@ class ParentChattingController extends GetxController {
       print("--------_selectAttachment---------${e.toString()}");
     }
   }
+
+  removeSelectedAttachment(int index) {
+    filePathList.removeAt(index);
+  }
+
+  //////////////////////////////
+
+  // selectAttachment({required BuildContext context}) async {
+  //   bool connected = await CheckConnectivity().check();
+
+  //   try {
+  //     FilePickerResult? result = await FilePicker.platform
+  //         .pickFiles(
+  //       type: FileType.any,
+  //       // allowedExtensions: [
+  //       //   'pdf',
+  //       //   'jpg',
+  //       //   'jpeg',
+  //       //   'png',
+  //       //   'mp4',
+  //       //   'mov',
+  //       //   'avi',
+  //       //   'mkv',
+  //       //   'mp3',
+  //       //   'wav',
+  //       //   'opus',
+  //       //   'm4a',
+  //       // ],
+  //     )
+  //         .whenComplete(() {
+  //       if (!connected) {
+  //         snackBar(
+  //             context: context,
+  //             message: "No Internet Connection.",
+  //             color: Colors.red);
+  //       }
+  //     });
+  //     // const XTypeGroup typeGroup = XTypeGroup(
+  //     //   label: 'images',
+  //     //   extensions: <String>[
+  //     //     // 'pdf',
+  //     //     // 'jpg',
+  //     //     // 'jpeg',
+  //     //     // 'png',
+  //     //     // 'mp4',
+  //     //     // 'mov',
+  //     //     // 'avi',
+  //     //     // 'mkv',
+  //     //     // 'mp3',
+  //     //     // 'wav',
+  //     //     // 'opus',
+  //     //     // 'm4a',
+  //     //     // 'xlsx',
+  //     //     // 'xlsm',
+  //     //     // 'xlsb',
+  //     //     // 'xltx',
+  //     //     // 'doc',
+  //     //     // 'docm',
+  //     //     // 'docx',
+  //     //     // 'dot',
+  //     //   ],
+  //     // );
+
+  //     // final File? result =
+  //     // await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup])
+  //     //     .whenComplete(() {
+  //     //   if (!connected) {
+  //     //     snackBar(
+  //     //         context: context,
+  //     //         message: "No Internet Connection.",
+  //     //         color: Colors.red);
+  //     //   }
+  //     // });
+
+  //     if (result != null && result.files.isNotEmpty) {
+  //       File file = File(result.files.first.path!);
+
+  //       int fileSizeInBytes = await file.length();
+
+  //       if (fileSizeInBytes < 30 * 1024 * 1024) {
+  //         filePath.value = result.files.first.path!;
+  //       } else {
+  //         filePath.value = null;
+  //         snackBar(
+  //             context: context,
+  //             message: "The selected file is above 30 MB",
+  //             color: Colors.red);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     print("selectAttachment Error :-------------- $e");
+  //     if (await Permission.storage.status.isDenied ||
+  //         await Permission.storage.status.isPermanentlyDenied) {
+  //       await ShowWarnDialog()
+  //           .showWarn(context: context, message: "Enable storage permission.");
+  //     }
+  //     print("--------_selectAttachment---------${e.toString()}");
+  //   }
+  // }
 
   Future<bool> permissionCheck(context) async {
     PermissionStatus cameraPermissionStatus = await Permission.camera.status;
@@ -475,7 +573,7 @@ class ParentChattingController extends GetxController {
   List<TextSpan> getMessageText(
       {required String text, required BuildContext context}) {
     const urlPattern =
-        r'((https?:\/\/)?(?:www\.)?[^\s]+(?:\.[^\s]+)+(?:\/[^\s]*)?)';
+        r'((https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.(com|org|net|edu|gov|mil|int|info|biz|co|us|io|me)([\/\w\-.?&=%#]*)?)';
     final regex = RegExp(urlPattern);
     final matches = regex.allMatches(text);
 

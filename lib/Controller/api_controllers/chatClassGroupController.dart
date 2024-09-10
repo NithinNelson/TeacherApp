@@ -15,7 +15,7 @@ class ChatClassGroupController extends GetxController {
 
   void resetStatus() {
     isLoading.value = false;
-    isError.value = false;
+    // isError.value = false;
   }
 
   void resetData() {
@@ -27,6 +27,7 @@ class ChatClassGroupController extends GetxController {
     // resetData();
     isLoading.value = true;
     isLoaded.value = false;
+    isError.value = false;
     try {
       String? teacherId = Get.find<UserAuthController>().userData.value.userId;
       String? emailId = Get.find<UserAuthController>().userData.value.username;
@@ -44,8 +45,9 @@ class ChatClassGroupController extends GetxController {
         classGroupListCopy.addAll(classGroupApiModel.data?.data ?? []);
       }
     } catch (e) {
-      print("------class group error---------");
+      print("------class group error--------- $e");
       isLoaded.value = false;
+      isError.value = true;
     } finally {
       resetStatus();
     }
