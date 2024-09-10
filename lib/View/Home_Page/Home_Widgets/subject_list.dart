@@ -26,7 +26,7 @@ class SubjectList extends StatelessWidget {
       height: 65.0.h * (itemLength % 2 == 1 ? ((itemLength - 1)/2) : (itemLength/2)) + (itemLength % 2 == 1 ? 63.5.h : 0.h),
       padding: const EdgeInsets.only(top: 8, left: 8, right: 8).w,
       child: GridView.builder(
-        physics: const NeverScrollableScrollPhysics(),
+        // physics: const NeverScrollableScrollPhysics(),
         itemCount: itemLength,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
