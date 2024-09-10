@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
 import '../../Utils/Colors.dart';
 
@@ -37,15 +36,15 @@ class _chatviewState extends State<chatview>
             children: [
               IconButton(
                   onPressed: () {},
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.arrow_back_ios,
                     color: Colors.white,
                   )),
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 20,
                 backgroundColor: Colors.white,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Text(
@@ -99,7 +98,7 @@ class _chatviewState extends State<chatview>
                           fontSize: 16.0,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                       CircleAvatar(
@@ -131,7 +130,7 @@ class _chatviewState extends State<chatview>
                           fontSize: 16.0,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                       CircleAvatar(
@@ -169,7 +168,7 @@ class _chatviewState extends State<chatview>
             ),
             Expanded(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   border: Border.all(
@@ -182,7 +181,7 @@ class _chatviewState extends State<chatview>
                     Expanded(
                       child: TextField(
                         controller: _messageController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Message',
                           hintStyle: TextStyle(
                             fontSize: 18,
@@ -244,28 +243,28 @@ class MessageBubble extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
+          const CircleAvatar(
             radius: 16,
           ),
-          SizedBox(width: 5),
+          const SizedBox(width: 5),
           Expanded(
             child: Container(
               constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * 0.35,
               ),
-              padding: EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(12.0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
-                    offset: Offset(0, 1),
+                    offset: const Offset(0, 1),
                     blurRadius: 5,
                   ),
                 ],
               ),
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(

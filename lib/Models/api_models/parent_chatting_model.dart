@@ -85,6 +85,7 @@ class ParentMsgData {
   bool? isForward;
   String? replyId;
   String? myReact;
+  bool? read;
   ReplyData? replyData;
 
   ParentMsgData(
@@ -103,7 +104,8 @@ class ParentMsgData {
       this.isForward,
       this.replyId,
       this.myReact,
-      this.replyData});
+      this.replyData,
+      this.read});
 
   ParentMsgData.fromJson(Map<String, dynamic> json) {
     messageId = json['message_id'];
@@ -121,6 +123,7 @@ class ParentMsgData {
     isForward = json['is_forward'];
     replyId = json['reply_id'];
     myReact = json['my_react'];
+    read = json['read'];
     replyData = json['reply_data'] != null
         ? ReplyData.fromJson(json['reply_data'])
         : null;
@@ -143,6 +146,7 @@ class ParentMsgData {
     data['is_forward'] = isForward;
     data['reply_id'] = replyId;
     data['my_react'] = myReact;
+    data['read'] = read;
     if (replyData != null) {
       data['reply_data'] = replyData!.toJson();
     }

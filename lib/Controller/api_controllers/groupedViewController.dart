@@ -38,6 +38,7 @@ class GroupedViewController extends GetxController {
 
   Future<void> fetchFeedViewMsgList(ChatFeedViewReqModel reqBody) async {
     isLoading.value = true;
+    isError.value = false;
     try {
       Map<String, dynamic> resp =
           await ApiServices.getChatFeedView(reqBodyData: reqBody);
@@ -61,9 +62,14 @@ class GroupedViewController extends GetxController {
       isLoaded.value = true;
     } catch (e) {
       isLoaded.value = false;
+      isError.value = true;
+
+      // update();
+
       print('--------grouped view error--------');
     } finally {
       isLoading.value = false;
+      // update();
     }
   }
 

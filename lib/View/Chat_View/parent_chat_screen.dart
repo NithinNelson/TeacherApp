@@ -106,7 +106,7 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
   }
 
   Future<void> initialize() async {
-    context.loaderOverlay.show();
+    // context.loaderOverlay.show();
     parentChattingController.chatMsgCount =
         parentChattingController.messageCount;
     ParentChattingReqModel chattingReqModel = ParentChattingReqModel(
@@ -1189,187 +1189,196 @@ class ChatList extends StatelessWidget {
     return GetX<ParentChattingController>(
       builder: (ParentChattingController controller) {
         List<ParentMsgData> msgList = controller.chatMsgList.value;
-        return Stack(
-          children: [
-            GroupedListView<ParentMsgData, String>(
-              groupComparator: (value1, value2) => value2.compareTo(value1),
-              reverse: true,
-              shrinkWrap: true,
-              useStickyGroupSeparators: true,
-              cacheExtent: 2000,
-              floatingHeader: true,
-              padding: EdgeInsets.only(bottom: 10.h),
-              controller: controller.parentChatScrollController.value,
-              groupBy: (element) {
-                try {
-                  return DateFormat('yyyy-MM-dd')
-                      .format(DateTime.parse(element.sendAt!));
-                } catch (e) {
-                  return "--";
-                }
-              },
-              sort: true,
-              elements: msgList,
-              groupSeparatorBuilder: (String groupByValue) {
-                return ChatDateWidget(date: groupByValue);
-              },
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (controller.isError.value) {
+          return const Center(child: Text("Error Occurred"));
+        } else if (controller.chatMsgList.isEmpty) {
+          return const Center(child: Text("No chat"));
+        } else {
+          return Stack(
+            children: [
+              GroupedListView<ParentMsgData, String>(
+                groupComparator: (value1, value2) => value2.compareTo(value1),
+                reverse: true,
+                shrinkWrap: true,
+                useStickyGroupSeparators: true,
+                cacheExtent: 2000,
+                floatingHeader: true,
+                padding: EdgeInsets.only(bottom: 10.h),
+                controller: controller.parentChatScrollController.value,
+                groupBy: (element) {
+                  try {
+                    return DateFormat('yyyy-MM-dd')
+                        .format(DateTime.parse(element.sendAt!));
+                  } catch (e) {
+                    return "--";
+                  }
+                },
+                sort: true,
+                elements: msgList,
+                groupSeparatorBuilder: (String groupByValue) {
+                  return ChatDateWidget(date: groupByValue);
+                },
 
-              itemComparator: (item1, item2) =>
-                  item2.sendAt!.compareTo(item1.sendAt!),
-              indexedItemBuilder: (context, messageData, index) {
-                if (index < controller.chatMsgList.length - 1) {
-                  return "${messageData.messageFromId}" == userId
-                      ? Column(
-                          children: [
-                            SwapeToWidget(
-                              function: () {
-                                controller.focusTextField();
-                                controller.isReplay.value =
-                                    messageData.messageId;
-                                controller.replayName.value = "You";
-                                controller.replayMessage = messageData;
-                              },
-                              iconWidget: SvgPicture.asset(
-                                  "assets/images/ArrowBendUpLeft.svg"),
-                              child: SentMessageBubble(
-                                message: messageData.message ?? '',
-                                time: messageData.sendAt,
-                                replay: true,
-                                audio: messageData.messageAudio,
-                                fileName: messageData.fileName,
-                                fileLink: messageData.messageFile,
-                                messageData: messageData,
-                                index: index,
+                itemComparator: (item1, item2) =>
+                    item2.sendAt!.compareTo(item1.sendAt!),
+                indexedItemBuilder: (context, messageData, index) {
+                  if (index < controller.chatMsgList.length - 1) {
+                    return "${messageData.messageFromId}" == userId
+                        ? Column(
+                            children: [
+                              SwapeToWidget(
+                                function: () {
+                                  controller.focusTextField();
+                                  controller.isReplay.value =
+                                      messageData.messageId;
+                                  controller.replayName.value = "You";
+                                  controller.replayMessage = messageData;
+                                },
+                                iconWidget: SvgPicture.asset(
+                                    "assets/images/ArrowBendUpLeft.svg"),
+                                child: SentMessageBubble(
+                                  message: messageData.message ?? '',
+                                  time: messageData.sendAt,
+                                  replay: true,
+                                  audio: messageData.messageAudio,
+                                  fileName: messageData.fileName,
+                                  fileLink: messageData.messageFile,
+                                  messageData: messageData,
+                                  index: index,
+                                ),
                               ),
-                            ),
-                          ],
-                        )
-                      : Column(
-                          children: [
-                            SwapeToWidget(
-                              function: () {
-                                controller.focusTextField();
-                                // FocusScope.of(context)
-                                //     .requestFocus(controller.focusNode);
-                                controller.isReplay.value =
-                                    messageData.messageId;
-                                controller.replayName.value =
-                                    messageData.messageFrom ?? "";
-                                controller.replayMessage = messageData;
-                              },
-                              iconWidget: SvgPicture.asset(
-                                  "assets/images/ArrowBendUpLeft.svg"),
-                              child: ReceiveMessageBubble(
-                                senderName: messageData.messageFrom,
-                                message: messageData.message,
-                                time: messageData.sendAt,
-                                replay: true,
-                                audio: messageData.messageAudio,
-                                fileName: messageData.fileName,
-                                fileLink: messageData.messageFile,
-                                subject: messageData.subjectName,
-                                relation: studentRelation,
-                                messageData: messageData,
-                                index: index,
-                                studentName: studentName,
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              SwapeToWidget(
+                                function: () {
+                                  controller.focusTextField();
+                                  // FocusScope.of(context)
+                                  //     .requestFocus(controller.focusNode);
+                                  controller.isReplay.value =
+                                      messageData.messageId;
+                                  controller.replayName.value =
+                                      messageData.messageFrom ?? "";
+                                  controller.replayMessage = messageData;
+                                },
+                                iconWidget: SvgPicture.asset(
+                                    "assets/images/ArrowBendUpLeft.svg"),
+                                child: ReceiveMessageBubble(
+                                  senderName: messageData.messageFrom,
+                                  message: messageData.message,
+                                  time: messageData.sendAt,
+                                  replay: true,
+                                  audio: messageData.messageAudio,
+                                  fileName: messageData.fileName,
+                                  fileLink: messageData.messageFile,
+                                  subject: messageData.subjectName,
+                                  relation: studentRelation,
+                                  messageData: messageData,
+                                  index: index,
+                                  studentName: studentName,
+                                ),
                               ),
-                            ),
-                          ],
-                        );
-                } else {
-                  return controller.showLoaderMoreMessage.value &&
-                          controller.chatMsgList.length >
-                              controller.messageCount
-                      ? Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5.h),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                      height: 25.h,
-                                      width: 25.h,
-                                      child: const Center(
-                                          child: CircularProgressIndicator())),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  Text(
-                                    "Load More...",
-                                    style: TeacherAppFonts
-                                        .interW400_16sp_letters1
-                                        .copyWith(color: Colors.black),
-                                  )
-                                ]),
-                          ),
-                        )
-                      : const SizedBox();
-                }
-
-                // final messageData = msgList[index];
-              },
-              separator: SizedBox(
-                height: 5.h,
-              ),
-              // separatorBuilder: (context, index) {
-              //   return SizedBox(
-              //     height: 5.h,
-              //   );
-              // },
-              // itemCount: msgList.length,
-            ),
-            GetBuilder<ParentChattingController>(builder: (controller2) {
-              return controller2.showScrollIcon
-                  ? Align(
-                      alignment: Alignment.bottomRight,
-                      child: Padding(
-                        padding: EdgeInsets.all(15.h),
-                        child: InkWell(
-                          onTap: () {
-                            Future.delayed(
-                              const Duration(milliseconds: 50),
-                              () {
-                                Get.find<ParentChattingController>()
-                                    .parentChatScrollController
-                                    .value
-                                    .animateTo(
-                                      Get.find<ParentChattingController>()
-                                          .parentChatScrollController
-                                          .value
-                                          .position
-                                          .minScrollExtent,
-                                      duration:
-                                          const Duration(milliseconds: 200),
-                                      curve: Curves.easeOut,
-                                    );
-                              },
-                            );
-                          },
-                          child: Container(
-                            width: 45.h,
-                            height: 45.h,
-                            decoration: const BoxDecoration(
-                              color: Colorutils.Whitecolor,
-                              shape: BoxShape.circle,
-                            ),
+                            ],
+                          );
+                  } else {
+                    return controller.showLoaderMoreMessage.value &&
+                            controller.chatMsgList.length >
+                                controller.messageCount
+                        ? Align(
+                            alignment: Alignment.center,
                             child: Padding(
-                              padding: EdgeInsets.all(3.h),
-                              child: const FittedBox(
-                                child: Icon(
-                                  Icons.keyboard_double_arrow_down_rounded,
-                                  color: Colors.grey,
+                              padding: EdgeInsets.symmetric(vertical: 5.h),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                        height: 25.h,
+                                        width: 25.h,
+                                        child: const Center(
+                                            child:
+                                                CircularProgressIndicator())),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    Text(
+                                      "Load More...",
+                                      style: TeacherAppFonts
+                                          .interW400_16sp_letters1
+                                          .copyWith(color: Colors.black),
+                                    )
+                                  ]),
+                            ),
+                          )
+                        : const SizedBox();
+                  }
+
+                  // final messageData = msgList[index];
+                },
+                separator: SizedBox(
+                  height: 5.h,
+                ),
+                // separatorBuilder: (context, index) {
+                //   return SizedBox(
+                //     height: 5.h,
+                //   );
+                // },
+                // itemCount: msgList.length,
+              ),
+              GetBuilder<ParentChattingController>(builder: (controller2) {
+                return controller2.showScrollIcon
+                    ? Align(
+                        alignment: Alignment.bottomRight,
+                        child: Padding(
+                          padding: EdgeInsets.all(15.h),
+                          child: InkWell(
+                            onTap: () {
+                              Future.delayed(
+                                const Duration(milliseconds: 50),
+                                () {
+                                  Get.find<ParentChattingController>()
+                                      .parentChatScrollController
+                                      .value
+                                      .animateTo(
+                                        Get.find<ParentChattingController>()
+                                            .parentChatScrollController
+                                            .value
+                                            .position
+                                            .minScrollExtent,
+                                        duration:
+                                            const Duration(milliseconds: 200),
+                                        curve: Curves.easeOut,
+                                      );
+                                },
+                              );
+                            },
+                            child: Container(
+                              width: 45.h,
+                              height: 45.h,
+                              decoration: const BoxDecoration(
+                                color: Colorutils.Whitecolor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(3.h),
+                                child: const FittedBox(
+                                  child: Icon(
+                                    Icons.keyboard_double_arrow_down_rounded,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    )
-                  : const SizedBox();
-            })
-          ],
-        );
+                      )
+                    : const SizedBox();
+              })
+            ],
+          );
+        }
       },
     );
   }
@@ -1386,7 +1395,7 @@ messageMoreShowDialog(
       return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 0),
+          padding: const EdgeInsets.symmetric(horizontal: 0),
           child: Stack(
             children: [
               Positioned(
@@ -1676,18 +1685,18 @@ class SentMessageBubble extends StatelessWidget {
                                                   color: Colors.black
                                                       .withOpacity(.25)),
                                         ),
-                                        // SizedBox(width: 5.h),
-                                        // SizedBox(
-                                        //   height: 21.h,
-                                        //   width: 21.h,
-                                        //   child: SvgPicture.asset(
-                                        //       "assets/images/Checks.svg",
-                                        //       color: messageData?.read == null
-                                        //           ? Colors.grey
-                                        //           : messageData!.read!
-                                        //           ? Colors.green.shade900
-                                        //           : Colors.grey),
-                                        // ),
+                                        SizedBox(width: 5.h),
+                                        SizedBox(
+                                          height: 21.h,
+                                          width: 21.h,
+                                          child: SvgPicture.asset(
+                                              "assets/images/Checks.svg",
+                                              color: messageData?.read == null
+                                                  ? Colors.grey
+                                                  : messageData!.read!
+                                                      ? Colors.green.shade900
+                                                      : Colors.grey),
+                                        ),
                                       ],
                                     )
                                   ],

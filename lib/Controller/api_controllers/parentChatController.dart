@@ -60,6 +60,7 @@ class ParentChattingController extends GetxController {
       limit: chatMsgCount,
     );
     isLoading.value = true;
+    isError.value = false;
     try {
       Map<String, dynamic> resp =
           await ApiServices.getParentChatting(reqBodyData: chattingReqModel);
@@ -81,6 +82,7 @@ class ParentChattingController extends GetxController {
       isLoaded.value = true;
     } catch (e) {
       isLoaded.value = false;
+      isError.value = true;
       print('--------parent chatting error--------');
     } finally {
       isLoading.value = false;

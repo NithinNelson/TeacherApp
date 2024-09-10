@@ -153,7 +153,7 @@ class _FeedViewChatScreenState extends State<FeedViewChatScreen>
   }
 
   Future<void> initialize() async {
-    context.loaderOverlay.show();
+    // context.loaderOverlay.show();
 
     ChatFeedViewReqModel chatFeedViewReqModel = ChatFeedViewReqModel(
       teacherId: userAuthController.userData.value.userId,
@@ -1522,6 +1522,11 @@ class ChatList extends StatelessWidget {
       // if (controller.isLoaded.value == true) {
       //   return const Center(child: CircularProgressIndicator());
       // } else
+      if (controller.isLoading.value) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (controller.isError.value) {
+        return const Center(child: Text("Error Occurred"));
+      }
       if (controller.chatMsgList.isEmpty) {
         return const Center(child: Text("No chat"));
       } else {
@@ -1612,6 +1617,7 @@ class ChatList extends StatelessWidget {
                                 subject: messageData.subjectName,
                                 messageData: messageData,
                                 index: index,
+                                widget: widget,
                               ),
                             ),
                           ],

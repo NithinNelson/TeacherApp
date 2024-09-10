@@ -5,6 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:teacherapp/Controller/api_controllers/parentChatListController.dart';
 import 'package:teacherapp/Services/common_services.dart';
 import 'package:teacherapp/View/Chat_View/parent_chat_screen.dart';
@@ -120,47 +122,66 @@ class ParentChatList extends StatelessWidget {
             List<Datum> chatParentList = controller.parentChatList.value;
             if (chatParentList.isNotEmpty) {
               return Expanded(
-                child: ListView.separated(
-                  padding: EdgeInsets.all(0),
-                  shrinkWrap: true,
-                  itemCount: chatParentList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    LastMessage? lastMsg =
-                        chatParentList[index].lastMessage ?? LastMessage();
-                    DateTime? sentTime = lastMsg.sandAt;
-                    String? formattedDate;
-                    try {
-                      formattedDate =
-                          DateFormat('EEE hh:mm a').format(sentTime!);
-                    } catch (e) {}
-                    String? userId =
-                        Get.find<UserAuthController>().userData.value.userId;
-                    return ChatItem(
-                      time: sentTime.toString(),
-                      userId: userId,
-                      leadColor: Colorutils.chatLeadingColors[index % 5],
-                      parentRoom: chatParentList[index],
-                    );
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    // context.loaderOverlay.show();
+
+                    await Get.find<ParentChatListController>()
+                        .fetchParentChatList();
                   },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const Divider(
-                      thickness: 0.2,
-                      indent: 10,
-                      endIndent: 10,
-                      height: 0,
-                      color: Colors.grey,
-                    );
-                  },
+                  child: ListView.separated(
+                    padding: const EdgeInsets.all(0),
+                    shrinkWrap: true,
+                    itemCount: chatParentList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      LastMessage? lastMsg =
+                          chatParentList[index].lastMessage ?? LastMessage();
+                      DateTime? sentTime = lastMsg.sandAt;
+                      String? formattedDate;
+                      try {
+                        formattedDate =
+                            DateFormat('EEE hh:mm a').format(sentTime!);
+                      } catch (e) {}
+                      String? userId =
+                          Get.find<UserAuthController>().userData.value.userId;
+                      return ChatItem(
+                        time: sentTime.toString(),
+                        userId: userId,
+                        leadColor: Colorutils.chatLeadingColors[index % 5],
+                        parentRoom: chatParentList[index],
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const Divider(
+                        thickness: 0.2,
+                        indent: 10,
+                        endIndent: 10,
+                        height: 0,
+                        color: Colors.grey,
+                      );
+                    },
+                  ),
                 ),
+              );
+            } else if (controller.isLoading.value) {
+              return Expanded(
+                child: ListView.separated(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    itemBuilder: (context, index) => const MessageListShimmer(),
+                    separatorBuilder: (context, index) => const Divider(
+                          color: Colorutils.dividerColor1,
+                          height: 0,
+                        ),
+                    itemCount: 10),
               );
             } else {
               return Expanded(
                 child: Container(
                   color: Colors.white,
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       "Empty chat list.",
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                       ),
                     ),
@@ -344,7 +365,7 @@ class ChatItem extends StatelessWidget {
                                               style: TeacherAppFonts
                                                   .interW400_14sp_textWhite
                                                   .copyWith(
-                                                color: Color(0xff535353)
+                                                color: const Color(0xff535353)
                                                     .withOpacity(0.8),
                                               ),
                                               overflow: TextOverflow.ellipsis,
@@ -362,7 +383,7 @@ class ChatItem extends StatelessWidget {
                                         style: TeacherAppFonts
                                             .interW400_14sp_textWhite
                                             .copyWith(
-                                          color: Color(0xff535353)
+                                          color: const Color(0xff535353)
                                               .withOpacity(0.8),
                                         ),
                                       );
@@ -383,7 +404,7 @@ class ChatItem extends StatelessWidget {
                                               style: TeacherAppFonts
                                                   .interW400_14sp_textWhite
                                                   .copyWith(
-                                                color: Color(0xff535353)
+                                                color: const Color(0xff535353)
                                                     .withOpacity(0.8),
                                               ),
                                               overflow: TextOverflow.ellipsis,
@@ -403,7 +424,7 @@ class ChatItem extends StatelessWidget {
                                         style: TeacherAppFonts
                                             .interW400_14sp_textWhite
                                             .copyWith(
-                                          color: Color(0xff535353)
+                                          color: const Color(0xff535353)
                                               .withOpacity(0.8),
                                         ),
                                       );
@@ -521,5 +542,143 @@ class ChatItem extends StatelessWidget {
     //     ),
     //   ),
     // );
+  }
+}
+
+class MessageListShimmer extends StatelessWidget {
+  const MessageListShimmer({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Colorutils.white,
+          borderRadius: BorderRadius.circular(20.h),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(15.h),
+          child: Row(
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Shimmer.fromColors(
+                baseColor: Colors.grey,
+                highlightColor: Colors.white,
+                period: const Duration(milliseconds: 2500),
+                child: Container(
+                  height: 60.h,
+                  width: 60.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colorutils.bgcolor11.withOpacity(.2),
+                  ),
+                ),
+              ),
+              wSpace(15.h),
+              Expanded(
+                flex: 3,
+                child: Column(
+                  children: [
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey,
+                      highlightColor: Colors.white,
+                      period: const Duration(milliseconds: 2500),
+                      child: Container(
+                        // width: ScreenUtil().screenWidth / 2,
+                        height: 14.h,
+                        decoration: BoxDecoration(
+                          color: Colorutils.bgcolor11.withOpacity(.2),
+                          borderRadius: BorderRadius.circular(20.h),
+                        ),
+                      ),
+                    ),
+                    hSpace(10.h),
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey,
+                      highlightColor: Colors.white,
+                      period: const Duration(milliseconds: 2500),
+                      child: Container(
+                        // width: ScreenUtil().screenWidth / 2,
+                        height: 14.h,
+                        decoration: BoxDecoration(
+                          color: Colorutils.bgcolor11.withOpacity(.2),
+                          borderRadius: BorderRadius.circular(20.h),
+                        ),
+                      ),
+                    ),
+                    hSpace(10.h),
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey,
+                      highlightColor: Colors.white,
+                      period: const Duration(milliseconds: 2500),
+                      child: Container(
+                        // width: ScreenUtil().screenWidth / 2,
+                        height: 14.h,
+                        decoration: BoxDecoration(
+                          color: Colorutils.bgcolor11.withOpacity(.2),
+                          borderRadius: BorderRadius.circular(20.h),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              wSpace(15.h),
+              Expanded(
+                flex: 1,
+                child: SizedBox(
+                  height: 60.h,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey,
+                        highlightColor: Colors.white,
+                        period: const Duration(milliseconds: 2500),
+                        child: Container(
+                          height: 14.h,
+                          decoration: BoxDecoration(
+                            color: Colorutils.bgcolor11.withOpacity(.2),
+                            borderRadius: BorderRadius.circular(20.h),
+                          ),
+                        ),
+                      ),
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey,
+                        highlightColor: Colors.white,
+                        period: const Duration(milliseconds: 2500),
+                        child: Container(
+                          height: 14.h,
+                          decoration: BoxDecoration(
+                            color: Colorutils.bgcolor11.withOpacity(.2),
+                            borderRadius: BorderRadius.circular(20.h),
+                          ),
+                        ),
+                      ),
+                      // hSpace(15.h),
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey,
+                        highlightColor: Colors.white,
+                        period: const Duration(milliseconds: 2500),
+                        child: Container(
+                          width: 20.h,
+                          height: 20.h,
+                          decoration: BoxDecoration(
+                            color: Colorutils.bgcolor11.withOpacity(.2),
+                            borderRadius: BorderRadius.circular(20.h),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

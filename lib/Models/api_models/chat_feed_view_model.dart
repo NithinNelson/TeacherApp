@@ -87,6 +87,7 @@ class MsgData {
   String? myReact;
   bool? isForward;
   ReplyData? replyData;
+  String? userImage;
 
   MsgData(
       {this.messageId,
@@ -105,7 +106,8 @@ class MsgData {
       this.read,
       this.myReact,
       this.isForward,
-      this.replyData});
+      this.replyData,
+      this.userImage});
 
   MsgData.fromJson(Map<String, dynamic> json) {
     messageId = json['message_id'];
@@ -121,6 +123,7 @@ class MsgData {
     appMsgId = json['app_msg_id'];
     read = json['read'];
     myReact = json['my_react'];
+    userImage = json['message_from_pic'];
     isForward = json['is_forward'];
     if (json['student_data'] != null) {
       studentData = <StudentData>[];
@@ -150,6 +153,7 @@ class MsgData {
     data['read'] = read;
     data['my_react'] = myReact;
     data['is_forward'] = isForward;
+    data['message_from_pic'] = userImage;
     if (studentData != null) {
       data['student_data'] = studentData!.map((v) => v.toJson()).toList();
     }

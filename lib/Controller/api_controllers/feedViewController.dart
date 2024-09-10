@@ -76,6 +76,7 @@ class FeedViewController extends GetxController {
 
   Future<void> fetchFeedViewMsgList(ChatFeedViewReqModel reqBody) async {
     isLoading.value = true;
+    isError.value = false;
     ChatFeedViewReqModel chatFeedViewReqModel = ChatFeedViewReqModel(
       teacherId: reqBody.teacherId,
       schoolId: reqBody.schoolId,
@@ -107,6 +108,7 @@ class FeedViewController extends GetxController {
       isLoaded.value = true;
     } catch (e) {
       isLoaded.value = false;
+      isError.value = true;
       print('--------feed view error--------');
     } finally {
       isLoading.value = false;

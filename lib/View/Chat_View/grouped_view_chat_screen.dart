@@ -87,7 +87,7 @@ class _GroupedViewChatScreenState extends State<GroupedViewChatScreen> {
   }
 
   void initialize() async {
-    context.loaderOverlay.show();
+    // context.loaderOverlay.show();
     groupedViewController.chatMsgCount =
         groupedViewController.messageCount; // for set message count//
     String? userId = Get.find<UserAuthController>().userData.value.userId;
@@ -300,153 +300,163 @@ class ChatList extends StatelessWidget {
   Widget build(BuildContext context) {
     String userId =
         Get.find<UserAuthController>().userData.value.userId ?? '--';
-    return GetBuilder<GroupedViewController>(
+    return GetX<GroupedViewController>(
       builder: (GroupedViewController controller) {
         List<MsgData> msgData = controller.chatMsgList;
-        return Stack(
-          children: [
-            GroupedListView<MsgData, String>(
-              useStickyGroupSeparators: true,
-              cacheExtent: 10000,
-              floatingHeader: true,
-              shrinkWrap: true,
-              padding: EdgeInsets.only(top: 5.h, bottom: 5.h),
-              controller: controller.chatGroupedViewScrollController.value,
-              groupBy: (element) {
-                try {
-                  return DateFormat('yyyy-MM-dd')
-                      .format(DateTime.parse(element.sendAt!));
-                } catch (e) {
-                  return "--";
-                }
-              },
-              sort: true,
-              reverse: true,
-              groupComparator: (value1, value2) => value2.compareTo(value1),
-              elements: msgData,
-              groupSeparatorBuilder: (String groupByValue) {
-                return ChatDateWidget(date: groupByValue);
-              },
-              indexedItemBuilder: (context, messageDatas, index) {
-                final messageData = controller.chatMsgList[index];
-                List<StudentData> student = messageData.studentData ?? [];
-                StudentData? relation =
-                    student.isNotEmpty ? student.first : StudentData();
-                String relationData =
-                    "${relation.relation ?? ''} ${relation.relation != null ? 'of' : ''} ${messageData.messageFrom ?? '--'}";
-                if (index < controller.chatMsgList.length - 1) {
-                  return "${messageData.messageFromId}" == userId
-                      ? SentMessageBubble(
-                          message: messageData.message ?? '',
-                          time: messageData.sendAt,
-                          replay: true,
-                          audio: messageData.messageAudio,
-                          fileName: messageData.fileName,
-                          fileLink: messageData.messageFile,
-                          messageData: messageData,
-                          index: index,
-                        )
-                      : ReceiveMessageBubble(
-                          senderName: student.isNotEmpty
-                              ? messageData.studentData?.first.studentName ??
-                                  '--'
-                              : '--',
-                          message: messageData.message,
-                          time: messageData.sendAt,
-                          replay: true,
-                          audio: messageData.messageAudio,
-                          fileName: messageData.fileName,
-                          fileLink: messageData.messageFile,
-                          messageData: messageData,
-                          relation: relationData,
-                          index: index,
-                        );
-                } else {
-                  return controller.showLoaderMoreMessage.value &&
-                          controller.chatMsgList.length >
-                              controller.messageCount
-                      ? Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5.h),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                      height: 25.h,
-                                      width: 25.h,
-                                      child: const Center(
-                                          child: CircularProgressIndicator())),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  Text(
-                                    "Load More...",
-                                    style: TeacherAppFonts
-                                        .interW400_16sp_letters1
-                                        .copyWith(color: Colors.black),
-                                  )
-                                ]),
-                          ),
-                        )
-                      : const SizedBox();
-                }
-              },
-              separator: SizedBox(
-                height: 5.h,
-              ),
-            ),
-            GetBuilder<GroupedViewController>(builder: (controller2) {
-              return controller2.showScrollIcon
-                  ? Align(
-                      alignment: Alignment.bottomRight,
-                      child: Padding(
-                        padding: EdgeInsets.all(15.h),
-                        child: InkWell(
-                          onTap: () {
-                            Future.delayed(
-                              const Duration(milliseconds: 50),
-                              () {
-                                Get.find<GroupedViewController>()
-                                    .chatGroupedViewScrollController
-                                    .value
-                                    .animateTo(
-                                      Get.find<GroupedViewController>()
-                                          .chatGroupedViewScrollController
-                                          .value
-                                          .position
-                                          .minScrollExtent,
-                                      duration:
-                                          const Duration(milliseconds: 200),
-                                      curve: Curves.easeOut,
-                                    );
-                              },
-                            );
-                          },
-                          child: Container(
-                            width: 45.h,
-                            height: 45.h,
-                            decoration: const BoxDecoration(
-                              color: Colorutils.Whitecolor,
-                              shape: BoxShape.circle,
-                            ),
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (controller.isError.value) {
+          return const Center(child: Text("Error Occurred"));
+        }
+        if (controller.chatMsgList.isEmpty) {
+          return const Center(child: Text("No chat"));
+        } else {
+          return Stack(
+            children: [
+              GroupedListView<MsgData, String>(
+                useStickyGroupSeparators: true,
+                cacheExtent: 10000,
+                floatingHeader: true,
+                shrinkWrap: true,
+                padding: EdgeInsets.only(top: 5.h, bottom: 5.h),
+                controller: controller.chatGroupedViewScrollController.value,
+                groupBy: (element) {
+                  try {
+                    return DateFormat('yyyy-MM-dd')
+                        .format(DateTime.parse(element.sendAt!));
+                  } catch (e) {
+                    return "--";
+                  }
+                },
+                sort: true,
+                reverse: true,
+                groupComparator: (value1, value2) => value2.compareTo(value1),
+                elements: msgData,
+                groupSeparatorBuilder: (String groupByValue) {
+                  return ChatDateWidget(date: groupByValue);
+                },
+                indexedItemBuilder: (context, messageDatas, index) {
+                  final messageData = controller.chatMsgList[index];
+                  List<StudentData> student = messageData.studentData ?? [];
+                  StudentData? relation =
+                      student.isNotEmpty ? student.first : StudentData();
+                  String relationData =
+                      "${relation.relation ?? ''} ${relation.relation != null ? 'of' : ''} ${messageData.messageFrom ?? '--'}";
+                  if (index < controller.chatMsgList.length - 1) {
+                    return "${messageData.messageFromId}" == userId
+                        ? SentMessageBubble(
+                            message: messageData.message ?? '',
+                            time: messageData.sendAt,
+                            replay: true,
+                            audio: messageData.messageAudio,
+                            fileName: messageData.fileName,
+                            fileLink: messageData.messageFile,
+                            messageData: messageData,
+                            index: index,
+                          )
+                        : ReceiveMessageBubble(
+                            senderName: student.isNotEmpty
+                                ? messageData.studentData?.first.studentName ??
+                                    '--'
+                                : '--',
+                            message: messageData.message,
+                            time: messageData.sendAt,
+                            replay: true,
+                            audio: messageData.messageAudio,
+                            fileName: messageData.fileName,
+                            fileLink: messageData.messageFile,
+                            messageData: messageData,
+                            relation: relationData,
+                            index: index,
+                          );
+                  } else {
+                    return controller.showLoaderMoreMessage.value &&
+                            controller.chatMsgList.length >
+                                controller.messageCount
+                        ? Align(
+                            alignment: Alignment.center,
                             child: Padding(
-                              padding: EdgeInsets.all(3.h),
-                              child: const FittedBox(
-                                child: Icon(
-                                  Icons.keyboard_double_arrow_down_rounded,
-                                  color: Colors.grey,
+                              padding: EdgeInsets.symmetric(vertical: 5.h),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                        height: 25.h,
+                                        width: 25.h,
+                                        child: const Center(
+                                            child:
+                                                CircularProgressIndicator())),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    Text(
+                                      "Load More...",
+                                      style: TeacherAppFonts
+                                          .interW400_16sp_letters1
+                                          .copyWith(color: Colors.black),
+                                    )
+                                  ]),
+                            ),
+                          )
+                        : const SizedBox();
+                  }
+                },
+                separator: SizedBox(
+                  height: 5.h,
+                ),
+              ),
+              GetBuilder<GroupedViewController>(builder: (controller2) {
+                return controller2.showScrollIcon
+                    ? Align(
+                        alignment: Alignment.bottomRight,
+                        child: Padding(
+                          padding: EdgeInsets.all(15.h),
+                          child: InkWell(
+                            onTap: () {
+                              Future.delayed(
+                                const Duration(milliseconds: 50),
+                                () {
+                                  Get.find<GroupedViewController>()
+                                      .chatGroupedViewScrollController
+                                      .value
+                                      .animateTo(
+                                        Get.find<GroupedViewController>()
+                                            .chatGroupedViewScrollController
+                                            .value
+                                            .position
+                                            .minScrollExtent,
+                                        duration:
+                                            const Duration(milliseconds: 200),
+                                        curve: Curves.easeOut,
+                                      );
+                                },
+                              );
+                            },
+                            child: Container(
+                              width: 45.h,
+                              height: 45.h,
+                              decoration: const BoxDecoration(
+                                color: Colorutils.Whitecolor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(3.h),
+                                child: const FittedBox(
+                                  child: Icon(
+                                    Icons.keyboard_double_arrow_down_rounded,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    )
-                  : const SizedBox();
-            })
-          ],
-        );
+                      )
+                    : const SizedBox();
+              })
+            ],
+          );
+        }
       },
     );
   }
