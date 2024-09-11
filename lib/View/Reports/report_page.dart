@@ -7,9 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/Models/api_models/learning_observation_api_model.dart';
 import 'package:teacherapp/View/Learning_Walk/learning_walk_widgets/question_radio_fields.dart';
 import 'package:teacherapp/View/Lesson_Observation/question_radio_obsfields.dart';
@@ -67,7 +70,7 @@ class _ReportScreenState extends State<ReportScreen> {
   List newTeacherList = [];
   List newReport = [];
   var _searchController = TextEditingController();
-  var employeeid;
+  // var employeeid;
   var loginname;
   Map<String, dynamic>? notificationResult;
   int Count = 0;
@@ -91,52 +94,62 @@ class _ReportScreenState extends State<ReportScreen> {
   }
   Future initialize() async{
     timer = Timer.periodic(Duration(seconds: 1), (Timer t) => getCount());
+    setState(() {
+      isSpinner = true;
+    });
     await getUserLoginCredentials();
     print('Empcodee--${widget.Empcodee}');
     print('teacherName${widget.teacherName}');
-    print('teacherName${employeeid}');
+    // print('teacherName${employeeid}');
     // print('teacherName${widget.teacherName}');
     print(count);
     await getTeacherList();
+    print("-------dghbdg----------$isSpinner");
+    setState(() {
+      isSpinner = false;
+    });
   }
 
   Map<String, dynamic>? teacherListdata;
 
   Future getTeacherList() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    var school_token = preferences.getString("school_token");
-    employeeid = preferences.getString('employeeNumber');
+    // SharedPreferences preferences = await SharedPreferences.getInstance();
+    String school_token = Get.find<UserAuthController>().schoolToken.value ?? '';
+    // employeeid = preferences.getString('employeeNumber');
     print('--widget-----${widget.Empcodee}');
     //isSpinner=true;
-    Map<String, String> headers = {
-      'API-Key': '525-777-777',
-      'Content-Type': 'application/json'
-    };
+    try {
+      Map<String, String> headers = {
+        'API-Key': '525-777-777',
+        'Content-Type': 'application/json'
+      };
 
-    final bdy = {
-      "action": "getFeedbackTotalSummaryData",
-      "token": "$school_token",
-      "employee_code": employeeUnderHOS.isEmpty ? widget.Empcodee : employeeUnderHOS
-    };
+      final bdy = {
+        "action": "getFeedbackTotalSummaryData",
+        "token": "$school_token",
+        "employee_code": employeeUnderHOS.isEmpty ? widget.Empcodee : employeeUnderHOS
+      };
 
-    log("the >>>>>>>>>>>>>>>>>>>>> $bdy");
+      log("the >>>>>>>>>>>>>>>>>>>>> $bdy");
 
-    final response = await http.post(Uri.parse(ApiConstants.DOCME_URL),
-        headers: headers, body: json.encode(bdy));
+      final response = await http.post(Uri.parse(ApiConstants.DOCME_URL),
+          headers: headers, body: json.encode(bdy));
 
-    //final responseJson = json.decode(response.body);
-    print('responserbodybodyesponse${response.body}');
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      teacherList = json.decode(response.body);
-      print('teachteacherListerList$teacherList');
+      //final responseJson = json.decode(response.body);
+      print('responserbodybodyesponse${response.body}');
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        teacherList = json.decode(response.body);
+        print('teachteacherListerList$teacherList');
 
-      newTeacherList = teacherList!["data"];
-      print("newTeacherList--${newTeacherList}");
-    } else {
-      setState(() {
-        // isSpinner=false;
-      });
+        newTeacherList = teacherList!["data"];
+        print("newTeacherList--${newTeacherList}");
+      } else {
+
+      }
+    } catch(e) {
+
+    } finally {
     }
   }
   Future getUserLoginCredentials() async {
@@ -144,472 +157,448 @@ class _ReportScreenState extends State<ReportScreen> {
     // if (result == ConnectivityResult.none) {
     //   _checkInternet(context);
     // } else {
-    var headers = {
-      'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
-      'Content-Type': 'application/json'
-    };
-    var request = http.Request('POST', Uri.parse(ApiConstants.WorkLoad));
-    request.body = json.encode({"user_id": widget.HOSID});
-    request.headers.addAll(headers);
+    try {
+      var headers = {
+        'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
+        'Content-Type': 'application/json'
+      };
+      var request = http.Request('POST', Uri.parse(ApiConstants.WorkLoad));
+      request.body = json.encode({"user_id": widget.HOSID});
+      request.headers.addAll(headers);
 
-    http.StreamedResponse response = await request.send();
-    print(response.statusCode);
-    print('----rrreeeqqq${request.body}');
-    if (response.statusCode == 200) {
-      var responseData = await response.stream.bytesToString();
-      setState(() {
-        isSpinner = false;
-      });
-      loginCredential = json.decode(responseData);
-      SharedPreferences preference = await SharedPreferences.getInstance();
-      preference.setString('loginCredential', json.encode(loginCredential));
-      log("api resss-----$loginCredential");
-      print('-------------------role ids-----------------');
-      print('array--${loginCredential!["data"]["data"][0]["all_roles_array"]}');
+      http.StreamedResponse response = await request.send();
+      print(response.statusCode);
+      print('----rrreeeqqq${request.body}');
+      if (response.statusCode == 200) {
+        var responseData = await response.stream.bytesToString();
+        loginCredential = json.decode(responseData);
+        SharedPreferences preference = await SharedPreferences.getInstance();
+        preference.setString('loginCredential', json.encode(loginCredential));
+        log("api resss-----$loginCredential");
+        print('-------------------role ids-----------------');
+        print('array--${loginCredential!["data"]["data"][0]["all_roles_array"]}');
 
-      print('---------------end of----role ids-----------------');
-      // print(loginCredential!["data"]["data"][0]["faculty_data"]
-      // ["teacherComponent"]["is_class_teacher"]);
+        print('---------------end of----role ids-----------------');
+        // print(loginCredential!["data"]["data"][0]["faculty_data"]
+        // ["teacherComponent"]["is_class_teacher"]);
 
-      img = loginCredential!["data"]["data"][0]["image"];
+        img = loginCredential!["data"]["data"][0]["image"];
 
-      print(">>>>>>>$img<<<<<<<");
-      Map<String, dynamic> faculty_data =
-      loginCredential!["data"]["data"][0]["faculty_data"];
-      if (faculty_data.containsKey("teacherComponent") ||
-          faculty_data.containsKey("supervisorComponent") ||
-          faculty_data.containsKey("hosComponent") ||
-          faculty_data.containsKey("hodComponent")) {
-        if (faculty_data.containsKey("teacherComponent")) {
-          if (loginCredential!["data"]["data"][0]["faculty_data"]
-          ["teacherComponent"]["is_class_teacher"] ==
-              true ||
-              loginCredential!["data"]["data"][0]["faculty_data"]
-              ["teacherComponent"]["is_class_teacher"] ==
-                  false) {
-            print("-----------------------------------teacher");
-
-            for (var index = 0;
-            index <
+        print(">>>>>>>$img<<<<<<<");
+        Map<String, dynamic> faculty_data =
+        loginCredential!["data"]["data"][0]["faculty_data"];
+        if (faculty_data.containsKey("teacherComponent") ||
+            faculty_data.containsKey("supervisorComponent") ||
+            faculty_data.containsKey("hosComponent") ||
+            faculty_data.containsKey("hodComponent")) {
+          if (faculty_data.containsKey("teacherComponent")) {
+            if (loginCredential!["data"]["data"][0]["faculty_data"]
+            ["teacherComponent"]["is_class_teacher"] ==
+                true ||
                 loginCredential!["data"]["data"][0]["faculty_data"]
-                ["teacherComponent"]["own_list"]
-                    .length;
-            index++) {
-              var classBatch = loginCredential!["data"]["data"][0]
-              ["faculty_data"]["teacherComponent"]["own_list"][index]
-              ["academic"];
+                ["teacherComponent"]["is_class_teacher"] ==
+                    false) {
+              print("-----------------------------------teacher");
 
-              var sessionId = loginCredential!["data"]["data"][0]
-              ["faculty_data"]["teacherComponent"]["own_list"][index]
-              ["session"]["_id"];
-
-              var curriculumId = loginCredential!["data"]["data"][0]
-              ["faculty_data"]["teacherComponent"]["own_list"][index]
-              ["curriculum"]["_id"];
-
-              var batchID = loginCredential!["data"]["data"][0]["faculty_data"]
-              ["teacherComponent"]["own_list"][index]["batch"]["_id"];
-
-              var classID = loginCredential!["data"]["data"][0]["faculty_data"]
-              ["teacherComponent"]["own_list"][index]["class"]["_id"];
-
-              duplicateTeacherData.add({
-                "class": classBatch.split("/")[2].toString() +
-                    " " +
-                    classBatch.split("/")[3].toString(),
-                "session_id": sessionId,
-                "curriculumId": curriculumId,
-                "batch_id": batchID,
-                "class_id": classID,
-                "is_Class_teacher": loginCredential!["data"]["data"][0]
-                ["faculty_data"]["teacherComponent"]["own_list"][index]
-                ["is_class_teacher"]
-              });
-              print(
-                  '${loginCredential!["data"]["data"][0]["faculty_data"]["teacherComponent"]["own_list"][0]["subjects"]}');
-              for (var ind = 0;
-              ind <
+              for (var index = 0;
+              index <
                   loginCredential!["data"]["data"][0]["faculty_data"]
-                  ["teacherComponent"]["own_list"][index]
-                  ["subjects"]
+                  ["teacherComponent"]["own_list"]
                       .length;
-              ind++) {
-                var subjects = loginCredential!["data"]["data"][0]
+              index++) {
+                var classBatch = loginCredential!["data"]["data"][0]
                 ["faculty_data"]["teacherComponent"]["own_list"][index]
-                ["subjects"][ind]["name"];
+                ["academic"];
 
-                teacherData.add({
+                var sessionId = loginCredential!["data"]["data"][0]
+                ["faculty_data"]["teacherComponent"]["own_list"][index]
+                ["session"]["_id"];
+
+                var curriculumId = loginCredential!["data"]["data"][0]
+                ["faculty_data"]["teacherComponent"]["own_list"][index]
+                ["curriculum"]["_id"];
+
+                var batchID = loginCredential!["data"]["data"][0]["faculty_data"]
+                ["teacherComponent"]["own_list"][index]["batch"]["_id"];
+
+                var classID = loginCredential!["data"]["data"][0]["faculty_data"]
+                ["teacherComponent"]["own_list"][index]["class"]["_id"];
+
+                duplicateTeacherData.add({
                   "class": classBatch.split("/")[2].toString() +
                       " " +
                       classBatch.split("/")[3].toString(),
-                  "subjects": subjects,
                   "session_id": sessionId,
                   "curriculumId": curriculumId,
                   "batch_id": batchID,
                   "class_id": classID,
                   "is_Class_teacher": loginCredential!["data"]["data"][0]
-                  ["faculty_data"]["teacherComponent"]["own_list"]
-                  [index]["is_class_teacher"]
+                  ["faculty_data"]["teacherComponent"]["own_list"][index]
+                  ["is_class_teacher"]
                 });
+                print(
+                    '${loginCredential!["data"]["data"][0]["faculty_data"]["teacherComponent"]["own_list"][0]["subjects"]}');
+                for (var ind = 0;
+                ind <
+                    loginCredential!["data"]["data"][0]["faculty_data"]
+                    ["teacherComponent"]["own_list"][index]
+                    ["subjects"]
+                        .length;
+                ind++) {
+                  var subjects = loginCredential!["data"]["data"][0]
+                  ["faculty_data"]["teacherComponent"]["own_list"][index]
+                  ["subjects"][ind]["name"];
+
+                  teacherData.add({
+                    "class": classBatch.split("/")[2].toString() +
+                        " " +
+                        classBatch.split("/")[3].toString(),
+                    "subjects": subjects,
+                    "session_id": sessionId,
+                    "curriculumId": curriculumId,
+                    "batch_id": batchID,
+                    "class_id": classID,
+                    "is_Class_teacher": loginCredential!["data"]["data"][0]
+                    ["faculty_data"]["teacherComponent"]["own_list"]
+                    [index]["is_class_teacher"]
+                  });
+                }
               }
+
+              var removeDuplicates = duplicateTeacherData.toSet().toList();
+              var newClassTeacherCLass = removeDuplicates
+                  .where((element) => element.containsValue(true))
+                  .toSet()
+                  .toList();
+
+              newTeacherData = newClassTeacherCLass;
+              log("tdhdhdhdhdhdbhdhd ${newTeacherData.length}");
+
+              log(">>>>>>>>hoslistingteacherData>>>>>>>>$teacherData");
+              // print(" the length of class_group $employeeUnderHOS");
+
+              print(classB);
+
+              print(loginCredential);
             }
-
-            var removeDuplicates = duplicateTeacherData.toSet().toList();
-            var newClassTeacherCLass = removeDuplicates
-                .where((element) => element.containsValue(true))
-                .toSet()
-                .toList();
-
-            newTeacherData = newClassTeacherCLass;
-            log("tdhdhdhdhdhdbhdhd ${newTeacherData.length}");
-
-            log(">>>>>>>>hoslistingteacherData>>>>>>>>$teacherData");
-            // print(" the length of class_group $employeeUnderHOS");
-
-            print(classB);
-
-            print(loginCredential);
-
-            setState(() {
-              isSpinner = false;
-            });
           }
-        }
-        if (faculty_data.containsKey("supervisorComponent")) {
-          if (loginCredential!["data"]["data"][0]["faculty_data"]
-          ["supervisorComponent"]["is_hos"] ==
-              true) {
-            for (var ind = 0;
-            ind <
-                loginCredential!["data"]["data"][0]["faculty_data"]
-                ["supervisorComponent"]["own_list_groups"]
-                    .length;
-            ind++) {
+          if (faculty_data.containsKey("supervisorComponent")) {
+            if (loginCredential!["data"]["data"][0]["faculty_data"]
+            ["supervisorComponent"]["is_hos"] ==
+                true) {
+              for (var ind = 0;
+              ind <
+                  loginCredential!["data"]["data"][0]["faculty_data"]
+                  ["supervisorComponent"]["own_list_groups"]
+                      .length;
+              ind++) {
+                for (var index = 0;
+                index <
+                    loginCredential!["data"]["data"][0]["faculty_data"]
+                    ["supervisorComponent"]["own_list_groups"]
+                    [ind]["class_group"]
+                        .length;
+                index++) {
+                  if (loginCredential!["data"]["data"][0]["faculty_data"]
+                  ["supervisorComponent"]["own_list_groups"][ind]
+                  ["class_group"][index]
+                      .containsKey("class_teacher")) {
+                    var employeeUnderHod = loginCredential!["data"]["data"][0]
+                    ["faculty_data"]["supervisorComponent"]
+                    ["own_list_groups"][ind]["class_group"][index]
+                    ["class_teacher"]["employee_no"];
+                    employeeUnderHOS.add(employeeUnderHod);
+                  }
+                }
+              }
               for (var index = 0;
               index <
                   loginCredential!["data"]["data"][0]["faculty_data"]
                   ["supervisorComponent"]["own_list_groups"]
-                  [ind]["class_group"]
                       .length;
               index++) {
-                if (loginCredential!["data"]["data"][0]["faculty_data"]
-                ["supervisorComponent"]["own_list_groups"][ind]
-                ["class_group"][index]
-                    .containsKey("class_teacher")) {
-                  var employeeUnderHod = loginCredential!["data"]["data"][0]
+                for (var ind = 0;
+                ind <
+                    loginCredential!["data"]["data"][0]["faculty_data"]
+                    ["supervisorComponent"]["own_list_groups"]
+                    [index]["class_group"]
+                        .length;
+                ind++) {
+                  var classBatch = loginCredential!["data"]["data"][0]
                   ["faculty_data"]["supervisorComponent"]
-                  ["own_list_groups"][ind]["class_group"][index]
-                  ["class_teacher"]["employee_no"];
-                  employeeUnderHOS.add(employeeUnderHod);
+                  ["own_list_groups"][index]["class_group"][ind]["academic"];
+                  classB.add(classBatch.split("/")[2].toString() +
+                      " " +
+                      classBatch.split("/")[3].toString());
                 }
               }
+
+              print('employeeUnderHOS__---__$employeeUnderHOS');
+
+              print("???????????????????????????????????????????????????$classB");
+
+              print(loginCredential);
             }
-            for (var index = 0;
-            index <
-                loginCredential!["data"]["data"][0]["faculty_data"]
-                ["supervisorComponent"]["own_list_groups"]
-                    .length;
-            index++) {
+          }
+          if (faculty_data.containsKey("hosComponent")) {
+            print("hos Component");
+            if (loginCredential!["data"]["data"][0]["faculty_data"]
+            ["hosComponent"]["is_hos"] ==
+                true) {
               for (var ind = 0;
               ind <
                   loginCredential!["data"]["data"][0]["faculty_data"]
-                  ["supervisorComponent"]["own_list_groups"]
-                  [index]["class_group"]
+                  ["hosComponent"]["own_list_groups"]
                       .length;
               ind++) {
-                var classBatch = loginCredential!["data"]["data"][0]
-                ["faculty_data"]["supervisorComponent"]
-                ["own_list_groups"][index]["class_group"][ind]["academic"];
-                classB.add(classBatch.split("/")[2].toString() +
-                    " " +
-                    classBatch.split("/")[3].toString());
-              }
-            }
-
-            print('employeeUnderHOS__---__$employeeUnderHOS');
-
-            print("???????????????????????????????????????????????????$classB");
-
-            print(loginCredential);
-
-            setState(() {
-              isSpinner = false;
-            });
-          }
-        }
-        if (faculty_data.containsKey("hosComponent")) {
-          print("hos Component");
-          if (loginCredential!["data"]["data"][0]["faculty_data"]
-          ["hosComponent"]["is_hos"] ==
-              true) {
-            for (var ind = 0;
-            ind <
-                loginCredential!["data"]["data"][0]["faculty_data"]
-                ["hosComponent"]["own_list_groups"]
-                    .length;
-            ind++) {
-              for (var index = 0;
-              index <
-                  loginCredential!["data"]["data"][0]["faculty_data"]
+                for (var index = 0;
+                index <
+                    loginCredential!["data"]["data"][0]["faculty_data"]
+                    ["hosComponent"]["own_list_groups"][ind]
+                    ["class_group"]
+                        .length;
+                index++) {
+                  if (loginCredential!["data"]["data"][0]["faculty_data"]
                   ["hosComponent"]["own_list_groups"][ind]
-                  ["class_group"]
-                      .length;
-              index++) {
-                if (loginCredential!["data"]["data"][0]["faculty_data"]
-                ["hosComponent"]["own_list_groups"][ind]
-                ["class_group"][index]
-                    .containsKey("class_teacher")) {
-                  var employeeUnderHod = loginCredential!["data"]["data"][0]
-                  ["faculty_data"]["hosComponent"]
-                  ["own_list_groups"][ind]["class_group"][index]
-                  ["class_teacher"]["employee_no"];
+                  ["class_group"][index]
+                      .containsKey("class_teacher")) {
+                    var employeeUnderHod = loginCredential!["data"]["data"][0]
+                    ["faculty_data"]["hosComponent"]
+                    ["own_list_groups"][ind]["class_group"][index]
+                    ["class_teacher"]["employee_no"];
 
-                  print('----empid--$employeeUnderHod');
-                  employeeUnderHOS.add(employeeUnderHod);
+                    print('----empid--$employeeUnderHod');
+                    employeeUnderHOS.add(employeeUnderHod);
+                  }
                 }
               }
-            }
-            for (var index = 0;
-            index <
-                loginCredential!["data"]["data"][0]["faculty_data"]
-                ["hosComponent"]["own_list_groups"]
-                    .length;
-            index++) {
-              for (var ind = 0;
-              ind <
-                  loginCredential!["data"]["data"][0]["faculty_data"]
-                  ["hosComponent"]["own_list_groups"][index]
-                  ["class_group"]
-                      .length;
-              ind++) {
-                var classBatch = loginCredential!["data"]["data"][0]
-                ["faculty_data"]["hosComponent"]["own_list_groups"]
-                [index]["class_group"][ind]["academic"];
-                classB.add(classBatch.split("/")[2].toString() +
-                    " " +
-                    classBatch.split("/")[3].toString());
-              }
-            }
-
-            log("print HOS EMP$employeeUnderHOS");
-
-            print(classB);
-
-            print(loginCredential);
-
-            setState(() {
-              isSpinner = false;
-            });
-          }
-        }
-
-        if (faculty_data.containsKey("hodComponent")) {
-          if (loginCredential!["data"]["data"][0]["faculty_data"]
-          ["hodComponent"]["is_hod"] ==
-              true) {
-            for (var ind = 0;
-            ind <
-                loginCredential!["data"]["data"][0]["faculty_data"]
-                ["hodComponent"]["own_list_groups"]
-                    .length;
-            ind++) {
               for (var index = 0;
               index <
                   loginCredential!["data"]["data"][0]["faculty_data"]
-                  ["hodComponent"]["own_list_groups"][ind]
-                  ["class_group"]
+                  ["hosComponent"]["own_list_groups"]
                       .length;
               index++) {
-                if (loginCredential!["data"]["data"][0]["faculty_data"]
-                ["hodComponent"]["own_list_groups"][ind]
-                ["class_group"][index]
-                    .containsKey("class_teacher")) {
-                  var employeeUnderHod = loginCredential!["data"]["data"][0]
-                  ["faculty_data"]["hodComponent"]
-                  ["own_list_groups"][ind]["class_group"][index]
-                  ["class_teacher"]["employee_no"];
-                  employeeUnderHOS.add(employeeUnderHod);
+                for (var ind = 0;
+                ind <
+                    loginCredential!["data"]["data"][0]["faculty_data"]
+                    ["hosComponent"]["own_list_groups"][index]
+                    ["class_group"]
+                        .length;
+                ind++) {
+                  var classBatch = loginCredential!["data"]["data"][0]
+                  ["faculty_data"]["hosComponent"]["own_list_groups"]
+                  [index]["class_group"][ind]["academic"];
+                  classB.add(classBatch.split("/")[2].toString() +
+                      " " +
+                      classBatch.split("/")[3].toString());
                 }
               }
+
+              log("print HOS EMP$employeeUnderHOS");
+
+              print(classB);
+
+              print(loginCredential);
             }
-            for (var index = 0;
-            index <
-                loginCredential!["data"]["data"][0]["faculty_data"]
-                ["hodComponent"]["own_list_groups"]
-                    .length;
-            index++) {
+          }
+
+          if (faculty_data.containsKey("hodComponent")) {
+            if (loginCredential!["data"]["data"][0]["faculty_data"]
+            ["hodComponent"]["is_hod"] ==
+                true) {
               for (var ind = 0;
               ind <
                   loginCredential!["data"]["data"][0]["faculty_data"]
-                  ["hodComponent"]["own_list_groups"][index]
-                  ["class_group"]
+                  ["hodComponent"]["own_list_groups"]
                       .length;
               ind++) {
-                var classBatch = loginCredential!["data"]["data"][0]
-                ["faculty_data"]["hodComponent"]["own_list_groups"]
-                [index]["class_group"][ind]["academic"];
-                classB.add(classBatch.split("/")[2].toString() +
-                    " " +
-                    classBatch.split("/")[3].toString());
+                for (var index = 0;
+                index <
+                    loginCredential!["data"]["data"][0]["faculty_data"]
+                    ["hodComponent"]["own_list_groups"][ind]
+                    ["class_group"]
+                        .length;
+                index++) {
+                  if (loginCredential!["data"]["data"][0]["faculty_data"]
+                  ["hodComponent"]["own_list_groups"][ind]
+                  ["class_group"][index]
+                      .containsKey("class_teacher")) {
+                    var employeeUnderHod = loginCredential!["data"]["data"][0]
+                    ["faculty_data"]["hodComponent"]
+                    ["own_list_groups"][ind]["class_group"][index]
+                    ["class_teacher"]["employee_no"];
+                    employeeUnderHOS.add(employeeUnderHod);
+                  }
+                }
               }
+              for (var index = 0;
+              index <
+                  loginCredential!["data"]["data"][0]["faculty_data"]
+                  ["hodComponent"]["own_list_groups"]
+                      .length;
+              index++) {
+                for (var ind = 0;
+                ind <
+                    loginCredential!["data"]["data"][0]["faculty_data"]
+                    ["hodComponent"]["own_list_groups"][index]
+                    ["class_group"]
+                        .length;
+                ind++) {
+                  var classBatch = loginCredential!["data"]["data"][0]
+                  ["faculty_data"]["hodComponent"]["own_list_groups"]
+                  [index]["class_group"][ind]["academic"];
+                  classB.add(classBatch.split("/")[2].toString() +
+                      " " +
+                      classBatch.split("/")[3].toString());
+                }
+              }
+
+              print('.....employeeUnderHOS....${employeeUnderHOS}');
+
+              print('.....classB${classB}');
+
+              print('.....${loginCredential}');
             }
-
-            print('.....employeeUnderHOS....${employeeUnderHOS}');
-
-            print('.....classB${classB}');
-
-            print('.....${loginCredential}');
-
-            setState(() {
-              isSpinner = false;
-            });
           }
         }
+        //addToLocalDb();
       }
-      //addToLocalDb();
-    }
+    } catch(e) {} finally {}
   }
 
   Map<String, dynamic>? committedCalls;
 
   Future commitedCallsDetail(String employeeCode) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    var school_token = preferences.getString("school_token");
-    var empid = preferences.getString("employeeNumber");
+    // SharedPreferences preferences = await SharedPreferences.getInstance();
+    // var school_token = preferences.getString("school_token");
+    String school_token = Get.find<UserAuthController>().schoolToken.value ?? '';
+    // var empid = preferences.getString("employeeNumber");
     print("api worked");
     print("api employeeCode$employeeCode");
-    isSpinner = true;
-    var headers = {
-      'Content-Type': 'application/json',
-      'API-Key': '525-777-777'
-    };
-    var request = http.Request('POST', Uri.parse(ApiConstants.DOCME_URL));
-    request.body =
-    '''{\n  "action" :"getEmployeeFeedbackById",\n  "token":"$school_token",\n  "employee_code": "$employeeCode",\n  "feedback_type_id": [1]\n }\n''';
-    print("commitedCallsDetailrequest.body${request.body}");
+    try {
+      var headers = {
+        'Content-Type': 'application/json',
+        'API-Key': '525-777-777'
+      };
+      var request = http.Request('POST', Uri.parse(ApiConstants.DOCME_URL));
+      request.body =
+      '''{\n  "action" :"getEmployeeFeedbackById",\n  "token":"$school_token",\n  "employee_code": "$employeeCode",\n  "feedback_type_id": [1]\n }\n''';
+      print("commitedCallsDetailrequest.body${request.body}");
 
-    request.headers.addAll(headers);
+      request.headers.addAll(headers);
 
-    http.StreamedResponse response = await request.send();
-    print(response.statusCode);
-    if (response.statusCode == 200) {
+      http.StreamedResponse response = await request.send();
       print(response.statusCode);
-      // print(await response.stream.bytesToString());
-      var responseJson = await response.stream.bytesToString();
-      committedCalls = json.decode(responseJson);
-      log('committedCallsresponse-----${committedCalls}');
-      if (mounted)
-        setState(() {
-          isSpinner = false;
-        });
-    } else {
-      return Text("Failed to Load Data");
+      if (response.statusCode == 200) {
+        print(response.statusCode);
+        // print(await response.stream.bytesToString());
+        var responseJson = await response.stream.bytesToString();
+        committedCalls = json.decode(responseJson);
+        log('committedCallsresponse-----${committedCalls}');
+      } else {
+        return Text("Failed to Load Data");
+      }
+    } catch(e) {} finally {
     }
   }
 
   Map<String, dynamic>? callNotAnswered;
 
   Future callNotAnswerDetail(String employeeCode) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    var school_token = preferences.getString("school_token");
+    // SharedPreferences preferences = await SharedPreferences.getInstance();
+    String school_token = Get.find<UserAuthController>().schoolToken.value ?? '';
     print("api worked");
-    isSpinner = true;
-    var headers = {
-      'Content-Type': 'application/json',
-      'API-Key': '525-777-777'
-    };
-    var request = http.Request('POST', Uri.parse(ApiConstants.DOCME_URL));
-    request.body =
-    '''{\n  "action" :"getEmployeeFeedbackById",\n  "token":"$school_token",\n  "employee_code": "$employeeCode",\n  "feedback_type_id": [4]\n }\n''';
-    // print(request.body);
-    print("callNotAnswerDetailrequest.body${request.body}");
+    try {
+      var headers = {
+        'Content-Type': 'application/json',
+        'API-Key': '525-777-777'
+      };
+      var request = http.Request('POST', Uri.parse(ApiConstants.DOCME_URL));
+      request.body =
+      '''{\n  "action" :"getEmployeeFeedbackById",\n  "token":"$school_token",\n  "employee_code": "$employeeCode",\n  "feedback_type_id": [4]\n }\n''';
+      // print(request.body);
+      print("callNotAnswerDetailrequest.body${request.body}");
 
-    request.headers.addAll(headers);
+      request.headers.addAll(headers);
 
-    http.StreamedResponse response = await request.send();
-    print(response.statusCode);
-    if (response.statusCode == 200) {
+      http.StreamedResponse response = await request.send();
       print(response.statusCode);
-      // print(await response.stream.bytesToString());
-      var responseJson = await response.stream.bytesToString();
-      callNotAnswered = json.decode(responseJson);
-      log('callNotAnsweredresponse-----${callNotAnswered}');
-      if (mounted)
-        setState(() {
-          isSpinner = false;
-        });
-    } else {
-      return Text("Failed to Load Data");
+      if (response.statusCode == 200) {
+        print(response.statusCode);
+        // print(await response.stream.bytesToString());
+        var responseJson = await response.stream.bytesToString();
+        callNotAnswered = json.decode(responseJson);
+        log('callNotAnsweredresponse-----${callNotAnswered}');
+      } else {
+        return Text("Failed to Load Data");
+      }
+    } catch(e) {} finally {
     }
   }
 
   Map<String, dynamic>? wrongNumber;
 
   Future wrongNumberDetails(String employeeCode) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    var school_token = preferences.getString("school_token");
+    // SharedPreferences preferences = await SharedPreferences.getInstance();
+    String school_token = Get.find<UserAuthController>().schoolToken.value ?? '';
     print("api worked");
-    isSpinner = true;
-    var headers = {
-      'Content-Type': 'application/json',
-      'API-Key': '525-777-777'
-    };
-    var request = http.Request('POST', Uri.parse(ApiConstants.DOCME_URL));
-    request.body =
-    '''{\n  "action" :"getEmployeeFeedbackById",\n  "token":"$school_token",\n  "employee_code": "$employeeCode",\n  "feedback_type_id": [2,3]\n }\n''';
-    // print(request.body);
-    print("wrongNumberDetailsrequest.body${request.body}");
-    request.headers.addAll(headers);
+    try {
+      var headers = {
+        'Content-Type': 'application/json',
+        'API-Key': '525-777-777'
+      };
+      var request = http.Request('POST', Uri.parse(ApiConstants.DOCME_URL));
+      request.body =
+      '''{\n  "action" :"getEmployeeFeedbackById",\n  "token":"$school_token",\n  "employee_code": "$employeeCode",\n  "feedback_type_id": [2,3]\n }\n''';
+      // print(request.body);
+      print("wrongNumberDetailsrequest.body${request.body}");
+      request.headers.addAll(headers);
 
-    http.StreamedResponse response = await request.send();
-    print(response.statusCode);
-    if (response.statusCode == 200) {
+      http.StreamedResponse response = await request.send();
       print(response.statusCode);
-      // print(await response.stream.bytesToString());
-      var responseJson = await response.stream.bytesToString();
-      wrongNumber = json.decode(responseJson);
-      log('wrongNumberresponse-----${wrongNumber}');
-      if (mounted)
-        setState(() {
-          isSpinner = false;
-        });
-    } else {
-      return Text("Failed to Load Data");
+      if (response.statusCode == 200) {
+        print(response.statusCode);
+        // print(await response.stream.bytesToString());
+        var responseJson = await response.stream.bytesToString();
+        wrongNumber = json.decode(responseJson);
+        log('wrongNumberresponse-----${wrongNumber}');
+      } else {
+        return Text("Failed to Load Data");
+      }
+    } catch(e) {} finally {
     }
   }
 
   Map<String, dynamic>? misbehave;
 
   Future misbehaveDetails(String employeeCode) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    var school_token = preferences.getString("school_token");
+    // SharedPreferences preferences = await SharedPreferences.getInstance();
+    String school_token = Get.find<UserAuthController>().schoolToken.value ?? '';
     print("api worked");
-    isSpinner = true;
-    var headers = {
-      'Content-Type': 'application/json',
-      'API-Key': '525-777-777'
-    };
-    var request = http.Request('POST', Uri.parse(ApiConstants.DOCME_URL));
-    request.body =
-    '''{\n  "action" :"getEmployeeFeedbackById",\n  "token": "$school_token",\n  "employee_code": "$employeeCode",\n  "feedback_type_id": [5,6,7]\n }\n''';
-    // print(request.body);
-    print("misbehaveDetailsrequest.body${request.body}");
-    request.headers.addAll(headers);
+    try {
+      var headers = {
+        'Content-Type': 'application/json',
+        'API-Key': '525-777-777'
+      };
+      var request = http.Request('POST', Uri.parse(ApiConstants.DOCME_URL));
+      request.body =
+      '''{\n  "action" :"getEmployeeFeedbackById",\n  "token": "$school_token",\n  "employee_code": "$employeeCode",\n  "feedback_type_id": [5,6,7]\n }\n''';
+      // print(request.body);
+      print("misbehaveDetailsrequest.body${request.body}");
+      request.headers.addAll(headers);
 
-    http.StreamedResponse response = await request.send();
-    print(response.statusCode);
-    if (response.statusCode == 200) {
+      http.StreamedResponse response = await request.send();
       print(response.statusCode);
-      // print(await response.stream.bytesToString());
-      var responseJson = await response.stream.bytesToString();
-      misbehave = json.decode(responseJson);
-      log('misbehaveresponse-----${misbehave}');
-      if (mounted)
-        setState(() {
-          isSpinner = false;
-        });
-    } else {
-      return Text("Failed to Load Data");
+      if (response.statusCode == 200) {
+        print(response.statusCode);
+        // print(await response.stream.bytesToString());
+        var responseJson = await response.stream.bytesToString();
+        misbehave = json.decode(responseJson);
+        log('misbehaveresponse-----${misbehave}');
+      } else {
+        return Text("Failed to Load Data");
+      }
+    } catch(e) {} finally {
     }
   }
 
@@ -763,11 +752,10 @@ class _ReportScreenState extends State<ReportScreen> {
                           ),
                         ),
                         Expanded(
-                            child: teacherList == null
+                            child: isSpinner ? const Center(child: CircularProgressIndicator()) : teacherList == null
                                 ? Center(
-                                child: CircularProgressIndicator(
-
-                                ))
+                                child:
+                                Image.asset("assets/images/nodata.gif"))
                                 : teacherList!["data_status"] == 0
                                 ? Center(
                                 child:
