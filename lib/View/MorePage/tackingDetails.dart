@@ -125,7 +125,7 @@ class trackingDetails extends StatelessWidget {
                                       ? Colorutils.councellorcolor2
                                       : inProgressList.visitStatus == "Back to Class"|| inProgressList.visitStatus == "Reached Class"
                                       ? Colors.green.withOpacity(0.3)
-                                      :  Colorutils.councellorcolor2,
+                                      :  Colorutils.grey,
                                 ),
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
@@ -143,7 +143,7 @@ class trackingDetails extends StatelessWidget {
                                                 ? Colorutils.councellorcolor
                                                 : inProgressList.visitStatus == "Back to Class"|| inProgressList.visitStatus == "Reached Class"
                                                 ? Colorutils.userdetailcolor
-                                                :  Colorutils.transparent,
+                                                :  Colorutils.white,
                                       ))),
                                 )),
                           ],

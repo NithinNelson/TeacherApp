@@ -568,7 +568,7 @@ class _StudentListViewState extends State<StudentListView> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
-                              padding: EdgeInsets.all(20),
+                              padding: EdgeInsets.only(left: 20,right:10,top: 20,bottom: 20),
                               child: widget.subjectName == null
                                   ? Text(
                                 widget.ClassAndBatch.toString(),
@@ -593,10 +593,10 @@ class _StudentListViewState extends State<StudentListView> {
                                 ),
 
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 13),
+                                  padding: const EdgeInsets.only(right: 5),
                                   child: Text(
                                     widget.selectedDate.toString(),
-                                    style: TextStyle(fontSize: 14.sp),
+                                    style: TextStyle(fontSize: 12.sp),
                                   ),
                                 ),
                                 SizedBox(
