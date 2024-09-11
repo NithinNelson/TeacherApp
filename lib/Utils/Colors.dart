@@ -101,4 +101,9 @@ class Colorutils {
   static const Color greenDark = Color(0xFF00A884);
   static const gradientColor1 = Color(0xff158DA8);
   static const gradientColor2 = Color(0xFF024BB8);
+  static const washroomcolor = Color(0xFFC95400);
+  static const washroomcolor2 = Color(0xFFFFEDD9);
+  static const councellorcolor = Color(0xFF6D55FF);
+  static const councellorcolor2 = Color(0xFFCDC6F4);
+
 }

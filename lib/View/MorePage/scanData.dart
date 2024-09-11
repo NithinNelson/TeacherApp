@@ -32,7 +32,6 @@ class Scandata extends StatefulWidget {
 
 class _ScandataState extends State<Scandata> {
   bool isClicked = true;
-  // bool isClicked = false;
   bool isClicked1 = false;
   bool isClicked2 = false;
   TextEditingController _Remarkscontroller = TextEditingController();
@@ -226,77 +225,77 @@ class _ScandataState extends State<Scandata> {
                           ),
                         ),
                       ),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     setState(() {
-                      //       isClicked1 = true;
-                      //     });
-                      //   },
-                      //   child: Container(
-                      //     height: 80,
-                      //     width: 90,
-                      //     child: Column(
-                      //       children: [
-                      //         GestureDetector(
-                      //           child: Container(
-                      //               height: 50,
-                      //               width: 50,
-                      //               child: isClicked1
-                      //                   ? Image.asset(
-                      //                       "assets/images/2Washroom selecetd.png")
-                      //                   : Image.asset(
-                      //                       "assets/images/1Washroom.png")),
-                      //           onTap: () {
-                      //             setState(() {
-                      //               // isClicked1 = true;
-                      //               // isClicked = false;
-                      //               // isClicked2 = false;
-                      //             });
-                      //           },
-                      //         ),
-                      //         SizedBox(
-                      //           height: 5,
-                      //         ),
-                      //         Text(
-                      //           "Washroom",
-                      //           style: TextStyle(fontSize: 13),
-                      //         )
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     setState(() {
-                      //       // isClicked2 = true;
-                      //       // isClicked = false;
-                      //       // isClicked1 = false;
-                      //     });
-                      //   },
-                      //   child: Container(
-                      //     height: 80,
-                      //     width: 90,
-                      //     child: Column(
-                      //       children: [
-                      //         Container(
-                      //             height: 50,
-                      //             width: 50,
-                      //             child: isClicked2
-                      //                 ? Image.asset(
-                      //                     "assets/images/2Counsellor selected.png")
-                      //                 : Image.asset(
-                      //                     "assets/images/1Counsellor.png")),
-                      //         SizedBox(
-                      //           height: 5,
-                      //         ),
-                      //         Text(
-                      //           "Councellor",
-                      //           style: TextStyle(fontSize: 13),
-                      //         )
-                      //       ],
-                      //     ),
-                      //   ),
-                      // )
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isClicked1 = true;
+                          });
+                        },
+                        child: Container(
+                          height: 80,
+                          width: 90,
+                          child: Column(
+                            children: [
+                              GestureDetector(
+                                child: Container(
+                                    height: 50,
+                                    width: 50,
+                                    child: isClicked1
+                                        ? Image.asset(
+                                            "assets/images/2Washroom selecetd.png")
+                                        : Image.asset(
+                                            "assets/images/1Washroom.png")),
+                                onTap: () {
+                                  setState(() {
+                                    isClicked1 = true;
+                                    isClicked = false;
+                                    isClicked2 = false;
+                                  });
+                                },
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "Washroom",
+                                style: TextStyle(fontSize: 13),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isClicked2 = true;
+                            isClicked = false;
+                            isClicked1 = false;
+                          });
+                        },
+                        child: Container(
+                          height: 80,
+                          width: 90,
+                          child: Column(
+                            children: [
+                              Container(
+                                  height: 50,
+                                  width: 50,
+                                  child: isClicked2
+                                      ? Image.asset(
+                                          "assets/images/2Counsellor selected.png")
+                                      : Image.asset(
+                                          "assets/images/1Counsellor.png")),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "Councellor",
+                                style: TextStyle(fontSize: 13),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
                     ],
                   ),
                   Padding(
@@ -361,7 +360,7 @@ class _ScandataState extends State<Scandata> {
                       padding: EdgeInsets.only(top: 25.h),
                       child: GestureDetector(
                         onTap: () async {
-                          String type = isClicked ? "clinic" : isClicked1 ? "washroom" : isClicked2 ? "councellor" : '';
+                          String type = isClicked ? "clinic" : isClicked1 ? "washroom" : isClicked2 ? "counsellor" : '';
                           if(_formKey.currentState!.validate()) {
                             StudentAddModel sentData = StudentAddModel(
                             academicYear: Get.find<UserAuthController>()

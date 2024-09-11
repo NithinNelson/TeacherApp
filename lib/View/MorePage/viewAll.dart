@@ -215,12 +215,20 @@ class _ViewallState extends State<Viewall> {
                     ):Container(height:400,child: const Expanded(child: Center(child: Text("Oops! No Data Found",style: TextStyle(color: Colors.red,fontStyle: FontStyle.italic),)))),
                   ),
                   Expanded(
-                      child: ListView.builder(
-                          itemCount: ProgressCompletedList.length,
-                          itemBuilder: (context, index) => listcontainer(
-                                progressCompletedList:
-                                    controller.progressCompletedData[index],
-                              )))
+                      child: RefreshIndicator(
+                        onRefresh: () async =>
+                        await Get.find<
+                            RecentDateListApiController>().fetchRecentDateList(),
+                        color: Colorutils.userdetailcolor,
+                        backgroundColor: Colors.white,
+
+                        child: ListView.builder(
+                            itemCount: ProgressCompletedList.length,
+                            itemBuilder: (context, index) => listcontainer(
+                                  progressCompletedList:
+                                      controller.progressCompletedData[index],
+                                )),
+                      ))
                 ],
               );
             },
@@ -329,17 +337,33 @@ class listcontainer extends StatelessWidget {
                           // height: 18.h,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4),
-                            color: Colors.red.withOpacity(0.3),
+                            color: progressCompletedList.visitStatus == "Sent to Clinic"|| progressCompletedList.visitStatus == "Reached Clinic"
+                                ? Colors.red.withOpacity(0.2)
+                                : progressCompletedList.visitStatus == "Sent to Washroom"|| progressCompletedList.visitStatus == "Reached Washroom"
+                                ? Colorutils.washroomcolor2
+                                : progressCompletedList.visitStatus == "Sent to Counsellor"|| progressCompletedList.visitStatus == "Reached Counsellor"
+                                ? Colorutils.councellorcolor2
+                                : progressCompletedList.visitStatus == "Back to Class"|| progressCompletedList.visitStatus == "Reached Class"
+                                ? Colors.green.withOpacity(0.3)
+                                :  Colorutils.grey,
                           ),
                           child: Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical: 2.h, horizontal: 10.w),
-                            child: Text("${progressCompletedList.visitStatus}",
+                            child: Text("${progressCompletedList.status?[0].visitStatus}",
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.inter(
                                     textStyle: TextStyle(
                                   fontSize: 13.sp,
-                                  color: Colors.red,
+                                      color: progressCompletedList.visitStatus == "Sent to Clinic"|| progressCompletedList.visitStatus == "Reached Clinic"
+                                          ? Colors.red
+                                          : progressCompletedList.visitStatus == "Sent to Washroom"|| progressCompletedList.visitStatus == "Reached Washroom"
+                                          ? Colorutils.washroomcolor
+                                          : progressCompletedList.visitStatus == "Sent to Counsellor"|| progressCompletedList.visitStatus == "Reached Counsellor"
+                                          ? Colorutils.councellorcolor
+                                          : progressCompletedList.visitStatus == "Back to Class"|| progressCompletedList.visitStatus == "Reached Class"
+                                          ? Colorutils.userdetailcolor
+                                          :  Colorutils.white,
                                 ))),
                           )),
                     ],

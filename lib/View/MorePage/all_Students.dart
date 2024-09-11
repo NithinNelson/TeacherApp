@@ -88,7 +88,7 @@ class AllStudents extends StatelessWidget {
                         // Get.find<LeaveApprovalController>().filterLeaveList(text: value);
                       },
                       validator: (val) =>
-                          val!.isEmpty ? 'Enter the Topic' : null,
+                      val!.isEmpty ? 'Enter the Topic' : null,
                       cursorColor: Colors.grey,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
@@ -127,7 +127,7 @@ class AllStudents extends StatelessWidget {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.grey.withOpacity(0.2)),
+                            BorderSide(color: Colors.grey.withOpacity(0.2)),
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -143,137 +143,149 @@ class AllStudents extends StatelessWidget {
                 ),
                 inProgressList.isNotEmpty
                     ? Expanded(child: GetX<RecentListApiController>(
-                        builder: (RecentListApiController controller) {
-                          List<RecentData> inProgressList =
-                              controller.inProgressData.value;
-                          return inProgressList.isNotEmpty
-                              ? Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 18,
-                                        right: 18,
-                                      ),
-                                      child: SizedBox(
-                                        height: 40,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'Tracking',
-                                              style: TextStyle(
-                                                  fontSize: 16.w,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            Viewall()));
-                                              },
-                                              child: Text(
-                                                'Recent List',
-                                                style: TextStyle(
-                                                    fontSize: 16.w,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colorutils
-                                                        .userdetailcolor),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: ListView.builder(
-                                          shrinkWrap: true,
-                                          padding:
-                                              const EdgeInsets.only(bottom: 70),
-                                          itemCount: inProgressList.length,
-                                          itemBuilder: (context, index) =>
-                                              TrackingContainer(
-                                                startTime: DateTime.parse(
-                                                        "${inProgressList[index].status?.last.addedOn}")
-                                                    .toLocal(),
-                                                inProgressList:
-                                                    inProgressList[index],
-                                              )),
-                                    ),
-                                  ],
-                                )
-                              : SizedBox();
-                        },
-                      ))
-                    : Expanded(child: GetX<RecentListApiController>(
-                        builder: (RecentListApiController controller) {
-                          List<RecentData> progressCompletedList =
-                              controller.progressCompletedData.value;
-
-                          return progressCompletedList.isNotEmpty
-                              ? Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 18, right: 18),
-                                      child: Container(
-                                        height: 40,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'Recent List',
-                                              style: TextStyle(
-                                                  fontSize: 16.w,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            Viewall()));
-                                              },
-                                              child: Text(
-                                                'View All',
-                                                style: TextStyle(
-                                                    fontSize: 16.w,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colorutils
-                                                        .userdetailcolor),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: ListView.builder(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 70),
-                                          itemCount:
-                                              progressCompletedList.length,
-                                          itemBuilder: (context, index) =>
-                                              listcontainer(
-                                                  progressCompletedList:
-                                                      progressCompletedList[
-                                                          index])),
-                                    ),
-                                  ],
-                                )
-                              : const Center(
-                                  child: Text(
-                                  "Oops! No Data Found",
+                  builder: (RecentListApiController controller) {
+                    List<RecentData> inProgressList =
+                        controller.inProgressData.value;
+                    return inProgressList.isNotEmpty
+                        ? Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 18,
+                            right: 18,
+                          ),
+                          child: SizedBox(
+                            height: 40,
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Tracking',
                                   style: TextStyle(
-                                      color: Colors.red,
-                                      fontStyle: FontStyle.italic),
-                                ));
-                        },
-                      ))
+                                      fontSize: 16.w,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Viewall()));
+                                  },
+                                  child: Text(
+                                    'Recent List',
+                                    style: TextStyle(
+                                        fontSize: 16.w,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colorutils
+                                            .userdetailcolor),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: RefreshIndicator(
+
+                            onRefresh: () async =>
+                            await Get.find<
+                                RecentListApiController>().fetchRecentList(),
+                            color: Colorutils.userdetailcolor,
+                            backgroundColor: Colors.white,
+                            // Background color of the refresh indicator
+
+
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                padding:
+                                const EdgeInsets.only(bottom: 70),
+                                itemCount: inProgressList.length,
+                                itemBuilder: (context, index) =>
+                                    TrackingContainer(
+                                      startTime: DateTime.parse(
+                                          "${inProgressList[index].status?.last
+                                              .addedOn}")
+                                          .toLocal(),
+                                      inProgressList:
+                                      inProgressList[index],
+                                    )),
+                          ),
+                        ),
+                      ],
+                    )
+                        : SizedBox();
+                  },
+                ))
+                    : Expanded(child: GetX<RecentListApiController>(
+                  builder: (RecentListApiController controller) {
+                    List<RecentData> progressCompletedList =
+                        controller.progressCompletedData.value;
+
+                    return progressCompletedList.isNotEmpty
+                        ? Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 18, right: 18),
+                          child: Container(
+                            height: 40,
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Recent List',
+                                  style: TextStyle(
+                                      fontSize: 16.w,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Viewall()));
+                                  },
+                                  child: Text(
+                                    'View All',
+                                    style: TextStyle(
+                                        fontSize: 16.w,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colorutils
+                                            .userdetailcolor),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                              padding:
+                              const EdgeInsets.only(bottom: 70),
+                              itemCount:
+                              progressCompletedList.length,
+                              itemBuilder: (context, index) =>
+                                  listcontainer(
+                                      progressCompletedList:
+                                      progressCompletedList[
+                                      index])),
+                        ),
+                      ],
+                    )
+                        : const Center(
+                        child: Text(
+                          "Oops! No Data Found",
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontStyle: FontStyle.italic),
+                        ));
+                  },
+                ))
               ],
             );
           },
@@ -331,7 +343,8 @@ class listcontainer extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => trackingDetails2(
+                  builder: (context) =>
+                      trackingDetails2(
                         progressCompletedList: progressCompletedList,
                       )));
         },
@@ -344,7 +357,7 @@ class listcontainer extends StatelessWidget {
           ),
           child: Padding(
             padding:
-                const EdgeInsets.only(left: 5, top: 8, bottom: 8, right: 12),
+            const EdgeInsets.only(left: 5, top: 8, bottom: 8, right: 12),
             child: Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -380,11 +393,19 @@ class listcontainer extends StatelessWidget {
                         height: 5.h,
                       ),
                       Container(
-                          // width: 130.w,
-                          // height: 18.h,
+                        // width: 130.w,
+                        // height: 18.h,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4),
-                            color: Colors.red.withOpacity(0.3),
+                            color: progressCompletedList.visitStatus == "Sent to Clinic"|| progressCompletedList.visitStatus == "Reached Clinic"
+                                ? Colors.red.withOpacity(0.2)
+                                : progressCompletedList.visitStatus == "Sent to Washroom"|| progressCompletedList.visitStatus == "Reached Washroom"
+                                ? Colorutils.washroomcolor2
+                                : progressCompletedList.visitStatus == "Sent to Counsellor"|| progressCompletedList.visitStatus == "Reached Counsellor"
+                                ? Colorutils.councellorcolor2
+                                : progressCompletedList.visitStatus == "Back to Class"|| progressCompletedList.visitStatus == "Reached Class"
+                                ? Colors.green.withOpacity(0.3)
+                                :  Colorutils.grey,
                           ),
                           child: Padding(
                             padding: EdgeInsets.symmetric(
@@ -393,9 +414,17 @@ class listcontainer extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.inter(
                                     textStyle: TextStyle(
-                                  fontSize: 13.sp,
-                                  color: Colors.red,
-                                ))),
+                                      fontSize: 13.sp,
+                                      color: progressCompletedList.visitStatus == "Sent to Clinic"|| progressCompletedList.visitStatus == "Reached Clinic"
+                                          ? Colors.red
+                                          : progressCompletedList.visitStatus == "Sent to Washroom"|| progressCompletedList.visitStatus == "Reached Washroom"
+                                          ? Colorutils.washroomcolor
+                                          : progressCompletedList.visitStatus == "Sent to Counsellor"|| progressCompletedList.visitStatus == "Reached Counsellor"
+                                          ? Colorutils.councellorcolor
+                                          : progressCompletedList.visitStatus == "Back to Class"|| progressCompletedList.visitStatus == "Reached Class"
+                                          ? Colorutils.userdetailcolor
+                                          :  Colorutils.white,
+                                    ))),
                           )),
                     ],
                   ),
@@ -421,10 +450,10 @@ class listcontainer extends StatelessWidget {
                         Container(
                             child: Text(
                                 "Grade"
-                                " "
-                                "${progressCompletedList.classs}"
-                                " "
-                                "${progressCompletedList.batch}",
+                                    " "
+                                    "${progressCompletedList.classs}"
+                                    " "
+                                    "${progressCompletedList.batch}",
                                 style: GoogleFonts.inter(
                                     textStyle: TextStyle(
                                         fontSize: 14.sp,
@@ -470,7 +499,9 @@ class _TrackingContainerState extends State<TrackingContainer> {
   }
 
   String? startTimer() {
-    int remainingTime = endTime.difference(DateTime.now()).inSeconds;
+    int remainingTime = endTime
+        .difference(DateTime.now())
+        .inSeconds;
 
     bool text = false;
 
@@ -513,7 +544,9 @@ class _TrackingContainerState extends State<TrackingContainer> {
 
   @override
   Widget build(BuildContext context) {
-    int remainingTime = endTime.difference(DateTime.now()).inSeconds;
+    int remainingTime = endTime
+        .difference(DateTime.now())
+        .inSeconds;
 
     double progress = (countdownDuration - remainingTime) / countdownDuration;
     return Padding(
@@ -529,7 +562,7 @@ class _TrackingContainerState extends State<TrackingContainer> {
           children: [
             Padding(
               padding:
-                  const EdgeInsets.only(left: 5, top: 8, bottom: 8, right: 12),
+              const EdgeInsets.only(left: 5, top: 8, bottom: 8, right: 12),
               child: Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -565,22 +598,41 @@ class _TrackingContainerState extends State<TrackingContainer> {
                           height: 5.h,
                         ),
                         Container(
-                            // width: 130.w,
-                            // height: 18.h,
+                          // width: 130.w,
+                          // height: 18.h,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(4),
-                              color: Colors.red.withOpacity(0.3),
+                              color: widget.inProgressList.visitStatus == "Sent to Clinic"|| widget.inProgressList.visitStatus == "Reached Clinic"
+                                  ? Colors.red.withOpacity(0.2)
+                                  : widget.inProgressList.visitStatus == "Sent to Washroom"|| widget.inProgressList.visitStatus == "Reached Washroom"
+                                  ? Colorutils.washroomcolor2
+                                  : widget.inProgressList.visitStatus == "Sent to Counsellor"|| widget.inProgressList.visitStatus == "Reached Counsellor"
+                                  ? Colorutils.councellorcolor2
+                              : widget.inProgressList.visitStatus == "Back to Class"|| widget.inProgressList.visitStatus == "Reached Class"
+                            ? Colors.green.withOpacity(0.3)
+                                  :  Colors.grey,
                             ),
+
                             child: Padding(
                               padding: EdgeInsets.symmetric(
                                   vertical: 2.h, horizontal: 10.w),
                               child:
-                                  Text("${widget.inProgressList.visitStatus}",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: GoogleFonts.inter(
-                                          textStyle: TextStyle(
+                              Text("${widget.inProgressList.visitStatus}",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.inter(
+
+                                      textStyle: TextStyle(
+
                                         fontSize: 13.sp,
-                                        color: Colors.red,
+                                          color: widget.inProgressList.visitStatus == "Sent to Clinic"|| widget.inProgressList.visitStatus == "Reached Clinic"
+                                              ? Colors.red
+                                              : widget.inProgressList.visitStatus == "Sent to Washroom"|| widget.inProgressList.visitStatus == "Reached Washroom"
+                                              ? Colorutils.washroomcolor
+                                              : widget.inProgressList.visitStatus == "Sent to Counsellor"|| widget.inProgressList.visitStatus == "Reached Counsellor"
+                                              ? Colorutils.councellorcolor
+                                              : widget.inProgressList.visitStatus == "Back to Class"|| widget.inProgressList.visitStatus == "Reached Class"
+                                              ? Colorutils.userdetailcolor
+                                              :  Colorutils.white,
                                       ))),
                             )),
                       ],
@@ -607,10 +659,10 @@ class _TrackingContainerState extends State<TrackingContainer> {
                           Container(
                               child: Text(
                                   "Grade"
-                                  " "
-                                  "${widget.inProgressList.classs}"
-                                  " "
-                                  "${widget.inProgressList.batch}",
+                                      " "
+                                      "${widget.inProgressList.classs}"
+                                      " "
+                                      "${widget.inProgressList.batch}",
                                   style: GoogleFonts.inter(
                                       textStyle: TextStyle(
                                           fontSize: 14.sp,
@@ -637,7 +689,7 @@ class _TrackingContainerState extends State<TrackingContainer> {
                     Expanded(
                       child: CustomLinearProgressIndicator(
                         value: widget.inProgressList.status?.length == 1 ||
-                                widget.inProgressList.status?.length == 3
+                            widget.inProgressList.status?.length == 3
                             ? progress
                             : 10,
                         backgroundColor: Colors.white,
@@ -646,8 +698,8 @@ class _TrackingContainerState extends State<TrackingContainer> {
                         text: widget.inProgressList.status?.length == 2
                             ? "Reached"
                             : remainingTime > 0
-                                ? "${formatTime(remainingTime)}"
-                                : "Not Yet Reached",
+                            ?  "${formatTime(remainingTime)}"" Min Left"
+                            : "Not Yet Reached",
                         gradient: LinearGradient(
                           colors: [
                             Colorutils.gradientColor1,
@@ -664,10 +716,12 @@ class _TrackingContainerState extends State<TrackingContainer> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => trackingDetails(
+                                  builder: (context) =>
+                                      trackingDetails(
                                         inProgressList: widget.inProgressList,
                                         starttime: DateTime.parse(
-                                                "${widget.inProgressList.status?.last.addedOn}")
+                                            "${widget.inProgressList.status
+                                                ?.last.addedOn}")
                                             .toLocal(),
                                       )));
                         },
@@ -698,20 +752,7 @@ String Converteddate(String Date) {
   return Date;
 }
 
-// String startTimer(DateTime startTime) {
-//   DateTime currentTime = DateTime.now();
-//   DateTime endTime = startTime.add(const Duration(minutes: 5));
-//
-//   Duration duration = endTime.difference(currentTime);
-//
-//   if (duration.isNegative) {
-//     _playAlertSoundAndVibrate();
-//
-//     return "Not Yet Reached";
-//   } else {
-//     return "${duration.toString().split(".").first.split(":")[1]}:${duration.toString().split(".").first.split(":")[2]} min left";
-//   }
-// }
+
 
 void _playAlertSoundAndVibrate() async {
   if (await Vibration.hasVibrator() ?? false) {
@@ -721,8 +762,8 @@ void _playAlertSoundAndVibrate() async {
   final player = AudioPlayer();
 
   try {
-
-    await player.play(AssetSource('images/vintage_alarm_clock-[AudioTrimmer.com].mp3'));
+    await player.play(
+        AssetSource('images/vintage_alarm_clock-[AudioTrimmer.com].mp3'));
   } catch (e) {
     print('Error playing audio: $e');
   }
@@ -737,5 +778,6 @@ void _playAlertSoundAndVibrate() async {
 String formatTime(int seconds) {
   int minutes = seconds ~/ 60; // Calculate minutes
   int remainingSeconds = seconds % 60; // Calculate remaining seconds
-  return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}'; // Format as mm:ss
+  return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString()
+      .padLeft(2, '0')}'; // Format as mm:ss
 }
