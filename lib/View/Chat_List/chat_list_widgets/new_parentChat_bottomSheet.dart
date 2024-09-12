@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -103,6 +105,7 @@ class _NewParentChatState extends State<NewParentChat> {
                   child: TextField(
                     onChanged: (value) {
                       controller.filterParentList(text: value);
+                      controller.isTextField.value = value;
                     },
                     decoration: InputDecoration(
                       fillColor: Colors.white,
@@ -189,6 +192,8 @@ class _NewParentChatState extends State<NewParentChat> {
                     padding: EdgeInsets.only(
                         bottom: View.of(context).viewInsets.bottom * 0.5),
                     itemBuilder: (BuildContext context, int index) {
+                      String subtile =
+                          "${filteredChatList[index].relation} of ${filteredChatList[index].parentName}";
                       return ListTile(
                         contentPadding: const EdgeInsets.all(0),
                         minVerticalPadding: 0,
@@ -200,7 +205,7 @@ class _NewParentChatState extends State<NewParentChat> {
                         title: Padding(
                           padding: const EdgeInsets.only(right: 16).w,
                           child: Text(
-                            filteredChatList[index].parentName ?? '--',
+                            filteredChatList[index].studentName ?? '--',
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
@@ -212,7 +217,8 @@ class _NewParentChatState extends State<NewParentChat> {
                         subtitle: Padding(
                           padding: const EdgeInsets.only(right: 16).w,
                           child: Text(
-                            filteredChatList[index].studentName ?? '--',
+                            // filteredChatList[index].parentName ?? '--',
+                            subtile,
                             overflow: TextOverflow.ellipsis,
                             style: TeacherAppFonts
                                 .poppinsW500_12sp_lightGreenForParent,

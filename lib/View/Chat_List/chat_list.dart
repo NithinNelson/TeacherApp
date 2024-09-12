@@ -54,7 +54,11 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
         if (!chatClassGroupController.searchEnabled.value) {
           await chatClassGroupController.fetchClassGroupListPeriodically();
         }
-        if (!parentChatListController.searchEnabled.value) {
+        // if (!parentChatListController.searchEnabled.value )  {
+        //   await parentChatListController.fetchParentChatListPeriodically();
+        // }
+        if (parentChatListController.isTextField.value == "") {
+          print("periodic working");
           await parentChatListController.fetchParentChatListPeriodically();
         }
       },
@@ -221,6 +225,12 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                                   isScrollControlled: true,
                                   builder: (context) {
                                     return const NewParentChat();
+                                  },
+                                ).then(
+                                  (value) {
+                                    Get.find<ParentChatListController>()
+                                        .isTextField
+                                        .value = "";
                                   },
                                 );
                               } else {

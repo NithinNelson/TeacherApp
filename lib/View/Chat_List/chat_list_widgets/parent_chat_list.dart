@@ -9,6 +9,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:teacherapp/Controller/api_controllers/parentChatListController.dart';
 import 'package:teacherapp/Services/common_services.dart';
+import 'package:teacherapp/View/Chat_List/chat_list_widgets/new_parentChat_bottomSheet.dart';
 import 'package:teacherapp/View/Chat_View/parent_chat_screen.dart';
 import '../../../Controller/api_controllers/userAuthController.dart';
 import '../../../Models/api_models/parent_chat_list_api_model.dart';
@@ -82,6 +83,54 @@ class ParentChatList extends StatelessWidget {
                       ),
                       child: Text(
                         'Unread',
+                        style: GoogleFonts.inter(
+                          color: Colors.black,
+                          fontSize: 15.sp,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 5.w),
+
+                  InkWell(
+                    onTap: () {
+                      final tempIndex = currentIndex;
+                      controller.setTab(3);
+
+                      showModalBottomSheet(
+                        context: context,
+                        backgroundColor: Colors.transparent,
+                        isScrollControlled: true,
+                        builder: (context) {
+                          return const NewParentChat();
+                        },
+                      ).then(
+                        (value) {
+                          Get.find<ParentChatListController>()
+                              .isTextField
+                              .value = "";
+                          controller.setTab(tempIndex);
+                        },
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 12)
+                          .w,
+                      decoration: BoxDecoration(
+                        // color: Colorutils.unselectedTab,
+                        color: currentIndex == 3
+                            ? Colorutils.buttoncolor
+                            : Colorutils.unselectedTab,
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        'By Class',
                         style: GoogleFonts.inter(
                           color: Colors.black,
                           fontSize: 15.sp,

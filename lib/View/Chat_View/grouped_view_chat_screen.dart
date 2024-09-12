@@ -88,8 +88,9 @@ class _GroupedViewChatScreenState extends State<GroupedViewChatScreen> {
 
   void initialize() async {
     // context.loaderOverlay.show();
-    groupedViewController.chatMsgCount =
-        groupedViewController.messageCount; // for set message count//
+    Get.find<GroupedViewController>().chatMsgCount =
+        Get.find<GroupedViewController>()
+            .messageCount; // for set message count//
     String? userId = Get.find<UserAuthController>().userData.value.userId;
     String? schoolId = Get.find<UserAuthController>().userData.value.schoolId;
     ChatFeedViewReqModel chatFeedViewReqModel = ChatFeedViewReqModel(
@@ -98,7 +99,7 @@ class _GroupedViewChatScreenState extends State<GroupedViewChatScreen> {
       subjectId: widget.roomData?.subjectId ?? '--',
       teacherId: userId ?? '--',
       schoolId: schoolId ?? '--',
-      limit: groupedViewController.chatMsgCount,
+      limit: Get.find<GroupedViewController>().chatMsgCount,
       offset: 0,
     );
     await groupedViewController.fetchFeedViewMsgList(chatFeedViewReqModel);

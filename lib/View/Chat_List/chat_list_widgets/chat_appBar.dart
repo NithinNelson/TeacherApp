@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:teacherapp/Controller/api_controllers/parentChatListController.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/View/Chat_List/chat_list_widgets/new_parentChat_bottomSheet.dart';
 import '../../../Controller/api_controllers/chatClassGroupController.dart';
@@ -46,6 +47,12 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
                         isScrollControlled: true,
                         builder: (context) {
                           return const NewParentChat();
+                        },
+                      ).then(
+                        (value) {
+                          Get.find<ParentChatListController>()
+                              .isTextField
+                              .value = "";
                         },
                       );
                     },
