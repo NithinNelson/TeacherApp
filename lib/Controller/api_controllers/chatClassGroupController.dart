@@ -12,6 +12,8 @@ class ChatClassGroupController extends GetxController {
   RxList<ClassTeacherGroup> classGroupList = <ClassTeacherGroup>[].obs;
   RxList<ClassTeacherGroup> classGroupListCopy = <ClassTeacherGroup>[].obs;
   RxInt unreadCount = 0.obs;
+  RxInt currentTab = 0.obs;
+  RxList<ClassTeacherGroup> unreadClassGroupList = <ClassTeacherGroup>[].obs;
 
   void resetStatus() {
     isLoading.value = false;
@@ -84,5 +86,33 @@ class ChatClassGroupController extends GetxController {
         .where((chat) =>
             chat.subjectName!.toUpperCase().contains(text.toUpperCase()))
         .toList();
+  }
+
+  void setTab(int index) {
+    currentTab.value = index;
+    // setChatList();
+  }
+
+  // void setChatList() {
+  //   // if(currentTab.value == 0) {
+  //   //   parentChatList.value = allParentChatList;
+  //   // }
+  //   if (currentTab.value == 1) {
+  //     final newList = [];
+  //     for (var chat in classGroupList) {
+  //       if (chat.unreadCount != null && chat.unreadCount != "0") {
+  //         parentChatList.add(chat);
+  //       }
+  //     }
+  //   }
+  // }
+
+  getUnreadMsgGroupList() {
+    unreadClassGroupList.clear();
+    for (var chat in classGroupList) {
+      if (chat.unreadCount != null && chat.unreadCount != 0) {
+        unreadClassGroupList.add(chat);
+      }
+    }
   }
 }

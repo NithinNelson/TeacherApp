@@ -133,6 +133,7 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Get.find<ParentChattingController>().ontype.value = "";
     String studentRelation =
         "${widget.msgData?.relation ?? ''} ${widget.msgData?.relation != null ? 'of' : ''} ${widget.msgData?.parentName ?? '--'}";
     return ChatRoomParentDataInheritedWidget(

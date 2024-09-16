@@ -52,7 +52,7 @@ class GroupedViewController extends GetxController {
           print("Chat list -- worked----------------- ${chatMsgList.length}");
         }
 
-        update();
+        // update();
         // chatMsgList.sort((a, b) {
         //   DateTime dateA = DateTime.parse(a.sendAt!);
         //   DateTime dateB = DateTime.parse(b.sendAt!);
@@ -75,7 +75,10 @@ class GroupedViewController extends GetxController {
 
   Future<void> fetchFeedViewMsgListPeriodically(
       ChatFeedViewReqModel reqBody) async {
+    print("periodic working 1");
     // ChatFeedViewModel? chatFeedData;
+    reqBody.limit = chatMsgCount;
+
     try {
       Map<String, dynamic> resp =
           await ApiServices.getChatFeedView(reqBodyData: reqBody);
@@ -124,7 +127,7 @@ class GroupedViewController extends GetxController {
   }) async {
     print(reqBody.limit);
     // chatMsgCount = 1000;
-    await fetchFeedViewMsgListPeriodically(reqBody);
+    await fetchFeedViewMsgList(reqBody);
     print(chatMsgList.length);
     print("message number = lenth = ${chatMsgList.length}");
     for (int i = 0; i < chatMsgList.length; i++) {
@@ -171,7 +174,7 @@ class GroupedViewController extends GetxController {
         }
         previousMessageListLenght = chatMsgList.length;
       }
-      update();
+      // update();
     } catch (e) {
       print("periodicGetMsgList Error :-------------- $e");
     }

@@ -507,6 +507,7 @@ class FeedViewTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.find<FeedViewController>().ontype.value = "";
     return GetX<FeedViewController>(
       builder: (FeedViewController controller) {
         return Container(

@@ -62,6 +62,7 @@ class FeedViewController extends GetxController {
   int? previousMessageListLenght;
   RxBool showLoaderMoreMessage = true.obs;
   bool isShowDialogShow = false;
+ 
 
   @override
   void onClose() {
@@ -834,4 +835,6 @@ class FeedViewController extends GetxController {
 
     return spans;
   }
+
+  
 }
