@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 import '../../Models/api_models/student_add_Model.dart';
 import '../../Services/api_services.dart';
@@ -16,7 +17,8 @@ class Studentmodelcontroller extends GetxController {
 
   void resetData() {}
 
-  Future<void> sendStudentData({required StudentAddModel data}) async {
+  Future<void> sendStudentData({required StudentAddModel data }) async {
+
     print("--------------here---");
     resetData();
     isLoading.value = true;
@@ -48,5 +50,6 @@ class Studentmodelcontroller extends GetxController {
     } finally {
       resetStatus();
     }
+
   }
 }

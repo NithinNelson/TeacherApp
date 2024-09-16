@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 import 'package:teacherapp/View/MorePage/scanData.dart';
 
 import '../../Controller/api_controllers/qrController.dart';
@@ -75,7 +76,20 @@ class _QRViewExampleState extends State<QRViewExample> {
         print("..........................$scanData");
         await Get.find<Qrcontroller>().fetchQrData(qrCode: scanData.code.toString().trim());
         // if(!mounted) return;
-        Navigator.of(mainContext).pushReplacement(MaterialPageRoute(builder: (context) => const Scandata()));
+        if(Get.find<Qrcontroller>().studentqrdata.value.admnNo != null) {
+          Navigator.of(mainContext).pushReplacement(MaterialPageRoute(builder: (context) => const Scandata()));
+
+        }
+        else {
+          Navigator.of(context).pop();
+
+          TeacherAppPopUps.submitFailed(
+              title: "Failed",
+              message:"Invalid QR Code",
+              actionName: "Ok",
+              iconData: Icons.error_outline,
+              iconColor: Colors.red);        }
+
       }
     });
   }

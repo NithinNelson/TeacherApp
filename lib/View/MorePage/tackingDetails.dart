@@ -9,6 +9,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:slider_button/slider_button.dart';
+import 'package:teacherapp/Models/api_models/student_add_Model.dart';
 import 'package:teacherapp/View/MorePage/tackingDetails.dart';
 import 'package:teacherapp/View/MorePage/trackingPage.dart';
 import 'package:timelines/timelines.dart';
@@ -116,7 +117,15 @@ class trackingDetails extends StatelessWidget {
                                 // height: 18.h,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(4),
-                                  color: Colors.red.withOpacity(0.2),
+                                  color: inProgressList.visitStatus == "Sent to Clinic"|| inProgressList.visitStatus == "Reached Clinic"
+                                      ? Colors.red.withOpacity(0.2)
+                                      : inProgressList.visitStatus == "Sent to Washroom"|| inProgressList.visitStatus == "Reached Washroom"
+                                      ? Colorutils.washroomcolor2
+                                      : inProgressList.visitStatus == "Sent to Counsellor"|| inProgressList.visitStatus == "Reached Counsellor"
+                                      ? Colorutils.councellorcolor2
+                                      : inProgressList.visitStatus == "Back to Class"|| inProgressList.visitStatus == "Reached Class"
+                                      ? Colors.green.withOpacity(0.3)
+                                      :  Colorutils.grey,
                                 ),
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
@@ -126,7 +135,15 @@ class trackingDetails extends StatelessWidget {
                                       style: GoogleFonts.inter(
                                           textStyle: TextStyle(
                                         fontSize: 13.sp,
-                                        color: Colors.red,
+                                            color: inProgressList.visitStatus == "Sent to Clinic"|| inProgressList.visitStatus == "Reached Clinic"
+                                                ? Colors.red
+                                                : inProgressList.visitStatus == "Sent to Washroom"|| inProgressList.visitStatus == "Reached Washroom"
+                                                ? Colorutils.washroomcolor
+                                                : inProgressList.visitStatus == "Sent to Counsellor"|| inProgressList.visitStatus == "Reached Counsellor"
+                                                ? Colorutils.councellorcolor
+                                                : inProgressList.visitStatus == "Back to Class"|| inProgressList.visitStatus == "Reached Class"
+                                                ? Colorutils.userdetailcolor
+                                                :  Colorutils.white,
                                       ))),
                                 )),
                           ],
@@ -185,7 +202,7 @@ class trackingDetails extends StatelessWidget {
                 print("....datazzzzzz222 ....${data.studentName}");
                 return Column(
                   children: [
-                    if (data.status?.length == 1)
+                    if (data.status?.length == 1 )
                       Container1(inProgressData: data, starttime: starttime),
                     if (data.status?.length == 2)
                       Container2(
@@ -197,7 +214,7 @@ class trackingDetails extends StatelessWidget {
                         starttime: starttime,
                         inProgressData: data,
                       ),
-                    if (data.status?.length == 4) Container4(),
+                    // if (data.status?.length == 4) Container4(),
                   ],
                 );
               },
@@ -270,7 +287,7 @@ class _Container1State extends State<Container1> {
     // remainingTime = remainingTime > 0
     //     ? remainingTime
     //     : 0;
-
+    StudentAddModel sentData = StudentAddModel();
     double progress = (countdownDuration - remainingTime) / countdownDuration;
     return Column(
       children: [
@@ -286,10 +303,17 @@ class _Container1State extends State<Container1> {
                   maxLines: 3,
                 ),
                 SizedBox(
-                  width: 10,
+                  width: 5,
                 ),
-                Container(
-                  child: SvgPicture.asset("assets/images/Notebook.svg"),
+                CircleAvatar(
+                  radius: 11,
+                  backgroundColor: Colors.grey.withOpacity(0.1),
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Container(
+                      child: Image.asset("assets/images/icons8-walking-64.png"),
+                    ),
+                  ),
                 )
               ],
             ),
@@ -386,7 +410,7 @@ class _Container1State extends State<Container1> {
                                     textColor: Colors.white,
                                     borderRadius: BorderRadius.circular(15),
                                     text: remainingTime > 0
-                                        ? formatTime(remainingTime)
+                                        ? "${formatTime(remainingTime)}"" Min Left"
                                         : "Not Yet Reached",
                                     gradient: const LinearGradient(
                                       colors: [
@@ -464,10 +488,73 @@ class _Container1State extends State<Container1> {
                     ],
                   ),
                 ),
+
+                if(widget.inProgressData.visitStatus=='Sent to Washroom')
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Center(
+                                child: SliderButton(
+                                  height: 50,
+                                  backgroundColor: Colorutils.userdetailcolor,
+                                  radius: 50,
+                                  buttonSize: 50,
+                                  action: () async {
+                                    StudentUpdateModel updateData = StudentUpdateModel(
+                                        user: Get.find<UserAuthController>()
+                                            .userData
+                                            .value
+                                            .name ??
+                                            '',
+                                        userId: Get.find<UserAuthController>()
+                                            .userData
+                                            .value
+                                            .userId ??
+                                            '',
+                                        userToken: "",
+                                        visitId: widget.inProgressData.id);
+                                    await Get.find<Studentupdatecontroller>()
+                                        .sendStudentDatas(data: updateData);
+                                    await Get.find<RecentListApiController>()
+                                        .fetchRecentList();
+                                  },
+                                  label: const Text(
+                                    "Slide to Confirm Arrival",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15),
+                                  ),
+                                  icon: const Center(
+                                      child: Icon(
+                                        CupertinoIcons.forward,
+                                        color: Colorutils.userdetailcolor,
+                                        size: 25.0,
+                                      )),
+                                  boxShadow: BoxShadow(
+                                    color: Colors.black.withOpacity(0.3),
+                                    blurRadius: 4,
+                                  ),
+                                )),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+
               ],
             ),
           ),
         ),
+
+
       ],
     );
   }
@@ -496,10 +583,17 @@ class Container2 extends StatelessWidget {
                   maxLines: 3,
                 ),
                 SizedBox(
-                  width: 10,
+                  width: 5,
                 ),
-                Container(
-                  child: SvgPicture.asset("assets/images/Notebook.svg"),
+                CircleAvatar(
+                  radius: 11,
+                  backgroundColor: Colors.grey.withOpacity(0.1),
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Container(
+                      child: Image.asset("assets/images/icons8-walking-64.png"),
+                    ),
+                  ),
                 )
               ],
             ),
@@ -711,11 +805,17 @@ class _Container3State extends State<Container3> {
                   maxLines: 3,
                 ),
                 SizedBox(
-                  width: 10,
+                  width: 5,
                 ),
-                Container(
-                  child: SvgPicture.asset("assets/images/Frame 849.svg"),
-                  // child: SvgPicture.asset("assets/images/Notebook.svg"),
+                CircleAvatar(
+                  radius: 11,
+                  backgroundColor: Colors.grey.withOpacity(0.1),
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Container(
+                      child: Image.asset("assets/images/icons8-walking-64.png"),
+                    ),
+                  ),
                 )
               ],
             ),
@@ -1327,11 +1427,18 @@ class Container4 extends StatelessWidget {
                   'Send From Clinic',
                   style: TextStyle(fontSize: 18.w, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(
-                  width: 10,
+                SizedBox(
+                  width: 5,
                 ),
-                Container(
-                  child: SvgPicture.asset("assets/images/Frame 849.svg"),
+                CircleAvatar(
+                  radius: 11,
+                  backgroundColor: Colors.grey.withOpacity(0.1),
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Container(
+                      child: Image.asset("assets/images/icons8-walking-64.png"),
+                    ),
+                  ),
                 )
               ],
             ),
