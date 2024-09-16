@@ -9,6 +9,7 @@ import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/View/CWidgets/AppBarBackground.dart';
 import 'package:teacherapp/View/Home_Page/leader_home.dart';
+import 'package:teacherapp/View/RoleNavigation/hos_listing.dart';
 
 import '../../Controller/api_controllers/userAuthController.dart';
 import '../CWidgets/TeacherAppPopUps.dart';
@@ -138,11 +139,11 @@ class _ChoicePageState extends State<ChoicePage> {
                               GestureDetector(
                                   onTap: () {
                                     pageIndexController.changePage(currentPage: 0);
-                                    pageIndexController.setMenuItems(userRole: UserRole.principal, fromChoice: true);
+                                    pageIndexController.setMenuItems(userRole: UserRole.leader, fromChoice: true);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => const DrawerScreen()));
+                                            builder: (context) => const HosListing()));
                                   },
                                   child: SvgPicture.asset(
                                       "assets/images/teacherLogin.svg")),

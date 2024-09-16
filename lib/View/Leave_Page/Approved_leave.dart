@@ -86,10 +86,10 @@ class _PendingLeaveState extends State<PendingLeave> {
                   itemBuilder: (context, i) {
                   bool approvalAccess = userRole == UserRole.teacher && leaveList[i].days! <= 3
                       ? true
-                      : userRole == UserRole.hos && leaveList[i].days! <= 7
+                      : userRole == UserRole.leader && leaveList[i].days! <= 7
                       ? true
 
-                      : userRole == UserRole.principal && leaveList[i].days! > 7
+                      : userRole == UserRole.leader && leaveList[i].days! > 7
                       ? true
                       : false;
                     return Container(

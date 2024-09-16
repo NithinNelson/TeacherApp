@@ -17,7 +17,7 @@ class PageIndexController extends GetxController {
   void setMenuItems({required UserRole userRole, required bool fromChoice}) {
     isFromChoice.value = fromChoice;
     if(fromChoice) {
-      if(userRole == UserRole.principal) {
+      if(userRole == UserRole.leader) {
         navLength.value = 5;
         menuItemsPerRole.value = leaderMenuItems;
       } else {
@@ -25,7 +25,7 @@ class PageIndexController extends GetxController {
         menuItemsPerRole.value = choiceTeacherMenuItems;
       }
     } else {
-      if(userRole == UserRole.principal) {
+      if(userRole == UserRole.leader || userRole == UserRole.bothTeacherAndLeader) {
         navLength.value = 5;
         menuItemsPerRole.value = leaderMenuItems;
       } else {

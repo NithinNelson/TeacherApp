@@ -254,14 +254,14 @@ class _LoginPageState extends State<LoginPage> {
                                     UserRole? userRole =
                                         userAuthController.userRole.value;
                                     if (userRole != null) {
-                                      if (userRole == UserRole.principal) {
+                                      if (userRole == UserRole.leader) {
                                         Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     const HosListing()));
                                       }
-                                      if (userRole == UserRole.hos) {
+                                      if (userRole == UserRole.bothTeacherAndLeader) {
                                         Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(

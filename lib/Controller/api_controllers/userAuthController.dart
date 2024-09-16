@@ -11,7 +11,7 @@ import '../../Services/api_services.dart';
 import '../../Utils/Colors.dart';
 import '../../View/CWidgets/TeacherAppPopUps.dart';
 
-enum UserRole { principal, hos, teacher }
+enum UserRole { leader, bothTeacherAndLeader, teacher }
 
 class UserAuthController extends GetxController {
   RxBool isLoading = false.obs;
@@ -148,78 +148,118 @@ class UserAuthController extends GetxController {
     List<String> roleIds = userData.value.roleIds ?? [];
     if (schoolId == "CPpbKPQTcuG97i3kv") {
       schoolToken.value = "7a9d733269d23bc35b04b56dc855d330";
-      if (roleIds.contains("rolepri12") ||
-          roleIds.contains("role12123") ||
-          roleIds.contains("62690f2b15f336042ba786786")) {
-        userRole.value = UserRole.principal;
-      } else if (roleIds.contains("role121235") ||
-          roleIds.contains("role121234") ||
-          roleIds.contains("v2QNTPPvPQK6T") &&
-          roleIds.contains("role12123rqwer")) {
-        userRole.value = UserRole.hos;
-      } else if (roleIds.contains("role12123rqwer")) {
-        userRole.value = UserRole.teacher;
-      }
-    }
-    if (schoolId == "ps4vyLJhQvPZjfxaH") {
-      schoolToken.value = "99d351fe9165be1c0cf35fa0a0885c17";
-      if (roleIds.contains("rolepri12") ||
-          roleIds.contains("role12123") ||
-          roleIds.contains("62690f2b15f336042ba786786")) {
-        userRole.value = UserRole.principal;
-      } else if (roleIds.contains("role121235") ||
-          roleIds.contains("role121234") ||
-          roleIds.contains("5d8b3b701dad2f60218cbe46") &&
-          roleIds.contains("role12123rqwer")) {
-        userRole.value = UserRole.hos;
-      } else if (roleIds.contains("role12123rqwer")) {
-        userRole.value = UserRole.teacher;
-      }
-    }
-    if (schoolId == "m2LMtqaESFZf6xDE8") {
-      schoolToken.value = "47e2b919b8551d762e1dd1f5769b66ba";
-      if (roleIds.contains("rolepri12") ||
-          roleIds.contains("role12123") ||
-          roleIds.contains("62690f2b15f336042ba786786")) {
-        userRole.value = UserRole.principal;
-      } else if (roleIds.contains("role121235") ||
-          roleIds.contains("role121234") ||
-          roleIds.contains("Eqt48DDGmQx8P") &&
-          roleIds.contains("role12123rqwer")) {
-        userRole.value = UserRole.hos;
-      } else if (roleIds.contains("role12123rqwer")) {
-        userRole.value = UserRole.teacher;
-      }
-    }
-    if (schoolId == "2FwuqhgeoKt6SQiCG") {
-      schoolToken.value = "0ae409a7d98dde57b35a4643d2354906";
-      if (roleIds.contains("rolepri12") ||
-          roleIds.contains("role12123") ||
-          roleIds.contains("62690f2b15f336042ba786786")) {
-        userRole.value = UserRole.principal;
-      } else if (roleIds.contains("role121235") ||
-          roleIds.contains("role121234") ||
-          roleIds.contains("v2QNTPPvPQK6T") &&
-          roleIds.contains("role12123rqwer")) {
-        userRole.value = UserRole.hos;
-      } else if (roleIds.contains("role121235") ||
-          roleIds.contains("role121234") ||
-          roleIds.contains("v2QNTPPvPQK6T")) {
-        userRole.value = UserRole.hos;
-      } else if (roleIds.contains("role12123rqwer")) {
-        userRole.value = UserRole.teacher;
-      }
     }
 
-    if(userRole.value == UserRole.principal || userRole.value == UserRole.hos) {
-      Get.find<PageIndexController>().setMenuItems(userRole: UserRole.principal, fromChoice: false);
+    if(schoolId == "ps4vyLJhQvPZjfxaH") {
+      schoolToken.value = "99d351fe9165be1c0cf35fa0a0885c17";
+    }
+
+    if(schoolId == "m2LMtqaESFZf6xDE8") {
+      schoolToken.value = "47e2b919b8551d762e1dd1f5769b66ba";
+    }
+
+    if(schoolId == "2FwuqhgeoKt6SQiCG") {
+      schoolToken.value = "0ae409a7d98dde57b35a4643d2354906";
+    }
+
+    if (roleIds.contains("rolepri12") ||
+        roleIds.contains("role12123") ||
+        roleIds.contains("role121234") ||
+        roleIds.contains("role121235") ||
+        roleIds.contains("5e37f0f7f50ca66f1d22d74b") ||
+        roleIds.contains("v2QNTPPvPQK6T") ||
+        roleIds.contains("62690f2b15f336042ba786786") &&
+            roleIds.contains("role12123rqwer")) {
+      userRole.value = UserRole.bothTeacherAndLeader;
+    } else if (roleIds.contains("rolepri12") ||
+        roleIds.contains("role12123") ||
+        roleIds.contains("role121234") ||
+        roleIds.contains("role121235") ||
+        roleIds.contains("5e37f0f7f50ca66f1d22d74b") ||
+        roleIds.contains("v2QNTPPvPQK6T") ||
+        roleIds.contains("62690f2b15f336042ba786786") &&
+            !roleIds.contains("role12123rqwer")) {
+      userRole.value = UserRole.leader;
+    } else if (roleIds.contains("role12123rqwer")) {
+      userRole.value = UserRole.teacher;
+    }
+
+    // if (schoolId == "CPpbKPQTcuG97i3kv") {
+    //   schoolToken.value = "7a9d733269d23bc35b04b56dc855d330";
+    //   if (roleIds.contains("rolepri12") ||
+    //       roleIds.contains("role12123") ||
+    //       roleIds.contains("62690f2b15f336042ba786786")) {
+    //     userRole.value = UserRole.principal;
+    //   } else if (roleIds.contains("role121235") ||
+    //       roleIds.contains("role121234") ||
+    //       roleIds.contains("v2QNTPPvPQK6T") &&
+    //           roleIds.contains("role12123rqwer")) {
+    //     userRole.value = UserRole.hos;
+    //   } else if (roleIds.contains("role12123rqwer")) {
+    //     userRole.value = UserRole.teacher;
+    //   }
+    // }
+    // if (schoolId == "ps4vyLJhQvPZjfxaH") {
+    //   schoolToken.value = "99d351fe9165be1c0cf35fa0a0885c17";
+    //   if (roleIds.contains("rolepri12") ||
+    //       roleIds.contains("role12123") ||
+    //       roleIds.contains("62690f2b15f336042ba786786")) {
+    //     userRole.value = UserRole.principal;
+    //   } else if (roleIds.contains("role121235") ||
+    //       roleIds.contains("role121234") ||
+    //       roleIds.contains("5d8b3b701dad2f60218cbe46") &&
+    //       roleIds.contains("role12123rqwer")) {
+    //     userRole.value = UserRole.hos;
+    //   } else if (roleIds.contains("role12123rqwer")) {
+    //     userRole.value = UserRole.teacher;
+    //   }
+    // }
+    // if (schoolId == "m2LMtqaESFZf6xDE8") {
+    //   schoolToken.value = "47e2b919b8551d762e1dd1f5769b66ba";
+    //   if (roleIds.contains("rolepri12") ||
+    //       roleIds.contains("role12123") ||
+    //       roleIds.contains("62690f2b15f336042ba786786")) {
+    //     userRole.value = UserRole.principal;
+    //   } else if (roleIds.contains("role121235") ||
+    //       roleIds.contains("role121234") ||
+    //       roleIds.contains("Eqt48DDGmQx8P") &&
+    //       roleIds.contains("role12123rqwer")) {
+    //     userRole.value = UserRole.hos;
+    //   } else if (roleIds.contains("role12123rqwer")) {
+    //     userRole.value = UserRole.teacher;
+    //   }
+    // }
+    // if (schoolId == "2FwuqhgeoKt6SQiCG") {
+    //   schoolToken.value = "0ae409a7d98dde57b35a4643d2354906";
+    //   if (roleIds.contains("rolepri12") ||
+    //       roleIds.contains("role12123") ||
+    //       roleIds.contains("62690f2b15f336042ba786786")) {
+    //     userRole.value = UserRole.principal;
+    //   } else if (roleIds.contains("role121235") ||
+    //       roleIds.contains("role121234") ||
+    //       roleIds.contains("v2QNTPPvPQK6T") &&
+    //       roleIds.contains("role12123rqwer")) {
+    //     userRole.value = UserRole.hos;
+    //   } else if (roleIds.contains("role121235") ||
+    //       roleIds.contains("role121234") ||
+    //       roleIds.contains("v2QNTPPvPQK6T")) {
+    //     userRole.value = UserRole.hos;
+    //   } else if (roleIds.contains("role12123rqwer")) {
+    //     userRole.value = UserRole.teacher;
+    //   }
+    // }
+
+    if(userRole.value == UserRole.bothTeacherAndLeader) {
+      Get.find<PageIndexController>().setMenuItems(userRole: UserRole.bothTeacherAndLeader, fromChoice: false);
+    } if(userRole.value == UserRole.leader) {
+      Get.find<PageIndexController>().setMenuItems(userRole: UserRole.leader, fromChoice: false);
     } else {
       Get.find<PageIndexController>().setMenuItems(userRole: UserRole.teacher, fromChoice: false);
     }
   }
 
   Future<void> fetchHosList() async {
-    if(userRole.value == UserRole.principal) {
+    if(userRole.value == UserRole.bothTeacherAndLeader || userRole.value == UserRole.leader) {
       String? userId = userData.value.userId;
       String? academicYear = userData.value.academicYear;
       try {
