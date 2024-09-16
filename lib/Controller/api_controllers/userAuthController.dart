@@ -162,22 +162,22 @@ class UserAuthController extends GetxController {
       schoolToken.value = "0ae409a7d98dde57b35a4643d2354906";
     }
 
-    if (roleIds.contains("rolepri12") ||
+    if ((roleIds.contains("rolepri12") ||
         roleIds.contains("role12123") ||
         roleIds.contains("role121234") ||
         roleIds.contains("role121235") ||
         roleIds.contains("5e37f0f7f50ca66f1d22d74b") ||
         roleIds.contains("v2QNTPPvPQK6T") ||
-        roleIds.contains("62690f2b15f336042ba786786") &&
+        roleIds.contains("62690f2b15f336042ba786786")) &&
             roleIds.contains("role12123rqwer")) {
       userRole.value = UserRole.bothTeacherAndLeader;
-    } else if (roleIds.contains("rolepri12") ||
+    } else if ((roleIds.contains("rolepri12") ||
         roleIds.contains("role12123") ||
         roleIds.contains("role121234") ||
         roleIds.contains("role121235") ||
         roleIds.contains("5e37f0f7f50ca66f1d22d74b") ||
         roleIds.contains("v2QNTPPvPQK6T") ||
-        roleIds.contains("62690f2b15f336042ba786786") &&
+        roleIds.contains("62690f2b15f336042ba786786")) &&
             !roleIds.contains("role12123rqwer")) {
       userRole.value = UserRole.leader;
     } else if (roleIds.contains("role12123rqwer")) {
@@ -249,12 +249,13 @@ class UserAuthController extends GetxController {
     //   }
     // }
 
-    if(userRole.value == UserRole.bothTeacherAndLeader) {
-      Get.find<PageIndexController>().setMenuItems(userRole: UserRole.bothTeacherAndLeader, fromChoice: false);
-    } if(userRole.value == UserRole.leader) {
-      Get.find<PageIndexController>().setMenuItems(userRole: UserRole.leader, fromChoice: false);
+    // if(userRole.value == UserRole.bothTeacherAndLeader) {
+    //   Get.find<PageIndexController>().setMenuItems(userRole: UserRole.bothTeacherAndLeader, fromChoice: false);
+    // }
+    if(userRole.value == UserRole.teacher) {
+      Get.find<PageIndexController>().setMenuItems(userRole: UserRole.teacher, isClassTeacher: true);
     } else {
-      Get.find<PageIndexController>().setMenuItems(userRole: UserRole.teacher, fromChoice: false);
+      Get.find<PageIndexController>().setMenuItems(userRole: UserRole.leader, isClassTeacher: true);
     }
   }
 
@@ -275,12 +276,19 @@ class UserAuthController extends GetxController {
     }
   }
 
-  void setSelectedHosData({required String hosName}) {
-    if(hosList.value.isNotEmpty) {
-      for (var hos in hosList.value) {
-        if(hos.hosName != null) {
-          if(hos.hosName!.contains(hosName.substring(0, hos.hosName!.length))) {
-            selectedHos.value = hos;
+  void setSelectedHosData({required String hosName, String? hosId, required bool isHos}) {
+    if(isHos) {
+      selectedHos.value = HosList(
+        hosName: hosName,
+        userId: hosId,
+      );
+    } else {
+      if(hosList.value.isNotEmpty) {
+        for (var hos in hosList.value) {
+          if(hos.hosName != null) {
+            if(hos.hosName!.contains(hosName.substring(0, hos.hosName!.length))) {
+              selectedHos.value = hos;
+            }
           }
         }
       }

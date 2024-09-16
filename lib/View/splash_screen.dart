@@ -38,7 +38,23 @@ class _SplashScreenState extends State<SplashScreen> {
       UserRole? userRole = userAuthController.userRole.value;
       if(userRole != null) {
         if(userRole == UserRole.leader) {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HosListing()));
+          List<String>? rolIds = userAuthController.userData.value.roleIds ?? [];
+          if(rolIds.contains("rolepri12") || rolIds.contains("role12123")) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const HosListing()));
+          } else {
+            userAuthController.setSelectedHosData(
+              hosName: userAuthController.userData.value.name ?? '--',
+              hosId: userAuthController.userData.value.userId ?? '--',
+              isHos: true,
+            );
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const DrawerScreen()));
+          }
         }
         if(userRole == UserRole.bothTeacherAndLeader) {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ChoicePage()));

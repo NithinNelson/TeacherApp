@@ -27,6 +27,7 @@ class _ChoicePageState extends State<ChoicePage> {
   TextEditingController? _usernameController;
   TextEditingController? _passwordController;
   PageIndexController pageIndexController = Get.find<PageIndexController>();
+  UserAuthController userAuthController = Get.find<UserAuthController>();
   bool isSpinner = false;
   bool googleSignIn = false;
   FocusNode? _usernameFocusNode;
@@ -127,7 +128,7 @@ class _ChoicePageState extends State<ChoicePage> {
                               GestureDetector(
                                   onTap: () async {
                                     pageIndexController.changePage(currentPage: 0);
-                                    pageIndexController.setMenuItems(userRole: UserRole.teacher, fromChoice: true);
+                                    pageIndexController.setMenuItems(userRole: UserRole.teacher, isClassTeacher: true);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -139,11 +140,24 @@ class _ChoicePageState extends State<ChoicePage> {
                               GestureDetector(
                                   onTap: () {
                                     pageIndexController.changePage(currentPage: 0);
-                                    pageIndexController.setMenuItems(userRole: UserRole.leader, fromChoice: true);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => const HosListing()));
+                                    pageIndexController.setMenuItems(userRole: UserRole.leader, isClassTeacher: true);
+                                    List<String>? rolIds = userAuthController.userData.value.roleIds ?? [];
+                                    if(rolIds.contains("rolepri12") || rolIds.contains("role12123")) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => const HosListing()));
+                                    } else {
+                                      userAuthController.setSelectedHosData(
+                                        hosName: userAuthController.userData.value.name ?? '--',
+                                        hosId: userAuthController.userData.value.userId ?? '--',
+                                        isHos: true,
+                                      );
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => const DrawerScreen()));
+                                    }
                                   },
                                   child: SvgPicture.asset(
                                       "assets/images/teacherLogin.svg")),
