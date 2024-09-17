@@ -45,7 +45,7 @@ class _ViewallState extends State<Viewall> {
 
               return Column(
                 children: [
-                   SizedBox(
+                  SizedBox(
                     height: 35,
                     child: Row(
                       children: [
@@ -215,20 +215,12 @@ class _ViewallState extends State<Viewall> {
                     ):Container(height:400,child: const Expanded(child: Center(child: Text("Oops! No Data Found",style: TextStyle(color: Colors.red,fontStyle: FontStyle.italic),)))),
                   ),
                   Expanded(
-                      child: RefreshIndicator(
-                        onRefresh: () async =>
-                        await Get.find<
-                            RecentDateListApiController>().fetchRecentDateList(),
-                        color: Colorutils.userdetailcolor,
-                        backgroundColor: Colors.white,
-
-                        child: ListView.builder(
-                            itemCount: ProgressCompletedList.length,
-                            itemBuilder: (context, index) => listcontainer(
-                                  progressCompletedList:
-                                      controller.progressCompletedData[index],
-                                )),
-                      ))
+                      child: ListView.builder(
+                          itemCount: ProgressCompletedList.length,
+                          itemBuilder: (context, index) => listcontainer(
+                                progressCompletedList:
+                                    controller.progressCompletedData[index],
+                              )))
                 ],
               );
             },

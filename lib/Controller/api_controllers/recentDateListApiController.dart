@@ -40,6 +40,8 @@ class RecentDateListApiController extends GetxController {
           Get.find<UserAuthController>().userData.value.academicYear ?? '';
       String scId =
           Get.find<UserAuthController>().userData.value.schoolId ?? '';
+      String teacherId =
+          Get.find<UserAuthController>().userData.value.userId ?? '';
       List<TeacherSubject> teacherSubjects =
           Get.find<TimeTableController>().teacherSubjects.value;
 
@@ -54,7 +56,7 @@ class RecentDateListApiController extends GetxController {
       }
 
       Map<String, dynamic> resp = await ApiServices.getRecentDateList(
-          schoolId: scId, academicYear: acYr, endorsedClass: classList, date: selectedDate);
+          schoolId: scId, academicYear: acYr, endorsedClass: classList, date: selectedDate, teacherId: teacherId);
 
       if (resp['status']['code'] == 200) {
         TrackingDateModel recentdateTrackingModel =

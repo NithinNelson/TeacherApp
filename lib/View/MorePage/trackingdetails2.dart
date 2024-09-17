@@ -4,10 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:slider_button/slider_button.dart';
-import 'package:timelines/timelines.dart';
 
-import '../../Models/api_models/recent_date_model.dart';
 import '../../Models/api_models/recentlist_model.dart';
 import '../../Utils/Colors.dart';
 
@@ -366,15 +363,12 @@ class trackingDetails2 extends StatelessWidget {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 60, right: 60),
+                          padding: EdgeInsets.only(left: 40, right: 30),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[0].addedOn  ?? '--').toLocal()),
-
-                                  style: TextStyle(color: Colors.grey,fontSize: 12)),
-                              Text(DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[1].addedOn ?? '--').toLocal()),
-                                  style: TextStyle(color: Colors.grey,fontSize: 12)),
+                              Text("${progressCompletedList.status?[0].visitStatus}",style: TextStyle(fontSize: 12),),
+                              Text("${progressCompletedList.status?[1].visitStatus}",style: TextStyle(fontSize: 12),),
                             ],
                           ),
                         ),
@@ -507,15 +501,15 @@ class trackingDetails2 extends StatelessWidget {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 60, right: 60),
+                          padding: EdgeInsets.only(left: 30, right: 30),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[2].addedOn  ?? '--').toLocal()),
+                              Text("${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[2].addedOn  ?? '--').toLocal())}"" (""${Converteddate("${progressCompletedList.visitDate}")}"")",
 
-                                  style: TextStyle(color: Colors.grey,fontSize: 12)),
-                              Text(DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[3].addedOn ?? '--').toLocal()),
-                                  style: TextStyle(color: Colors.grey,fontSize: 12)),
+                                  style: TextStyle(color: Colors.grey,fontSize: 10)),
+                              Text("${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[3].addedOn  ?? '--').toLocal())}"" (""${Converteddate("${progressCompletedList.visitDate}")}"")",
+                                  style: TextStyle(color: Colors.grey,fontSize: 10)),
                             ],
                           ),
                         ),
