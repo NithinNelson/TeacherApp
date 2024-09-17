@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:teacherapp/Controller/api_controllers/groupedViewListController.dart';
 import 'package:teacherapp/Models/api_models/grouped_view_list_api_model.dart';
 import 'package:teacherapp/Services/common_services.dart';
+import 'package:teacherapp/View/Chat_List/chat_list_widgets/group_chat_list.dart';
 import '../../Controller/api_controllers/userAuthController.dart';
 import '../../Models/api_models/chat_group_api_model.dart';
 import '../../Utils/Colors.dart';
@@ -25,39 +26,60 @@ class GroupedViewChat extends StatelessWidget {
       child: GetX<GroupedViewListController>(
         builder: (GroupedViewListController controller) {
           List<RoomData> room = controller.roomList.value;
-          return ListView.separated(
-            shrinkWrap: true,
-            itemCount: room.length,
-            padding: const EdgeInsets.all(0),
-            itemBuilder: (BuildContext context, int index) {
-              DateTime? sentTime;
-              try {
-                sentTime =
-                    DateTime.parse(room[index].lastMessage!.sandAt.toString());
-              } catch (e) {}
-              String? formattedDate;
-              try {
-                formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
-              } catch (e) {}
-              String? userId =
-                  Get.find<UserAuthController>().userData.value.userId;
-              return ChatItem(
-                time: sentTime.toString(),
-                lastMessage: room[index].lastMessage,
-                userId: userId,
-                classTeacherGroup: room[index],
-                avatarColor: Colorutils.chatLeadingColors[index % 5],
-                unreadMessages: 0,
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return const Divider(
-                thickness: 0.3,
-                indent: 15,
-                endIndent: 15,
-              );
-            },
-          );
+          if (controller.isLoading.value) {
+            return ListView.separated(
+                padding: const EdgeInsets.only(bottom: 15),
+                itemBuilder: (context, index) => const ChatListShimmer(),
+                separatorBuilder: (context, index) => const Divider(
+                      color: Colorutils.dividerColor1,
+                      height: 0,
+                    ),
+                itemCount: 10);
+          } else if (controller.isError.value) {
+            return const Center(child: Text("Error Occurred"));
+          } else if (controller.roomList.isEmpty) {
+            return const Center(child: Text("No chat"));
+          } else {
+            return RefreshIndicator(
+              onRefresh: () async {
+                await Get.find<GroupedViewListController>()
+                    .fetchGroupedViewList();
+              },
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: room.length,
+                padding: const EdgeInsets.all(0),
+                itemBuilder: (BuildContext context, int index) {
+                  DateTime? sentTime;
+                  try {
+                    sentTime = DateTime.parse(
+                        room[index].lastMessage!.sandAt.toString());
+                  } catch (e) {}
+                  String? formattedDate;
+                  try {
+                    formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
+                  } catch (e) {}
+                  String? userId =
+                      Get.find<UserAuthController>().userData.value.userId;
+                  return ChatItem(
+                    time: sentTime.toString(),
+                    lastMessage: room[index].lastMessage,
+                    userId: userId,
+                    classTeacherGroup: room[index],
+                    avatarColor: Colorutils.chatLeadingColors[index % 5],
+                    unreadMessages: 0,
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const Divider(
+                    thickness: 0.3,
+                    indent: 15,
+                    endIndent: 15,
+                  );
+                },
+              ),
+            );
+          }
         },
       ),
     );

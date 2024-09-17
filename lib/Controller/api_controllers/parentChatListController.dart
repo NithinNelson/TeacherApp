@@ -1,4 +1,3 @@
-
 import 'package:get/get.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import '../../Models/api_models/parent_chat_list_api_model.dart';
@@ -17,6 +16,7 @@ class ParentChatListController extends GetxController {
   RxInt unreadCount = 0.obs;
   RxString currentFilterClass = 'All'.obs;
   RxBool searchEnabled = false.obs;
+  RxString isTextField = "".obs;
 
   void resetStatus() {
     isLoading.value = false;
@@ -44,7 +44,8 @@ class ParentChatListController extends GetxController {
         teacherEmail: email.toString(),
       );
       if (resp['status']['code'] == 200) {
-        ParentChatListApiModel parentChatListApiModel = ParentChatListApiModel.fromJson(resp);
+        ParentChatListApiModel parentChatListApiModel =
+            ParentChatListApiModel.fromJson(resp);
         unreadCount.value = parentChatListApiModel.data?.unreadCount ?? 0;
         allParentChatList.value = parentChatListApiModel.data?.data ?? [];
         parentChatListCopy.value = parentChatListApiModel.data?.data ?? [];
@@ -70,7 +71,8 @@ class ParentChatListController extends GetxController {
         teacherEmail: email.toString(),
       );
       if (resp['status']['code'] == 200) {
-        ParentChatListApiModel parentChatListApiModel = ParentChatListApiModel.fromJson(resp);
+        ParentChatListApiModel parentChatListApiModel =
+            ParentChatListApiModel.fromJson(resp);
         unreadCount.value = parentChatListApiModel.data?.unreadCount ?? 0;
         allParentChatList.value = parentChatListApiModel.data?.data ?? [];
         parentChatListCopy.value = parentChatListApiModel.data?.data ?? [];
@@ -95,13 +97,13 @@ class ParentChatListController extends GetxController {
   }
 
   void setChatList() {
-    if(currentTab.value == 0) {
+    if (currentTab.value == 0) {
       parentChatList.value = allParentChatList;
     }
-    if(currentTab.value == 1) {
+    if (currentTab.value == 1) {
       parentChatList.value = [];
       for (var chat in allParentChatList) {
-        if(chat.unreadCount != null && chat.unreadCount != "0") {
+        if (chat.unreadCount != null && chat.unreadCount != "0") {
           parentChatList.add(chat);
         }
       }
@@ -119,11 +121,11 @@ class ParentChatListController extends GetxController {
 
   void filterByClass(String classBatch) {
     filteredChatList.value = [];
-    if(classBatch == 'All') {
+    if (classBatch == 'All') {
       filteredChatList.value = allParentChatList;
     } else {
       for (var chatRoom in allParentChatList) {
-        if(classBatch == "${chatRoom.datumClass}${chatRoom.batch}") {
+        if (classBatch == "${chatRoom.datumClass}${chatRoom.batch}") {
           filteredChatList.add(chatRoom);
         }
       }
@@ -131,10 +133,16 @@ class ParentChatListController extends GetxController {
   }
 
   void filterGroupList({required String text}) {
-    parentChatList.value = parentChatListCopy.value.where((chat) => chat.studentName!.toUpperCase().contains(text.toUpperCase())).toList();
+    parentChatList.value = parentChatListCopy.value
+        .where((chat) =>
+            chat.studentName!.toUpperCase().contains(text.toUpperCase()))
+        .toList();
   }
 
   void filterParentList({required String text}) {
-    filteredChatList.value = allParentChatList.value.where((parent) => parent.parentName!.toUpperCase().contains(text.toUpperCase())).toList();
+    filteredChatList.value = allParentChatList.value
+        .where((parent) =>
+            parent.parentName!.toUpperCase().contains(text.toUpperCase()))
+        .toList();
   }
 }

@@ -36,10 +36,10 @@ class _AllTimeTableState extends State<AllTimeTable> {
           TextButton(
             onPressed: () {
               UserRole? userRole = userAuthController.userRole.value;
-              if(userRole == UserRole.hos){
+              if(userRole == UserRole.leader){
                 Get.find<PageIndexController>().changePage(
                     currentPage:5);
-              }else {
+              } else {
                 Get.find<PageIndexController>().changePage(
                   currentPage:6);
               }

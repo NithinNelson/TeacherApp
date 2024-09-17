@@ -1,8 +1,12 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:teacherapp/Controller/api_controllers/feedViewController.dart';
 import 'package:teacherapp/Controller/api_controllers/groupedViewListController.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
@@ -21,64 +25,159 @@ class GroupChatList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // int colorInt = 0;
-    return GetX<ChatClassGroupController>(
-      builder: (ChatClassGroupController controller) {
-        List<ClassTeacherGroup> classTeacherGroups = controller.classGroupList;
-        if (classTeacherGroups.isNotEmpty) {
-          return ListView.separated(
-            shrinkWrap: true,
-            itemCount: classTeacherGroups.length,
-            padding: const EdgeInsets.all(0),
-            itemBuilder: (BuildContext context, int index) {
-              LastMessageGroupChat? lastMsg =
-                  controller.classGroupList[index].lastMessage!.isNotEmpty
-                      ? controller.classGroupList[index].lastMessage?.first
-                      : LastMessageGroupChat();
-              DateTime? sentTime = lastMsg?.sandAt;
-              String? formattedDate;
-              // if(colorInt > 4) {
-              //   colorInt = 0;
-              // }
-              // colorInt++;
-              // print("-------colorInt---------$colorInt");
-              try {
-                print("date = $sentTime");
-                formattedDate = DateFormat('EEE hh:mm a').format(sentTime!);
-              } catch (e) {}
-              String? userId =
-                  Get.find<UserAuthController>().userData.value.userId;
-              return ChatItems(
-                // className: classTeacherGroups[index].subjectName ?? '--',
-                time: sentTime.toString(),
-                unreadMessages: classTeacherGroups[index].unreadCount ?? 0,
-                // classs: '${classTeacherGroups[imkvkosdmvksfmnvbndex].classTeacherClass}${classTeacherGroups[index].batch}',
-                lastMessage: lastMsg,
-                userId: userId,
-                classTeacherGroup: classTeacherGroups[index],
-                avatarColor: Colorutils.chatLeadingColors[index % 5],
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return const Divider(
-                thickness: 0.2,
-                indent: 10,
-                endIndent: 10,
-                height: 0,
-                color: Colors.grey,
-              );
-            },
-          );
-        } else {
-          return Center(
-            child: Text(
-              "Empty chat list.",
-              style: TextStyle(
-                color: Colors.black,
+    return Column(
+      children: [
+        ///////////////////
+        GetX<ChatClassGroupController>(
+          builder: (ChatClassGroupController controller) {
+            int currentIndex = controller.currentTab.value;
+            return Container(
+              height: 50.w,
+              color: Colors.white,
+              child: Row(
+                children: [
+                  SizedBox(width: 15.w),
+                  InkWell(
+                    onTap: () {
+                      controller.setTab(0);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 14)
+                          .w,
+                      decoration: BoxDecoration(
+                        color: currentIndex == 0
+                            ? Colorutils.buttoncolor
+                            : Colorutils.unselectedTab,
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        'All',
+                        style: GoogleFonts.inter(
+                          color: Colors.black,
+                          fontSize: 15.sp,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 5.w),
+                  InkWell(
+                    onTap: () {
+                      controller.setTab(1);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 12)
+                          .w,
+                      decoration: BoxDecoration(
+                        color: currentIndex == 1
+                            ? Colorutils.buttoncolor
+                            : Colorutils.unselectedTab,
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        'Unread',
+                        style: GoogleFonts.inter(
+                          color: Colors.black,
+                          fontSize: 15.sp,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          );
-        }
-      },
+            );
+          },
+        ),
+        /////////////////////////
+        Expanded(
+          child: GetX<ChatClassGroupController>(
+            builder: (ChatClassGroupController controller) {
+              controller.getUnreadMsgGroupList();
+              List<ClassTeacherGroup> classTeacherGroups =
+                  controller.currentTab.value == 0
+                      ? controller.classGroupList
+                      : controller.unreadClassGroupList;
+              if (controller.isLoading.value) {
+                return ListView.separated(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    itemBuilder: (context, index) => const ChatListShimmer(),
+                    separatorBuilder: (context, index) => const Divider(
+                          color: Colorutils.dividerColor1,
+                          height: 0,
+                        ),
+                    itemCount: 10);
+              } else if (controller.isError.value) {
+                return const Center(child: Text("Error Occurred"));
+              } else if (classTeacherGroups.isEmpty) {
+                return const Center(child: Text("Empty chat list"));
+              } else {
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    await Get.find<ChatClassGroupController>()
+                        .fetchClassGroupList();
+                  },
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: classTeacherGroups.length,
+                    padding: const EdgeInsets.all(0),
+                    itemBuilder: (BuildContext context, int index) {
+                      LastMessageGroupChat? lastMsg = controller
+                              .classGroupList[index].lastMessage!.isNotEmpty
+                          ? controller.classGroupList[index].lastMessage?.first
+                          : LastMessageGroupChat();
+                      DateTime? sentTime = lastMsg?.sandAt;
+                      String? formattedDate;
+                      // if(colorInt > 4) {
+                      //   colorInt = 0;
+                      // }
+                      // colorInt++;
+                      // print("-------colorInt---------$colorInt");
+                      try {
+                        print("date = $sentTime");
+                        formattedDate =
+                            DateFormat('EEE hh:mm a').format(sentTime!);
+                      } catch (e) {}
+                      String? userId =
+                          Get.find<UserAuthController>().userData.value.userId;
+                      return ChatItems(
+                        // className: classTeacherGroups[index].subjectName ?? '--',
+                        time: sentTime.toString(),
+                        unreadMessages:
+                            classTeacherGroups[index].unreadCount ?? 0,
+                        // classs: '${classTeacherGroups[imkvkosdmvksfmnvbndex].classTeacherClass}${classTeacherGroups[index].batch}',
+                        lastMessage: lastMsg,
+                        userId: userId,
+                        classTeacherGroup: classTeacherGroups[index],
+                        avatarColor: Colorutils.chatLeadingColors[index % 5],
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const Divider(
+                        thickness: 0.2,
+                        indent: 10,
+                        endIndent: 10,
+                        height: 0,
+                        color: Colors.grey,
+                      );
+                    },
+                  ),
+                );
+              }
+            },
+          ),
+        ),
+      ],
     );
   }
 }
@@ -235,5 +334,143 @@ class ChatItems extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class ChatListShimmer extends StatelessWidget {
+  const ChatListShimmer({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Colorutils.white,
+          borderRadius: BorderRadius.circular(20.h),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(15.h),
+          child: Row(
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Shimmer.fromColors(
+                baseColor: Colors.grey,
+                highlightColor: Colors.white,
+                period: const Duration(milliseconds: 2500),
+                child: Container(
+                  height: 60.h,
+                  width: 60.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colorutils.bgcolor11.withOpacity(.2),
+                  ),
+                ),
+              ),
+              wSpace(15.h),
+              Expanded(
+                flex: 3,
+                child: Column(
+                  children: [
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey,
+                      highlightColor: Colors.white,
+                      period: const Duration(milliseconds: 2500),
+                      child: Container(
+                        // width: ScreenUtil().screenWidth / 2,
+                        height: 14.h,
+                        decoration: BoxDecoration(
+                          color: Colorutils.bgcolor11.withOpacity(.2),
+                          borderRadius: BorderRadius.circular(20.h),
+                        ),
+                      ),
+                    ),
+                    hSpace(10.h),
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey,
+                      highlightColor: Colors.white,
+                      period: const Duration(milliseconds: 2500),
+                      child: Container(
+                        // width: ScreenUtil().screenWidth / 2,
+                        height: 14.h,
+                        decoration: BoxDecoration(
+                          color: Colorutils.bgcolor11.withOpacity(.2),
+                          borderRadius: BorderRadius.circular(20.h),
+                        ),
+                      ),
+                    ),
+                    //       hSpace(10.h),
+                    //       Shimmer.fromColors(
+                    //         baseColor: Colors.grey,
+                    //         highlightColor: Colors.white,
+                    //         period: const Duration(milliseconds: 2500),
+                    //         child: Container(
+                    //           // width: ScreenUtil().screenWidth / 2,
+                    //           height: 14.h,
+                    //           decoration: BoxDecoration(
+                    //             color: Colorutils.bgcolor11.withOpacity(.2),
+                    //             borderRadius: BorderRadius.circular(20.h),
+                    //           ),
+                    //         ),
+                    //       ),
+                  ],
+                ),
+              ),
+              wSpace(15.h),
+              Expanded(
+                flex: 1,
+                child: SizedBox(
+                  height: 50.h,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey,
+                        highlightColor: Colors.white,
+                        period: const Duration(milliseconds: 2500),
+                        child: Container(
+                          height: 14.h,
+                          decoration: BoxDecoration(
+                            color: Colorutils.bgcolor11.withOpacity(.2),
+                            borderRadius: BorderRadius.circular(20.h),
+                          ),
+                        ),
+                      ),
+                      // Shimmer.fromColors(
+                      //   baseColor: Colors.grey,
+                      //   highlightColor: Colors.white,
+                      //   period: const Duration(milliseconds: 2500),
+                      //   child: Container(
+                      //     height: 14.h,
+                      //     decoration: BoxDecoration(
+                      //       color: Colorutils.bgcolor11.withOpacity(.2),
+                      //       borderRadius: BorderRadius.circular(20.h),
+                      //     ),
+                      //   ),
+                      // ),
+                      // hSpace(15.h),
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey,
+                        highlightColor: Colors.white,
+                        period: const Duration(milliseconds: 2500),
+                        child: Container(
+                          width: 20.h,
+                          height: 20.h,
+                          decoration: BoxDecoration(
+                            color: Colorutils.bgcolor11.withOpacity(.2),
+                            borderRadius: BorderRadius.circular(20.h),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

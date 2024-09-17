@@ -38,6 +38,7 @@ class GroupedViewController extends GetxController {
 
   Future<void> fetchFeedViewMsgList(ChatFeedViewReqModel reqBody) async {
     isLoading.value = true;
+    isError.value = false;
     try {
       Map<String, dynamic> resp =
           await ApiServices.getChatFeedView(reqBodyData: reqBody);
@@ -51,7 +52,7 @@ class GroupedViewController extends GetxController {
           print("Chat list -- worked----------------- ${chatMsgList.length}");
         }
 
-        update();
+        // update();
         // chatMsgList.sort((a, b) {
         //   DateTime dateA = DateTime.parse(a.sendAt!);
         //   DateTime dateB = DateTime.parse(b.sendAt!);
@@ -61,15 +62,23 @@ class GroupedViewController extends GetxController {
       isLoaded.value = true;
     } catch (e) {
       isLoaded.value = false;
+      isError.value = true;
+
+      // update();
+
       print('--------grouped view error--------');
     } finally {
       isLoading.value = false;
+      // update();
     }
   }
 
   Future<void> fetchFeedViewMsgListPeriodically(
       ChatFeedViewReqModel reqBody) async {
+    print("periodic working 1");
     // ChatFeedViewModel? chatFeedData;
+    reqBody.limit = chatMsgCount;
+
     try {
       Map<String, dynamic> resp =
           await ApiServices.getChatFeedView(reqBodyData: reqBody);
@@ -118,7 +127,7 @@ class GroupedViewController extends GetxController {
   }) async {
     print(reqBody.limit);
     // chatMsgCount = 1000;
-    await fetchFeedViewMsgListPeriodically(reqBody);
+    await fetchFeedViewMsgList(reqBody);
     print(chatMsgList.length);
     print("message number = lenth = ${chatMsgList.length}");
     for (int i = 0; i < chatMsgList.length; i++) {
@@ -165,7 +174,7 @@ class GroupedViewController extends GetxController {
         }
         previousMessageListLenght = chatMsgList.length;
       }
-      update();
+      // update();
     } catch (e) {
       print("periodicGetMsgList Error :-------------- $e");
     }
@@ -178,7 +187,7 @@ class GroupedViewController extends GetxController {
   List<TextSpan> getMessageText(
       {required String text, required BuildContext context}) {
     const urlPattern =
-        r'((https?:\/\/)?(?:www\.)?[^\s]+(?:\.[^\s]+)+(?:\/[^\s]*)?)';
+        r'((https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.(com|org|net|edu|gov|mil|int|info|biz|co|us|io|me)([\/\w\-.?&=%#]*)?)';
     final regex = RegExp(urlPattern);
     final matches = regex.allMatches(text);
 

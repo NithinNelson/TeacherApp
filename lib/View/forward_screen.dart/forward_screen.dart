@@ -12,6 +12,7 @@ import 'package:teacherapp/Controller/forward_controller.dart/forward_controller
 import 'package:teacherapp/Models/api_models/chat_group_api_model.dart';
 import 'package:teacherapp/Models/api_models/parent_chat_list_api_model.dart';
 import 'package:teacherapp/Models/api_models/parent_list_api_model.dart';
+import 'package:teacherapp/Services/common_services.dart';
 import 'package:teacherapp/Services/snackBar.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
@@ -1179,102 +1180,212 @@ getParanetPopup({required BuildContext context}) async {
   Get.find<ForwardController>().convertPareNtListToForwardModel(
       Get.find<FeedViewController>().parentDataList);
   Get.find<ForwardController>().checkAllSelect();
+
   Get.dialog(
     AlertDialog(
+      backgroundColor: Colors.transparent,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(20.0)),
       ),
       title: Column(
         children: [
-          Text(
-            "Select Parents",
-            style: TeacherAppFonts.interW600_18sp_textWhite.copyWith(
-              color: Colors.black,
-            ),
-          ),
+          // Text(
+          //   "Select Parents",
+          //   style: TeacherAppFonts.interW600_18sp_textWhite.copyWith(
+          //     color: Colors.black,
+          //   ),
+          // ),
         ],
       ),
-      content: SizedBox(
-        height: 400.h,
-        child: Column(
-          children: [
-            // Row(
-            //   children: [
-            //     GetX<ForwardController>(builder: (controller) {
-            //       return InkWell(
-            //         onTap: () {
-            //           if (controller.isallSelect.value) {
-            //             controller.unSelectAllParents();
-            //           } else {
-            //             controller.selectAllParents();
-            //           }
-            //         },
-            //         child: Icon(
-            //           !controller.isallSelect.value
-            //               ? Icons.check_box
-            //               : Icons.check_box_outline_blank,
-            //           color: Colors.teal,
-            //         ),
-            //       );
-            //     }),
-            //     SizedBox(
-            //       width: 10.w,
-            //     ),
-            //     Text("Select All"),
-            //   ],
-            // ),
-            // SizedBox(
-            //   height: 10.h,
-            // ),
-            Expanded(
-              child: GetX<ForwardController>(builder: (controller) {
-                return ListView.separated(
-                    itemBuilder: (context, index) {
-                      final parentData = controller.forwardParentList[index];
-                      return ParentListTileWidget(parentData: parentData);
-                    },
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(
-                        height: 5,
-                      );
-                    },
-                    itemCount: controller.forwardParentList.length);
-              }),
-            ),
-          ],
-        ),
-      ),
-      actionsAlignment: MainAxisAlignment.center,
-      actions: [
-        FilledButton(
-          onPressed: () {
-            if (Get.find<ForwardController>()
-                .getSeletectedParaentIdList()
-                .isEmpty) {
-              Get.snackbar("Alert", "Please select parents",
-                  snackPosition: SnackPosition.BOTTOM);
-            } else {
-              Get.find<ForwardController>().sentForwardMessageForGroup(
-                  context: context,
-                  parentList: Get.find<ForwardController>()
-                      .getSeletectedParaentIdList());
-              Get.back();
-            }
-          },
-          style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(Colorutils.letters1),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+      content: Container(
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(10.h)),
+        height: 500.h,
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.h),
+          child: Column(
             children: [
               Text(
-                "Send",
-                style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                "Select Parents",
+                style: TeacherAppFonts.interW600_18sp_textWhite.copyWith(
+                  color: Colors.black,
+                ),
               ),
+              hSpace(10.h),
+              Row(
+                children: [
+                  GetX<ForwardController>(builder: (controller) {
+                    return InkWell(
+                      onTap: () {
+                        print("working gvfdsg");
+                        if (controller.isallSelect.value) {
+                          controller.unSelectAllParents();
+                        } else {
+                          controller.selectAllParents();
+                        }
+                      },
+                      child: Icon(
+                        controller.isallSelect.value
+                            ? Icons.check_box
+                            : Icons.check_box_outline_blank,
+                        color: Colors.teal,
+                      ),
+                    );
+                  }),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Text("Select All"),
+                ],
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Expanded(
+                child: GetBuilder<ForwardController>(builder: (controller) {
+                  return ListView.separated(
+                      itemBuilder: (context, index) {
+                        final parentData = controller.forwardParentList[index];
+                        // return ParentListTileWidget(parentData: parentData);
+                        String relation = "";
+                        if (parentData.parentdata != null) {
+                          relation =
+                              parentData.parentdata?.gender?[0].toLowerCase() ==
+                                      "m"
+                                  ? "Son"
+                                  : "Daughter";
+                        }
+
+                        return InkWell(
+                          onTap: () {
+                            if (parentData.selected!) {
+                              parentData.selected = false;
+                              Get.find<ForwardController>().checkAllSelect();
+                            } else {
+                              parentData.selected = true;
+                              Get.find<ForwardController>().checkAllSelect();
+                            }
+                            controller.updateParentList(parentData);
+                          },
+                          child: Card(
+                            elevation: 5,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.h),
+                                  color: Colors.white),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      parentData.selected ?? false
+                                          ? Icons.check_box
+                                          : Icons.check_box_outline_blank,
+                                      color: Colors.teal,
+                                    ),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    Expanded(
+                                        child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          parentData.parentdata?.name ?? "--",
+                                          style: TeacherAppFonts
+                                              .interW700_16sp_black,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        Text(
+                                          parentData.parentdata!.gender != null
+                                              ? "$relation of ${parentData.parentdata?.name}"
+                                              : "${parentData.parentdata?.name}",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TeacherAppFonts
+                                              .poppinsW400_12sp_lightGreenForParent,
+                                        ),
+                                      ],
+                                    )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(
+                          height: 5,
+                        );
+                      },
+                      itemCount: controller.forwardParentList.length);
+                }),
+              ),
+              hSpace(10.h),
+              GestureDetector(
+                onTap: () {
+                  if (Get.find<ForwardController>()
+                      .getSeletectedParaentIdList()
+                      .isEmpty) {
+                    Get.snackbar("Alert", "Please select parents",
+                        snackPosition: SnackPosition.BOTTOM);
+                  } else {
+                    Get.find<ForwardController>().sentForwardMessageForGroup(
+                        context: context,
+                        parentList: Get.find<ForwardController>()
+                            .getSeletectedParaentIdList());
+                    Get.back();
+                  }
+                },
+                child: Container(
+                  height: 50.h,
+                  decoration: BoxDecoration(
+                    color: Colorutils.letters1,
+                    borderRadius: BorderRadius.circular(10.h),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Send",
+                      style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                    ),
+                  ),
+                ),
+              ),
+              // FilledButton(
+              //   onPressed: () {
+              //     if (Get.find<ForwardController>()
+              //         .getSeletectedParaentIdList()
+              //         .isEmpty) {
+              //       Get.snackbar("Alert", "Please select parents",
+              //           snackPosition: SnackPosition.BOTTOM);
+              //     } else {
+              //       Get.find<ForwardController>().sentForwardMessageForGroup(
+              //           context: context,
+              //           parentList: Get.find<ForwardController>()
+              //               .getSeletectedParaentIdList());
+              //       Get.back();
+              //     }
+              //   },
+              //   style: ButtonStyle(
+              //     backgroundColor: WidgetStateProperty.all(Colorutils.letters1),
+              //   ),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Text(
+              //         "Send",
+              //         style: TextStyle(color: Colors.white, fontSize: 16.sp),
+              //       ),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),
-      ],
+      ),
+      actionsAlignment: MainAxisAlignment.center,
+      actions: [],
     ),
   );
 }
@@ -1299,8 +1410,10 @@ class _ParentListTileWidgetState extends State<ParentListTileWidget> {
         setState(() {
           if (widget.parentData.selected!) {
             widget.parentData.selected = false;
+            Get.find<ForwardController>().checkAllSelect();
           } else {
             widget.parentData.selected = true;
+            Get.find<ForwardController>().checkAllSelect();
           }
         });
       },

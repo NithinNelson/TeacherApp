@@ -193,21 +193,28 @@ class _MenuScreenState extends State<MenuScreen> {
                       },
                     ),
                     SizedBox(height: 20.w),
-                    for (int i = pageIndexController.navLength.value;
-                        i < pageIndexController.menuItemsPerRole.length;
-                        i++)
-                      InkWell(
-                        onTap: () {
-                          pageIndexController.changePage(
-                              currentPage: pageIndexController
-                                  .menuItemsPerRole[i].index);
-                          ZoomDrawer.of(context)?.toggle();
-                        },
-                        child: MenuItem(
-                          icon: pageIndexController.menuItemsPerRole[i].svg,
-                          title: pageIndexController.menuItemsPerRole[i].title,
-                        ),
-                      ),
+                    Obx(() {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          for (int i = pageIndexController.navLength.value;
+                          i < pageIndexController.menuItemsPerRole.length;
+                          i++)
+                            InkWell(
+                              onTap: () {
+                                pageIndexController.changePage(
+                                    currentPage: pageIndexController
+                                        .menuItemsPerRole[i].index);
+                                ZoomDrawer.of(context)?.toggle();
+                              },
+                              child: MenuItem(
+                                icon: pageIndexController.menuItemsPerRole[i].svg,
+                                title: pageIndexController.menuItemsPerRole[i].title,
+                              ),
+                            ),
+                        ],
+                      );
+                    },),
                     // InkWell(
                     //   onTap: () {
                     //     ZoomDrawer.of(context)?.toggle();

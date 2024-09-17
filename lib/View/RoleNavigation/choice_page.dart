@@ -9,6 +9,7 @@ import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/View/CWidgets/AppBarBackground.dart';
 import 'package:teacherapp/View/Home_Page/leader_home.dart';
+import 'package:teacherapp/View/RoleNavigation/hos_listing.dart';
 
 import '../../Controller/api_controllers/userAuthController.dart';
 import '../CWidgets/TeacherAppPopUps.dart';
@@ -26,6 +27,7 @@ class _ChoicePageState extends State<ChoicePage> {
   TextEditingController? _usernameController;
   TextEditingController? _passwordController;
   PageIndexController pageIndexController = Get.find<PageIndexController>();
+  UserAuthController userAuthController = Get.find<UserAuthController>();
   bool isSpinner = false;
   bool googleSignIn = false;
   FocusNode? _usernameFocusNode;
@@ -126,7 +128,7 @@ class _ChoicePageState extends State<ChoicePage> {
                               GestureDetector(
                                   onTap: () async {
                                     pageIndexController.changePage(currentPage: 0);
-                                    pageIndexController.setMenuItems(userRole: UserRole.teacher, fromChoice: true);
+                                    pageIndexController.setMenuItems(userRole: UserRole.teacher, isClassTeacher: true);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -138,11 +140,24 @@ class _ChoicePageState extends State<ChoicePage> {
                               GestureDetector(
                                   onTap: () {
                                     pageIndexController.changePage(currentPage: 0);
-                                    pageIndexController.setMenuItems(userRole: UserRole.principal, fromChoice: true);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => const DrawerScreen()));
+                                    pageIndexController.setMenuItems(userRole: UserRole.leader, isClassTeacher: true);
+                                    List<String>? rolIds = userAuthController.userData.value.roleIds ?? [];
+                                    if(rolIds.contains("rolepri12") || rolIds.contains("role12123")) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => const HosListing()));
+                                    } else {
+                                      userAuthController.setSelectedHosData(
+                                        hosName: userAuthController.userData.value.name ?? '--',
+                                        hosId: userAuthController.userData.value.userId ?? '--',
+                                        isHos: true,
+                                      );
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => const DrawerScreen()));
+                                    }
                                   },
                                   child: SvgPicture.asset(
                                       "assets/images/teacherLogin.svg")),

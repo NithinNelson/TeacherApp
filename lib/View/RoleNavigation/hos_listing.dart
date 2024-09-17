@@ -124,7 +124,9 @@ class _HosListingState extends State<HosListing> {
                               onChanged: (dynamic newVal) {
                                 _hosNameSelected.value = newVal;
                                 controller.setSelectedHosData(
-                                    hosName: _hosNameSelected.value ?? '--');
+                                    hosName: _hosNameSelected.value ?? '--',
+                                  isHos: false,
+                                );
                               },
                             );
                           },

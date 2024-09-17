@@ -225,6 +225,10 @@ class ForwardController extends GetxController {
     print("Working =====");
   }
 
+  updateParentList(ForwardParentDataModel parentData) {
+    update();
+  }
+
   selectAllParents() {
     forwardParentList.forEach(
       (element) {
@@ -232,6 +236,7 @@ class ForwardController extends GetxController {
       },
     );
     checkAllSelect();
+    update();
   }
 
   unSelectAllParents() {
@@ -241,16 +246,19 @@ class ForwardController extends GetxController {
       },
     );
     checkAllSelect();
+    update();
   }
 
   checkAllSelect() {
     for (ForwardParentDataModel element in forwardParentList) {
       if (element.selected == false) {
         isallSelect.value = false;
-        break;
+        print("all selection = ${isallSelect.value}");
+        return;
       }
     }
     isallSelect.value = true;
+    print("all selection = ${isallSelect.value}");
   }
 
   List<String> getSeletectedParaentIdList() {

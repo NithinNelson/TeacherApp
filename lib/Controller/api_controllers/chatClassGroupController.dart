@@ -12,10 +12,12 @@ class ChatClassGroupController extends GetxController {
   RxList<ClassTeacherGroup> classGroupList = <ClassTeacherGroup>[].obs;
   RxList<ClassTeacherGroup> classGroupListCopy = <ClassTeacherGroup>[].obs;
   RxInt unreadCount = 0.obs;
+  RxInt currentTab = 0.obs;
+  RxList<ClassTeacherGroup> unreadClassGroupList = <ClassTeacherGroup>[].obs;
 
   void resetStatus() {
     isLoading.value = false;
-    isError.value = false;
+    // isError.value = false;
   }
 
   void resetData() {
@@ -27,6 +29,7 @@ class ChatClassGroupController extends GetxController {
     // resetData();
     isLoading.value = true;
     isLoaded.value = false;
+    isError.value = false;
     try {
       String? teacherId = Get.find<UserAuthController>().userData.value.userId;
       String? emailId = Get.find<UserAuthController>().userData.value.username;
@@ -44,8 +47,9 @@ class ChatClassGroupController extends GetxController {
         classGroupListCopy.addAll(classGroupApiModel.data?.data ?? []);
       }
     } catch (e) {
-      print("------class group error---------");
+      print("------class group error--------- $e");
       isLoaded.value = false;
+      isError.value = true;
     } finally {
       resetStatus();
     }
@@ -82,5 +86,33 @@ class ChatClassGroupController extends GetxController {
         .where((chat) =>
             chat.subjectName!.toUpperCase().contains(text.toUpperCase()))
         .toList();
+  }
+
+  void setTab(int index) {
+    currentTab.value = index;
+    // setChatList();
+  }
+
+  // void setChatList() {
+  //   // if(currentTab.value == 0) {
+  //   //   parentChatList.value = allParentChatList;
+  //   // }
+  //   if (currentTab.value == 1) {
+  //     final newList = [];
+  //     for (var chat in classGroupList) {
+  //       if (chat.unreadCount != null && chat.unreadCount != "0") {
+  //         parentChatList.add(chat);
+  //       }
+  //     }
+  //   }
+  // }
+
+  getUnreadMsgGroupList() {
+    unreadClassGroupList.clear();
+    for (var chat in classGroupList) {
+      if (chat.unreadCount != null && chat.unreadCount != 0) {
+        unreadClassGroupList.add(chat);
+      }
+    }
   }
 }

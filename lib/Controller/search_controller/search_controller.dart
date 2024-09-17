@@ -275,7 +275,7 @@ class ChatSearchController extends GetxController {
   }) {
     // Regular expression to detect URLs
     const urlPattern =
-        r'((https?:\/\/)?(?:www\.)?[^\s]+(?:\.[^\s]+)+(?:\/[^\s]*)?)';
+        r'((https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.(com|org|net|edu|gov|mil|int|info|biz|co|us|io|me)([\/\w\-.?&=%#]*)?)';
     final regex = RegExp(urlPattern);
     final matches = regex.allMatches(text);
 
@@ -382,119 +382,4 @@ class ChatSearchController extends GetxController {
           : null,
     );
   }
-
-  // List<TextSpan> getCombinedTextSpan({
-  //   required String text,
-  //   required String searchTerm,
-  //   required BuildContext context,
-  // }) {
-  //   // Regular expression to detect URLs
-  //   const urlPattern =
-  //       r'((https?:\/\/)?(?:www\.)?[^\s]+(?:\.[^\s]+)+(?:\/[^\s]*)?)';
-  //   final regex = RegExp(urlPattern);
-  //   final matches = regex.allMatches(text);
-
-  //   final List<TextSpan> spans = [];
-  //   int lastMatchEnd = 0;
-  //   String lowerText = text.toLowerCase();
-  //   String lowerSearchTerm = searchTerm.toLowerCase();
-  //   // int searchIndex = lowerText.indexOf(lowerSearchTerm);
-
-  //   for (final match in matches) {
-  //     final url = match.group(0)!;
-  //     final String formattedUrl;
-
-  //     if (url.startsWith('http://') || url.startsWith('https://')) {
-  //       formattedUrl = url;
-  //     } else {
-  //       formattedUrl = 'https://$url';
-  //     }
-
-  //     // Process any text before the URL
-  //     if (match.start > lastMatchEnd) {
-  //       String preUrlText = text.substring(lastMatchEnd, match.start);
-  //       int preUrlIndex = lowerText.indexOf(lowerSearchTerm, lastMatchEnd);
-
-  //       // Highlight search terms within the pre-URL text
-  //       if (preUrlIndex != -1 && preUrlIndex < match.start) {
-  //         spans.addAll(_getHighlightedTextSpans(
-  //           message: preUrlText,
-  //           searchTerm: searchTerm,
-  //           context: context,
-  //         ));
-  //       } else {
-  //         spans.add(TextSpan(text: preUrlText));
-  //       }
-  //     }
-
-  //     // Add the URL as a clickable span
-  //     spans.add(TextSpan(
-  //       text: url,
-  //       style: const TextStyle(
-  //           color: Colors.blue, decoration: TextDecoration.underline),
-  //       recognizer: TapGestureRecognizer()
-  //         ..onTap = () {
-  //           Get.find<MessageController>()
-  //               .openUrl(message: formattedUrl, context: context);
-  //         },
-  //     ));
-
-  //     lastMatchEnd = match.end;
-  //   }
-
-  //   // Handle remaining text after the last URL
-  //   if (lastMatchEnd < text.length) {
-  //     String postUrlText = text.substring(lastMatchEnd);
-
-  //     spans.addAll(_getHighlightedTextSpans(
-  //       message: postUrlText,
-  //       searchTerm: searchTerm,
-  //       context: context,
-  //     ));
-  //   }
-
-  //   return spans;
-  // }
-
-  // List<TextSpan> _getHighlightedTextSpans({
-  //   required String message,
-  //   required String searchTerm,
-  //   required BuildContext context,
-  // }) {
-  //   final List<TextSpan> spans = [];
-  //   String lowerText = message.toLowerCase();
-  //   String lowerSearchTerm = searchTerm.toLowerCase();
-  //   int start = 0;
-  //   int index = lowerText.indexOf(lowerSearchTerm);
-
-  //   while (index != -1) {
-  //     // Add text before the search term
-  //     if (index > start) {
-  //       spans.add(TextSpan(
-  //         text: message.substring(start, index),
-  //       ));
-  //     }
-
-  //     // Add the highlighted search term
-  //     spans.add(TextSpan(
-  //       text: message.substring(index, index + searchTerm.length),
-  //       style: const TextStyle(
-  //         color: Colors.white, // Highlight color
-  //         backgroundColor: Colors.green, // Background highlight color
-  //       ),
-  //     ));
-
-  //     start = index + searchTerm.length;
-  //     index = lowerText.indexOf(lowerSearchTerm, start);
-  //   }
-
-  //   // Add remaining text after the last search term
-  //   if (start < message.length) {
-  //     spans.add(TextSpan(
-  //       text: message.substring(start),
-  //     ));
-  //   }
-
-  //   return spans;
-  // }
 }

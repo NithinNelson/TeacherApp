@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,7 +13,6 @@ import 'package:teacherapp/Services/snackBar.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/View/Chat_List/chat_list_widgets/group_chat_list.dart';
 import 'package:teacherapp/View/Chat_List/chat_list_widgets/parent_chat_list.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
 import '../../Controller/api_controllers/chatClassGroupController.dart';
 import '../../Utils/constants.dart';
 import 'chat_list_widgets/new_parentChat_bottomSheet.dart';
@@ -44,7 +42,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
   }
 
   Future<void> initialize() async {
-    context.loaderOverlay.show();
+    // context.loaderOverlay.show();
     await chatClassGroupController.fetchClassGroupList();
     await parentChatListController.fetchParentChatList();
     if (!mounted) return;
@@ -56,7 +54,11 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
         if (!chatClassGroupController.searchEnabled.value) {
           await chatClassGroupController.fetchClassGroupListPeriodically();
         }
-        if (!parentChatListController.searchEnabled.value) {
+        // if (!parentChatListController.searchEnabled.value )  {
+        //   await parentChatListController.fetchParentChatListPeriodically();
+        // }
+        if (parentChatListController.isTextField.value == "") {
+          print("periodic working");
           await parentChatListController.fetchParentChatListPeriodically();
         }
       },
@@ -94,7 +96,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                             height: 45,
                             decoration: BoxDecoration(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(15)).r,
+                                  const BorderRadius.all(Radius.circular(15)).r,
                               color: Colors.white,
                             ),
                             child: Row(
@@ -109,7 +111,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                                     width: 30,
                                     height: 15,
                                     padding: const EdgeInsets.only(left: 10),
-                                    child: FittedBox(
+                                    child: const FittedBox(
                                         child: Icon(
                                       Icons.arrow_back_ios,
                                       color: Colors.black,
@@ -175,7 +177,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               Text(
@@ -202,7 +204,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                             ],
                           ),
                         ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       if (controller.currentChatTab.value == 1 &&
@@ -224,6 +226,12 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                                   builder: (context) {
                                     return const NewParentChat();
                                   },
+                                ).then(
+                                  (value) {
+                                    Get.find<ParentChatListController>()
+                                        .isTextField
+                                        .value = "";
+                                  },
                                 );
                               } else {
                                 snackBar(
@@ -236,7 +244,7 @@ class _ChatWithParentsPageState extends State<ChatWithParentsPage>
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(100).w),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.add,
                                 color: Colorutils.letters1,
                               ),
