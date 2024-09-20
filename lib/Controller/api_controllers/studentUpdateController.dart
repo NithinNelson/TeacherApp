@@ -26,7 +26,7 @@ class Studentupdatecontroller extends GetxController {
     try {
       Map<String, dynamic> resp = await ApiServices.getSubmitdata(data: data);
       if (resp['status']['code'] == 200) {
-        TeacherAppPopUps.submitFailed(
+        TeacherAppPopUps.submitFailedTwoBack (
             title: resp["status"]["message"],
             message: resp["data"]["message"],
             actionName: "Ok",

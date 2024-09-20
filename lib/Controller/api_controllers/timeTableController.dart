@@ -1,6 +1,7 @@
 
 import 'package:get/get.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
+import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
 import '../../Models/api_models/time_table_api_model.dart';
 import '../../Models/api_models/work_load_api_model.dart';
 import '../../Services/api_services.dart';
@@ -70,9 +71,7 @@ class TimeTableController extends GetxController {
           for (var subDetail in sub.subjects) {
             teacherSubjects.add(
                 TeacherSubject(
-
                   sub: subDetail.name,
-
                   classs: sub.ownListClass?.name,
                   batch: sub.batch?.name,
                   batchId: sub.batch?.id,
@@ -81,14 +80,10 @@ class TimeTableController extends GetxController {
                   sessionId: sub.session?.id,
                   isClassTeacher: sub.isClassTeacher,
                 )
-
-
             );
-
           }
           if(sub.isClassTeacher==true){
             classTeacherSubjects.add(TeacherSubject(
-
               sub: "Class Teacher",
               classs: sub.ownListClass?.name,
               batch: sub.batch?.name,
@@ -102,6 +97,10 @@ class TimeTableController extends GetxController {
           }
         }
       }
+
+      if(classTeacherSubjects.value.isEmpty) {
+        Get.find<PageIndexController>().setMenuItems(userRole: UserRole.teacher, isClassTeacher: false);
+      }
     } catch (e) {
       print("------work load error---------");
       isLoaded.value = false;
@@ -113,7 +112,4 @@ class TimeTableController extends GetxController {
   void setSelectedTimetable({required List<TimeTable> result}) {
     selectedTimetable.value = result;
   }
-
-
-
 }

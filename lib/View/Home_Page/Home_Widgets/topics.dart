@@ -45,6 +45,7 @@ class Topic extends StatelessWidget {
                   school_id: userAuthController.userData.value.schoolId,
                   academic_year: userAuthController.userData.value.academicYear,
                   userId: userAuthController.userData.value.userId,
+                  subjectName: timeTable!.subject,
                 )));
               } else {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentListView(
@@ -150,55 +151,7 @@ class Topic extends StatelessWidget {
                                     fontWeight: FontWeight.bold,fontSize: 16,
                                   ),
                                 ),
-                                // SizedBox(
-                                //   height: 50.w,
-                                //   width: 110.w,
 
-                                  // child: Stack(
-                                  //   alignment: Alignment.center,
-                                  //   children: [
-                                  //     Positioned(
-                                  //       left: 0,
-                                  //       child: CircleAvatar(
-                                  //         radius: 12,
-                                  //         child: Image.asset('assets/images/profile2.png'),
-                                  //       ),
-                                  //     ),
-                                  //     Positioned(
-                                  //       left: 15,
-                                  //       child: CircleAvatar(
-                                  //         radius: 12,
-                                  //         child: Image.asset('assets/images/profile2.png'),
-                                  //       ),
-                                  //     ),
-                                  //     Positioned(
-                                  //       left: 30,
-                                  //       child: CircleAvatar(
-                                  //         radius: 12,
-                                  //         child: Image.asset('assets/images/profile2.png'),
-                                  //       ),
-                                  //     ),
-                                  //     Positioned(
-                                  //       left: 45,
-                                  //       child: CircleAvatar(
-                                  //         radius: 12,
-                                  //         child: Image.asset('assets/images/profile2.png'),
-                                  //       ),
-                                  //     ),
-                                  //     const Positioned(
-                                  //       left: 60,
-                                  //       child: CircleAvatar(
-                                  //         backgroundColor:  Colorutils.userdetailcolor,
-                                  //         radius: 12,
-                                  //         child: Text('23',style: TextStyle(
-                                  //           color: Colorutils.Whitecolor,
-                                  //           fontSize: 12,
-                                  //         ),),
-                                  //       ),
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                // ),
                                 Text(
                                   ' Students',
                                   style: TextStyle(

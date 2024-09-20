@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart';
 import 'package:teacherapp/Models/api_models/login_api_model.dart';
 import 'package:teacherapp/Services/shared_preferences.dart';
 import 'package:teacherapp/Utils/Colors.dart';
@@ -176,8 +177,8 @@ class TeacherAppPopUps {
           FilledButton(
             onPressed: () {
               Get.back();
-              Get.back();
-              Get.back();
+
+
             },
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all(Colorutils.letters1),
@@ -194,7 +195,10 @@ class TeacherAppPopUps {
           ),
         ],
       ),
-    );
+    ).then((value) {
+      Get.back();
+      Get.back();
+    },);
   }
 
   static logOutPopUp({required BuildContext context}) {

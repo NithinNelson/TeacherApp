@@ -115,7 +115,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Leave Request',
+                                  'Leave Apply',
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600),
@@ -236,7 +236,8 @@ class _LeaveRequestState extends State<LeaveRequest> {
                           Container(
                             margin: EdgeInsets.only(left: 15.w, right: 15.w),
                             child: TextFormField(
-                              controller: _searchController,
+
+                            controller: _searchController,
                               onChanged: (value) {
                                 leaveRequestController.filterList(text: value);
                               },

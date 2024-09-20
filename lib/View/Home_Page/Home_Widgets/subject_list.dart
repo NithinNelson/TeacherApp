@@ -67,6 +67,7 @@ class SubjectList extends StatelessWidget {
                   school_id: userAuthController.userData.value.schoolId,
                   academic_year: userAuthController.userData.value.academicYear,
                   userId: userAuthController.userData.value.userId,
+                  subjectName: teacherSubjects[index].sub,
                 )));
               } else {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentListView(

@@ -29,6 +29,7 @@ import '../../Models/api_models/chat_group_api_model.dart';
 import '../../Services/check_connectivity.dart';
 import '../../Services/dialog_box.dart';
 import '../../Services/snackBar.dart';
+import '../CWidgets/TeacherAppPopUps.dart';
 import 'Grouped_view.dart';
 import 'Chat_widgets/camera_screen.dart';
 import 'Chat_widgets/chat_audioPlaying_widget.dart';

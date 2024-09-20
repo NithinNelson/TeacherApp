@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:teacherapp/View/Home_Page/Home_Widgets/bottom_navigationbar.dart';
 import 'package:teacherapp/View/MorePage/scan.dart';
 import 'package:teacherapp/View/MorePage/search_page.dart';
-import 'package:teacherapp/View/MorePage/tackingDetails.dart';
 
 import '../../Utils/Colors.dart';
 

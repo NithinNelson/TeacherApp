@@ -454,58 +454,6 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
   Map<String, dynamic>? notificationResult;
   int Count = 0;
 
-  // getNotification() async {
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   var userID = preferences.getString('userID');
-  //
-  //   var headers = {
-  //     'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
-  //     'Content-Type': 'application/json'
-  //   };
-  //   var request = http.Request(
-  //       'GET',
-  //       Uri.parse(
-  //           '${ApiConstants.Notification}$userID${ApiConstants.NotificationEnd}'));
-  //
-  //   request.headers.addAll(headers);
-  //
-  //   http.StreamedResponse response = await request.send();
-  //
-  //   if (response.statusCode == 200) {
-  //     // print(await response.stream.bytesToString());
-  //     var responseJson = await response.stream.bytesToString();
-  //     setState(() {
-  //       notificationResult = json.decode(responseJson);
-  //     });
-  //
-  //     for (var index = 0;
-  //     index <
-  //         notificationResult!["data"]["details"]["recentNotifications"]
-  //             .length;
-  //     index++) {
-  //       if (notificationResult!["data"]["details"]["recentNotifications"][index]
-  //       ["status"] ==
-  //           "active") {
-  //         Count += 1;
-  //       }
-  //     }
-  //     SharedPreferences preferences = await SharedPreferences.getInstance();
-  //     preferences.setInt("count", Count);
-  //
-  //     print(Count);
-  //   } else {
-  //     print(response.reasonPhrase);
-  //   }
-  // }
-
-  // var count;
-  //
-  // getCount() async {
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     count = preferences.get("count");
-  //   });
-  // }
 
   @override
   void initState() {
@@ -554,16 +502,14 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: EdgeInsets.all(20),
+                          padding: EdgeInsets.only(left: 20,right:10,top: 20,bottom: 20),
                           child: Text(
-                            widget.className.toString(),
+                           "${ widget.className.toString()}"" ""${ widget.subjectName}",
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                         ),
-                        SizedBox(
-                          width: 90.w,
-                        ),
+
                         Row(
                           children: [
                             SizedBox(
@@ -579,10 +525,10 @@ class _NonTeacherStudentListState extends State<NonTeacherStudentList> {
                               width: 3.w,
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(right: 13),
+                              padding: const EdgeInsets.only(right: 5),
                               child: Text(
                                 widget.selectedDate.toString(),
-                                style: TextStyle(fontSize: 14.sp),
+                                style: TextStyle(fontSize: 12.sp),
                               ),
                             ),
                             SizedBox(

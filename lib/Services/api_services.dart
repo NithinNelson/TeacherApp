@@ -770,6 +770,7 @@ class ApiServices {
   static Future<Map<String, dynamic>> getRecentList({
     required String schoolId,
     required String academicYear,
+    required String teacherID,
     required List<Map<String, dynamic>> endorsedClass,
   }) async {
     String url = ApiConstants.RecentVisit;
@@ -777,7 +778,41 @@ class ApiServices {
     Map apiBody = {
       "school_id": schoolId,
       "academic_year": academicYear,
+      "teacher_id":teacherID,
       "Endorsed_class": endorsedClass,
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      log('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+  static Future<Map<String, dynamic>> getRecentDateList({
+    required String schoolId,
+    required String academicYear,
+    required String teacherId,
+    required List<Map<String, dynamic>> endorsedClass,
+    required String date,
+  }) async {
+    String url = ApiConstants.RecentVisit;
+    print(url);
+    Map apiBody = {
+      "school_id": schoolId,
+      "academic_year": academicYear,
+      "teacher_id": teacherId,
+      "Endorsed_class": endorsedClass,
+      "Date":date,
     };
     try {
       var request = http.Request('POST', Uri.parse(url));

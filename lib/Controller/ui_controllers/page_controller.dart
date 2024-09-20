@@ -7,25 +7,18 @@ import '../../Models/ui_models/menu_item_model.dart';
 class PageIndexController extends GetxController {
   RxInt pageIndex = 0.obs;
   RxList<MenuItemsModel> menuItemsPerRole = <MenuItemsModel>[].obs;
-  RxBool isFromChoice = false.obs;
   RxInt navLength = 5.obs;
 
   void changePage({required int currentPage}) {
     pageIndex.value = currentPage;
   }
 
-  void setMenuItems({required UserRole userRole, required bool fromChoice}) {
-    isFromChoice.value = fromChoice;
-    if(fromChoice) {
-      if(userRole == UserRole.principal) {
-        navLength.value = 5;
-        menuItemsPerRole.value = leaderMenuItems;
-      } else {
-        navLength.value = 4;
-        menuItemsPerRole.value = choiceTeacherMenuItems;
-      }
+  void setMenuItems({required UserRole userRole, required bool isClassTeacher}) {
+    if(!isClassTeacher) {
+      navLength.value = 4;
+      menuItemsPerRole.value = choiceTeacherMenuItems;
     } else {
-      if(userRole == UserRole.principal) {
+      if(userRole == UserRole.leader) {
         navLength.value = 5;
         menuItemsPerRole.value = leaderMenuItems;
       } else {

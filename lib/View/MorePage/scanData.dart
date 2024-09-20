@@ -4,9 +4,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/View/Home_Page/Home_Widgets/bottom_navigationbar.dart';
@@ -31,13 +33,17 @@ class Scandata extends StatefulWidget {
 }
 
 class _ScandataState extends State<Scandata> {
-  bool isClicked = false;
+  bool spinner = false;
+  bool isClicked = true;
+  bool onTaped = true;
   bool isClicked1 = false;
   bool isClicked2 = false;
   TextEditingController _Remarkscontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
+
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       body: SafeArea(
@@ -96,24 +102,26 @@ class _ScandataState extends State<Scandata> {
                                 borderRadius: BorderRadius.circular(90.h),
                                 child: CachedNetworkImage(
                                   imageUrl: "${Studentdetail.profileImage}",
-                                  placeholder: (context, url) => Text(
-                                    Studentdetail.studentName
+                                  placeholder: (context, url) =>
+                                      Text(
+                                        Studentdetail.studentName
                                             ?.substring(0, 1) ??
-                                        '',
-                                    style: TextStyle(
-                                        color: Color(0xFFB1BFFF),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  errorWidget: (context, url, error) => Text(
-                                    Studentdetail.studentName
+                                            '',
+                                        style: TextStyle(
+                                            color: Color(0xFFB1BFFF),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                  errorWidget: (context, url, error) =>
+                                      Text(
+                                        Studentdetail.studentName
                                             ?.substring(0, 1) ??
-                                        '',
-                                    style: TextStyle(
-                                        color: Color(0xFFB1BFFF),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
+                                            '',
+                                        style: TextStyle(
+                                            color: Color(0xFFB1BFFF),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
                                 ),
                               ),
                             ),
@@ -135,21 +143,24 @@ class _ScandataState extends State<Scandata> {
                                         child: SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
                                           child: Text(
-                                              "${Studentdetail.studentName?.trim()}",
+                                              "${Studentdetail.studentName
+                                                  ?.trim()}",
                                               style: GoogleFonts.inter(
                                                   textStyle: TextStyle(
                                                       fontSize: 15.sp,
                                                       color: Colors.black,
                                                       fontWeight:
-                                                          FontWeight.w600))),
+                                                      FontWeight.w600))),
                                         )),
                                     const SizedBox(
                                       height: 3,
                                     ),
                                     Text(
-                                      "Grade ${Studentdetail.batch?.split("/")[0]}"
-                                      "-"
-                                      "${Studentdetail.batch?.split("/")[1]}",
+                                      "Grade ${Studentdetail.batch?.split(
+                                          "/")[0]}"
+                                          "-"
+                                          "${Studentdetail.batch?.split(
+                                          "/")[1]}",
                                       style: TextStyle(fontSize: 14),
                                     ),
                                     Text(
@@ -209,9 +220,9 @@ class _ScandataState extends State<Scandata> {
                                   width: 50,
                                   child: isClicked
                                       ? Image.asset(
-                                          "assets/images/2Clinic Selected.png")
+                                      "assets/images/2Clinic Selected.png")
                                       : Image.asset(
-                                          "assets/images/1Clinic .png")),
+                                      "assets/images/1Clinic .png")),
                               SizedBox(
                                 height: 5,
                               ),
@@ -240,9 +251,9 @@ class _ScandataState extends State<Scandata> {
                                     width: 50,
                                     child: isClicked1
                                         ? Image.asset(
-                                            "assets/images/2Washroom selecetd.png")
+                                        "assets/images/2Washroom selecetd.png")
                                         : Image.asset(
-                                            "assets/images/1Washroom.png")),
+                                        "assets/images/1Washroom.png")),
                                 onTap: () {
                                   setState(() {
                                     isClicked1 = true;
@@ -280,9 +291,9 @@ class _ScandataState extends State<Scandata> {
                                   width: 50,
                                   child: isClicked2
                                       ? Image.asset(
-                                          "assets/images/2Counsellor selected.png")
+                                      "assets/images/2Counsellor selected.png")
                                       : Image.asset(
-                                          "assets/images/1Counsellor.png")),
+                                      "assets/images/1Counsellor.png")),
                               SizedBox(
                                 height: 5,
                               ),
@@ -319,82 +330,102 @@ class _ScandataState extends State<Scandata> {
                       right: 20.w,
                       bottom: 5.h,
                     ),
-                    child: TextFormField(
-                      controller: _Remarkscontroller,
-                      validator: (val) =>
-                          val!.isEmpty ? '  *Fill the Field to Submit' : null,
-                      decoration: InputDecoration(
-                          hintStyle: const TextStyle(color: Colors.black26),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.h, horizontal: 20.w),
-                          hintText: " Enter Remarks   ",
-                          border: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10.0),
-                            ).r,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colorutils.chatcolor, width: 1.0),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)).r,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colorutils.chatcolor, width: 1.0),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10.0)).r,
-                          ),
-                          fillColor: Colors.white,
-                          filled: true),
-                      maxLines: 5,
+                    child: Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        controller: _Remarkscontroller,
+                        validator: (val) =>
+                        val!.isEmpty ? 'Please Enter Remarks.' : null,
+                        decoration: InputDecoration(
+                            hintStyle: const TextStyle(color: Colors.black26),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.h, horizontal: 20.w),
+                            hintText: " Enter Remarks   ",
+                            border: OutlineInputBorder(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10.0),
+                              ).r,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colorutils.chatcolor, width: 1.0),
+                              borderRadius:
+                              const BorderRadius.all(Radius.circular(10)).r,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colorutils.chatcolor, width: 1.0),
+                              borderRadius:
+                              const BorderRadius.all(Radius.circular(10.0)).r,
+                            ),
+                            fillColor: Colors.white,
+                            filled: true),
+                        maxLines: 5,
+                      ),
                     ),
                   ),
                   Center(
-                    child: Padding(
+                    child:spinner
+                        ? Container(
+                        margin: EdgeInsets.only(top: 15.h),
+                        child: Center(child: spinkitNew)): Padding(
                       padding: EdgeInsets.only(top: 25.h),
                       child: GestureDetector(
                         onTap: () async {
-                          String type = isClicked ? "clinic" : isClicked1 ? "washroom" : isClicked2 ? "councellor" : '';
-                          StudentAddModel sentData = StudentAddModel(
-                            academicYear: Get.find<UserAuthController>()
-                                    .userData
-                                    .value
-                                    .academicYear ??
-                                '',
-                            admnNo: Studentdetail.admnNo,
-                            age: Studentdetail.age,
-                            batchDetails: Studentdetail.batch,
-                            dob: Studentdetail.dob,
-                            studentName: Studentdetail.studentName,
-                            fatherEmail: Studentdetail.fatherEmail,
-                            fatherName: Studentdetail.fatherName,
-                            fatherPhone: Studentdetail.fatherPhone,
-                            gender: Studentdetail.gender,
-                            profilePic: Studentdetail.profileImage,
-                            instID: Studentdetail.instID,
-                            remarks: _Remarkscontroller.text,
-                       sentBy: Get.find<UserAuthController>()
-                              .userData
-                              .value
-                              .username ??
-                              '',
-                            sentById: Get.find<UserAuthController>()
-                                .userData
-                                .value
-                                .userId ??
-                                '',
-                            sentByToken:
-                                ' ',
-                            visitStatus: "Sent to ${type[0].toUpperCase()}${type.substring(1, type.length)}",
-                            appType: type,
+                          onTaped = false;
+                          String type = isClicked ? "clinic" : isClicked1
+                              ? "washroom"
+                              : isClicked2 ? "counsellor" : '';
+                          if (_formKey.currentState!.validate()) {
+                            setState(() {
+                              spinner = true;
+                            });
+                            StudentAddModel sentData = StudentAddModel(
+                              academicYear: Get
+                                  .find<UserAuthController>()
+                                  .userData
+                                  .value
+                                  .academicYear ??
+                                  '',
+                              admnNo: Studentdetail.admnNo,
+                              age: Studentdetail.age,
+                              batchDetails: Studentdetail.batch,
+                              dob: Studentdetail.dob,
+                              studentName: Studentdetail.studentName,
+                              fatherEmail: Studentdetail.fatherEmail,
+                              fatherName: Studentdetail.fatherName,
+                              fatherPhone: Studentdetail.fatherPhone,
+                              gender: Studentdetail.gender,
+                              profilePic: Studentdetail.profileImage,
+                              instID: Studentdetail.instID,
+                              remarks: _Remarkscontroller.text,
+                              sentBy: Get
+                                  .find<UserAuthController>()
+                                  .userData
+                                  .value
+                                  .username ??
+                                  '',
+                              sentById: Get
+                                  .find<UserAuthController>()
+                                  .userData
+                                  .value
+                                  .userId ??
+                                  '',
+                              sentByToken:
+                              ' ',
+                              visitStatus: "Sent to ${type[0]
+                                  .toUpperCase()}${type.substring(
+                                  1, type.length)}",
+                              appType: type,
 
 
-                          );
+                            );
+                            await Get.find<Studentmodelcontroller>()
+                                .sendStudentData(data: sentData);
 
-                          await Get.find<Studentmodelcontroller>().sendStudentData(data: sentData);
-                          await Get.find<RecentListApiController>().fetchRecentList();
-
+                            await Get.find<RecentListApiController>()
+                                .fetchRecentList();
+                          }
                         },
                         child: Padding(
                           padding: EdgeInsets.only(
@@ -409,8 +440,8 @@ class _ScandataState extends State<Scandata> {
                               decoration: BoxDecoration(
                                 color: Colorutils.userdetailcolor,
                                 borderRadius:
-                                    const BorderRadius.all(Radius.circular(15))
-                                        .r,
+                                const BorderRadius.all(Radius.circular(15))
+                                    .r,
                               ),
                               child: const Center(
                                 child: Text(
@@ -418,7 +449,7 @@ class _ScandataState extends State<Scandata> {
                                   style: TextStyle(color: Colors.white),
                                 ),
                               )),
-                        ),
+                        ) ,
                       ),
                     ),
                   ),
@@ -431,3 +462,11 @@ class _ScandataState extends State<Scandata> {
     );
   }
 }
+final spinkitNew = SpinKitWave(
+  itemBuilder: (BuildContext context, int index) {
+    return  DecoratedBox(
+        decoration: BoxDecoration(
+          color:Colorutils.chatcolor,
+        ));
+  },
+);

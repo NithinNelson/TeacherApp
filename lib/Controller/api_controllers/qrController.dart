@@ -17,6 +17,7 @@ class Qrcontroller extends GetxController {
   }
 
   void resetData() {
+    studentqrdata.value = QrclinicModel();
     SearchNameList.value = [];
 
   }
