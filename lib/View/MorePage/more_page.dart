@@ -7,6 +7,8 @@ import 'package:path/path.dart';
 
 import '../../Utils/Colors.dart';
 import '../../Utils/constants.dart';
+import '../../main.dart';
+import 'Hodclinic/TrackingPageHod.dart';
 import 'all_Students.dart';
 
 class MorePage extends StatefulWidget {
@@ -114,6 +116,181 @@ class _MorePageState extends State<MorePage> {
                     ),
                   ],
 
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) =>TrackingpageHod() ));
+                },
+                child: Container(
+                  height: 120.h,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colorutils.userdetailcolor,
+                    borderRadius: BorderRadius.all(Radius.circular(24)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+
+
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Container(
+                                child: Text('Student Tracking',style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+
+                                ),),
+                              ),
+                            ),
+                            SizedBox(height: 5,),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: SvgPicture.asset(
+
+                                'assets/images/Routing 4.svg',
+                                width: 45.w,
+                                color: Colorutils.Whitecolor,
+                                fit: BoxFit.fitWidth,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(width: 15,),
+                        Container(
+                          height: 90.w,
+                          width: 85.w,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+
+                              borderRadius: BorderRadius.circular(8)
+
+                          ),
+                          child:
+                          Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Container(
+                                      child: Icon(Icons.circle,color: Colors.red,size: 20,),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          child: Text('SEND',style: TextStyle(
+                                              color: Colorutils.userdetailcolor,
+                                              fontSize: 14,
+
+                                              fontWeight: FontWeight.bold
+
+                                          ),),
+                                        ),
+
+                                        Container(
+                                          child: Text('2',style: TextStyle(
+                                              color: Colorutils.green,
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.bold
+
+                                          ),),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ) ,
+                            ],
+                          )
+
+
+                        ),
+                        SizedBox(width: 15,),
+                        Container(
+                            height: 90.w,
+                            width: 85.w,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+
+                                borderRadius: BorderRadius.circular(8)
+
+                            ),
+                            child:
+                            Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Container(
+                                        child: Icon(Icons.circle,color: Colors.red,size: 20,),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            child: Text('ARRIVALS',style: TextStyle(
+                                                color: Colorutils.userdetailcolor,
+                                                fontSize: 14,
+
+                                                fontWeight: FontWeight.bold
+
+                                            ),),
+                                          ),
+
+                                          Container(
+                                            child: Text('4',style: TextStyle(
+                                                color: Colorutils.green,
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.bold
+
+                                            ),),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ) ,
+                              ],
+                            )
+
+
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),

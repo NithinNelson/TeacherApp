@@ -399,22 +399,34 @@ class _PendingLeaveState extends State<PendingLeave> {
                                                                           SizedBox(
                                                                             height: 8.h,
                                                                           ),
-                                                                          Row(
-                                                                            children: [
-                                                                              Text(
-                                                                                // "From: ${fromdate!.split('T')[0]}",
-                                                                                "From: ${leaveList[i].startDate.toString().split('T')[0].split('-').last}-${leaveList[i].startDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].startDate.toString().split('T')[0].split('-').first}",
-                                                                                style: TextStyle(fontSize: 14),
-                                                                              ),
-                                                                              SizedBox(
-                                                                                width: 40.w,
-                                                                              ),
-                                                                              Text(
-                                                                                "To: ${leaveList[i].endDate.toString().split('T')[0].split('-').last}-${leaveList[i].endDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].endDate.toString().split('T')[0].split('-').first}",
-                                                                                style: TextStyle(fontSize: 14),
-                                                                              ),
-                                                                            ],
+                                                                          Text(
+                                                                            // "From: ${fromdate!.split('T')[0]}",
+                                                                            "From: ${leaveList[i].startDate.toString().split('T')[0].split('-').last}-${leaveList[i].startDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].startDate.toString().split('T')[0].split('-').first}",
+                                                                            style: TextStyle(fontSize: 14),
                                                                           ),
+                                                                          SizedBox(
+                                                                            height: 8.h,
+                                                                          ),
+                                                                          Text(
+                                                                            "To: ${leaveList[i].endDate.toString().split('T')[0].split('-').last}-${leaveList[i].endDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].endDate.toString().split('T')[0].split('-').first}",
+                                                                            style: TextStyle(fontSize: 14),
+                                                                          ),
+                                                                          // Row(
+                                                                          //   children: [
+                                                                          //     Text(
+                                                                          //       // "From: ${fromdate!.split('T')[0]}",
+                                                                          //       "From: ${leaveList[i].startDate.toString().split('T')[0].split('-').last}-${leaveList[i].startDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].startDate.toString().split('T')[0].split('-').first}",
+                                                                          //       style: TextStyle(fontSize: 14),
+                                                                          //     ),
+                                                                          //     SizedBox(
+                                                                          //       width: 40.w,
+                                                                          //     ),
+                                                                          //     Text(
+                                                                          //       "To: ${leaveList[i].endDate.toString().split('T')[0].split('-').last}-${leaveList[i].endDate.toString().split('T')[0].split('-')[1]}-${leaveList[i].endDate.toString().split('T')[0].split('-').first}",
+                                                                          //       style: TextStyle(fontSize: 14),
+                                                                          //     ),
+                                                                          //   ],
+                                                                          // ),
                                                                           SizedBox(
                                                                             height: 10.h,
                                                                           ),

@@ -177,7 +177,7 @@ class _LeaveApprovalState extends State<LeaveApproval> with SingleTickerProvider
 
                               Container(
                                   color: Colors.white,
-                                  child: ApproveRejected()
+                                  child: SingleChildScrollView(child: ApproveRejected())
                               ),
                               Container(
                                   color: Colors.white,
