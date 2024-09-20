@@ -272,15 +272,28 @@ class ChatItems extends StatelessWidget {
                               if (userId != null && lastMessage != null)
                                 if (userId == lastMessage!.messageFromId)
                                   SizedBox(
-                                    height: 21.h,
-                                    width: 21.h,
-                                    child: SvgPicture.asset(
-                                      "assets/images/Checks.svg",
-                                      color: lastMessage!.read!
-                                          ? Colors.green
-                                          : Colors.grey,
-                                    ),
-                                  ),
+                                      height: 21.h,
+                                      width: 21.h,
+                                      child:
+                                          classTeacherGroup?.isClassTeacher ==
+                                                  true
+                                              ? SizedBox(
+                                                  height: 21.h,
+                                                  width: 21.h,
+                                                  child: Center(
+                                                    child: Icon(
+                                                      Icons.check,
+                                                      color: Colors.grey,
+                                                      size: 16.h,
+                                                    ),
+                                                  ),
+                                                )
+                                              : SvgPicture.asset(
+                                                  "assets/images/Checks.svg",
+                                                  color: lastMessage!.read!
+                                                      ? Colors.green.shade900
+                                                      : Colors.grey,
+                                                )),
                               if (userId != null && lastMessage != null)
                                 if (userId == lastMessage!.messageFromId)
                                   SizedBox(width: 5.h),

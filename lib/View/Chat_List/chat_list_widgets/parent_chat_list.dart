@@ -361,7 +361,7 @@ class ChatItem extends StatelessWidget {
                                     child: SvgPicture.asset(
                                       "assets/images/Checks.svg",
                                       color: parentRoom.lastMessage!.read!
-                                          ? Colors.green
+                                          ? Colors.green.shade900
                                           : Colors.grey,
                                     ),
                                   ),
