@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,6 +33,7 @@ class Scandata extends StatefulWidget {
 }
 
 class _ScandataState extends State<Scandata> {
+  bool spinner = false;
   bool isClicked = true;
   bool onTaped = true;
   bool isClicked1 = false;
@@ -363,7 +365,10 @@ class _ScandataState extends State<Scandata> {
                     ),
                   ),
                   Center(
-                    child: Padding(
+                    child:spinner
+                        ? Container(
+                        margin: EdgeInsets.only(top: 15.h),
+                        child: Center(child: spinkitNew)): Padding(
                       padding: EdgeInsets.only(top: 25.h),
                       child: GestureDetector(
                         onTap: () async {
@@ -372,6 +377,9 @@ class _ScandataState extends State<Scandata> {
                               ? "washroom"
                               : isClicked2 ? "counsellor" : '';
                           if (_formKey.currentState!.validate()) {
+                            setState(() {
+                              spinner = true;
+                            });
                             StudentAddModel sentData = StudentAddModel(
                               academicYear: Get
                                   .find<UserAuthController>()
@@ -454,3 +462,11 @@ class _ScandataState extends State<Scandata> {
     );
   }
 }
+final spinkitNew = SpinKitWave(
+  itemBuilder: (BuildContext context, int index) {
+    return  DecoratedBox(
+        decoration: BoxDecoration(
+          color:Colorutils.chatcolor,
+        ));
+  },
+);

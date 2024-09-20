@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -494,8 +495,9 @@ class _TrackingContainerState extends State<TrackingContainer> {
     super.initState();
     endTime = widget.startTime.add(Duration(seconds: countdownDuration));
     if (widget.inProgressList.status?.length == 1 ||
-        widget.inProgressList.status!.length == 3)
+        widget.inProgressList.status!.length == 3 ||  widget.inProgressList.status!.length == 4) {
       startTimer(); // Start the timer when the screen is initialized
+    }
   }
 
   String? startTimer() {
@@ -518,7 +520,7 @@ class _TrackingContainerState extends State<TrackingContainer> {
           text = false;
         } else {
           if (DateTime.now().isAfter(endTime) &&
-              DateTime.now().isBefore(endTime.add(Duration(seconds: 1)))) {
+              DateTime.now().isBefore(endTime.add(const Duration(seconds: 1)))) {
             _playAlertSoundAndVibrate();
             // _playAlertSoundAndVibrate();
           }
@@ -688,8 +690,8 @@ class _TrackingContainerState extends State<TrackingContainer> {
                   children: [
                     Expanded(
                       child: CustomLinearProgressIndicator(
-                        value: widget.inProgressList.status?.length == 1 ||
-                            widget.inProgressList.status?.length == 3
+                        value: (widget.inProgressList.status?.length == 1 || widget.inProgressList.status?.length == 4 ||
+                            (widget.inProgressList.status?.length == 3 && widget.inProgressList.status?[2].visitStatus != "Sent to Isolation Room" ))
                             ? progress
                             : 10,
                         backgroundColor: Colors.white,
@@ -697,10 +699,10 @@ class _TrackingContainerState extends State<TrackingContainer> {
                         borderRadius: BorderRadius.circular(15),
                         text: widget.inProgressList.status?.length == 2
                             ? "Reached"
-                            : remainingTime > 0
-                            ?  "${formatTime(remainingTime)}"" Min Left"
+                            : (widget.inProgressList.status?.length == 3  && widget.inProgressList.status?[2].visitStatus == "Sent to Isolation Room")? " Sent to Isolation Room from Clinic" : remainingTime > 0
+                            ?  "${formatTime(remainingTime)}"" Left"
                             : "Not Yet Reached",
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                           colors: [
                             Colorutils.gradientColor1,
                             Colorutils.gradientColor2
@@ -708,7 +710,7 @@ class _TrackingContainerState extends State<TrackingContainer> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     GestureDetector(

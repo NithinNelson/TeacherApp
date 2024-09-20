@@ -209,12 +209,12 @@ class trackingDetails extends StatelessWidget {
                         starttime: starttime,
                         inProgressData: data,
                       ),
-                    if (data.status?.length == 3 && data.status?[3].visitStatus != "Sent to Isolation Room")
+                    if (data.status?.length == 3 )
                       Container3(
                         starttime: starttime,
                         inProgressData: data,
                       ),
-                    if (data.status?.length == 4 && data.status?[3].visitStatus == "Sent to Isolation Room") Container4(starttime: starttime, inProgressData: data,),
+                    if (data.status?.length == 4 && data.status?[2].visitStatus == "Sent to Isolation Room") Container4(starttime: starttime, inProgressData: data,),
                   ],
                 );
               },
@@ -712,7 +712,7 @@ class Container2 extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "${inProgressData.status?[1].visitStatus}",
+                        "${inProgressData.status?[0].visitStatus}",
                         style: TextStyle(fontSize: 12),
                       ),
                       Text(
@@ -1443,7 +1443,7 @@ class _Container4State extends State<Container4> {
                               left: 60,
                               child: CircleAvatar(
                                 radius: 16.1,
-                                backgroundColor: Colorutils.userdetailcolor,
+                                backgroundColor: Colorutils.white,
                                 child: CircleAvatar(
                                   radius: 16.0,
                                   backgroundColor: Colorutils.userdetailcolor,
@@ -1523,6 +1523,122 @@ class _Container4State extends State<Container4> {
               children: [
                 Text(
                   widget.inProgressData.status?[2].visitStatus ?? '--',
+                  style: TextStyle(fontSize: 18.w, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  child: SvgPicture.asset("assets/images/Notebook.svg"),
+                )
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 10, right: 10),
+          child: Container(
+            padding: EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20.0),
+                border: Border.all(color: Colors.grey.withOpacity(0.2))
+              // boxShadow: [
+              //   BoxShadow(
+              //     color: Colors.grey,
+              //     blurRadius: 0.4,
+              //     offset: Offset(0, 1),
+              //   ),
+              // ],
+            ),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+
+                    Text(
+                        DateFormat('HH : mm').format(DateTime.parse(
+                            widget.inProgressData.status?[1].addedOn ??
+                                '--')
+                            .toLocal()),
+                        style: TextStyle(color: Colors.grey, fontSize: 12)),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 50.0,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              height: 18.0,
+                              decoration: BoxDecoration(
+                                color: Colorutils.userdetailcolor,
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            const Positioned(
+
+                              child: CircleAvatar(
+                                radius: 16.1,
+                                backgroundColor: Colors.white,
+                                child: CircleAvatar(
+                                  radius: 16.0,
+                                  backgroundColor: Colorutils.userdetailcolor,
+                                  child: CircleAvatar(
+                                    radius: 14.0,
+                                    backgroundColor: Colors.white,
+                                    child: CircleAvatar(
+                                      radius: 11.0,
+                                      backgroundColor: Colors.green,
+                                      child: Icon(Icons.check,
+                                          size: 16.0, color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            // Positioned(
+                            //   child: Text("00:00",
+                            //       style: TextStyle(
+                            //           color: Colors.white, fontSize: 10)),
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 5.0),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Student ${widget.inProgressData.status?[2].visitStatus ?? '--'} from Clinic",
+                      style: TextStyle(fontSize: 12,fontStyle: FontStyle.italic ),
+                    ),
+
+
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 18, right: 18),
+          child: Container(
+            height: 40,
+            child: Row(
+              children: [
+                Text(
+                  widget.inProgressData.status?[3].visitStatus ?? '--',
                   style: TextStyle(fontSize: 18.w, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
@@ -1689,16 +1805,16 @@ class _Container4State extends State<Container4> {
                 ),
                 SizedBox(height: 5.0),
                 Padding(
-                  padding: const EdgeInsets.only(left: 40, right: 40),
+                  padding: const EdgeInsets.only(left: 30, right: 40),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "${widget.inProgressData.status?[2].visitStatus}",
+                        "${widget.inProgressData.status?[3].visitStatus}",
                         style: TextStyle(fontSize: 12),
                       ),
                       Text(
-                        "Reached ""${Reachedstatus("${widget.inProgressData.status?[2].visitStatus}")}",
+                       "Reached ""${Reachedstatus("${widget.inProgressData.status?[3].visitStatus}")}",
                         style: TextStyle(fontSize: 12),
                       ),
                     ],
