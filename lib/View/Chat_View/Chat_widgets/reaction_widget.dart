@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:teacherapp/Controller/api_controllers/feedViewController.dart';
+import 'package:teacherapp/Controller/api_controllers/parentChatController.dart';
 import 'package:teacherapp/Controller/reaction_controller/reaction_controller.dart';
 import 'package:teacherapp/Services/common_services.dart';
 import 'package:flutter/foundation.dart' as foundation;
@@ -207,17 +208,17 @@ class ReactionContainerWidget2 extends StatelessWidget {
           ),
           child: Row(
             children: [
-              const SingleReactionIcon(emoji: "👍", delay: 50),
+              const ParentChatSingleReactionIcon(emoji: "👍", delay: 50),
               wSpace(10.h),
-              const SingleReactionIcon(emoji: "🥰", delay: 75),
+              const ParentChatSingleReactionIcon(emoji: "🥰", delay: 75),
               wSpace(10.h),
-              const SingleReactionIcon(emoji: "😁", delay: 100),
+              const ParentChatSingleReactionIcon(emoji: "😁", delay: 100),
               wSpace(10.h),
-              const SingleReactionIcon(emoji: "😂", delay: 125),
+              const ParentChatSingleReactionIcon(emoji: "😂", delay: 125),
               wSpace(10.h),
-              const SingleReactionIcon(emoji: "🔥", delay: 150),
+              const ParentChatSingleReactionIcon(emoji: "🔥", delay: 150),
               wSpace(10.h),
-              const SingleReactionIcon(emoji: "🙏", delay: 175),
+              const ParentChatSingleReactionIcon(emoji: "🙏", delay: 175),
               wSpace(10.h),
               GestureDetector(
                 onTap: () {
@@ -435,3 +436,53 @@ class ReactionContainerWidget2 extends StatelessWidget {
 //     );
 //   }
 // }
+
+class ParentChatSingleReactionIcon extends StatelessWidget {
+  const ParentChatSingleReactionIcon({
+    super.key,
+    required this.emoji,
+    required this.delay,
+  });
+
+  final String emoji;
+  final int delay;
+
+  @override
+  Widget build(BuildContext context) {
+    ValueNotifier<double> iconSize = ValueNotifier(0.h);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) async {
+        await Future.delayed(Duration(milliseconds: delay));
+        iconSize.value = 40.h;
+      },
+    );
+    return GestureDetector(
+      onTap: () {
+        Get.find<ReactionController>().postReaction(
+            context: context,
+            reaction: emoji,
+            messageId:
+                Get.find<ParentChattingController>().seletedMsgData!.messageId!,
+            parentId: Get.find<ParentChattingController>()
+                .seletedMsgData!
+                .messageFromId!);
+      },
+      child: ValueListenableBuilder(
+        valueListenable: iconSize,
+        builder: (context, value, child) {
+          return AnimatedContainer(
+            duration: const Duration(milliseconds: 100),
+            height: iconSize.value,
+            width: iconSize.value,
+            child: FittedBox(
+              child: Text(
+                emoji,
+                // style: TextStyle(fontSize: 30.h),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
