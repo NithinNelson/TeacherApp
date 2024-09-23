@@ -92,12 +92,14 @@ class _ReportListViewState extends State<ReportListView> {
     print('responserbodybodyesponse${response.body}');
     print(response.statusCode);
     if (response.statusCode == 200) {
-      teacherList = json.decode(response.body);
+      setState(() {
+        teacherList = json.decode(response.body);
+        if(teacherList?["data"] != null && teacherList?["data"] != true && teacherList?["data"] != false) {
+          newTeacherList = teacherList?["data"] ?? [];
+        }
+      });
       print('teachteacherListerList.........................$teacherList');
-
-      newTeacherList = teacherList!["data"];
       print("newTeacherList--${newTeacherList}");
-      setState(() {});
     } else {
       setState(() {
         // isSpinner=false;
