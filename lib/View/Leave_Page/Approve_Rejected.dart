@@ -59,7 +59,7 @@ class ApproveRejected extends StatelessWidget {
         SizedBox(height: 10.h),
         Container(
           width: ScreenUtil().screenWidth,
-        
+          height: 600.h,
           child: GetX<LeaveApprovalController>
             (builder: (LeaveApprovalController controller) {
             List<ApprovedOrRejected> leaveList = controller.filteredApprovedOrRejectedLeaves.value;

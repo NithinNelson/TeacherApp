@@ -13,6 +13,7 @@ import 'package:teacherapp/View/CWidgets/AppBarBackground.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 import 'package:teacherapp/View/RoleNavigation/choice_page.dart';
 
+import '../../Services/check_connectivity.dart';
 import '../CWidgets/commons.dart';
 import '../Forgot_password/Forgot_password.dart';
 import '../Menu/drawer.dart';
@@ -237,109 +238,125 @@ class _LoginPageState extends State<LoginPage> {
                                 const EdgeInsets.symmetric(horizontal: 30).w,
                             child: GestureDetector(
                               onTap: () async {
-                                String? user = _usernameController?.text.trim() != ""
-                                    ? _usernameController?.text.trim()
-                                    : null;
-                                String? psw = _passwordController?.text.trim() != ""
-                                    ? _passwordController?.text.trim()
-                                    : null;
-                                if (user != null && psw != null) {
-                                  context.loaderOverlay.show();
-                                  await userAuthController.fetchUserData(
-                                    username: user,
-                                    password: psw,
-                                  );
-                                  context.loaderOverlay.hide();
-                                  if (userAuthController.isLoaded.value) {
-                                    UserRole? userRole =
-                                        userAuthController.userRole.value;
-                                    if (userRole != null) {
-                                      if (userRole == UserRole.leader) {
-                                        List<String>? rolIds = userAuthController.userData.value.roleIds ?? [];
-                                        if(rolIds.contains("rolepri12") || rolIds.contains("role12123")) {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => const HosListing()));
+                                checkInternet2(
+                                  context: context,
+                                  function: () async {
+                                    String? user =
+                                        _usernameController?.text.trim() != ""
+                                            ? _usernameController?.text.trim()
+                                            : null;
+                                    String? psw =
+                                        _passwordController?.text.trim() != ""
+                                            ? _passwordController?.text.trim()
+                                            : null;
+                                    if (user != null && psw != null) {
+                                      context.loaderOverlay.show();
+                                      await userAuthController.fetchUserData(
+                                        username: user,
+                                        password: psw,
+                                      );
+                                      context.loaderOverlay.hide();
+                                      if (userAuthController.isLoaded.value) {
+                                        UserRole? userRole =
+                                            userAuthController.userRole.value;
+                                        if (userRole != null) {
+                                          if (userRole == UserRole.leader) {
+                                            List<String>? rolIds =
+                                                userAuthController.userData
+                                                        .value.roleIds ??
+                                                    [];
+                                            if (rolIds.contains("rolepri12") ||
+                                                rolIds.contains("role12123")) {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const HosListing()));
+                                            } else {
+                                              userAuthController
+                                                  .setSelectedHosData(
+                                                hosName: userAuthController
+                                                        .userData.value.name ??
+                                                    '--',
+                                                hosId: userAuthController
+                                                        .userData
+                                                        .value
+                                                        .userId ??
+                                                    '--',
+                                                isHos: true,
+                                              );
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const DrawerScreen()));
+                                            }
+                                          }
+                                          if (userRole ==
+                                              UserRole.bothTeacherAndLeader) {
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const ChoicePage()));
+                                          }
+                                          if (userRole == UserRole.teacher) {
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const DrawerScreen()));
+                                          }
                                         } else {
-                                          userAuthController.setSelectedHosData(
-                                            hosName: userAuthController.userData.value.name ?? '--',
-                                            hosId: userAuthController.userData.value.userId ?? '--',
-                                            isHos: true,
+                                          TeacherAppPopUps.submitFailed(
+                                            title: "Error",
+                                            message:
+                                                "You are not an authorized user.",
+                                            actionName: "Close",
+                                            iconData: Icons.info_outline,
+                                            iconColor: Colors.red,
                                           );
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => const DrawerScreen()));
                                         }
                                       }
-                                      if (userRole == UserRole.bothTeacherAndLeader) {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const ChoicePage()));
-                                      }
-                                      if (userRole == UserRole.teacher) {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const DrawerScreen()));
-                                      }
-                                    } else {
+                                    } else if (user == null && psw == null) {
                                       TeacherAppPopUps.submitFailed(
                                         title: "Error",
-                                        message: "You are not an authorized user.",
+                                        message:
+                                            "Please Enter the Username/Password!",
                                         actionName: "Close",
                                         iconData: Icons.info_outline,
                                         iconColor: Colors.red,
                                       );
+                                    } else if (user == null && psw != null) {
+                                      TeacherAppPopUps.submitFailed(
+                                        title: "Error",
+                                        message: "Please Enter the Username!",
+                                        actionName: "Close",
+                                        iconData: Icons.info_outline,
+                                        iconColor: Colors.red,
+                                      );
+                                    } else if (user != null && psw == null) {
+                                      TeacherAppPopUps.submitFailed(
+                                        title: "Error",
+                                        message: "Please Enter the Password!",
+                                        actionName: "Close",
+                                        iconData: Icons.info_outline,
+                                        iconColor: Colors.red,
+                                      );
+                                    } else {
+                                      TeacherAppPopUps.submitFailed(
+                                        title: "Failed",
+                                        message:
+                                            "Invalid Username/Password! Please Try Again",
+                                        actionName: "Close",
+                                        iconData: Icons.error_outline,
+                                        iconColor: Colorutils.svguicolour2,
+                                      );
                                     }
-                                  }
-                                }
-
-                                else if (user == null && psw == null) {
-                                  TeacherAppPopUps.submitFailed(
-                                    title: "Error",
-                                    message: "Please Enter the Username/Password!",
-                                    actionName: "Close",
-                                    iconData: Icons.info_outline,
-                                    iconColor: Colors.red,
-                                  );
-                                }
-
-                                else if (user == null && psw != null ) {
-                                  TeacherAppPopUps.submitFailed(
-                                    title: "Error",
-                                    message: "Please Enter the Username!",
-                                    actionName: "Close",
-                                    iconData: Icons.info_outline,
-                                    iconColor: Colors.red,
-                                  );
-                                }
-                                else if ( user != null && psw == null) {
-                                  TeacherAppPopUps.submitFailed(
-                                    title: "Error",
-                                    message: "Please Enter the Password!",
-                                    actionName: "Close",
-                                    iconData: Icons.info_outline,
-                                    iconColor: Colors.red,
-                                  );
-                                }
-
-                                else {
-                                  TeacherAppPopUps.submitFailed(
-                                    title: "Failed",
-                                    message:
-                                        "Invalid Username/Password! Please Try Again",
-                                    actionName: "Close",
-                                    iconData: Icons.error_outline,
-                                    iconColor: Colorutils.svguicolour2,
-                                  );
-                                }
-                                // _usernameController?.clear();
-                                // _passwordController?.clear();
+                                    // _usernameController?.clear();
+                                    // _passwordController?.clear();
+                                  },
+                                );
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -456,6 +473,35 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           )),
+    );
+  }
+}
+
+Future<void> checkInternet2(
+    {required BuildContext context, required Function() function}) async {
+  bool connected = await CheckConnectivity().check();
+  bool isConnectionGood = await CheckConnectivity().goodConnection();
+  print("internect connection is $connected");
+  print("internect Good connection is $isConnectionGood");
+  if (connected) {
+    if (isConnectionGood) {
+      function();
+    } else {
+      TeacherAppPopUps.submitFailed(
+        title: "Error",
+        message: "Something Went Wrong",
+        actionName: "Close",
+        iconData: Icons.info_outline,
+        iconColor: Colors.red,
+      );
+    }
+  } else {
+    TeacherAppPopUps.submitFailed(
+      title: "Warning",
+      message: "No internet connection. Please check your network and try again.",
+      actionName: "Close",
+      iconData: Icons.info_outline,
+      iconColor: Colors.red,
     );
   }
 }

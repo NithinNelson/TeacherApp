@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:teacherapp/Models/api_models/login_api_model.dart';
@@ -133,6 +134,214 @@ class TeacherAppPopUps {
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+  static Trackingpop({
+    String? title,
+    required String message,
+    required String actionName,
+    required Color iconColor,
+    required String timeText,
+  }) {
+    return Get.dialog(
+      AlertDialog(
+
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        ),
+
+        title: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: (){
+                   Get.back();
+                  },
+                  child: Container(
+                    child: Icon(Icons.clear),
+                  ),
+                ),
+              ],
+            ),
+           Container(
+               height:30,width:30,child: Image.asset("assets/images/Vector.png")),
+            if(title != null)
+              SizedBox(height: 10.w),
+            if(title != null)
+              Text(
+                title,
+                style: TextStyle(fontSize: 22.sp,fontWeight: FontWeight.bold),
+
+              ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: TeacherAppFonts.interW600_18sp_textWhite.copyWith(
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 25,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Left Avatar (Lucas)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10,),
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colorutils.chatcolor.withOpacity(0.3),
+                        radius: 18,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SvgPicture.asset("assets/images/profileOne.svg"),
+                        ),
+                      ),
+
+
+                    ],
+                  ),
+                ),
+
+                // Dashed Line with Time Text in the Middle
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(10, (index) {
+                        return Container(
+                          margin: EdgeInsets.symmetric(horizontal: 2),
+                          width: 8,
+                          height: 8,
+
+                        );
+                      }),
+                    ),
+                    Stack(
+
+                      children: [
+
+                        Container(
+                          width: 170.w,
+                          height: 8,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Colorutils.track1,Colorutils.track2], // Define your gradient colors here
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(11, (index) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(horizontal: 5),
+                              width: 3,
+                              height: 10,
+                              color: Colors.white,
+
+                            );
+                          }),
+                        ),
+
+                      ],
+                    ),
+
+                    SizedBox(height: 4),
+                    Text(
+                      timeText,
+                      style: TextStyle(color: Colors.orange, fontSize: 14),
+                    ),
+                  ],
+                ),
+
+                // Right Avatar (You)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10,),
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colorutils.chatcolor.withOpacity(0.3),
+                        radius: 18,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SvgPicture.asset("assets/images/profileOne.svg"),
+                        ),
+                      ),
+
+
+                    ],
+                  ),
+                ),
+
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 5, right: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("brinesh ben",
+
+                      style: TextStyle(color: Colors.grey,fontSize: 12)),
+                  Text("You",
+                      style: TextStyle(color: Colors.grey,fontSize: 12)),
+                ],
+              ),
+            ),
+
+          ],
+        ),
+
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+
+          Container(
+            
+            height: 40,
+            width:250 ,
+            decoration: BoxDecoration(
+                color: Colorutils.userdetailcolor,
+              borderRadius: BorderRadius.circular(10)
+            ),
+            
+            child: Center(
+              child: Text(
+                  actionName, style: TextStyle(color: Colors.white, fontSize: 16.sp),
+              ),
+            ),
+          )
+          // FilledButton(
+          //   onPressed: () {
+          //     Get.back();
+          //
+          //   },
+          //   style: ButtonStyle(
+          //
+          //     backgroundColor: WidgetStateProperty.all(Colorutils.letters1),
+          //   ),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       Text(
+          //         actionName,
+          //         style: TextStyle(color: Colors.white, fontSize: 16.sp),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
@@ -281,4 +490,31 @@ class TeacherAppPopUps {
       ),
     );
   }
+}
+class DashedLinePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()
+      ..color = Colors.teal
+      ..strokeWidth = 2
+
+
+      ..style = PaintingStyle.stroke;
+
+    double dashWidth = 6;
+    double dashSpace = 4;
+    double startX = 0;
+
+    while (startX < size.width) {
+      canvas.drawLine(
+        Offset(startX, 0),
+        Offset(startX + dashWidth, 0),
+        paint,
+      );
+      startX += dashWidth + dashSpace;
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

@@ -105,5 +105,6 @@ class Colorutils {
   static const washroomcolor2 = Color(0xFFFFEDD9);
   static const councellorcolor = Color(0xFF6D55FF);
   static const councellorcolor2 = Color(0xFFCDC6F4);
-
+  static const track1 = Color(0xFF118376);
+  static const track2 = Color(0xFFFAF2F2);
 }
