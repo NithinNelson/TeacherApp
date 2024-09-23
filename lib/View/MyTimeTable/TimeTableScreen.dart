@@ -74,7 +74,7 @@ class _MyTimeTableState extends State<MyTimeTable> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Padding(

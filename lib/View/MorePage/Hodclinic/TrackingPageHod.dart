@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 
 import '../../../Utils/Colors.dart';
 import 'TrackingdetailsHod.dart';
@@ -14,19 +15,31 @@ class TrackingpageHod extends StatefulWidget {
   State<TrackingpageHod> createState() => _TrackingpageHodState();
 }
 
-class _TrackingpageHodState extends State<TrackingpageHod>  with SingleTickerProviderStateMixin {
+class _TrackingpageHodState extends State<TrackingpageHod>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
+  int tabValue =0;
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() {
+      // Update the tabValue based on tab index when user scrolls
+      if (_tabController.indexIsChanging) {
+        setState(() {
+          tabValue = _tabController.index;
+        });
+      }
+    });
   }
+
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,8 +67,7 @@ class _TrackingpageHodState extends State<TrackingpageHod>  with SingleTickerPro
                   ),
                   const Text(
                     "Tracking",
-                    style: TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                   Spacer(
                     flex: 3,
@@ -71,14 +83,12 @@ class _TrackingpageHodState extends State<TrackingpageHod>  with SingleTickerPro
               child: SizedBox(
                 height: 40,
                 child: Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'Live Tracking',
                       style: TextStyle(
-                          fontSize: 16.w,
-                          fontWeight: FontWeight.bold),
+                          fontSize: 16.w, fontWeight: FontWeight.bold),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -92,15 +102,18 @@ class _TrackingpageHodState extends State<TrackingpageHod>  with SingleTickerPro
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(3.0),
-                            child: Icon(Icons.history_rounded,size: 20,color: Colorutils.userdetailcolor,),
+                            child: Icon(
+                              Icons.history_rounded,
+                              size: 20,
+                              color: Colorutils.userdetailcolor,
+                            ),
                           ),
                           Text(
                             'History',
                             style: TextStyle(
                                 fontSize: 16.w,
                                 fontWeight: FontWeight.bold,
-                                color: Colorutils
-                                    .userdetailcolor),
+                                color: Colorutils.userdetailcolor),
                           ),
                         ],
                       ),
@@ -115,32 +128,42 @@ class _TrackingpageHodState extends State<TrackingpageHod>  with SingleTickerPro
                 height: 52,
                 decoration: BoxDecoration(
                   color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                child: TabBar(dividerHeight: 0,
+                child: TabBar(
+                  onTap: (value){
+                    setState(() {
+                      tabValue=value;
+                    });
+                  },
+                  dividerHeight: 0,
                   padding: EdgeInsets.all(5),
                   controller: _tabController,
                   indicator: BoxDecoration(
-
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(25),
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  labelColor: Colors.teal,
+
+                  labelColor:Colorutils.userdetailcolor,
                   unselectedLabelColor: Colors.grey[700],
                   tabs: [
                     Tab(
+
                       child: Row(
+
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text('SENT', style: TextStyle(fontSize: 16)),
                           SizedBox(width: 5),
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 2),
                             decoration: BoxDecoration(
-                              color: Colors.grey[500],
+                              color: tabValue==0?Colorutils.userdetailcolor:Colors.grey,
                               borderRadius: BorderRadius.circular(5),
                             ),
-                            child: Text('6', style: TextStyle(color: Colors.white)),
+                            child: Text('6',
+                                style: TextStyle(color: Colors.white)),
                           ),
                         ],
                       ),
@@ -153,12 +176,14 @@ class _TrackingpageHodState extends State<TrackingpageHod>  with SingleTickerPro
                           Text('ARRIVAL', style: TextStyle(fontSize: 16)),
                           SizedBox(width: 5),
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 2),
                             decoration: BoxDecoration(
-                              color: Colors.teal,
-                              borderRadius: BorderRadius.circular(10),
+                              color:  tabValue==1?Colorutils.userdetailcolor:Colors.grey,
+                              borderRadius: BorderRadius.circular(5),
                             ),
-                            child: Text('6', style: TextStyle(color: Colors.white)),
+                            child: Text('6',
+                                style: TextStyle(color: Colors.white)),
                           ),
                         ],
                       ),
@@ -171,16 +196,16 @@ class _TrackingpageHodState extends State<TrackingpageHod>  with SingleTickerPro
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  Center(child: Text('Arrival Tab Content')),
-
                   ListView.builder(
                       shrinkWrap: true,
-                      padding:
-                      const EdgeInsets.only(bottom: 70),
-                      itemCount:10,
-                      itemBuilder: (context, index) =>
-                      trackingcontainer()),
-
+                      padding: const EdgeInsets.only(bottom: 30),
+                      itemCount: 15,
+                      itemBuilder: (context, index) => TrackingContainer()),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.only(bottom: 30),
+                      itemCount: 15,
+                      itemBuilder: (context, index) => trackingcontainer()),
                 ],
               ),
             ),
@@ -190,6 +215,7 @@ class _TrackingpageHodState extends State<TrackingpageHod>  with SingleTickerPro
     );
   }
 }
+
 class trackingcontainer extends StatelessWidget {
   const trackingcontainer({super.key});
 
@@ -198,7 +224,10 @@ class trackingcontainer extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8, top: 4),
       child: GestureDetector(
-        onTap:(){ Navigator.of(context).push(MaterialPageRoute(builder:  (context) =>Trackingdetailshod()  ));},
+        onTap: () {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => Trackingdetailshod()));
+        },
         child: Container(
           height: 120.h,
           width: double.infinity,
@@ -209,8 +238,8 @@ class trackingcontainer extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding:
-                const EdgeInsets.only(left: 5, top: 8, bottom: 8, right: 12),
+                padding: const EdgeInsets.only(
+                    left: 5, top: 8, bottom: 8, right: 12),
                 child: Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -220,7 +249,8 @@ class trackingcontainer extends StatelessWidget {
                         backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: SvgPicture.asset("assets/images/profileOne.svg"),
+                          child:
+                              SvgPicture.asset("assets/images/profileOne.svg"),
                         ),
                       ),
                       SizedBox(
@@ -246,26 +276,20 @@ class trackingcontainer extends StatelessWidget {
                             height: 5.h,
                           ),
                           Container(
-                            // width: 130.w,
-                            // height: 18.h,
+                              // width: 130.w,
+                              // height: 18.h,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                color:Colors.deepOrange
-                              ),
-
+                                  borderRadius: BorderRadius.circular(4),
+                                  color: Colors.deepOrange),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
                                     vertical: 2.h, horizontal: 10.w),
-                                child:
-                                Text("Sent to wash",
+                                child: Text("Sent to HOD/HOS",
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.inter(
-
                                         textStyle: TextStyle(
-
-                                          fontSize: 13.sp,
-                                          color:Colors.white
-                                        ))),
+                                            fontSize: 13.sp,
+                                            color: Colors.white))),
                               )),
                         ],
                       ),
@@ -289,8 +313,7 @@ class trackingcontainer extends StatelessWidget {
                               height: 8.h,
                             ),
                             Container(
-                                child: Text(
-                                    "From : Grade 10 B",
+                                child: Text("From : Grade 10 B",
                                     style: GoogleFonts.inter(
                                         textStyle: TextStyle(
                                             fontSize: 14.sp,
@@ -316,7 +339,7 @@ class trackingcontainer extends StatelessWidget {
                     children: [
                       Expanded(
                         child: CustomLinearProgressIndicator(
-                          value: 10,
+                          value: 0.7,
                           backgroundColor: Colors.white,
                           textColor: Colors.white,
                           borderRadius: BorderRadius.circular(15),
@@ -346,7 +369,10 @@ class trackingcontainer extends StatelessWidget {
                             //                   .toLocal(),
                             //             )));
                           },
-                          child: Text("4.33 left",style: TextStyle(color: Colors.orange),))
+                          child: Text(
+                            "4.33 left",
+                            style: TextStyle(color: Colors.orange),
+                          ))
                     ],
                   ),
                 ),
@@ -357,7 +383,7 @@ class trackingcontainer extends StatelessWidget {
       ),
     );
   }
-  }
+}
 
 class CustomLinearProgressIndicator extends StatelessWidget {
   final double value;
@@ -384,7 +410,6 @@ class CustomLinearProgressIndicator extends StatelessWidget {
         Container(
           height: 25,
           decoration: BoxDecoration(
-
             color: backgroundColor,
             borderRadius: borderRadius,
             border: Border.all(
@@ -416,6 +441,174 @@ class CustomLinearProgressIndicator extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class TrackingContainer extends StatefulWidget {
+  const TrackingContainer({
+    super.key,
+  });
+
+  @override
+  State<TrackingContainer> createState() => _TrackingContainerState();
+}
+
+class _TrackingContainerState extends State<TrackingContainer> {
+  @override
+  void dispose() {}
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8, top: 4),
+      child: Container(
+        height: 130.h,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.white,
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 5, top: 8, bottom: 8, right: 12),
+              child: Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: 22,
+                      backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset("assets/images/profileOne.svg"),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 200.w,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Text("BrineshBen",
+                                style: GoogleFonts.inter(
+                                    textStyle: TextStyle(
+                                        fontSize: 16.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600))),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Container(
+                            // width: 130.w,
+                            // height: 18.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              color: Colors.grey,
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 2.h, horizontal: 10.w),
+                              child: Text("Sent Back to Class",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.inter(
+                                      textStyle: TextStyle(
+                                    fontSize: 13.sp,
+                                    color: Colorutils.white,
+                                  ))),
+                            )),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 1,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            "Date :30-08-1998",
+                            style: GoogleFonts.inter(
+                              textStyle: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8.h,
+                          ),
+                          Container(
+                              child: Text("Class :10-B",
+                                  style: GoogleFonts.inter(
+                                      textStyle: TextStyle(
+                                          fontSize: 14.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold)))),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              child: Container(
+                width: double.infinity,
+                height: 24,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: CustomLinearProgressIndicator(
+                        value: 5,
+                        backgroundColor: Colors.white,
+                        textColor: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        text: "Not Yet Reached",
+                        gradient: const LinearGradient(
+                          colors: [
+                            Colorutils.gradientColor1,
+                            Colorutils.gradientColor2
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                        TeacherAppPopUps.Trackingpop(title: "Coming!",message:  "Lucas ,from Grade 6D on way!, Sent By Emma Taylor", actionName: "Track", iconColor: Colors.green, timeText: '4.00');
+                        },
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Colorutils.userdetailcolor,
+                          child: Padding(
+                            padding: const EdgeInsets.all(7.0),
+                            child: SvgPicture.asset("assets/images/arrow.svg"),
+                          ),
+                        ))
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

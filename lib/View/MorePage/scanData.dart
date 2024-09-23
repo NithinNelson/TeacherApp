@@ -211,13 +211,13 @@ class _ScandataState extends State<Scandata> {
                           });
                         },
                         child: Container(
-                          height: 80,
-                          width: 90,
+                          height: 70,
+                          width: 80,
                           child: Column(
                             children: [
                               Container(
-                                  height: 50,
-                                  width: 50,
+                                  height: 45,
+                                  width: 45,
                                   child: isClicked
                                       ? Image.asset(
                                       "assets/images/2Clinic Selected.png")
@@ -241,14 +241,14 @@ class _ScandataState extends State<Scandata> {
                           });
                         },
                         child: Container(
-                          height: 80,
-                          width: 90,
+                          height: 70,
+                          width: 80,
                           child: Column(
                             children: [
                               GestureDetector(
                                 child: Container(
-                                    height: 50,
-                                    width: 50,
+                                    height: 45,
+                                    width: 45,
                                     child: isClicked1
                                         ? Image.asset(
                                         "assets/images/2Washroom selecetd.png")
@@ -282,13 +282,13 @@ class _ScandataState extends State<Scandata> {
                           });
                         },
                         child: Container(
-                          height: 80,
-                          width: 90,
+                          height: 70,
+                          width: 80,
                           child: Column(
                             children: [
                               Container(
-                                  height: 50,
-                                  width: 50,
+                                  height: 45,
+                                  width: 45,
                                   child: isClicked2
                                       ? Image.asset(
                                       "assets/images/2Counsellor selected.png")
@@ -299,6 +299,38 @@ class _ScandataState extends State<Scandata> {
                               ),
                               Text(
                                 "Councellor",
+                                style: TextStyle(fontSize: 13),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isClicked2 = true;
+                            isClicked = false;
+                            isClicked1 = false;
+                          });
+                        },
+                        child: Container(
+                          height: 70,
+                          width: 80,
+                          child: Column(
+                            children: [
+                              Container(
+                                  height: 45,
+                                  width: 45,
+                                  child: isClicked2
+                                      ? Image.asset(
+                                      "assets/images/Counsellor (2).png")
+                                      : Image.asset(
+                                      "assets/images/Counsellor (1).png")),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "HOD",
                                 style: TextStyle(fontSize: 13),
                               )
                             ],
