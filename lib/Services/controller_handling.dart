@@ -4,6 +4,8 @@ import '../Controller/api_controllers/chatClassGroupController.dart';
 import '../Controller/api_controllers/feedViewController.dart';
 import '../Controller/api_controllers/groupedViewController.dart';
 import '../Controller/api_controllers/groupedViewListController.dart';
+import '../Controller/api_controllers/hierarchController.dart';
+import '../Controller/api_controllers/hosStudentListController.dart';
 import '../Controller/api_controllers/leaveApprovalController.dart';
 import '../Controller/api_controllers/leaveRequestController.dart';
 import '../Controller/api_controllers/lessonLearningController.dart';
@@ -54,6 +56,8 @@ class HandleControllers {
     Get.put(Studentmodelcontroller());
     Get.put(Studentupdatecontroller());
     Get.put(RecentDateListApiController());
+    Get.put(Hierarchcontroller());
+    Get.put(Hosstudentlistcontroller());
   }
 
   static deleteAllGetControllers() {
@@ -82,5 +86,7 @@ class HandleControllers {
     Get.delete<RecentListApiController>();
     Get.delete<Studentmodelcontroller>();
     Get.delete<Studentupdatecontroller>();Get.delete<RecentDateListApiController>();
+    Get.delete<Hierarchcontroller>();
+    Get.delete<Hosstudentlistcontroller>();
   }
 }

@@ -281,7 +281,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                             builder: (LeaveRequestController controller) {
                               List<StudentsData> studentList =
                                   controller.filteredStudentList;
-                              // studentList.sort((a, b) => a.name!.compareTo(b.name!),);
+                              studentList.sort((a, b) => a.name!.trim().toUpperCase().compareTo(b.name!.trim().toUpperCase()),);
 
                               if (studentList.isNotEmpty) {
                                 return Container(

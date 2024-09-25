@@ -17,7 +17,7 @@ class StudentAddModel {
   String? sentBy;
   String? sentById;
   String? sentByToken;
-
+  String? sentTo;
   StudentAddModel(
       {this.admnNo,
         this.studentName,
@@ -36,7 +36,7 @@ class StudentAddModel {
         this.visitStatus,
         this.sentBy,
         this.sentById,
-        this.sentByToken});
+        this.sentByToken,  this.sentTo});
 
   StudentAddModel.fromJson(Map<String, dynamic> json) {
     admnNo = json['Admn_No'];
@@ -57,6 +57,7 @@ class StudentAddModel {
     sentBy = json['sent_by'];
     sentById = json['sent_by_id'];
     sentByToken = json['sent_by_token'];
+    sentTo = json['sent_to'];
   }
 
   Map<String, dynamic> toJson() {
@@ -79,6 +80,7 @@ class StudentAddModel {
     data['sent_by'] = this.sentBy;
     data['sent_by_id'] = this.sentById;
     data['sent_by_token'] = this.sentByToken;
+    data['sent_to'] = this.sentTo;
     return data;
   }
 }

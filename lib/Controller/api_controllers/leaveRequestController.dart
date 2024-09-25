@@ -82,10 +82,7 @@ class LeaveRequestController extends GetxController {
 
   void filterList({required String text}) {
     filteredStudentList.value = studentList.value
-        .where((student) => student.name!.toLowerCase().contains(text.toLowerCase()))
-        .toList();
-    filteredStudentList.value = studentList.value
-        .where((student) => student.admissionNumber!.contains(text.toLowerCase()))
+        .where((student) => student.name!.toLowerCase().contains(text.toLowerCase()) || student.admissionNumber!.contains(text))
         .toList();
   }
 }

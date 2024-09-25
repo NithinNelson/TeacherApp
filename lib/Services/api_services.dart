@@ -738,7 +738,39 @@ class ApiServices {
       throw Exception("Service Error");
     }
   }
-
+  //hierarchylist
+  static Future<Map<String, dynamic>> loadHierarchyList({
+    required String schoolId,
+    required String academicYear,
+    required String id,
+    required String name,
+  }) async {
+    String url = ApiConstants.hierarchyList;
+    print(url);
+    Map apiBody = {
+      "args": {
+        "school_id": schoolId,
+        "academic_year": academicYear,
+        "_id": id,
+        "name": name
+      }
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      log('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
   static Future<Map<String, dynamic>> loadObsResult({
     required String schoolId,
     required String academicYear,
@@ -780,6 +812,37 @@ class ApiServices {
       "academic_year": academicYear,
       "teacher_id":teacherID,
       "Endorsed_class": endorsedClass,
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      log('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+  //get Hos Student list
+  static Future<Map<String, dynamic>> getHosStudentList({
+    required String schoolId,
+    required String academicYear,
+    required String userId,
+    required String date,
+  }) async {
+    String url = ApiConstants.hosStudentsListClinc;
+    print(url);
+    Map apiBody = {
+      "school_id": schoolId,
+      "academic_year": academicYear,
+      "user_id": userId,
+      "Date":date,
     };
     try {
       var request = http.Request('POST', Uri.parse(url));
