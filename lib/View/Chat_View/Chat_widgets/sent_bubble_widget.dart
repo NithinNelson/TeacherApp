@@ -241,33 +241,59 @@ class SentMessageBubble extends StatelessWidget {
                                                       .withOpacity(.25)),
                                         ),
                                         SizedBox(width: 5.h),
+                                        // SizedBox(
+                                        //   height: 21.h,
+                                        //   width: 21.h,
+                                        //   child: SizedBox(
+                                        //     height: 21.h,
+                                        //     width: 21.h,
+                                        //     child: Center(
+                                        //       child: Icon(
+                                        //         Icons.check,
+                                        //         color: Colors.grey,
+                                        //         size: 16.h,
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
                                         SizedBox(
                                           height: 21.h,
                                           width: 21.h,
-                                          child: widget.msgData
-                                                      ?.isClassTeacher ==
-                                                  true
-                                              ? SizedBox(
-                                                  height: 21.h,
-                                                  width: 21.h,
-                                                  child: Center(
-                                                    child: Icon(
-                                                      Icons.check,
-                                                      color: Colors.grey,
-                                                      size: 16.h,
-                                                    ),
-                                                  ),
-                                                )
-                                              : SvgPicture.asset(
-                                                  "assets/images/Checks.svg",
-                                                  color:
-                                                      messageData?.read == null
-                                                          ? Colors.grey
-                                                          : messageData!.read!
-                                                              ? Colors.green
-                                                                  .shade900
-                                                              : Colors.grey),
+                                          child: SvgPicture.asset(
+                                              "assets/images/Checks.svg",
+                                              color: messageData?.read == null
+                                                  ? Colors.grey
+                                                  : messageData!.read!
+                                                      ? Colors.green.shade900
+                                                      : Colors.grey),
                                         ),
+                                        // SizedBox(
+                                        //   height: 21.h,
+                                        //   width: 21.h,
+                                        //   child: widget.msgData
+                                        //               ?.isClassTeacher ==
+                                        //           true
+                                        //       ? SizedBox(
+                                        //           height: 21.h,
+                                        //           width: 21.h,
+                                        //           child: Center(
+                                        //             child: Icon(
+                                        //               Icons.check,
+                                        //               color: Colors.grey,
+                                        //               size: 16.h,
+                                        //             ),
+                                        //           ),
+                                        //         )
+                                        //       : SvgPicture.asset(
+                                        //           "assets/images/Checks.svg",
+                                        //           color:
+                                        //               messageData?.read == null
+                                        //                   ? Colors.grey
+                                        //                   : messageData!.read!
+                                        //                       ? Colors.green
+                                        //                           .shade900
+                                        //                       : Colors.grey),
+                                        // ),
                                       ],
                                     )
                                   ],
