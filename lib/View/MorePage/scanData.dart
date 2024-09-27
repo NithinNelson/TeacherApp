@@ -424,7 +424,7 @@ class _ScandataState extends State<Scandata> {
                                       print(
                                           "....bendcncdn........${controller.hosdata}");
                                       return DropdownMenuItem<dynamic>(
-                                        value: '${item.sId.toString()}',
+                                        value:item.sId,
                                         child: Text(
                                           item.name ?? '--',
                                           overflow: TextOverflow.ellipsis,

@@ -1,10 +1,12 @@
 import 'package:get/get.dart';
 import 'package:teacherapp/Controller/search_controller/search_controller.dart';
+import '../Controller/api_controllers/HosStudentUpdateController.dart';
 import '../Controller/api_controllers/chatClassGroupController.dart';
 import '../Controller/api_controllers/feedViewController.dart';
 import '../Controller/api_controllers/groupedViewController.dart';
 import '../Controller/api_controllers/groupedViewListController.dart';
 import '../Controller/api_controllers/hierarchController.dart';
+import '../Controller/api_controllers/hosAllStudentsListController.dart';
 import '../Controller/api_controllers/hosStudentListController.dart';
 import '../Controller/api_controllers/leaveApprovalController.dart';
 import '../Controller/api_controllers/leaveRequestController.dart';
@@ -58,6 +60,8 @@ class HandleControllers {
     Get.put(RecentDateListApiController());
     Get.put(Hierarchcontroller());
     Get.put(Hosstudentlistcontroller());
+    Get.put(Hosstudentupdatecontroller());
+    Get.put(Hosallstudentslistcontroller());
   }
 
   static deleteAllGetControllers() {
@@ -88,5 +92,7 @@ class HandleControllers {
     Get.delete<Studentupdatecontroller>();Get.delete<RecentDateListApiController>();
     Get.delete<Hierarchcontroller>();
     Get.delete<Hosstudentlistcontroller>();
+    Get.delete<Hosstudentupdatecontroller>();
+    Get.delete<Hosallstudentslistcontroller>();
   }
 }

@@ -6,6 +6,7 @@ import 'package:mime/mime.dart';
 import 'package:teacherapp/Models/api_models/learning_walk_apply_model.dart';
 import 'package:teacherapp/Models/api_models/leave_req_list_api_model.dart';
 
+import '../Models/api_models/HosUpdateModel.dart';
 import '../Models/api_models/chat_feed_view_model.dart';
 import '../Models/api_models/parent_chatting_model.dart';
 import '../Models/api_models/recentlist_model.dart';
@@ -829,6 +830,39 @@ class ApiServices {
       throw Exception("Service Error");
     }
   }
+  //hos full list clinic
+
+  static Future<Map<String, dynamic>> getHosAllStudentList({
+    required String schoolId,
+    required String academicYear,
+    required String date,
+  }) async {
+    String url = ApiConstants.HosAllStudentListClinic;
+    print(url);
+    Map apiBody ={
+      "school_id": schoolId,
+      "academic_year":academicYear,
+      "Date": date
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      log('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+
+
   //get Hos Student list
   static Future<Map<String, dynamic>> getHosStudentList({
     required String schoolId,
@@ -916,13 +950,49 @@ class ApiServices {
       "app_type": data.appType,
       "visit_status": data.visitStatus,
       "sent_by": data.sentBy,
+      "sent_to":data.sentTo,
       "sent_by_id": data.sentById,
       "sent_by_token": data.sentByToken
     };
     try {
       var request = http.Request('POST', Uri.parse(url));
       request.body = (json.encode(apiBody));
-      log('Api body---------------------->${request.body}');
+      log('Api body studenthere-------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
+
+
+  //submitHOSdata
+
+
+
+
+
+  static Future<Map<String, dynamic>> getSubmitHosdata({
+    required HosUpdateModel data,
+  }) async {
+    String url = ApiConstants.HosDataUpdateClinic;
+    print(url);
+    Map apiBody = {
+      "id": data.id,
+      "visit_status": data.visitStatus,
+      "sent_by": data.sentBy, //teacher name
+      "sent_by_id": data.sentById //teacher id
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      log('Api body-of Hosdataupdate--------------------->${request.body}');
       request.headers.addAll(ApiConstants.headers);
       http.StreamedResponse response = await request.send();
       var respString = await response.stream.bytesToString();

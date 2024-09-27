@@ -73,4 +73,6 @@ class ApiConstants {
   static String studentsUpdateClinc = "https://apiqa-bmclinic.docme.online/v2/update_visit";
   static String hosStudentsListClinc = "https://apiqa-bmclinic.docme.online/v2/get_hod_visit";
   static String hierarchyList= "https://teamsqa3000.educore.guru/v0/markentry/page/list/approvers";
+  static String HosDataUpdateClinic= "https://apiqa-bmclinic.docme.online/v2/update_hod_visit";
+  static String HosAllStudentListClinic= "https://apiqa-bmclinic.docme.online/v2/get_all_hod_visit";
 }

@@ -11,6 +11,7 @@ class Hosstudentlistcontroller extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isLoaded = false.obs;
   RxBool isError = false.obs;
+  RxList<SendData> recentData = <SendData>[].obs;
   RxList<SendData> sentStudentData = <SendData>[].obs;
   RxList<SendData> recivedStudentData = <SendData>[].obs;
 
@@ -20,6 +21,7 @@ class Hosstudentlistcontroller extends GetxController {
   }
 
   void resetData() {
+    recentData.value = [];
     sentStudentData.value = [];
     recivedStudentData.value = [];
   }
@@ -56,13 +58,28 @@ class Hosstudentlistcontroller extends GetxController {
         HosStudentListMode hosStudentlist =
         HosStudentListMode.fromJson(resp);
 
-        sentStudentData.value= hosStudentlist.data?.data?.sendData?? [];
-        recivedStudentData.value=hosStudentlist.data?.data?.receiveData?? [];
-        print(
-            "-----------isentStudentData..${sentStudentData.value.length}-----------");
-        print(
-            "-----------recivedStudentData..${recivedStudentData.value.length}-----------");
+
+        recentData.value = hosStudentlist.data!.data?.sendData ?? [];
+        // sentStudentData.value= hosStudentlist.data?.data?.sendData?? [];
+        // recivedStudentData.value=hosStudentlist.data?.data?.receiveData?? [];
+
+
+
+
         isLoaded.value = true;
+        for (var student in recentData.value) {
+          if (student.isprogress ?? false) {
+            sentStudentData.add(student);
+            print(
+                "-----------sentStudentData..${sentStudentData.first.id}-----------");
+            print(
+                "-----------sentStudentData..${sentStudentData.first.studentName}-----------");
+          } else {
+            recivedStudentData.add(student);
+            print(
+                "-----------recivedStudentData..$recivedStudentData-----------");
+          }
+        }
 
       }
     } catch (e) {
