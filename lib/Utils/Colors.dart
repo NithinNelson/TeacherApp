@@ -107,4 +107,6 @@ class Colorutils {
   static const councellorcolor2 = Color(0xFFCDC6F4);
   static const track1 = Color(0xFF118376);
   static const track2 = Color(0xFFFAF2F2);
+  static const clinicHOd= Color(0xFFDEEDFF);
+
 }

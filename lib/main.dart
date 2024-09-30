@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +12,13 @@ import 'Services/controller_handling.dart';
 import 'Services/shared_preferences.dart';
 import 'View/splash_screen.dart';
 import 'firebase_options.dart';
+
+// @pragma('vm:entry-point')
+// void printHello() {
+// final DateTime now = DateTime.now();
+// final int isolateId = Isolate.current.hashCode;
+// print("[$now] Hello, world! isolate=${isolateId} function='$printHello'");
+// }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,9 +33,11 @@ Future<void> main() async {
       DeviceOrientation.portraitUp,
     ]
   );
+  WidgetsFlutterBinding.ensureInitialized();
   final sharedPrefs = SharedPrefs();
   await sharedPrefs.initialize();
   runApp(const MyApp());
+
 }
 
 class MyApp extends StatelessWidget {

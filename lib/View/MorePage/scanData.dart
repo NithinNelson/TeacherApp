@@ -556,7 +556,7 @@ class _ScandataState extends State<Scandata> {
                                     sentBy: Get.find<UserAuthController>()
                                             .userData
                                             .value
-                                            .username ??
+                                            .name ??
                                         '',
                                     sentById: Get.find<UserAuthController>()
                                             .userData

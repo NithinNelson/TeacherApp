@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 import 'package:vibration/vibration.dart';
 
@@ -100,7 +101,7 @@ class _TrackingpageHodState extends State<TrackingpageHod>
                   right: 18,
                 ),
                 child: SizedBox(
-                  height: 40,
+                  height: 20,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -191,8 +192,7 @@ class _TrackingpageHodState extends State<TrackingpageHod>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('OVERALL LIST',
-                                style: TextStyle(fontSize: 13)),
+                            Text('ALL LIST', style: TextStyle(fontSize: 13)),
                             SizedBox(width: 5),
                             Container(
                               padding: EdgeInsets.symmetric(
@@ -366,10 +366,10 @@ class _trackingcontainerState extends State<trackingcontainer> {
                   )));
         },
         child: Container(
-          height: 120.h,
+          height: 110.h,
           width: double.infinity,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
             color: Colors.white,
           ),
           child: Column(
@@ -418,16 +418,16 @@ class _trackingcontainerState extends State<trackingcontainer> {
                               // height: 18.h,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(4),
-                                  color: Colors.deepOrange),
+                                  color: Colorutils.clinicHOd),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
                                     vertical: 2.h, horizontal: 10.w),
-                                child: Text("Sent From Class",
+                                child: Text("Sent From Teacher",
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.inter(
                                         textStyle: TextStyle(
                                             fontSize: 13.sp,
-                                            color: Colors.white))),
+                                            color: Colors.blue))),
                               )),
                         ],
                       ),
@@ -438,30 +438,63 @@ class _trackingcontainerState extends State<trackingcontainer> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text(
-                              "Sent : ${widget.sendStudentList.visitDate}",
-                              style: GoogleFonts.inter(
-                                textStyle: TextStyle(
-                                    fontSize: 11.sp,
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold),
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "Sent : ",
+
+                                  // "Sent : ${widget.sendStudentList.visitDate}",
+                                  style: GoogleFonts.inter(
+                                    textStyle: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Text(
+                                  "${DateFormat('hh : mm a').format(DateTime.parse(widget.sendStudentList.status?[0].addedOn ?? '--').toLocal())}",
+
+                                  // "Sent : ${widget.sendStudentList.visitDate}",
+                                  style: GoogleFonts.inter(
+                                    textStyle: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(
                               height: 8.h,
                             ),
                             Container(
-                                child: Text(
-                                    " From : Grade"
-                                    " "
+                                child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "From : ",
+
+                                  // "Sent : ${widget.sendStudentList.visitDate}",
+                                  style: GoogleFonts.inter(
+                                    textStyle: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Text(
+                                    "Grade "
                                     "${widget.sendStudentList.classs}"
                                     " "
                                     "${widget.sendStudentList.batch}",
                                     style: GoogleFonts.inter(
                                         textStyle: TextStyle(
-                                            fontSize: 13.sp,
+                                            fontSize: 12.sp,
                                             color: Colors.black,
-                                            fontWeight: FontWeight.bold)))),
+                                            fontWeight: FontWeight.bold))),
+                              ],
+                            )),
                           ],
                         ),
                       ),
@@ -470,7 +503,7 @@ class _trackingcontainerState extends State<trackingcontainer> {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
@@ -652,7 +685,7 @@ class _TrackingContainerState extends State<TrackingContainer> {
                                   "${widget.sendStudentsData.batch}",
                                   style: GoogleFonts.inter(
                                       textStyle: TextStyle(
-                                          fontSize: 14.sp,
+                                          fontSize: 12.sp,
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold)))),
                         ],

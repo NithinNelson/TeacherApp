@@ -215,7 +215,7 @@ class _MorePageState extends State<MorePage> {
                                         children: [
                                           Container(
                                             child: Text(
-                                              'SEND',
+                                              'MY LIST',
                                               style: GoogleFonts.inter(
                                                 fontSize: 14.h,
                                                 fontWeight: FontWeight.w500,
@@ -279,7 +279,7 @@ class _MorePageState extends State<MorePage> {
                                         children: [
                                           Container(
                                             child: Text(
-                                              'ARRIVALS',
+                                              'ALL LIST',
                                               style: GoogleFonts.inter(
                                                 fontSize: 14.h,
                                                 fontWeight: FontWeight.w500,

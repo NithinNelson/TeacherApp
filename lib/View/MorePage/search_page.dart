@@ -127,7 +127,8 @@ class SearchPage extends StatelessWidget {
                 // for (int i=0;i<Studentdetails.length; i++)
                 //    listcontainer(Studentdetails: Studentdetails[i],)
                 _textcontroller.text.isEmpty
-                    ? Expanded(
+                    ? Container(
+                  height: 250,
                         child: Center(
                             child: Text(
                         'Please Enter Text to Search...',
@@ -137,6 +138,7 @@ class SearchPage extends StatelessWidget {
                             fontStyle: FontStyle.italic),
                       )))
                     : Expanded(
+
                         child: controller.isLoading.value
                             ? Center(
                                 child: Container(
@@ -162,7 +164,8 @@ class SearchPage extends StatelessWidget {
                                         },
                                         child: listcontainer(
                                           Studentdetails: Studentdetails[index],
-                                        ))):Expanded(
+                                        ))):Container(
+
                             child: Center(
                                 child: Text(
                                   'No data Found...',
@@ -198,70 +201,68 @@ class listcontainer extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                CircleAvatar(
-                  radius: 25.r,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(90.h),
-                    child: CachedNetworkImage(
-                      imageUrl: "${Studentdetails.profileImage}",
-                      placeholder: (context, url) => Text(
-                        Studentdetails.studentName?.substring(0, 1) ?? '',
-                        style: TextStyle(
-                            color: Color(0xFFB1BFFF),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      ),
-                      errorWidget: (context, url, error) => Text(
-                        Studentdetails.studentName?.substring(0, 1).trim() ??
-                            '',
-                        style: TextStyle(
-                            color: Color(0xFFB1BFFF),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                radius: 25.r,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(90.h),
+                  child: CachedNetworkImage(
+                    imageUrl: "${Studentdetails.profileImage}",
+                    placeholder: (context, url) => Text(
+                      Studentdetails.studentName?.substring(0, 1) ?? '',
+                      style: TextStyle(
+                          color: Color(0xFFB1BFFF),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                    errorWidget: (context, url, error) => Text(
+                      Studentdetails.studentName?.substring(0, 1).trim() ??
+                          '',
+                      style: TextStyle(
+                          color: Color(0xFFB1BFFF),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 10.w,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 270.w,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Text("${Studentdetails.studentName}",
-                            style: GoogleFonts.inter(
-                                textStyle: TextStyle(
-                                    fontSize: 16.sp,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600))),
-                      ),
+              ),
+              SizedBox(
+                width: 10.w,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 270.w,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Text("${Studentdetails.studentName}",
+                          style: GoogleFonts.inter(
+                              textStyle: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600))),
                     ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    Text("${Studentdetails.admnNo}",
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.inter(
-                            textStyle: TextStyle(
-                          fontSize: 13.sp,
-                          color: Colors.grey,
-                        ))),
-                  ],
-                ),
-                SizedBox(
-                  width: 2,
-                ),
-              ],
-            ),
+                  ),
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                  Text("${Studentdetails.admnNo}",
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.inter(
+                          textStyle: TextStyle(
+                        fontSize: 13.sp,
+                        color: Colors.grey,
+                      ))),
+                ],
+              ),
+              SizedBox(
+                width: 2,
+              ),
+            ],
           ),
         ),
       ),
