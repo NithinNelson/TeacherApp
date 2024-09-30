@@ -573,7 +573,7 @@ class _TrackingContainerState extends State<TrackingContainer> {
                     ),
                   ),
 
-
+SizedBox(width: 5,),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

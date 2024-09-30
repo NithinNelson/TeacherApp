@@ -116,15 +116,29 @@ class trackingDetails extends StatelessWidget {
                               // height: 18.h,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(4),
-                                color: inProgressList.visitStatus == "Sent to Clinic"|| inProgressList.visitStatus == "Reached Clinic"
+                                color: inProgressList.visitStatus ==
+                                            "Sent to Clinic" ||
+                                        inProgressList.visitStatus ==
+                                            "Reached Clinic"
                                     ? Colors.red.withOpacity(0.2)
-                                    : inProgressList.visitStatus == "Sent to Washroom"|| inProgressList.visitStatus == "Reached Washroom"
-                                    ? Colorutils.washroomcolor2
-                                    : inProgressList.visitStatus == "Sent to Counsellor"|| inProgressList.visitStatus == "Reached Counsellor"
-                                    ? Colorutils.councellorcolor2
-                                    : inProgressList.visitStatus == "Back to Class"|| inProgressList.visitStatus == "Reached Class"
-                                    ? Colors.green.withOpacity(0.3)
-                                    :  Colorutils.grey,
+                                    : inProgressList.visitStatus ==
+                                                "Sent to Washroom" ||
+                                            inProgressList.visitStatus ==
+                                                "Reached Washroom"
+                                        ? Colorutils.washroomcolor2
+                                        : inProgressList.visitStatus ==
+                                                    "Sent to Counsellor" ||
+                                                inProgressList.visitStatus ==
+                                                    "Reached Counsellor"
+                                            ? Colorutils.councellorcolor2
+                                            : inProgressList.visitStatus ==
+                                                        "Back to Class" ||
+                                                    inProgressList
+                                                            .visitStatus ==
+                                                        "Reached Class"
+                                                ? Colors.green
+                                                    .withOpacity(0.3)
+                                                : Colorutils.grey,
                               ),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
@@ -134,20 +148,36 @@ class trackingDetails extends StatelessWidget {
                                     style: GoogleFonts.inter(
                                         textStyle: TextStyle(
                                       fontSize: 13.sp,
-                                          color: inProgressList.visitStatus == "Sent to Clinic"|| inProgressList.visitStatus == "Reached Clinic"
-                                              ? Colors.red
-                                              : inProgressList.visitStatus == "Sent to Washroom"|| inProgressList.visitStatus == "Reached Washroom"
+                                      color: inProgressList.visitStatus ==
+                                                  "Sent to Clinic" ||
+                                              inProgressList.visitStatus ==
+                                                  "Reached Clinic"
+                                          ? Colors.red
+                                          : inProgressList.visitStatus ==
+                                                      "Sent to Washroom" ||
+                                                  inProgressList
+                                                          .visitStatus ==
+                                                      "Reached Washroom"
                                               ? Colorutils.washroomcolor
-                                              : inProgressList.visitStatus == "Sent to Counsellor"|| inProgressList.visitStatus == "Reached Counsellor"
-                                              ? Colorutils.councellorcolor
-                                              : inProgressList.visitStatus == "Back to Class"|| inProgressList.visitStatus == "Reached Class"
-                                              ? Colorutils.userdetailcolor
-                                              :  Colorutils.white,
+                                              : inProgressList.visitStatus ==
+                                                          "Sent to Counsellor" ||
+                                                      inProgressList
+                                                              .visitStatus ==
+                                                          "Reached Counsellor"
+                                                  ? Colorutils.councellorcolor
+                                                  : inProgressList.visitStatus ==
+                                                              "Back to Class" ||
+                                                          inProgressList
+                                                                  .visitStatus ==
+                                                              "Reached Class"
+                                                      ? Colorutils
+                                                          .userdetailcolor
+                                                      : Colorutils.white,
                                     ))),
                               )),
                         ],
                       ),
-                      Spacer(),
+                     Spacer(),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
@@ -196,19 +226,24 @@ class trackingDetails extends StatelessWidget {
                 print("....datazzzzzz222 ....${data.studentName}");
                 return Column(
                   children: [
-                    if (data.status?.length == 1 )
+                    if (data.status?.length == 1)
                       Container1(inProgressData: data, starttime: starttime),
                     if (data.status?.length == 2)
                       Container2(
                         starttime: starttime,
                         inProgressData: data,
                       ),
-                    if (data.status?.length == 3 )
+                    if (data.status?.length == 3)
                       Container3(
                         starttime: starttime,
                         inProgressData: data,
                       ),
-                    if (data.status?.length == 4 && data.status?[2].visitStatus == "Sent to Isolation Room") Container4(starttime: starttime, inProgressData: data,),
+                    if (data.status?.length == 4 &&
+                        data.status?[2].visitStatus == "Sent to Isolation Room")
+                      Container4(
+                        starttime: starttime,
+                        inProgressData: data,
+                      ),
                   ],
                 );
               },
@@ -359,59 +394,51 @@ class _Container1State extends State<Container1> {
                               height: 18,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10)),
-
                               child: Row(
                                 children: [
                                   Expanded(
-                                      child: Container(
-                                    decoration:BoxDecoration(
-
-
-                                        borderRadius: BorderRadius.circular(10),
-                                    color: Colorutils.userdetailcolor),
-
-                                  )),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Colorutils.userdetailcolor),
+                                    ),
+                                  ),
                                   Expanded(
                                       child: Container(
-                                        decoration:BoxDecoration(
-
-
-                                            borderRadius: BorderRadius.circular(10),
-                                            color: Colors.grey.withOpacity(0.3),),
-
-                                      )),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.grey.withOpacity(0.3),
+                                    ),
+                                  )),
                                 ],
                               ),
-
                             ),
                             Center(
                               child: Container(
                                 height: 18,
                                 margin: EdgeInsets.only(left: 70, right: 70),
-                               color: Colors.white,
+                                color: Colors.white,
                               ),
                             ),
                             Center(
                               child: Container(
                                 height: 18,
                                 margin: EdgeInsets.only(left: 80, right: 80),
-                                child: Positioned(
-                                  left: 60,
-                                  child: CustomLinearProgressIndicator(
-                                    value: progress,
-                                    backgroundColor:
-                                        Colors.grey.withOpacity(0.3),
-                                    textColor: Colors.white,
-                                    borderRadius: BorderRadius.circular(15),
-                                    text: remainingTime > 0
-                                        ? "${formatTime(remainingTime)}"" Min Left"
-                                        : "Not Yet Reached",
-                                    gradient: const LinearGradient(
-                                      colors: [
-                                        Colorutils.userdetailcolor,
-                                        Colorutils.userdetailcolor
-                                      ],
-                                    ),
+                                child: CustomLinearProgressIndicator(
+                                  value: progress,
+                                  backgroundColor:
+                                      Colors.grey.withOpacity(0.3),
+                                  textColor: Colors.white,
+                                  borderRadius: BorderRadius.circular(15),
+                                  text: remainingTime > 0
+                                      ? "${formatTime(remainingTime)}"
+                                          " Min Left"
+                                      : "Not Yet Reached",
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      Colorutils.userdetailcolor,
+                                      Colorutils.userdetailcolor
+                                    ],
                                   ),
                                 ),
                               ),
@@ -483,7 +510,36 @@ class _Container1State extends State<Container1> {
                   ),
                 ),
 
-                if(widget.inProgressData.visitStatus=='Sent to Washroom')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                if (widget.inProgressData.visitStatus == 'Sent to Washroom')
                   Column(
                     children: [
                       SizedBox(
@@ -496,59 +552,57 @@ class _Container1State extends State<Container1> {
                           children: [
                             Center(
                                 child: SliderButton(
-                                  height: 50,
-                                  backgroundColor: Colorutils.userdetailcolor,
-                                  radius: 50,
-                                  buttonSize: 50,
-                                  action: () async {
-                                    StudentUpdateModel updateData = StudentUpdateModel(
+                              height: 50,
+                              backgroundColor: Colorutils.userdetailcolor,
+                              radius: 50,
+                              buttonSize: 50,
+                              action: () async {
+                                StudentUpdateModel updateData =
+                                    StudentUpdateModel(
                                         user: Get.find<UserAuthController>()
-                                            .userData
-                                            .value
-                                            .name ??
+                                                .userData
+                                                .value
+                                                .name ??
                                             '',
                                         userId: Get.find<UserAuthController>()
-                                            .userData
-                                            .value
-                                            .userId ??
+                                                .userData
+                                                .value
+                                                .userId ??
                                             '',
                                         userToken: "",
                                         visitId: widget.inProgressData.id);
-                                    await Get.find<Studentupdatecontroller>()
-                                        .sendStudentDatas(data: updateData);
-                                    await Get.find<RecentListApiController>()
-                                        .fetchRecentList();
-                                  },
-                                  label: const Text(
-                                    "Slide to Confirm Arrival",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15),
-                                  ),
-                                  icon: const Center(
-                                      child: Icon(
-                                        CupertinoIcons.forward,
-                                        color: Colorutils.userdetailcolor,
-                                        size: 25.0,
-                                      )),
-                                  boxShadow: BoxShadow(
-                                    color: Colors.black.withOpacity(0.3),
-                                    blurRadius: 4,
-                                  ),
-                                )),
+                                await Get.find<Studentupdatecontroller>()
+                                    .sendStudentDatas(data: updateData);
+                                await Get.find<RecentListApiController>()
+                                    .fetchRecentList();
+                              },
+                              label: const Text(
+                                "Slide to Confirm Arrival",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15),
+                              ),
+                              icon: const Center(
+                                  child: Icon(
+                                CupertinoIcons.forward,
+                                color: Colorutils.userdetailcolor,
+                                size: 25.0,
+                              )),
+                              boxShadow: BoxShadow(
+                                color: Colors.black.withOpacity(0.3),
+                                blurRadius: 4,
+                              ),
+                            )),
                           ],
                         ),
                       ),
                     ],
                   )
-
               ],
             ),
           ),
         ),
-
-
       ],
     );
   }
@@ -965,330 +1019,332 @@ class _Container3State extends State<Container3> {
           ),
         ),
         widget.inProgressData.status?[2].visitStatus == "Back to Class"
-
-          ?Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10),
-          child: Container(
-            padding: EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20.0),
-                border: Border.all(color: Colors.grey.withOpacity(0.2))
-              // boxShadow: [
-              //   BoxShadow(
-              //     color: Colors.grey,
-              //     blurRadius: 0.4,
-              //     offset: Offset(0, 1),
-              //   ),
-              // ],
-            ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 60, right: 60),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ? Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: Container(
+                  padding: EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.0),
+                      border: Border.all(color: Colors.grey.withOpacity(0.2))
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Colors.grey,
+                      //     blurRadius: 0.4,
+                      //     offset: Offset(0, 1),
+                      //   ),
+                      // ],
+                      ),
+                  child: Column(
                     children: [
-                      Text(
-                          DateFormat('HH : mm').format(DateTime.parse(
-                              widget.inProgressData.status?[2].addedOn ??
-                                  '--')
-                              .toLocal()),
-                          style: const TextStyle(
-                              color: Colors.grey, fontSize: 12)),
-                      const Text("-- : -- ",
-                          style: TextStyle(color: Colors.grey, fontSize: 12)),
-                    ],
-                  ),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 50.0,
-                        child: Stack(
-                          alignment: Alignment.center,
+                      Padding(
+                        padding: EdgeInsets.only(left: 60, right: 60),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              height: 18,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10)),
-
-                              child: Row(
+                            Text(
+                                DateFormat('HH : mm').format(DateTime.parse(
+                                        widget.inProgressData.status?[2]
+                                                .addedOn ??
+                                            '--')
+                                    .toLocal()),
+                                style: const TextStyle(
+                                    color: Colors.grey, fontSize: 12)),
+                            const Text("-- : -- ",
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: 12)),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 50.0,
+                              child: Stack(
+                                alignment: Alignment.center,
                                 children: [
-                                  Expanded(
-                                      child: Container(
-                                        decoration:BoxDecoration(
-
-
-                                            borderRadius: BorderRadius.circular(10),
-                                            color: Colorutils.userdetailcolor),
-
-                                      )),
-                                  Expanded(
-                                      child: Container(
-                                        decoration:BoxDecoration(
-
-
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: Colors.grey.withOpacity(0.3),),
-
-                                      )),
-                                ],
-                              ),
-
-                            ),
-                            Center(
-                              child: Container(
-                                height: 18,
-                                margin: EdgeInsets.only(left: 70, right: 70),
-                                color: Colors.white,
-                              ),
-                            ),
-                            Center(
-                              child: Container(
-                                height: 18,
-                                margin: EdgeInsets.only(left: 80, right: 80),
-                                child: Positioned(
-                                  left: 60,
-                                  child: CustomLinearProgressIndicator(
-                                    value: progress,
-                                    backgroundColor:
-                                    Colors.grey.withOpacity(0.3),
-                                    textColor: Colors.white,
-                                    borderRadius: BorderRadius.circular(15),
-                                    text: remainingTime > 0
-                                        ? formatTime(remainingTime)
-                                        : "Not Yet Reached",
-                                    gradient: const LinearGradient(
-                                      colors: [
-                                        Colorutils.userdetailcolor,
-                                        Colorutils.userdetailcolor
+                                  Container(
+                                    height: 18,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                            child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color:
+                                                  Colorutils.userdetailcolor),
+                                        )),
+                                        Expanded(
+                                            child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey.withOpacity(0.3),
+                                          ),
+                                        )),
                                       ],
                                     ),
                                   ),
-                                ),
-                              ),
-                            ),
-                            const Positioned(
-                              left: 60,
-                              child: CircleAvatar(
-                                radius: 16.1,
-                                backgroundColor: Colors.white,
-                                child: CircleAvatar(
-                                  radius: 16.0,
-                                  backgroundColor: Colorutils.userdetailcolor,
-                                  child: CircleAvatar(
-                                    radius: 14.0,
-                                    backgroundColor: Colors.white,
-                                    child: CircleAvatar(
-                                      radius: 11.0,
-                                      backgroundColor: Colors.green,
-                                      child: Icon(Icons.check,
-                                          size: 16.0, color: Colors.white),
+                                  Center(
+                                    child: Container(
+                                      height: 18,
+                                      margin:
+                                          EdgeInsets.only(left: 70, right: 70),
+                                      color: Colors.white,
                                     ),
                                   ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              right: 60,
-                              child: CircleAvatar(
-                                radius: 16.1,
-                                backgroundColor: Colors.white,
-                                child: CircleAvatar(
-                                  radius: 16.0,
-                                  backgroundColor: Colors.grey.withOpacity(0.3),
-                                  child: const CircleAvatar(
-                                    radius: 14.0,
-                                    backgroundColor: Colors.white,
-                                    child: CircleAvatar(
-                                      radius: 11.0,
-                                      backgroundColor: Colors.yellow,
-                                      child: Icon(Icons.more_horiz_sharp,
-                                          size: 16.0, color: Colors.white),
+                                  Center(
+                                    child: Container(
+                                      height: 18,
+                                      margin:
+                                          EdgeInsets.only(left: 80, right: 80),
+                                      child: CustomLinearProgressIndicator(
+                                        value: progress,
+                                        backgroundColor:
+                                            Colors.grey.withOpacity(0.3),
+                                        textColor: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(15),
+                                        text: remainingTime > 0
+                                            ? formatTime(remainingTime)
+                                            : "Not Yet Reached",
+                                        gradient: const LinearGradient(
+                                          colors: [
+                                            Colorutils.userdetailcolor,
+                                            Colorutils.userdetailcolor
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  const Positioned(
+                                    left: 60,
+                                    child: CircleAvatar(
+                                      radius: 16.1,
+                                      backgroundColor: Colors.white,
+                                      child: CircleAvatar(
+                                        radius: 16.0,
+                                        backgroundColor:
+                                            Colorutils.userdetailcolor,
+                                        child: CircleAvatar(
+                                          radius: 14.0,
+                                          backgroundColor: Colors.white,
+                                          child: CircleAvatar(
+                                            radius: 11.0,
+                                            backgroundColor: Colors.green,
+                                            child: Icon(Icons.check,
+                                                size: 16.0,
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 60,
+                                    child: CircleAvatar(
+                                      radius: 16.1,
+                                      backgroundColor: Colors.white,
+                                      child: CircleAvatar(
+                                        radius: 16.0,
+                                        backgroundColor:
+                                            Colors.grey.withOpacity(0.3),
+                                        child: const CircleAvatar(
+                                          radius: 14.0,
+                                          backgroundColor: Colors.white,
+                                          child: CircleAvatar(
+                                            radius: 11.0,
+                                            backgroundColor: Colors.yellow,
+                                            child: Icon(Icons.more_horiz_sharp,
+                                                size: 16.0,
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 5.0),
-                Padding(
-                  padding: const EdgeInsets.only(left: 40, right: 40),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "${widget.inProgressData.status?[2].visitStatus}",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      Text(
-                        "Reached ""${Reachedstatus("${widget.inProgressData.status?[2].visitStatus}")}",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Center(
-                          child: SliderButton(
-                            height: 50,
-                            backgroundColor: Colorutils.userdetailcolor,
-                            radius: 50,
-                            buttonSize: 50,
-                            action: () async {
-                              StudentUpdateModel updateData = StudentUpdateModel(
-                                  user: Get.find<UserAuthController>()
-                                      .userData
-                                      .value
-                                      .name ??
-                                      '',
-                                  userId: Get.find<UserAuthController>()
-                                      .userData
-                                      .value
-                                      .userId ??
-                                      '',
-                                  userToken: "",
-                                  visitId: widget.inProgressData.id);
-                              await Get.find<Studentupdatecontroller>()
-                                  .sendStudentDatas(data: updateData);
-                              await Get.find<RecentListApiController>()
-                                  .fetchRecentList();
-                            },
-                            label: const Text(
-                              "Slide to Confirm Arrival",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15),
-                            ),
-                            icon: const Center(
-                                child: Icon(
-                                  CupertinoIcons.forward,
-                                  color: Colorutils.userdetailcolor,
-                                  size: 25.0,
-                                )),
-                            boxShadow: BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
-                              blurRadius: 4,
-                            ),
-                          )),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ):
-        Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10),
-          child: Container(
-            padding: EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20.0),
-                border: Border.all(color: Colors.grey.withOpacity(0.2))
-              // boxShadow: [
-              //   BoxShadow(
-              //     color: Colors.grey,
-              //     blurRadius: 0.4,
-              //     offset: Offset(0, 1),
-              //   ),
-              // ],
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-
-
-                    Text(
-                        DateFormat('HH : mm').format(DateTime.parse(
-                            widget.inProgressData.status?[1].addedOn ??
-                                '--')
-                            .toLocal()),
-                        style: TextStyle(color: Colors.grey, fontSize: 12)),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 50.0,
-                        child: Stack(
-                          alignment: Alignment.center,
+                      SizedBox(height: 5.0),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 40, right: 40),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              height: 18.0,
-                              decoration: BoxDecoration(
-                                color: Colorutils.userdetailcolor,
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
+                            Text(
+                              "${widget.inProgressData.status?[2].visitStatus}",
+                              style: TextStyle(fontSize: 12),
                             ),
-                            const Positioned(
-
-                              child: CircleAvatar(
-                                radius: 16.1,
-                                backgroundColor: Colors.white,
-                                child: CircleAvatar(
-                                  radius: 16.0,
-                                  backgroundColor: Colorutils.userdetailcolor,
-                                  child: CircleAvatar(
-                                    radius: 14.0,
-                                    backgroundColor: Colors.white,
-                                    child: CircleAvatar(
-                                      radius: 11.0,
-                                      backgroundColor: Colors.green,
-                                      child: Icon(Icons.check,
-                                          size: 16.0, color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                            Text(
+                              "Reached "
+                              "${Reachedstatus("${widget.inProgressData.status?[2].visitStatus}")}",
+                              style: TextStyle(fontSize: 12),
                             ),
-
-                            // Positioned(
-                            //   child: Text("00:00",
-                            //       style: TextStyle(
-                            //           color: Colors.white, fontSize: 10)),
-                            // ),
                           ],
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Center(
+                                child: SliderButton(
+                              height: 50,
+                              backgroundColor: Colorutils.userdetailcolor,
+                              radius: 50,
+                              buttonSize: 50,
+                              action: () async {
+                                StudentUpdateModel updateData =
+                                    StudentUpdateModel(
+                                        user: Get.find<UserAuthController>()
+                                                .userData
+                                                .value
+                                                .name ??
+                                            '',
+                                        userId: Get.find<UserAuthController>()
+                                                .userData
+                                                .value
+                                                .userId ??
+                                            '',
+                                        userToken: "",
+                                        visitId: widget.inProgressData.id);
+                                await Get.find<Studentupdatecontroller>()
+                                    .sendStudentDatas(data: updateData);
+                                await Get.find<RecentListApiController>()
+                                    .fetchRecentList();
+                              },
+                              label: const Text(
+                                "Slide to Confirm Arrival",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15),
+                              ),
+                              icon: const Center(
+                                  child: Icon(
+                                CupertinoIcons.forward,
+                                color: Colorutils.userdetailcolor,
+                                size: 25.0,
+                              )),
+                              boxShadow: BoxShadow(
+                                color: Colors.black.withOpacity(0.3),
+                                blurRadius: 4,
+                              ),
+                            )),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                SizedBox(height: 5.0),
+              )
+            : Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: Container(
+                  padding: EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.0),
+                      border: Border.all(color: Colors.grey.withOpacity(0.2))
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Colors.grey,
+                      //     blurRadius: 0.4,
+                      //     offset: Offset(0, 1),
+                      //   ),
+                      // ],
+                      ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                              DateFormat('HH : mm').format(DateTime.parse(widget
+                                          .inProgressData.status?[1].addedOn ??
+                                      '--')
+                                  .toLocal()),
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 12)),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 50.0,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    height: 18.0,
+                                    decoration: BoxDecoration(
+                                      color: Colorutils.userdetailcolor,
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                  ),
+                                  const Positioned(
+                                    child: CircleAvatar(
+                                      radius: 16.1,
+                                      backgroundColor: Colors.white,
+                                      child: CircleAvatar(
+                                        radius: 16.0,
+                                        backgroundColor:
+                                            Colorutils.userdetailcolor,
+                                        child: CircleAvatar(
+                                          radius: 14.0,
+                                          backgroundColor: Colors.white,
+                                          child: CircleAvatar(
+                                            radius: 11.0,
+                                            backgroundColor: Colors.green,
+                                            child: Icon(Icons.check,
+                                                size: 16.0,
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                "Student ${widget.inProgressData.status?[2].visitStatus ?? '--'} from Clinic",
-                      style: TextStyle(fontSize: 12,fontStyle: FontStyle.italic ),
-                    ),
-
-
-                  ],
+                                  // Positioned(
+                                  //   child: Text("00:00",
+                                  //       style: TextStyle(
+                                  //           color: Colors.white, fontSize: 10)),
+                                  // ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 5.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Student ${widget.inProgressData.status?[2].visitStatus ?? '--'} from Clinic",
+                            style: TextStyle(
+                                fontSize: 12, fontStyle: FontStyle.italic),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
-        ),
+              ),
       ],
     );
   }
@@ -1297,7 +1353,9 @@ class _Container3State extends State<Container3> {
 class Container4 extends StatefulWidget {
   final DateTime starttime;
   final RecentData inProgressData;
-  const Container4({super.key, required this.starttime, required this.inProgressData});
+
+  const Container4(
+      {super.key, required this.starttime, required this.inProgressData});
 
   @override
   State<Container4> createState() => _Container4State();
@@ -1314,7 +1372,7 @@ class _Container4State extends State<Container4> {
     super.initState();
     endTime = widget.starttime.add(Duration(
         seconds:
-        countdownDuration)); // Calculate the end time based on the start time
+            countdownDuration)); // Calculate the end time based on the start time
     startTimer(); // Start the timer when the screen is initialized
   }
 
@@ -1328,7 +1386,7 @@ class _Container4State extends State<Container4> {
           timer.cancel();
 
           text =
-          true; // Stop the timer when the current time reaches or exceeds the end time
+              true; // Stop the timer when the current time reaches or exceeds the end time
         }
       });
     });
@@ -1347,7 +1405,6 @@ class _Container4State extends State<Container4> {
   @override
   Widget build(BuildContext context) {
     int remainingTime = endTime.difference(DateTime.now()).inSeconds;
-
 
     double progress = (countdownDuration - remainingTime) / countdownDuration;
     return Column(
@@ -1388,14 +1445,14 @@ class _Container4State extends State<Container4> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20.0),
                 border: Border.all(color: Colors.grey.withOpacity(0.2))
-              // boxShadow: [
-              //   BoxShadow(
-              //     color: Colors.grey,
-              //     blurRadius: 0.4,
-              //     offset: Offset(0, 1),
-              //   ),
-              // ],
-            ),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Colors.grey,
+                //     blurRadius: 0.4,
+                //     offset: Offset(0, 1),
+                //   ),
+                // ],
+                ),
             child: Column(
               children: [
                 Padding(
@@ -1405,14 +1462,14 @@ class _Container4State extends State<Container4> {
                     children: [
                       Text(
                           DateFormat('HH : mm').format(DateTime.parse(
-                              widget.inProgressData.status?[0].addedOn ??
-                                  '--')
+                                  widget.inProgressData.status?[0].addedOn ??
+                                      '--')
                               .toLocal()),
                           style: TextStyle(color: Colors.grey, fontSize: 12)),
                       Text(
                           DateFormat('HH : mm').format(DateTime.parse(
-                              widget.inProgressData.status?[1].addedOn ??
-                                  '--')
+                                  widget.inProgressData.status?[1].addedOn ??
+                                      '--')
                               .toLocal()),
                           style: TextStyle(color: Colors.grey, fontSize: 12)),
                     ],
@@ -1537,25 +1594,23 @@ class _Container4State extends State<Container4> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20.0),
                 border: Border.all(color: Colors.grey.withOpacity(0.2))
-              // boxShadow: [
-              //   BoxShadow(
-              //     color: Colors.grey,
-              //     blurRadius: 0.4,
-              //     offset: Offset(0, 1),
-              //   ),
-              // ],
-            ),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Colors.grey,
+                //     blurRadius: 0.4,
+                //     offset: Offset(0, 1),
+                //   ),
+                // ],
+                ),
             child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
-
                     Text(
                         DateFormat('HH : mm').format(DateTime.parse(
-                            widget.inProgressData.status?[1].addedOn ??
-                                '--')
+                                widget.inProgressData.status?[1].addedOn ??
+                                    '--')
                             .toLocal()),
                         style: TextStyle(color: Colors.grey, fontSize: 12)),
                   ],
@@ -1576,7 +1631,6 @@ class _Container4State extends State<Container4> {
                               ),
                             ),
                             const Positioned(
-
                               child: CircleAvatar(
                                 radius: 16.1,
                                 backgroundColor: Colors.white,
@@ -1609,16 +1663,14 @@ class _Container4State extends State<Container4> {
                   ],
                 ),
                 SizedBox(height: 5.0),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "Student ${widget.inProgressData.status?[2].visitStatus ?? '--'} from Clinic",
-                      style: TextStyle(fontSize: 12,fontStyle: FontStyle.italic ),
+                      style:
+                          TextStyle(fontSize: 12, fontStyle: FontStyle.italic),
                     ),
-
-
                   ],
                 ),
               ],
@@ -1653,14 +1705,14 @@ class _Container4State extends State<Container4> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20.0),
                 border: Border.all(color: Colors.grey.withOpacity(0.2))
-              // boxShadow: [
-              //   BoxShadow(
-              //     color: Colors.grey,
-              //     blurRadius: 0.4,
-              //     offset: Offset(0, 1),
-              //   ),
-              // ],
-            ),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Colors.grey,
+                //     blurRadius: 0.4,
+                //     offset: Offset(0, 1),
+                //   ),
+                // ],
+                ),
             child: Column(
               children: [
                 Padding(
@@ -1670,8 +1722,8 @@ class _Container4State extends State<Container4> {
                     children: [
                       Text(
                           DateFormat('HH : mm').format(DateTime.parse(
-                              widget.inProgressData.status?[2].addedOn ??
-                                  '--')
+                                  widget.inProgressData.status?[2].addedOn ??
+                                      '--')
                               .toLocal()),
                           style: const TextStyle(
                               color: Colors.grey, fontSize: 12)),
@@ -1692,30 +1744,23 @@ class _Container4State extends State<Container4> {
                               height: 18,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10)),
-
                               child: Row(
                                 children: [
                                   Expanded(
                                       child: Container(
-                                        decoration:BoxDecoration(
-
-
-                                            borderRadius: BorderRadius.circular(10),
-                                            color: Colorutils.userdetailcolor),
-
-                                      )),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colorutils.userdetailcolor),
+                                  )),
                                   Expanded(
                                       child: Container(
-                                        decoration:BoxDecoration(
-
-
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: Colors.grey.withOpacity(0.3),),
-
-                                      )),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.grey.withOpacity(0.3),
+                                    ),
+                                  )),
                                 ],
                               ),
-
                             ),
                             Center(
                               child: Container(
@@ -1728,23 +1773,20 @@ class _Container4State extends State<Container4> {
                               child: Container(
                                 height: 18,
                                 margin: EdgeInsets.only(left: 80, right: 80),
-                                child: Positioned(
-                                  left: 60,
-                                  child: CustomLinearProgressIndicator(
-                                    value: progress,
-                                    backgroundColor:
-                                    Colors.grey.withOpacity(0.3),
-                                    textColor: Colors.white,
-                                    borderRadius: BorderRadius.circular(15),
-                                    text: remainingTime > 0
-                                        ? formatTime(remainingTime)
-                                        : "Not Yet Reached",
-                                    gradient: const LinearGradient(
-                                      colors: [
-                                        Colorutils.userdetailcolor,
-                                        Colorutils.userdetailcolor
-                                      ],
-                                    ),
+                                child: CustomLinearProgressIndicator(
+                                  value: progress,
+                                  backgroundColor:
+                                      Colors.grey.withOpacity(0.3),
+                                  textColor: Colors.white,
+                                  borderRadius: BorderRadius.circular(15),
+                                  text: remainingTime > 0
+                                      ? formatTime(remainingTime)
+                                      : "Not Yet Reached",
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      Colorutils.userdetailcolor,
+                                      Colorutils.userdetailcolor
+                                    ],
                                   ),
                                 ),
                               ),
@@ -1808,7 +1850,8 @@ class _Container4State extends State<Container4> {
                         style: TextStyle(fontSize: 12),
                       ),
                       Text(
-                       "Reached ""${Reachedstatus("${widget.inProgressData.status?[3].visitStatus}")}",
+                        "Reached "
+                        "${Reachedstatus("${widget.inProgressData.status?[3].visitStatus}")}",
                         style: TextStyle(fontSize: 12),
                       ),
                     ],
@@ -1824,47 +1867,47 @@ class _Container4State extends State<Container4> {
                     children: [
                       Center(
                           child: SliderButton(
-                            height: 50,
-                            backgroundColor: Colorutils.userdetailcolor,
-                            radius: 50,
-                            buttonSize: 50,
-                            action: () async {
-                              StudentUpdateModel updateData = StudentUpdateModel(
-                                  user: Get.find<UserAuthController>()
+                        height: 50,
+                        backgroundColor: Colorutils.userdetailcolor,
+                        radius: 50,
+                        buttonSize: 50,
+                        action: () async {
+                          StudentUpdateModel updateData = StudentUpdateModel(
+                              user: Get.find<UserAuthController>()
                                       .userData
                                       .value
                                       .name ??
-                                      '',
-                                  userId: Get.find<UserAuthController>()
+                                  '',
+                              userId: Get.find<UserAuthController>()
                                       .userData
                                       .value
                                       .userId ??
-                                      '',
-                                  userToken: "",
-                                  visitId: widget.inProgressData.id);
-                              await Get.find<Studentupdatecontroller>()
-                                  .sendStudentDatas(data: updateData);
-                              await Get.find<RecentListApiController>()
-                                  .fetchRecentList();
-                            },
-                            label: const Text(
-                              "Slide to Confirm Arrival",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15),
-                            ),
-                            icon: const Center(
-                                child: Icon(
-                                  CupertinoIcons.forward,
-                                  color: Colorutils.userdetailcolor,
-                                  size: 25.0,
-                                )),
-                            boxShadow: BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
-                              blurRadius: 4,
-                            ),
-                          )),
+                                  '',
+                              userToken: "",
+                              visitId: widget.inProgressData.id);
+                          await Get.find<Studentupdatecontroller>()
+                              .sendStudentDatas(data: updateData);
+                          await Get.find<RecentListApiController>()
+                              .fetchRecentList();
+                        },
+                        label: const Text(
+                          "Slide to Confirm Arrival",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15),
+                        ),
+                        icon: const Center(
+                            child: Icon(
+                          CupertinoIcons.forward,
+                          color: Colorutils.userdetailcolor,
+                          size: 25.0,
+                        )),
+                        boxShadow: BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          blurRadius: 4,
+                        ),
+                      )),
                     ],
                   ),
                 ),

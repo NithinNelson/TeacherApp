@@ -212,7 +212,7 @@ class _ViewallState extends State<Viewall> {
                                 fontSize: 18.w, fontWeight: FontWeight.bold),
                           )                        ],
                       ),
-                    ):Container(height:400,child: const Expanded(child: Center(child: Text("Oops! No Data Found",style: TextStyle(color: Colors.red,fontStyle: FontStyle.italic),)))),
+                    ):Container(height:400,child: Center(child: Text("Oops! No Data Found",style: TextStyle(color: Colors.red,fontStyle: FontStyle.italic),))),
                   ),
                   Expanded(
                       child: ListView.builder(
@@ -290,112 +290,106 @@ class listcontainer extends StatelessWidget {
           child: Padding(
             padding:
                 const EdgeInsets.only(left: 5, top: 8, bottom: 8, right: 12),
-            child: Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    radius: 22,
-                    backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SvgPicture.asset("assets/images/profileOne.svg"),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  radius: 22,
+                  backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SvgPicture.asset("assets/images/profileOne.svg"),
+                  ),
+                ),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 200.w,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Text("${progressCompletedList.studentName}",
+                            style: GoogleFonts.inter(
+                                textStyle: TextStyle(
+                                    fontSize: 16.sp,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600))),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 200.w,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Text("${progressCompletedList.studentName}",
+                    SizedBox(
+                      height: 5.h,
+                    ),
+                    Container(
+                        // width: 130.w,
+                        // height: 18.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          color: progressCompletedList.status?[0].visitStatus == "Sent to Clinic"|| progressCompletedList.status?[0].visitStatus== "Reached Clinic"
+                              ? Colors.red.withOpacity(0.2)
+                              : progressCompletedList.status?[0].visitStatus == "Sent to Washroom"|| progressCompletedList.status?[0].visitStatus == "Reached Washroom"
+                              ? Colorutils.washroomcolor2
+                              : progressCompletedList.status?[0].visitStatus == "Sent to Counsellor"|| progressCompletedList.status?[0].visitStatus == "Reached Counsellor"
+                              ? Colorutils.councellorcolor2
+                              : progressCompletedList.status?[0].visitStatus == "Back to Class"|| progressCompletedList.status?[0].visitStatus == "Reached Class"
+                              ? Colors.green.withOpacity(0.3)
+                              :  Colorutils.grey,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 2.h, horizontal: 10.w),
+                          child: Text("${progressCompletedList.status?[0].visitStatus}",
+                              overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.inter(
                                   textStyle: TextStyle(
-                                      fontSize: 16.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600))),
-                        ),
+                                fontSize: 13.sp,
+                                    color: progressCompletedList.status?[0].visitStatus == "Sent to Clinic"|| progressCompletedList.status?[0].visitStatus == "Reached Clinic"
+                                        ? Colors.red
+                                        : progressCompletedList.status?[0].visitStatus == "Sent to Washroom"|| progressCompletedList.status?[0].visitStatus == "Reached Washroom"
+                                        ? Colorutils.washroomcolor
+                                        : progressCompletedList.status?[0].visitStatus == "Sent to Counsellor"|| progressCompletedList.status?[0].visitStatus == "Reached Counsellor"
+                                        ? Colorutils.councellorcolor
+                                        : progressCompletedList.status?[0].visitStatus == "Back to Class"|| progressCompletedList.status?[0].visitStatus == "Reached Class"
+                                        ? Colorutils.userdetailcolor
+                                        :  Colorutils.white,
+                              ))),
+                        )),
+                  ],
+                ),
+                Spacer(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      Converteddate("${progressCompletedList.visitDate}"),
+                      style: GoogleFonts.inter(
+                        textStyle: TextStyle(
+                            fontSize: 12.sp,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Container(
-                          // width: 130.w,
-                          // height: 18.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            color: progressCompletedList.status?[0].visitStatus == "Sent to Clinic"|| progressCompletedList.status?[0].visitStatus== "Reached Clinic"
-                                ? Colors.red.withOpacity(0.2)
-                                : progressCompletedList.status?[0].visitStatus == "Sent to Washroom"|| progressCompletedList.status?[0].visitStatus == "Reached Washroom"
-                                ? Colorutils.washroomcolor2
-                                : progressCompletedList.status?[0].visitStatus == "Sent to Counsellor"|| progressCompletedList.status?[0].visitStatus == "Reached Counsellor"
-                                ? Colorutils.councellorcolor2
-                                : progressCompletedList.status?[0].visitStatus == "Back to Class"|| progressCompletedList.status?[0].visitStatus == "Reached Class"
-                                ? Colors.green.withOpacity(0.3)
-                                :  Colorutils.grey,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 2.h, horizontal: 10.w),
-                            child: Text("${progressCompletedList.status?[0].visitStatus}",
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.inter(
-                                    textStyle: TextStyle(
-                                  fontSize: 13.sp,
-                                      color: progressCompletedList.status?[0].visitStatus == "Sent to Clinic"|| progressCompletedList.status?[0].visitStatus == "Reached Clinic"
-                                          ? Colors.red
-                                          : progressCompletedList.status?[0].visitStatus == "Sent to Washroom"|| progressCompletedList.status?[0].visitStatus == "Reached Washroom"
-                                          ? Colorutils.washroomcolor
-                                          : progressCompletedList.status?[0].visitStatus == "Sent to Counsellor"|| progressCompletedList.status?[0].visitStatus == "Reached Counsellor"
-                                          ? Colorutils.councellorcolor
-                                          : progressCompletedList.status?[0].visitStatus == "Back to Class"|| progressCompletedList.status?[0].visitStatus == "Reached Class"
-                                          ? Colorutils.userdetailcolor
-                                          :  Colorutils.white,
-                                ))),
-                          )),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 1,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          Converteddate("${progressCompletedList.visitDate}"),
-                          style: GoogleFonts.inter(
-                            textStyle: TextStyle(
-                                fontSize: 12.sp,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8.h,
-                        ),
-                        Container(
-                            child: Text(
-                                "Grade"
-                                " "
-                                "${progressCompletedList.classs}"
-                                " "
-                                "${progressCompletedList.batch}",
-                                style: GoogleFonts.inter(
-                                    textStyle: TextStyle(
-                                        fontSize: 14.sp,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold)))),
-                      ],
                     ),
-                  ),
-                ],
-              ),
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    Container(
+                        child: Text(
+                            "Grade"
+                            " "
+                            "${progressCompletedList.classs}"
+                            " "
+                            "${progressCompletedList.batch}",
+                            style: GoogleFonts.inter(
+                                textStyle: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold)))),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
