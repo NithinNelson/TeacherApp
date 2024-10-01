@@ -291,7 +291,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                             bottom: View.of(context)
                                                     .viewInsets
                                                     .bottom +
-                                                150)
+                                                15)
                                         .w,
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,

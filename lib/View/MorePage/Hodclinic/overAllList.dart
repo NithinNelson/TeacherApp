@@ -47,148 +47,156 @@ class _OveralllistState extends State<Overalllist> {
             builder: (Hosallstudentslistcontroller controller) {
           List<Datas> sendStudentsData = controller.recentData.value;
           return Expanded(
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 25.0, vertical: 16.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Left arrow button
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            initDate = subtractOneMonth(initDate);
-                            currentMonth =
-                                DateFormat('MMMM yyyy').format(initDate);
-                            print("---------initDate--------$initDate");
-                          });
-                        },
-                        child: Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white,
-                                border:
-                                    Border.all(color: Colors.grey, width: 0.2),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.1),
-                                    // Adjust shadow color and opacity
-                                    spreadRadius: 1,
-                                    blurRadius: 1,
-                                    offset: Offset(
-                                        0, 1), // changes position of shadow
-                                  ),
-                                ]),
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              size: 15,
-                            )),
-                      ),
 
-                      // Month text in the center
-                      Text(
-                        "$currentMonth".toUpperCase(),
-                        style: TextStyle(
-                          fontSize: 16.0,
+            child: RefreshIndicator(
+              color: Colorutils.userdetailcolor,
+              backgroundColor: Colors.white,
+              onRefresh: () async =>
+              await Get.find<Hosallstudentslistcontroller>()
+                  .fetchAllStudentDateList(),
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25.0, vertical: 16.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Left arrow button
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              initDate = subtractOneMonth(initDate);
+                              currentMonth =
+                                  DateFormat('MMMM yyyy').format(initDate);
+                              print("---------initDate--------$initDate");
+                            });
+                          },
+                          child: Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white,
+                                  border:
+                                      Border.all(color: Colors.grey, width: 0.2),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.1),
+                                      // Adjust shadow color and opacity
+                                      spreadRadius: 1,
+                                      blurRadius: 1,
+                                      offset: Offset(
+                                          0, 1), // changes position of shadow
+                                    ),
+                                  ]),
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                size: 15,
+                              )),
+                        ),
+
+                        // Month text in the center
+                        Text(
+                          "$currentMonth".toUpperCase(),
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        // Right arrow button
+
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              initDate = addOneMonth(initDate);
+                              currentMonth =
+                                  DateFormat('MMMM yyyy').format(initDate);
+                              print("---------initDate--------$initDate");
+                            });
+                          },
+                          child: Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border:
+                                      Border.all(color: Colors.grey, width: 0.2),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.1),
+                                      // Adjust shadow color and opacity
+                                      spreadRadius: 1,
+                                      blurRadius: 1,
+                                      offset: const Offset(
+                                          0, 1), // changes position of shadow
+                                    ),
+                                  ]),
+                              child: const Icon(
+                                Icons.arrow_forward_ios,
+                                size: 15,
+                              )),
+                        ),
+                      ],
+                    ),
+                  ),
+                  EasyDateTimeLine(
+                    key: ValueKey(initDate),
+                    initialDate: initDate,
+                    onDateChange: (selectedDate) async {
+                      //`selectedDate` the new date selected.
+                      await Get.find<Hosallstudentslistcontroller>()
+                          .fetchAllStudentDateList(date: selectedDate);
+                    },
+                    activeColor: Colorutils.userdetailcolor,
+                    headerProps: const EasyHeaderProps(
+                        showSelectedDate: false,
+                        monthStyle: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        showHeader: false),
+                    dayProps: const EasyDayProps(
+                      height: 60.0,
+                      width: 60.0,
+                      activeDayStyle: DayStyle(
+                        dayNumStyle: TextStyle(
+                          fontSize: 18.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-
-                      // Right arrow button
-
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            initDate = addOneMonth(initDate);
-                            currentMonth =
-                                DateFormat('MMMM yyyy').format(initDate);
-                            print("---------initDate--------$initDate");
-                          });
-                        },
-                        child: Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                    Border.all(color: Colors.grey, width: 0.2),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.1),
-                                    // Adjust shadow color and opacity
-                                    spreadRadius: 1,
-                                    blurRadius: 1,
-                                    offset: const Offset(
-                                        0, 1), // changes position of shadow
-                                  ),
-                                ]),
-                            child: const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                            )),
+                      inactiveDayStyle: DayStyle(
+                        borderRadius: 48.0,
+                        dayNumStyle: TextStyle(
+                          fontSize: 18.0,
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-                EasyDateTimeLine(
-                  key: ValueKey(initDate),
-                  initialDate: initDate,
-                  onDateChange: (selectedDate) async {
-                    //`selectedDate` the new date selected.
-                    await Get.find<Hosallstudentslistcontroller>()
-                        .fetchAllStudentDateList(date: selectedDate);
-                  },
-                  activeColor: Colorutils.userdetailcolor,
-                  headerProps: const EasyHeaderProps(
-                      showSelectedDate: false,
-                      monthStyle: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      showHeader: false),
-                  dayProps: const EasyDayProps(
-                    height: 60.0,
-                    width: 60.0,
-                    activeDayStyle: DayStyle(
-                      dayNumStyle: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      dayStructure: DayStructure.dayNumDayStr,
                     ),
-                    inactiveDayStyle: DayStyle(
-                      borderRadius: 48.0,
-                      dayNumStyle: TextStyle(
-                        fontSize: 18.0,
-                      ),
-                    ),
-                    dayStructure: DayStructure.dayNumDayStr,
                   ),
-                ),
-                sendStudentsData.isEmpty?
-                    Padding(
-                      padding: const EdgeInsets.only(top: 150),
-                      child: Center(child: Text( "No Tracking Data on selected Date.",style: TextStyle(color: Colors.red,fontStyle: FontStyle.italic),),),
-                    )
-                :Expanded(
-                    child: ListView.builder(
-                        itemCount: sendStudentsData.length,
-                        itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.only(top: 3),
-                          child: listcontainer(
-                              Sendtrackingdata: sendStudentsData[index],
-                              startTime: DateTime.parse(
-                                      "${sendStudentsData[index].status?.last.addedOn}")
-                                  .toLocal()),
-                        )))
-              ],
+                  sendStudentsData.isEmpty?
+                      Padding(
+                        padding: const EdgeInsets.only(top: 150),
+                        child: Center(child: Text( "No Tracking Data on selected Date.",style: TextStyle(color: Colors.red,fontStyle: FontStyle.italic),),),
+                      )
+                  :Expanded(
+                      child: ListView.builder(
+                          itemCount: sendStudentsData.length,
+                          itemBuilder: (context, index) => Padding(
+                            padding: const EdgeInsets.only(top: 3),
+                            child: listcontainer(
+                                Sendtrackingdata: sendStudentsData[index],
+                                startTime: DateTime.parse(
+                                        "${sendStudentsData[index].status?.last.addedOn}")
+                                    .toLocal()),
+                          )))
+                ],
+              ),
             ),
           );
         }),
@@ -324,97 +332,91 @@ class _listcontainerState extends State<listcontainer> {
             Padding(
               padding:
                   const EdgeInsets.only(left: 5, top: 8, bottom: 3, right: 12),
-              child: Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      radius: 22,
-                      backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset("assets/images/profileOne.svg"),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    radius: 22,
+                    backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SvgPicture.asset("assets/images/profileOne.svg"),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 200.w,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Text(
+                              "${widget.Sendtrackingdata.studentName}",
+                              style: GoogleFonts.inter(
+                                  textStyle: TextStyle(
+                                      fontSize: 16.sp,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600))),
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 200.w,
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Text(
-                                "${widget.Sendtrackingdata.studentName}",
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      Container(
+                          // width: 130.w,
+                          // height: 18.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: Colors.redAccent,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 2.h, horizontal: 10.w),
+                            child: Text("Sent From Teacher",
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.inter(
                                     textStyle: TextStyle(
-                                        fontSize: 16.sp,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600))),
-                          ),
+                                  fontSize: 13.sp,
+                                  color: Colorutils.white,
+                                ))),
+                          )),
+                    ],
+                  ),
+
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        "Sent: ${Converteddate("${widget.Sendtrackingdata.visitDate}")}",
+                        style: GoogleFonts.inter(
+                          textStyle: TextStyle(
+                              fontSize: 11.sp,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(
-                          height: 5.h,
-                        ),
-                        Container(
-                            // width: 130.w,
-                            // height: 18.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
-                              color: Colors.redAccent,
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 2.h, horizontal: 10.w),
-                              child: Text("Sent From Teacher",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.inter(
-                                      textStyle: TextStyle(
-                                    fontSize: 13.sp,
-                                    color: Colorutils.white,
-                                  ))),
-                            )),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 1,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            "Sent: ${Converteddate("${widget.Sendtrackingdata.visitDate}")}",
-                            style: GoogleFonts.inter(
-                              textStyle: TextStyle(
-                                  fontSize: 11.sp,
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          Container(
-                              child: Text(
-                                  " From :Grade"
-                                  " "
-                                  "${widget.Sendtrackingdata.classs}"
-                                  " "
-                                  "${widget.Sendtrackingdata.batch}",
-                                  style: GoogleFonts.inter(
-                                      textStyle: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold)))),
-                        ],
                       ),
-                    ),
-                  ],
-                ),
+                      SizedBox(
+                        height: 8.h,
+                      ),
+                      Container(
+                          child: Text(
+                              " From :Grade"
+                              " "
+                              "${widget.Sendtrackingdata.classs}"
+                              " "
+                              "${widget.Sendtrackingdata.batch}",
+                              style: GoogleFonts.inter(
+                                  textStyle: TextStyle(
+                                      fontSize: 12.sp,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold)))),
+                    ],
+                  ),
+                ],
               ),
             ),
             Padding(
@@ -437,8 +439,8 @@ class _listcontainerState extends State<listcontainer> {
                           "${widget.Sendtrackingdata.status?.first.sentBy?.toUpperCase()}",
                           style: GoogleFonts.inter(
                               textStyle: TextStyle(
-                                  fontSize: 11.sp,
-                                  color: Colors.black,
+                                  fontSize: 10.sp,
+                                  color: Colors.blue,
                                   fontWeight: FontWeight.w600))),
                     ),
                   ),
@@ -458,11 +460,11 @@ class _listcontainerState extends State<listcontainer> {
                   children: [
                     Expanded(
                       child: CustomLinearProgressIndicator(
-                        value: progress,
+                        value:(remainingTime > 0 && (widget.Sendtrackingdata.status?.length==1 ||widget.Sendtrackingdata.status?.length==3 ))? progress:10,
                         backgroundColor: Colors.white,
                         textColor: Colors.white,
                         borderRadius: BorderRadius.circular(15),
-                        text: (widget.Sendtrackingdata.status?.length==1 || widget.Sendtrackingdata.status?.length==2 || widget.Sendtrackingdata.status?.length==3)?
+                        text: (widget.Sendtrackingdata.status?.length==1 || widget.Sendtrackingdata.status?.length==3)?
 
                         remainingTime > 0
                             ? "${formatTime(remainingTime)}" " Min Left"

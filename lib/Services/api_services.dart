@@ -861,7 +861,37 @@ class ApiServices {
     }
   }
 
-
+//get Hos Student listDate
+  static Future<Map<String, dynamic>> getHosStudentListDate({
+    required String schoolId,
+    required String academicYear,
+    required String userId,
+    required String date,
+  }) async {
+    String url = ApiConstants.hosStudentsListClinc;
+    print(url);
+    Map apiBody = {
+      "school_id": schoolId,
+      "academic_year": academicYear,
+      "user_id": userId,
+      "Date":date,
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      log('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
 
   //get Hos Student list
   static Future<Map<String, dynamic>> getHosStudentList({
