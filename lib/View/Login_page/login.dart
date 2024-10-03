@@ -309,46 +309,44 @@ class _LoginPageState extends State<LoginPage> {
                                           }
                                         } else {
                                           TeacherAppPopUps.submitFailed(
-                                            title: "Error",
-                                            message:
-                                                "You are not an authorized user.",
-                                            actionName: "Close",
-                                            iconData: Icons.info_outline,
-                                            iconColor: Colors.red,
+                                            title: "Failed",
+                                            message: "You are not an authorized user.",
+                                            actionName: "Try again",
+                                            iconData: Icons.error_outline,
+                                            iconColor: Colorutils.svguicolour2,
                                           );
                                         }
                                       }
                                     } else if (user == null && psw == null) {
                                       TeacherAppPopUps.submitFailed(
-                                        title: "Error",
-                                        message:
-                                            "Please Enter the Username/Password!",
-                                        actionName: "Close",
-                                        iconData: Icons.info_outline,
-                                        iconColor: Colors.red,
+                                        title: "Failed",
+                                        message: "Please Enter the Username/Password!",
+                                        actionName: "Try again",
+                                        iconData: Icons.error_outline,
+                                        iconColor: Colorutils.svguicolour2,
                                       );
                                     } else if (user == null && psw != null) {
                                       TeacherAppPopUps.submitFailed(
-                                        title: "Error",
+                                        title: "Failed",
                                         message: "Please Enter the Username!",
-                                        actionName: "Close",
-                                        iconData: Icons.info_outline,
-                                        iconColor: Colors.red,
+                                        actionName: "Try again",
+                                        iconData: Icons.error_outline,
+                                        iconColor: Colorutils.svguicolour2,
                                       );
                                     } else if (user != null && psw == null) {
                                       TeacherAppPopUps.submitFailed(
-                                        title: "Error",
+                                        title: "Failed",
                                         message: "Please Enter the Password!",
-                                        actionName: "Close",
-                                        iconData: Icons.info_outline,
-                                        iconColor: Colors.red,
+                                        actionName: "Try again",
+                                        iconData: Icons.error_outline,
+                                        iconColor: Colorutils.svguicolour2,
                                       );
                                     } else {
                                       TeacherAppPopUps.submitFailed(
                                         title: "Failed",
                                         message:
                                             "Invalid Username/Password! Please Try Again",
-                                        actionName: "Close",
+                                        actionName: "Try again",
                                         iconData: Icons.error_outline,
                                         iconColor: Colorutils.svguicolour2,
                                       );
@@ -480,21 +478,9 @@ class _LoginPageState extends State<LoginPage> {
 Future<void> checkInternet2(
     {required BuildContext context, required Function() function}) async {
   bool connected = await CheckConnectivity().check();
-  bool isConnectionGood = await CheckConnectivity().goodConnection();
   print("internect connection is $connected");
-  print("internect Good connection is $isConnectionGood");
   if (connected) {
-    if (isConnectionGood) {
-      function();
-    } else {
-      TeacherAppPopUps.submitFailed(
-        title: "Error",
-        message: "Something Went Wrong",
-        actionName: "Close",
-        iconData: Icons.info_outline,
-        iconColor: Colors.red,
-      );
-    }
+    function();
   } else {
     TeacherAppPopUps.submitFailed(
       title: "Warning",

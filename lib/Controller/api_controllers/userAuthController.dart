@@ -44,8 +44,9 @@ class UserAuthController extends GetxController {
           if (schoolId != null) {
             await setFirebaseToken();
             setSchoolTokenAndRoll(schoolId);
+            getNotificationPeriodically();
           }
-          if(list.first.roleIds != null && !list.first.roleIds!.contains("")) {
+          if((list.first.roleIds?.isNotEmpty ?? false) && list.first.roleIds != null && !list.first.roleIds!.contains("") && !list.first.roleIds!.contains("student")) {
             await SharedPrefs().setLoginData(loginApi);
           }
           isLoaded.value = true;
@@ -91,7 +92,9 @@ class UserAuthController extends GetxController {
             setSchoolTokenAndRoll(schoolId);
             getNotificationPeriodically();
           }
-          await SharedPrefs().setLoginData(loginApi);
+          if((list.first.roleIds?.isNotEmpty ?? false) && list.first.roleIds != null && !list.first.roleIds!.contains("") && !list.first.roleIds!.contains("student")) {
+            await SharedPrefs().setLoginData(loginApi);
+          }
           isLoaded.value = true;
         }
       } else {
