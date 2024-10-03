@@ -25,15 +25,26 @@ class Studentmodelcontroller extends GetxController {
     isLoaded.value = false;
     try {
       Map<String, dynamic> resp = await ApiServices.getSubmit(data: data);
-      if (resp['status']['code'] == 200) {
+      if (resp['data']['status'] == 409) {
+
+        TeacherAppPopUps.submitFailedTwoBack(
+            title: "Warning",
+            message: resp["data"]["message"],
+            actionName: "Ok",
+            iconData: Icons.error_outline_sharp,
+            iconColor: Colors.red);
+      }
+
+      else if(resp['status']['code'] == 200) {
         TeacherAppPopUps.submitFailedThreeBack(
-          title: resp["status"]["message"],
+            title: resp["status"]["message"],
             message: resp["data"]["message"],
             actionName: "Ok",
             iconData: Icons.check_circle_outline,
             iconColor: Colors.green);
 
       }
+
       else {
         TeacherAppPopUps.submitFailed(
           title: "Failed",

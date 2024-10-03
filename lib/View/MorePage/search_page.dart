@@ -42,7 +42,7 @@ class SearchPage extends StatelessWidget {
                       Padding(
                           padding: EdgeInsets.only(left: 18),
                           child: GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               Navigator.of(context).pop();
                             },
                             child: Icon(
@@ -128,17 +128,19 @@ class SearchPage extends StatelessWidget {
                 //    listcontainer(Studentdetails: Studentdetails[i],)
                 _textcontroller.text.isEmpty
                     ? Container(
-                  height: 250,
-                        child: Center(
-                            child: Text(
-                        'Please Enter Text to Search...',
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.red,
-                            fontStyle: FontStyle.italic),
-                      )))
+                        height: 250,
+                        child: const Center(
+                            child: Padding(
+                          padding: EdgeInsets.all(30.0),
+                          child: Text(
+                            'Please Enter the Student Name or Admission Number to Search...',
+                            style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.red,
+                                fontStyle: FontStyle.italic),
+                          ),
+                        )))
                     : Expanded(
-
                         child: controller.isLoading.value
                             ? Center(
                                 child: Container(
@@ -147,33 +149,33 @@ class SearchPage extends StatelessWidget {
                                     child: const CircularProgressIndicator(
                                       color: Colorutils.chatcolor,
                                     )))
-                            :
-                        Studentdetails.isNotEmpty?
-                        ListView.builder(
-                                itemCount: Studentdetails.length,
-                                itemBuilder: (context, index) =>
-
-                                    GestureDetector(
-                                        onTap: () {
-                                          controller.studentqrdata.value = Studentdetails[index];
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Scandata()));
-                                        },
-                                        child: listcontainer(
-                                          Studentdetails: Studentdetails[index],
-                                        ))):Container(
-
-                            child: Center(
-                                child: Text(
-                                  'No data Found...',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.red,
-                                      fontStyle: FontStyle.italic),
-                                ))))
+                            : Studentdetails.isNotEmpty
+                                ? ListView.builder(
+                                    itemCount: Studentdetails.length,
+                                    itemBuilder: (context, index) =>
+                                        GestureDetector(
+                                            onTap: () {
+                                              controller.studentqrdata.value =
+                                                  Studentdetails[index];
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Scandata()));
+                                            },
+                                            child: listcontainer(
+                                              Studentdetails:
+                                                  Studentdetails[index],
+                                            )))
+                                : Container(
+                                    child: Center(
+                                        child: Text(
+                                    'No data Found...',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.red,
+                                        fontStyle: FontStyle.italic),
+                                  ))))
               ],
             );
           },
@@ -218,8 +220,7 @@ class listcontainer extends StatelessWidget {
                           fontSize: 20),
                     ),
                     errorWidget: (context, url, error) => Text(
-                      Studentdetails.studentName?.substring(0, 1).trim() ??
-                          '',
+                      Studentdetails.studentName?.substring(0, 1).trim() ?? '',
                       style: TextStyle(
                           color: Color(0xFFB1BFFF),
                           fontWeight: FontWeight.bold,

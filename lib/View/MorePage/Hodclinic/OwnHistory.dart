@@ -215,7 +215,7 @@ class _OwnhistoryState extends State<Ownhistory> {
                                 fontSize: 18.w, fontWeight: FontWeight.bold),
                           )                        ],
                       ),
-                    ):Container(height:400,child: Center(child: Text("Oops! No Data Found",style: TextStyle(color: Colors.red,fontStyle: FontStyle.italic),))),
+                    ):Container(height:300,child: Center(child: Text("Oops! No Data Found",style: TextStyle(color: Colors.red,fontStyle: FontStyle.italic),))),
                   ),
                   Expanded(
                       child: ListView.builder(

@@ -184,7 +184,7 @@ class _TrackingpageHodState extends State<TrackingpageHod>
                                     : Colors.grey,
                                 borderRadius: BorderRadius.circular(5),
                               ),
-                              child: Text("${recivedStudentsData.length}",
+                              child: Text("${sendStudentsData.length}",
                                   style: TextStyle(color: Colors.white)),
                             ),
                           ],
@@ -195,6 +195,7 @@ class _TrackingpageHodState extends State<TrackingpageHod>
 
                           builder: (Hosallstudentslistcontroller controller) {
                             List<Datas> sendStudentsData = controller.recentData.value;
+                            print(".......sdjhhs${sendStudentsData.length}");
                             return  Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -294,6 +295,7 @@ class _trackingcontainerState extends State<trackingcontainer> {
     endTime = widget.startTime.add(Duration(seconds: countdownDuration));
     if (widget.sendStudentList.status?.length == 1 ||
         widget.sendStudentList.status?.length == 3) {
+
       startTimer();
       // WidgetsBinding.instance.addPostFrameCallback((_) {
       //   startTimer();      });
@@ -301,9 +303,11 @@ class _trackingcontainerState extends State<trackingcontainer> {
   }
 
   String? startTimer() {
+
     int remainingTime = endTime.difference(DateTime.now()).inSeconds;
 
     bool text = false;
+
 
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       print("rebuild...brbggh.....$timer.............");
@@ -316,6 +320,7 @@ class _trackingcontainerState extends State<trackingcontainer> {
         }
 
         if (DateTime.now().isBefore(endTime)) {
+
           text = false;
         } else {
           if (DateTime.now().isAfter(endTime) &&
@@ -325,14 +330,14 @@ class _trackingcontainerState extends State<trackingcontainer> {
             TeacherAppPopUps.Trackingpop(
                 title: "Coming!",
                 message:
-                    "${widget.sendStudentList.studentName} ,from ${" From : Grade"
+                    "${widget.sendStudentList.studentName} ,${" From : Grade"
                         " "
                         "${widget.sendStudentList.classs}"
                         " "
-                        "${widget.sendStudentList.batch}"} on way!, Sent By ${widget.sendStudentList.teacherId}",
-                actionName: "Track",
+                        "${widget.sendStudentList.batch}"} on way!, Sent By ${widget.sendStudentList.status?.first.sentBy}",
+                actionName: "OK",
                 iconColor: Colors.green,
-                timeText: '4.00');
+                timeText: '');
             print("..........................bellssls");
             // _playAlertSoundAndVibrate();
           }

@@ -63,153 +63,185 @@ class Hostrackinghistory extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   color: Colors.white,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 8, right: 12, top: 8, bottom: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CircleAvatar(
-                        radius: 20,
-                        backgroundColor:
-                        Colorutils.chatcolor.withOpacity(0.2),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SvgPicture.asset(
-                              "assets/images/profileOne.svg"),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                child:Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 8, right: 12, top: 8, bottom: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor:
+                            Colorutils.chatcolor.withOpacity(0.2),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SvgPicture.asset(
+                                  "assets/images/profileOne.svg"),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 200.w,
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Text(
+                                      "${progressCompletedList.studentName}",
+                                      style: GoogleFonts.inter(
+                                          textStyle: TextStyle(
+                                              fontSize: 16.sp,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600))),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5.h,
+                              ),
+                              Container(
+                                // width: 130.w,
+                                // height: 18.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4),
+                                    color: progressCompletedList.visitStatus ==
+                                        "Sent to Clinic" ||
+                                        progressCompletedList.visitStatus ==
+                                            "Reached Clinic"
+                                        ? Colors.red.withOpacity(0.2)
+                                        : progressCompletedList.visitStatus ==
+                                        "Sent to Washroom" ||
+                                        progressCompletedList
+                                            .visitStatus ==
+                                            "Reached Washroom"
+                                        ? Colorutils.washroomcolor2
+                                        : progressCompletedList.visitStatus ==
+                                        "Sent to Counsellor" ||
+                                        progressCompletedList
+                                            .visitStatus ==
+                                            "Reached Counsellor"
+                                        ? Colorutils.councellorcolor2
+                                        : progressCompletedList
+                                        .visitStatus ==
+                                        "Back to Class" ||
+                                        progressCompletedList
+                                            .visitStatus ==
+                                            "Reached Class"
+                                        ? Colors.green
+                                        .withOpacity(0.3)
+                                        : Colors.grey,
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 1.h, horizontal: 10.w),
+                                    child: Text(
+                                        "${progressCompletedList.visitStatus }",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts.inter(
+                                            textStyle: TextStyle(
+                                              fontSize: 13.sp,
+                                              color: progressCompletedList
+                                                  .visitStatus ==
+                                                  "Sent to Clinic" ||
+                                                  progressCompletedList
+                                                      .visitStatus ==
+                                                      "Reached Clinic"
+                                                  ? Colors.red
+                                                  : progressCompletedList
+                                                  .visitStatus ==
+                                                  "Sent to Washroom" ||
+                                                  progressCompletedList
+                                                      .visitStatus ==
+                                                      "Reached Washroom"
+                                                  ? Colorutils.washroomcolor
+                                                  : progressCompletedList
+                                                  .visitStatus ==
+                                                  "Sent to Counsellor" ||
+                                                  progressCompletedList
+                                                      .visitStatus ==
+                                                      "Reached Counsellor"
+                                                  ? Colorutils.councellorcolor
+                                                  : progressCompletedList
+                                                  .visitStatus ==
+                                                  "Back to Class" ||
+                                                  progressCompletedList
+                                                      .visitStatus ==
+                                                      "Reached Class"
+                                                  ? Colorutils
+                                                  .userdetailcolor
+                                                  : Colorutils.white,
+                                            ))),
+                                  )),
+                            ],
+                          ),
+                          Spacer(),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                Converteddate(
+                                    "${progressCompletedList.visitDate}"),
+                                style: GoogleFonts.inter(
+                                  textStyle: TextStyle(
+                                      fontSize: 12.sp,
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 8.h,
+                              ),
+                              Container(
+                                  child: Text(
+                                      "Grade"
+                                          " "
+                                          "${progressCompletedList.classs}"
+                                          " "
+                                          "${progressCompletedList.batch}",
+                                      style: GoogleFonts.inter(
+                                          textStyle: TextStyle(
+                                              fontSize: 14.sp,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold)))),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 55,bottom: 3),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: Colors.blue,
+                            size: 8,
+                          ),
+                          SizedBox(
+                            width: 1,
+                          ),
                           Container(
-                            width: 200.w,
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Text(
-                                  "${progressCompletedList.studentName}",
+                                  "${progressCompletedList.status?.first.sentBy?.toUpperCase()}",
                                   style: GoogleFonts.inter(
                                       textStyle: TextStyle(
-                                          fontSize: 16.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600))),
+                                        fontSize: 11.sp,
+                                        color: Colors.blue,
+                                      ))),
                             ),
                           ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          Container(
-                            // width: 130.w,
-                            // height: 18.h,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                color: progressCompletedList.visitStatus ==
-                                    "Sent to Clinic" ||
-                                    progressCompletedList.visitStatus ==
-                                        "Reached Clinic"
-                                    ? Colors.red.withOpacity(0.2)
-                                    : progressCompletedList.visitStatus ==
-                                    "Sent to Washroom" ||
-                                    progressCompletedList
-                                        .visitStatus ==
-                                        "Reached Washroom"
-                                    ? Colorutils.washroomcolor2
-                                    : progressCompletedList.visitStatus ==
-                                    "Sent to Counsellor" ||
-                                    progressCompletedList
-                                        .visitStatus ==
-                                        "Reached Counsellor"
-                                    ? Colorutils.councellorcolor2
-                                    : progressCompletedList
-                                    .visitStatus ==
-                                    "Back to Class" ||
-                                    progressCompletedList
-                                        .visitStatus ==
-                                        "Reached Class"
-                                    ? Colors.green
-                                    .withOpacity(0.3)
-                                    : Colors.grey,
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 1.h, horizontal: 10.w),
-                                child: Text(
-                                    "${progressCompletedList.visitStatus }",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.inter(
-                                        textStyle: TextStyle(
-                                          fontSize: 13.sp,
-                                          color: progressCompletedList
-                                              .visitStatus ==
-                                              "Sent to Clinic" ||
-                                              progressCompletedList
-                                                  .visitStatus ==
-                                                  "Reached Clinic"
-                                              ? Colors.red
-                                              : progressCompletedList
-                                              .visitStatus ==
-                                              "Sent to Washroom" ||
-                                              progressCompletedList
-                                                  .visitStatus ==
-                                                  "Reached Washroom"
-                                              ? Colorutils.washroomcolor
-                                              : progressCompletedList
-                                              .visitStatus ==
-                                              "Sent to Counsellor" ||
-                                              progressCompletedList
-                                                  .visitStatus ==
-                                                  "Reached Counsellor"
-                                              ? Colorutils.councellorcolor
-                                              : progressCompletedList
-                                              .visitStatus ==
-                                              "Back to Class" ||
-                                              progressCompletedList
-                                                  .visitStatus ==
-                                                  "Reached Class"
-                                              ? Colorutils
-                                              .userdetailcolor
-                                              : Colorutils.white,
-                                        ))),
-                              )),
                         ],
                       ),
-                      Spacer(),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            Converteddate(
-                                "${progressCompletedList.visitDate}"),
-                            style: GoogleFonts.inter(
-                              textStyle: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          Container(
-                              child: Text(
-                                  "Grade"
-                                      " "
-                                      "${progressCompletedList.classs}"
-                                      " "
-                                      "${progressCompletedList.batch}",
-                                  style: GoogleFonts.inter(
-                                      textStyle: TextStyle(
-                                          fontSize: 14.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold)))),
-                        ],
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
