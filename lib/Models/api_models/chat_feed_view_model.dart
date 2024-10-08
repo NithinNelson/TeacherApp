@@ -9,16 +9,16 @@ class ChatFeedViewModel {
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (status != null) {
-      data['status'] = status!.toJson();
-    }
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
-  }
+  // Map<String, dynamic> toJson() {
+  //   final Map<String, dynamic> data = <String, dynamic>{};
+  //   if (status != null) {
+  //     data['status'] = status!.toJson();
+  //   }
+  //   if (this.data != null) {
+  //     data['data'] = this.data!.toJson();
+  //   }
+  //   return data;
+  // }
 }
 
 class Status {
@@ -58,15 +58,15 @@ class Data {
     }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['message'] = message;
-    data['count'] = count;
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  // Map<String, dynamic> toJson() {
+  //   final Map<String, dynamic> data = <String, dynamic>{};
+  //   data['message'] = message;
+  //   data['count'] = count;
+  //   if (this.data != null) {
+  //     data['data'] = this.data!.map((v) => v.toJson()).toList();
+  //   }
+  //   return data;
+  // }
 }
 
 class MsgData {
@@ -88,26 +88,29 @@ class MsgData {
   bool? isForward;
   ReplyData? replyData;
   String? userImage;
+  List<IncomingReact>? incomingReact;
 
-  MsgData(
-      {this.messageId,
-      this.type,
-      this.message,
-      this.subjectName,
-      this.messageFile,
-      this.fileName,
-      this.messageAudio,
-      this.messageFromId,
-      this.messageFrom,
-      this.sendAt,
-      this.appMsgId,
-      this.studentData,
-      this.replyId,
-      this.read,
-      this.myReact,
-      this.isForward,
-      this.replyData,
-      this.userImage});
+  MsgData({
+    this.messageId,
+    this.type,
+    this.message,
+    this.subjectName,
+    this.messageFile,
+    this.fileName,
+    this.messageAudio,
+    this.messageFromId,
+    this.messageFrom,
+    this.sendAt,
+    this.appMsgId,
+    this.studentData,
+    this.replyId,
+    this.read,
+    this.myReact,
+    this.isForward,
+    this.replyData,
+    this.userImage,
+    this.incomingReact,
+  });
 
   MsgData.fromJson(Map<String, dynamic> json) {
     messageId = json['message_id'];
@@ -135,34 +138,40 @@ class MsgData {
     replyData = json['reply_data'] != null
         ? ReplyData.fromJson(json['reply_data'])
         : null;
+    if (json['incoming_react'] != null) {
+      incomingReact = <IncomingReact>[];
+      json['incoming_react'].forEach((v) {
+        incomingReact!.add(IncomingReact.fromJson(v));
+      });
+    }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['message_id'] = messageId;
-    data['type'] = type;
-    data['message'] = message;
-    data['subject_name'] = subjectName;
-    data['message_file'] = messageFile;
-    data['file_name'] = fileName;
-    data['message_audio'] = messageAudio;
-    data['message_from_id'] = messageFromId;
-    data['message_from'] = messageFrom;
-    data['send_at'] = sendAt;
-    data['app_msg_id'] = appMsgId;
-    data['read'] = read;
-    data['my_react'] = myReact;
-    data['is_forward'] = isForward;
-    data['message_from_pic'] = userImage;
-    if (studentData != null) {
-      data['student_data'] = studentData!.map((v) => v.toJson()).toList();
-    }
-    data['reply_id'] = replyId;
-    if (replyData != null) {
-      data['reply_data'] = replyData!.toJson();
-    }
-    return data;
-  }
+  // Map<String, dynamic> toJson() {
+  //   final Map<String, dynamic> data = <String, dynamic>{};
+  //   data['message_id'] = messageId;
+  //   data['type'] = type;
+  //   data['message'] = message;
+  //   data['subject_name'] = subjectName;
+  //   data['message_file'] = messageFile;
+  //   data['file_name'] = fileName;
+  //   data['message_audio'] = messageAudio;
+  //   data['message_from_id'] = messageFromId;
+  //   data['message_from'] = messageFrom;
+  //   data['send_at'] = sendAt;
+  //   data['app_msg_id'] = appMsgId;
+  //   data['read'] = read;
+  //   data['my_react'] = myReact;
+  //   data['is_forward'] = isForward;
+  //   data['message_from_pic'] = userImage;
+  //   if (studentData != null) {
+  //     data['student_data'] = studentData!.map((v) => v.toJson()).toList();
+  //   }
+  //   data['reply_id'] = replyId;
+  //   if (replyData != null) {
+  //     data['reply_data'] = replyData!.toJson();
+  //   }
+  //   return data;
+  // }
 }
 
 class StudentData {
@@ -231,6 +240,25 @@ class ReplyData {
     data['sand_at'] = this.sandAt;
     return data;
   }
+}
+
+class IncomingReact {
+  String? react;
+  String? reactBy;
+
+  IncomingReact({this.react, this.reactBy});
+
+  IncomingReact.fromJson(Map<String, dynamic> json) {
+    react = json['react'];
+    reactBy = json['react_by'];
+  }
+
+  // Map<String, dynamic> toJson() {
+  //   final Map<String, dynamic> data = new Map<String, dynamic>();
+  //   data['react'] = this.react;
+  //   data['react_by'] = this.reactBy;
+  //   return data;
+  // }
 }
 
 // class ReplyData {

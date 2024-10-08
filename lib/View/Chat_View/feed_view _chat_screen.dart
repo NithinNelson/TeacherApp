@@ -1805,8 +1805,31 @@ Future<void> checkInternet(
   }
 }
 
-
-
+Future<bool> checkInternetWithReturnBool(
+    {required BuildContext context, required Function() function}) async {
+  bool connected = await CheckConnectivity().check();
+  bool isConnectionGood = await CheckConnectivity().goodConnection();
+  print("internect connection is $connected");
+  print("internect Good connection is $isConnectionGood");
+  if (connected) {
+    if (isConnectionGood) {
+      function();
+      return true;
+    } else {
+      snackBar(
+          context: context,
+          message: "Something went wrong.",
+          color: Colors.red);
+      return false;
+    }
+  } else {
+    snackBar(
+        context: context,
+        message: "No Internet Connection.",
+        color: Colors.red);
+    return false;
+  }
+}
 
 class ChatRoomDataInheritedWidget extends InheritedWidget {
   final ClassTeacherGroup? msgData;

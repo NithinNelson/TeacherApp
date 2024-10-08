@@ -138,12 +138,14 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                       child: GetX<LeaveRequestController>(
                                         builder: (LeaveRequestController
                                             controller) {
-
-                                          List<ClassData> classlist = controller.classList.value;
-                                          classlist.sort((a, b) => "${a.className!}${a.batchName!}".compareTo("${b.className!}${b.batchName!}"));
+                                          List<ClassData> classlist =
+                                              controller.classList.value;
+                                          classlist.sort((a, b) =>
+                                              "${a.className!}${a.batchName!}"
+                                                  .compareTo(
+                                                      "${b.className!}${b.batchName!}"));
                                           return ListView.builder(
                                               shrinkWrap: true,
-
                                               scrollDirection: Axis.horizontal,
                                               itemCount: classlist.length,
                                               itemBuilder:
@@ -155,7 +157,6 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                                       width: 5.w,
                                                     ),
                                                     SingleChildScrollView(
-
                                                       child: GestureDetector(
                                                         onTap: () {
                                                           setState(() {
@@ -408,7 +409,8 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                                               width: 250.w,
                                                               child: Text(
                                                                 studentList[i]
-                                                                        .name?.toUpperCase() ??
+                                                                        .name
+                                                                        ?.toUpperCase() ??
                                                                     '--',
                                                                 overflow:
                                                                     TextOverflow
@@ -469,6 +471,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
     );
   }
 }
+
 String capitalizeFirstLetterOfEachWord(String input) {
   return input
       .trim()
@@ -479,6 +482,5 @@ String capitalizeFirstLetterOfEachWord(String input) {
     String removeSpace = word.trim();
     print("$removeSpace...........removeSpace..............");
     return removeSpace[0].toUpperCase() + removeSpace.substring(1);
-  })
-      .join(' ');
+  }).join(' ');
 }
