@@ -8,7 +8,11 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart';
 
+import '../../Controller/api_controllers/hosAllStudentsListController.dart';
+import '../../Controller/api_controllers/hosStudentListController.dart';
 import '../../Controller/api_controllers/userAuthController.dart';
+import '../../Models/api_models/HosStudentListModel.dart';
+import '../../Models/api_models/hosFullListModel.dart';
 import '../../Utils/Colors.dart';
 import '../../Utils/constants.dart';
 import '../../main.dart';
@@ -150,13 +154,11 @@ class _MorePageState extends State<MorePage> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(left: 8),
-                              child: Container(
-                                child: Text(
-                                  'Student Tracking',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  ),
+                              child: Text(
+                                'Student Tracking',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
                                 ),
                               ),
                             ),
@@ -207,31 +209,37 @@ class _MorePageState extends State<MorePage> {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            child: Text(
-                                              'MY LIST',
-                                              style: GoogleFonts.inter(
-                                                fontSize: 14.h,
-                                                fontWeight: FontWeight.w500,
-                                                color:
-                                                Colorutils.userdetailcolor,
+                                      child: GetX<Hosstudentlistcontroller>(
+
+                                        builder: (Hosstudentlistcontroller controller) {
+                                          List<SendData> sendStudentsData = controller.sentStudentData.value;
+                                          return Column(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                child: Text(
+                                                  'MY LIST',
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: 14.h,
+                                                    fontWeight: FontWeight.w500,
+                                                    color:
+                                                    Colorutils.userdetailcolor,
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                          const Text(
-                                            '2',
-                                            style: TextStyle(
-                                                color: Colorutils.green,
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
+                                              Text(
+                                                "${sendStudentsData.length}",
+                                                style: TextStyle(
+                                                    color: Colorutils.green,
+                                                    fontSize: 24,
+                                                    fontWeight: FontWeight.bold),
+                                              ),
+                                            ],
+                                          );},
+
                                       ),
                                     )
                                   ],
@@ -271,31 +279,37 @@ class _MorePageState extends State<MorePage> {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            child: Text(
-                                              'ALL LIST',
-                                              style: GoogleFonts.inter(
-                                                fontSize: 14.h,
-                                                fontWeight: FontWeight.w500,
-                                                color:
-                                                Colorutils.userdetailcolor,
+                                      child: GetX<Hosallstudentslistcontroller>(
+
+                                        builder: (Hosallstudentslistcontroller controller) {
+                                          List<Datas> sendStudentsData =
+                                              controller.recentData.value;
+                                          return Column(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                child: Text(
+                                                  'ALL LIST',
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: 14.h,
+                                                    fontWeight: FontWeight.w500,
+                                                    color:
+                                                    Colorutils.userdetailcolor,
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                          const Text(
-                                            '4',
-                                            style: TextStyle(
-                                                color: Colorutils.green,
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
+                                              Text(
+                                                '${sendStudentsData.length}',
+                                                style: TextStyle(
+                                                    color: Colorutils.green,
+                                                    fontSize: 24,
+                                                    fontWeight: FontWeight.bold),
+                                              ),
+                                            ],
+                                          ); },
                                       ),
                                     )
                                   ],

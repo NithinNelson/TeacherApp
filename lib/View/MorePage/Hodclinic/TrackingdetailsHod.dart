@@ -328,228 +328,257 @@ class _Container1State extends State<Container1> {
     int remainingTime = endTime.difference(DateTime.now()).inSeconds;
 
     double progress = (countdownDuration - remainingTime) / countdownDuration;
-    return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10),
-      child: Container(
-        padding: EdgeInsets.all(10.0),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20.0),
-            border: Border.all(color: Colors.grey.withOpacity(0.2))
-            // boxShadow: [
-            //   BoxShadow(
-            //     color: Colors.grey,
-            //     blurRadius: 0.4,
-            //     offset: Offset(0, 1),
-            //   ),
-            // ],
-            ),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: 60, right: 65),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                      DateFormat('HH : mm').format(DateTime.parse(
-                              widget.sendDetails1.status?[0].addedOn ?? '--')
-                          .toLocal()),
-                      style: TextStyle(color: Colors.grey, fontSize: 12)),
-                  Text("-- : --",
-                      style: TextStyle(color: Colors.grey, fontSize: 12)),
-                ],
-              ),
-            ),
-            Row(
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 18, right: 18),
+          child: Container(
+            height: 40,
+            child: Row(
               children: [
-                Expanded(
-                  child: Container(
-                    height: 50.0,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          height: 18,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colorutils.userdetailcolor),
-                              )),
-                              Expanded(
-                                  child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey.withOpacity(0.3),
-                                ),
-                              )),
-                            ],
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            height: 18,
-                            margin: EdgeInsets.only(left: 70, right: 70),
-                            color: Colors.white,
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            height: 18,
-                            margin: EdgeInsets.only(left: 80, right: 80),
-                            child: CustomLinearProgressIndicator(
-                              value: progress,
-                              backgroundColor: Colors.grey.withOpacity(0.3),
-                              textColor: Colors.white,
-                              borderRadius: BorderRadius.circular(15),
-                              text: remainingTime > 0
-                                  ? "${formatTime(remainingTime)}" " Min Left"
-                                  : "Not Yet Reached",
-                              gradient: const LinearGradient(
-                                colors: [
-                                  Colorutils.userdetailcolor,
-                                  Colorutils.userdetailcolor
+                Text(
+                  "${widget.sendDetails1.status![0].visitStatus}",
+                  style: TextStyle(fontSize: 18.w, fontWeight: FontWeight.bold),
+                  maxLines: 3,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Container(
+                  child: SvgPicture.asset("assets/images/Notebook1.svg"),
+                )
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 10, right: 10),
+          child: Container(
+            padding: EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20.0),
+                border: Border.all(color: Colors.grey.withOpacity(0.2))
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Colors.grey,
+                //     blurRadius: 0.4,
+                //     offset: Offset(0, 1),
+                //   ),
+                // ],
+                ),
+            child: Column(
+              children: [
+
+                Padding(
+                  padding: EdgeInsets.only(left: 60, right: 65),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          DateFormat('HH : mm').format(DateTime.parse(
+                                  widget.sendDetails1.status?[0].addedOn ?? '--')
+                              .toLocal()),
+                          style: TextStyle(color: Colors.grey, fontSize: 12)),
+                      Text("-- : --",
+                          style: TextStyle(color: Colors.grey, fontSize: 12)),
+                    ],
+                  ),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 50.0,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              height: 18,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colorutils.userdetailcolor),
+                                  )),
+                                  Expanded(
+                                      child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.grey.withOpacity(0.3),
+                                    ),
+                                  )),
                                 ],
                               ),
                             ),
-                          ),
-                        ),
-                        const Positioned(
-                          left: 60,
-                          child: CircleAvatar(
-                            radius: 16.1,
-                            backgroundColor: Colors.white,
-                            child: CircleAvatar(
-                              radius: 16.0,
-                              backgroundColor: Colorutils.userdetailcolor,
+                            Center(
+                              child: Container(
+                                height: 18,
+                                margin: EdgeInsets.only(left: 70, right: 70),
+                                color: Colors.white,
+                              ),
+                            ),
+                            Center(
+                              child: Container(
+                                height: 18,
+                                margin: EdgeInsets.only(left: 80, right: 80),
+                                child: CustomLinearProgressIndicator(
+                                  value: progress,
+                                  backgroundColor: Colors.grey.withOpacity(0.3),
+                                  textColor: Colors.white,
+                                  borderRadius: BorderRadius.circular(15),
+                                  text: remainingTime > 0
+                                      ? "${formatTime(remainingTime)}" " Min Left"
+                                      : "Not Yet Reached",
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      Colorutils.userdetailcolor,
+                                      Colorutils.userdetailcolor
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const Positioned(
+                              left: 60,
                               child: CircleAvatar(
-                                radius: 14.0,
+                                radius: 16.1,
                                 backgroundColor: Colors.white,
                                 child: CircleAvatar(
-                                  radius: 11.0,
-                                  backgroundColor: Colors.green,
-                                  child: Icon(Icons.check,
-                                      size: 16.0, color: Colors.white),
+                                  radius: 16.0,
+                                  backgroundColor: Colorutils.userdetailcolor,
+                                  child: CircleAvatar(
+                                    radius: 14.0,
+                                    backgroundColor: Colors.white,
+                                    child: CircleAvatar(
+                                      radius: 11.0,
+                                      backgroundColor: Colors.green,
+                                      child: Icon(Icons.check,
+                                          size: 16.0, color: Colors.white),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                        Positioned(
-                          right: 60,
-                          child: CircleAvatar(
-                            radius: 16.1,
-                            backgroundColor: Colors.white,
-                            child: CircleAvatar(
-                              radius: 16.0,
-                              backgroundColor: Colors.grey.withOpacity(0.3),
-                              child: const CircleAvatar(
-                                radius: 14.0,
+                            Positioned(
+                              right: 60,
+                              child: CircleAvatar(
+                                radius: 16.1,
                                 backgroundColor: Colors.white,
                                 child: CircleAvatar(
-                                  radius: 11.0,
-                                  backgroundColor: Colors.yellow,
-                                  child: Icon(Icons.more_horiz_sharp,
-                                      size: 16.0, color: Colors.white),
+                                  radius: 16.0,
+                                  backgroundColor: Colors.grey.withOpacity(0.3),
+                                  child: const CircleAvatar(
+                                    radius: 14.0,
+                                    backgroundColor: Colors.white,
+                                    child: CircleAvatar(
+                                      radius: 11.0,
+                                      backgroundColor: Colors.yellow,
+                                      child: Icon(Icons.more_horiz_sharp,
+                                          size: 16.0, color: Colors.white),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-            SizedBox(height: 5.0),
-            Padding(
-              padding: const EdgeInsets.only(left: 30, right: 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "${widget.sendDetails1.status![0].visitStatus ?? "--"}",
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  Text(
-                    "Reached "
-                    "${Reachedstatus("${widget.sendDetails1.status?[0].visitStatus}")}",
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ],
-              ),
-            ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 12,
-                ),
-                Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                SizedBox(height: 5.0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30, right: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Center(
-                          child: SliderButton(
-                        height: 50,
-                        backgroundColor: Colorutils.userdetailcolor,
-                        radius: 50,
-                        buttonSize: 50,
-                        action: () async {
-                          HosUpdateModel updateData = HosUpdateModel(
-                            id: widget.sendDetails1.id,
-                            sentBy: Get.find<UserAuthController>()
-                                    .userData
-                                    .value
-                                    .name ??
-                                '',
-                            sentById: Get.find<UserAuthController>()
-                                    .userData
-                                    .value
-                                    .userId ??
-                                '',
-                            visitStatus: "Reached HOD/HOS",
-                          );
-                          await Get.find<Hosstudentupdatecontroller>()
-                              .sendHOSStudentDatas(data: updateData);
-                          await Get.find<Hosstudentlistcontroller>()
-                              .fetchHosStudentList(DateTime.now());
+                      Text(
+                        "${widget.sendDetails1.status![0].visitStatus ?? "--"}",
+                        style: TextStyle(fontSize: 12),
+                      ),
+                      Text(
+                        "Reached "
+                        "${Reachedstatus("${widget.sendDetails1.status?[0].visitStatus}")}",
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 12,
+                    ),
+                    Center(
+                        child: SliderButton(
+                      height: 50,
+                          width: ScreenUtil().screenWidth * 0.9,
+                          backgroundColor: Colorutils.userdetailcolor,
+                      radius: 50,
+                      buttonSize: 50,
+                      action: () async {
+                        HosUpdateModel updateData = HosUpdateModel(
+                          id: widget.sendDetails1.id,
+                          sentBy: Get.find<UserAuthController>()
+                                  .userData
+                                  .value
+                                  .name ??
+                              '',
+                          sentById: Get.find<UserAuthController>()
+                                  .userData
+                                  .value
+                                  .userId ??
+                              '',
+                          visitStatus: "Reached HOD/HOS",
+                        );
+                        await Get.find<Hosstudentupdatecontroller>()
+                            .sendHOSStudentDatas(data: updateData);
+                        await Get.find<Hosstudentlistcontroller>()
+                            .fetchHosStudentList(DateTime.now());
 
-                          // await Get.find<RecentListApiController>()
-                          //     .fetchRecentList();
-                        },
-                        label: const Text(
+                        // await Get.find<RecentListApiController>()
+                        //     .fetchRecentList();
+                      },
+                      label: Center(
+                        child: const Text(
                           "Slide to Confirm Arrival",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
                               fontSize: 15),
                         ),
-                        icon: const Center(
-                            child: Icon(
-                          CupertinoIcons.forward,
-                          color: Colorutils.userdetailcolor,
-                          size: 25.0,
-                        )),
-                        boxShadow: BoxShadow(
-                          color: Colors.black.withOpacity(0.3),
-                          blurRadius: 4,
-                        ),
-                      )),
-                    ],
-                  ),
-                ),
+                      ),
+                          icon: CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colorutils.userdetailcolor,
+                            child: CircleAvatar(
+                              radius: 18,
+                              backgroundColor: Colorutils.white,
+                              child: const Center(
+                                  child: Icon(
+                                    CupertinoIcons.checkmark_alt,
+                                    color: Colorutils.userdetailcolor,
+                                    size: 25.0,
+                                  )),
+                            ),
+                          ),
+                      boxShadow: BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 4,
+                      ),
+                    )),
+                  ],
+                )
               ],
-            )
-          ],
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -584,15 +613,8 @@ class _Container2State extends State<Container2> {
                 SizedBox(
                   width: 5,
                 ),
-                CircleAvatar(
-                  radius: 11,
-                  backgroundColor: Colors.grey.withOpacity(0.1),
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Container(
-                      child: Image.asset("assets/images/icons8-walking-64.png"),
-                    ),
-                  ),
+                Container(
+                  child: SvgPicture.asset("assets/images/Notebook1.svg"),
                 )
               ],
             ),
@@ -737,7 +759,7 @@ class _Container2State extends State<Container2> {
             child: Row(
               children: [
                 Text(
-                  "Sent to  Class",
+                  "Sent to Class",
                   // "${widget.sendDetails2.status![1].visitStatus}",
                   style: TextStyle(fontSize: 18.w, fontWeight: FontWeight.bold),
                   maxLines: 3,
@@ -745,15 +767,8 @@ class _Container2State extends State<Container2> {
                 SizedBox(
                   width: 5,
                 ),
-                CircleAvatar(
-                  radius: 11,
-                  backgroundColor: Colors.grey.withOpacity(0.1),
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Container(
-                      child: Image.asset("assets/images/icons8-walking-64.png"),
-                    ),
-                  ),
+                Container(
+                  child: SvgPicture.asset("assets/images/Notebook1.svg"),
                 )
               ],
             ),
@@ -763,7 +778,7 @@ class _Container2State extends State<Container2> {
           height: 10,
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10),
+          padding:  EdgeInsets.only(left: 10.w, right: 10.w),
           child: Container(
             padding: EdgeInsets.all(10.0),
             decoration: BoxDecoration(
@@ -793,6 +808,7 @@ class _Container2State extends State<Container2> {
                           Center(
                               child: SliderButton(
                             height: 50,
+                            width: ScreenUtil().screenWidth * 0.9,
                             backgroundColor: Colorutils.userdetailcolor,
                             radius: 50,
                             buttonSize: 50,
@@ -819,19 +835,29 @@ class _Container2State extends State<Container2> {
                               // await Get.find<RecentListApiController>()
                               //     .fetchRecentList();
                             },
-                            label: const Text(
-                              "Swipe to Sent Student to the class",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14),
+                            label: Center(
+                              child: const Text(
+                                "Slide to Sent Student to the class",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12),
+                              ),
                             ),
-                            icon: const Center(
-                                child: Icon(
-                              CupertinoIcons.forward,
-                              color: Colorutils.userdetailcolor,
-                              size: 25.0,
-                            )),
+                            icon: CircleAvatar(
+                              radius: 20,
+backgroundColor: Colorutils.userdetailcolor,
+                              child: CircleAvatar(
+                                radius: 18,
+                                backgroundColor: Colorutils.white,
+                                child: const Center(
+                                    child: Icon(
+                                  CupertinoIcons.checkmark_alt,
+                                  color: Colorutils.userdetailcolor,
+                                  size: 25.0,
+                                )),
+                              ),
+                            ),
                             boxShadow: BoxShadow(
                               color: Colors.black.withOpacity(0.3),
                               blurRadius: 4,
@@ -941,15 +967,8 @@ class _Container3State extends State<Container3> {
                 SizedBox(
                   width: 5,
                 ),
-                CircleAvatar(
-                  radius: 11,
-                  backgroundColor: Colors.grey.withOpacity(0.1),
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Container(
-                      child: Image.asset("assets/images/icons8-walking-64.png"),
-                    ),
-                  ),
+                Container(
+                  child: SvgPicture.asset("assets/images/Notebook1.svg"),
                 )
               ],
             ),
@@ -1099,15 +1118,8 @@ class _Container3State extends State<Container3> {
                 SizedBox(
                   width: 5,
                 ),
-                CircleAvatar(
-                  radius: 11,
-                  backgroundColor: Colors.grey.withOpacity(0.1),
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Container(
-                      child: Image.asset("assets/images/icons8-walking-64.png"),
-                    ),
-                  ),
+                Container(
+                  child: SvgPicture.asset("assets/images/Notebook1.svg"),
                 )
               ],
             ),

@@ -331,17 +331,18 @@ class listcontainer extends StatelessWidget {
                       // height: 18.h,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4),
-                          color: Colorutils.clinicHOd,
+                          color: Colors.green
+                              .withOpacity(0.3),
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                               vertical: 2.h, horizontal: 10.w),
-                          child: Text("${progressCompletedList.status?[0].visitStatus}",
+                          child: Text("${progressCompletedList.visitStatus}",
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.inter(
                                   textStyle: TextStyle(
                                     fontSize: 13.sp,
-                                    color:  Colors.blue,
+                                    color:  Colorutils.userdetailcolor,
                                   ))),
                         )),
                   ],

@@ -251,13 +251,30 @@ class listcontainer extends StatelessWidget {
                   SizedBox(
                     height: 5.h,
                   ),
-                  Text("${Studentdetails.admnNo}",
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.inter(
-                          textStyle: TextStyle(
-                        fontSize: 13.sp,
-                        color: Colors.grey,
-                      ))),
+                  Row(
+                    children: [
+                      Text("${Studentdetails.admnNo}",
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.inter(
+                              textStyle: TextStyle(
+                            fontSize: 13.sp,
+                            color: Colors.grey,
+                          ))),
+                      SizedBox(width: 10,),
+                      Text(
+                          "|   Grade"
+                              " "
+                              "${Studentdetails.classCode}"
+                              "-"
+                              "${mainData("${Studentdetails.batch}")}",
+                          style: GoogleFonts.inter(
+                              textStyle: TextStyle(
+                                  fontSize: 13.sp,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold)))
+
+                    ],
+                  ),
                 ],
               ),
               SizedBox(
@@ -269,4 +286,9 @@ class listcontainer extends StatelessWidget {
       ),
     );
   }
+}
+String mainData(String str) {
+  List<String> parts = str.split('/');
+  String result = parts[1];  // This will be "B"
+  return result;
 }

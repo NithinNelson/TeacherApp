@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:alarm/alarm.dart';
+import 'package:alarm/model/alarm_settings.dart';
+import 'package:alarm/model/notification_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -312,7 +315,7 @@ class _ScandataState extends State<Scandata> {
                                 height: 5,
                               ),
                               Text(
-                                "Councellor",
+                                "Counsellor",
                                 style: TextStyle(fontSize: 13),
                               )
                             ],
@@ -345,7 +348,7 @@ class _ScandataState extends State<Scandata> {
                                 height: 5,
                               ),
                               Text(
-                                "HOD",
+                                "HOD/HOS",
                                 style: TextStyle(fontSize: 13),
                               )
                             ],
@@ -366,7 +369,7 @@ class _ScandataState extends State<Scandata> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Select HOS',
+                                    'Select HOD/HOS',
                                     style: TextStyle(
                                         fontSize: 16.w,
                                         fontWeight: FontWeight.bold),
@@ -386,7 +389,7 @@ class _ScandataState extends State<Scandata> {
                                                 Colors.black.withOpacity(0.3)),
                                         contentPadding: EdgeInsets.symmetric(
                                             vertical: 15.0, horizontal: 20.0),
-                                        hintText: " Select a HOD ",
+                                        hintText: " Select a HOD/HOS ",
                                         counterText: "",
                                         border: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
@@ -416,7 +419,7 @@ class _ScandataState extends State<Scandata> {
                                     padding: const EdgeInsets.only(
                                             left: 10, right: 5)
                                         .w,
-                                    hint: const Text(" Select a HOS "),
+                                    hint: const Text(" Select a HOD/HOS "),
                                     validator: (dynamic value) =>
                                         value == null ? 'Field Required' : null,
                                     items: controller.hosdata
@@ -520,6 +523,7 @@ class _ScandataState extends State<Scandata> {
                             padding: EdgeInsets.only(top: 25.h),
                             child: GestureDetector(
                               onTap: () async {
+
                                 onTaped = false;
                                 String type = isClicked
                                     ? "clinic"
@@ -534,6 +538,7 @@ class _ScandataState extends State<Scandata> {
                                   setState(() {
                                     spinner = true;
                                   });
+                                  playAlarm(Studentdetail.admnNo ?? "1/22");
                                   StudentAddModel sentData = StudentAddModel(
                                     academicYear: Get.find<UserAuthController>()
                                             .userData
@@ -573,6 +578,7 @@ class _ScandataState extends State<Scandata> {
 
                                   await Get.find<RecentListApiController>()
                                       .fetchRecentList();
+                                  // playAlarm(Studentdetail.admnNo ?? "1/22");
                                 }
                               },
                               child: Padding(
@@ -619,3 +625,34 @@ final spinkitNew = SpinKitWave(
     ));
   },
 );
+
+
+playAlarm(String admissionId) async {
+  print("njjjjjjjjjjjjjjjj...");
+  int id = int.parse(admissionId.split("/").first);
+  await Alarm.init();
+  DateTime alarmTime = DateTime.now().add(const Duration(seconds: 10));
+  final alarmSettings = AlarmSettings(
+    id: id,
+    dateTime: alarmTime,
+    assetAudioPath: 'assets/alarm.mp3',
+    loopAudio: false,
+    vibrate: false,
+    volume: 0.5,
+    fadeDuration: 5.0,
+    // warningNotificationOnKill: Platform.isIOS,
+    notificationSettings: const NotificationSettings(
+      title: 'This is the title',
+      body: 'This is the body',
+      stopButton: "true",
+      icon: 'notification_icon',
+    ),
+  );
+  Alarm.set(alarmSettings: alarmSettings);
+}
+
+stopAlarm(String admissionId) async {
+  int id = int.parse(admissionId.split("/").first);
+  await Alarm.init();
+  Alarm.stop(id);
+}

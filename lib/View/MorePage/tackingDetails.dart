@@ -21,13 +21,19 @@ import '../../Models/api_models/recentlist_model.dart';
 import '../../Models/api_models/student_updateModel.dart';
 import '../../Utils/Colors.dart';
 
-class trackingDetails extends StatelessWidget {
+class trackingDetails extends StatefulWidget {
   final DateTime starttime;
   final RecentData inProgressList;
 
   const trackingDetails(
       {super.key, required this.inProgressList, required this.starttime});
 
+  @override
+  State<trackingDetails> createState() => _trackingDetailsState();
+}
+
+class _trackingDetailsState extends State<trackingDetails> {
+  bool ontap = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,12 +87,11 @@ class trackingDetails extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: 20,
-                        backgroundColor:
-                            Colorutils.chatcolor.withOpacity(0.2),
+                        backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: SvgPicture.asset(
-                              "assets/images/profileOne.svg"),
+                          child:
+                              SvgPicture.asset("assets/images/profileOne.svg"),
                         ),
                       ),
                       SizedBox(
@@ -100,7 +105,7 @@ class trackingDetails extends StatelessWidget {
                             width: 200.w,
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
-                              child: Text("${inProgressList.studentName}",
+                              child: Text("${widget.inProgressList.studentName}",
                                   style: GoogleFonts.inter(
                                       textStyle: TextStyle(
                                           fontSize: 16.sp,
@@ -116,58 +121,56 @@ class trackingDetails extends StatelessWidget {
                               // height: 18.h,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(4),
-                                color: inProgressList.visitStatus ==
+                                color: widget.inProgressList.visitStatus ==
                                             "Sent to Clinic" ||
-                                        inProgressList.visitStatus ==
+                                        widget.inProgressList.visitStatus ==
                                             "Reached Clinic"
                                     ? Colors.red.withOpacity(0.2)
-                                    : inProgressList.visitStatus ==
+                                    : widget.inProgressList.visitStatus ==
                                                 "Sent to Washroom" ||
-                                            inProgressList.visitStatus ==
+                                            widget.inProgressList.visitStatus ==
                                                 "Reached Washroom"
                                         ? Colorutils.washroomcolor2
-                                        : inProgressList.visitStatus ==
+                                        : widget.inProgressList.visitStatus ==
                                                     "Sent to Counsellor" ||
-                                                inProgressList.visitStatus ==
+                                                widget.inProgressList.visitStatus ==
                                                     "Reached Counsellor"
                                             ? Colorutils.councellorcolor2
-                                            : inProgressList.visitStatus ==
+                                            : widget.inProgressList.visitStatus ==
                                                         "Back to Class" ||
-                                                    inProgressList
+                                                    widget.inProgressList
                                                             .visitStatus ==
                                                         "Reached Class"
-                                                ? Colors.green
-                                                    .withOpacity(0.3)
+                                                ? Colors.green.withOpacity(0.3)
                                                 : Colorutils.grey,
                               ),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
                                     vertical: 1.h, horizontal: 10.w),
-                                child: Text("${inProgressList.visitStatus}",
+                                child: Text("${widget.inProgressList.visitStatus}",
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.inter(
                                         textStyle: TextStyle(
                                       fontSize: 13.sp,
-                                      color: inProgressList.visitStatus ==
+                                      color: widget.inProgressList.visitStatus ==
                                                   "Sent to Clinic" ||
-                                              inProgressList.visitStatus ==
+                                              widget.inProgressList.visitStatus ==
                                                   "Reached Clinic"
                                           ? Colors.red
-                                          : inProgressList.visitStatus ==
+                                          : widget.inProgressList.visitStatus ==
                                                       "Sent to Washroom" ||
-                                                  inProgressList
-                                                          .visitStatus ==
+                                                  widget.inProgressList.visitStatus ==
                                                       "Reached Washroom"
                                               ? Colorutils.washroomcolor
-                                              : inProgressList.visitStatus ==
+                                              : widget.inProgressList.visitStatus ==
                                                           "Sent to Counsellor" ||
-                                                      inProgressList
+                                                      widget.inProgressList
                                                               .visitStatus ==
                                                           "Reached Counsellor"
                                                   ? Colorutils.councellorcolor
-                                                  : inProgressList.visitStatus ==
+                                                  : widget.inProgressList.visitStatus ==
                                                               "Back to Class" ||
-                                                          inProgressList
+                                                          widget.inProgressList
                                                                   .visitStatus ==
                                                               "Reached Class"
                                                       ? Colorutils
@@ -177,12 +180,12 @@ class trackingDetails extends StatelessWidget {
                               )),
                         ],
                       ),
-                     Spacer(),
+                      Spacer(),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            Converteddate("${inProgressList.visitDate}"),
+                            Converteddate("${widget.inProgressList.visitDate}"),
                             style: GoogleFonts.inter(
                               textStyle: TextStyle(
                                   fontSize: 12.sp,
@@ -197,9 +200,9 @@ class trackingDetails extends StatelessWidget {
                               child: Text(
                                   "Grade"
                                   " "
-                                  "${inProgressList.classs}"
+                                  "${widget.inProgressList.classs}"
                                   " "
-                                  "${inProgressList.batch}",
+                                  "${widget.inProgressList.batch}",
                                   style: GoogleFonts.inter(
                                       textStyle: TextStyle(
                                           fontSize: 14.sp,
@@ -214,9 +217,9 @@ class trackingDetails extends StatelessWidget {
             ),
             GetX<RecentListApiController>(
               builder: (RecentListApiController controller) {
-                RecentData data = inProgressList;
+                RecentData data = widget.inProgressList;
                 for (var progressData in controller.inProgressData.value) {
-                  if (progressData.id == inProgressList.id) {
+                  if (progressData.id == widget.inProgressList.id) {
                     print("....datazzzzzz ....${progressData.status?.length}");
                     data = progressData;
                   }
@@ -224,30 +227,123 @@ class trackingDetails extends StatelessWidget {
                 print("....datazzzzzz222 ....${data.status?.length}");
                 print("....datazzzzzz222 ....${data.id}");
                 print("....datazzzzzz222 ....${data.studentName}");
-                return Column(
-                  children: [
-                    if (data.status?.length == 1)
-                      Container1(inProgressData: data, starttime: starttime),
-                    if (data.status?.length == 2)
-                      Container2(
-                        starttime: starttime,
-                        inProgressData: data,
+                return Expanded(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      children: [
+                  
+                      Column(
+                        children: [
+                          if (data.status?.length == 1)
+                            Container1(inProgressData: data, starttime: widget.starttime),
+                          if (data.status?.length == 2)
+                            Container2(
+                              starttime: widget.starttime,
+                              inProgressData: data,
+                            ),
+                          if (data.status?.length == 3)
+                            Container3(
+                              starttime: widget.starttime,
+                              inProgressData: data,
+                            ),
+                          if (data.status?.length == 4 &&
+                              data.status?[2].visitStatus == "Sent to Isolation Room")
+                            Container4(
+                              starttime: widget.starttime,
+                              inProgressData: data,
+                            ),
+                        ],
                       ),
-                    if (data.status?.length == 3)
-                      Container3(
-                        starttime: starttime,
-                        inProgressData: data,
-                      ),
-                    if (data.status?.length == 4 &&
-                        data.status?[2].visitStatus == "Sent to Isolation Room")
-                      Container4(
-                        starttime: starttime,
-                        inProgressData: data,
-                      ),
-                  ],
+                        Padding(
+                          padding: const EdgeInsets.only(left: 18, right: 18),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                ontap = !ontap;
+                              });
+                            },
+                            child: Container(
+                              height: 40,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "Remarks",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colorutils.userdetailcolor,
+                                        fontStyle: FontStyle.italic
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 2,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Icon(
+                                      ontap==true ? Icons.arrow_drop_down : Icons.arrow_drop_up, // Change icon based on ontap value
+                                      color: Colorutils.userdetailcolor,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        ontap==true? Padding(
+                          padding: const EdgeInsets.only(left: 10,right: 10),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Container(
+
+                              child: TextFormField(
+
+                                readOnly: true,
+
+
+                                decoration: InputDecoration(
+                                    hintStyle:
+                                    TextStyle(color: Colors.black26),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 10.0),
+
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(15.0),
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colorutils.chatcolor,
+                                          width: 1.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(15)),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colorutils.chatcolor,
+                                          width: 1.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(15.0)),
+                                    ),
+                                    fillColor: Colorutils.chatcolor.withOpacity(0.2),
+                                    filled: true),
+                                maxLines: 5,
+                              ),
+                              height: 80,
+                            ),
+                          ),
+                        ):SizedBox()
+                      ],
+                    ),
+                  ),
                 );
               },
             ),
+
+
           ],
         ),
       ),
@@ -399,7 +495,8 @@ class _Container1State extends State<Container1> {
                                   Expanded(
                                     child: Container(
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           color: Colorutils.userdetailcolor),
                                     ),
                                   ),
@@ -426,8 +523,7 @@ class _Container1State extends State<Container1> {
                                 margin: EdgeInsets.only(left: 80, right: 80),
                                 child: CustomLinearProgressIndicator(
                                   value: progress,
-                                  backgroundColor:
-                                      Colors.grey.withOpacity(0.3),
+                                  backgroundColor: Colors.grey.withOpacity(0.3),
                                   textColor: Colors.white,
                                   borderRadius: BorderRadius.circular(15),
                                   text: remainingTime > 0
@@ -509,36 +605,6 @@ class _Container1State extends State<Container1> {
                     ],
                   ),
                 ),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 if (widget.inProgressData.visitStatus == 'Sent to Washroom')
                   Column(
                     children: [
@@ -553,7 +619,9 @@ class _Container1State extends State<Container1> {
                             Center(
                                 child: SliderButton(
                               height: 50,
-                              backgroundColor: Colorutils.userdetailcolor,
+                                  width: ScreenUtil().screenWidth * 0.9,
+
+                                  backgroundColor: Colorutils.userdetailcolor,
                               radius: 50,
                               buttonSize: 50,
                               action: () async {
@@ -576,12 +644,14 @@ class _Container1State extends State<Container1> {
                                 await Get.find<RecentListApiController>()
                                     .fetchRecentList();
                               },
-                              label: const Text(
-                                "Slide to Confirm Arrival",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 15),
+                              label: Center(
+                                child: const Text(
+                                  "Slide to Confirm Arrival",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14),
+                                ),
                               ),
                               icon: const Center(
                                   child: Icon(
@@ -1011,9 +1081,21 @@ class _Container3State extends State<Container3> {
                 const SizedBox(
                   width: 10,
                 ),
-                Container(
-                  child: SvgPicture.asset("assets/images/Notebook.svg"),
-                )
+                widget.inProgressData.visitStatus != "Sent to Isolation Room"
+                    ? Container(
+                        child: SvgPicture.asset("assets/images/Notebook.svg"),
+                      )
+                    : CircleAvatar(
+                        radius: 11,
+                        backgroundColor: Colors.grey.withOpacity(0.1),
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Container(
+                            child: Image.asset(
+                                "assets/images/icons8-walking-64.png"),
+                          ),
+                        ),
+                      )
               ],
             ),
           ),
@@ -1108,8 +1190,7 @@ class _Container3State extends State<Container3> {
                                         backgroundColor:
                                             Colors.grey.withOpacity(0.3),
                                         textColor: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(15),
+                                        borderRadius: BorderRadius.circular(15),
                                         text: remainingTime > 0
                                             ? formatTime(remainingTime)
                                             : "Not Yet Reached",
@@ -1203,6 +1284,7 @@ class _Container3State extends State<Container3> {
                             Center(
                                 child: SliderButton(
                               height: 50,
+                              width: ScreenUtil().screenWidth * 0.9,
                               backgroundColor: Colorutils.userdetailcolor,
                               radius: 50,
                               buttonSize: 50,
@@ -1226,12 +1308,14 @@ class _Container3State extends State<Container3> {
                                 await Get.find<RecentListApiController>()
                                     .fetchRecentList();
                               },
-                              label: const Text(
-                                "Slide to Confirm Arrival",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 15),
+                              label: Center(
+                                child: const Text(
+                                  "Slide to Confirm Arrival",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14),
+                                ),
                               ),
                               icon: const Center(
                                   child: Icon(
@@ -1577,10 +1661,17 @@ class _Container4State extends State<Container4> {
                   style: TextStyle(fontSize: 18.w, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
-                  width: 10,
+                  width: 5,
                 ),
-                Container(
-                  child: SvgPicture.asset("assets/images/Notebook.svg"),
+                CircleAvatar(
+                  radius: 11,
+                  backgroundColor: Colors.grey.withOpacity(0.1),
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Container(
+                      child: Image.asset("assets/images/icons8-walking-64.png"),
+                    ),
+                  ),
                 )
               ],
             ),
@@ -1775,8 +1866,7 @@ class _Container4State extends State<Container4> {
                                 margin: EdgeInsets.only(left: 80, right: 80),
                                 child: CustomLinearProgressIndicator(
                                   value: progress,
-                                  backgroundColor:
-                                      Colors.grey.withOpacity(0.3),
+                                  backgroundColor: Colors.grey.withOpacity(0.3),
                                   textColor: Colors.white,
                                   borderRadius: BorderRadius.circular(15),
                                   text: remainingTime > 0
@@ -1868,6 +1958,7 @@ class _Container4State extends State<Container4> {
                       Center(
                           child: SliderButton(
                         height: 50,
+                        width: ScreenUtil().screenWidth * 0.9,
                         backgroundColor: Colorutils.userdetailcolor,
                         radius: 50,
                         buttonSize: 50,
@@ -1890,12 +1981,14 @@ class _Container4State extends State<Container4> {
                           await Get.find<RecentListApiController>()
                               .fetchRecentList();
                         },
-                        label: const Text(
-                          "Slide to Confirm Arrival",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15),
+                        label: Center(
+                          child: const Text(
+                            "Slide to Confirm Arrival",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14),
+                          ),
                         ),
                         icon: const Center(
                             child: Icon(
