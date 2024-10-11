@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:alarm/alarm.dart';
-import 'package:alarm/model/alarm_settings.dart';
-import 'package:alarm/model/notification_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -429,7 +427,7 @@ class _ScandataState extends State<Scandata> {
                                       return DropdownMenuItem<dynamic>(
                                         value:item.sId,
                                         child: Text(
-                                          item.name ?? '--',
+                                          item.name?.toUpperCase() ?? '--',
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                         ),
@@ -538,6 +536,8 @@ class _ScandataState extends State<Scandata> {
                                   setState(() {
                                     spinner = true;
                                   });
+                                  // Get.find<RecentListApiController>().inProgressDataFromApi.first.v;
+
                                   playAlarm(Studentdetail.admnNo ?? "1/22");
                                   StudentAddModel sentData = StudentAddModel(
                                     academicYear: Get.find<UserAuthController>()

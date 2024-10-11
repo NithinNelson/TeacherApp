@@ -27,12 +27,23 @@ import '../../Controller/api_controllers/recentListApiController.dart';
 import '../../Models/api_models/recentlist_model.dart';
 import '../../Utils/Colors.dart';
 
-class AllStudents extends StatelessWidget {
+class AllStudents extends StatefulWidget {
   const AllStudents({super.key});
 
   @override
+  State<AllStudents> createState() => _AllStudentsState();
+}
+
+class _AllStudentsState extends State<AllStudents> {
+  Timer? _timer;
+
+  @override
   Widget build(BuildContext context) {
-    Get.find<RecentListApiController>().fetchRecentList();
+    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+      print("nsnsnnbsebebebe");
+      Get.find<RecentListApiController>().fetchRecentList();
+    });
+    // Get.find<RecentListApiController>().fetchRecentList();
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       body: SafeArea(
@@ -515,15 +526,32 @@ class _TrackingContainerState extends State<TrackingContainer> {
     if (widget.inProgressList.status?.length == 1 ||
         widget.inProgressList.status?.length == 3 ||
         widget.inProgressList.status!.length == 4) {
-      startTimer(); // Start the timer when the screen is initialized
+      startTimer1; // Start the timer when the screen is initialized
     }
+
     // else if (widget.inProgressList.status?.length == 3 || widget.inProgressList.status!.length == 4 ){
     //   startTimer1();
     // }
-    else if (widget.inProgressList.status?.length == 2 ||
-        widget.inProgressList.status!.length == 4) {
+    else if (widget.inProgressList.status?.length == 2) {
       stopAlarm1();
     }
+  }
+
+
+  @override
+  void didUpdateWidget(covariant TrackingContainer oldWidget) {
+    endTime = widget.startTime.add(Duration(seconds: countdownDuration));
+    if (widget.inProgressList.status?.length == 1) {
+      startTimer(); // Start the timer when the screen is initialized
+    }
+
+    else if (widget.inProgressList.status?.length == 3 || widget.inProgressList.status!.length == 4 ){
+      startTimer1();
+    }
+    else if (widget.inProgressList.status?.length == 2 ) {
+      stopAlarm1();
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   String? startTimer1() {
@@ -548,8 +576,8 @@ class _TrackingContainerState extends State<TrackingContainer> {
               DateTime.now()
                   .isBefore(endTime.add(const Duration(seconds: 1)))) {
             // playAlarm();
-            widget.inProgressList.visitStatus != "Sent to Isolation Room"
-                ? _playAlertSoundAndVibrate()
+            widget.inProgressList.visitStatus != "Sent to Isolation Room"?
+                _playAlertSoundAndVibrate()
                 : ();
             // _playAlertSoundAndVibrate();
           }

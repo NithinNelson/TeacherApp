@@ -241,7 +241,7 @@ class _TrackingpageHodState extends State<TrackingpageHod>
                                     sendStudentList: sendStudentsData[index],
                                     startTime: DateTime.parse(
                                             "${sendStudentsData[index].status?.last.addedOn}")
-                                        .toLocal()))
+                                        .toLocal(), index1: index,))
                             : Center(
                                 child: Text(
                                   "Oops..No Data Found",
@@ -274,9 +274,10 @@ class _TrackingpageHodState extends State<TrackingpageHod>
 class trackingcontainer extends StatefulWidget {
   final SendData sendStudentList;
   final DateTime startTime;
+  final int index1;
 
   const trackingcontainer(
-      {super.key, required this.sendStudentList, required this.startTime});
+      {super.key, required this.sendStudentList, required this.startTime, required this.index1,});
 
   @override
   State<trackingcontainer> createState() => _trackingcontainerState();
@@ -289,20 +290,44 @@ class _trackingcontainerState extends State<trackingcontainer> {
   late Timer timer;
 
   @override
-  @override
   void initState() {
     super.initState();
+
     endTime = widget.startTime.add(Duration(seconds: countdownDuration));
+    (widget.index1 == 0 && widget.sendStudentList.status?.length == 1 ) ? WidgetsBinding.instance.addPostFrameCallback((_) {
+      print("fjidjdff = ${widget.index1}");
+      TeacherAppPopUps.Trackingpop(
+          title: "Student Coming!",
+          message:
+          "${widget.sendStudentList.studentName} ,${" from Grade"
+              " "
+              "${widget.sendStudentList.classs}"
+              " "
+              "${widget.sendStudentList.batch}"} on way, Sent By ${widget.sendStudentList.status?.first.sentBy}",
+          actionName: "Track",
+          iconColor: Colors.green,
+          timeText: '', sendername:"${widget.sendStudentList.studentName}");
+    }): WidgetsBinding.instance.addPostFrameCallback((_) {
+      print("fjidjdff = ${widget.index1}");
+      widget.index1 == 0?  TeacherAppPopUps.Trackingpoplate(
+          title: "Late Alert",
+          message:
+          "${widget.sendStudentList.studentName} ${"has not reached yet."}",
+          actionName: "Track",
+          iconColor: Colors.green,
+          timeText: '', sendername: '${widget.sendStudentList.studentName}'):();
+    });
+
     if (widget.sendStudentList.status?.length == 1 ||
         widget.sendStudentList.status?.length == 3) {
-
       startTimer();
-      // WidgetsBinding.instance.addPostFrameCallback((_) {
-      //   startTimer();      });
+
+
     }
   }
 
   String? startTimer() {
+
 
     int remainingTime = endTime.difference(DateTime.now()).inSeconds;
 
@@ -327,19 +352,14 @@ class _trackingcontainerState extends State<trackingcontainer> {
               DateTime.now()
                   .isBefore(endTime.add(const Duration(seconds: 1)))) {
             _playAlertSoundAndVibrate();
-            TeacherAppPopUps.Trackingpop(
-                title: "Coming!",
+            TeacherAppPopUps.Trackingpoplate(
+                title: "Late Alert",
                 message:
-                    "${widget.sendStudentList.studentName} ,${" From : Grade"
-                        " "
-                        "${widget.sendStudentList.classs}"
-                        " "
-                        "${widget.sendStudentList.batch}"} on way!, Sent By ${widget.sendStudentList.status?.first.sentBy}",
-                actionName: "OK",
+                    "${widget.sendStudentList.studentName} ${"has not reached yet."}",
+                actionName: "Track",
                 iconColor: Colors.green,
-                timeText: '');
+                timeText: '', sendername: '${widget.sendStudentList.studentName}');
             print("..........................bellssls");
-            // _playAlertSoundAndVibrate();
           }
           timer.cancel();
           text = true;
@@ -733,13 +753,13 @@ class _TrackingContainerState extends State<TrackingContainer> {
                     ),
                     GestureDetector(
                         onTap: () {
-                          TeacherAppPopUps.Trackingpop(
-                              title: "Coming!",
+                          TeacherAppPopUps.Trackingpoplate(
+                              title: "Late",
                               message:
                                   "Lucas ,from Grade 6D on way!, Sent By Emma Taylor",
                               actionName: "Track",
                               iconColor: Colors.green,
-                              timeText: '4.00');
+                              timeText: '4.00', sendername: '');
                         },
                         child: CircleAvatar(
                           radius: 20,

@@ -12,6 +12,7 @@ class RecentListApiController extends GetxController {
   RxBool isLoaded = false.obs;
   RxBool isError = false.obs;
   RxList<RecentData> recentData = <RecentData>[].obs;
+  RxList<RecentData> inProgressDataFromApi = <RecentData>[].obs;
   RxList<RecentData> inProgressData = <RecentData>[].obs;
   RxList<RecentData> progressCompletedData = <RecentData>[].obs;
 
@@ -22,7 +23,7 @@ class RecentListApiController extends GetxController {
 
   void resetData() {
     recentData.value = [];
-    inProgressData.value = [];
+    inProgressDataFromApi.value = [];
     progressCompletedData.value = [];
   }
 
@@ -64,21 +65,25 @@ class RecentListApiController extends GetxController {
         isLoaded.value = true;
         for (var sub in recentData.value) {
           if (sub.isprogress ?? false) {
-            inProgressData.add(sub);
+            inProgressDataFromApi.add(sub);
             print(
-                "-----------inprogressdata..${inProgressData.first.id}-----------");
+                "-----------inprogressdata..${inProgressDataFromApi.first.id}-----------");
             print(
-                "-----------inprogressdata..${inProgressData.first.studentName}-----------");
+                "-----------inprogressdata..${inProgressDataFromApi.first.studentName}-----------");
           } else {
             progressCompletedData.add(sub);
             print(
                 "-----------inprogressdata..$progressCompletedData-----------");
           }
         }
+        inProgressData.value = inProgressDataFromApi.value;
         // print("-----------endorsedclasseslist${endorsedClassesList.value}-----------");
+      } else {
+        inProgressData.value = [];
       }
     } catch (e) {
       isLoaded.value = false;
+      inProgressData.value = [];
       print("-----------obs result list error-----------");
     } finally {
       resetStatus();

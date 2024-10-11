@@ -299,8 +299,10 @@ class _trackingDetailsState extends State<trackingDetails> {
                             child: Container(
 
                               child: TextFormField(
+                                controller: "${widget.inProgressList.visitStatus}",
 
                                 readOnly: true,
+
 
 
                                 decoration: InputDecoration(
