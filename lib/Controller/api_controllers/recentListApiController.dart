@@ -12,8 +12,10 @@ class RecentListApiController extends GetxController {
   RxBool isLoaded = false.obs;
   RxBool isError = false.obs;
   RxList<RecentData> recentData = <RecentData>[].obs;
+  RxList<RecentData> inProgressDataFromApi = <RecentData>[].obs;
   RxList<RecentData> inProgressData = <RecentData>[].obs;
   RxList<RecentData> progressCompletedData = <RecentData>[].obs;
+  RxList<RecentData> progressCompletedDataApi = <RecentData>[].obs;
 
   void resetStatus() {
     isLoading.value = false;
@@ -22,8 +24,8 @@ class RecentListApiController extends GetxController {
 
   void resetData() {
     recentData.value = [];
-    inProgressData.value = [];
-    progressCompletedData.value = [];
+    inProgressDataFromApi.value = [];
+    progressCompletedDataApi.value = [];
   }
 
   Future<void> fetchRecentList() async {
@@ -64,21 +66,26 @@ class RecentListApiController extends GetxController {
         isLoaded.value = true;
         for (var sub in recentData.value) {
           if (sub.isprogress ?? false) {
-            inProgressData.add(sub);
+            inProgressDataFromApi.add(sub);
             print(
-                "-----------inprogressdata..${inProgressData.first.id}-----------");
+                "-----------inprogressdata..${inProgressDataFromApi.first.id}-----------");
             print(
-                "-----------inprogressdata..${inProgressData.first.studentName}-----------");
+                "-----------inprogressdata..${inProgressDataFromApi.first.studentName}-----------");
           } else {
-            progressCompletedData.add(sub);
+            progressCompletedDataApi.add(sub);
             print(
                 "-----------inprogressdata..$progressCompletedData-----------");
           }
         }
-        // print("-----------endorsedclasseslist${endorsedClassesList.value}-----------");
+        inProgressData.value = inProgressDataFromApi.value;
+        progressCompletedData.value = progressCompletedDataApi.value;
+      } else {
+        inProgressData.value = [];
       }
     } catch (e) {
       isLoaded.value = false;
+      inProgressData.value = [];
+      progressCompletedData.value = [];
       print("-----------obs result list error-----------");
     } finally {
       resetStatus();

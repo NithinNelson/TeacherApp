@@ -108,5 +108,8 @@ class Colorutils {
   static const track1 = Color(0xFF118376);
   static const track2 = Color(0xFFFAF2F2);
   static const clinicHOd= Color(0xFFDEEDFF);
-
+  static const late1 = Color(0xFFDC2626);
+  static const late2= Color(0xFFFAF2F2);
 }
+
+

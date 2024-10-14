@@ -328,31 +328,31 @@ class listcontainer extends StatelessWidget {
                         // height: 18.h,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4),
-                          color: progressCompletedList.status?[0].visitStatus == "Sent to Clinic"|| progressCompletedList.status?[0].visitStatus== "Reached Clinic"
+                          color: progressCompletedList.visitStatus == "Sent to Clinic"|| progressCompletedList.visitStatus== "Reached Clinic"
                               ? Colors.red.withOpacity(0.2)
-                              : progressCompletedList.status?[0].visitStatus == "Sent to Washroom"|| progressCompletedList.status?[0].visitStatus == "Reached Washroom"
+                              : progressCompletedList.visitStatus == "Sent to Washroom"|| progressCompletedList.visitStatus == "Reached Washroom"
                               ? Colorutils.washroomcolor2
-                              : progressCompletedList.status?[0].visitStatus == "Sent to Counsellor"|| progressCompletedList.status?[0].visitStatus == "Reached Counsellor"
+                              : progressCompletedList.visitStatus == "Sent to Counsellor"|| progressCompletedList.visitStatus == "Reached Counsellor"
                               ? Colorutils.councellorcolor2
-                              : progressCompletedList.status?[0].visitStatus == "Back to Class"|| progressCompletedList.status?[0].visitStatus == "Reached Class"
+                              : progressCompletedList.visitStatus == "Back to Class"|| progressCompletedList.visitStatus == "Reached Class"
                               ? Colors.green.withOpacity(0.3)
                               :  Colorutils.grey,
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                               vertical: 2.h, horizontal: 10.w),
-                          child: Text("${progressCompletedList.status?[0].visitStatus}",
+                          child: Text("${progressCompletedList.visitStatus}",
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.inter(
                                   textStyle: TextStyle(
                                 fontSize: 13.sp,
-                                    color: progressCompletedList.status?[0].visitStatus == "Sent to Clinic"|| progressCompletedList.status?[0].visitStatus == "Reached Clinic"
+                                    color: progressCompletedList.visitStatus == "Sent to Clinic"|| progressCompletedList.visitStatus == "Reached Clinic"
                                         ? Colors.red
-                                        : progressCompletedList.status?[0].visitStatus == "Sent to Washroom"|| progressCompletedList.status?[0].visitStatus == "Reached Washroom"
+                                        : progressCompletedList.visitStatus == "Sent to Washroom"|| progressCompletedList.visitStatus == "Reached Washroom"
                                         ? Colorutils.washroomcolor
-                                        : progressCompletedList.status?[0].visitStatus == "Sent to Counsellor"|| progressCompletedList.status?[0].visitStatus == "Reached Counsellor"
+                                        : progressCompletedList.visitStatus == "Sent to Counsellor"|| progressCompletedList.visitStatus == "Reached Counsellor"
                                         ? Colorutils.councellorcolor
-                                        : progressCompletedList.status?[0].visitStatus == "Back to Class"|| progressCompletedList.status?[0].visitStatus == "Reached Class"
+                                        : progressCompletedList.visitStatus == "Back to Class"|| progressCompletedList.visitStatus == "Reached Class"
                                         ? Colorutils.userdetailcolor
                                         :  Colorutils.white,
                               ))),

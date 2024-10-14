@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:alarm/alarm.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ import '../../Controller/api_controllers/qrController.dart';
 import '../../Controller/api_controllers/recentListApiController.dart';
 import '../../Controller/api_controllers/studentModelController.dart';
 import '../../Models/api_models/qr_clinic_model.dart';
+import '../../Models/api_models/recentlist_model.dart';
 import '../../Models/api_models/student_add_Model.dart';
 import '../../Utils/Colors.dart';
 import '../CWidgets/TeacherAppPopUps.dart';
@@ -312,7 +314,7 @@ class _ScandataState extends State<Scandata> {
                                 height: 5,
                               ),
                               Text(
-                                "Councellor",
+                                "Counsellor",
                                 style: TextStyle(fontSize: 13),
                               )
                             ],
@@ -345,7 +347,7 @@ class _ScandataState extends State<Scandata> {
                                 height: 5,
                               ),
                               Text(
-                                "HOD",
+                                "HOD/HOS",
                                 style: TextStyle(fontSize: 13),
                               )
                             ],
@@ -366,7 +368,7 @@ class _ScandataState extends State<Scandata> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Select HOS',
+                                    'Select HOD/HOS',
                                     style: TextStyle(
                                         fontSize: 16.w,
                                         fontWeight: FontWeight.bold),
@@ -386,7 +388,7 @@ class _ScandataState extends State<Scandata> {
                                                 Colors.black.withOpacity(0.3)),
                                         contentPadding: EdgeInsets.symmetric(
                                             vertical: 15.0, horizontal: 20.0),
-                                        hintText: " Select a HOD ",
+                                        hintText: " Select a HOD/HOS ",
                                         counterText: "",
                                         border: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
@@ -416,7 +418,7 @@ class _ScandataState extends State<Scandata> {
                                     padding: const EdgeInsets.only(
                                             left: 10, right: 5)
                                         .w,
-                                    hint: const Text(" Select a HOS "),
+                                    hint: const Text(" Select a HOD/HOS "),
                                     validator: (dynamic value) =>
                                         value == null ? 'Field Required' : null,
                                     items: controller.hosdata
@@ -426,7 +428,7 @@ class _ScandataState extends State<Scandata> {
                                       return DropdownMenuItem<dynamic>(
                                         value:item.sId,
                                         child: Text(
-                                          item.name ?? '--',
+                                          item.name?.toUpperCase() ?? '--',
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                         ),
@@ -479,6 +481,7 @@ class _ScandataState extends State<Scandata> {
                     child: Form(
                       key: _formKey,
                       child: TextFormField(
+                        maxLength: 100,
                         controller: _Remarkscontroller,
                         validator: (val) =>
                             val!.isEmpty ? 'Please Enter Remarks.' : null,
@@ -520,6 +523,7 @@ class _ScandataState extends State<Scandata> {
                             padding: EdgeInsets.only(top: 25.h),
                             child: GestureDetector(
                               onTap: () async {
+
                                 onTaped = false;
                                 String type = isClicked
                                     ? "clinic"
@@ -534,6 +538,26 @@ class _ScandataState extends State<Scandata> {
                                   setState(() {
                                     spinner = true;
                                   });
+
+
+
+
+                                  List<RecentData> recentData = Get.find<RecentListApiController>().recentData.value;
+
+                                  bool isContains = false;
+
+                                  for (var sub in recentData) {
+                                    if (sub.isprogress == true) {
+
+                                      isContains = sub.admissionNo != Studentdetail.admnNo;
+                                      print("..............sub.admissionNo.....${sub.admissionNo}");
+                                      print("..............Studentdetail.admnNo.....${Studentdetail.admnNo}");
+                                      print("..............vebebeb.....${isContains}");
+                                    }
+                                  }
+
+                                  isContains ?
+                                  playAlarm(Studentdetail.admnNo ?? "1/22"):();
                                   StudentAddModel sentData = StudentAddModel(
                                     academicYear: Get.find<UserAuthController>()
                                             .userData
@@ -541,6 +565,7 @@ class _ScandataState extends State<Scandata> {
                                             .academicYear ??
                                         '',
                                     admnNo: Studentdetail.admnNo,
+
                                     age: Studentdetail.age,
                                     batchDetails: Studentdetail.batch,
                                     dob: Studentdetail.dob,
@@ -573,6 +598,7 @@ class _ScandataState extends State<Scandata> {
 
                                   await Get.find<RecentListApiController>()
                                       .fetchRecentList();
+                                  // playAlarm(Studentdetail.admnNo ?? "1/22");
                                 }
                               },
                               child: Padding(
@@ -619,3 +645,35 @@ final spinkitNew = SpinKitWave(
     ));
   },
 );
+
+
+playAlarm(String admissionId) async {
+  print("njjjjjjjjjjjjjjjj...");
+  int id = int.parse(admissionId.split("/").first);
+  await Alarm.init();
+  DateTime alarmTime = DateTime.now().add(const Duration(seconds: 10));
+  final alarmSettings = AlarmSettings(
+    id: id,
+    dateTime: alarmTime,
+    assetAudioPath: 'assets/alarm.mp3',
+    loopAudio: false,
+    vibrate: false,
+    volume: 0.5,
+    fadeDuration: 5.0,
+    // warningNotificationOnKill: Platform.isIOS,
+    notificationSettings: const NotificationSettings(
+      title: 'This is the title',
+      body: 'This is the body',
+      stopButton: "true",
+      icon: 'notification_icon',
+    ),
+  );
+  Alarm.set(alarmSettings: alarmSettings);
+}
+
+stopAlarm(String admissionId) async {
+  int id = int.parse(admissionId.split("/").first);
+  await Alarm.init();
+  Alarm.stop(id);
+}
+

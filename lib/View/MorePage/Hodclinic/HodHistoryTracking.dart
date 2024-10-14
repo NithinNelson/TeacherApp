@@ -12,12 +12,19 @@ import '../../../Utils/Colors.dart';
 import '../all_Students.dart';
 import '../trackingPage.dart';
 
-class HosHistoryTracking extends StatelessWidget {
+class HosHistoryTracking extends StatefulWidget {
   final DateTime startTime;
   final Datas Studentdats;
 
   const HosHistoryTracking(
       {super.key, required this.Studentdats, required this.startTime});
+
+  @override
+  State<HosHistoryTracking> createState() => _HosHistoryTrackingState();
+}
+
+class _HosHistoryTrackingState extends State<HosHistoryTracking> {
+  bool ontap = false;
 
   @override
   Widget build(BuildContext context) {
@@ -26,182 +33,269 @@ class HosHistoryTracking extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              height: 60,
-              child: Row(
-                children: [
-                  Padding(
-                      padding: EdgeInsets.only(left: 18),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Icon(
-                          Icons.arrow_back_outlined,
-                          size: 30,
-                        ),
-                      )),
-                  Spacer(
-                    flex: 2,
-                  ),
-                  Text(
-                    "Tracking",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
-                  Spacer(
-                    flex: 3,
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 12, right: 12, bottom: 8, top: 4),
-              child: Container(
-                // height: 70.h,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.white,
-                ),
-                child: Column(
+            Column(children: [
+              Container(
+                height: 60,
+                child: Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8, right: 12, top: 8, bottom: 3),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                            radius: 20,
-                            backgroundColor:
-                                Colorutils.chatcolor.withOpacity(0.2),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset(
-                                  "assets/images/profileOne.svg"),
-                            ),
+                        padding: EdgeInsets.only(left: 18),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Icon(
+                            Icons.arrow_back_outlined,
+                            size: 30,
                           ),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 200.w,
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Text("${Studentdats.studentName}",
-                                      style: GoogleFonts.inter(
-                                          textStyle: TextStyle(
-                                              fontSize: 16.sp,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w600))),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5.h,
-                              ),
-                              Container(
-                                  // width: 130.w,
-                                  // height: 18.h,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: Colors.redAccent,
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 1.h, horizontal: 10.w),
-                                    child: Text("${Studentdats.visitStatus}",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.inter(
-                                            textStyle: TextStyle(
-                                          fontSize: 13.sp,
-                                          color: Colorutils.white,
-                                        ))),
-                                  )),
-                            ],
-                          ),
-                         Spacer(),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                "Sent : ${Converteddate("${Studentdats.visitDate}")}",
-                                style: GoogleFonts.inter(
-                                  textStyle: TextStyle(
-                                      fontSize: 11.sp,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 8.h,
-                              ),
-                              Container(
-                                  child: Text(
-                                      "From : Grade"
-                                      " "
-                                      "${Studentdats.classs}"
-                                      " "
-                                      "${Studentdats.batch}",
-                                      style: GoogleFonts.inter(
-                                          textStyle: TextStyle(
-                                              fontSize: 12.sp,
-                                              color: Colors.black,
-                                              fontWeight:
-                                                  FontWeight.bold)))),
-                            ],
-                          ),
-                        ],
-                      ),
+                        )),
+                    Spacer(
+                      flex: 2,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 55, bottom: 3),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.circle,
-                            color: Colors.blue,
-                            size: 8,
-                          ),
-                          SizedBox(
-                            width: 1,
-                          ),
-                          Container(
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Text(
-                                  "${Studentdats.status?.first.sentBy?.toUpperCase()}",
-                                  style: GoogleFonts.inter(
-                                      textStyle: TextStyle(
-                                          fontSize: 10.sp,
-                                          color: Colors.blue,
-                                          fontWeight: FontWeight.w600))),
-                            ),
-                          ),
-                        ],
-                      ),
+                    Text(
+                      "Tracking",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
+                    Spacer(
+                      flex: 3,
                     ),
                   ],
                 ),
               ),
-            ),
-            if (Studentdats.status?.length == 1)
-              Container1(
-                Studentdata1: Studentdats,
-                startTime: DateTime.parse(
-                        "${Studentdats.status?.last.addedOn}")
-                    .toLocal(),
+              Padding(
+                padding:
+                const EdgeInsets.only(left: 12, right: 12, bottom: 8, top: 4),
+                child: Container(
+                  // height: 70.h,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 8, right: 12, top: 8, bottom: 3),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CircleAvatar(
+                              radius: 20,
+                              backgroundColor:
+                              Colorutils.chatcolor.withOpacity(0.2),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SvgPicture.asset(
+                                    "assets/images/profileOne.svg"),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 200.w,
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Text("${widget.Studentdats.studentName}",
+                                        style: GoogleFonts.inter(
+                                            textStyle: TextStyle(
+                                                fontSize: 16.sp,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w600))),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5.h,
+                                ),
+                                Container(
+                                  // width: 130.w,
+                                  // height: 18.h,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      color: Colors.redAccent,
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 1.h, horizontal: 10.w),
+                                      child: Text("${widget.Studentdats.visitStatus}",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.inter(
+                                              textStyle: TextStyle(
+                                                fontSize: 13.sp,
+                                                color: Colorutils.white,
+                                              ))),
+                                    )),
+                              ],
+                            ),
+                            Spacer(),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "Sent : ${Converteddate("${widget.Studentdats.visitDate}")}",
+                                  style: GoogleFonts.inter(
+                                    textStyle: TextStyle(
+                                        fontSize: 11.sp,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 8.h,
+                                ),
+                                Container(
+                                    child: Text(
+                                        "From : Grade"
+                                            " "
+                                            "${widget.Studentdats.classs}"
+                                            " "
+                                            "${widget.Studentdats.batch}",
+                                        style: GoogleFonts.inter(
+                                            textStyle: TextStyle(
+                                                fontSize: 12.sp,
+                                                color: Colors.black,
+                                                fontWeight:
+                                                FontWeight.bold)))),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 55, bottom: 3),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(
+                              Icons.circle,
+                              color: Colors.blue,
+                              size: 8,
+                            ),
+                            SizedBox(
+                              width: 1,
+                            ),
+                            Container(
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Text(
+                                    "${widget.Studentdats.status?.first.sentBy?.toUpperCase()}",
+                                    style: GoogleFonts.inter(
+                                        textStyle: TextStyle(
+                                            fontSize: 10.sp,
+                                            color: Colors.blue,
+                                            fontWeight: FontWeight.w600))),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            if (Studentdats.status?.length == 2) Container2(Studentdata2: Studentdats,),
-            if (Studentdats.status?.length == 3) Container3(Studentdata3: Studentdats, startTime: DateTime.parse(
-                "${Studentdats.status?.last.addedOn}")
-                .toLocal(),),
-            if (Studentdats.status?.length == 4) Container4(Studentsdetail4: Studentdats,)
+
+              if (widget.Studentdats.status?.length == 1)
+                Container1(
+                  Studentdata1: widget.Studentdats,
+                  startTime: DateTime.parse(
+                      "${widget.Studentdats.status?.last.addedOn}")
+                      .toLocal(),
+                ),
+              if (widget.Studentdats.status?.length == 2) Container2(Studentdata2: widget.Studentdats,),
+              if (widget.Studentdats.status?.length == 3) Container3(Studentdata3: widget.Studentdats, startTime: DateTime.parse(
+                  "${widget.Studentdats.status?.last.addedOn}")
+                  .toLocal(),),
+              if (widget.Studentdats.status?.length == 4) Container4(Studentsdetail4: widget.Studentdats,)
+            ],),
+            Padding(
+              padding: const EdgeInsets.only(left: 18, right: 18),
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    ontap = !ontap;
+                  });
+                },
+                child: Container(
+                  height: 40,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        "Remarks",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colorutils.userdetailcolor,
+                            fontStyle: FontStyle.italic),
+                      ),
+                      SizedBox(
+                        width: 2,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Icon(
+                          ontap == true
+                              ? Icons.arrow_drop_down
+                              : Icons.arrow_drop_up,
+                          // Change icon based on ontap value
+                          color: Colorutils.userdetailcolor,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            ontap == true
+                ? Padding(
+              padding:
+              const EdgeInsets.only(left: 10, right: 10),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Container(
+                  child: TextFormField(
+
+                    readOnly: true,
+                    decoration: InputDecoration(
+                        hintStyle:
+                        TextStyle(color: Colors.black26),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 10.0),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(15.0),
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colorutils.chatcolor,
+                              width: 1.0),
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(15)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colorutils.chatcolor,
+                              width: 1.0),
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(15.0)),
+                        ),
+                        fillColor: Colorutils.chatcolor
+                            .withOpacity(0.2),
+                        filled: true),
+                    maxLines: 5,
+                  ),
+                  height: 80,
+                ),
+              ),
+            )
+                : SizedBox()
+
           ],
         ),
       ),
