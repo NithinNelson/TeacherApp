@@ -1779,7 +1779,7 @@ class SentMessageBubble extends StatelessWidget {
                                       : const SizedBox(),
                                   messageData!.incomingReact!.length >= 2
                                       ? Text(
-                                          messageData!.incomingReact![0].react!)
+                                          messageData!.incomingReact![1].react!)
                                       : const SizedBox(),
                                   messageData!.incomingReact!.length >= 3
                                       ? Text(
