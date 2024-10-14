@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -33,7 +34,15 @@ class trackingDetails extends StatefulWidget {
 }
 
 class _trackingDetailsState extends State<trackingDetails> {
+  TextEditingController controller1 = TextEditingController();
   bool ontap = false;
+
+  @override
+  void initState() {
+    controller1 = TextEditingController(text: widget.inProgressList.remarks);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,7 +114,8 @@ class _trackingDetailsState extends State<trackingDetails> {
                             width: 200.w,
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
-                              child: Text("${widget.inProgressList.studentName}",
+                              child: Text(
+                                  "${widget.inProgressList.studentName}",
                                   style: GoogleFonts.inter(
                                       textStyle: TextStyle(
                                           fontSize: 16.sp,
@@ -133,10 +143,12 @@ class _trackingDetailsState extends State<trackingDetails> {
                                         ? Colorutils.washroomcolor2
                                         : widget.inProgressList.visitStatus ==
                                                     "Sent to Counsellor" ||
-                                                widget.inProgressList.visitStatus ==
+                                                widget.inProgressList
+                                                        .visitStatus ==
                                                     "Reached Counsellor"
                                             ? Colorutils.councellorcolor2
-                                            : widget.inProgressList.visitStatus ==
+                                            : widget.inProgressList
+                                                            .visitStatus ==
                                                         "Back to Class" ||
                                                     widget.inProgressList
                                                             .visitStatus ==
@@ -147,36 +159,39 @@ class _trackingDetailsState extends State<trackingDetails> {
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
                                     vertical: 1.h, horizontal: 10.w),
-                                child: Text("${widget.inProgressList.visitStatus}",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.inter(
-                                        textStyle: TextStyle(
-                                      fontSize: 13.sp,
-                                      color: widget.inProgressList.visitStatus ==
-                                                  "Sent to Clinic" ||
-                                              widget.inProgressList.visitStatus ==
-                                                  "Reached Clinic"
-                                          ? Colors.red
-                                          : widget.inProgressList.visitStatus ==
-                                                      "Sent to Washroom" ||
+                                child:
+                                    Text("${widget.inProgressList.visitStatus}",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts.inter(
+                                            textStyle: TextStyle(
+                                          fontSize: 13.sp,
+                                          color: widget.inProgressList.visitStatus ==
+                                                      "Sent to Clinic" ||
                                                   widget.inProgressList.visitStatus ==
-                                                      "Reached Washroom"
-                                              ? Colorutils.washroomcolor
+                                                      "Reached Clinic"
+                                              ? Colors.red
                                               : widget.inProgressList.visitStatus ==
-                                                          "Sent to Counsellor" ||
+                                                          "Sent to Washroom" ||
                                                       widget.inProgressList
                                                               .visitStatus ==
-                                                          "Reached Counsellor"
-                                                  ? Colorutils.councellorcolor
+                                                          "Reached Washroom"
+                                                  ? Colorutils.washroomcolor
                                                   : widget.inProgressList.visitStatus ==
-                                                              "Back to Class" ||
+                                                              "Sent to Counsellor" ||
                                                           widget.inProgressList
                                                                   .visitStatus ==
-                                                              "Reached Class"
+                                                              "Reached Counsellor"
                                                       ? Colorutils
-                                                          .userdetailcolor
-                                                      : Colorutils.white,
-                                    ))),
+                                                          .councellorcolor
+                                                      : widget.inProgressList
+                                                                      .visitStatus ==
+                                                                  "Back to Class" ||
+                                                              widget.inProgressList
+                                                                      .visitStatus ==
+                                                                  "Reached Class"
+                                                          ? Colorutils.userdetailcolor
+                                                          : Colorutils.white,
+                                        ))),
                               )),
                         ],
                       ),
@@ -232,29 +247,31 @@ class _trackingDetailsState extends State<trackingDetails> {
                     scrollDirection: Axis.vertical,
                     child: Column(
                       children: [
-                  
-                      Column(
-                        children: [
-                          if (data.status?.length == 1)
-                            Container1(inProgressData: data, starttime: widget.starttime),
-                          if (data.status?.length == 2)
-                            Container2(
-                              starttime: widget.starttime,
-                              inProgressData: data,
-                            ),
-                          if (data.status?.length == 3)
-                            Container3(
-                              starttime: widget.starttime,
-                              inProgressData: data,
-                            ),
-                          if (data.status?.length == 4 &&
-                              data.status?[2].visitStatus == "Sent to Isolation Room")
-                            Container4(
-                              starttime: widget.starttime,
-                              inProgressData: data,
-                            ),
-                        ],
-                      ),
+                        Column(
+                          children: [
+                            if (data.status?.length == 1)
+                              Container1(
+                                  inProgressData: data,
+                                  starttime: widget.starttime),
+                            if (data.status?.length == 2)
+                              Container2(
+                                starttime: widget.starttime,
+                                inProgressData: data,
+                              ),
+                            if (data.status?.length == 3)
+                              Container3(
+                                starttime: widget.starttime,
+                                inProgressData: data,
+                              ),
+                            if (data.status?.length == 4 &&
+                                data.status?[2].visitStatus ==
+                                    "Sent to Isolation Room")
+                              Container4(
+                                starttime: widget.starttime,
+                                inProgressData: data,
+                              ),
+                          ],
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(left: 18, right: 18),
                           child: GestureDetector(
@@ -274,8 +291,7 @@ class _trackingDetailsState extends State<trackingDetails> {
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                         color: Colorutils.userdetailcolor,
-                                        fontStyle: FontStyle.italic
-                                    ),
+                                        fontStyle: FontStyle.italic),
                                   ),
                                   SizedBox(
                                     width: 2,
@@ -283,7 +299,10 @@ class _trackingDetailsState extends State<trackingDetails> {
                                   Padding(
                                     padding: const EdgeInsets.all(2.0),
                                     child: Icon(
-                                      ontap==true ? Icons.arrow_drop_down : Icons.arrow_drop_up, // Change icon based on ontap value
+                                      ontap == true
+                                          ? Icons.arrow_drop_down
+                                          : Icons.arrow_drop_up,
+                                      // Change icon based on ontap value
                                       color: Colorutils.userdetailcolor,
                                     ),
                                   )
@@ -292,60 +311,57 @@ class _trackingDetailsState extends State<trackingDetails> {
                             ),
                           ),
                         ),
-                        ontap==true? Padding(
-                          padding: const EdgeInsets.only(left: 10,right: 10),
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
-                            child: Container(
-
-                              child: TextFormField(
-                                controller: "${widget.inProgressList.visitStatus}",
-
-                                readOnly: true,
-
-
-
-                                decoration: InputDecoration(
-                                    hintStyle:
-                                    TextStyle(color: Colors.black26),
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 10.0, horizontal: 10.0),
-
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(15.0),
-                                      ),
+                        ontap == true
+                            ? Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Container(
+                                    child: TextFormField(
+                                      controller: controller1,
+                                      style: TextStyle(fontSize: 14,fontStyle: FontStyle.italic),
+                                      readOnly: true,
+                                      decoration: InputDecoration(
+                                          hintStyle:
+                                              TextStyle(color: Colors.black26),
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 10.0, horizontal: 10.0),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(15.0),
+                                            ),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colorutils.chatcolor,
+                                                width: 1.0),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15)),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colorutils.chatcolor,
+                                                width: 1.0),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15.0)),
+                                          ),
+                                          fillColor: Colorutils.chatcolor
+                                              .withOpacity(0.2),
+                                          filled: true),
+                                      maxLines: 5,
                                     ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colorutils.chatcolor,
-                                          width: 1.0),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(15)),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colorutils.chatcolor,
-                                          width: 1.0),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(15.0)),
-                                    ),
-                                    fillColor: Colorutils.chatcolor.withOpacity(0.2),
-                                    filled: true),
-                                maxLines: 5,
-                              ),
-                              height: 80,
-                            ),
-                          ),
-                        ):SizedBox()
+                                    height: 80,
+                                  ),
+                                ),
+                              )
+                            : SizedBox()
                       ],
                     ),
                   ),
                 );
               },
             ),
-
-
           ],
         ),
       ),
@@ -621,9 +637,8 @@ class _Container1State extends State<Container1> {
                             Center(
                                 child: SliderButton(
                               height: 50,
-                                  width: ScreenUtil().screenWidth * 0.9,
-
-                                  backgroundColor: Colorutils.userdetailcolor,
+                              width: ScreenUtil().screenWidth * 0.9,
+                              backgroundColor: Colorutils.userdetailcolor,
                               radius: 50,
                               buttonSize: 50,
                               action: () async {

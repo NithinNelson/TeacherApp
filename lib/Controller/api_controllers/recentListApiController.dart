@@ -15,6 +15,7 @@ class RecentListApiController extends GetxController {
   RxList<RecentData> inProgressDataFromApi = <RecentData>[].obs;
   RxList<RecentData> inProgressData = <RecentData>[].obs;
   RxList<RecentData> progressCompletedData = <RecentData>[].obs;
+  RxList<RecentData> progressCompletedDataApi = <RecentData>[].obs;
 
   void resetStatus() {
     isLoading.value = false;
@@ -24,7 +25,7 @@ class RecentListApiController extends GetxController {
   void resetData() {
     recentData.value = [];
     inProgressDataFromApi.value = [];
-    progressCompletedData.value = [];
+    progressCompletedDataApi.value = [];
   }
 
   Future<void> fetchRecentList() async {
@@ -71,19 +72,20 @@ class RecentListApiController extends GetxController {
             print(
                 "-----------inprogressdata..${inProgressDataFromApi.first.studentName}-----------");
           } else {
-            progressCompletedData.add(sub);
+            progressCompletedDataApi.add(sub);
             print(
                 "-----------inprogressdata..$progressCompletedData-----------");
           }
         }
         inProgressData.value = inProgressDataFromApi.value;
-        // print("-----------endorsedclasseslist${endorsedClassesList.value}-----------");
+        progressCompletedData.value = progressCompletedDataApi.value;
       } else {
         inProgressData.value = [];
       }
     } catch (e) {
       isLoaded.value = false;
       inProgressData.value = [];
+      progressCompletedData.value = [];
       print("-----------obs result list error-----------");
     } finally {
       resetStatus();

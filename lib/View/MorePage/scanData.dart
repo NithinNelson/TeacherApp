@@ -20,6 +20,7 @@ import '../../Controller/api_controllers/qrController.dart';
 import '../../Controller/api_controllers/recentListApiController.dart';
 import '../../Controller/api_controllers/studentModelController.dart';
 import '../../Models/api_models/qr_clinic_model.dart';
+import '../../Models/api_models/recentlist_model.dart';
 import '../../Models/api_models/student_add_Model.dart';
 import '../../Utils/Colors.dart';
 import '../CWidgets/TeacherAppPopUps.dart';
@@ -480,6 +481,7 @@ class _ScandataState extends State<Scandata> {
                     child: Form(
                       key: _formKey,
                       child: TextFormField(
+                        maxLength: 100,
                         controller: _Remarkscontroller,
                         validator: (val) =>
                             val!.isEmpty ? 'Please Enter Remarks.' : null,
@@ -536,9 +538,26 @@ class _ScandataState extends State<Scandata> {
                                   setState(() {
                                     spinner = true;
                                   });
-                                  // Get.find<RecentListApiController>().inProgressDataFromApi.first.v;
 
-                                  playAlarm(Studentdetail.admnNo ?? "1/22");
+
+
+
+                                  List<RecentData> recentData = Get.find<RecentListApiController>().recentData.value;
+
+                                  bool isContains = false;
+
+                                  for (var sub in recentData) {
+                                    if (sub.isprogress == true) {
+
+                                      isContains = sub.admissionNo != Studentdetail.admnNo;
+                                      print("..............sub.admissionNo.....${sub.admissionNo}");
+                                      print("..............Studentdetail.admnNo.....${Studentdetail.admnNo}");
+                                      print("..............vebebeb.....${isContains}");
+                                    }
+                                  }
+
+                                  isContains ?
+                                  playAlarm(Studentdetail.admnNo ?? "1/22"):();
                                   StudentAddModel sentData = StudentAddModel(
                                     academicYear: Get.find<UserAuthController>()
                                             .userData
@@ -546,6 +565,7 @@ class _ScandataState extends State<Scandata> {
                                             .academicYear ??
                                         '',
                                     admnNo: Studentdetail.admnNo,
+
                                     age: Studentdetail.age,
                                     batchDetails: Studentdetail.batch,
                                     dob: Studentdetail.dob,
@@ -656,3 +676,4 @@ stopAlarm(String admissionId) async {
   await Alarm.init();
   Alarm.stop(id);
 }
+

@@ -523,16 +523,14 @@ class _TrackingContainerState extends State<TrackingContainer> {
   void initState() {
     super.initState();
     endTime = widget.startTime.add(Duration(seconds: countdownDuration));
-    if (widget.inProgressList.status?.length == 1 ||
-        widget.inProgressList.status?.length == 3 ||
-        widget.inProgressList.status!.length == 4) {
-      startTimer1; // Start the timer when the screen is initialized
+    if (widget.inProgressList.status?.length == 1) {
+      startTimer(); // Start the timer when the screen is initialized
     }
 
-    // else if (widget.inProgressList.status?.length == 3 || widget.inProgressList.status!.length == 4 ){
-    //   startTimer1();
-    // }
-    else if (widget.inProgressList.status?.length == 2) {
+    else if (widget.inProgressList.status?.length == 3 || widget.inProgressList.status!.length == 4 ){
+      startTimer1();
+    }
+    else if (widget.inProgressList.status?.length == 2 ) {
       stopAlarm1();
     }
   }
@@ -616,7 +614,7 @@ class _TrackingContainerState extends State<TrackingContainer> {
           if (DateTime.now().isAfter(endTime) &&
               DateTime.now()
                   .isBefore(endTime.add(const Duration(seconds: 1)))) {
-            // playAlarm();
+            playAlarm();
             // _playAlertSoundAndVibrate();
             // _playAlertSoundAndVibrate();
           }

@@ -8,7 +8,8 @@ class RecentTrackingModel {
   RecentTrackingModel({this.status, this.count, this.data});
 
   RecentTrackingModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'] != null ? new Status.fromJson(json['status']) : null;
+    status =
+        json['status'] != null ? new Status.fromJson(json['status']) : null;
     count = json['count'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
@@ -56,7 +57,9 @@ class Data {
     message = json['message'];
     if (json['data'] != null) {
       data = <RecentData>[];
-      json['data'].forEach((v) { data!.add(new RecentData.fromJson(v)); });
+      json['data'].forEach((v) {
+        data!.add(new RecentData.fromJson(v));
+      });
     }
     status = json['status'];
   }
@@ -79,38 +82,56 @@ class RecentData {
   String? batch;
   String? visitDate;
   String? visitStatus;
+  String? remarks;
+  String? admissionNo;
   bool? isprogress;
   List<Statuses>? status;
 
-  RecentData({this.id, this.studentName, this.classs, this.batch, this.visitDate, this.visitStatus, this.isprogress, this.status});
+  RecentData(
+      {this.id,
+      this.studentName,
+      this.classs,
+      this.batch,
+      this.visitDate,
+      this.visitStatus, this.remarks,
+      this.admissionNo,
+      this.isprogress,
+      this.status});
 
   RecentData.fromJson(Map<String, dynamic> json) {
-  id = json['id'];
-  studentName = json['student_name'];
-  classs = json['class'];
-  batch = json['batch'];
-  visitDate = json['visit_date'];
-  visitStatus = json['visit_status'];
-  isprogress = json['isprogress'];
-  if (json['status'] != null) {
-  status = <Statuses>[];
-  json['status'].forEach((v) { status!.add(new Statuses.fromJson(v)); });
-  }
+    id = json['id'];
+    studentName = json['student_name'];
+    classs = json['class'];
+    batch = json['batch'];
+    visitDate = json['visit_date'];
+    visitStatus = json['visit_status'];
+    remarks = json['remarks'];
+    admissionNo = json['admission_no'];
+
+    isprogress = json['isprogress'];
+    if (json['status'] != null) {
+      status = <Statuses>[];
+      json['status'].forEach((v) {
+        status!.add(new Statuses.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
-  final Map<String, dynamic> data = new Map<String, dynamic>();
-  data['id'] = this.id;
-  data['student_name'] = this.studentName;
-  data['class'] = this.classs;
-  data['batch'] = this.batch;
-  data['visit_date'] = this.visitDate;
-  data['visit_status'] = this.visitStatus;
-  data['isprogress'] = this.isprogress;
-  if (this.status != null) {
-  data['status'] = this.status!.map((v) => v.toJson()).toList();
-  }
-  return data;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['student_name'] = this.studentName;
+    data['class'] = this.classs;
+    data['batch'] = this.batch;
+    data['visit_date'] = this.visitDate;
+    data['visit_status'] = this.visitStatus;
+    data['remarks'] = this.remarks;
+    data['admission_no'] = this.admissionNo;
+    data['isprogress'] = this.isprogress;
+    if (this.status != null) {
+      data['status'] = this.status!.map((v) => v.toJson()).toList();
+    }
+    return data;
   }
 }
 
@@ -121,7 +142,12 @@ class Statuses {
   String? visitStatus;
   String? addedOn;
 
-  Statuses({this.sentBy, this.sentById, this.sentByToken, this.visitStatus, this.addedOn});
+  Statuses(
+      {this.sentBy,
+      this.sentById,
+      this.sentByToken,
+      this.visitStatus,
+      this.addedOn});
 
   Statuses.fromJson(Map<String, dynamic> json) {
     sentBy = json['sent_by'];

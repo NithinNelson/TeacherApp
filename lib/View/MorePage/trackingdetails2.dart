@@ -11,13 +11,22 @@ import '../../Models/api_models/recent_date_model.dart';
 import '../../Models/api_models/recentlist_model.dart';
 import '../../Utils/Colors.dart';
 
-class trackingDetails2 extends StatelessWidget {
+class trackingDetails2 extends StatefulWidget {
   final RecentData progressCompletedList;
 
   const trackingDetails2({super.key, required this.progressCompletedList});
 
   @override
+  State<trackingDetails2> createState() => _trackingDetails2State();
+}
+
+class _trackingDetails2State extends State<trackingDetails2> {
+  TextEditingController controller1 = TextEditingController();
+  bool ontap = false;
+  @override
   Widget build(BuildContext context) {
+    controller1 = TextEditingController(text: widget.progressCompletedList.remarks);
+
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       body: SafeArea(
@@ -89,7 +98,7 @@ class trackingDetails2 extends StatelessWidget {
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Text(
-                                  "${progressCompletedList.studentName}",
+                                  "${widget.progressCompletedList.studentName}",
                                   style: GoogleFonts.inter(
                                       textStyle: TextStyle(
                                           fontSize: 16.sp,
@@ -105,27 +114,27 @@ class trackingDetails2 extends StatelessWidget {
                             // height: 18.h,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(4),
-                                color: progressCompletedList.visitStatus ==
+                                color: widget.progressCompletedList.visitStatus ==
                                     "Sent to Clinic" ||
-                                    progressCompletedList.visitStatus ==
+                                    widget.progressCompletedList.visitStatus ==
                                         "Reached Clinic"
                                     ? Colors.red.withOpacity(0.2)
-                                    : progressCompletedList.visitStatus ==
+                                    : widget.progressCompletedList.visitStatus ==
                                     "Sent to Washroom" ||
-                                    progressCompletedList
+                                    widget.progressCompletedList
                                         .visitStatus ==
                                         "Reached Washroom"
                                     ? Colorutils.washroomcolor2
-                                    : progressCompletedList.visitStatus ==
+                                    : widget.progressCompletedList.visitStatus ==
                                     "Sent to Counsellor" ||
-                                    progressCompletedList
+                                    widget.progressCompletedList
                                         .visitStatus ==
                                         "Reached Counsellor"
                                     ? Colorutils.councellorcolor2
-                                    : progressCompletedList
+                                    : widget.progressCompletedList
                                     .visitStatus ==
                                     "Back to Class" ||
-                                    progressCompletedList
+                                    widget.progressCompletedList
                                         .visitStatus ==
                                         "Reached Class"
                                     ? Colors.green
@@ -136,36 +145,36 @@ class trackingDetails2 extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(
                                     vertical: 1.h, horizontal: 10.w),
                                 child: Text(
-                                    "${progressCompletedList.visitStatus}",
+                                    "${widget.progressCompletedList.visitStatus}",
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.inter(
                                         textStyle: TextStyle(
                                           fontSize: 13.sp,
-                                          color: progressCompletedList
+                                          color: widget.progressCompletedList
                                               .visitStatus ==
                                               "Sent to Clinic" ||
-                                              progressCompletedList
+                                              widget.progressCompletedList
                                                   .visitStatus ==
                                                   "Reached Clinic"
                                               ? Colors.red
-                                              : progressCompletedList
+                                              : widget.progressCompletedList
                                               .visitStatus ==
                                               "Sent to Washroom" ||
-                                              progressCompletedList
+                                              widget.progressCompletedList
                                                   .visitStatus ==
                                                   "Reached Washroom"
                                               ? Colorutils.washroomcolor
-                                              : progressCompletedList
+                                              : widget.progressCompletedList
                                               .visitStatus ==
                                               "Sent to Counsellor" ||
-                                              progressCompletedList
+                                              widget.progressCompletedList
                                                   .visitStatus ==
                                                   "Reached Counsellor"
                                               ? Colorutils.councellorcolor
-                                              : progressCompletedList
+                                              : widget.progressCompletedList
                                               .visitStatus ==
                                               "Back to Class" ||
-                                              progressCompletedList
+                                              widget.progressCompletedList
                                                   .visitStatus ==
                                                   "Reached Class"
                                               ? Colorutils
@@ -181,7 +190,7 @@ class trackingDetails2 extends StatelessWidget {
                         children: [
                           Text(
                             Converteddate(
-                                "${progressCompletedList.visitDate}"),
+                                "${widget.progressCompletedList.visitDate}"),
                             style: GoogleFonts.inter(
                               textStyle: TextStyle(
                                   fontSize: 12.sp,
@@ -196,9 +205,9 @@ class trackingDetails2 extends StatelessWidget {
                               child: Text(
                                   "Grade"
                                       " "
-                                      "${progressCompletedList.classs}"
+                                      "${widget.progressCompletedList.classs}"
                                       " "
-                                      "${progressCompletedList.batch}",
+                                      "${widget.progressCompletedList.batch}",
                                   style: GoogleFonts.inter(
                                       textStyle: TextStyle(
                                           fontSize: 14.sp,
@@ -211,9 +220,9 @@ class trackingDetails2 extends StatelessWidget {
                 ),
               ),
             ),
-            (progressCompletedList.visitStatus == "Sent to Washroom" ||
-                progressCompletedList.visitStatus == "Sent Home" ||
-                progressCompletedList.visitStatus == "Sent to Hospital")
+            (widget.progressCompletedList.visitStatus == "Sent to Washroom" ||
+                widget.progressCompletedList.visitStatus == "Sent Home" ||
+                widget.progressCompletedList.visitStatus == "Sent to Hospital")
                 ? Column(
               children: [
                 Padding(
@@ -223,7 +232,7 @@ class trackingDetails2 extends StatelessWidget {
                     child: Row(
                       children: [
                         Text(
-                          '${progressCompletedList.status?[0].visitStatus}',
+                          '${widget.progressCompletedList.status?[0].visitStatus}',
                           style: TextStyle(
                               fontSize: 18.w,
                               fontWeight: FontWeight.bold),
@@ -273,17 +282,17 @@ class trackingDetails2 extends StatelessWidget {
                             MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                  "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[0].addedOn ?? '--').toLocal())}"
+                                  "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[0].addedOn ?? '--').toLocal())}"
                                       " ("
-                                      "${Converteddate("${progressCompletedList.visitDate}")}"
+                                      "${Converteddate("${widget.progressCompletedList.visitDate}")}"
                                       ")",
                                   style: TextStyle(
                                       color: Colors.grey, fontSize: 11)),
                               Text(
-                                  "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[1].addedOn ?? '--').toLocal())}"
+                                  "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[1].addedOn ?? '--').toLocal())}"
                                       " "
                                       "("
-                                      "${Converteddate("${progressCompletedList.visitDate}")}"
+                                      "${Converteddate("${widget.progressCompletedList.visitDate}")}"
                                       ")",
                                   style: TextStyle(
                                       color: Colors.grey, fontSize: 11)),
@@ -377,11 +386,11 @@ class trackingDetails2 extends StatelessWidget {
                             MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "${progressCompletedList.status?[0].visitStatus}",
+                                "${widget.progressCompletedList.status?[0].visitStatus}",
                                 style: TextStyle(fontSize: 12),
                               ),
                               Text(
-                                "${progressCompletedList.status?[1].visitStatus}",
+                                "${widget.progressCompletedList.status?[1].visitStatus}",
                                 style: TextStyle(fontSize: 12),
                               ),
                             ],
@@ -393,8 +402,8 @@ class trackingDetails2 extends StatelessWidget {
                 ),
 
 
-                (progressCompletedList.visitStatus == "Sent Home" ||
-                    progressCompletedList.visitStatus ==
+                (widget.progressCompletedList.visitStatus == "Sent Home" ||
+                    widget.progressCompletedList.visitStatus ==
                         "Sent to Hospital")
                     ? Column(
                   children: [
@@ -406,7 +415,7 @@ class trackingDetails2 extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              '${progressCompletedList.status?[2].visitStatus}',
+                              '${widget.progressCompletedList.status?[2].visitStatus}',
                               style: TextStyle(
                                   fontSize: 18.w,
                                   fontWeight: FontWeight.bold),
@@ -457,10 +466,10 @@ class trackingDetails2 extends StatelessWidget {
                               MainAxisAlignment.center,
                               children: [
                                 Text(
-                                    "${DateFormat('HH : mm').format(DateTime.parse(progressCompletedList.status?[1].addedOn ?? '--').toLocal())}"
+                                    "${DateFormat('HH : mm').format(DateTime.parse(widget.progressCompletedList.status?[1].addedOn ?? '--').toLocal())}"
                                         " "
                                         "("
-                                        "${Converteddate("${progressCompletedList.visitDate}")}"
+                                        "${Converteddate("${widget.progressCompletedList.visitDate}")}"
                                         ")",
                                     style: TextStyle(
                                         color: Colors.grey,
@@ -531,7 +540,7 @@ class trackingDetails2 extends StatelessWidget {
                               MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Student ${progressCompletedList.status?[2].visitStatus ?? '--'} from Clinic",
+                                  "Student ${widget.progressCompletedList.status?[2].visitStatus ?? '--'} from Clinic",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontStyle: FontStyle.italic),
@@ -542,7 +551,7 @@ class trackingDetails2 extends StatelessWidget {
                         ),
                       ),
                     ),
-                    (progressCompletedList.status?[2].visitStatus ==
+                    (widget.progressCompletedList.status?[2].visitStatus ==
                         "Sent to Isolation Room")
                         ? Column(
                       children: [
@@ -554,7 +563,7 @@ class trackingDetails2 extends StatelessWidget {
                             child: Row(
                               children: [
                                 Text(
-                                  progressCompletedList
+                                  widget.progressCompletedList
                                       .status?[3]
                                       .visitStatus ??
                                       "--",
@@ -614,10 +623,10 @@ class trackingDetails2 extends StatelessWidget {
                                       .center,
                                   children: [
                                     Text(
-                                        "${DateFormat('HH : mm').format(DateTime.parse(progressCompletedList.status?[3].addedOn ?? '--').toLocal())}"
+                                        "${DateFormat('HH : mm').format(DateTime.parse(widget.progressCompletedList.status?[3].addedOn ?? '--').toLocal())}"
                                             " "
                                             "("
-                                            "${Converteddate("${progressCompletedList.visitDate}")}"
+                                            "${Converteddate("${widget.progressCompletedList.visitDate}")}"
                                             ")",
                                         style: TextStyle(
                                             color:
@@ -704,7 +713,7 @@ class trackingDetails2 extends StatelessWidget {
                                       .center,
                                   children: [
                                     Text(
-                                      "Student ${progressCompletedList.status?[3].visitStatus ?? '--'} from Isolation Room",
+                                      "Student ${widget.progressCompletedList.status?[3].visitStatus ?? '--'} from Isolation Room",
                                       style: TextStyle(
                                           fontSize: 12,
                                           fontStyle: FontStyle
@@ -726,7 +735,7 @@ class trackingDetails2 extends StatelessWidget {
             )
                 : Column(
               children: [
-                progressCompletedList.status?.length == 4?
+                widget.progressCompletedList.status?.length == 4?
                 Column(
                   children: [
                     Padding(
@@ -736,7 +745,7 @@ class trackingDetails2 extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              '${progressCompletedList.status?[0].visitStatus}',
+                              '${widget.progressCompletedList.status?[0].visitStatus}',
                               style: TextStyle(
                                   fontSize: 18.w,
                                   fontWeight: FontWeight.bold),
@@ -786,16 +795,16 @@ class trackingDetails2 extends StatelessWidget {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                      "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[0].addedOn ?? '--').toLocal())}"
+                                      "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[0].addedOn ?? '--').toLocal())}"
                                           " ("
-                                          "${Converteddate("${progressCompletedList.visitDate}")}"
+                                          "${Converteddate("${widget.progressCompletedList.visitDate}")}"
                                           ")",
                                       style: TextStyle(
                                           color: Colors.grey, fontSize: 10)),
                                   Text(
-                                      "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[1].addedOn ?? '--').toLocal())}"
+                                      "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[1].addedOn ?? '--').toLocal())}"
                                           " ("
-                                          "${Converteddate("${progressCompletedList.visitDate}")}"
+                                          "${Converteddate("${widget.progressCompletedList.visitDate}")}"
                                           ")",
                                       style: TextStyle(
                                           color: Colors.grey, fontSize: 10)),
@@ -888,11 +897,11 @@ class trackingDetails2 extends StatelessWidget {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "${progressCompletedList.status?[0].visitStatus}",
+                                    "${widget.progressCompletedList.status?[0].visitStatus}",
                                     style: TextStyle(fontSize: 12),
                                   ),
                                   Text(
-                                    "${progressCompletedList.status?[1].visitStatus}",
+                                    "${widget.progressCompletedList.status?[1].visitStatus}",
                                     style: TextStyle(fontSize: 12),
                                   ),
                                 ],
@@ -910,7 +919,7 @@ class trackingDetails2 extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              "${progressCompletedList.status?[2].visitStatus}",
+                              "${widget.progressCompletedList.status?[2].visitStatus}",
                               style: TextStyle(
                                   fontSize: 18.w,
                                   fontWeight: FontWeight.bold),
@@ -953,16 +962,16 @@ class trackingDetails2 extends StatelessWidget {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                      "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[2].addedOn ?? '--').toLocal())}"
+                                      "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[2].addedOn ?? '--').toLocal())}"
                                           " ("
-                                          "${Converteddate("${progressCompletedList.visitDate}")}"
+                                          "${Converteddate("${widget.progressCompletedList.visitDate}")}"
                                           ")",
                                       style: TextStyle(
                                           color: Colors.grey, fontSize: 10)),
                                   Text(
-                                      "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[3].addedOn ?? '--').toLocal())}"
+                                      "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[3].addedOn ?? '--').toLocal())}"
                                           " ("
-                                          "${Converteddate("${progressCompletedList.visitDate}")}"
+                                          "${Converteddate("${widget.progressCompletedList.visitDate}")}"
                                           ")",
                                       style: TextStyle(
                                           color: Colors.grey, fontSize: 10)),
@@ -1054,11 +1063,11 @@ class trackingDetails2 extends StatelessWidget {
                                 mainAxisAlignment:
                                 MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("${progressCompletedList.status?[2].visitStatus}",
+                                  Text("${widget.progressCompletedList.status?[2].visitStatus}",
                                     style: TextStyle(fontSize: 12),
                                   ),
                                   Text(
-                                    "${progressCompletedList.status?[3].visitStatus}",
+                                    "${widget.progressCompletedList.status?[3].visitStatus}",
                                     style: TextStyle(fontSize: 12),
                                   ),
                                 ],
@@ -1080,7 +1089,7 @@ class trackingDetails2 extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              '${progressCompletedList.status?[0].visitStatus}',
+                              '${widget.progressCompletedList.status?[0].visitStatus}',
                               style: TextStyle(
                                   fontSize: 18.w,
                                   fontWeight: FontWeight.bold),
@@ -1130,16 +1139,16 @@ class trackingDetails2 extends StatelessWidget {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                      "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[0].addedOn ?? '--').toLocal())}"
+                                      "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[0].addedOn ?? '--').toLocal())}"
                                           " ("
-                                          "${Converteddate("${progressCompletedList.visitDate}")}"
+                                          "${Converteddate("${widget.progressCompletedList.visitDate}")}"
                                           ")",
                                       style: TextStyle(
                                           color: Colors.grey, fontSize: 10)),
                                   Text(
-                                      "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[1].addedOn ?? '--').toLocal())}"
+                                      "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[1].addedOn ?? '--').toLocal())}"
                                           " ("
-                                          "${Converteddate("${progressCompletedList.visitDate}")}"
+                                          "${Converteddate("${widget.progressCompletedList.visitDate}")}"
                                           ")",
                                       style: TextStyle(
                                           color: Colors.grey, fontSize: 10)),
@@ -1232,11 +1241,11 @@ class trackingDetails2 extends StatelessWidget {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "${progressCompletedList.status?[0].visitStatus}",
+                                    "${widget.progressCompletedList.status?[0].visitStatus}",
                                     style: TextStyle(fontSize: 12),
                                   ),
                                   Text(
-                                    "${progressCompletedList.status?[1].visitStatus}",
+                                    "${widget.progressCompletedList.status?[1].visitStatus}",
                                     style: TextStyle(fontSize: 12),
                                   ),
                                 ],
@@ -1254,7 +1263,7 @@ class trackingDetails2 extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              '${progressCompletedList.status?[2].visitStatus}',
+                              '${widget.progressCompletedList.status?[2].visitStatus}',
                               style: TextStyle(
                                   fontSize: 18.w,
                                   fontWeight: FontWeight.bold),
@@ -1305,10 +1314,10 @@ class trackingDetails2 extends StatelessWidget {
                               MainAxisAlignment.center,
                               children: [
                                 Text(
-                                    "${DateFormat('HH : mm').format(DateTime.parse(progressCompletedList.status?[2].addedOn ?? '--').toLocal())}"
+                                    "${DateFormat('HH : mm').format(DateTime.parse(widget.progressCompletedList.status?[2].addedOn ?? '--').toLocal())}"
                                         " "
                                         "("
-                                        "${Converteddate("${progressCompletedList.visitDate}")}"
+                                        "${Converteddate("${widget.progressCompletedList.visitDate}")}"
                                         ")",
                                     style: TextStyle(
                                         color: Colors.grey,
@@ -1379,7 +1388,7 @@ class trackingDetails2 extends StatelessWidget {
                               MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Student ${progressCompletedList.status?[2].visitStatus ?? '--'} from Clinic",
+                                  "Student ${widget.progressCompletedList.status?[2].visitStatus ?? '--'} from Clinic",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontStyle: FontStyle.italic),
@@ -1397,7 +1406,7 @@ class trackingDetails2 extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              "${progressCompletedList.status?[3].visitStatus}",
+                              "${widget.progressCompletedList.status?[3].visitStatus}",
                               style: TextStyle(
                                   fontSize: 18.w,
                                   fontWeight: FontWeight.bold),
@@ -1440,16 +1449,16 @@ class trackingDetails2 extends StatelessWidget {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                      "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[3].addedOn ?? '--').toLocal())}"
+                                      "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[3].addedOn ?? '--').toLocal())}"
                                           " ("
-                                          "${Converteddate("${progressCompletedList.visitDate}")}"
+                                          "${Converteddate("${widget.progressCompletedList.visitDate}")}"
                                           ")",
                                       style: TextStyle(
                                           color: Colors.grey, fontSize: 10)),
                                   Text(
-                                      "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[4].addedOn ?? '--').toLocal())}"
+                                      "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[4].addedOn ?? '--').toLocal())}"
                                           " ("
-                                          "${Converteddate("${progressCompletedList.visitDate}")}"
+                                          "${Converteddate("${widget.progressCompletedList.visitDate}")}"
                                           ")",
                                       style: TextStyle(
                                           color: Colors.grey, fontSize: 10)),
@@ -1541,11 +1550,11 @@ class trackingDetails2 extends StatelessWidget {
                                 mainAxisAlignment:
                                 MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("${progressCompletedList.status?[3].visitStatus}",
+                                  Text("${widget.progressCompletedList.status?[3].visitStatus}",
                                     style: TextStyle(fontSize: 12),
                                   ),
                                   Text(
-                                    "${progressCompletedList.status?[4].visitStatus}",
+                                    "${widget.progressCompletedList.status?[4].visitStatus}",
                                     style: TextStyle(fontSize: 12),
                                   ),
                                 ],
@@ -1561,6 +1570,90 @@ class trackingDetails2 extends StatelessWidget {
 
               ],
             ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18, right: 18),
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    ontap = !ontap;
+                  });
+                },
+                child: Container(
+                  height: 40,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        "Remarks",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colorutils.userdetailcolor,
+                            fontStyle: FontStyle.italic),
+                      ),
+                      SizedBox(
+                        width: 2,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Icon(
+                          ontap == true
+                              ? Icons.arrow_drop_down
+                              : Icons.arrow_drop_up,
+                          // Change icon based on ontap value
+                          color: Colorutils.userdetailcolor,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            ontap == true
+                ? Padding(
+              padding:
+              const EdgeInsets.only(left: 10, right: 10),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Container(
+                  child: TextFormField(
+                    controller: controller1,
+                    style: TextStyle(fontSize: 14,fontStyle: FontStyle.italic),
+                    readOnly: true,
+                    decoration: InputDecoration(
+                        hintStyle:
+                        TextStyle(color: Colors.black26),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 10.0),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(15.0),
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colorutils.chatcolor,
+                              width: 1.0),
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(15)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colorutils.chatcolor,
+                              width: 1.0),
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(15.0)),
+                        ),
+                        fillColor: Colorutils.chatcolor
+                            .withOpacity(0.2),
+                        filled: true),
+                    maxLines: 5,
+                  ),
+                  height: 80,
+                ),
+              ),
+            )
+                : SizedBox()
           ],
         ),
       ),
