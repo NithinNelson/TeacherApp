@@ -224,7 +224,7 @@ class _MorePageState extends State<MorePage> {
                                                   child: Text(
                                                     'MY LIST',
                                                     style: GoogleFonts.inter(
-                                                      fontSize: 14.h,
+                                                      fontSize: 13.h,
                                                       fontWeight: FontWeight.w500,
                                                       color:
                                                       Colorutils.userdetailcolor,
@@ -235,7 +235,7 @@ class _MorePageState extends State<MorePage> {
                                                   "${sendStudentsData.length}",
                                                   style: TextStyle(
                                                       color: Colorutils.green,
-                                                      fontSize: 24,
+                                                      fontSize: 22,
                                                       fontWeight: FontWeight.bold),
                                                 ),
                                               ],
@@ -295,7 +295,7 @@ class _MorePageState extends State<MorePage> {
                                                   child: Text(
                                                     'ALL LIST',
                                                     style: GoogleFonts.inter(
-                                                      fontSize: 14.h,
+                                                      fontSize: 13.h,
                                                       fontWeight: FontWeight.w500,
                                                       color:
                                                       Colorutils.userdetailcolor,
@@ -306,7 +306,7 @@ class _MorePageState extends State<MorePage> {
                                                   '${sendStudentsData.length}',
                                                   style: TextStyle(
                                                       color: Colorutils.green,
-                                                      fontSize: 24,
+                                                      fontSize: 22,
                                                       fontWeight: FontWeight.bold),
                                                 ),
                                               ],
