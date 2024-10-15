@@ -1,9 +1,5 @@
-import 'dart:ffi';
 
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
@@ -19,8 +15,9 @@ import '../Leave_Page/Approve_Rejected.dart';
 import '../Leave_Page/Approved_leave.dart';
 
 class Supervisorsearch extends StatefulWidget {
+  final Function(String) selectedName;
 
-  const Supervisorsearch({super.key});
+  const Supervisorsearch({super.key, required this.selectedName});
 
   @override
   State<Supervisorsearch> createState() => _SupervisorsearchState();
@@ -28,7 +25,6 @@ class Supervisorsearch extends StatefulWidget {
 
 class _SupervisorsearchState extends State<Supervisorsearch>
     with SingleTickerProviderStateMixin {
-  TextEditingController controllerdata = TextEditingController();
   late TabController _tabController1;
 
   @override
@@ -195,7 +191,9 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                                 listcontainer1(
                                     HosList:
                                     Hoslist[
-                                    index], controller: controllerdata,)),
+                                    index], text: (p0) {
+                                      widget.selectedName(p0);
+                                    },)),
 
 
                       ),
@@ -210,7 +208,9 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                                   listcontainer2(
                                       HosList:
                                       Hodlist[
-                                      index], controller: controllerdata,)),
+                                      index], text: (p0) {
+                                    widget.selectedName(p0);
+                                  },)),
 
 
                         ),
@@ -226,7 +226,9 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                                   listcontainer3(
                                       HosList:
                                       Supervisorlist[
-                                      index], controller: controllerdata,)
+                                      index], text: (p0) {
+                                    widget.selectedName(p0);
+                                  },)
                           ),
 
 
@@ -246,10 +248,10 @@ class _SupervisorsearchState extends State<Supervisorsearch>
 }
 
 class listcontainer1 extends StatelessWidget {
-  final TextEditingController controller;
   final Users HosList;
+  final Function(String) text;
 
-  const listcontainer1({super.key, required this.HosList, required this.controller,});
+  const listcontainer1({super.key, required this.HosList, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -257,8 +259,8 @@ class listcontainer1 extends StatelessWidget {
       padding: const EdgeInsets.only(left: 12, right: 12, top: 8),
       child: GestureDetector(
         onTap: (){
-          controller.text;
-
+          text("${HosList.name}");
+          Navigator.of(context).pop();
         },
         child: Container(
           // height: 70.h,
@@ -311,11 +313,10 @@ class listcontainer1 extends StatelessWidget {
 }
 
 class listcontainer2 extends StatelessWidget {
-  final TextEditingController controller;
-
+  final Function(String) text;
   final Users HosList;
 
-  const listcontainer2({super.key, required this.HosList, required this.controller,});
+  const listcontainer2({super.key, required this.HosList, required this.text,});
 
   @override
   Widget build(BuildContext context) {
@@ -323,7 +324,8 @@ class listcontainer2 extends StatelessWidget {
       padding: const EdgeInsets.only(left: 12, right: 12, top: 8),
       child: GestureDetector(
         onTap: (){
-          controller.text;
+          text("${HosList.name}");
+          Navigator.of(context).pop();
         },
         child: Container(
           // height: 70.h,
@@ -376,11 +378,10 @@ class listcontainer2 extends StatelessWidget {
 }
 
 class listcontainer3 extends StatelessWidget {
-  final TextEditingController controller;
-
+  final Function(String) text;
   final Users HosList;
 
-  const listcontainer3({super.key, required this.HosList, required this.controller,});
+  listcontainer3({super.key, required this.HosList, required this.text,});
 
   @override
   Widget build(BuildContext context) {
@@ -388,8 +389,8 @@ class listcontainer3 extends StatelessWidget {
       padding: const EdgeInsets.only(left: 12, right: 12, top: 8),
       child: GestureDetector(
         onTap: (){
-          controller.text;
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const Scandata()));
+          text("${HosList.name}");
+          Navigator.of(context).pop();
         },
         child: Container(
           // height: 70.h,

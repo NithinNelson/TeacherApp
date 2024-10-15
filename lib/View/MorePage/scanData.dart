@@ -44,6 +44,7 @@ class _ScandataState extends State<Scandata> {
   bool isClicked1 = false;
   bool isClicked2 = false;
   bool isClicked3 = false;
+  String selectedName = "Select HOD/HOS/SUPERVISOR";
   TextEditingController _Remarkscontroller = TextEditingController();
   ValueNotifier<String?> _hosNameSelected = ValueNotifier(null);
 
@@ -381,7 +382,11 @@ class _ScandataState extends State<Scandata> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  Supervisorsearch()));
+                                                  Supervisorsearch(selectedName: (String name) {
+                                                    setState(() {
+                                                      selectedName = name;
+                                                    });
+                                                  },)));
                                     },
                                   ),
                                 ],
@@ -396,13 +401,13 @@ class _ScandataState extends State<Scandata> {
                                   color:Colorutils.chatcolor,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                child: const Padding(
+                                child: Padding(
                                   padding: EdgeInsets.only(left: 15,right: 15),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Text(
-                                        "Select HOD/HOS/SUPERVISOR",
+                                        selectedName,
                                         style: TextStyle(
                                             fontSize: 15,
                                             color: Colorutils.black, ),
