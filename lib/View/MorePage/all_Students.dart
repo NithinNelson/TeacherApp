@@ -38,10 +38,10 @@ class _AllStudentsState extends State<AllStudents> {
 
   @override
   Widget build(BuildContext context) {
-    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+    // _timer = Timer.periodic(Duration(seconds: 3), (timer) {
       print("nsnsnnbsebebebe");
       Get.find<RecentListApiController>().fetchRecentList();
-    });
+    // });
     // Get.find<RecentListApiController>().fetchRecentList();
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
@@ -523,7 +523,7 @@ class _TrackingContainerState extends State<TrackingContainer> {
     super.initState();
     endTime = widget.startTime.add(Duration(seconds: countdownDuration));
     if (widget.inProgressList.status?.length == 1) {
-      startTimer(); // Start the timer when the screen is initialized
+      startTimer1(); // Start the timer when the screen is initialized
     }
 
     else if (widget.inProgressList.status?.length == 3 || widget.inProgressList.status!.length == 4 ){
@@ -539,7 +539,7 @@ class _TrackingContainerState extends State<TrackingContainer> {
   void didUpdateWidget(covariant TrackingContainer oldWidget) {
     endTime = widget.startTime.add(Duration(seconds: countdownDuration));
     if (widget.inProgressList.status?.length == 1) {
-      startTimer(); // Start the timer when the screen is initialized
+      startTimer1(); // Start the timer when the screen is initialized
     }
 
     else if (widget.inProgressList.status?.length == 3 || widget.inProgressList.status!.length == 4 ){
@@ -572,7 +572,7 @@ class _TrackingContainerState extends State<TrackingContainer> {
           if (DateTime.now().isAfter(endTime) &&
               DateTime.now()
                   .isBefore(endTime.add(const Duration(seconds: 1)))) {
-            // playAlarm();
+            playAlarm();
             widget.inProgressList.visitStatus != "Sent to Isolation Room"?
                 _playAlertSoundAndVibrate()
                 : ();
@@ -879,7 +879,7 @@ void _playAlertSoundAndVibrate() async {
 
   try {
     await player
-        .play(AssetSource('images/vintage_alarm_clock-[AudioTrimmer.com].mp3'));
+        .play(AssetSource('assets/alarm.mp3'));
   } catch (e) {
     print('Error playing audio: $e');
   }

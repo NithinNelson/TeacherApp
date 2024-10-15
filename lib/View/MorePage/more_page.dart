@@ -72,7 +72,8 @@ class _MorePageState extends State<MorePage> {
         ),
         body: Column(
           children: [
-            Padding(
+            if(userRole == UserRole.bothTeacherAndLeader || userRole == UserRole.teacher)
+              Padding(
               padding: const EdgeInsets.all(10.0),
               child: GestureDetector(
                 onTap: () {
@@ -128,200 +129,200 @@ class _MorePageState extends State<MorePage> {
                 ),
               ),
             ),
-            userRole == UserRole.bothTeacherAndLeader ?
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => TrackingpageHod()));
-                },
-                child: Container(
-                  height: 120.h,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colorutils.userdetailcolor,
-                    borderRadius: BorderRadius.all(Radius.circular(24)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Text(
-                                'Student Tracking',
-                                style: TextStyle(
+            if(userRole == UserRole.bothTeacherAndLeader || userRole == UserRole.leader)
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => TrackingpageHod()));
+                  },
+                  child: Container(
+                    height: 120.h,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colorutils.userdetailcolor,
+                      borderRadius: BorderRadius.all(Radius.circular(24)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Text(
+                                  'Student Tracking',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: SvgPicture.asset(
+                                  'assets/images/Routing 4.svg',
+                                  width: 42.w,
+                                  color: Colorutils.Whitecolor,
+                                  fit: BoxFit.fitWidth,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 25,
+                          ),
+                          Container(
+                              height: 90.w,
+                              width: 85.w,
+                              decoration: BoxDecoration(
                                   color: Colors.white,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: SvgPicture.asset(
-                                'assets/images/Routing 4.svg',
-                                width: 42.w,
-                                color: Colorutils.Whitecolor,
-                                fit: BoxFit.fitWidth,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          width: 25,
-                        ),
-                        Container(
-                            height: 90.w,
-                            width: 85.w,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.all(4.0),
-                                      child: CircleAvatar(
-                                          radius: 10,
-                                          backgroundColor: Colors.red
-                                              .withOpacity(0.22),
-                                          child: const Icon(
-                                            Icons.circle,
-                                            color: Colors.red,
-                                            size: 12,
-                                          )),
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8),
-                                      child: GetX<Hosstudentlistcontroller>(
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(4.0),
+                                        child: CircleAvatar(
+                                            radius: 10,
+                                            backgroundColor: Colors.red
+                                                .withOpacity(0.22),
+                                            child: const Icon(
+                                              Icons.circle,
+                                              color: Colors.red,
+                                              size: 12,
+                                            )),
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 8),
+                                        child: GetX<Hosstudentlistcontroller>(
 
-                                        builder: (Hosstudentlistcontroller controller) {
-                                          List<SendData> sendStudentsData = controller.sentStudentData.value;
-                                          return Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                child: Text(
-                                                  'MY LIST',
-                                                  style: GoogleFonts.inter(
-                                                    fontSize: 14.h,
-                                                    fontWeight: FontWeight.w500,
-                                                    color:
-                                                    Colorutils.userdetailcolor,
+                                          builder: (Hosstudentlistcontroller controller) {
+                                            List<SendData> sendStudentsData = controller.sentStudentData.value;
+                                            return Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  child: Text(
+                                                    'MY LIST',
+                                                    style: GoogleFonts.inter(
+                                                      fontSize: 14.h,
+                                                      fontWeight: FontWeight.w500,
+                                                      color:
+                                                      Colorutils.userdetailcolor,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              Text(
-                                                "${sendStudentsData.length}",
-                                                style: TextStyle(
-                                                    color: Colorutils.green,
-                                                    fontSize: 24,
-                                                    fontWeight: FontWeight.bold),
-                                              ),
-                                            ],
-                                          );},
+                                                Text(
+                                                  "${sendStudentsData.length}",
+                                                  style: TextStyle(
+                                                      color: Colorutils.green,
+                                                      fontSize: 24,
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              ],
+                                            );},
 
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            )),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Container(
-                            height: 90.w,
-                            width: 85.w,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.all(4.0),
-                                      child: CircleAvatar(
-                                          radius: 10,
-                                          backgroundColor: Colors.red
-                                              .withOpacity(0.22),
-                                          child: const Icon(
-                                            Icons.circle,
-                                            color: Colors.red,
-                                            size: 12,
-                                          )),
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8),
-                                      child: GetX<Hosallstudentslistcontroller>(
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              )),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Container(
+                              height: 90.w,
+                              width: 85.w,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(4.0),
+                                        child: CircleAvatar(
+                                            radius: 10,
+                                            backgroundColor: Colors.red
+                                                .withOpacity(0.22),
+                                            child: const Icon(
+                                              Icons.circle,
+                                              color: Colors.red,
+                                              size: 12,
+                                            )),
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 8),
+                                        child: GetX<Hosallstudentslistcontroller>(
 
-                                        builder: (Hosallstudentslistcontroller controller) {
-                                          List<Datas> sendStudentsData =
-                                              controller.recentData.value;
-                                          return Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                child: Text(
-                                                  'ALL LIST',
-                                                  style: GoogleFonts.inter(
-                                                    fontSize: 14.h,
-                                                    fontWeight: FontWeight.w500,
-                                                    color:
-                                                    Colorutils.userdetailcolor,
+                                          builder: (Hosallstudentslistcontroller controller) {
+                                            List<Datas> sendStudentsData =
+                                                controller.recentData.value;
+                                            return Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  child: Text(
+                                                    'ALL LIST',
+                                                    style: GoogleFonts.inter(
+                                                      fontSize: 14.h,
+                                                      fontWeight: FontWeight.w500,
+                                                      color:
+                                                      Colorutils.userdetailcolor,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              Text(
-                                                '${sendStudentsData.length}',
-                                                style: TextStyle(
-                                                    color: Colorutils.green,
-                                                    fontSize: 24,
-                                                    fontWeight: FontWeight.bold),
-                                              ),
-                                            ],
-                                          ); },
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ))
-                      ],
+                                                Text(
+                                                  '${sendStudentsData.length}',
+                                                  style: TextStyle(
+                                                      color: Colorutils.green,
+                                                      fontSize: 24,
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              ],
+                                            ); },
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ))
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ) : const SizedBox()
+              )
           ],
         ),
       ),

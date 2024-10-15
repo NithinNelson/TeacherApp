@@ -14,6 +14,8 @@ class Hierarchcontroller extends GetxController {
   RxBool isLoaded = false.obs;
   RxBool isError = false.obs;
   RxList<Users> hosdata = <Users>[].obs;
+  RxList<Users> hoddata = <Users>[].obs;
+  RxList<Users> supervisordata = <Users>[].obs;
   RxList<SendData> recivedStudentData = <SendData>[].obs;
 
   void resetStatus() {
@@ -49,21 +51,37 @@ class Hierarchcontroller extends GetxController {
       //   );
       // }
 
-      Map<String, dynamic> resp = await ApiServices.loadHierarchyList(
+      Map<String, dynamic> hosResp = await ApiServices.loadHierarchyList(
           schoolId: scId, academicYear: acYr, id: 'role121234', name: 'HOS');
 
-      if (resp['status']['code'] == 200) {
+      Map<String, dynamic> hodResp = await ApiServices.loadHierarchyList(
+          schoolId: scId, academicYear: acYr, id: 'role121235', name: 'HOD');
+
+      Map<String, dynamic> supervisorResp = await ApiServices.loadHierarchyList(
+          schoolId: scId, academicYear: acYr, id: 'v2QNTPPvPQK6T', name: 'Supervisor');
+
+      if (hosResp['status']['code'] == 200) {
         HierarchyListModel hoslist =
-        HierarchyListModel.fromJson(resp);
-print("-----------isentStudentData..${resp}-----------");
+        HierarchyListModel.fromJson(hosResp);
+        print("-----------hosrespppp..${hoslist}-----------");
+
         hosdata.value= hoslist.data?.details?.response?.users ?? [];
+        // isLoaded.value = true;
+      }
+      if (hodResp['status']['code'] == 200) {
+        HierarchyListModel hodlist =
+        HierarchyListModel.fromJson(hodResp);
+        print("-----------hodrespppp..${hodlist}-----------");
 
+        hoddata.value = hodlist.data?.details?.response?.users ?? [];
 
-        print(
-            "----------hoslista..${hosdata.value.length}-----------");
+      }
+      if (supervisorResp['status']['code'] == 200) {
+        HierarchyListModel supervisorlist =
+        HierarchyListModel.fromJson(supervisorResp);
+        print("-----------hodrespppp..${supervisorResp}-----------");
 
-        isLoaded.value = true;
-
+        supervisordata.value = supervisorlist.data?.details?.response?.users ?? [];
       }
     } catch (e) {
       isLoaded.value = false;
