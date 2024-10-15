@@ -76,45 +76,123 @@ class MessageInfoScreen extends StatelessWidget {
                       child: widget,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, top: 15).w,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SvgPicture.asset(
-                          "assets/images/Checks.svg",
-                          width: 20.w,
-                          fit: BoxFit.fitWidth,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            'SEEN BY',
-                            style: TeacherAppFonts.interW600_14sp_black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 20, top: 15).w,
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.start,
+                  //     children: [
+                  //       SvgPicture.asset(
+                  //         "assets/images/Checks.svg",
+                  //         width: 20.w,
+                  //         fit: BoxFit.fitWidth,
+                  //       ),
+                  //       Padding(
+                  //         padding: const EdgeInsets.only(left: 10),
+                  //         child: Text(
+                  //           'SEEN BY',
+                  //           style: TeacherAppFonts.interW600_14sp_black,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   GetX<MessageInfoController>(builder: (controller) {
                     if (controller.viewsList.value == null) {
                       return SizedBox(
-                          height: 400.h, child: Center(child: Text("No Data")));
+                          height: 400.h,
+                          child:
+                              const Center(child: CircularProgressIndicator()));
+                    } else if (controller.viewsList.value!.isEmpty) {
+                      return SizedBox(
+                          height: 400.h,
+                          child: const Center(child: Text("No Data")));
                     } else {
                       return Column(
-                        children: List.generate(
-                            controller.viewsList.value!.length, (index) {
-                          final data = controller.viewsList.value![index];
+                        children: [
+                          controller.seenList.value.isEmpty
+                              ? const SizedBox()
+                              : Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 20, top: 15)
+                                          .w,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SvgPicture.asset(
+                                        "assets/images/Checks.svg",
+                                        width: 20.w,
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          'SEEN BY',
+                                          style: TeacherAppFonts
+                                              .interW600_14sp_black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                          Column(
+                            children: List.generate(
+                                controller.seenList.value.length, (index) {
+                              final data = controller.viewsList.value![index];
 
-                          return ChatItem(
-                            className: data.studentName ?? "--",
-                            studentName:
-                                "${data.relation} of ${data.parentName}",
-                            date: data.seenOn!,
-                            unreadMessages: "unreadMessages",
-                            classs: "${data.studentName!.split("").first}",
-                          );
-                        }),
+                              return ChatItem(
+                                className: data.studentName ?? "--",
+                                studentName:
+                                    "${data.relation} of ${data.parentName}",
+                                date: data.seenOn!,
+                                unreadMessages: "unreadMessages",
+                                classs: "${data.studentName!.split("").first}",
+                              );
+                            }),
+                          ),
+                          controller.deliverList.value.isEmpty
+                              ? const SizedBox()
+                              : Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 20, top: 15)
+                                          .w,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SvgPicture.asset(
+                                        "assets/images/Checks.svg",
+                                        width: 20.w,
+                                        fit: BoxFit.fitWidth,
+                                        color: Colorutils.grey,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          'DELIVERED',
+                                          style: TeacherAppFonts
+                                              .interW600_14sp_black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                          Column(
+                            children: List.generate(
+                                controller.deliverList.value.length, (index) {
+                              final data = controller.viewsList.value![index];
+
+                              return ChatItem(
+                                className: data.studentName ?? "--",
+                                studentName:
+                                    "${data.relation} of ${data.parentName}",
+                                date: data.seenOn!,
+                                unreadMessages: "unreadMessages",
+                                classs: "${data.studentName!.split("").first}",
+                              );
+                            }),
+                          ),
+                        ],
                       );
                     }
                   })
