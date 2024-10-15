@@ -13,6 +13,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/View/Home_Page/Home_Widgets/bottom_navigationbar.dart';
+import 'package:teacherapp/View/MorePage/supervisorSearch.dart';
 import 'package:teacherapp/View/MorePage/trackingPage.dart';
 
 import '../../Controller/api_controllers/hierarchController.dart';
@@ -27,6 +28,7 @@ import '../CWidgets/TeacherAppPopUps.dart';
 import 'all_Students.dart';
 
 class Scandata extends StatefulWidget {
+
   const Scandata({
     super.key,
   });
@@ -367,13 +369,57 @@ class _ScandataState extends State<Scandata> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Select HOD/HOS',
-                                    style: TextStyle(
-                                        fontSize: 16.w,
-                                        fontWeight: FontWeight.bold),
+                                  GestureDetector(
+                                    child: Text(
+                                      'Select HOD/HOS',
+                                      style: TextStyle(
+                                          fontSize: 16.w,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Supervisorsearch()));
+                                    },
                                   ),
                                 ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: 18.w, right: 18.w, top: 20.h),
+                              child: Container(
+                                height: 60.w,
+                                decoration: BoxDecoration(
+                                  color:Colorutils.chatcolor,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: const Padding(
+                                  padding: EdgeInsets.only(left: 15,right: 15),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "Select HOD/HOS/SUPERVISOR",
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colorutils.black, ),
+                                      ),
+                                      Spacer(),
+                                      Padding(
+                                        padding: EdgeInsets.all(2.0),
+                                        child: Icon(
+                                          Icons.arrow_drop_down,
+
+                                          // Change icon based on ontap value
+                                          color: Colorutils.black,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
                             Padding(
@@ -426,7 +472,7 @@ class _ScandataState extends State<Scandata> {
                                       print(
                                           "....bendcncdn........${controller.hosdata}");
                                       return DropdownMenuItem<dynamic>(
-                                        value:item.sId,
+                                        value: item.sId,
                                         child: Text(
                                           item.name?.toUpperCase() ?? '--',
                                           overflow: TextOverflow.ellipsis,
@@ -523,7 +569,6 @@ class _ScandataState extends State<Scandata> {
                             padding: EdgeInsets.only(top: 25.h),
                             child: GestureDetector(
                               onTap: () async {
-
                                 onTaped = false;
                                 String type = isClicked
                                     ? "clinic"
@@ -539,25 +584,22 @@ class _ScandataState extends State<Scandata> {
                                     spinner = true;
                                   });
 
-
-
-
-                                  List<RecentData> recentData = Get.find<RecentListApiController>().recentData.value;
-
-                                  bool isContains = false;
-
-                                  for (var sub in recentData) {
-                                    if (sub.isprogress == true) {
-
-                                      isContains = sub.admissionNo != Studentdetail.admnNo;
-                                      print("..............sub.admissionNo.....${sub.admissionNo}");
-                                      print("..............Studentdetail.admnNo.....${Studentdetail.admnNo}");
-                                      print("..............vebebeb.....${isContains}");
-                                    }
-                                  }
-
-                                  isContains ?
-                                  playAlarm(Studentdetail.admnNo ?? "1/22"):();
+                                  // List<RecentData> recentData = Get.find<RecentListApiController>().recentData.value;
+                                  //
+                                  // bool isContains = false;
+                                  //
+                                  // for (var sub in recentData) {
+                                  //   if (sub.isprogress == true) {
+                                  //
+                                  //     isContains = sub.admissionNo != Studentdetail.admnNo;
+                                  //     print("..............sub.admissionNo.....${sub.admissionNo}");
+                                  //     print("..............Studentdetail.admnNo.....${Studentdetail.admnNo}");
+                                  //     print("..............vebebeb.....${isContains}");
+                                  //   }
+                                  // }
+                                  //
+                                  // isContains ?
+                                  playAlarm(Studentdetail.admnNo ?? "1/22");
                                   StudentAddModel sentData = StudentAddModel(
                                     academicYear: Get.find<UserAuthController>()
                                             .userData
@@ -565,7 +607,6 @@ class _ScandataState extends State<Scandata> {
                                             .academicYear ??
                                         '',
                                     admnNo: Studentdetail.admnNo,
-
                                     age: Studentdetail.age,
                                     batchDetails: Studentdetail.batch,
                                     dob: Studentdetail.dob,
@@ -646,7 +687,6 @@ final spinkitNew = SpinKitWave(
   },
 );
 
-
 playAlarm(String admissionId) async {
   print("njjjjjjjjjjjjjjjj...");
   int id = int.parse(admissionId.split("/").first);
@@ -676,4 +716,3 @@ stopAlarm(String admissionId) async {
   await Alarm.init();
   Alarm.stop(id);
 }
-
