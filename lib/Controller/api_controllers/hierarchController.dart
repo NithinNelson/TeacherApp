@@ -16,6 +16,8 @@ class Hierarchcontroller extends GetxController {
   RxList<Users> hosdata = <Users>[].obs;
   RxList<Users> hoddata = <Users>[].obs;
   RxList<Users> supervisordata = <Users>[].obs;
+  RxList<Users> principaldata = <Users>[].obs;
+  RxList<Users> viceprincidata = <Users>[].obs;
   RxList<SendData> recivedStudentData = <SendData>[].obs;
 
   void resetStatus() {
@@ -59,6 +61,10 @@ class Hierarchcontroller extends GetxController {
 
       Map<String, dynamic> supervisorResp = await ApiServices.loadHierarchyList(
           schoolId: scId, academicYear: acYr, id: 'v2QNTPPvPQK6T', name: 'Supervisor');
+      Map<String, dynamic> principalResp = await ApiServices.loadHierarchyList(
+          schoolId: scId, academicYear: acYr, id: 'rolepri12', name: 'Principal');
+      Map<String, dynamic> viceprinciResp = await ApiServices.loadHierarchyList(
+          schoolId: scId, academicYear: acYr, id: 'role12123', name: 'VicePrincipal');
 
       if (hosResp['status']['code'] == 200) {
         HierarchyListModel hoslist =
@@ -82,6 +88,22 @@ class Hierarchcontroller extends GetxController {
         print("-----------hodrespppp..${supervisorResp}-----------");
 
         supervisordata.value = supervisorlist.data?.details?.response?.users ?? [];
+      }
+      if (principalResp['status']['code'] == 200) {
+        HierarchyListModel principallist =
+        HierarchyListModel.fromJson(principalResp);
+        print("-----------principallist..${principallist}-----------");
+
+        principaldata.value = principallist.data?.details?.response?.users ?? [];
+
+      }
+      if (viceprinciResp['status']['code'] == 200) {
+        HierarchyListModel viceprincilist =
+        HierarchyListModel.fromJson(viceprinciResp);
+        print("-----------principallist..${viceprincilist}-----------");
+
+        viceprincidata.value = viceprincilist.data?.details?.response?.users ?? [];
+
       }
     } catch (e) {
       isLoaded.value = false;

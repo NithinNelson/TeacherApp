@@ -20,6 +20,7 @@ import '../../Controller/api_controllers/hierarchController.dart';
 import '../../Controller/api_controllers/qrController.dart';
 import '../../Controller/api_controllers/recentListApiController.dart';
 import '../../Controller/api_controllers/studentModelController.dart';
+import '../../Models/api_models/HierarchyModel.dart';
 import '../../Models/api_models/qr_clinic_model.dart';
 import '../../Models/api_models/recentlist_model.dart';
 import '../../Models/api_models/student_add_Model.dart';
@@ -44,7 +45,7 @@ class _ScandataState extends State<Scandata> {
   bool isClicked1 = false;
   bool isClicked2 = false;
   bool isClicked3 = false;
-  String selectedName = "Select HOD/HOS/SUPERVISOR";
+  Users selectedName = Users(name: "Select HOD/HOS");
   TextEditingController _Remarkscontroller = TextEditingController();
   ValueNotifier<String?> _hosNameSelected = ValueNotifier(null);
 
@@ -366,143 +367,143 @@ class _ScandataState extends State<Scandata> {
                       ? Column(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(left: 18),
+                              padding: EdgeInsets.only(left: 18,top: 8),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  GestureDetector(
-                                    child: Text(
-                                      'Select HOD/HOS',
-                                      style: TextStyle(
-                                          fontSize: 16.w,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Supervisorsearch(selectedName: (String name) {
-                                                    setState(() {
-                                                      selectedName = name;
-                                                    });
-                                                  },)));
-                                    },
+                                  Text(
+                                    'Select HOD/HOS',
+                                    style: TextStyle(
+                                        fontSize: 16.w,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
                             ),
                             Padding(
                               padding: EdgeInsets.only(
-                                  left: 18.w, right: 18.w, top: 20.h),
-                              child: Container(
-                                height: 60.w,
-                                decoration: BoxDecoration(
-                                  color:Colorutils.chatcolor,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 15,right: 15),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        selectedName,
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            color: Colorutils.black, ),
-                                      ),
-                                      Spacer(),
-                                      Padding(
-                                        padding: EdgeInsets.all(2.0),
-                                        child: Icon(
-                                          Icons.arrow_drop_down,
-
-                                          // Change icon based on ontap value
-                                          color: Colorutils.black,
+                                  left: 18.w, right: 18.w, top: 10.h),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              Supervisorsearch(selectedName: (Users user) {
+                                                setState(() {
+                                                  selectedName = user;
+                                                });
+                                              },)));
+                                },
+                                child: Container(
+                                  height: 60.w,
+                                  decoration: BoxDecoration(
+                                    color:Colorutils.chatcolor,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 15,right: 15),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          selectedName.name ?? "",
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colorutils.black, ),
                                         ),
-                                      )
-                                    ],
+                                        Spacer(),
+                                        Padding(
+                                          padding: EdgeInsets.all(2.0),
+                                          child: Icon(
+                                            Icons.arrow_drop_down,
+
+                                            // Change icon based on ontap value
+                                            color: Colorutils.black,
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 10.w, right: 15.w, top: 20.h),
-                              child: GetX<Hierarchcontroller>(
-                                builder: (Hierarchcontroller controller) {
-                                  return DropdownButtonFormField(
-                                    decoration: InputDecoration(
-                                        hintStyle: TextStyle(
-                                            color:
-                                                Colors.black.withOpacity(0.3)),
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 15.0, horizontal: 20.0),
-                                        hintText: " Select a HOD/HOS ",
-                                        counterText: "",
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0),
-                                          ),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colorutils.chatcolor,
-                                            width: 1.0,
-                                          ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0)),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colorutils.chatcolor,
-                                            width: 1.0,
-                                          ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0)),
-                                        ),
-                                        fillColor: Colorutils.chatcolor
-                                            .withOpacity(0.5),
-                                        filled: true),
-
-                                    padding: const EdgeInsets.only(
-                                            left: 10, right: 5)
-                                        .w,
-                                    hint: const Text(" Select a HOD/HOS "),
-                                    validator: (dynamic value) =>
-                                        value == null ? 'Field Required' : null,
-                                    items: controller.hosdata
-                                        .map<DropdownMenuItem<dynamic>>((item) {
-                                      print(
-                                          "....bendcncdn........${controller.hosdata}");
-                                      return DropdownMenuItem<dynamic>(
-                                        value: item.sId,
-                                        child: Text(
-                                          item.name?.toUpperCase() ?? '--',
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                        ),
-                                      );
-                                    }).toList(),
-                                    value: _hosNameSelected.value,
-                                    isExpanded: false,
-                                    // onChanged: (dynamic newVal) {
-                                    //   newValue=newVal.s
-                                    //   _hosNameSelected.value = newVal;
-                                    //   print(".........._hosNameSelected.value.........${newVal}");
-                                    // },
-                                    onChanged: (dynamic newVal) {
-                                      // String selectedId = newVal.split('-')[1];
-
-                                      _hosNameSelected.value = newVal;
-                                      print(
-                                          "...............Selected ID: ${_hosNameSelected.value} ");
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: EdgeInsets.only(
+                            //       left: 10.w, right: 15.w, top: 20.h),
+                            //   child: GetX<Hierarchcontroller>(
+                            //     builder: (Hierarchcontroller controller) {
+                            //       return DropdownButtonFormField(
+                            //         decoration: InputDecoration(
+                            //             hintStyle: TextStyle(
+                            //                 color:
+                            //                     Colors.black.withOpacity(0.3)),
+                            //             contentPadding: EdgeInsets.symmetric(
+                            //                 vertical: 15.0, horizontal: 20.0),
+                            //             hintText: " Select a HOD/HOS ",
+                            //             counterText: "",
+                            //             border: OutlineInputBorder(
+                            //               borderRadius: BorderRadius.all(
+                            //                 Radius.circular(10.0),
+                            //               ),
+                            //             ),
+                            //             enabledBorder: OutlineInputBorder(
+                            //               borderSide: BorderSide(
+                            //                 color: Colorutils.chatcolor,
+                            //                 width: 1.0,
+                            //               ),
+                            //               borderRadius: BorderRadius.all(
+                            //                   Radius.circular(10.0)),
+                            //             ),
+                            //             focusedBorder: OutlineInputBorder(
+                            //               borderSide: BorderSide(
+                            //                 color: Colorutils.chatcolor,
+                            //                 width: 1.0,
+                            //               ),
+                            //               borderRadius: BorderRadius.all(
+                            //                   Radius.circular(10.0)),
+                            //             ),
+                            //             fillColor: Colorutils.chatcolor
+                            //                 .withOpacity(0.5),
+                            //             filled: true),
+                            //
+                            //         padding: const EdgeInsets.only(
+                            //                 left: 10, right: 5)
+                            //             .w,
+                            //         hint: const Text(" Select a HOD/HOS "),
+                            //         validator: (dynamic value) =>
+                            //             value == null ? 'Field Required' : null,
+                            //         items: controller.hosdata
+                            //             .map<DropdownMenuItem<dynamic>>((item) {
+                            //           print(
+                            //               "....bendcncdn........${controller.hosdata}");
+                            //           return DropdownMenuItem<dynamic>(
+                            //             value: item.sId,
+                            //             child: Text(
+                            //               item.name?.toUpperCase() ?? '--',
+                            //               overflow: TextOverflow.ellipsis,
+                            //               maxLines: 1,
+                            //             ),
+                            //           );
+                            //         }).toList(),
+                            //         value: _hosNameSelected.value,
+                            //         isExpanded: false,
+                            //         // onChanged: (dynamic newVal) {
+                            //         //   newValue=newVal.s
+                            //         //   _hosNameSelected.value = newVal;
+                            //         //   print(".........._hosNameSelected.value.........${newVal}");
+                            //         // },
+                            //         onChanged: (dynamic newVal) {
+                            //           // String selectedId = newVal.split('-')[1];
+                            //
+                            //           _hosNameSelected.value = newVal;
+                            //           print(
+                            //               "...............Selected ID: ${_hosNameSelected.value} ");
+                            //         },
+                            //       );
+                            //     },
+                            //   ),
+                            // ),
                           ],
                         )
                       : SizedBox(),
@@ -623,7 +624,8 @@ class _ScandataState extends State<Scandata> {
                                     profilePic: Studentdetail.profileImage,
                                     instID: Studentdetail.instID,
                                     remarks: _Remarkscontroller.text,
-                                    sentTo: _hosNameSelected.value,
+                                    sentTo: selectedName.sId,
+
                                     sentBy: Get.find<UserAuthController>()
                                             .userData
                                             .value

@@ -22,7 +22,7 @@ import '../../../Utils/Colors.dart';
 import '../tackingDetails.dart';
 import '../trackingPage.dart';
 
-class Trackingdetailshod extends StatelessWidget {
+class Trackingdetailshod extends StatefulWidget {
   final SendData sendStudentList;
   final DateTime starttime;
 
@@ -30,7 +30,18 @@ class Trackingdetailshod extends StatelessWidget {
       {super.key, required this.sendStudentList, required this.starttime});
 
   @override
+  State<Trackingdetailshod> createState() => _TrackingdetailshodState();
+}
+
+class _TrackingdetailshodState extends State<Trackingdetailshod> {
+  TextEditingController controller1 = TextEditingController();
+  bool ontap = false;
+
+  @override
   Widget build(BuildContext context) {
+    controller1 =
+        TextEditingController(text: widget.sendStudentList.remarks);
+
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       body: SafeArea(
@@ -103,7 +114,7 @@ class Trackingdetailshod extends StatelessWidget {
                                 width: 200.w,
                                 child: SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
-                                  child: Text("${sendStudentList.studentName}",
+                                  child: Text("${widget.sendStudentList.studentName}",
                                       style: GoogleFonts.inter(
                                           textStyle: TextStyle(
                                               fontSize: 16.sp,
@@ -153,7 +164,7 @@ class Trackingdetailshod extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    " ${sendStudentList.visitDate}",
+                                    " ${widget.sendStudentList.visitDate}",
                                     style: GoogleFonts.inter(
                                       textStyle: TextStyle(
                                           fontSize: 12.sp,
@@ -183,9 +194,9 @@ class Trackingdetailshod extends StatelessWidget {
                                       ),
                                       Text(
                                           "Grade "
-                                              "${sendStudentList.classs}"
+                                              "${widget.sendStudentList.classs}"
                                               " "
-                                              "${sendStudentList.batch}",
+                                              "${widget.sendStudentList.batch}",
                                           style: GoogleFonts.inter(
                                               textStyle: TextStyle(
                                                   fontSize: 12.sp,
@@ -216,7 +227,7 @@ class Trackingdetailshod extends StatelessWidget {
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Text(
-                                  "${sendStudentList.status?.first.sentBy?.toUpperCase()}",
+                                  "${widget.sendStudentList.status?.first.sentBy?.toUpperCase()}",
                                   style: GoogleFonts.inter(
                                       textStyle: TextStyle(
                                           fontSize: 11.sp,
@@ -233,17 +244,97 @@ class Trackingdetailshod extends StatelessWidget {
             ),
             Column(
               children: [
-                if (sendStudentList.status?.length == 1)
+                if (widget.sendStudentList.status?.length == 1)
                   Container1(
-                    sendDetails1: sendStudentList,
-                    startTime1: starttime,
+                    sendDetails1: widget.sendStudentList,
+                    startTime1: widget.starttime,
                   ),
-                if (sendStudentList.status?.length == 2)
+                if (widget.sendStudentList.status?.length == 2)
                   Container2(
-                    sendDetails2: sendStudentList,
-                    startTime2: starttime,
+                    sendDetails2: widget.sendStudentList,
+                    startTime2: widget.starttime,
                   ),
-                if (sendStudentList.status?.length == 3) Container3(sendDetails3: sendStudentList, startTime3: starttime,)
+                if (widget.sendStudentList.status?.length == 3) Container3(sendDetails3: widget.sendStudentList, startTime3: widget.starttime,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 18, right: 18),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        ontap = !ontap;
+                      });
+                    },
+                    child: Container(
+                      height: 40,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "Remarks",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colorutils.userdetailcolor,
+                                fontStyle: FontStyle.italic),
+                          ),
+                          SizedBox(
+                            width: 2,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Icon(
+                              ontap == true
+                                  ? Icons.arrow_drop_down
+                                  : Icons.arrow_drop_up,
+                              // Change icon based on ontap value
+                              color: Colorutils.userdetailcolor,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                ontap == true
+                    ? Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Container(
+                      child: TextFormField(
+                        controller: controller1,
+                        style: TextStyle(
+                            fontSize: 14, fontStyle: FontStyle.italic),
+                        readOnly: true,
+                        decoration: InputDecoration(
+                            hintStyle: TextStyle(color: Colors.black26),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 10.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(15.0),
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colorutils.chatcolor, width: 1.0),
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(15)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colorutils.chatcolor, width: 1.0),
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(15.0)),
+                            ),
+                            fillColor: Colorutils.chatcolor.withOpacity(0.2),
+                            filled: true),
+                        maxLines: 5,
+                      ),
+                      height: 80,
+                    ),
+                  ),
+                )
+                    : SizedBox()
               ],
             ),
           ],
