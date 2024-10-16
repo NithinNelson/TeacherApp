@@ -860,6 +860,35 @@ class ApiServices {
       throw Exception("Service Error");
     }
   }
+  //popup
+  static Future<Map<String, dynamic>> popupcontoller({
+    required String schoolId,
+    required String academicYear,
+    required String date,
+  }) async {
+    String url = ApiConstants.HosAllStudentListClinic;
+    print(url);
+    Map apiBody ={
+      "school_id": schoolId,
+      "academic_year":academicYear,
+      "Date": date
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = (json.encode(apiBody));
+      log('Api body---------------------->${request.body}');
+      request.headers.addAll(ApiConstants.headers);
+      http.StreamedResponse response = await request.send();
+      var respString = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        return json.decode(respString);
+      } else {
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      throw Exception("Service Error");
+    }
+  }
 
 //get Hos Student listDate
   static Future<Map<String, dynamic>> getHosStudentListDate({

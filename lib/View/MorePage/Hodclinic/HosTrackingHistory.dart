@@ -13,13 +13,24 @@ import '../../../Utils/Colors.dart';
 
 
 
-class Hostrackinghistory extends StatelessWidget {
+class Hostrackinghistory extends StatefulWidget {
   final SendData progressCompletedList;
 
   const Hostrackinghistory({super.key, required this.progressCompletedList});
 
   @override
+  State<Hostrackinghistory> createState() => _HostrackinghistoryState();
+}
+
+class _HostrackinghistoryState extends State<Hostrackinghistory> {
+  TextEditingController controller1 = TextEditingController();
+
+  bool ontap = false;
+
+  @override
   Widget build(BuildContext context) {
+    controller1 =
+        TextEditingController(text: widget.progressCompletedList.remarks);
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       body: SafeArea(
@@ -93,7 +104,7 @@ class Hostrackinghistory extends StatelessWidget {
                                 child: SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Text(
-                                      "${progressCompletedList.studentName}",
+                                      "${widget.progressCompletedList.studentName}",
                                       style: GoogleFonts.inter(
                                           textStyle: TextStyle(
                                               fontSize: 16.sp,
@@ -109,27 +120,27 @@ class Hostrackinghistory extends StatelessWidget {
                                 // height: 18.h,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4),
-                                    color: progressCompletedList.visitStatus ==
+                                    color: widget.progressCompletedList.visitStatus ==
                                         "Sent to Clinic" ||
-                                        progressCompletedList.visitStatus ==
+                                        widget.progressCompletedList.visitStatus ==
                                             "Reached Clinic"
                                         ? Colors.red.withOpacity(0.2)
-                                        : progressCompletedList.visitStatus ==
+                                        : widget.progressCompletedList.visitStatus ==
                                         "Sent to Washroom" ||
-                                        progressCompletedList
+                                        widget.progressCompletedList
                                             .visitStatus ==
                                             "Reached Washroom"
                                         ? Colorutils.washroomcolor2
-                                        : progressCompletedList.visitStatus ==
+                                        : widget.progressCompletedList.visitStatus ==
                                         "Sent to Counsellor" ||
-                                        progressCompletedList
+                                        widget.progressCompletedList
                                             .visitStatus ==
                                             "Reached Counsellor"
                                         ? Colorutils.councellorcolor2
-                                        : progressCompletedList
+                                        : widget.progressCompletedList
                                         .visitStatus ==
                                         "Back to Class" ||
-                                        progressCompletedList
+                                        widget.progressCompletedList
                                             .visitStatus ==
                                             "Reached Class"
                                         ? Colors.green
@@ -140,36 +151,36 @@ class Hostrackinghistory extends StatelessWidget {
                                     padding: EdgeInsets.symmetric(
                                         vertical: 1.h, horizontal: 10.w),
                                     child: Text(
-                                        "${progressCompletedList.visitStatus }",
+                                        "${widget.progressCompletedList.visitStatus }",
                                         overflow: TextOverflow.ellipsis,
                                         style: GoogleFonts.inter(
                                             textStyle: TextStyle(
                                               fontSize: 13.sp,
-                                              color: progressCompletedList
+                                              color: widget.progressCompletedList
                                                   .visitStatus ==
                                                   "Sent to Clinic" ||
-                                                  progressCompletedList
+                                                  widget.progressCompletedList
                                                       .visitStatus ==
                                                       "Reached Clinic"
                                                   ? Colors.red
-                                                  : progressCompletedList
+                                                  : widget.progressCompletedList
                                                   .visitStatus ==
                                                   "Sent to Washroom" ||
-                                                  progressCompletedList
+                                                  widget.progressCompletedList
                                                       .visitStatus ==
                                                       "Reached Washroom"
                                                   ? Colorutils.washroomcolor
-                                                  : progressCompletedList
+                                                  : widget.progressCompletedList
                                                   .visitStatus ==
                                                   "Sent to Counsellor" ||
-                                                  progressCompletedList
+                                                  widget.progressCompletedList
                                                       .visitStatus ==
                                                       "Reached Counsellor"
                                                   ? Colorutils.councellorcolor
-                                                  : progressCompletedList
+                                                  : widget.progressCompletedList
                                                   .visitStatus ==
                                                   "Back to Class" ||
-                                                  progressCompletedList
+                                                  widget.progressCompletedList
                                                       .visitStatus ==
                                                       "Reached Class"
                                                   ? Colorutils
@@ -185,7 +196,7 @@ class Hostrackinghistory extends StatelessWidget {
                             children: [
                               Text(
                                 Converteddate(
-                                    "${progressCompletedList.visitDate}"),
+                                    "${widget.progressCompletedList.visitDate}"),
                                 style: GoogleFonts.inter(
                                   textStyle: TextStyle(
                                       fontSize: 12.sp,
@@ -200,9 +211,9 @@ class Hostrackinghistory extends StatelessWidget {
                                   child: Text(
                                       "Grade"
                                           " "
-                                          "${progressCompletedList.classs}"
+                                          "${widget.progressCompletedList.classs}"
                                           " "
-                                          "${progressCompletedList.batch}",
+                                          "${widget.progressCompletedList.batch}",
                                       style: GoogleFonts.inter(
                                           textStyle: TextStyle(
                                               fontSize: 14.sp,
@@ -230,7 +241,7 @@ class Hostrackinghistory extends StatelessWidget {
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Text(
-                                  "${progressCompletedList.status?.first.sentBy?.toUpperCase()}",
+                                  "${widget.progressCompletedList.status?.first.sentBy?.toUpperCase()}",
                                   style: GoogleFonts.inter(
                                       textStyle: TextStyle(
                                         fontSize: 11.sp,
@@ -245,202 +256,22 @@ class Hostrackinghistory extends StatelessWidget {
                 ),
               ),
             ),
-            (progressCompletedList.visitStatus == "Sent to Washroom" ||
-                progressCompletedList.visitStatus == "Sent Home" ||
-                progressCompletedList.visitStatus == "Sent to Hospital")
-                ? Column(
+
+             Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 18, right: 18),
-                  child: Container(
-                    height: 40,
-                    child: Row(
-                      children: [
-                        Text(
-                          '${progressCompletedList.status?[0].visitStatus}',
-                          style: TextStyle(
-                              fontSize: 18.w,
-                              fontWeight: FontWeight.bold),
-                          maxLines: 3,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        CircleAvatar(
-                          radius: 11,
-                          backgroundColor: Colors.grey.withOpacity(0.1),
-                          child: Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: Container(
-                              child: Image.asset(
-                                  "assets/images/icons8-walking-64.png"),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20.0),
-                        border: Border.all(
-                            color: Colors.grey.withOpacity(0.2))
-                      // boxShadow: [
-                      //   BoxShadow(
-                      //     color: Colors.grey,
-                      //     blurRadius: 0.4,
-                      //     offset: Offset(0, 1),
-                      //   ),
-                      // ],
-                    ),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 40, right: 30),
-                          child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                  "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[0].addedOn ?? '--').toLocal())}"
-                                      " ("
-                                      "${Converteddate("${progressCompletedList.visitDate}")}"
-                                      ")",
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 11)),
-                              Text(
-                                  "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[1].addedOn ?? '--').toLocal())}"
-                                      " "
-                                      "("
-                                      "${Converteddate("${progressCompletedList.visitDate}")}"
-                                      ")",
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 11)),
-                            ],
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                height: 50.0,
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Container(
-                                      height: 18.0,
-                                      decoration: BoxDecoration(
-                                        color: Colorutils.userdetailcolor,
-                                        borderRadius:
-                                        BorderRadius.circular(10.0),
-                                      ),
-                                    ),
-                                    const Positioned(
-                                      left: 60,
-                                      child: CircleAvatar(
-                                        radius: 16.1,
-                                        backgroundColor: Colors.white,
-                                        child: CircleAvatar(
-                                          radius: 16.0,
-                                          backgroundColor:
-                                          Colorutils.userdetailcolor,
-                                          child: CircleAvatar(
-                                            radius: 14.0,
-                                            backgroundColor: Colors.white,
-                                            child: CircleAvatar(
-                                              radius: 11.0,
-                                              backgroundColor:
-                                              Colors.green,
-                                              child: Icon(Icons.check,
-                                                  size: 16.0,
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const Positioned(
-                                      right: 60,
-                                      child: CircleAvatar(
-                                        radius: 16.1,
-                                        backgroundColor: Colors.white,
-                                        child: CircleAvatar(
-                                          radius: 16.0,
-                                          backgroundColor:
-                                          Colorutils.userdetailcolor,
-                                          child: CircleAvatar(
-                                            radius: 14.0,
-                                            backgroundColor: Colors.white,
-                                            child: CircleAvatar(
-                                              radius: 11.0,
-                                              backgroundColor:
-                                              Colors.green,
-                                              child: Icon(Icons.check,
-                                                  size: 16.0,
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const Positioned(
-                                      child: Text("Reached",
-                                          style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 12,
-                                              fontWeight:
-                                              FontWeight.bold)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5.0),
-                        Padding(
-                          padding:
-                          const EdgeInsets.only(left: 40, right: 30),
-                          child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "${progressCompletedList.status?[0].visitStatus}",
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              Text(
-                                "${progressCompletedList.status?[1].visitStatus}",
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-
-                (progressCompletedList.visitStatus == "Sent Home" ||
-                    progressCompletedList.visitStatus ==
-                        "Sent to Hospital")
+                (widget.progressCompletedList.visitStatus == "Sent to Washroom" ||
+                    widget.progressCompletedList.visitStatus == "Sent Home" ||
+                    widget.progressCompletedList.visitStatus == "Sent to Hospital")
                     ? Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: 18, right: 18),
+                      padding: const EdgeInsets.only(left: 18, right: 18),
                       child: Container(
                         height: 40,
                         child: Row(
                           children: [
                             Text(
-                              '${progressCompletedList.status?[2].visitStatus}',
+                              '${widget.progressCompletedList.status?[0].visitStatus}',
                               style: TextStyle(
                                   fontSize: 18.w,
                                   fontWeight: FontWeight.bold),
@@ -451,8 +282,7 @@ class Hostrackinghistory extends StatelessWidget {
                             ),
                             CircleAvatar(
                               radius: 11,
-                              backgroundColor:
-                              Colors.grey.withOpacity(0.1),
+                              backgroundColor: Colors.grey.withOpacity(0.1),
                               child: Padding(
                                 padding: const EdgeInsets.all(2.0),
                                 child: Container(
@@ -466,14 +296,12 @@ class Hostrackinghistory extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10, right: 10),
+                      padding: const EdgeInsets.only(left: 10, right: 10),
                       child: Container(
                         padding: EdgeInsets.all(10.0),
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius:
-                            BorderRadius.circular(20.0),
+                            borderRadius: BorderRadius.circular(20.0),
                             border: Border.all(
                                 color: Colors.grey.withOpacity(0.2))
                           // boxShadow: [
@@ -486,20 +314,29 @@ class Hostrackinghistory extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
-                            Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                    "${DateFormat('HH : mm').format(DateTime.parse(progressCompletedList.status?[1].addedOn ?? '--').toLocal())}"
-                                        " "
-                                        "("
-                                        "${Converteddate("${progressCompletedList.visitDate}")}"
-                                        ")",
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 11)),
-                              ],
+                            Padding(
+                              padding: EdgeInsets.only(left: 40, right: 30),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                      "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[0].addedOn ?? '--').toLocal())}"
+                                          " ("
+                                          "${Converteddate("${widget.progressCompletedList.visitDate}")}"
+                                          ")",
+                                      style: TextStyle(
+                                          color: Colors.grey, fontSize: 11)),
+                                  Text(
+                                      "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[1].addedOn ?? '--').toLocal())}"
+                                          " "
+                                          "("
+                                          "${Converteddate("${widget.progressCompletedList.visitDate}")}"
+                                          ")",
+                                      style: TextStyle(
+                                          color: Colors.grey, fontSize: 11)),
+                                ],
+                              ),
                             ),
                             Row(
                               children: [
@@ -512,47 +349,67 @@ class Hostrackinghistory extends StatelessWidget {
                                         Container(
                                           height: 18.0,
                                           decoration: BoxDecoration(
-                                            color: Colorutils
-                                                .userdetailcolor,
+                                            color: Colorutils.userdetailcolor,
                                             borderRadius:
-                                            BorderRadius
-                                                .circular(10.0),
+                                            BorderRadius.circular(10.0),
                                           ),
                                         ),
                                         const Positioned(
+                                          left: 60,
                                           child: CircleAvatar(
                                             radius: 16.1,
-                                            backgroundColor:
-                                            Colors.white,
+                                            backgroundColor: Colors.white,
                                             child: CircleAvatar(
                                               radius: 16.0,
                                               backgroundColor:
-                                              Colorutils
-                                                  .userdetailcolor,
+                                              Colorutils.userdetailcolor,
                                               child: CircleAvatar(
                                                 radius: 14.0,
-                                                backgroundColor:
-                                                Colors.white,
+                                                backgroundColor: Colors.white,
                                                 child: CircleAvatar(
                                                   radius: 11.0,
                                                   backgroundColor:
                                                   Colors.green,
-                                                  child: Icon(
-                                                      Icons.check,
+                                                  child: Icon(Icons.check,
                                                       size: 16.0,
-                                                      color: Colors
-                                                          .white),
+                                                      color: Colors.white),
                                                 ),
                                               ),
                                             ),
                                           ),
                                         ),
-
-                                        // Positioned(
-                                        //   child: Text("00:00",
-                                        //       style: TextStyle(
-                                        //           color: Colors.white, fontSize: 10)),
-                                        // ),
+                                        const Positioned(
+                                          right: 60,
+                                          child: CircleAvatar(
+                                            radius: 16.1,
+                                            backgroundColor: Colors.white,
+                                            child: CircleAvatar(
+                                              radius: 16.0,
+                                              backgroundColor:
+                                              Colorutils.userdetailcolor,
+                                              child: CircleAvatar(
+                                                radius: 14.0,
+                                                backgroundColor: Colors.white,
+                                                child: CircleAvatar(
+                                                  radius: 11.0,
+                                                  backgroundColor:
+                                                  Colors.green,
+                                                  child: Icon(Icons.check,
+                                                      size: 16.0,
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const Positioned(
+                                          child: Text("Reached",
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 12,
+                                                  fontWeight:
+                                                  FontWeight.bold)),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -560,24 +417,33 @@ class Hostrackinghistory extends StatelessWidget {
                               ],
                             ),
                             SizedBox(height: 5.0),
-                            Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Student ${progressCompletedList.status?[2].visitStatus ?? '--'} from Clinic",
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontStyle: FontStyle.italic),
-                                ),
-                              ],
+                            Padding(
+                              padding:
+                              const EdgeInsets.only(left: 40, right: 30),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "${widget.progressCompletedList.status?[0].visitStatus}",
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                  Text(
+                                    "${widget.progressCompletedList.status?[1].visitStatus}",
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    (progressCompletedList.status?[2].visitStatus ==
-                        "Sent to Isolation Room")
+
+
+                    (widget.progressCompletedList.visitStatus == "Sent Home" ||
+                        widget.progressCompletedList.visitStatus ==
+                            "Sent to Hospital")
                         ? Column(
                       children: [
                         Padding(
@@ -588,14 +454,10 @@ class Hostrackinghistory extends StatelessWidget {
                             child: Row(
                               children: [
                                 Text(
-                                  progressCompletedList
-                                      .status?[3]
-                                      .visitStatus ??
-                                      "--",
+                                  '${widget.progressCompletedList.status?[2].visitStatus}',
                                   style: TextStyle(
                                       fontSize: 18.w,
-                                      fontWeight:
-                                      FontWeight.bold),
+                                      fontWeight: FontWeight.bold),
                                   maxLines: 3,
                                 ),
                                 SizedBox(
@@ -603,12 +465,10 @@ class Hostrackinghistory extends StatelessWidget {
                                 ),
                                 CircleAvatar(
                                   radius: 11,
-                                  backgroundColor: Colors.grey
-                                      .withOpacity(0.1),
+                                  backgroundColor:
+                                  Colors.grey.withOpacity(0.1),
                                   child: Padding(
-                                    padding:
-                                    const EdgeInsets.all(
-                                        2.0),
+                                    padding: const EdgeInsets.all(2.0),
                                     child: Container(
                                       child: Image.asset(
                                           "assets/images/icons8-walking-64.png"),
@@ -627,11 +487,9 @@ class Hostrackinghistory extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius:
-                                BorderRadius.circular(
-                                    20.0),
+                                BorderRadius.circular(20.0),
                                 border: Border.all(
-                                    color: Colors.grey
-                                        .withOpacity(0.2))
+                                    color: Colors.grey.withOpacity(0.2))
                               // boxShadow: [
                               //   BoxShadow(
                               //     color: Colors.grey,
@@ -644,18 +502,16 @@ class Hostrackinghistory extends StatelessWidget {
                               children: [
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment
-                                      .center,
+                                  MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                        "${DateFormat('HH : mm').format(DateTime.parse(progressCompletedList.status?[3].addedOn ?? '--').toLocal())}"
+                                        "${DateFormat('HH : mm').format(DateTime.parse(widget.progressCompletedList.status?[1].addedOn ?? '--').toLocal())}"
                                             " "
                                             "("
-                                            "${Converteddate("${progressCompletedList.visitDate}")}"
+                                            "${Converteddate("${widget.progressCompletedList.visitDate}")}"
                                             ")",
                                         style: TextStyle(
-                                            color:
-                                            Colors.grey,
+                                            color: Colors.grey,
                                             fontSize: 11)),
                                   ],
                                 ),
@@ -665,55 +521,41 @@ class Hostrackinghistory extends StatelessWidget {
                                       child: Container(
                                         height: 50.0,
                                         child: Stack(
-                                          alignment: Alignment
-                                              .center,
+                                          alignment: Alignment.center,
                                           children: [
                                             Container(
                                               height: 18.0,
-                                              decoration:
-                                              BoxDecoration(
+                                              decoration: BoxDecoration(
                                                 color: Colorutils
                                                     .userdetailcolor,
                                                 borderRadius:
                                                 BorderRadius
-                                                    .circular(
-                                                    10.0),
+                                                    .circular(10.0),
                                               ),
                                             ),
                                             const Positioned(
-                                              child:
-                                              CircleAvatar(
+                                              child: CircleAvatar(
                                                 radius: 16.1,
                                                 backgroundColor:
-                                                Colors
-                                                    .white,
-                                                child:
-                                                CircleAvatar(
-                                                  radius:
-                                                  16.0,
+                                                Colors.white,
+                                                child: CircleAvatar(
+                                                  radius: 16.0,
                                                   backgroundColor:
                                                   Colorutils
                                                       .userdetailcolor,
-                                                  child:
-                                                  CircleAvatar(
-                                                    radius:
-                                                    14.0,
+                                                  child: CircleAvatar(
+                                                    radius: 14.0,
                                                     backgroundColor:
-                                                    Colors
-                                                        .white,
-                                                    child:
-                                                    CircleAvatar(
-                                                      radius:
-                                                      11.0,
+                                                    Colors.white,
+                                                    child: CircleAvatar(
+                                                      radius: 11.0,
                                                       backgroundColor:
                                                       Colors.green,
                                                       child: Icon(
-                                                          Icons
-                                                              .check,
-                                                          size:
-                                                          16.0,
-                                                          color:
-                                                          Colors.white),
+                                                          Icons.check,
+                                                          size: 16.0,
+                                                          color: Colors
+                                                              .white),
                                                     ),
                                                   ),
                                                 ),
@@ -734,15 +576,13 @@ class Hostrackinghistory extends StatelessWidget {
                                 SizedBox(height: 5.0),
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment
-                                      .center,
+                                  MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      "Student ${progressCompletedList.status?[3].visitStatus ?? '--'} from Isolation Room",
+                                      "Student ${widget.progressCompletedList.status?[2].visitStatus ?? '--'} from Clinic",
                                       style: TextStyle(
                                           fontSize: 12,
-                                          fontStyle: FontStyle
-                                              .italic),
+                                          fontStyle: FontStyle.italic),
                                     ),
                                   ],
                                 ),
@@ -750,847 +590,1108 @@ class Hostrackinghistory extends StatelessWidget {
                             ),
                           ),
                         ),
+                        (widget.progressCompletedList.status?[2].visitStatus ==
+                            "Sent to Isolation Room")
+                            ? Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 18, right: 18),
+                              child: Container(
+                                height: 40,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      widget.progressCompletedList
+                                          .status?[3]
+                                          .visitStatus ??
+                                          "--",
+                                      style: TextStyle(
+                                          fontSize: 18.w,
+                                          fontWeight:
+                                          FontWeight.bold),
+                                      maxLines: 3,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    CircleAvatar(
+                                      radius: 11,
+                                      backgroundColor: Colors.grey
+                                          .withOpacity(0.1),
+                                      child: Padding(
+                                        padding:
+                                        const EdgeInsets.all(
+                                            2.0),
+                                        child: Container(
+                                          child: Image.asset(
+                                              "assets/images/icons8-walking-64.png"),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10, right: 10),
+                              child: Container(
+                                padding: EdgeInsets.all(10.0),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                    BorderRadius.circular(
+                                        20.0),
+                                    border: Border.all(
+                                        color: Colors.grey
+                                            .withOpacity(0.2))
+                                  // boxShadow: [
+                                  //   BoxShadow(
+                                  //     color: Colors.grey,
+                                  //     blurRadius: 0.4,
+                                  //     offset: Offset(0, 1),
+                                  //   ),
+                                  // ],
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment
+                                          .center,
+                                      children: [
+                                        Text(
+                                            "${DateFormat('HH : mm').format(DateTime.parse(widget.progressCompletedList.status?[3].addedOn ?? '--').toLocal())}"
+                                                " "
+                                                "("
+                                                "${Converteddate("${widget.progressCompletedList.visitDate}")}"
+                                                ")",
+                                            style: TextStyle(
+                                                color:
+                                                Colors.grey,
+                                                fontSize: 11)),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            height: 50.0,
+                                            child: Stack(
+                                              alignment: Alignment
+                                                  .center,
+                                              children: [
+                                                Container(
+                                                  height: 18.0,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    color: Colorutils
+                                                        .userdetailcolor,
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(
+                                                        10.0),
+                                                  ),
+                                                ),
+                                                const Positioned(
+                                                  child:
+                                                  CircleAvatar(
+                                                    radius: 16.1,
+                                                    backgroundColor:
+                                                    Colors
+                                                        .white,
+                                                    child:
+                                                    CircleAvatar(
+                                                      radius:
+                                                      16.0,
+                                                      backgroundColor:
+                                                      Colorutils
+                                                          .userdetailcolor,
+                                                      child:
+                                                      CircleAvatar(
+                                                        radius:
+                                                        14.0,
+                                                        backgroundColor:
+                                                        Colors
+                                                            .white,
+                                                        child:
+                                                        CircleAvatar(
+                                                          radius:
+                                                          11.0,
+                                                          backgroundColor:
+                                                          Colors.green,
+                                                          child: Icon(
+                                                              Icons
+                                                                  .check,
+                                                              size:
+                                                              16.0,
+                                                              color:
+                                                              Colors.white),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+
+                                                // Positioned(
+                                                //   child: Text("00:00",
+                                                //       style: TextStyle(
+                                                //           color: Colors.white, fontSize: 10)),
+                                                // ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 5.0),
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment
+                                          .center,
+                                      children: [
+                                        Text(
+                                          "Student ${widget.progressCompletedList.status?[3].visitStatus ?? '--'} from Isolation Room",
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontStyle: FontStyle
+                                                  .italic),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                            : SizedBox(),
                       ],
                     )
-                        : SizedBox(),
+                        : SizedBox()
                   ],
                 )
-                    : SizedBox()
-              ],
-            )
-                : Column(
-              children: [
-                progressCompletedList.status?.length == 4?
-                Column(
+                    : Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 18, right: 18),
-                      child: Container(
-                        height: 40,
-                        child: Row(
-                          children: [
-                            Text(
-                              '${progressCompletedList.status?[0].visitStatus}',
-                              style: TextStyle(
-                                  fontSize: 18.w,
-                                  fontWeight: FontWeight.bold),
-                              maxLines: 3,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            CircleAvatar(
-                              radius: 11,
-                              backgroundColor: Colors.grey.withOpacity(0.1),
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Container(
-                                  child: Image.asset(
-                                      "assets/images/icons8-walking-64.png"),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Container(
-                        padding: EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20.0),
-                            border: Border.all(
-                                color: Colors.grey.withOpacity(0.2))
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: Colors.grey,
-                          //     blurRadius: 0.4,
-                          //     offset: Offset(0, 1),
-                          //   ),
-                          // ],
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 30, right: 30),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                      "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[0].addedOn ?? '--').toLocal())}"
-                                          " ("
-                                          "${Converteddate("${progressCompletedList.visitDate}")}"
-                                          ")",
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 10)),
-                                  Text(
-                                      "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[1].addedOn ?? '--').toLocal())}"
-                                          " ("
-                                          "${Converteddate("${progressCompletedList.visitDate}")}"
-                                          ")",
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 10)),
-                                ],
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 50.0,
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Container(
-                                          height: 18.0,
-                                          decoration: BoxDecoration(
-                                            color: Colorutils.userdetailcolor,
-                                            borderRadius:
-                                            BorderRadius.circular(10.0),
-                                          ),
-                                        ),
-                                        const Positioned(
-                                          left: 60,
-                                          child: CircleAvatar(
-                                            radius: 16.1,
-                                            backgroundColor: Colors.white,
-                                            child: CircleAvatar(
-                                              radius: 16.0,
-                                              backgroundColor:
-                                              Colorutils.userdetailcolor,
-                                              child: CircleAvatar(
-                                                radius: 14.0,
-                                                backgroundColor: Colors.white,
-                                                child: CircleAvatar(
-                                                  radius: 11.0,
-                                                  backgroundColor:
-                                                  Colors.green,
-                                                  child: Icon(Icons.check,
-                                                      size: 16.0,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const Positioned(
-                                          right: 60,
-                                          child: CircleAvatar(
-                                            radius: 16.1,
-                                            backgroundColor: Colors.white,
-                                            child: CircleAvatar(
-                                              radius: 16.0,
-                                              backgroundColor:
-                                              Colorutils.userdetailcolor,
-                                              child: CircleAvatar(
-                                                radius: 14.0,
-                                                backgroundColor: Colors.white,
-                                                child: CircleAvatar(
-                                                  radius: 11.0,
-                                                  backgroundColor:
-                                                  Colors.green,
-                                                  child: Icon(Icons.check,
-                                                      size: 16.0,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const Positioned(
-                                          child: Text("Reached",
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 12,
-                                                  fontWeight:
-                                                  FontWeight.bold)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 5.0),
-                            Padding(
-                              padding: EdgeInsets.only(left: 40, right: 30),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "${progressCompletedList.status?[0].visitStatus}",
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  Text(
-                                    "${progressCompletedList.status?[1].visitStatus}",
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.only(left: 18, right: 18),
-                      child: Container(
-                        height: 40,
-                        child: Row(
-                          children: [
-                            Text(
-                              "${progressCompletedList.status?[2].visitStatus}",
-                              style: TextStyle(
-                                  fontSize: 18.w,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              child: SvgPicture.asset(
-                                  "assets/images/Notebook.svg"),
-                              // child: SvgPicture.asset("assets/images/Frame 849.svg"),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Container(
-                        padding: EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20.0),
-                            border: Border.all(
-                                color: Colors.grey.withOpacity(0.2))
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: Colors.grey,
-                          //     blurRadius: 0.4,
-                          //     offset: Offset(0, 1),
-                          //   ),
-                          // ],
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 30, right: 30),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                      "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[2].addedOn ?? '--').toLocal())}"
-                                          " ("
-                                          "${Converteddate("${progressCompletedList.visitDate}")}"
-                                          ")",
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 10)),
-                                  Text(
-                                      "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[3].addedOn ?? '--').toLocal())}"
-                                          " ("
-                                          "${Converteddate("${progressCompletedList.visitDate}")}"
-                                          ")",
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 10)),
-                                ],
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 50.0,
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Container(
-                                          height: 18.0,
-                                          decoration: BoxDecoration(
-                                            color: Colorutils.userdetailcolor,
-                                            borderRadius:
-                                            BorderRadius.circular(10.0),
-                                          ),
-                                        ),
-                                        const Positioned(
-                                          left: 60,
-                                          child: CircleAvatar(
-                                            radius: 16.1,
-                                            backgroundColor: Colors.white,
-                                            child: CircleAvatar(
-                                              radius: 16.0,
-                                              backgroundColor:
-                                              Colorutils.userdetailcolor,
-                                              child: CircleAvatar(
-                                                radius: 14.0,
-                                                backgroundColor: Colors.white,
-                                                child: CircleAvatar(
-                                                  radius: 11.0,
-                                                  backgroundColor:
-                                                  Colors.green,
-                                                  child: Icon(Icons.check,
-                                                      size: 16.0,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const Positioned(
-                                          right: 60,
-                                          child: CircleAvatar(
-                                            radius: 16.1,
-                                            backgroundColor: Colors.white,
-                                            child: CircleAvatar(
-                                              radius: 16.0,
-                                              backgroundColor:
-                                              Colorutils.userdetailcolor,
-                                              child: CircleAvatar(
-                                                radius: 14.0,
-                                                backgroundColor: Colors.white,
-                                                child: CircleAvatar(
-                                                  radius: 11.0,
-                                                  backgroundColor:
-                                                  Colors.green,
-                                                  child: Icon(Icons.check,
-                                                      size: 16.0,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const Positioned(
-                                          child: Text("Reached",
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 12,
-                                                  fontWeight:
-                                                  FontWeight.bold)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 5.0),
-                            Padding(
-                              padding: EdgeInsets.only(left: 30, right: 40),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("${progressCompletedList.status?[2].visitStatus}",
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  Text(
-                                    "${progressCompletedList.status?[3].visitStatus}",
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ):
-
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 18, right: 18),
-                      child: Container(
-                        height: 40,
-                        child: Row(
-                          children: [
-                            Text(
-                              '${progressCompletedList.status?[0].visitStatus}',
-                              style: TextStyle(
-                                  fontSize: 18.w,
-                                  fontWeight: FontWeight.bold),
-                              maxLines: 3,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            CircleAvatar(
-                              radius: 11,
-                              backgroundColor: Colors.grey.withOpacity(0.1),
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Container(
-                                  child: Image.asset(
-                                      "assets/images/icons8-walking-64.png"),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Container(
-                        padding: EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20.0),
-                            border: Border.all(
-                                color: Colors.grey.withOpacity(0.2))
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: Colors.grey,
-                          //     blurRadius: 0.4,
-                          //     offset: Offset(0, 1),
-                          //   ),
-                          // ],
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 30, right: 30),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                      "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[0].addedOn ?? '--').toLocal())}"
-                                          " ("
-                                          "${Converteddate("${progressCompletedList.visitDate}")}"
-                                          ")",
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 10)),
-                                  Text(
-                                      "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[1].addedOn ?? '--').toLocal())}"
-                                          " ("
-                                          "${Converteddate("${progressCompletedList.visitDate}")}"
-                                          ")",
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 10)),
-                                ],
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 50.0,
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Container(
-                                          height: 18.0,
-                                          decoration: BoxDecoration(
-                                            color: Colorutils.userdetailcolor,
-                                            borderRadius:
-                                            BorderRadius.circular(10.0),
-                                          ),
-                                        ),
-                                        const Positioned(
-                                          left: 60,
-                                          child: CircleAvatar(
-                                            radius: 16.1,
-                                            backgroundColor: Colors.white,
-                                            child: CircleAvatar(
-                                              radius: 16.0,
-                                              backgroundColor:
-                                              Colorutils.userdetailcolor,
-                                              child: CircleAvatar(
-                                                radius: 14.0,
-                                                backgroundColor: Colors.white,
-                                                child: CircleAvatar(
-                                                  radius: 11.0,
-                                                  backgroundColor:
-                                                  Colors.green,
-                                                  child: Icon(Icons.check,
-                                                      size: 16.0,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const Positioned(
-                                          right: 60,
-                                          child: CircleAvatar(
-                                            radius: 16.1,
-                                            backgroundColor: Colors.white,
-                                            child: CircleAvatar(
-                                              radius: 16.0,
-                                              backgroundColor:
-                                              Colorutils.userdetailcolor,
-                                              child: CircleAvatar(
-                                                radius: 14.0,
-                                                backgroundColor: Colors.white,
-                                                child: CircleAvatar(
-                                                  radius: 11.0,
-                                                  backgroundColor:
-                                                  Colors.green,
-                                                  child: Icon(Icons.check,
-                                                      size: 16.0,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const Positioned(
-                                          child: Text("Reached",
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 12,
-                                                  fontWeight:
-                                                  FontWeight.bold)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 5.0),
-                            Padding(
-                              padding: EdgeInsets.only(left: 40, right: 30),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "${progressCompletedList.status?[0].visitStatus}",
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  Text(
-                                    "${progressCompletedList.status?[1].visitStatus}",
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 18, right: 18),
-                      child: Container(
-                        height: 40,
-                        child: Row(
-                          children: [
-                            Text(
-                              '${progressCompletedList.status?[2].visitStatus}',
-                              style: TextStyle(
-                                  fontSize: 18.w,
-                                  fontWeight: FontWeight.bold),
-                              maxLines: 3,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            CircleAvatar(
-                              radius: 11,
-                              backgroundColor:
-                              Colors.grey.withOpacity(0.1),
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Container(
-                                  child: Image.asset(
-                                      "assets/images/icons8-walking-64.png"),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10, right: 10),
-                      child: Container(
-                        padding: EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                            BorderRadius.circular(20.0),
-                            border: Border.all(
-                                color: Colors.grey.withOpacity(0.2))
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: Colors.grey,
-                          //     blurRadius: 0.4,
-                          //     offset: Offset(0, 1),
-                          //   ),
-                          // ],
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.center,
+                    widget.progressCompletedList.status?.length == 4?
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 18, right: 18),
+                          child: Container(
+                            height: 40,
+                            child: Row(
                               children: [
                                 Text(
-                                    "${DateFormat('HH : mm').format(DateTime.parse(progressCompletedList.status?[2].addedOn ?? '--').toLocal())}"
-                                        " "
-                                        "("
-                                        "${Converteddate("${progressCompletedList.visitDate}")}"
-                                        ")",
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 11)),
+                                  '${widget.progressCompletedList.status?[0].visitStatus}',
+                                  style: TextStyle(
+                                      fontSize: 18.w,
+                                      fontWeight: FontWeight.bold),
+                                  maxLines: 3,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                CircleAvatar(
+                                  radius: 11,
+                                  backgroundColor: Colors.grey.withOpacity(0.1),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Container(
+                                      child: Image.asset(
+                                          "assets/images/icons8-walking-64.png"),
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
-                            Row(
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: Container(
+                            padding: EdgeInsets.all(10.0),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20.0),
+                                border: Border.all(
+                                    color: Colors.grey.withOpacity(0.2))
+                              // boxShadow: [
+                              //   BoxShadow(
+                              //     color: Colors.grey,
+                              //     blurRadius: 0.4,
+                              //     offset: Offset(0, 1),
+                              //   ),
+                              // ],
+                            ),
+                            child: Column(
                               children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 50.0,
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Container(
-                                          height: 18.0,
-                                          decoration: BoxDecoration(
-                                            color: Colorutils
-                                                .userdetailcolor,
-                                            borderRadius:
-                                            BorderRadius
-                                                .circular(10.0),
-                                          ),
-                                        ),
-                                        const Positioned(
-                                          child: CircleAvatar(
-                                            radius: 16.1,
-                                            backgroundColor:
-                                            Colors.white,
-                                            child: CircleAvatar(
-                                              radius: 16.0,
-                                              backgroundColor:
-                                              Colorutils
-                                                  .userdetailcolor,
+                                Padding(
+                                  padding: EdgeInsets.only(left: 30, right: 30),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                          "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[0].addedOn ?? '--').toLocal())}"
+                                              " ("
+                                              "${Converteddate("${widget.progressCompletedList.visitDate}")}"
+                                              ")",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 10)),
+                                      Text(
+                                          "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[1].addedOn ?? '--').toLocal())}"
+                                              " ("
+                                              "${Converteddate("${widget.progressCompletedList.visitDate}")}"
+                                              ")",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 10)),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        height: 50.0,
+                                        child: Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            Container(
+                                              height: 18.0,
+                                              decoration: BoxDecoration(
+                                                color: Colorutils.userdetailcolor,
+                                                borderRadius:
+                                                BorderRadius.circular(10.0),
+                                              ),
+                                            ),
+                                            const Positioned(
+                                              left: 60,
                                               child: CircleAvatar(
-                                                radius: 14.0,
+                                                radius: 16.1,
+                                                backgroundColor: Colors.white,
+                                                child: CircleAvatar(
+                                                  radius: 16.0,
+                                                  backgroundColor:
+                                                  Colorutils.userdetailcolor,
+                                                  child: CircleAvatar(
+                                                    radius: 14.0,
+                                                    backgroundColor: Colors.white,
+                                                    child: CircleAvatar(
+                                                      radius: 11.0,
+                                                      backgroundColor:
+                                                      Colors.green,
+                                                      child: Icon(Icons.check,
+                                                          size: 16.0,
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const Positioned(
+                                              right: 60,
+                                              child: CircleAvatar(
+                                                radius: 16.1,
+                                                backgroundColor: Colors.white,
+                                                child: CircleAvatar(
+                                                  radius: 16.0,
+                                                  backgroundColor:
+                                                  Colorutils.userdetailcolor,
+                                                  child: CircleAvatar(
+                                                    radius: 14.0,
+                                                    backgroundColor: Colors.white,
+                                                    child: CircleAvatar(
+                                                      radius: 11.0,
+                                                      backgroundColor:
+                                                      Colors.green,
+                                                      child: Icon(Icons.check,
+                                                          size: 16.0,
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const Positioned(
+                                              child: Text("Reached",
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                      FontWeight.bold)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 5.0),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 40, right: 30),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "${widget.progressCompletedList.status?[0].visitStatus}",
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                      Text(
+                                        "${widget.progressCompletedList.status?[1].visitStatus}",
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.only(left: 18, right: 18),
+                          child: Container(
+                            height: 40,
+                            child: Row(
+                              children: [
+                                Text(
+                                  "${widget.progressCompletedList.status?[2].visitStatus}",
+                                  style: TextStyle(
+                                      fontSize: 18.w,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  child: SvgPicture.asset(
+                                      "assets/images/Notebook.svg"),
+                                  // child: SvgPicture.asset("assets/images/Frame 849.svg"),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: Container(
+                            padding: EdgeInsets.all(10.0),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20.0),
+                                border: Border.all(
+                                    color: Colors.grey.withOpacity(0.2))
+                              // boxShadow: [
+                              //   BoxShadow(
+                              //     color: Colors.grey,
+                              //     blurRadius: 0.4,
+                              //     offset: Offset(0, 1),
+                              //   ),
+                              // ],
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 30, right: 30),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                          "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[2].addedOn ?? '--').toLocal())}"
+                                              " ("
+                                              "${Converteddate("${widget.progressCompletedList.visitDate}")}"
+                                              ")",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 10)),
+                                      Text(
+                                          "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[3].addedOn ?? '--').toLocal())}"
+                                              " ("
+                                              "${Converteddate("${widget.progressCompletedList.visitDate}")}"
+                                              ")",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 10)),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        height: 50.0,
+                                        child: Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            Container(
+                                              height: 18.0,
+                                              decoration: BoxDecoration(
+                                                color: Colorutils.userdetailcolor,
+                                                borderRadius:
+                                                BorderRadius.circular(10.0),
+                                              ),
+                                            ),
+                                            const Positioned(
+                                              left: 60,
+                                              child: CircleAvatar(
+                                                radius: 16.1,
+                                                backgroundColor: Colors.white,
+                                                child: CircleAvatar(
+                                                  radius: 16.0,
+                                                  backgroundColor:
+                                                  Colorutils.userdetailcolor,
+                                                  child: CircleAvatar(
+                                                    radius: 14.0,
+                                                    backgroundColor: Colors.white,
+                                                    child: CircleAvatar(
+                                                      radius: 11.0,
+                                                      backgroundColor:
+                                                      Colors.green,
+                                                      child: Icon(Icons.check,
+                                                          size: 16.0,
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const Positioned(
+                                              right: 60,
+                                              child: CircleAvatar(
+                                                radius: 16.1,
+                                                backgroundColor: Colors.white,
+                                                child: CircleAvatar(
+                                                  radius: 16.0,
+                                                  backgroundColor:
+                                                  Colorutils.userdetailcolor,
+                                                  child: CircleAvatar(
+                                                    radius: 14.0,
+                                                    backgroundColor: Colors.white,
+                                                    child: CircleAvatar(
+                                                      radius: 11.0,
+                                                      backgroundColor:
+                                                      Colors.green,
+                                                      child: Icon(Icons.check,
+                                                          size: 16.0,
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const Positioned(
+                                              child: Text("Reached",
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                      FontWeight.bold)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 5.0),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 30, right: 40),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("${widget.progressCompletedList.status?[2].visitStatus}",
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                      Text(
+                                        "${widget.progressCompletedList.status?[3].visitStatus}",
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ):
+
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 18, right: 18),
+                          child: Container(
+                            height: 40,
+                            child: Row(
+                              children: [
+                                Text(
+                                  '${widget.progressCompletedList.status?[0].visitStatus}',
+                                  style: TextStyle(
+                                      fontSize: 18.w,
+                                      fontWeight: FontWeight.bold),
+                                  maxLines: 3,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                CircleAvatar(
+                                  radius: 11,
+                                  backgroundColor: Colors.grey.withOpacity(0.1),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Container(
+                                      child: Image.asset(
+                                          "assets/images/icons8-walking-64.png"),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: Container(
+                            padding: EdgeInsets.all(10.0),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20.0),
+                                border: Border.all(
+                                    color: Colors.grey.withOpacity(0.2))
+                              // boxShadow: [
+                              //   BoxShadow(
+                              //     color: Colors.grey,
+                              //     blurRadius: 0.4,
+                              //     offset: Offset(0, 1),
+                              //   ),
+                              // ],
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 30, right: 30),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                          "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[0].addedOn ?? '--').toLocal())}"
+                                              " ("
+                                              "${Converteddate("${widget.progressCompletedList.visitDate}")}"
+                                              ")",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 10)),
+                                      Text(
+                                          "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[1].addedOn ?? '--').toLocal())}"
+                                              " ("
+                                              "${Converteddate("${widget.progressCompletedList.visitDate}")}"
+                                              ")",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 10)),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        height: 50.0,
+                                        child: Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            Container(
+                                              height: 18.0,
+                                              decoration: BoxDecoration(
+                                                color: Colorutils.userdetailcolor,
+                                                borderRadius:
+                                                BorderRadius.circular(10.0),
+                                              ),
+                                            ),
+                                            const Positioned(
+                                              left: 60,
+                                              child: CircleAvatar(
+                                                radius: 16.1,
+                                                backgroundColor: Colors.white,
+                                                child: CircleAvatar(
+                                                  radius: 16.0,
+                                                  backgroundColor:
+                                                  Colorutils.userdetailcolor,
+                                                  child: CircleAvatar(
+                                                    radius: 14.0,
+                                                    backgroundColor: Colors.white,
+                                                    child: CircleAvatar(
+                                                      radius: 11.0,
+                                                      backgroundColor:
+                                                      Colors.green,
+                                                      child: Icon(Icons.check,
+                                                          size: 16.0,
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const Positioned(
+                                              right: 60,
+                                              child: CircleAvatar(
+                                                radius: 16.1,
+                                                backgroundColor: Colors.white,
+                                                child: CircleAvatar(
+                                                  radius: 16.0,
+                                                  backgroundColor:
+                                                  Colorutils.userdetailcolor,
+                                                  child: CircleAvatar(
+                                                    radius: 14.0,
+                                                    backgroundColor: Colors.white,
+                                                    child: CircleAvatar(
+                                                      radius: 11.0,
+                                                      backgroundColor:
+                                                      Colors.green,
+                                                      child: Icon(Icons.check,
+                                                          size: 16.0,
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const Positioned(
+                                              child: Text("Reached",
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                      FontWeight.bold)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 5.0),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 40, right: 30),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "${widget.progressCompletedList.status?[0].visitStatus}",
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                      Text(
+                                        "${widget.progressCompletedList.status?[1].visitStatus}",
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 18, right: 18),
+                          child: Container(
+                            height: 40,
+                            child: Row(
+                              children: [
+                                Text(
+                                  '${widget.progressCompletedList.status?[2].visitStatus}',
+                                  style: TextStyle(
+                                      fontSize: 18.w,
+                                      fontWeight: FontWeight.bold),
+                                  maxLines: 3,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                CircleAvatar(
+                                  radius: 11,
+                                  backgroundColor:
+                                  Colors.grey.withOpacity(0.1),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Container(
+                                      child: Image.asset(
+                                          "assets/images/icons8-walking-64.png"),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, right: 10),
+                          child: Container(
+                            padding: EdgeInsets.all(10.0),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                BorderRadius.circular(20.0),
+                                border: Border.all(
+                                    color: Colors.grey.withOpacity(0.2))
+                              // boxShadow: [
+                              //   BoxShadow(
+                              //     color: Colors.grey,
+                              //     blurRadius: 0.4,
+                              //     offset: Offset(0, 1),
+                              //   ),
+                              // ],
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                        "${DateFormat('HH : mm').format(DateTime.parse(widget.progressCompletedList.status?[2].addedOn ?? '--').toLocal())}"
+                                            " "
+                                            "("
+                                            "${Converteddate("${widget.progressCompletedList.visitDate}")}"
+                                            ")",
+                                        style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 11)),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        height: 50.0,
+                                        child: Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            Container(
+                                              height: 18.0,
+                                              decoration: BoxDecoration(
+                                                color: Colorutils
+                                                    .userdetailcolor,
+                                                borderRadius:
+                                                BorderRadius
+                                                    .circular(10.0),
+                                              ),
+                                            ),
+                                            const Positioned(
+                                              child: CircleAvatar(
+                                                radius: 16.1,
                                                 backgroundColor:
                                                 Colors.white,
                                                 child: CircleAvatar(
-                                                  radius: 11.0,
+                                                  radius: 16.0,
                                                   backgroundColor:
-                                                  Colors.green,
-                                                  child: Icon(
-                                                      Icons.check,
-                                                      size: 16.0,
-                                                      color: Colors
-                                                          .white),
+                                                  Colorutils
+                                                      .userdetailcolor,
+                                                  child: CircleAvatar(
+                                                    radius: 14.0,
+                                                    backgroundColor:
+                                                    Colors.white,
+                                                    child: CircleAvatar(
+                                                      radius: 11.0,
+                                                      backgroundColor:
+                                                      Colors.green,
+                                                      child: Icon(
+                                                          Icons.check,
+                                                          size: 16.0,
+                                                          color: Colors
+                                                              .white),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ),
 
-                                        // Positioned(
-                                        //   child: Text("00:00",
-                                        //       style: TextStyle(
-                                        //           color: Colors.white, fontSize: 10)),
-                                        // ),
-                                      ],
+                                            // Positioned(
+                                            //   child: Text("00:00",
+                                            //       style: TextStyle(
+                                            //           color: Colors.white, fontSize: 10)),
+                                            // ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
+                                  ],
+                                ),
+                                SizedBox(height: 5.0),
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Student ${widget.progressCompletedList.status?[2].visitStatus ?? '--'} from Clinic",
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          fontStyle: FontStyle.italic),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 18, right: 18),
+                          child: Container(
+                            height: 40,
+                            child: Row(
+                              children: [
+                                Text(
+                                  "${widget.progressCompletedList.status?[3].visitStatus}",
+                                  style: TextStyle(
+                                      fontSize: 18.w,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  child: SvgPicture.asset(
+                                      "assets/images/Notebook.svg"),
+                                  // child: SvgPicture.asset("assets/images/Frame 849.svg"),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: Container(
+                            padding: EdgeInsets.all(10.0),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20.0),
+                                border: Border.all(
+                                    color: Colors.grey.withOpacity(0.2))
+                              // boxShadow: [
+                              //   BoxShadow(
+                              //     color: Colors.grey,
+                              //     blurRadius: 0.4,
+                              //     offset: Offset(0, 1),
+                              //   ),
+                              // ],
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 30, right: 30),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                          "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[3].addedOn ?? '--').toLocal())}"
+                                              " ("
+                                              "${Converteddate("${widget.progressCompletedList.visitDate}")}"
+                                              ")",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 10)),
+                                      Text(
+                                          "${DateFormat("HH : mm").format(DateTime.parse(widget.progressCompletedList.status?[4].addedOn ?? '--').toLocal())}"
+                                              " ("
+                                              "${Converteddate("${widget.progressCompletedList.visitDate}")}"
+                                              ")",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 10)),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        height: 50.0,
+                                        child: Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            Container(
+                                              height: 18.0,
+                                              decoration: BoxDecoration(
+                                                color: Colorutils.userdetailcolor,
+                                                borderRadius:
+                                                BorderRadius.circular(10.0),
+                                              ),
+                                            ),
+                                            const Positioned(
+                                              left: 60,
+                                              child: CircleAvatar(
+                                                radius: 16.1,
+                                                backgroundColor: Colors.white,
+                                                child: CircleAvatar(
+                                                  radius: 16.0,
+                                                  backgroundColor:
+                                                  Colorutils.userdetailcolor,
+                                                  child: CircleAvatar(
+                                                    radius: 14.0,
+                                                    backgroundColor: Colors.white,
+                                                    child: CircleAvatar(
+                                                      radius: 11.0,
+                                                      backgroundColor:
+                                                      Colors.green,
+                                                      child: Icon(Icons.check,
+                                                          size: 16.0,
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const Positioned(
+                                              right: 60,
+                                              child: CircleAvatar(
+                                                radius: 16.1,
+                                                backgroundColor: Colors.white,
+                                                child: CircleAvatar(
+                                                  radius: 16.0,
+                                                  backgroundColor:
+                                                  Colorutils.userdetailcolor,
+                                                  child: CircleAvatar(
+                                                    radius: 14.0,
+                                                    backgroundColor: Colors.white,
+                                                    child: CircleAvatar(
+                                                      radius: 11.0,
+                                                      backgroundColor:
+                                                      Colors.green,
+                                                      child: Icon(Icons.check,
+                                                          size: 16.0,
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const Positioned(
+                                              child: Text("Reached",
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                      FontWeight.bold)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 5.0),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 30, right: 40),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("${widget.progressCompletedList.status?[3].visitStatus}",
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                      Text(
+                                        "${widget.progressCompletedList.status?[4].visitStatus}",
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
-                            SizedBox(height: 5.0),
-                            Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Student ${progressCompletedList.status?[2].visitStatus ?? '--'} from Clinic",
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontStyle: FontStyle.italic),
-                                ),
-                              ],
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 18, right: 18),
-                      child: Container(
-                        height: 40,
-                        child: Row(
-                          children: [
-                            Text(
-                              "${progressCompletedList.status?[3].visitStatus}",
-                              style: TextStyle(
-                                  fontSize: 18.w,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              child: SvgPicture.asset(
-                                  "assets/images/Notebook.svg"),
-                              // child: SvgPicture.asset("assets/images/Frame 849.svg"),
-                            )
-                          ],
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            ontap = !ontap;
+                          });
+                        },
+                        child: Container(
+                          height: 40,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                "Remarks",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colorutils.userdetailcolor,
+                                    fontStyle: FontStyle.italic),
+                              ),
+                              SizedBox(
+                                width: 2,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Icon(
+                                  ontap == true
+                                      ? Icons.arrow_drop_down
+                                      : Icons.arrow_drop_up,
+                                  // Change icon based on ontap value
+                                  color: Colorutils.userdetailcolor,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Container(
-                        padding: EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20.0),
-                            border: Border.all(
-                                color: Colors.grey.withOpacity(0.2))
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: Colors.grey,
-                          //     blurRadius: 0.4,
-                          //     offset: Offset(0, 1),
-                          //   ),
-                          // ],
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 30, right: 30),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                      "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[3].addedOn ?? '--').toLocal())}"
-                                          " ("
-                                          "${Converteddate("${progressCompletedList.visitDate}")}"
-                                          ")",
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 10)),
-                                  Text(
-                                      "${DateFormat("HH : mm").format(DateTime.parse(progressCompletedList.status?[4].addedOn ?? '--').toLocal())}"
-                                          " ("
-                                          "${Converteddate("${progressCompletedList.visitDate}")}"
-                                          ")",
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 10)),
-                                ],
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 50.0,
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Container(
-                                          height: 18.0,
-                                          decoration: BoxDecoration(
-                                            color: Colorutils.userdetailcolor,
-                                            borderRadius:
-                                            BorderRadius.circular(10.0),
-                                          ),
-                                        ),
-                                        const Positioned(
-                                          left: 60,
-                                          child: CircleAvatar(
-                                            radius: 16.1,
-                                            backgroundColor: Colors.white,
-                                            child: CircleAvatar(
-                                              radius: 16.0,
-                                              backgroundColor:
-                                              Colorutils.userdetailcolor,
-                                              child: CircleAvatar(
-                                                radius: 14.0,
-                                                backgroundColor: Colors.white,
-                                                child: CircleAvatar(
-                                                  radius: 11.0,
-                                                  backgroundColor:
-                                                  Colors.green,
-                                                  child: Icon(Icons.check,
-                                                      size: 16.0,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const Positioned(
-                                          right: 60,
-                                          child: CircleAvatar(
-                                            radius: 16.1,
-                                            backgroundColor: Colors.white,
-                                            child: CircleAvatar(
-                                              radius: 16.0,
-                                              backgroundColor:
-                                              Colorutils.userdetailcolor,
-                                              child: CircleAvatar(
-                                                radius: 14.0,
-                                                backgroundColor: Colors.white,
-                                                child: CircleAvatar(
-                                                  radius: 11.0,
-                                                  backgroundColor:
-                                                  Colors.green,
-                                                  child: Icon(Icons.check,
-                                                      size: 16.0,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const Positioned(
-                                          child: Text("Reached",
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 12,
-                                                  fontWeight:
-                                                  FontWeight.bold)),
-                                        ),
-                                      ],
-                                    ),
+                    ontap == true
+                        ? Padding(
+                      padding:
+                      const EdgeInsets.only(left: 10, right: 10),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Container(
+                          child: TextFormField(
+                            controller: controller1,
+                            readOnly: true,
+                            decoration: InputDecoration(
+                                hintStyle:
+                                TextStyle(color: Colors.black26),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 10.0),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(15.0),
                                   ),
                                 ),
-                              ],
-                            ),
-                            const SizedBox(height: 5.0),
-                            Padding(
-                              padding: EdgeInsets.only(left: 30, right: 40),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("${progressCompletedList.status?[3].visitStatus}",
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  Text(
-                                    "${progressCompletedList.status?[4].visitStatus}",
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colorutils.chatcolor,
+                                      width: 1.0),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(15)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colorutils.chatcolor,
+                                      width: 1.0),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(15.0)),
+                                ),
+                                fillColor: Colorutils.chatcolor
+                                    .withOpacity(0.2),
+                                filled: true),
+                            maxLines: 5,
+                          ),
+                          height: 80,
                         ),
                       ),
-                    ),
-                  ],
-                )
+                    )
+                        : SizedBox()
+              ],
+            ),
+
+
 
 
               ],

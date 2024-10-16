@@ -117,8 +117,7 @@ class _TrackingpageHodState extends State<TrackingpageHod>
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      Ownhistory()));
+                                  builder: (context) => Ownhistory()));
                         },
                         child: Row(
                           children: [
@@ -192,30 +191,31 @@ class _TrackingpageHodState extends State<TrackingpageHod>
                       ),
                       Tab(
                         child: GetX<Hosallstudentslistcontroller>(
-
                           builder: (Hosallstudentslistcontroller controller) {
-                            List<Datas> sendStudentsData = controller.recentData.value;
+                            List<Datas> sendStudentsData =
+                                controller.recentData.value;
                             print(".......sdjhhs${sendStudentsData.length}");
-                            return  Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('ALL LIST', style: TextStyle(fontSize: 13)),
-                              SizedBox(width: 5),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: tabValue == 1
-                                      ? Colorutils.userdetailcolor
-                                      : Colors.grey,
-                                  borderRadius: BorderRadius.circular(5),
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('ALL LIST',
+                                    style: TextStyle(fontSize: 13)),
+                                SizedBox(width: 5),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 2),
+                                  decoration: BoxDecoration(
+                                    color: tabValue == 1
+                                        ? Colorutils.userdetailcolor
+                                        : Colors.grey,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Text("${sendStudentsData.length}",
+                                      style: TextStyle(color: Colors.white)),
                                 ),
-                                child: Text("${sendStudentsData.length}",
-                                    style: TextStyle(color: Colors.white)),
-                              ),
-                            ],
-                          );},
-
+                              ],
+                            );
+                          },
                         ),
                       ),
                     ],
@@ -237,11 +237,14 @@ class _TrackingpageHodState extends State<TrackingpageHod>
                                 shrinkWrap: true,
                                 padding: const EdgeInsets.only(bottom: 30),
                                 itemCount: sendStudentsData.length,
-                                itemBuilder: (context, index) => trackingcontainer(
-                                    sendStudentList: sendStudentsData[index],
-                                    startTime: DateTime.parse(
-                                            "${sendStudentsData[index].status?.last.addedOn}")
-                                        .toLocal(), index1: index,))
+                                itemBuilder: (context, index) =>
+                                    trackingcontainer(
+                                      sendStudentList: sendStudentsData[index],
+                                      startTime: DateTime.parse(
+                                              "${sendStudentsData[index].status?.last.addedOn}")
+                                          .toLocal(),
+                                      index1: index,
+                                    ))
                             : Center(
                                 child: Text(
                                   "Oops..No Data Found",
@@ -276,8 +279,12 @@ class trackingcontainer extends StatefulWidget {
   final DateTime startTime;
   final int index1;
 
-  const trackingcontainer(
-      {super.key, required this.sendStudentList, required this.startTime, required this.index1,});
+  const trackingcontainer({
+    super.key,
+    required this.sendStudentList,
+    required this.startTime,
+    required this.index1,
+  });
 
   @override
   State<trackingcontainer> createState() => _trackingcontainerState();
@@ -294,45 +301,40 @@ class _trackingcontainerState extends State<trackingcontainer> {
     super.initState();
 
     endTime = widget.startTime.add(Duration(seconds: countdownDuration));
-    (widget.index1 == 0 && widget.sendStudentList.status?.length == 1 ) ? WidgetsBinding.instance.addPostFrameCallback((_) {
-      print("fjidjdff = ${widget.index1}");
-      TeacherAppPopUps.Trackingpop(
-          title: "Student Coming!",
-          message:
-          "${widget.sendStudentList.studentName} ,${" from Grade"
-              " "
-              "${widget.sendStudentList.classs}"
-              " "
-              "${widget.sendStudentList.batch}"} on way, Sent By ${widget.sendStudentList.status?.first.sentBy}",
-          actionName: "Track",
-          iconColor: Colors.green,
-          timeText: '', sendername:"${widget.sendStudentList.studentName}");
-    }): WidgetsBinding.instance.addPostFrameCallback((_) {
-      print("fjidjdff = ${widget.index1}");
-      widget.index1 == 0?  TeacherAppPopUps.Trackingpoplate(
-          title: "Late Alert",
-          message:
-          "${widget.sendStudentList.studentName} ${"has not reached yet."}",
-          actionName: "Track",
-          iconColor: Colors.green,
-          timeText: '', sendername: '${widget.sendStudentList.studentName}'):();
-    });
+    // (widget.index1 == 0 && widget.sendStudentList.status?.length == 1 ) ? WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   print("fjidjdff = ${widget.index1}");
+    //   TeacherAppPopUps.Trackingpop(
+    //       title: "Student Coming!",
+    //       message:
+    //       "${widget.sendStudentList.studentName} ,${" from Grade"
+    //           " "
+    //           "${widget.sendStudentList.classs}"
+    //           " "
+    //           "${widget.sendStudentList.batch}"} on way, Sent By ${widget.sendStudentList.status?.first.sentBy}",
+    //       actionName: "Track",
+    //       iconColor: Colors.green,
+    //       timeText: '', sendername:"${widget.sendStudentList.studentName}");
+    // }): WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   print("fjidjdff = ${widget.index1}");
+    //   widget.index1 == 0?  TeacherAppPopUps.Trackingpoplate(
+    //       title: "Late Alert",
+    //       message:
+    //       "${widget.sendStudentList.studentName} ${"has not reached yet."}",
+    //       actionName: "Track",
+    //       iconColor: Colors.green,
+    //       timeText: '', sendername: '${widget.sendStudentList.studentName}'):();
+    // });
 
     if (widget.sendStudentList.status?.length == 1 ||
         widget.sendStudentList.status?.length == 3) {
       startTimer();
-
-
     }
   }
 
   String? startTimer() {
-
-
     int remainingTime = endTime.difference(DateTime.now()).inSeconds;
 
     bool text = false;
-
 
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       print("rebuild...brbggh.....$timer.............");
@@ -345,20 +347,20 @@ class _trackingcontainerState extends State<trackingcontainer> {
         }
 
         if (DateTime.now().isBefore(endTime)) {
-
           text = false;
         } else {
           if (DateTime.now().isAfter(endTime) &&
               DateTime.now()
                   .isBefore(endTime.add(const Duration(seconds: 1)))) {
             _playAlertSoundAndVibrate();
-            TeacherAppPopUps.Trackingpoplate(
-                title: "Late Alert",
-                message:
-                    "${widget.sendStudentList.studentName} ${"has not reached yet."}",
-                actionName: "Track",
-                iconColor: Colors.green,
-                timeText: '', sendername: '${widget.sendStudentList.studentName}');
+            // TeacherAppPopUps.Trackingpoplate(
+            //     title: "Late Alert",
+            //     message:
+            //         "${widget.sendStudentList.studentName} ${"has not reached yet."}",
+            //     actionName: "Track",
+            //     iconColor: Colors.green,
+            //     timeText: '',
+            //     sendername: '${widget.sendStudentList.studentName}');
             print("..........................bellssls");
           }
           timer.cancel();
@@ -418,8 +420,7 @@ class _trackingcontainerState extends State<trackingcontainer> {
                       backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child:
-                            SvgPicture.asset("assets/images/profileOne.svg"),
+                        child: SvgPicture.asset("assets/images/profileOne.svg"),
                       ),
                     ),
                     SizedBox(
@@ -433,8 +434,7 @@ class _trackingcontainerState extends State<trackingcontainer> {
                           width: 200.w,
                           child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
-                            child: Text(
-                                "${widget.sendStudentList.studentName}",
+                            child: Text("${widget.sendStudentList.studentName}",
                                 style: GoogleFonts.inter(
                                     textStyle: TextStyle(
                                         fontSize: 16.sp,
@@ -463,7 +463,7 @@ class _trackingcontainerState extends State<trackingcontainer> {
                             )),
                       ],
                     ),
-                   Spacer(),
+                    Spacer(),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
@@ -759,7 +759,8 @@ class _TrackingContainerState extends State<TrackingContainer> {
                                   "Lucas ,from Grade 6D on way!, Sent By Emma Taylor",
                               actionName: "Track",
                               iconColor: Colors.green,
-                              timeText: '4.00', sendername: '');
+                              timeText: '4.00',
+                              sendername: '');
                         },
                         child: CircleAvatar(
                           radius: 20,
