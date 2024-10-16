@@ -17,6 +17,7 @@ import '../Controller/api_controllers/notificationController.dart';
 import '../Controller/api_controllers/obsResultController.dart';
 import '../Controller/api_controllers/parentChatController.dart';
 import '../Controller/api_controllers/parentChatListController.dart';
+import '../Controller/api_controllers/popUpContoller.dart';
 import '../Controller/api_controllers/qrController.dart';
 import '../Controller/api_controllers/recentDateListApiController.dart';
 import '../Controller/api_controllers/recentListApiController.dart';
@@ -64,6 +65,7 @@ class HandleControllers {
     Get.put(Hosstudentupdatecontroller());
     Get.put(Hosallstudentslistcontroller());
     Get.put(Ownhistorycontroller());
+    Get.put(Popupcontoller());
   }
 
   static deleteAllGetControllers() {
@@ -97,5 +99,6 @@ class HandleControllers {
     Get.delete<Hosstudentupdatecontroller>();
     Get.delete<Hosallstudentslistcontroller>();
     Get.delete<Ownhistorycontroller>();
+    Get.delete<Popupcontoller>();
   }
 }

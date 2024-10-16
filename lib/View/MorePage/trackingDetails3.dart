@@ -24,7 +24,6 @@ class _trackingDetails3State extends State<trackingDetails3> {
   TextEditingController controller1 = TextEditingController();
 
   bool ontap = false;
-  bool ontap12 = false;
 
   @override
   Widget build(BuildContext context) {

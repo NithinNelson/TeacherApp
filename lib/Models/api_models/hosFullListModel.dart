@@ -77,10 +77,11 @@ class Datas {
   String? batch;
   String? visitDate;
   String? visitStatus;
+  String? remarks;
   bool? isprogress;
   List<Statuss>? status;
 
-  Datas({this.id, this.studentName, this.classs, this.batch, this.visitDate, this.visitStatus, this.isprogress, this.status});
+  Datas({this.id, this.studentName, this.classs, this.batch, this.visitDate, this.visitStatus,this.remarks, this.isprogress, this.status});
 
   Datas.fromJson(Map<String, dynamic> json) {
   id = json['id'];
@@ -89,6 +90,7 @@ class Datas {
   batch = json['batch'];
   visitDate = json['visit_date'];
   visitStatus = json['visit_status'];
+  remarks = json['remarks'];
   isprogress = json['isprogress'];
   if (json['status'] != null) {
   status = <Statuss>[];
@@ -104,6 +106,7 @@ class Datas {
   data['batch'] = this.batch;
   data['visit_date'] = this.visitDate;
   data['visit_status'] = this.visitStatus;
+  data['remarks'] = this.remarks;
   data['isprogress'] = this.isprogress;
   if (this.status != null) {
   data['status'] = this.status!.map((v) => v.toJson()).toList();

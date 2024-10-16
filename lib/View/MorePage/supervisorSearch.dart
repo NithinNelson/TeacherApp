@@ -16,7 +16,7 @@ import '../Leave_Page/Approve_Rejected.dart';
 import '../Leave_Page/Approved_leave.dart';
 
 class Supervisorsearch extends StatefulWidget {
-  final Function(String) selectedName;
+  final Function(Users) selectedName;
 
   const Supervisorsearch({super.key, required this.selectedName});
 
@@ -26,14 +26,33 @@ class Supervisorsearch extends StatefulWidget {
 
 class _SupervisorsearchState extends State<Supervisorsearch>
     with SingleTickerProviderStateMixin {
+  bool select1=false;
+  bool select2=false;
+  bool select3=false;  bool select4=false;
+  bool select5=false;
   late TabController _tabController1;
 
   @override
   void initState() {
     super.initState();
-    _tabController1 = TabController(length: 3, vsync: this);
+    _tabController1 = TabController(length: 5, vsync: this);
     initialize();
-    _tabController1.addListener(() {});
+    setState(() {
+      select1=_tabController1.index ==0;
+      select2=_tabController1.index ==1;
+      select3=_tabController1.index ==2;
+      select4=_tabController1.index ==3;
+      select5=_tabController1.index ==4;
+    });
+    _tabController1.addListener(() {
+      setState(() {
+        select1=_tabController1.index ==0;
+        select2=_tabController1.index ==1;
+        select3=_tabController1.index ==2;
+        select4=_tabController1.index ==3;
+        select5=_tabController1.index ==4;
+      });
+    });
   }
 
   @override
@@ -51,6 +70,7 @@ class _SupervisorsearchState extends State<Supervisorsearch>
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       body: SafeArea(
@@ -89,26 +109,16 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                 decoration: BoxDecoration(
                   color: Colors.white,
 
-                  borderRadius: BorderRadius.circular(15),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(3.0),
                   child: TabBar(
                     padding: EdgeInsets.zero,
-                    indicator: BoxDecoration(
-                      // color: _tabController1.index == 0 ? Colors.red[500] : Colors.grey[500],
-                      // color: Colors.grey[500],
-                      color: Colors.red[500],
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    indicatorColor: Colors.red,
-                    labelColor: Colorutils.white,
-                    unselectedLabelColor: Colorutils.white,
+                    indicator: BoxDecoration(),
                     dividerHeight: 0,
                     isScrollable: true,
                     tabAlignment: TabAlignment.start,
                     indicatorPadding: EdgeInsets.zero,
-
                     // indicator: BoxDecoration(),
                     controller: _tabController1,
                     labelPadding: EdgeInsets.symmetric(horizontal: 5),
@@ -116,10 +126,9 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                       Tab(
                         child: Container(
                           height: 40.h,
-                          width: (ScreenUtil().screenWidth - 66) * 2 / 6,
+                          width: (ScreenUtil().screenWidth - 66) * 1 / 4,
                           decoration: BoxDecoration(
-                            // color: _tabController1.index == 0 ? Colors.red[500] : Colors.grey[500],
-                            color: Colors.transparent,
+                            color: select1?Colorutils.bottomnaviconcolor : Colors.grey[500],
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: Center(
@@ -137,10 +146,9 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                       Tab(
                         child: Container(
                           height: 40.h,
-                          width: (ScreenUtil().screenWidth - 66) * 2 / 6,
+                          width: (ScreenUtil().screenWidth - 66) *  1 / 4,
                           decoration: BoxDecoration(
-                            // color: Colors.grey[500],
-                            borderRadius: BorderRadius.circular(15),
+                            color: select2?Colorutils.bottomnaviconcolor : Colors.grey[500],                              borderRadius: BorderRadius.circular(15),
                           ),
                           child: Center(
                             child: Text(
@@ -157,14 +165,51 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                       Tab(
                         child: Container(
                           height: 40.h,
-                          width: (ScreenUtil().screenWidth - 66) * 2 / 6,
+                          width: (ScreenUtil().screenWidth - 66) * 1 /4 ,
                           decoration: BoxDecoration(
-                            // color: Colors.grey[500],
-                            borderRadius: BorderRadius.circular(15),
+                            color: select3?Colorutils.bottomnaviconcolor : Colors.grey[500],                              borderRadius: BorderRadius.circular(15),
                           ),
                           child: Center(
                             child: Text(
                               "SUPERVISOR",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.h,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: Container(
+                          height: 40.h,
+                          width: (ScreenUtil().screenWidth - 66) *  1.5 / 4,
+                          decoration: BoxDecoration(
+                            color: select4?Colorutils.bottomnaviconcolor : Colors.grey[500],                              borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "PRINCIPAL",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.h,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: Container(
+                          height: 40.h,
+                          width: (ScreenUtil().screenWidth - 66) *  1.5 / 4,
+                          decoration: BoxDecoration(
+                            color: select5?Colorutils.bottomnaviconcolor : Colors.grey[500],                              borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "VICE PRINCIPAL",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12.h,
@@ -189,6 +234,9 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                     List<Users> Hoslist = controller.hosdata;
                     List<Users> Hodlist = controller.hoddata;
                     List<Users> Supervisorlist = controller.supervisordata;
+                    List<Users> Principallist = controller.principaldata;
+                    List<Users> Viceprincipallist = controller.viceprincidata;
+
                     return TabBarView(
                       controller: _tabController1,
                       children: [Expanded(
@@ -198,12 +246,17 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                             itemCount:
                             Hoslist.length,
                             itemBuilder: (context, index) =>
-                                listcontainer1(
-                                    HosList:
-                                    Hoslist[
-                                    index], text: (p0) {
-                                      widget.selectedName(p0);
-                                    },)),
+                                GestureDetector(
+
+                                  child: listcontainer1(
+                                      HosList:
+                                      Hoslist[
+                                      index]),
+                                  onTap: (){
+                                    widget.selectedName(Hoslist[index]);Navigator.of(context).pop();
+                                    print(".......benxxrx.......${widget.selectedName(Hoslist[index])}");
+                                  },
+                                )),
 
 
                       ),
@@ -215,12 +268,15 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                               itemCount:
                               Hodlist.length,
                               itemBuilder: (context, index) =>
-                                  listcontainer2(
-                                      HosList:
-                                      Hodlist[
-                                      index], text: (p0) {
-                                    widget.selectedName(p0);
-                                  },)),
+                                  GestureDetector(
+                                    onTap: (){
+                                      widget.selectedName(Hoslist[index]);Navigator.of(context).pop();
+                                    },
+                                    child: listcontainer1(
+                                        HosList:
+                                        Hodlist[
+                                        index]),
+                                  )),
 
 
                         ),
@@ -233,12 +289,61 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                               itemCount:
                               Supervisorlist.length,
                               itemBuilder: (context, index) =>
-                                  listcontainer3(
+                                  GestureDetector(
+                                    onTap: (){
+                                      widget.selectedName(Hoslist[index]);Navigator.of(context).pop();
+                                    },
+                                    child: listcontainer1(
                                       HosList:
                                       Supervisorlist[
-                                      index], text: (p0) {
-                                    widget.selectedName(p0);
-                                  },)
+                                      index],),
+                                  )
+                          ),
+
+
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+
+
+                              padding:
+                              const EdgeInsets.only(bottom: 70),
+                              itemCount:
+                              Principallist.length,
+                              itemBuilder: (context, index) =>
+                                  GestureDetector(
+                                    onTap: (){
+                                      widget.selectedName(Hoslist[index]);Navigator.of(context).pop();
+                                      print(".......benxxx.......${widget.selectedName(Hoslist[index])}");
+                                    },
+                                    child: listcontainer1(
+                                      HosList:
+                                      Principallist[
+                                      index]),
+
+                                  )
+                          ),
+
+
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+
+
+                              padding:
+                              const EdgeInsets.only(bottom: 70),
+                              itemCount:
+                              Viceprincipallist.length,
+                              itemBuilder: (context, index) =>
+                                  GestureDetector(
+                                    onTap: (){
+                                      widget.selectedName(Hoslist[index]);Navigator.of(context).pop();
+                                    },
+                                    child: listcontainer1(
+                                      HosList:
+                                      Viceprincipallist[
+                                      index]),
+                                  )
                           ),
 
 
@@ -259,195 +364,59 @@ class _SupervisorsearchState extends State<Supervisorsearch>
 
 class listcontainer1 extends StatelessWidget {
   final Users HosList;
-  final Function(String) text;
 
-  const listcontainer1({super.key, required this.HosList, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 12, right: 12, top: 8),
-      child: GestureDetector(
-        onTap: (){
-          text("${HosList.name}");
-          Navigator.of(context).pop();
-        },
-        child: Container(
-          // height: 70.h,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: Colors.white,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-
-
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 270.w,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Center(
-                          child: Text("${HosList.name?.toUpperCase()}",
-                              style: GoogleFonts.inter(
-                                  textStyle: TextStyle(
-                                      fontSize: 16.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600))),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-
-                  ],
-                ),
-
-              ],
-            ),
-          ),
-
-
-        ),
-      ),
-    );
-  }
-}
-
-class listcontainer2 extends StatelessWidget {
-  final Function(String) text;
-  final Users HosList;
-
-  const listcontainer2({super.key, required this.HosList, required this.text,});
+  const listcontainer1({super.key, required this.HosList,});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 12, right: 12, top: 8),
-      child: GestureDetector(
-        onTap: (){
-          text("${HosList.name}");
-          Navigator.of(context).pop();
-        },
-        child: Container(
-          // height: 70.h,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: Colors.white,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
+      child: Container(
+        // height: 70.h,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.white,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
 
 
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 270.w,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Center(
-                          child: Text("${HosList.name}",
-                              style: GoogleFonts.inter(
-                                  textStyle: TextStyle(
-                                      fontSize: 16.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600))),
-                        ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 270.w,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Center(
+                        child: Text("${HosList.name?.toUpperCase()}",
+                            style: GoogleFonts.inter(
+                                textStyle: TextStyle(
+                                    fontSize: 16.sp,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600))),
                       ),
                     ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
+                  ),
+                  SizedBox(
+                    height: 5.h,
+                  ),
 
-                  ],
-                ),
+                ],
+              ),
 
-              ],
-            ),
+            ],
           ),
-
-
         ),
+
+
       ),
     );
   }
 }
 
-class listcontainer3 extends StatelessWidget {
-  final Function(String) text;
-  final Users HosList;
-
-  listcontainer3({super.key, required this.HosList, required this.text,});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 12, right: 12, top: 8),
-      child: GestureDetector(
-        onTap: (){
-          text("${HosList.name}");
-          Navigator.of(context).pop();
-        },
-        child: Container(
-          // height: 70.h,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: Colors.white,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-
-
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 270.w,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Center(
-                          child: Text("${HosList.name}",
-                              style: GoogleFonts.inter(
-                                  textStyle: TextStyle(
-                                      fontSize: 16.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600))),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-
-                  ],
-                ),
-
-              ],
-            ),
-          ),
-
-
-        ),
-      ),
-    );
-  }
-}

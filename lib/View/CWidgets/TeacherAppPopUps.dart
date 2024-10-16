@@ -10,6 +10,7 @@ import 'package:teacherapp/Utils/font_util.dart';
 import 'package:teacherapp/View/Login_page/login.dart';
 
 import '../../Services/controller_handling.dart';
+import '../MorePage/more_page.dart';
 
 class TeacherAppPopUps {
   static final TeacherAppPopUps _instance = TeacherAppPopUps._internal();
@@ -314,7 +315,7 @@ class TeacherAppPopUps {
 
           GestureDetector(
             onTap: (){
-              Get.back();
+              Get.to(MorePage());
             },
             child: Container(
 
@@ -531,7 +532,7 @@ class TeacherAppPopUps {
 
           GestureDetector(
             onTap: (){
-              Get.back();
+              Get.to(MorePage());
             },
             child: Container(
 

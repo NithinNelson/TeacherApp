@@ -24,10 +24,14 @@ class HosHistoryTracking extends StatefulWidget {
 }
 
 class _HosHistoryTrackingState extends State<HosHistoryTracking> {
+  TextEditingController controller1 = TextEditingController();
+
   bool ontap = false;
 
   @override
   Widget build(BuildContext context) {
+    controller1 =
+        TextEditingController(text: widget.Studentdats.remarks);
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       body: SafeArea(
@@ -259,7 +263,7 @@ class _HosHistoryTrackingState extends State<HosHistoryTracking> {
                 padding: const EdgeInsets.only(bottom: 20),
                 child: Container(
                   child: TextFormField(
-
+controller: controller1,
                     readOnly: true,
                     decoration: InputDecoration(
                         hintStyle:

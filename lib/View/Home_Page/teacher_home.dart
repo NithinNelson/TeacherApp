@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:teacherapp/Controller/api_controllers/timeTableController.dart';
 import 'package:teacherapp/View/Home_Page/Home_Widgets/my_class.dart';
+import '../../Controller/api_controllers/popUpContoller.dart';
 import 'Home_Widgets/class_list.dart';
 import 'Home_Widgets/subject_list.dart';
 import 'Home_Widgets/time_table.dart';
@@ -25,7 +26,11 @@ class _TeacherState extends State<Teacher> {
 
   @override
   void initState() {
+
+
     initialize();
+    Get.find<Popupcontoller>().fetchAllStudentDateList();
+    print("-------------brinesg print-here---");
     super.initState();
   }
 
