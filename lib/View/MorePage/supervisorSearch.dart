@@ -5,6 +5,7 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/View/MorePage/scanData.dart';
 
 import '../../Controller/api_controllers/hierarchController.dart';
@@ -94,11 +95,20 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                   padding: const EdgeInsets.all(3.0),
                   child: TabBar(
                     padding: EdgeInsets.zero,
-                    indicator: BoxDecoration(),
+                    indicator: BoxDecoration(
+                      // color: _tabController1.index == 0 ? Colors.red[500] : Colors.grey[500],
+                      // color: Colors.grey[500],
+                      color: Colors.red[500],
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    indicatorColor: Colors.red,
+                    labelColor: Colorutils.white,
+                    unselectedLabelColor: Colorutils.white,
                     dividerHeight: 0,
                     isScrollable: true,
                     tabAlignment: TabAlignment.start,
                     indicatorPadding: EdgeInsets.zero,
+
                     // indicator: BoxDecoration(),
                     controller: _tabController1,
                     labelPadding: EdgeInsets.symmetric(horizontal: 5),
@@ -108,8 +118,8 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                           height: 40.h,
                           width: (ScreenUtil().screenWidth - 66) * 2 / 6,
                           decoration: BoxDecoration(
-                            // color: controller.currentTab.value == 0 ? Colors.red[500] : Colors.grey[500],
-                            color: Colors.grey[500],
+                            // color: _tabController1.index == 0 ? Colors.red[500] : Colors.grey[500],
+                            color: Colors.transparent,
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: Center(
@@ -129,7 +139,7 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                           height: 40.h,
                           width: (ScreenUtil().screenWidth - 66) * 2 / 6,
                           decoration: BoxDecoration(
-                            color: Colors.grey[500],
+                            // color: Colors.grey[500],
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: Center(
@@ -149,7 +159,7 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                           height: 40.h,
                           width: (ScreenUtil().screenWidth - 66) * 2 / 6,
                           decoration: BoxDecoration(
-                            color: Colors.grey[500],
+                            // color: Colors.grey[500],
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: Center(
