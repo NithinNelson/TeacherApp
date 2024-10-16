@@ -9,6 +9,7 @@ import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
 import 'package:teacherapp/View/Login_page/login.dart';
 
+import '../../Controller/ui_controllers/page_controller.dart';
 import '../../Services/controller_handling.dart';
 import '../MorePage/more_page.dart';
 
@@ -315,7 +316,9 @@ class TeacherAppPopUps {
 
           GestureDetector(
             onTap: (){
-              Get.to(MorePage());
+              Get.back();
+              PageIndexController pageSwitchController = Get.find<PageIndexController>();
+              pageSwitchController.changePage(currentPage: pageSwitchController.navLength.value - 1);
             },
             child: Container(
 

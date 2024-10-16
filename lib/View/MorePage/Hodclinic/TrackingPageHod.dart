@@ -53,9 +53,11 @@ class _TrackingpageHodState extends State<TrackingpageHod>
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     Get.find<Hosstudentlistcontroller>().fetchHosStudentList(DateTime.now());
+
     Get.find<Hosallstudentslistcontroller>().fetchAllStudentDateList();
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
@@ -339,12 +341,12 @@ class _trackingcontainerState extends State<trackingcontainer> {
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       print("rebuild...brbggh.....$timer.............");
       setState(() {
-        if (DateTime.now().isBefore(endTime)) {
-          text = false;
-        } else {
-          timer.cancel();
-          text = true;
-        }
+        // if (DateTime.now().isBefore(endTime)) {
+        //   text = false;
+        // } else {
+        //   timer.cancel();
+        //   text = true;
+        // }
 
         if (DateTime.now().isBefore(endTime)) {
           text = false;
@@ -391,8 +393,8 @@ class _trackingcontainerState extends State<trackingcontainer> {
     return Padding(
       padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8, top: 4),
       child: GestureDetector(
-        onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
+        onTap: () async {
+          await Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => Trackingdetailshod(
                     sendStudentList: widget.sendStudentList,
                     starttime: DateTime.parse(
@@ -519,7 +521,7 @@ class _trackingcontainerState extends State<trackingcontainer> {
                                 "${widget.sendStudentList.batch}",
                                 style: GoogleFonts.inter(
                                     textStyle: TextStyle(
-                                        fontSize: 12.sp,
+                                        fontSize: 11.sp,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold))),
                           ],

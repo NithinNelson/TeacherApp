@@ -270,7 +270,7 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                               itemBuilder: (context, index) =>
                                   GestureDetector(
                                     onTap: (){
-                                      widget.selectedName(Hoslist[index]);Navigator.of(context).pop();
+                                      widget.selectedName(Hodlist[index]);Navigator.of(context).pop();
                                     },
                                     child: listcontainer1(
                                         HosList:
@@ -291,7 +291,7 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                               itemBuilder: (context, index) =>
                                   GestureDetector(
                                     onTap: (){
-                                      widget.selectedName(Hoslist[index]);Navigator.of(context).pop();
+                                      widget.selectedName(Supervisorlist[index]);Navigator.of(context).pop();
                                     },
                                     child: listcontainer1(
                                       HosList:
@@ -313,8 +313,8 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                               itemBuilder: (context, index) =>
                                   GestureDetector(
                                     onTap: (){
-                                      widget.selectedName(Hoslist[index]);Navigator.of(context).pop();
-                                      print(".......benxxx.......${widget.selectedName(Hoslist[index])}");
+                                      widget.selectedName(Principallist[index]);Navigator.of(context).pop();
+                                      print(".......benxxx.......${Principallist[index]}");
                                     },
                                     child: listcontainer1(
                                       HosList:
@@ -337,7 +337,8 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                               itemBuilder: (context, index) =>
                                   GestureDetector(
                                     onTap: (){
-                                      widget.selectedName(Hoslist[index]);Navigator.of(context).pop();
+                                      widget.selectedName(Viceprincipallist[
+                                      index]);Navigator.of(context).pop();
                                     },
                                     child: listcontainer1(
                                       HosList:
@@ -389,19 +390,27 @@ class listcontainer1 extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    width: 270.w,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Center(
-                        child: Text("${HosList.name?.toUpperCase()}",
-                            style: GoogleFonts.inter(
-                                textStyle: TextStyle(
-                                    fontSize: 16.sp,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600))),
+                  Row(
+                    children: [
+                      Icon(Icons.arrow_forward_ios_outlined,size: 15,),
+                      SizedBox(
+                        width: 10,
                       ),
-                    ),
+                      Container(
+                        width: 270.w,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Center(
+                            child: Text("${HosList.name?.toUpperCase()}",
+                                style: GoogleFonts.inter(
+                                    textStyle: TextStyle(
+                                        fontSize: 16.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600))),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 5.h,

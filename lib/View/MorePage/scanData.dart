@@ -698,7 +698,7 @@ playAlarm(String admissionId) async {
   print("njjjjjjjjjjjjjjjj...");
   int id = int.parse(admissionId.split("/").first);
   await Alarm.init();
-  DateTime alarmTime = DateTime.now().add(const Duration(seconds: 10));
+  DateTime alarmTime = DateTime.now().add(const Duration(seconds: 60));
   final alarmSettings = AlarmSettings(
     id: id,
     dateTime: alarmTime,

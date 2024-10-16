@@ -21,7 +21,7 @@ class Hosstudentlistcontroller extends GetxController {
   }
 
   // void resetData() {
-  //   recentData.value = [];
+  //   // recentData.value = [];
   //   sentStudentData.value = [];
   //   recivedStudentData.value = [];
   // }

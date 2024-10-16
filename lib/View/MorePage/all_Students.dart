@@ -38,7 +38,7 @@ class _AllStudentsState extends State<AllStudents> {
 
   @override
   Widget build(BuildContext context) {
-    // _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+    // _timer = Timer.periodic(Duration(seconds: 6), (timer) {
       print("nsnsnnbsebebebe");
       Get.find<RecentListApiController>().fetchRecentList();
     // });
@@ -530,7 +530,7 @@ class _TrackingContainerState extends State<TrackingContainer> {
       startTimer1();
     }
     else if (widget.inProgressList.status?.length == 2 ) {
-      stopAlarm1();
+      stopAlarm((widget.inProgressList.admissionNo ?? "1/22"));
     }
   }
 
@@ -546,7 +546,7 @@ class _TrackingContainerState extends State<TrackingContainer> {
       startTimer1();
     }
     else if (widget.inProgressList.status?.length == 2 ) {
-      stopAlarm1();
+      stopAlarm((widget.inProgressList.admissionNo ?? "1/22"));
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -572,11 +572,9 @@ class _TrackingContainerState extends State<TrackingContainer> {
           if (DateTime.now().isAfter(endTime) &&
               DateTime.now()
                   .isBefore(endTime.add(const Duration(seconds: 1)))) {
-            playAlarm();
             widget.inProgressList.visitStatus != "Sent to Isolation Room"?
                 _playAlertSoundAndVibrate()
-                : ();
-            // _playAlertSoundAndVibrate();
+                : _playAlertSoundAndVibrate2();
           }
           timer.cancel();
           text = true;
@@ -889,7 +887,23 @@ void _playAlertSoundAndVibrate() async {
     player.stop();
   });
 }
+void _playAlertSoundAndVibrate2() async {
 
+
+  final player = AudioPlayer();
+
+  try {
+    await player
+        .play(AssetSource('assets/alarm.sssmp3'));
+  } catch (e) {
+    print('Error playing audio: $e');
+  }
+
+  Future.delayed(Duration(seconds: 5), () {
+    Vibration.cancel();
+    player.stop();
+  });
+}
 playAlarm() async {
   await Alarm.init();
   DateTime alarmTime = DateTime.now().add(const Duration(seconds: 0));
@@ -924,8 +938,3 @@ stopAlarm(String admissionId) async {
   Alarm.stop(id);
 }
 
-stopAlarm1() async {
-  int id = 0;
-  await Alarm.init();
-  Alarm.stop(id);
-}

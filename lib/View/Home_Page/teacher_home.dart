@@ -30,7 +30,7 @@ class _TeacherState extends State<Teacher> {
 
     initialize();
     Get.find<Popupcontoller>().fetchAllStudentDateList();
-    print("-------------brinesg print-here---");
+    print("-------------Arun print-here---");
     super.initState();
   }
 

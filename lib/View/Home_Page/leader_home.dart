@@ -9,6 +9,7 @@ import 'package:teacherapp/Controller/api_controllers/userAuthController.dart';
 import 'package:teacherapp/View/CWidgets/TeacherAppPopUps.dart';
 import 'package:teacherapp/View/Learning_Walk/Learning_walk.dart';
 import 'package:teacherapp/View/Lesson_Observation/Lesson_Observation.dart';
+import '../../Controller/api_controllers/popUpContoller.dart';
 import '../../Utils/constants.dart';
 import '../CWidgets/AppBarBackground.dart';
 import '../CWidgets/commons.dart';
@@ -27,6 +28,7 @@ class _LeaderState extends State<Leader> {
   @override
   void initState() {
     initialize();
+    Get.find<Popupcontoller>().fetchAllStudentDateList();
     super.initState();
   }
 

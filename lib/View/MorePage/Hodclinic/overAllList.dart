@@ -411,7 +411,7 @@ Spacer(),
                               "${widget.Sendtrackingdata.batch}",
                               style: GoogleFonts.inter(
                                   textStyle: TextStyle(
-                                      fontSize: 12.sp,
+                                      fontSize: 11.sp,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold)))),
                     ],
