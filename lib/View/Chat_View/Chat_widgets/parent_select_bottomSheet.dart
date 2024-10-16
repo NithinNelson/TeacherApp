@@ -274,10 +274,12 @@ class _ParentSelectionBottomSheetState
                                 children: [
                                   if (selectedParentList[index].isSelected)
                                     const Icon(Icons.check_circle,
-                                        color: Colors.green)
+                                        color: Colorutils.iconColor)
                                   else
-                                    const Icon(Icons.circle_outlined,
-                                        color: Colors.green),
+                                    Icon(Icons.circle_outlined,
+                                        weight: 0.2,
+                                        color: Colorutils.iconColor
+                                            .withOpacity(0.5)),
                                   SizedBox(
                                     width: 10.w,
                                   ),

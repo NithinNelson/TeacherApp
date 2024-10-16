@@ -278,7 +278,7 @@ class _GroupedViewChatScreenState extends State<GroupedViewChatScreen> {
                     child: Stack(
                       children: [
                         Container(
-                          color: Colors.white.withOpacity(0.8),
+                          color: Colors.white.withOpacity(0.6),
                         ),
                         const ChatList(),
                       ],

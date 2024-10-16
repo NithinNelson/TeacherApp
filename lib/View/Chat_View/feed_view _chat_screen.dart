@@ -410,19 +410,21 @@ class _FeedViewChatScreenState extends State<FeedViewChatScreen>
                                 child: Stack(
                                   children: [
                                     Container(
-                                      color: Colors.white.withOpacity(0.8),
+                                      color: Colors.white.withOpacity(0.6),
                                     ),
                                     ChatList(widget: widget),
-                                    Positioned(
-                                      bottom: 0,
-                                      left: 0,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                                left: 10, bottom: 10)
-                                            .w,
-                                        child: const SelectedParentsList(),
-                                      ),
-                                    ),
+                                    GetX<FeedViewController>(
+                                        builder: (controller) {
+                                      return Positioned(
+                                        bottom: 0,
+                                        left: 0,
+                                        child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                    left: 10, bottom: 10)
+                                                .w,
+                                            child: const SelectedParentsList()),
+                                      );
+                                    }),
                                   ],
                                 ),
                               ),

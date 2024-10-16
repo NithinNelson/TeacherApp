@@ -17,23 +17,23 @@ class SelectedParentsList extends StatelessWidget {
       builder: (FeedViewController controller) {
         List<ParentDataSelected> selectedParents =
             controller.showSelectedParentDataStack;
-        int stackLength =
-            controller.showSelectedParentDataStack.length > 5
-                ? 4
-                : selectedParents.length;
+        int stackLength = controller.showSelectedParentDataStack.length > 5
+            ? 4
+            : selectedParents.length;
         double stackWidth = stackLength * 44;
         return controller.showSelectedParentDataStack.isEmpty
             ? const SizedBox()
             : Row(
                 children: [
+                  SizedBox(width: 5.w),
                   InkWell(
                     onTap: () {
                       print("object");
                       controller.unselectAll();
                     },
                     child: Container(
-                      width: 22.w,
-                      height: 22.w,
+                      width: 15,
+                      height: 15,
                       padding: const EdgeInsets.all(2).w,
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -47,6 +47,7 @@ class SelectedParentsList extends StatelessWidget {
                   Text(
                     "Selected",
                     style: TeacherAppFonts.interW400_14sp_textWhite.copyWith(
+                      fontSize: 12.sp,
                       color: const Color(0xFF118376),
                     ),
                   ),
@@ -54,7 +55,8 @@ class SelectedParentsList extends StatelessWidget {
                   Text(
                     // "${selectedParents.length}",
                     "${controller.showSelectedParentDataStack.length}",
-                    style: TeacherAppFonts.interW600_14sp_textWhite.copyWith(
+                    style: TeacherAppFonts.interW600_12sp_timecolortopicsOp80
+                        .copyWith(
                       color: const Color(0xFF118376),
                     ),
                   ),
@@ -62,12 +64,13 @@ class SelectedParentsList extends StatelessWidget {
                     controller.showSelectedParentDataStack.length == 1
                         ? " Parent"
                         : " Parents",
-                    style: TeacherAppFonts.interW600_14sp_textWhite.copyWith(
+                    style: TeacherAppFonts.interW600_12sp_timecolortopicsOp80
+                        .copyWith(
                       color: const Color(0xFF118376),
                     ),
                   ),
                   SizedBox(width: 10.w),
-                  Container(
+                  SizedBox(
                     width: 22 +
                         (44 *
                             (controller.showSelectedParentDataStack.length > 5
@@ -75,7 +78,7 @@ class SelectedParentsList extends StatelessWidget {
                                     : controller
                                         .showSelectedParentDataStack.length)
                                 .toDouble()),
-                    height: 45,
+                    height: 32,
                     child: Stack(
                       children: [
                         ...List.generate(
@@ -86,11 +89,11 @@ class SelectedParentsList extends StatelessWidget {
                             return Positioned(
                               left: index * 20,
                               child: CircleAvatar(
-                                radius: 22,
+                                radius: 16,
                                 backgroundColor: Colors.white,
                                 child: CircleAvatar(
-                                  radius: 20,
-                                  backgroundColor: Colors.white,
+                                  radius: 14,
+                                  backgroundColor: Colors.grey.withOpacity(0.2),
                                   child: CachedNetworkImage(
                                     imageUrl: controller
                                             .showSelectedParentDataStack[index]
@@ -121,19 +124,27 @@ class SelectedParentsList extends StatelessWidget {
                                 backgroundColor: Colors.transparent,
                                 isScrollControlled: true,
                                 builder: (context) {
-                                  return  ParentSelectionBottomSheet();
+                                  return ParentSelectionBottomSheet();
                                 },
                               );
                             },
                             child: const CircleAvatar(
-                              radius: 22,
+                              radius: 16,
                               backgroundColor: Colors.white,
                               child: CircleAvatar(
-                                radius: 20,
+                                radius: 14,
                                 backgroundColor: Color(0xFF118376),
-                                child: Icon(
-                                  Icons.add,
-                                  color: Colors.white,
+                                child: Center(
+                                  child: SizedBox(
+                                    height: 15,
+                                    width: 15,
+                                    child: FittedBox(
+                                      child: Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),

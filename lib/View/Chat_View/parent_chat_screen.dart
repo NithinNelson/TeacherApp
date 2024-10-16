@@ -340,7 +340,7 @@ class _ParentChatScreenState extends State<ParentChatScreen> {
                       child: Stack(
                         children: [
                           Container(
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withOpacity(0.6),
                           ),
                           ChatList(
                             studentRelation: studentRelation,
@@ -1779,7 +1779,7 @@ class SentMessageBubble extends StatelessWidget {
                                       : const SizedBox(),
                                   messageData!.incomingReact!.length >= 2
                                       ? Text(
-                                          messageData!.incomingReact![0].react!)
+                                          messageData!.incomingReact![1].react!)
                                       : const SizedBox(),
                                   messageData!.incomingReact!.length >= 3
                                       ? Text(

@@ -19,9 +19,9 @@ import '../My_Class/Myclass.dart';
 import '../OldScreens/teaching_students.dart';
 
 class MenuScreen extends StatefulWidget {
-
-
-  const MenuScreen({super.key, });
+  const MenuScreen({
+    super.key,
+  });
 
   @override
   State<MenuScreen> createState() => _MenuScreenState();
@@ -93,11 +93,9 @@ class _MenuScreenState extends State<MenuScreen> {
                   // height: 50.h,
                   child: CachedNetworkImage(
                       imageUrl:
-                      'https://alpha.docme.cloud/schooldiary-logo/${Get.find<UserAuthController>().userData.value.schoolId?? '--'}.png',
-
+                          'https://alpha.docme.cloud/schooldiary-logo/${Get.find<UserAuthController>().userData.value.schoolId ?? '--'}.png',
                       placeholder: (context, url) => const SizedBox(),
                       errorWidget: (context, url, error) => const SizedBox()),
-
                 ),
               ),
               Padding(
@@ -109,39 +107,54 @@ class _MenuScreenState extends State<MenuScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CircleAvatar(
-                          radius: 35.w,
+                            radius: 35.w,
 
-                          // backgroundImage:
-                          //     AssetImage('assets/images/profile2.png'),
-                          child: CachedNetworkImage(
-                              imageUrl: Get.find<UserAuthController>().userData.value.image ?? '--',
-                              placeholder: (context, url) => Icon(Icons.person, color: Colors.grey, size: 40,),
-                              errorWidget: (context, url, error) => Icon(Icons.person, color: Colors.grey, size: 40,),
-                               )),
-
-
+                            // backgroundImage:
+                            //     AssetImage('assets/images/profile2.png'),
+                            child: CachedNetworkImage(
+                              imageUrl: Get.find<UserAuthController>()
+                                      .userData
+                                      .value
+                                      .image ??
+                                  '--',
+                              placeholder: (context, url) => Icon(
+                                Icons.person,
+                                color: Colors.grey,
+                                size: 40,
+                              ),
+                              errorWidget: (context, url, error) => Icon(
+                                Icons.person,
+                                color: Colors.grey,
+                                size: 40,
+                              ),
+                            )),
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: GetX<TimeTableController>(
                             builder: (TimeTableController controller) {
-                              List<TeacherSubject> classTeacherSubject = controller.classTeacherSubjects.value;
-                              classTeacherSubject.sort((a, b) => "${a.classs!}${a.batch!}".compareTo("${b.classs!}${b.batch!}"));
+                              List<TeacherSubject> classTeacherSubject =
+                                  controller.classTeacherSubjects.value;
+                              classTeacherSubject.sort((a, b) =>
+                                  "${a.classs!}${a.batch!}"
+                                      .compareTo("${b.classs!}${b.batch!}"));
 
-                              return SizedBox(width: 120,
+                              return SizedBox(
+                                width: 120,
                                 child: SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
                                     children: [
-                                      for (int i=0;i<classTeacherSubject.length;i++ )
-
+                                      for (int i = 0;
+                                          i < classTeacherSubject.length;
+                                          i++)
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 8,right: 3),
+                                          padding: const EdgeInsets.only(
+                                              left: 8, right: 3),
                                           child: ClassIndicator(
-                                            classTeacherSubject: classTeacherSubject[i],isActive: true),
+                                              classTeacherSubject:
+                                                  classTeacherSubject[i],
+                                              isActive: true),
                                         ),
-
-
-
                                     ],
                                   ),
                                 ),
@@ -287,7 +300,6 @@ class _MenuScreenState extends State<MenuScreen> {
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -320,10 +332,13 @@ class MenuItem extends StatelessWidget {
           color: Colorutils.Whitecolor.withOpacity(0.6),
           cacheColorFilter: true,
         ),
-        title: Text(
-          title,
-          style: TeacherAppFonts.interW500_20sp_textWhiteOp60,
-        ),
+        title: Text(title,
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontWeight: FontWeight.w600,
+              fontSize: 17.h,
+              color: Colorutils.Whitecolor.withOpacity(0.6),
+            )),
       ),
     );
   }
@@ -333,39 +348,44 @@ class ClassIndicator extends StatelessWidget {
   final bool isActive;
   TeacherSubject classTeacherSubject;
 
-
-   ClassIndicator(
-      {super.key, required this.isActive,required this.classTeacherSubject});
+  ClassIndicator(
+      {super.key, required this.isActive, required this.classTeacherSubject});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         UserAuthController userAuthController = Get.find<UserAuthController>();
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentListView(
-          className: "${classTeacherSubject.classs} ${classTeacherSubject.batch}",
-          curriculam_id: classTeacherSubject.curriculumId,
-          session_id: classTeacherSubject.sessionId,
-          class_id: classTeacherSubject.classId,
-          batch_id: classTeacherSubject.batchId,
-          selectedDate: getCurrentDate(),
-          name: userAuthController.userData.value.name,
-          images: userAuthController.userData.value.image,
-          school_id: userAuthController.userData.value.schoolId,
-          academic_year: userAuthController.userData.value.academicYear,
-          userId: userAuthController.userData.value.userId,
-          ClassAndBatch: "${classTeacherSubject.classs} ${classTeacherSubject.batch}",
-          subjectName: classTeacherSubject.sub,
-          LoginedUserEmployeeCode: userAuthController.userData.value.employeeNo,
-        )));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => StudentListView(
+                  className:
+                      "${classTeacherSubject.classs} ${classTeacherSubject.batch}",
+                  curriculam_id: classTeacherSubject.curriculumId,
+                  session_id: classTeacherSubject.sessionId,
+                  class_id: classTeacherSubject.classId,
+                  batch_id: classTeacherSubject.batchId,
+                  selectedDate: getCurrentDate(),
+                  name: userAuthController.userData.value.name,
+                  images: userAuthController.userData.value.image,
+                  school_id: userAuthController.userData.value.schoolId,
+                  academic_year: userAuthController.userData.value.academicYear,
+                  userId: userAuthController.userData.value.userId,
+                  ClassAndBatch:
+                      "${classTeacherSubject.classs} ${classTeacherSubject.batch}",
+                  subjectName: classTeacherSubject.sub,
+                  LoginedUserEmployeeCode:
+                      userAuthController.userData.value.employeeNo,
+                )));
         // Navigator.of(context).push(MaterialPageRoute(builder: (context) => Myclasses()));
       },
       child: CircleAvatar(
         radius: 24,
-        backgroundColor: isActive ? Colorutils.Whitecolor : Colorutils.Whitecolor,
+        backgroundColor:
+            isActive ? Colorutils.Whitecolor : Colorutils.Whitecolor,
         child: Center(
           child: Text(
-            "${classTeacherSubject.classs}" "${classTeacherSubject.batch}".replaceAll(" ", ''),
+            "${classTeacherSubject.classs}" "${classTeacherSubject.batch}"
+                .replaceAll(" ", ''),
             style: const TextStyle(
               color: Colorutils.userdetailcolor,
               fontWeight: FontWeight.bold,
@@ -375,10 +395,10 @@ class ClassIndicator extends StatelessWidget {
       ),
     );
   }
+
   getCurrentDate() {
     final DateFormat formatter = DateFormat('d-MMMM-y');
     String createDate = formatter.format(DateTime.now());
     return createDate;
   }
-
 }

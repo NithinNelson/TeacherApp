@@ -52,6 +52,7 @@ class Colorutils {
   static const reactionAddButton = Color(0xFF24746B);
   static const bottomnaviconcolor = Color(0xFF88A9FF);
   static const morebrown = Color(0xFF551B0E);
+  static const iconColor = Color(0xFF118376);
 
   static List<Color> chatLeadingColors = [
     Colorutils.topicbackground,
