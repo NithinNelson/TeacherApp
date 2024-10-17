@@ -256,44 +256,44 @@ class _MenuScreenState extends State<MenuScreen> {
                           icon: "assets/images/logout.svg", title: 'Logout'),
                     ),
                     SizedBox(height: 20.w),
-                    InkWell(
-                      onTap: () {
-                        ZoomDrawer.of(context)?.toggle();
-                        pageIndexController.changePage(currentPage: 2);
-                      },
-                      child: Container(
-                        width: 180.w,
-                        height: 45.w,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Center(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset(
-                                'assets/images/newchat.png',
-                                width: 30.w,
-                                fit: BoxFit.fitWidth,
-                              ),
-                              SizedBox(width: 10.w),
-                              SizedBox(
-                                width: 110.w,
-                                height: 40.w,
-                                child: FittedBox(
-                                  child: Text(
-                                    'Chat with Parents',
-                                    style:
-                                        TeacherAppFonts.interW600_14sp_letters1,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     ZoomDrawer.of(context)?.toggle();
+                    //     pageIndexController.changePage(currentPage: 2);
+                    //   },
+                    //   child: Container(
+                    //     width: 180.w,
+                    //     height: 45.w,
+                    //     decoration: BoxDecoration(
+                    //       color: Colors.white,
+                    //       borderRadius: BorderRadius.circular(12),
+                    //     ),
+                    //     child: Center(
+                    //       child: Row(
+                    //         mainAxisSize: MainAxisSize.min,
+                    //         children: [
+                    //           Image.asset(
+                    //             'assets/images/newchat.png',
+                    //             width: 30.w,
+                    //             fit: BoxFit.fitWidth,
+                    //           ),
+                    //           SizedBox(width: 10.w),
+                    //           SizedBox(
+                    //             width: 110.w,
+                    //             height: 40.w,
+                    //             child: FittedBox(
+                    //               child: Text(
+                    //                 'Chat with Parents',
+                    //                 style:
+                    //                     TeacherAppFonts.interW600_14sp_letters1,
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
 
                   ],
                 ),
