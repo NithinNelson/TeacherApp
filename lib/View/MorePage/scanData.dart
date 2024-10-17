@@ -708,10 +708,10 @@ playAlarm(String admissionId) async {
     vibrate: false,
     volume: 0.5,
     fadeDuration: 5.0,
-    // warningNotificationOnKill: Platform.isIOS,
+    // warningNotificationOnKill: Platform.Android,
     notificationSettings: const NotificationSettings(
 
-      title: 'Student Alert',
+      title: 'Student Tracking Alert',
       body: '',
 
     ),

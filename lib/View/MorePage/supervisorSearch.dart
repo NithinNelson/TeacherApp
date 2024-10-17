@@ -239,7 +239,7 @@ class _SupervisorsearchState extends State<Supervisorsearch>
 
                     return TabBarView(
                       controller: _tabController1,
-                      children: [Expanded(
+                      children: [Hoslist.isNotEmpty?Expanded(
                         child: ListView.builder(
                             padding:
                             const EdgeInsets.only(bottom: 70),
@@ -259,8 +259,11 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                                 )),
 
 
+                      ):Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Center(child: Text("Oops..No Data Found...",style: TextStyle(fontStyle: FontStyle.italic, color: Colors.red),)),
                       ),
-
+                        Hodlist.isNotEmpty?
                         Expanded(
                           child: ListView.builder(
                               padding:
@@ -279,7 +282,11 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                                   )),
 
 
+                        ):Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Center(child: Text("Oops..No Data Found...",style: TextStyle(fontStyle: FontStyle.italic, color: Colors.red),)),
                         ),
+                        Supervisorlist.isNotEmpty?
                         Expanded(
                           child: ListView.builder(
 
@@ -301,7 +308,11 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                           ),
 
 
+                        ):Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Center(child: Text("Oops..No Data Found...",style: TextStyle(fontStyle: FontStyle.italic, color: Colors.red),)),
                         ),
+                        Principallist.isNotEmpty?
                         Expanded(
                           child: ListView.builder(
 
@@ -325,7 +336,11 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                           ),
 
 
+                        ):Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Center(child: Text("Oops..No Data Found...",style: TextStyle(fontStyle: FontStyle.italic, color: Colors.red),)),
                         ),
+                        Viceprincipallist.isNotEmpty?
                         Expanded(
                           child: ListView.builder(
 
@@ -348,7 +363,10 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                           ),
 
 
-                        ),
+                        ):Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Center(child: Text("Oops..No Data Found...",style: TextStyle(fontStyle: FontStyle.italic, color: Colors.red),)),
+                        )
                       ],
                     );
                   },
@@ -392,7 +410,7 @@ class listcontainer1 extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.arrow_forward_ios_outlined,size: 15,),
+                      Icon(Icons.circle,size: 8,color: Colorutils.userdetailcolor,),
                       SizedBox(
                         width: 10,
                       ),
