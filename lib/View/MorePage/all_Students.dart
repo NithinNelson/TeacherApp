@@ -34,12 +34,11 @@ class AllStudents extends StatefulWidget {
 }
 
 class _AllStudentsState extends State<AllStudents> {
-  Timer? _timer;
+  // Timer? _timer;
 
   @override
   Widget build(BuildContext context) {
     // _timer = Timer.periodic(Duration(seconds: 6), (timer) {
-      print("nsnsnnbsebebebe");
       Get.find<RecentListApiController>().fetchRecentList();
     // });
     // Get.find<RecentListApiController>().fetchRecentList();
@@ -67,7 +66,7 @@ class _AllStudentsState extends State<AllStudents> {
                             ),
                           )),
                       Spacer(
-                        flex: 2,
+                        flex: 3,
                       ),
                       const Text(
                         "Add Students",
@@ -75,8 +74,33 @@ class _AllStudentsState extends State<AllStudents> {
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       Spacer(
-                        flex: 3,
+                        flex: 2,
                       ),
+                      Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: InkWell(
+                             radius: 20,
+
+                            onTap: () {
+                              Get.find<
+                                  RecentListApiController>()
+                                  .fetchRecentList();
+                              print("mjjmjjj...KASb....");
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.refresh_outlined,
+                                  size: 22,color: Colorutils.userdetailcolor,
+                                ),
+                                Text(
+                                  "Refresh",
+                                  style: TextStyle(
+                                      fontSize: 13, fontWeight: FontWeight.w600,fontStyle: FontStyle.italic,color: Colorutils.userdetailcolor),
+                                )
+                              ],
+                            ),
+                          ))
                     ],
                   ),
                 ),
@@ -906,7 +930,7 @@ void _playAlertSoundAndVibrate2() async {
 }
 playAlarm() async {
   await Alarm.init();
-  DateTime alarmTime = DateTime.now().add(const Duration(seconds: 0));
+  DateTime alarmTime = DateTime.now().add(const Duration(seconds: 60));
   final alarmSettings = AlarmSettings(
     id: 1,
     dateTime: alarmTime,

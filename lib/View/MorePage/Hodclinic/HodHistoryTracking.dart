@@ -187,7 +187,7 @@ class _HosHistoryTrackingState extends State<HosHistoryTracking> {
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Text(
-                                    "${widget.Studentdats.status?.first.sentBy?.toUpperCase()}",
+                                    "${widget.Studentdats.sendToName?.toUpperCase()}",
                                     style: GoogleFonts.inter(
                                         textStyle: TextStyle(
                                             fontSize: 10.sp,

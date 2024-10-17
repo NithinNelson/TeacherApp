@@ -625,6 +625,7 @@ class _ScandataState extends State<Scandata> {
                                     instID: Studentdetail.instID,
                                     remarks: _Remarkscontroller.text,
                                     sentTo: selectedName.sId,
+                                    sentToName:selectedName.name ,
 
                                     sentBy: Get.find<UserAuthController>()
                                             .userData
@@ -709,9 +710,10 @@ playAlarm(String admissionId) async {
     fadeDuration: 5.0,
     // warningNotificationOnKill: Platform.isIOS,
     notificationSettings: const NotificationSettings(
-      title: 'This is the title',
-      body: 'This is the body',
-      stopButton: "true",
+
+      title: 'Teacher App',
+      body: 'Student on the way',
+      stopButton: "false",
       icon: 'notification_icon',
     ),
   );
