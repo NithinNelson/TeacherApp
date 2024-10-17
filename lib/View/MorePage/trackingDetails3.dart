@@ -220,7 +220,7 @@ class _trackingDetails3State extends State<trackingDetails3> {
             ),
             Column(
                 children: [
-                  (widget.progressCompletedList.visitStatus == "Sent to Washroom" ||
+                  (widget.progressCompletedList.status?[0].visitStatus == "Sent to Washroom" ||
                       widget.progressCompletedList.visitStatus == "Sent Home" ||
                       widget.progressCompletedList.visitStatus ==
                           "Sent to Hospital")

@@ -225,6 +225,8 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
     setState(() {
       isSpinner = false;
     });
+    Navigator.of(context).pop();
+
   }
 
   Future submitRemarksLearningWalk() async {
@@ -493,27 +495,32 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                       //       ],
                                       //     )),
                                       topic_lesson != null
-                                          ? Row(
+                                          ? Column(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+
                                         children: [
                                           Type == 'lesson_observation'
                                               ? Container(
-                                            width: 200.w,
+
+
                                             child: Text(
-                                              'Topic    :${topic_lesson.toString()[0].toUpperCase()}${topic_lesson.toString().substring(1, topic_lesson.toString().length)}',
+                                              'TOPIC    : ${topic_lesson.toString()[0].toUpperCase()}${topic_lesson.toString().substring(1, topic_lesson.toString().length)}',
                                               style: TextStyle(
-                                                  fontSize: 16,
+                                                  fontSize: 14,
                                                   fontWeight: FontWeight.w600,
                                                   color: Colors.blueAccent),
                                             ),
+
                                           )
                                               : Text(''),
+                                          SizedBox(height: 3,),
                                           isjoin != null
                                               ? Text(
-                                            'Joined:${isjoin.toString()[0].toUpperCase()}${isjoin.toString().substring(1, isjoin.toString().length)}',
+                                            'JOINED  : ${isjoin.toString()[0].toUpperCase()}${isjoin.toString().substring(1, isjoin.toString().length)}',
                                             style: TextStyle(
-                                                fontSize: 16,
+                                                fontSize: 14,
                                                 fontWeight: FontWeight.w600,
                                                 color: Colors.blueAccent),
                                           )
@@ -532,9 +539,8 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                                           )
                                         ],
                                       ),
-                                      SizedBox(
-                                        height: 5.h,
-                                      ),
+
+
                                       // Container(
                                       //
                                       //     width: 300.w,
@@ -1012,21 +1018,21 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                         // ),
                                             if(TeacherComment == null)
                                               GestureDetector(
-                                              onTap: () {
+                                              onTap: ()  {
                                                 if (_formKey.currentState!
                                                     .validate()) {
                                                   if (Type ==
                                                       'lesson_observation') {
 
-                                                    submitRemarksLesonObservation(
+                                                     submitRemarksLesonObservation(
 
 
                                                     );
+                                                    Navigator.of(context).pop();
 
                                                   } else {
                                                     if (Type == 'learning_walk') {
                                                       submitRemarksLearningWalk();
-                                                      // Navigator.of(context).pop();
                                                     }
                                                   }
                                                 }
