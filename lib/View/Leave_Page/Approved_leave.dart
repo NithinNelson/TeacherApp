@@ -325,30 +325,23 @@ class _PendingLeaveState extends State<PendingLeave> {
                                                           ),
                                                           (leaveList[i].documentPath != null)
                                                               ? Row(
-                                                            children: [
-                                                              Row(
                                                                 children: [
-                                                                  Text('Document :',
+                                                                  Text('Document : ',
                                                                       style: TextStyle(
                                                                           fontSize: 14)),
-                                                                  Container(
-                                                                    child: Icon(Icons.attach_file,color: Colors.cyan,),
-                                                                  )
+                                                                  GestureDetector(
+                                                                    onTap: () async {
+                                                                      try {
+                                                                        await launchUrl(Uri.parse("${ApiConstants.downloadUrl}${leaveList[i].documentPath}"));
+                                                                      } catch(e) {}
+                                                                    },
+                                                                    child: attchIcon(
+                                                                        type: leaveList[i].documentPath.toString().split(".").last,
+                                                                        document: leaveList[i].documentPath.toString().toString()),
+                                                                  ),
                                                                 ],
 
-                                                              ),
-                                                              GestureDetector(
-                                                                onTap: () async {
-                                                                  try {
-                                                                    await launchUrl(Uri.parse("${ApiConstants.downloadUrl}${leaveList[i].documentPath}"));
-                                                                  } catch(e) {}
-                                                                },
-                                                                child: attchIcon(
-                                                                    type: leaveList[i].documentPath.toString().split(".").last,
-                                                                    document: leaveList[i].documentPath.toString().toString()),
-                                                              ),
-                                                            ],
-                                                          )
+                                                              )
                                                               : Container(),
                                                           (leaveList[i].myPending == true)
                                                               ? GestureDetector(
