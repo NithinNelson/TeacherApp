@@ -285,7 +285,7 @@ class _LoginPageState extends State<LoginPage> {
                                                     '--',
                                                 isHos: true,
                                               );
-                                              Navigator.push(
+                                              Navigator.pushReplacement(
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
