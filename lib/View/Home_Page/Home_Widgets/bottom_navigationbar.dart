@@ -30,37 +30,37 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 type: BottomNavigationBarType.fixed,
                 items:  <BottomNavigationBarItem>[
                   for(int i = 0; i < isFromChoice; i++)
-                    if(menuItems[i].index == 2)
-                      BottomNavigationBarItem(
-                        icon: InkWell(
-
-                          onTap: () {
-                            controller.changePage(currentPage: menuItems[i].index);
-                          },
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                height: 30.h,
-                                child: SvgPicture.asset(
-                                  currentIndex == menuItems[i].index ? "assets/images/ChatCircleTextcolor.svg" : "assets/images/ChatCircleText.svg",
-                                  color: currentIndex == menuItems[i].index ? Colorutils.letters1 : Colorutils.bottomiconcolor,
-                                  height: 30.h,
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              ),
-                              SizedBox(height: 1.w),
-                              Text(
-                                menuItems[i].title,
-                                style: currentIndex == menuItems[i].index ? TeacherAppFonts.poppinsW500_16sp_letters1 : TeacherAppFonts.poppinsW400_13sp_bottomiconcolor,
-                              )
-                            ],
-                          ),
-
-                        ),
-                        label: "",
-                      )
-                  else
+                    // if(menuItems[i].index == 2)
+                  //     BottomNavigationBarItem(
+                  //       icon: InkWell(
+                  //
+                  //         onTap: () {
+                  //           controller.changePage(currentPage: menuItems[i].index);
+                  //         },
+                  //         child: Column(
+                  //           mainAxisSize: MainAxisSize.min,
+                  //           children: [
+                  //             Container(
+                  //               height: 30.h,
+                  //               child: SvgPicture.asset(
+                  //                 currentIndex == menuItems[i].index ? "assets/images/ChatCircleTextcolor.svg" : "assets/images/ChatCircleText.svg",
+                  //                 color: currentIndex == menuItems[i].index ? Colorutils.letters1 : Colorutils.bottomiconcolor,
+                  //                 height: 30.h,
+                  //                 fit: BoxFit.fitHeight,
+                  //               ),
+                  //             ),
+                  //             SizedBox(height: 1.w),
+                  //             Text(
+                  //               menuItems[i].title,
+                  //               style: currentIndex == menuItems[i].index ? TeacherAppFonts.poppinsW500_16sp_letters1 : TeacherAppFonts.poppinsW400_13sp_bottomiconcolor,
+                  //             )
+                  //           ],
+                  //         ),
+                  //
+                  //       ),
+                  //       label: "",
+                  //     )
+                  // else
                     BottomNavigationBarItem(
                       icon: GestureDetector(
                         onTap: () {
