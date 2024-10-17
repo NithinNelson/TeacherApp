@@ -535,7 +535,9 @@ class TeacherAppPopUps {
 
           GestureDetector(
             onTap: (){
-              Get.to(MorePage());
+              Get.back();
+              PageIndexController pageSwitchController = Get.find<PageIndexController>();
+              pageSwitchController.changePage(currentPage: pageSwitchController.navLength.value - 1);
             },
             child: Container(
 
