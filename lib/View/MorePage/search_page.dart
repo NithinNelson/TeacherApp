@@ -137,7 +137,7 @@ class SearchPage extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.red,
-                                fontStyle: FontStyle.italic),
+                                fontStyle: FontStyle.italic),textAlign: TextAlign.center,
                           ),
                         )))
                     : Expanded(

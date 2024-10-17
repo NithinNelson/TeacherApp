@@ -1010,6 +1010,7 @@ class ApiServices {
       "visit_status": data.visitStatus,
       "sent_by": data.sentBy,
       "sent_to":data.sentTo,
+      "send_to_name":data.sentToName,
       "sent_by_id": data.sentById,
       "sent_by_token": data.sentByToken
     };
