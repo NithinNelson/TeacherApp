@@ -37,9 +37,9 @@ List<MenuItemsModel> teacherMenuItems = [
   const MenuItemsModel(index: 2, title: "OBS Result", svg: "assets/images/chart-pie-alt.svg", page: ObsResult()),
   const MenuItemsModel(index: 3, title: "More", svg: "assets/images/apps 2.svg", page: MorePage()),
   const MenuItemsModel(index: 0, title: "Home", svg: "assets/images/house-bottom.svg", page: Teacher()),
-  const MenuItemsModel(index: 6, title: "My Timetable", svg: "assets/images/timetable.svg", page: MyTimeTable()),
+  const MenuItemsModel(index: 5, title: "My Timetable", svg: "assets/images/timetable.svg", page: MyTimeTable()),
   const MenuItemsModel(index: 1, title: "Leave Apply", svg: "assets/images/clock-three 1.svg", page: LeaveRequest()),
-  const MenuItemsModel(index: 8, title: "Leave Approval", svg: "assets/images/levae_approval.svg", page: LeaveApproval()),
+  const MenuItemsModel(index: 7, title: "Leave Approval", svg: "assets/images/levae_approval.svg", page: LeaveApproval()),
   const MenuItemsModel(index: 2, title: "OBS Result", svg: "assets/images/chart-pie-alt.svg", page: ObsResult()),
 ];
 
