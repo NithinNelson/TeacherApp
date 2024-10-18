@@ -73,6 +73,7 @@ class SearchPage extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     width: double.infinity,
                     child: TextFormField(
+                      autofocus: true,
                       controller: _textcontroller,
                       onChanged: (value) async {
                         controller.resetData();

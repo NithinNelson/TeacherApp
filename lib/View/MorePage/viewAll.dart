@@ -171,6 +171,7 @@ class _ViewallState extends State<Viewall> {
                           await Get.find<RecentDateListApiController>()
                               .fetchRecentDateList(date: selectedDate);
                         },
+
                         activeColor: Colorutils.userdetailcolor,
                         headerProps: const EasyHeaderProps(
                             showSelectedDate: false,
@@ -197,7 +198,8 @@ class _ViewallState extends State<Viewall> {
                           dayStructure: DayStructure.dayNumDayStr,
                         ),
                       ),
-                    ],
+
+                        ],
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 18, right: 18),

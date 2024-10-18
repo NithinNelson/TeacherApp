@@ -19,7 +19,7 @@ class QRViewExample extends StatefulWidget {
 class _QRViewExampleState extends State<QRViewExample> {
   final MobileScannerController controller = MobileScannerController(
     formats: const [BarcodeFormat.qrCode],
-    // detectionSpeed: DetectionSpeed.noDuplicates,
+    detectionSpeed: DetectionSpeed.noDuplicates,
   );
 
   @override
