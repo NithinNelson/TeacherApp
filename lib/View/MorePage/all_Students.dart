@@ -23,6 +23,7 @@ import 'package:vibration/vibration.dart';
 import '../../Controller/api_controllers/recentListApiController.dart';
 import '../../Controller/api_controllers/recentListApiController.dart';
 import '../../Controller/api_controllers/recentListApiController.dart';
+import '../../Controller/api_controllers/userAuthController.dart';
 import '../../Models/api_models/recentlist_model.dart';
 import '../../Utils/Colors.dart';
 
@@ -596,8 +597,15 @@ class _TrackingContainerState extends State<TrackingContainer> {
           if (DateTime.now().isAfter(endTime) &&
               DateTime.now()
                   .isBefore(endTime.add(const Duration(seconds: 1)))) {
+            UserAuthController userAuthController = Get.find<UserAuthController>();
             widget.inProgressList.visitStatus != "Sent to Isolation Room"?
-                _playAlertSoundAndVibrate()
+
+
+            widget.inProgressList.status![0].sentById ==  userAuthController.userData.value.userId?
+            _playAlertSoundAndVibrate():_playAlertSoundAndVibrate2()
+
+
+
                 : _playAlertSoundAndVibrate2();
           }
           timer.cancel();
@@ -901,7 +909,7 @@ void _playAlertSoundAndVibrate() async {
 
   try {
     await player
-        .play(AssetSource('assets/alarm.mp3'));
+        .play(AssetSource('images/alarmnew.mp3'));
   } catch (e) {
     print('Error playing audio: $e');
   }

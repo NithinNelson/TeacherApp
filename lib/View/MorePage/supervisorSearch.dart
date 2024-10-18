@@ -28,7 +28,8 @@ class _SupervisorsearchState extends State<Supervisorsearch>
     with SingleTickerProviderStateMixin {
   bool select1=false;
   bool select2=false;
-  bool select3=false;  bool select4=false;
+  bool select3=false;
+  bool select4=false;
   bool select5=false;
   late TabController _tabController1;
 
