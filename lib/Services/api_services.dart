@@ -1006,6 +1006,7 @@ class ApiServices {
       "father_phone":data.fatherPhone,
       "father_email": data.fatherEmail,
       "remarks": data.remarks,
+      "role": data.role,
       "app_type": data.appType,
       "visit_status": data.visitStatus,
       "sent_by": data.sentBy,

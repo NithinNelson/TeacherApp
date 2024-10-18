@@ -233,6 +233,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
     setState(() {
       isSpinner = true;
     });
+
     var headers = {
       'x-auth-token': 'tq355lY3MJyd8Uj2ySzm',
       'Content-Type': 'application/json'
@@ -1018,13 +1019,13 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
                         // ),
                                             if(TeacherComment == null)
                                               GestureDetector(
-                                              onTap: ()  {
+                                              onTap: () async {
                                                 if (_formKey.currentState!
                                                     .validate()) {
                                                   if (Type ==
                                                       'lesson_observation') {
 
-                                                     submitRemarksLesonObservation(
+                                                     await submitRemarksLesonObservation(
 
 
                                                     );
@@ -1032,7 +1033,7 @@ class _ObsResultdisplayState extends State<ObsResultdisplay> {
 
                                                   } else {
                                                     if (Type == 'learning_walk') {
-                                                      submitRemarksLearningWalk();
+                                                      await submitRemarksLearningWalk();
                                                     }
                                                   }
                                                 }

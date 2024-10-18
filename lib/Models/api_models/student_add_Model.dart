@@ -12,6 +12,7 @@ class StudentAddModel {
   String? fatherPhone;
   String? fatherEmail;
   String? remarks;
+  String? role;
   String? appType;
   String? visitStatus;
   String? sentBy;
@@ -34,6 +35,7 @@ class StudentAddModel {
         this.fatherPhone,
         this.fatherEmail,
         this.remarks,
+        this.role,
         this.appType,
         this.visitStatus,
         this.sentBy,
@@ -55,6 +57,7 @@ class StudentAddModel {
     fatherPhone = json['father_phone'];
     fatherEmail = json['father_email'];
     remarks = json['remarks'];
+    role = json['role'];
     appType = json['app_type'];
     visitStatus = json['visit_status'];
     sentBy = json['sent_by'];
@@ -79,6 +82,7 @@ class StudentAddModel {
     data['father_phone'] = this.fatherPhone;
     data['father_email'] = this.fatherEmail;
     data['remarks'] = this.remarks;
+    data['role'] = this.role;
     data['app_type'] = this.appType;
     data['visit_status'] = this.visitStatus;
     data['sent_by'] = this.sentBy;

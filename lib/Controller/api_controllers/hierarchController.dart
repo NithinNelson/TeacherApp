@@ -41,8 +41,6 @@ class Hierarchcontroller extends GetxController {
       String scId =
           Get.find<UserAuthController>().userData.value.schoolId ?? '';
 
-
-
       // List<Map<String, dynamic>> classList = [];
       // for (var sub in teacherSubjects) {
       //   classList.add(
@@ -60,50 +58,57 @@ class Hierarchcontroller extends GetxController {
           schoolId: scId, academicYear: acYr, id: 'role121235', name: 'HOD');
 
       Map<String, dynamic> supervisorResp = await ApiServices.loadHierarchyList(
-          schoolId: scId, academicYear: acYr, id: 'v2QNTPPvPQK6T', name: 'Supervisor');
+          schoolId: scId,
+          academicYear: acYr,
+          id: 'v2QNTPPvPQK6T',
+          name: 'Supervisor');
       Map<String, dynamic> principalResp = await ApiServices.loadHierarchyList(
-          schoolId: scId, academicYear: acYr, id: 'rolepri12', name: 'Principal');
+          schoolId: scId,
+          academicYear: acYr,
+          id: 'rolepri12',
+          name: 'Principal');
       Map<String, dynamic> viceprinciResp = await ApiServices.loadHierarchyList(
-          schoolId: scId, academicYear: acYr, id: 'role12123', name: 'VicePrincipal');
+          schoolId: scId,
+          academicYear: acYr,
+          id: 'role12123',
+          name: 'VicePrincipal');
 
       if (hosResp['status']['code'] == 200) {
-        HierarchyListModel hoslist =
-        HierarchyListModel.fromJson(hosResp);
+        HierarchyListModel hoslist = HierarchyListModel.fromJson(hosResp);
         print("-----------hosrespppp..${hoslist}-----------");
 
-        hosdata.value= hoslist.data?.details?.response?.users ?? [];
+        hosdata.value = hoslist.data?.details?.response?.users ?? [];
         // isLoaded.value = true;
       }
       if (hodResp['status']['code'] == 200) {
-        HierarchyListModel hodlist =
-        HierarchyListModel.fromJson(hodResp);
+        HierarchyListModel hodlist = HierarchyListModel.fromJson(hodResp);
         print("-----------hodrespppp..${hodlist}-----------");
 
         hoddata.value = hodlist.data?.details?.response?.users ?? [];
-
       }
       if (supervisorResp['status']['code'] == 200) {
         HierarchyListModel supervisorlist =
-        HierarchyListModel.fromJson(supervisorResp);
+            HierarchyListModel.fromJson(supervisorResp);
         print("-----------hodrespppp..${supervisorResp}-----------");
 
-        supervisordata.value = supervisorlist.data?.details?.response?.users ?? [];
+        supervisordata.value =
+            supervisorlist.data?.details?.response?.users ?? [];
       }
       if (principalResp['status']['code'] == 200) {
         HierarchyListModel principallist =
-        HierarchyListModel.fromJson(principalResp);
+            HierarchyListModel.fromJson(principalResp);
         print("-----------principallist..${principallist}-----------");
 
-        principaldata.value = principallist.data?.details?.response?.users ?? [];
-
+        principaldata.value =
+            principallist.data?.details?.response?.users ?? [];
       }
       if (viceprinciResp['status']['code'] == 200) {
         HierarchyListModel viceprincilist =
-        HierarchyListModel.fromJson(viceprinciResp);
+            HierarchyListModel.fromJson(viceprinciResp);
         print("-----------principallist..${viceprincilist}-----------");
 
-        viceprincidata.value = viceprincilist.data?.details?.response?.users ?? [];
-
+        viceprincidata.value =
+            viceprincilist.data?.details?.response?.users ?? [];
       }
     } catch (e) {
       isLoaded.value = false;

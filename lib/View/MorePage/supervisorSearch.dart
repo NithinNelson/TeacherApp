@@ -253,7 +253,10 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                                       Hoslist[
                                       index]),
                                   onTap: (){
-                                    widget.selectedName(Hoslist[index]);Navigator.of(context).pop();
+                                    widget.selectedName(
+                                      Users(sId: Hoslist[index].sId,name: Hoslist[index].name, role:"HOS"
+                                      )
+                                    );Navigator.of(context).pop();
                                     print(".......benxxrx.......${widget.selectedName(Hoslist[index])}");
                                   },
                                 )),
@@ -273,7 +276,8 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                               itemBuilder: (context, index) =>
                                   GestureDetector(
                                     onTap: (){
-                                      widget.selectedName(Hodlist[index]);Navigator.of(context).pop();
+                                      widget.selectedName(Users(sId: Hodlist[index].sId,name: Hodlist[index].name, role:"HOD"
+                                      ));Navigator.of(context).pop();
                                     },
                                     child: listcontainer1(
                                         HosList:
@@ -298,7 +302,8 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                               itemBuilder: (context, index) =>
                                   GestureDetector(
                                     onTap: (){
-                                      widget.selectedName(Supervisorlist[index]);Navigator.of(context).pop();
+                                      widget.selectedName(Users(sId: Supervisorlist[index].sId,name: Supervisorlist[index].name, role:"Supervisor"
+                                      ));Navigator.of(context).pop();
                                     },
                                     child: listcontainer1(
                                       HosList:
@@ -324,7 +329,8 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                               itemBuilder: (context, index) =>
                                   GestureDetector(
                                     onTap: (){
-                                      widget.selectedName(Principallist[index]);Navigator.of(context).pop();
+                                      widget.selectedName(Users(sId: Principallist[index].sId,name: Principallist[index].name, role:"Principal"
+                                      ));Navigator.of(context).pop();
                                       print(".......benxxx.......${Principallist[index]}");
                                     },
                                     child: listcontainer1(
@@ -352,8 +358,8 @@ class _SupervisorsearchState extends State<Supervisorsearch>
                               itemBuilder: (context, index) =>
                                   GestureDetector(
                                     onTap: (){
-                                      widget.selectedName(Viceprincipallist[
-                                      index]);Navigator.of(context).pop();
+                                      widget.selectedName(Users(sId: Viceprincipallist[index].sId,name: Viceprincipallist[index].name, role:"Vice Principal"
+                                      ));Navigator.of(context).pop();
                                     },
                                     child: listcontainer1(
                                       HosList:
@@ -365,7 +371,7 @@ class _SupervisorsearchState extends State<Supervisorsearch>
 
                         ):Padding(
                           padding: const EdgeInsets.only(top: 20),
-                          child: Center(child: Text("Oops..No Data Found...",style: TextStyle(fontStyle: FontStyle.italic, color: Colors.red),)),
+                          child: Text("Oops..No Data Found...",style: TextStyle(fontStyle: FontStyle.italic, color: Colors.red),),
                         )
                       ],
                     );
