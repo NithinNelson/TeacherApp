@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:teacherapp/Controller/ui_controllers/page_controller.dart';
+import '../../../Controller/api_controllers/timeTableController.dart';
 import '../../../Controller/api_controllers/userAuthController.dart';
 import '../../../Models/api_models/time_table_api_model.dart';
 import 'package:teacherapp/Utils/font_util.dart';
@@ -36,14 +37,13 @@ class _AllTimeTableState extends State<AllTimeTable> {
           TextButton(
             onPressed: () {
               UserRole? userRole = userAuthController.userRole.value;
-              if(userRole == UserRole.leader){
+              if(userRole == UserRole.leader) {
                 Get.find<PageIndexController>().changePage(
-                    currentPage:5);
+                    currentPage: 4);
               } else {
                 Get.find<PageIndexController>().changePage(
-                  currentPage:6);
+                  currentPage: Get.find<TimeTableController>().classTeacherSubjects.value.isEmpty ? 4 : 5);
               }
-
             },
             style: const ButtonStyle(
               splashFactory: NoSplash.splashFactory,
@@ -60,7 +60,6 @@ class _AllTimeTableState extends State<AllTimeTable> {
                 ),
                 const Icon(Icons.arrow_forward_ios,size: 18,color: Colorutils.userdetailcolor,)
               ],
-
             ),
           ),
         ],
