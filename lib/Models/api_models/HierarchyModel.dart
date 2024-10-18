@@ -109,18 +109,22 @@ class Response {
 class Users {
   String? name;
   String? sId;
+  String? role;
 
-  Users({this.name, this.sId});
+
+  Users({this.name, this.sId,this.role});
 
   Users.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     sId = json['_id'];
+    role = json['role'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
     data['_id'] = this.sId;
+    data['role'] = this.role;
     return data;
   }
 }

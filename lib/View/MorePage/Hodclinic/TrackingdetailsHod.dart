@@ -21,6 +21,7 @@ import '../../../Models/api_models/HosUpdateModel.dart';
 import '../../../Utils/Colors.dart';
 import '../tackingDetails.dart';
 import '../trackingPage.dart';
+import 'TrackingPageHod.dart';
 
 class Trackingdetailshod extends StatefulWidget {
   final SendData sendStudentList;
@@ -1412,4 +1413,64 @@ void _playAlertSoundAndVibrate() async {
     Vibration.cancel();
     player.stop();
   });
+}
+class CustomLinearProgressIndicator extends StatelessWidget{
+  final double value;
+  final Color backgroundColor;
+  final Gradient gradient;
+  final Color textColor;
+  final BorderRadius borderRadius;
+  final String text;
+
+  CustomLinearProgressIndicator({
+    required this.value,
+    required this.backgroundColor,
+    required this.gradient,
+    required this.textColor,
+    required this.borderRadius,
+    required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          height: 25,
+          decoration: BoxDecoration(
+
+            color: backgroundColor,
+            borderRadius: borderRadius,
+            border: Border.all(
+              color: Colors.grey.withOpacity(0.4),
+              width: 1.0,
+            ),
+          ),
+          child: ClipRRect(
+            borderRadius: borderRadius,
+            child: ShaderMask(
+              shaderCallback: (bounds) => gradient.createShader(
+                Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+              ),
+              child: LinearProgressIndicator(
+                borderRadius: BorderRadius.circular(15),
+                value: value,
+                backgroundColor: Colors.transparent,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
+            ),
+          ),
+        ),
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
 }

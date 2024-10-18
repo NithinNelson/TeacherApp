@@ -30,123 +30,117 @@ class _QRViewExampleState extends State<QRViewExample> {
       height: 200,
     );
 
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) {
-        Navigator.pop(context, true);
-      },
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        // appBar: AppBar(
-        //   title: const Text('Scanner with Overlay Example app'),
-        // ),
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            Center(
-              child: MobileScanner(
-                fit: BoxFit.contain,
-                controller: controller,
-                scanWindow: scanWindow,
-                onDetect: (BarcodeCapture barcodes) async {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      // appBar: AppBar(
+      //   title: const Text('Scanner with Overlay Example app'),
+      // ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Center(
+            child: MobileScanner(
+              fit: BoxFit.contain,
+              controller: controller,
+              scanWindow: scanWindow,
+              onDetect: (BarcodeCapture barcodes) async {
+                print(
+                    ".qrData:.........................${barcodes.barcodes.first.displayValue}");
+                if (barcodes.barcodes.first.displayValue != null) {
                   print(
-                      ".qrData:.........................${barcodes.barcodes.first.displayValue}");
-                  if (barcodes.barcodes.first.displayValue != null) {
-                    print(
-                        "..........................${barcodes.barcodes.first.displayValue}");
-                    await Get.find<Qrcontroller>().fetchQrData(
-                        qrCode: barcodes.barcodes.first.displayValue
-                            .toString()
-                            .trim());
-                    // if(!mounted) return;
-                    if (Get.find<Qrcontroller>().studentqrdata.value.admnNo !=
-                        null) {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => const Scandata()));
-                    } else {
-                      Navigator.of(context).pop();
-                      TeacherAppPopUps.submitFailed(
-                        title: "Failed",
-                        message: "Invalid QR Code",
-                        actionName: "Ok",
-                        iconData: Icons.error_outline,
-                        iconColor: Colors.red,
-                      );
-                    }
+                      "..........................${barcodes.barcodes.first.displayValue}");
+                  await Get.find<Qrcontroller>().fetchQrData(
+                      qrCode: barcodes.barcodes.first.displayValue
+                          .toString()
+                          .trim());
+                  // if(!mounted) return;
+                  if (Get.find<Qrcontroller>().studentqrdata.value.admnNo !=
+                      null) {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const Scandata()));
+                  } else {
+                    Navigator.of(context).pop();
+                    TeacherAppPopUps.submitFailed(
+                      title: "Failed",
+                      message: "Invalid QR Code",
+                      actionName: "Ok",
+                      iconData: Icons.error_outline,
+                      iconColor: Colors.red,
+                    );
                   }
-                },
-                errorBuilder: (context, error, child) {
-                  return ScannerErrorWidget(error: error);
-                },
-                // overlayBuilder: (context, constraints) {
-                //   return Padding(
-                //     padding: const EdgeInsets.all(16.0),
-                //     child: Align(
-                //       alignment: Alignment.bottomCenter,
-                //       child: StreamBuilder(
-                //         stream: controller.barcodes,
-                //         builder: (context, snapshot) {
-                //           final scannedBarcodes = snapshot.data?.barcodes ?? [];
-                //
-                //           if (scannedBarcodes.isEmpty) {
-                //             return const Text(
-                //               'Scan something!',
-                //               overflow: TextOverflow.fade,
-                //               style: TextStyle(color: Colors.white),
-                //             );
-                //           }
-                //
-                //           return Text(
-                //             scannedBarcodes.first.displayValue ?? 'No display value.',
-                //             overflow: TextOverflow.fade,
-                //             style: const TextStyle(color: Colors.white),
-                //           );
-                //         },
-                //       ),
-                //     ),
-                //   );
-                // },
-              ),
-            ),
-            ValueListenableBuilder(
-              valueListenable: controller,
-              builder: (context, value, child) {
-                if (!value.isInitialized ||
-                    !value.isRunning ||
-                    value.error != null) {
-                  return const SizedBox();
                 }
-
-                return Container(
-                  decoration: ShapeDecoration(
-                    shape: QrScannerOverlayShape(
-                      borderColor: Colors.white,
-                      borderRadius: 20,
-                      borderLength: 30,
-                      borderWidth: 12,
-                      cutOutBottomOffset: 20,
-                      cutOutSize: 300,
-                      overlayColor: Colors.black.withOpacity(0.5),
-                    ),
-                  ),
-                );
               },
+              errorBuilder: (context, error, child) {
+                return ScannerErrorWidget(error: error);
+              },
+              // overlayBuilder: (context, constraints) {
+              //   return Padding(
+              //     padding: const EdgeInsets.all(16.0),
+              //     child: Align(
+              //       alignment: Alignment.bottomCenter,
+              //       child: StreamBuilder(
+              //         stream: controller.barcodes,
+              //         builder: (context, snapshot) {
+              //           final scannedBarcodes = snapshot.data?.barcodes ?? [];
+              //
+              //           if (scannedBarcodes.isEmpty) {
+              //             return const Text(
+              //               'Scan something!',
+              //               overflow: TextOverflow.fade,
+              //               style: TextStyle(color: Colors.white),
+              //             );
+              //           }
+              //
+              //           return Text(
+              //             scannedBarcodes.first.displayValue ?? 'No display value.',
+              //             overflow: TextOverflow.fade,
+              //             style: const TextStyle(color: Colors.white),
+              //           );
+              //         },
+              //       ),
+              //     ),
+              //   );
+              // },
             ),
-            // Align(
-            //   alignment: Alignment.bottomCenter,
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(16.0),
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //       children: [
-            //         ToggleFlashlightButton(controller: controller),
-            //         SwitchCameraButton(controller: controller),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-          ],
-        ),
+          ),
+          ValueListenableBuilder(
+            valueListenable: controller,
+            builder: (context, value, child) {
+              if (!value.isInitialized ||
+                  !value.isRunning ||
+                  value.error != null) {
+                return const SizedBox();
+              }
+
+              return Container(
+                decoration: ShapeDecoration(
+                  shape: QrScannerOverlayShape(
+                    borderColor: Colors.white,
+                    borderRadius: 20,
+                    borderLength: 30,
+                    borderWidth: 12,
+                    cutOutBottomOffset: 20,
+                    cutOutSize: 300,
+                    overlayColor: Colors.black.withOpacity(0.5),
+                  ),
+                ),
+              );
+            },
+          ),
+          // Align(
+          //   alignment: Alignment.bottomCenter,
+          //   child: Padding(
+          //     padding: const EdgeInsets.all(16.0),
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //       children: [
+          //         ToggleFlashlightButton(controller: controller),
+          //         SwitchCameraButton(controller: controller),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+        ],
       ),
     );
   }

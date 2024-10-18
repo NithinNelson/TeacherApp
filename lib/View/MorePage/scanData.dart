@@ -624,6 +624,7 @@ class _ScandataState extends State<Scandata> {
                                     profilePic: Studentdetail.profileImage,
                                     instID: Studentdetail.instID,
                                     remarks: _Remarkscontroller.text,
+                                    role:selectedName.role ,
                                     sentTo: selectedName.sId,
                                     sentToName:selectedName.name,
 

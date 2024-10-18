@@ -466,7 +466,7 @@ class _trackingDetails2State extends State<trackingDetails2> {
                               MainAxisAlignment.center,
                               children: [
                                 Text(
-                                    "${DateFormat('HH : mm').format(DateTime.parse(widget.progressCompletedList.status?[1].addedOn ?? '--').toLocal())}"
+                                    "${DateFormat('HH : mm').format(DateTime.parse(widget.progressCompletedList.status?[2].addedOn ?? '--').toLocal())}"
                                         " "
                                         "("
                                         "${Converteddate("${widget.progressCompletedList.visitDate}")}"

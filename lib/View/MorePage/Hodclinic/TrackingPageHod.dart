@@ -385,6 +385,7 @@ class _trackingcontainerState extends State<trackingcontainer> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     int remainingTime = endTime.difference(DateTime.now()).inSeconds;
@@ -792,7 +793,7 @@ void _playAlertSoundAndVibrate() async {
 
   try {
     await player
-        .play(AssetSource('images/vintage_alarm_clock-[AudioTrimmer.com].mp3'));
+        .play(AssetSource('assets/alarm.mp3'));
   } catch (e) {
     print('Error playing audio: $e');
   }
