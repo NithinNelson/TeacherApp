@@ -265,8 +265,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 userAuthController.userData
                                                         .value.roleIds ??
                                                     [];
-                                            if (rolIds.contains("rolepri12") ||
-                                                rolIds.contains("role12123")) {
+                                            if((rolIds.contains("rolepri12") || rolIds.contains("role12123")) && !rolIds.contains("role121234")) {
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(

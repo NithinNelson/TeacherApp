@@ -142,7 +142,7 @@ class _ChoicePageState extends State<ChoicePage> {
                                     pageIndexController.changePage(currentPage: 0);
                                     pageIndexController.setMenuItems(userRole: UserRole.leader, isClassTeacher: true);
                                     List<String>? rolIds = userAuthController.userData.value.roleIds ?? [];
-                                    if(rolIds.contains("rolepri12") || rolIds.contains("role12123")) {
+                                    if((rolIds.contains("rolepri12") || rolIds.contains("role12123")) && !rolIds.contains("role121234")) {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
