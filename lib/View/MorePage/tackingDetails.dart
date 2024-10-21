@@ -615,9 +615,14 @@ class _Container1State extends State<Container1> {
                         "${widget.inProgressData.status?[0].visitStatus}",
                         style: TextStyle(fontSize: 12),
                       ),
+                      widget.inProgressData.visitStatus != 'Sent to Washroom'?
                       Text(
                         "Reached "
                         "${Reachedstatus("${widget.inProgressData.status?[0].visitStatus}")}",
+                        style: TextStyle(fontSize: 12),
+                      ):
+                      Text(
+                        "Reached Classroom",
                         style: TextStyle(fontSize: 12),
                       ),
                     ],

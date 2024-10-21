@@ -56,9 +56,9 @@ class _TrackingpageHodState extends State<TrackingpageHod>
 
   @override
   Widget build(BuildContext context) {
-    Get.find<Hosstudentlistcontroller>().fetchHosStudentList(DateTime.now());
-
-    Get.find<Hosallstudentslistcontroller>().fetchAllStudentDateList();
+    // Get.find<Hosstudentlistcontroller>().fetchHosStudentList(DateTime.now());
+    //
+    // Get.find<Hosallstudentslistcontroller>().fetchAllStudentDateList();
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       body: SafeArea(
@@ -245,7 +245,6 @@ class _TrackingpageHodState extends State<TrackingpageHod>
                                       startTime: DateTime.parse(
                                               "${sendStudentsData[index].status?.last.addedOn}")
                                           .toLocal(),
-                                      index1: index,
                                     ))
                             : Center(
                                 child: Text(
@@ -279,13 +278,11 @@ class _TrackingpageHodState extends State<TrackingpageHod>
 class trackingcontainer extends StatefulWidget {
   final SendData sendStudentList;
   final DateTime startTime;
-  final int index1;
 
   const trackingcontainer({
     super.key,
     required this.sendStudentList,
     required this.startTime,
-    required this.index1,
   });
 
   @override
@@ -384,7 +381,6 @@ class _trackingcontainerState extends State<trackingcontainer> {
     timer.cancel(); // Cancel the timer when the widget is disposed
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -792,8 +788,8 @@ void _playAlertSoundAndVibrate() async {
   final player = AudioPlayer();
 
   try {
-    await player
-        .play(AssetSource('assets/alarm.mp3'));
+    // await player
+    //     .play(AssetSource('assets/alarm.mp3'));
   } catch (e) {
     print('Error playing audio: $e');
   }

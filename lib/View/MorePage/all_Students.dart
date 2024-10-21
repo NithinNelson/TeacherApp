@@ -643,7 +643,7 @@ class _TrackingContainerState extends State<TrackingContainer> {
           if (DateTime.now().isAfter(endTime) &&
               DateTime.now()
                   .isBefore(endTime.add(const Duration(seconds: 1)))) {
-            playAlarm();
+            // playAlarm();
             // _playAlertSoundAndVibrate();
             // _playAlertSoundAndVibrate();
           }
@@ -908,8 +908,8 @@ void _playAlertSoundAndVibrate() async {
   final player = AudioPlayer();
 
   try {
-    await player
-        .play(AssetSource('images/alarmnew.mp3'));
+    // await player
+    //     .play(AssetSource('images/alarmnew.mp3'));
   } catch (e) {
     print('Error playing audio: $e');
   }

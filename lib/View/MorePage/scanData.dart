@@ -605,7 +605,7 @@ class _ScandataState extends State<Scandata> {
                                   // }
                                   //
                                   // isContains ?
-                                  playAlarm(Studentdetail.admnNo ?? "1/22");
+                                  // playAlarm(Studentdetail.admnNo ?? "1/22");
                                   StudentAddModel sentData = StudentAddModel(
                                     academicYear: Get.find<UserAuthController>()
                                             .userData

@@ -45,16 +45,17 @@ class Ownhistorycontroller extends GetxController {
       List<TeacherSubject> teacherSubjects =
           Get.find<TimeTableController>().teacherSubjects.value;
 
-      List<Map<String, dynamic>> classList = [];
-      for (var sub in teacherSubjects) {
-        classList.add(
-          {
-            "class": sub.classs,
-            "batch": sub.batch,
-          },
-        );
-      }
+      // List<Map<String, dynamic>> classList = [];
+      // for (var sub in teacherSubjects) {
+      //   classList.add(
+      //     {
+      //       "class": sub.classs,
+      //       "batch": sub.batch,
+      //     },
+      //   );
+      // }
 
+print("...........selectedDate..$selectedDate");
       Map<String, dynamic> resp = await ApiServices.getHosStudentListDate(
           schoolId: scId, academicYear: acYr, date: selectedDate, userId: teacherId);
 

@@ -87,12 +87,15 @@ class _ViewallState extends State<Viewall> {
                           children: [
                             // Left arrow button
                             InkWell(
-                              onTap: () {
+                              onTap: () async {
                                 setState(() {
                                   initDate = subtractOneMonth(initDate);
                                   currentMonth = DateFormat('MMMM yyyy').format(initDate);
                                   print("---------initDate--------$initDate");
                                 });
+                                await Get.find<RecentDateListApiController>()
+                                    .fetchRecentDateList(date: initDate);
+
                               },
                               child: Container(
                                   height: 30,
@@ -130,12 +133,15 @@ class _ViewallState extends State<Viewall> {
                             // Right arrow button
 
                             InkWell(
-                              onTap: () {
+                              onTap: () async{
                                 setState(() {
                                   initDate = addOneMonth(initDate);
                                   currentMonth = DateFormat('MMMM yyyy').format(initDate);
                                   print("---------initDate--------$initDate");
                                 });
+                                await Get.find<RecentDateListApiController>()
+                                    .fetchRecentDateList(date: initDate);
+
                               },
                               child: Container(
                                   height: 30,

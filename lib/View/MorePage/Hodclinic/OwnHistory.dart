@@ -43,8 +43,7 @@ class _OwnhistoryState extends State<Ownhistory> {
         child: Container(
           child: GetX<Ownhistorycontroller>(
             builder: (Ownhistorycontroller controller) {
-              List<SendData> ProgressCompletedList =
-                  controller.recivedStudentData.value;
+              List<SendData> ProgressCompletedList =controller.recivedStudentData.value;
 
               return Column(
                 children: [
@@ -90,12 +89,13 @@ class _OwnhistoryState extends State<Ownhistory> {
                           children: [
                             // Left arrow button
                             InkWell(
-                              onTap: () {
+                              onTap: () async {
                                 setState(() {
                                   initDate = subtractOneMonth(initDate);
                                   currentMonth = DateFormat('MMMM yyyy').format(initDate);
-                                  print("---------initDate--------$initDate");
                                 });
+                                await Get.find<Ownhistorycontroller>()
+                                    .fetchRecentDateListHOS(date: initDate);
                               },
                               child: Container(
                                   height: 30,
@@ -133,12 +133,13 @@ class _OwnhistoryState extends State<Ownhistory> {
                             // Right arrow button
 
                             InkWell(
-                              onTap: () {
+                              onTap: () async {
                                 setState(() {
                                   initDate = addOneMonth(initDate);
                                   currentMonth = DateFormat('MMMM yyyy').format(initDate);
-                                  print("---------initDate--------$initDate");
                                 });
+                                await Get.find<Ownhistorycontroller>()
+                                    .fetchRecentDateListHOS(date: initDate);
                               },
                               child: Container(
                                   height: 30,
@@ -221,8 +222,7 @@ class _OwnhistoryState extends State<Ownhistory> {
                       child: ListView.builder(
                           itemCount: ProgressCompletedList.length,
                           itemBuilder: (context, index) => listcontainer(
-                            progressCompletedList:
-                            controller.recivedStudentData[index],
+                            progressCompletedList:ProgressCompletedList[index],
                           )))
                 ],
               );

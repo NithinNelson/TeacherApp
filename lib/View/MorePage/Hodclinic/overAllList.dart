@@ -67,13 +67,15 @@ class _OveralllistState extends State<Overalllist> {
                       children: [
                         // Left arrow button
                         InkWell(
-                          onTap: () {
-                            setState(() {
+                          onTap: () async{
+                            setState(()  {
                               initDate = subtractOneMonth(initDate);
                               currentMonth =
                                   DateFormat('MMMM yyyy').format(initDate);
                               print("---------initDate--------$initDate");
                             });
+                            await Get.find<Hosallstudentslistcontroller>()
+                                .fetchAllStudentDateList(date: initDate);
                           },
                           child: Container(
                               height: 30,
@@ -111,13 +113,15 @@ class _OveralllistState extends State<Overalllist> {
                         // Right arrow button
 
                         InkWell(
-                          onTap: () {
+                          onTap: () async {
                             setState(() {
                               initDate = addOneMonth(initDate);
                               currentMonth =
                                   DateFormat('MMMM yyyy').format(initDate);
                               print("---------initDate--------$initDate");
                             });
+                            await Get.find<Hosallstudentslistcontroller>()
+                                .fetchAllStudentDateList(date: initDate);
                           },
                           child: Container(
                               height: 30,
