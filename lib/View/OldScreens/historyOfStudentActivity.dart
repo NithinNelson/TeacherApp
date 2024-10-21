@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -215,16 +216,29 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                                 ),
                                 Row(
                                   children: [
-                                    Container(
-                                      width: 50.w,
-                                      height: 50.h,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colorutils.chatcolor,
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                                widget.StudentImage.toString()),
-                                            fit: BoxFit.fill),
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(color: Colors.lightBlue.shade50)
+                                        ),
+                                        child: CachedNetworkImage(
+                                          width: 50.h,
+                                          height: 50.h,
+                                          fit: BoxFit.fill,
+                                          imageUrl: widget.StudentImage.toString(),
+                                          errorWidget: (context, url, error) =>   Center(
+                                            child: Text(
+                                              widget.studentName.toString()[0],
+                                              style: TextStyle(
+
+                                                  color: Colorutils.userdetailcolor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                     SizedBox(
@@ -251,7 +265,7 @@ class _HistoryOfStudentActivityState extends State<HistoryOfStudentActivity> {
                                         SizedBox(
                                           height: 6.h,
                                         ),
-                                        (widget.studentFees) == null
+                                        (widget.studentFees == null || widget.studentFees.toString().trim().isEmpty)
                                             ? Text("No Pending Fees")
                                             : Row(
                                                 children: [
