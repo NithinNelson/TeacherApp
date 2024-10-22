@@ -171,7 +171,8 @@ class UserAuthController extends GetxController {
         roleIds.contains("role121235") ||
         roleIds.contains("5e37f0f7f50ca66f1d22d74b") ||
         roleIds.contains("v2QNTPPvPQK6T") ||
-        roleIds.contains("62690f2b15f336042ba786786")) &&
+        roleIds.contains("62690f2b15f336042ba786786") ||
+        roleIds.contains("5d8b3b701dad2f60218cbe46")) &&
             roleIds.contains("role12123rqwer")) {
       userRole.value = UserRole.bothTeacherAndLeader;
     } else if ((roleIds.contains("rolepri12") ||
@@ -180,7 +181,8 @@ class UserAuthController extends GetxController {
         roleIds.contains("role121235") ||
         roleIds.contains("5e37f0f7f50ca66f1d22d74b") ||
         roleIds.contains("v2QNTPPvPQK6T") ||
-        roleIds.contains("62690f2b15f336042ba786786")) &&
+        roleIds.contains("62690f2b15f336042ba786786") ||
+        roleIds.contains("5d8b3b701dad2f60218cbe46")) &&
             !roleIds.contains("role12123rqwer")) {
       userRole.value = UserRole.leader;
     } else if (roleIds.contains("role12123rqwer")) {
