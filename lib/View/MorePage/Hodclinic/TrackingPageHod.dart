@@ -56,9 +56,9 @@ class _TrackingpageHodState extends State<TrackingpageHod>
 
   @override
   Widget build(BuildContext context) {
-    // Get.find<Hosstudentlistcontroller>().fetchHosStudentList(DateTime.now());
-    //
-    // Get.find<Hosallstudentslistcontroller>().fetchAllStudentDateList();
+    Get.find<Hosstudentlistcontroller>().fetchHosStudentList(DateTime.now());
+
+    Get.find<Hosallstudentslistcontroller>().fetchAllStudentDateList();
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       body: SafeArea(
@@ -156,6 +156,7 @@ class _TrackingpageHodState extends State<TrackingpageHod>
                   ),
                   child: TabBar(
                     onTap: (value) {
+                      Get.find<Hosstudentlistcontroller>().resetData();
                       setState(() {
                         tabValue = value;
                       });
@@ -351,7 +352,7 @@ class _trackingcontainerState extends State<trackingcontainer> {
           if (DateTime.now().isAfter(endTime) &&
               DateTime.now()
                   .isBefore(endTime.add(const Duration(seconds: 1)))) {
-            _playAlertSoundAndVibrate();
+            // _playAlertSoundAndVibrate();
             // TeacherAppPopUps.Trackingpoplate(
             //     title: "Late Alert",
             //     message:
@@ -384,9 +385,11 @@ class _trackingcontainerState extends State<trackingcontainer> {
 
   @override
   Widget build(BuildContext context) {
+
     int remainingTime = endTime.difference(DateTime.now()).inSeconds;
 
     double progress = (countdownDuration - remainingTime) / countdownDuration;
+
     return Padding(
       padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8, top: 4),
       child: GestureDetector(
@@ -397,7 +400,11 @@ class _trackingcontainerState extends State<trackingcontainer> {
                     starttime: DateTime.parse(
                             "${widget.sendStudentList.status?.last.addedOn}")
                         .toLocal(),
-                  )));
+                  ))).then((val) {
+            setState(() {
+
+            });
+          });
         },
         child: Container(
           height: 110.h,
@@ -780,25 +787,25 @@ class _TrackingContainerState extends State<TrackingContainer> {
   }
 }
 
-void _playAlertSoundAndVibrate() async {
-  if (await Vibration.hasVibrator() ?? false) {
-    Vibration.vibrate(duration: 10000);
-  }
-
-  final player = AudioPlayer();
-
-  try {
-    // await player
-    //     .play(AssetSource('assets/alarm.mp3'));
-  } catch (e) {
-    print('Error playing audio: $e');
-  }
-
-  Future.delayed(Duration(seconds: 5), () {
-    Vibration.cancel();
-    player.stop();
-  });
-}
+// void _playAlertSoundAndVibrate() async {
+//   if (await Vibration.hasVibrator() ?? false) {
+//     Vibration.vibrate(duration: 10000);
+//   }
+//
+//   final player = AudioPlayer();
+//
+//   try {
+//     await player
+//         .play(AssetSource('assets/alarm.mp3'));
+//   } catch (e) {
+//     print('Error playing audio: $e');
+//   }
+//
+//   Future.delayed(Duration(seconds: 5), () {
+//     Vibration.cancel();
+//     player.stop();
+//   });
+// }
 
 class CustomLinearProgressIndicator extends StatelessWidget {
   final double value;

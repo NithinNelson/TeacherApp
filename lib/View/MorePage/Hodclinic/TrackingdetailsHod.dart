@@ -392,7 +392,7 @@ class _Container1State extends State<Container1> {
           if (DateTime.now().isAfter(endTime) &&
               DateTime.now()
                   .isBefore(endTime.add(const Duration(seconds: 1)))) {
-            _playAlertSoundAndVibrate();
+            // _playAlertSoundAndVibrate();
             // _playAlertSoundAndVibrate();
           }
           timer.cancel();
@@ -1014,7 +1014,7 @@ class _Container3State extends State<Container3> {
           if (DateTime.now().isAfter(endTime) &&
               DateTime.now()
                   .isBefore(endTime.add(const Duration(seconds: 1)))) {
-            _playAlertSoundAndVibrate();
+            // _playAlertSoundAndVibrate();
             // _playAlertSoundAndVibrate();
           }
           timer.cancel();

@@ -597,16 +597,16 @@ class _TrackingContainerState extends State<TrackingContainer> {
           if (DateTime.now().isAfter(endTime) &&
               DateTime.now()
                   .isBefore(endTime.add(const Duration(seconds: 1)))) {
-            UserAuthController userAuthController = Get.find<UserAuthController>();
-            widget.inProgressList.visitStatus != "Sent to Isolation Room"?
-
-
-            widget.inProgressList.status![0].sentById ==  userAuthController.userData.value.userId?
-            _playAlertSoundAndVibrate():_playAlertSoundAndVibrate2()
-
-
-
-                : _playAlertSoundAndVibrate2();
+            // UserAuthController userAuthController = Get.find<UserAuthController>();
+            // widget.inProgressList.visitStatus != "Sent to Isolation Room"?
+            //
+            //
+            // widget.inProgressList.status![0].sentById ==  userAuthController.userData.value.userId?
+            // _playAlertSoundAndVibrate():_playAlertSoundAndVibrate2()
+            //
+            //
+            //
+            //     : _playAlertSoundAndVibrate2();
           }
           timer.cancel();
           text = true;
@@ -744,7 +744,7 @@ class _TrackingContainerState extends State<TrackingContainer> {
                                                         .visitStatus ==
                                                     "Reached Class"
                                             ? Colors.green.withOpacity(0.3)
-                                            : Colors.grey,
+                                            :  Colorutils.clinicHOd,
                           ),
                           child: Padding(
                             padding: EdgeInsets.symmetric(
@@ -778,7 +778,7 @@ class _TrackingContainerState extends State<TrackingContainer> {
                                                               .visitStatus ==
                                                           "Reached Class"
                                                   ? Colorutils.userdetailcolor
-                                                  : Colorutils.white,
+                                                  : Colors.blue,
                                 ))),
                           )),
                     ],
@@ -900,63 +900,63 @@ String Converteddate(String Date) {
   return Date;
 }
 
-void _playAlertSoundAndVibrate() async {
-  if (await Vibration.hasVibrator() ?? false) {
-    Vibration.vibrate(duration: 10000);
-  }
-
-  final player = AudioPlayer();
-
-  try {
-    // await player
-    //     .play(AssetSource('images/alarmnew.mp3'));
-  } catch (e) {
-    print('Error playing audio: $e');
-  }
-
-  Future.delayed(Duration(seconds: 5), () {
-    Vibration.cancel();
-    player.stop();
-  });
-}
-void _playAlertSoundAndVibrate2() async {
-
-
-  final player = AudioPlayer();
-
-  try {
-    await player
-        .play(AssetSource('assets/alarm.sssmp3'));
-  } catch (e) {
-    print('Error playing audio: $e');
-  }
-
-  Future.delayed(Duration(seconds: 5), () {
-    Vibration.cancel();
-    player.stop();
-  });
-}
-playAlarm() async {
-  await Alarm.init();
-  DateTime alarmTime = DateTime.now().add(const Duration(seconds: 60));
-  final alarmSettings = AlarmSettings(
-    id: 1,
-    dateTime: alarmTime,
-    assetAudioPath: 'assets/alarm.mp3',
-    loopAudio: false,
-    vibrate: false,
-    volume: 0.5,
-    fadeDuration: 5.0,
-    // warningNotificationOnKill: Platform.isIOS,
-    notificationSettings: const NotificationSettings(
-      title: 'This is the title',
-      body: 'This is the body',
-      stopButton: "true",
-      icon: 'notification_icon',
-    ),
-  );
-  Alarm.set(alarmSettings: alarmSettings);
-}
+// void _playAlertSoundAndVibrate() async {
+//   if (await Vibration.hasVibrator() ?? false) {
+//     Vibration.vibrate(duration: 10000);
+//   }
+//
+//   final player = AudioPlayer();
+//
+//   try {
+//     // await player
+//     //     .play(AssetSource('images/alarmnew.mp3'));
+//   } catch (e) {
+//     print('Error playing audio: $e');
+//   }
+//
+//   Future.delayed(Duration(seconds: 5), () {
+//     Vibration.cancel();
+//     player.stop();
+//   });
+// }
+// void _playAlertSoundAndVibrate2() async {
+//
+//
+//   final player = AudioPlayer();
+//
+//   try {
+//     await player
+//         .play(AssetSource('assets/alarm.sssmp3'));
+//   } catch (e) {
+//     print('Error playing audio: $e');
+//   }
+//
+//   Future.delayed(Duration(seconds: 5), () {
+//     Vibration.cancel();
+//     player.stop();
+//   });
+// }
+// playAlarm() async {
+//   await Alarm.init();
+//   DateTime alarmTime = DateTime.now().add(const Duration(seconds: 60));
+//   final alarmSettings = AlarmSettings(
+//     id: 1,
+//     dateTime: alarmTime,
+//     assetAudioPath: 'assets/alarm.mp3',
+//     loopAudio: false,
+//     vibrate: false,
+//     volume: 0.5,
+//     fadeDuration: 5.0,
+//     // warningNotificationOnKill: Platform.isIOS,
+//     notificationSettings: const NotificationSettings(
+//       title: 'This is the title',
+//       body: 'This is the body',
+//       stopButton: "true",
+//       icon: 'notification_icon',
+//     ),
+//   );
+//   Alarm.set(alarmSettings: alarmSettings);
+// }
 
 String formatTime(int seconds) {
   int minutes = seconds ~/ 60; // Calculate minutes

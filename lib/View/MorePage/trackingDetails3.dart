@@ -141,7 +141,7 @@ class _trackingDetails3State extends State<trackingDetails3> {
                                                             .visitStatus ==
                                                         "Reached Class"
                                                 ? Colors.green.withOpacity(0.3)
-                                                : Colors.grey,
+                                                : Colorutils.clinicHOd,
                               ),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
@@ -177,7 +177,7 @@ class _trackingDetails3State extends State<trackingDetails3> {
                                                                   .visitStatus ==
                                                               "Reached Class"
                                                       ? Colorutils.userdetailcolor
-                                                      : Colorutils.white,
+                                                      : Colors.blue,
                                     ))),
                               )),
                         ],

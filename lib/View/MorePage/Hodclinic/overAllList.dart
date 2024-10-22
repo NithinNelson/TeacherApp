@@ -281,12 +281,12 @@ class _listcontainerState extends State<listcontainer> {
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       print("rebuild...brbggh.....$timer.............");
       setState(() {
-        if (DateTime.now().isBefore(endTime)) {
-          text = false;
-        } else {
-          timer.cancel();
-          text = true;
-        }
+        // if (DateTime.now().isBefore(endTime)) {
+        //   text = false;
+        // } else {
+        //   timer.cancel();
+        //   text = true;
+        // }
 
         if (DateTime.now().isBefore(endTime)) {
           text = false;
