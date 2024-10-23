@@ -40,8 +40,7 @@ class _TrackingdetailshodState extends State<Trackingdetailshod> {
 
   @override
   Widget build(BuildContext context) {
-    controller1 =
-        TextEditingController(text: widget.sendStudentList.remarks);
+    controller1 = TextEditingController(text: widget.sendStudentList.remarks);
 
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
@@ -115,7 +114,8 @@ class _TrackingdetailshodState extends State<Trackingdetailshod> {
                                 width: 200.w,
                                 child: SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
-                                  child: Text("${widget.sendStudentList.studentName}",
+                                  child: Text(
+                                      "${widget.sendStudentList.studentName}",
                                       style: GoogleFonts.inter(
                                           textStyle: TextStyle(
                                               fontSize: 16.sp,
@@ -131,7 +131,7 @@ class _TrackingdetailshodState extends State<Trackingdetailshod> {
                                   // height: 18.h,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4),
-                                    color:Colorutils.clinicHOd,
+                                    color: Colorutils.clinicHOd,
                                   ),
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(
@@ -180,39 +180,38 @@ class _TrackingdetailshodState extends State<Trackingdetailshod> {
                               ),
                               Container(
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        "From : ",
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "From : ",
 
-                                        // "Sent : ${widget.sendStudentList.visitDate}",
-                                        style: GoogleFonts.inter(
+                                    // "Sent : ${widget.sendStudentList.visitDate}",
+                                    style: GoogleFonts.inter(
+                                      textStyle: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Text(
+                                      "Grade "
+                                      "${widget.sendStudentList.classs}"
+                                      " "
+                                      "${widget.sendStudentList.batch}",
+                                      style: GoogleFonts.inter(
                                           textStyle: TextStyle(
                                               fontSize: 12.sp,
-                                              color: Colors.grey,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      Text(
-                                          "Grade "
-                                              "${widget.sendStudentList.classs}"
-                                              " "
-                                              "${widget.sendStudentList.batch}",
-                                          style: GoogleFonts.inter(
-                                              textStyle: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold))),
-                                    ],
-                                  )),
-
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold))),
+                                ],
+                              )),
                             ],
                           ),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 55,bottom: 3),
+                      padding: const EdgeInsets.only(left: 55, bottom: 3),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -231,9 +230,9 @@ class _TrackingdetailshodState extends State<Trackingdetailshod> {
                                   "${widget.sendStudentList.status?.first.sentBy?.toUpperCase()}",
                                   style: GoogleFonts.inter(
                                       textStyle: TextStyle(
-                                          fontSize: 11.sp,
-                                          color: Colors.blue,
-                                         ))),
+                                    fontSize: 11.sp,
+                                    color: Colors.blue,
+                                  ))),
                             ),
                           ),
                         ],
@@ -255,7 +254,11 @@ class _TrackingdetailshodState extends State<Trackingdetailshod> {
                     sendDetails2: widget.sendStudentList,
                     startTime2: widget.starttime,
                   ),
-                if (widget.sendStudentList.status?.length == 3) Container3(sendDetails3: widget.sendStudentList, startTime3: widget.starttime,),
+                if (widget.sendStudentList.status?.length == 3)
+                  Container3(
+                    sendDetails3: widget.sendStudentList,
+                    startTime3: widget.starttime,
+                  ),
                 Padding(
                   padding: const EdgeInsets.only(left: 18, right: 18),
                   child: GestureDetector(
@@ -297,44 +300,47 @@ class _TrackingdetailshodState extends State<Trackingdetailshod> {
                 ),
                 ontap == true
                     ? Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Container(
-                      child: TextFormField(
-                        controller: controller1,
-                        style: TextStyle(
-                            fontSize: 14, fontStyle: FontStyle.italic),
-                        readOnly: true,
-                        decoration: InputDecoration(
-                            hintStyle: TextStyle(color: Colors.black26),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15.0),
-                              ),
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Container(
+                            child: TextFormField(
+                              controller: controller1,
+                              style: TextStyle(
+                                  fontSize: 14, fontStyle: FontStyle.italic),
+                              readOnly: true,
+                              decoration: InputDecoration(
+                                  hintStyle: TextStyle(color: Colors.black26),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 10.0, horizontal: 10.0),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(15.0),
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colorutils.chatcolor,
+                                        width: 1.0),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15)),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colorutils.chatcolor,
+                                        width: 1.0),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15.0)),
+                                  ),
+                                  fillColor:
+                                      Colorutils.chatcolor.withOpacity(0.2),
+                                  filled: true),
+                              maxLines: 5,
                             ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colorutils.chatcolor, width: 1.0),
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(15)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colorutils.chatcolor, width: 1.0),
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(15.0)),
-                            ),
-                            fillColor: Colorutils.chatcolor.withOpacity(0.2),
-                            filled: true),
-                        maxLines: 5,
-                      ),
-                      height: 80,
-                    ),
-                  ),
-                )
+                            height: 80,
+                          ),
+                        ),
+                      )
                     : SizedBox()
               ],
             ),
@@ -392,7 +398,7 @@ class _Container1State extends State<Container1> {
           if (DateTime.now().isAfter(endTime) &&
               DateTime.now()
                   .isBefore(endTime.add(const Duration(seconds: 1)))) {
-            _playAlertSoundAndVibrate();
+            // _playAlertSoundAndVibrate();
             // _playAlertSoundAndVibrate();
           }
           timer.cancel();
@@ -461,7 +467,6 @@ class _Container1State extends State<Container1> {
                 ),
             child: Column(
               children: [
-
                 Padding(
                   padding: EdgeInsets.only(left: 60, right: 65),
                   child: Row(
@@ -469,7 +474,8 @@ class _Container1State extends State<Container1> {
                     children: [
                       Text(
                           DateFormat('HH : mm').format(DateTime.parse(
-                                  widget.sendDetails1.status?[0].addedOn ?? '--')
+                                  widget.sendDetails1.status?[0].addedOn ??
+                                      '--')
                               .toLocal()),
                           style: TextStyle(color: Colors.grey, fontSize: 12)),
                       Text("-- : --",
@@ -524,7 +530,8 @@ class _Container1State extends State<Container1> {
                                   textColor: Colors.white,
                                   borderRadius: BorderRadius.circular(15),
                                   text: remainingTime > 0
-                                      ? "${formatTime(remainingTime)}" " Min Left"
+                                      ? "${formatTime(remainingTime)}"
+                                          " Min Left"
                                       : "Not Yet Reached",
                                   gradient: const LinearGradient(
                                     colors: [
@@ -594,8 +601,7 @@ class _Container1State extends State<Container1> {
                         style: TextStyle(fontSize: 12),
                       ),
                       Text(
-                        "Reached "
-                        "${Reachedstatus("${widget.sendDetails1.status?[0].visitStatus}")}",
+                        "Reached ${Reachedstatus("${widget.sendDetails1.status?[0].visitStatus}")}",
                         style: TextStyle(fontSize: 12),
                       ),
                     ],
@@ -609,8 +615,8 @@ class _Container1State extends State<Container1> {
                     Center(
                         child: SliderButton(
                       height: 50,
-                          width: ScreenUtil().screenWidth * 0.9,
-                          backgroundColor: Colorutils.userdetailcolor,
+                      width: ScreenUtil().screenWidth * 0.9,
+                      backgroundColor: Colorutils.userdetailcolor,
                       radius: 50,
                       buttonSize: 50,
                       action: () async {
@@ -626,7 +632,8 @@ class _Container1State extends State<Container1> {
                                   .value
                                   .userId ??
                               '',
-                          visitStatus: "Reached HOD/HOS",
+                          visitStatus:
+                              "Reached ${Reachedstatus("${widget.sendDetails1.status?[0].visitStatus}")}",
                         );
                         await Get.find<Hosstudentupdatecontroller>()
                             .sendHOSStudentDatas(data: updateData);
@@ -645,20 +652,20 @@ class _Container1State extends State<Container1> {
                               fontSize: 15),
                         ),
                       ),
-                          icon: CircleAvatar(
-                            radius: 20,
-                            backgroundColor: Colorutils.userdetailcolor,
-                            child: CircleAvatar(
-                              radius: 18,
-                              backgroundColor: Colorutils.white,
-                              child: const Center(
-                                  child: Icon(
-                                    CupertinoIcons.checkmark_alt,
-                                    color: Colorutils.userdetailcolor,
-                                    size: 25.0,
-                                  )),
-                            ),
-                          ),
+                      icon: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colorutils.userdetailcolor,
+                        child: CircleAvatar(
+                          radius: 18,
+                          backgroundColor: Colorutils.white,
+                          child: const Center(
+                              child: Icon(
+                            CupertinoIcons.checkmark_alt,
+                            color: Colorutils.userdetailcolor,
+                            size: 25.0,
+                          )),
+                        ),
+                      ),
                       boxShadow: BoxShadow(
                         color: Colors.black.withOpacity(0.3),
                         blurRadius: 4,
@@ -822,7 +829,7 @@ class _Container2State extends State<Container2> {
                 ),
                 SizedBox(height: 5.0),
                 Padding(
-                  padding: EdgeInsets.only(left: 40, right: 30),
+                  padding: EdgeInsets.only(left: 40, right: 40),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -831,7 +838,7 @@ class _Container2State extends State<Container2> {
                         style: TextStyle(fontSize: 12),
                       ),
                       Text(
-                        "${Reachedstatus("${widget.sendDetails2.status?[1].visitStatus}")}",
+                        "Reached ${Reachedstatus("${widget.sendDetails2.status?[0].visitStatus}")}",
                         style: TextStyle(fontSize: 12),
                       ),
                     ],
@@ -870,7 +877,7 @@ class _Container2State extends State<Container2> {
           height: 10,
         ),
         Padding(
-          padding:  EdgeInsets.only(left: 10.w, right: 10.w),
+          padding: EdgeInsets.only(left: 10.w, right: 10.w),
           child: Container(
             padding: EdgeInsets.all(10.0),
             decoration: BoxDecoration(
@@ -938,7 +945,7 @@ class _Container2State extends State<Container2> {
                             ),
                             icon: CircleAvatar(
                               radius: 20,
-backgroundColor: Colorutils.userdetailcolor,
+                              backgroundColor: Colorutils.userdetailcolor,
                               child: CircleAvatar(
                                 radius: 18,
                                 backgroundColor: Colorutils.white,
@@ -972,7 +979,9 @@ backgroundColor: Colorutils.userdetailcolor,
 class Container3 extends StatefulWidget {
   final SendData sendDetails3;
   final DateTime startTime3;
-  const Container3({super.key, required this.sendDetails3, required this.startTime3});
+
+  const Container3(
+      {super.key, required this.sendDetails3, required this.startTime3});
 
   @override
   State<Container3> createState() => _Container3State();
@@ -1014,7 +1023,7 @@ class _Container3State extends State<Container3> {
           if (DateTime.now().isAfter(endTime) &&
               DateTime.now()
                   .isBefore(endTime.add(const Duration(seconds: 1)))) {
-            _playAlertSoundAndVibrate();
+            // _playAlertSoundAndVibrate();
             // _playAlertSoundAndVibrate();
           }
           timer.cancel();
@@ -1051,7 +1060,6 @@ class _Container3State extends State<Container3> {
             child: Row(
               children: [
                 Text(
-
                   "${widget.sendDetails3.status![0].visitStatus}",
                   style: TextStyle(fontSize: 18.w, fontWeight: FontWeight.bold),
                   maxLines: 3,
@@ -1091,12 +1099,14 @@ class _Container3State extends State<Container3> {
                     children: [
                       Text(
                           DateFormat('HH : mm').format(DateTime.parse(
-                              widget.sendDetails3.status?[0].addedOn ?? '--')
+                                  widget.sendDetails3.status?[0].addedOn ??
+                                      '--')
                               .toLocal()),
                           style: TextStyle(color: Colors.grey, fontSize: 12)),
                       Text(
                           DateFormat('HH : mm').format(DateTime.parse(
-                              widget.sendDetails3.status?[1].addedOn ?? '--')
+                                  widget.sendDetails3.status?[1].addedOn ??
+                                      '--')
                               .toLocal()),
                           style: TextStyle(color: Colors.grey, fontSize: 12)),
                     ],
@@ -1174,18 +1184,17 @@ class _Container3State extends State<Container3> {
                 ),
                 SizedBox(height: 5.0),
                 Padding(
-                  padding: EdgeInsets.only(left: 40, right: 30),
+                  padding: EdgeInsets.only(left: 40, right: 40),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         // "-- : --",
-                        "${ widget.sendDetails3.status?[0].visitStatus}",
+                        "${widget.sendDetails3.status?[0].visitStatus}",
                         style: TextStyle(fontSize: 12),
                       ),
                       Text(
-
-                        "${Reachedstatus("${ widget.sendDetails3.status?[1].visitStatus}")}",
+                        "Reached ${Reachedstatus("${widget.sendDetails3.status?[0].visitStatus}")}",
                         style: TextStyle(fontSize: 12),
                       ),
                     ],
@@ -1202,7 +1211,6 @@ class _Container3State extends State<Container3> {
             child: Row(
               children: [
                 Text(
-
                   "${widget.sendDetails3.status![2].visitStatus}",
                   style: TextStyle(fontSize: 18.w, fontWeight: FontWeight.bold),
                   maxLines: 3,
@@ -1242,8 +1250,8 @@ class _Container3State extends State<Container3> {
                       children: [
                         Text(
                             DateFormat('HH : mm').format(DateTime.parse(
-                                widget.sendDetails3.status?[2].addedOn ??
-                                    '--')
+                                    widget.sendDetails3.status?[2].addedOn ??
+                                        '--')
                                 .toLocal()),
                             style: TextStyle(color: Colors.grey, fontSize: 12)),
                         Text("-- : --",
@@ -1299,9 +1307,9 @@ class _Container3State extends State<Container3> {
                                         Colors.grey.withOpacity(0.3),
                                     textColor: Colors.white,
                                     borderRadius: BorderRadius.circular(15),
-                                    text:
-                                    remainingTime > 0
-                                        ? "${formatTime(remainingTime)}"" Min Left"
+                                    text: remainingTime > 0
+                                        ? "${formatTime(remainingTime)}"
+                                            " Min Left"
                                         : "Not Yet Reached",
                                     gradient: const LinearGradient(
                                       colors: [
@@ -1368,14 +1376,14 @@ class _Container3State extends State<Container3> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-
                           "${widget.sendDetails3.status![2].visitStatus ?? "--"}",
                           style: TextStyle(fontSize: 12),
                         ),
                         Text(
                           // "-- : --",
 
-                          "Reached ""${Reachedstatus("${widget.sendDetails3.status?[2].visitStatus}")}",
+                          "Reached "
+                          "${Reachedstatus("${widget.sendDetails3.status?[2].visitStatus}")}",
                           style: TextStyle(fontSize: 12),
                         ),
                       ],
@@ -1414,7 +1422,8 @@ void _playAlertSoundAndVibrate() async {
     player.stop();
   });
 }
-class CustomLinearProgressIndicator extends StatelessWidget{
+
+class CustomLinearProgressIndicator extends StatelessWidget {
   final double value;
   final Color backgroundColor;
   final Gradient gradient;
@@ -1439,7 +1448,6 @@ class CustomLinearProgressIndicator extends StatelessWidget{
         Container(
           height: 25,
           decoration: BoxDecoration(
-
             color: backgroundColor,
             borderRadius: borderRadius,
             border: Border.all(

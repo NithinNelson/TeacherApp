@@ -281,12 +281,12 @@ class _listcontainerState extends State<listcontainer> {
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       print("rebuild...brbggh.....$timer.............");
       setState(() {
-        if (DateTime.now().isBefore(endTime)) {
-          text = false;
-        } else {
-          timer.cancel();
-          text = true;
-        }
+        // if (DateTime.now().isBefore(endTime)) {
+        //   text = false;
+        // } else {
+        //   timer.cancel();
+        //   text = true;
+        // }
 
         if (DateTime.now().isBefore(endTime)) {
           text = false;
@@ -472,7 +472,7 @@ Spacer(),
 
                         remainingTime > 0
                             ? "${formatTime(remainingTime)}" " Min Left"
-                            : "Not Yet Reached":"Student Reached the Class",
+                            : "Not Yet Reached":"Student Reached",
                         gradient: const LinearGradient(
                           colors: [
                             Colorutils.gradientColor1,

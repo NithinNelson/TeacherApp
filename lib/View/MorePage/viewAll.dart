@@ -344,7 +344,13 @@ class listcontainer extends StatelessWidget {
                               ? Colorutils.councellorcolor2
                               : progressCompletedList.visitStatus == "Back to Class"|| progressCompletedList.visitStatus == "Reached Class"
                               ? Colors.green.withOpacity(0.3)
-                              :  Colorutils.grey,
+                              : progressCompletedList.visitStatus == "Sent to Isolation Room" ||
+                              progressCompletedList
+                                  .visitStatus ==
+                                  "Sent to Hospital" ||
+                              progressCompletedList.visitStatus == "Sent Home"
+                              ? Colors.grey
+                              : Colorutils.clinicHOd,
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
@@ -362,7 +368,9 @@ class listcontainer extends StatelessWidget {
                                         ? Colorutils.councellorcolor
                                         : progressCompletedList.visitStatus == "Back to Class"|| progressCompletedList.visitStatus == "Reached Class"
                                         ? Colorutils.userdetailcolor
-                                        :  Colorutils.white,
+                                        : progressCompletedList.visitStatus == "Sent to Isolation Room" ||progressCompletedList.visitStatus == "Sent to Hospital" || progressCompletedList.visitStatus == "Sent Home"
+                                        ? Colorutils.white
+                                        : Colors.blue,
                               ))),
                         )),
                   ],

@@ -35,13 +35,13 @@ class AllStudents extends StatefulWidget {
 }
 
 class _AllStudentsState extends State<AllStudents> {
-  // Timer? _timer;
+  Timer? _timer;
 
   @override
   Widget build(BuildContext context) {
-    // _timer = Timer.periodic(Duration(seconds: 6), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
       Get.find<RecentListApiController>().fetchRecentList();
-    // });
+    });
     // Get.find<RecentListApiController>().fetchRecentList();
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
@@ -51,60 +51,91 @@ class _AllStudentsState extends State<AllStudents> {
             List<RecentData> inProgressList = controller.inProgressData.value;
             return Column(
               children: [
-                Container(
+                SizedBox(
                   height: 60,
                   child: Row(
                     children: [
-                      Padding(
-                          padding: EdgeInsets.only(left: 18),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Padding(
+                            padding: EdgeInsets.only(left: 20),
                             child: Icon(
                               Icons.arrow_back_outlined,
                               size: 30,
-                            ),
-                          )),
-                      Spacer(
-                        flex: 3,
+                            )),
                       ),
-                      const Text(
+                      Spacer(
+                        flex: 2,
+                      ),
+                      Text(
                         "Add Students",
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       Spacer(
-                        flex: 2,
+                        flex: 3,
                       ),
-                      Padding(
-                          padding: EdgeInsets.only(right: 20),
-                          child: InkWell(
-                             radius: 20,
-
-                            onTap: () {
-                              Get.find<
-                                  RecentListApiController>()
-                                  .fetchRecentList();
-                              print("mjjmjjj...KASb....");
-                            },
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.refresh_outlined,
-                                  size: 22,color: Colorutils.userdetailcolor,
-                                ),
-                                Text(
-                                  "Refresh",
-                                  style: TextStyle(
-                                      fontSize: 13, fontWeight: FontWeight.w600,fontStyle: FontStyle.italic,color: Colorutils.userdetailcolor),
-                                )
-                              ],
-                            ),
-                          ))
                     ],
                   ),
                 ),
+                // Container(
+                //   height: 60,
+                //   child: Row(
+                //     children: [
+                //       Padding(
+                //           padding: EdgeInsets.only(left: 18),
+                //           child: GestureDetector(
+                //             onTap: () {
+                //               Navigator.of(context).pop();
+                //             },
+                //             child: Icon(
+                //               Icons.arrow_back_outlined,
+                //               size: 30,
+                //             ),
+                //           )),
+                //       Spacer(
+                //         flex: 3,
+                //       ),
+                //       const Text(
+                //         "Add Students",
+                //         style: TextStyle(
+                //             fontSize: 18, fontWeight: FontWeight.w600),
+                //       ),
+                //       Spacer(
+                //         flex: 2,
+                //       ),
+                //       Padding(
+                //           padding: EdgeInsets.only(right: 20),
+                //           child: InkWell(
+                //             radius: 20,
+                //             onTap: () {
+                //               Get.find<RecentListApiController>()
+                //                   .fetchRecentList();
+                //               print("mjjmjjj...KASb....");
+                //             },
+                //             child: Row(
+                //               children: [
+                //                 Icon(
+                //                   Icons.refresh_outlined,
+                //                   size: 22,
+                //                   color: Colorutils.userdetailcolor,
+                //                 ),
+                //                 Text(
+                //                   "Refresh",
+                //                   style: TextStyle(
+                //                       fontSize: 13,
+                //                       fontWeight: FontWeight.w600,
+                //                       fontStyle: FontStyle.italic,
+                //                       color: Colorutils.userdetailcolor),
+                //                 )
+                //               ],
+                //             ),
+                //           ))
+                //     ],
+                //   ),
+                // ),
                 Padding(
                   padding: const EdgeInsets.only(left: 12, right: 12),
                   child: Container(
@@ -538,6 +569,8 @@ class TrackingContainer extends StatefulWidget {
 }
 
 class _TrackingContainerState extends State<TrackingContainer> {
+
+  late Timer timer1;
   static const int countdownDuration = 1 * 60; // 5 minutes in seconds
 
   late DateTime endTime; // The end time for the countdown
@@ -549,28 +582,24 @@ class _TrackingContainerState extends State<TrackingContainer> {
     endTime = widget.startTime.add(Duration(seconds: countdownDuration));
     if (widget.inProgressList.status?.length == 1) {
       startTimer1(); // Start the timer when the screen is initialized
-    }
-
-    else if (widget.inProgressList.status?.length == 3 || widget.inProgressList.status!.length == 4 ){
+    } else if (widget.inProgressList.status?.length == 3 ||
+        widget.inProgressList.status!.length == 4) {
       startTimer1();
-    }
-    else if (widget.inProgressList.status?.length == 2 ) {
+    } else if (widget.inProgressList.status?.length == 2) {
       stopAlarm((widget.inProgressList.admissionNo ?? "1/22"));
     }
-  }
 
+  }
 
   @override
   void didUpdateWidget(covariant TrackingContainer oldWidget) {
     endTime = widget.startTime.add(Duration(seconds: countdownDuration));
     if (widget.inProgressList.status?.length == 1) {
       startTimer1(); // Start the timer when the screen is initialized
-    }
-
-    else if (widget.inProgressList.status?.length == 3 || widget.inProgressList.status!.length == 4 ){
+    } else if (widget.inProgressList.status?.length == 3 ||
+        widget.inProgressList.status!.length == 4) {
       startTimer1();
-    }
-    else if (widget.inProgressList.status?.length == 2 ) {
+    } else if (widget.inProgressList.status?.length == 2) {
       stopAlarm((widget.inProgressList.admissionNo ?? "1/22"));
     }
     super.didUpdateWidget(oldWidget);
@@ -597,16 +626,16 @@ class _TrackingContainerState extends State<TrackingContainer> {
           if (DateTime.now().isAfter(endTime) &&
               DateTime.now()
                   .isBefore(endTime.add(const Duration(seconds: 1)))) {
-            UserAuthController userAuthController = Get.find<UserAuthController>();
-            widget.inProgressList.visitStatus != "Sent to Isolation Room"?
-
-
-            widget.inProgressList.status![0].sentById ==  userAuthController.userData.value.userId?
-            _playAlertSoundAndVibrate():_playAlertSoundAndVibrate2()
-
-
-
-                : _playAlertSoundAndVibrate2();
+            // UserAuthController userAuthController = Get.find<UserAuthController>();
+            // widget.inProgressList.visitStatus != "Sent to Isolation Room"?
+            //
+            //
+            // widget.inProgressList.status![0].sentById ==  userAuthController.userData.value.userId?
+            // _playAlertSoundAndVibrate():_playAlertSoundAndVibrate2()
+            //
+            //
+            //
+            //     : _playAlertSoundAndVibrate2();
           }
           timer.cancel();
           text = true;
@@ -679,7 +708,11 @@ class _TrackingContainerState extends State<TrackingContainer> {
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: Colors.white,
+          color: (widget.inProgressList.status?.length == 1 &&  remainingTime < 0||
+                  widget.inProgressList.status?.length == 3 && remainingTime < 0||
+                  widget.inProgressList.status?.length == 4 &&  remainingTime <0)
+              ?Colors.red.withOpacity(0.2)
+              : Colors.white,
         ),
         child: Column(
           children: [
@@ -744,7 +777,11 @@ class _TrackingContainerState extends State<TrackingContainer> {
                                                         .visitStatus ==
                                                     "Reached Class"
                                             ? Colors.green.withOpacity(0.3)
-                                            : Colors.grey,
+                                            : widget.inProgressList
+                                                        .visitStatus ==
+                                                    "Sent to Isolation Room"
+                                                ? Colors.grey
+                                                : Colorutils.clinicHOd,
                           ),
                           child: Padding(
                             padding: EdgeInsets.symmetric(
@@ -778,7 +815,11 @@ class _TrackingContainerState extends State<TrackingContainer> {
                                                               .visitStatus ==
                                                           "Reached Class"
                                                   ? Colorutils.userdetailcolor
-                                                  : Colorutils.white,
+                                                  : widget.inProgressList
+                                                              .visitStatus ==
+                                                          "Sent to Isolation Room"
+                                                      ? Colorutils.white
+                                                      : Colors.blue,
                                 ))),
                           )),
                     ],
@@ -900,63 +941,63 @@ String Converteddate(String Date) {
   return Date;
 }
 
-void _playAlertSoundAndVibrate() async {
-  if (await Vibration.hasVibrator() ?? false) {
-    Vibration.vibrate(duration: 10000);
-  }
-
-  final player = AudioPlayer();
-
-  try {
-    // await player
-    //     .play(AssetSource('images/alarmnew.mp3'));
-  } catch (e) {
-    print('Error playing audio: $e');
-  }
-
-  Future.delayed(Duration(seconds: 5), () {
-    Vibration.cancel();
-    player.stop();
-  });
-}
-void _playAlertSoundAndVibrate2() async {
-
-
-  final player = AudioPlayer();
-
-  try {
-    await player
-        .play(AssetSource('assets/alarm.sssmp3'));
-  } catch (e) {
-    print('Error playing audio: $e');
-  }
-
-  Future.delayed(Duration(seconds: 5), () {
-    Vibration.cancel();
-    player.stop();
-  });
-}
-playAlarm() async {
-  await Alarm.init();
-  DateTime alarmTime = DateTime.now().add(const Duration(seconds: 60));
-  final alarmSettings = AlarmSettings(
-    id: 1,
-    dateTime: alarmTime,
-    assetAudioPath: 'assets/alarm.mp3',
-    loopAudio: false,
-    vibrate: false,
-    volume: 0.5,
-    fadeDuration: 5.0,
-    // warningNotificationOnKill: Platform.isIOS,
-    notificationSettings: const NotificationSettings(
-      title: 'This is the title',
-      body: 'This is the body',
-      stopButton: "true",
-      icon: 'notification_icon',
-    ),
-  );
-  Alarm.set(alarmSettings: alarmSettings);
-}
+// void _playAlertSoundAndVibrate() async {
+//   if (await Vibration.hasVibrator() ?? false) {
+//     Vibration.vibrate(duration: 10000);
+//   }
+//
+//   final player = AudioPlayer();
+//
+//   try {
+//     // await player
+//     //     .play(AssetSource('images/alarmnew.mp3'));
+//   } catch (e) {
+//     print('Error playing audio: $e');
+//   }
+//
+//   Future.delayed(Duration(seconds: 5), () {
+//     Vibration.cancel();
+//     player.stop();
+//   });
+// }
+// void _playAlertSoundAndVibrate2() async {
+//
+//
+//   final player = AudioPlayer();
+//
+//   try {
+//     await player
+//         .play(AssetSource('assets/alarm.sssmp3'));
+//   } catch (e) {
+//     print('Error playing audio: $e');
+//   }
+//
+//   Future.delayed(Duration(seconds: 5), () {
+//     Vibration.cancel();
+//     player.stop();
+//   });
+// }
+// playAlarm() async {
+//   await Alarm.init();
+//   DateTime alarmTime = DateTime.now().add(const Duration(seconds: 60));
+//   final alarmSettings = AlarmSettings(
+//     id: 1,
+//     dateTime: alarmTime,
+//     assetAudioPath: 'assets/alarm.mp3',
+//     loopAudio: false,
+//     vibrate: false,
+//     volume: 0.5,
+//     fadeDuration: 5.0,
+//     // warningNotificationOnKill: Platform.isIOS,
+//     notificationSettings: const NotificationSettings(
+//       title: 'This is the title',
+//       body: 'This is the body',
+//       stopButton: "true",
+//       icon: 'notification_icon',
+//     ),
+//   );
+//   Alarm.set(alarmSettings: alarmSettings);
+// }
 
 String formatTime(int seconds) {
   int minutes = seconds ~/ 60; // Calculate minutes
@@ -969,4 +1010,3 @@ stopAlarm(String admissionId) async {
   await Alarm.init();
   Alarm.stop(id);
 }
-

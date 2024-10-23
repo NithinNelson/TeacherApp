@@ -429,7 +429,7 @@ class _HostrackinghistoryState extends State<Hostrackinghistory> {
                                     style: TextStyle(fontSize: 12),
                                   ),
                                   Text(
-                                    "${widget.progressCompletedList.status?[1].visitStatus}",
+                                    "${widget.progressCompletedList.status?[0].visitStatus}",
                                     style: TextStyle(fontSize: 12),
                                   ),
                                 ],

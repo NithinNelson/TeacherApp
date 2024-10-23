@@ -20,11 +20,11 @@ class Hosstudentlistcontroller extends GetxController {
     isError.value = false;
   }
 
-  // void resetData() {
-  //   // recentData.value = [];
-  //   sentStudentData.value = [];
-  //   recivedStudentData.value = [];
-  // }
+  void resetData() {
+    // recentData.value = [];
+    sentStudentData.value = [];
+    // recivedStudentData.value = [];
+  }
 
   Future<void> fetchHosStudentList(DateTime? date) async {
     print("--------------here---");

@@ -19,7 +19,9 @@ class Studentmodelcontroller extends GetxController {
 
   Future<void> sendStudentData({required StudentAddModel data }) async {
 
-    print("--------------studenthere---");
+    print("--------------studenthere---${data.sentToName}");
+    print("--------------studenthere---${data.role}");
+    print("--------------studenthere---${data.sentTo}");
     resetData();
     isLoading.value = true;
     isLoaded.value = false;

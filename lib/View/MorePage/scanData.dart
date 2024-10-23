@@ -29,7 +29,6 @@ import '../CWidgets/TeacherAppPopUps.dart';
 import 'all_Students.dart';
 
 class Scandata extends StatefulWidget {
-
   const Scandata({
     super.key,
   });
@@ -45,8 +44,10 @@ class _ScandataState extends State<Scandata> {
   bool isClicked1 = false;
   bool isClicked2 = false;
   bool isClicked3 = false;
-  Users selectedName = Users(name: "Select HOD/HOS");
+  Users selectedName = Users();
   TextEditingController _Remarkscontroller = TextEditingController();
+  TextEditingController _Hierarchycontroller = TextEditingController();
+
   ValueNotifier<String?> _hosNameSelected = ValueNotifier(null);
 
   @override
@@ -65,7 +66,7 @@ class _ScandataState extends State<Scandata> {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
-
+    final _formKey1 = GlobalKey<FormState>();
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       body: SafeArea(
@@ -367,7 +368,7 @@ class _ScandataState extends State<Scandata> {
                       ? Column(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(left: 18,top: 8),
+                              padding: EdgeInsets.only(left: 18, top: 8),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -382,50 +383,92 @@ class _ScandataState extends State<Scandata> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(
-                                  left: 18.w, right: 18.w, top: 10.h),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              Supervisorsearch(selectedName: (Users user) {
-                                                setState(() {
-                                                  selectedName = user;
-                                                });
-                                              },)));
-                                },
-                                child: Container(
-                                  height: 60.w,
-                                  decoration: BoxDecoration(
-                                    color:Colorutils.chatcolor,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 15,right: 15),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          selectedName.name ?? "",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colorutils.black, ),
-                                        ),
-                                        Spacer(),
-                                        Padding(
-                                          padding: EdgeInsets.all(2.0),
-                                          child: Icon(
-                                            Icons.arrow_drop_down,
+                                  left: 15.w, right: 15.w, top: 5.h),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Form(
+                                    key: _formKey1,
+                                    child: Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 8.w,
+                                            top: 10.h,
+                                            right: 8.w,
+                                            bottom: 5.h),
+                                        child: TextFormField(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Supervisorsearch(
+                                                          selectedName:
+                                                              (Users user) {
+                                                            setState(() {
+                                                              selectedName =
+                                                                  user;
+                                                              print(
+                                                                  "------rgtvrt-----${selectedName.role}");
+                                                              _Hierarchycontroller
+                                                                      .text =
+                                                                  user.name ??
+                                                                      "";
+                                                            });
+                                                          },
+                                                        )));
+                                          },
+                                          readOnly: true,
+                                          validator: (val) => val!.isEmpty
+                                              ? 'Please Select  the Hierarchy.'
+                                              : null,
+                                          controller: _Hierarchycontroller,
+                                          decoration: InputDecoration(
+                                              hintText: "Select  the Hierarchy",
+                                              suffixIcon: Icon(
+                                                Icons.arrow_drop_down,
 
-                                            // Change icon based on ontap value
+                                                // Change icon based on ontap value
+                                                color: Colorutils.black,
+                                              ),
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                  Radius.circular(10.0),
+                                                ).r,
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: const BorderSide(
+                                                    color: Colorutils.chatcolor,
+                                                    width: 1.0),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                            Radius.circular(12))
+                                                        .r,
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: const BorderSide(
+                                                    color: Colorutils.chatcolor,
+                                                    width: 1.0),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                            Radius.circular(12))
+                                                        .r,
+                                              ),
+                                              fillColor: Colorutils.chatcolor
+                                                  .withOpacity(0.3),
+                                              filled: true),
+
+                                          // selectedName.name ?? "",
+                                          style: TextStyle(
+                                            fontSize: 14,
                                             color: Colorutils.black,
                                           ),
-                                        )
-                                      ],
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
                             ),
                             // Padding(
@@ -536,7 +579,7 @@ class _ScandataState extends State<Scandata> {
                         maxLength: 100,
                         controller: _Remarkscontroller,
                         validator: (val) =>
-                            val!.isEmpty ? 'Please Enter Remarks.' : null,
+                            val!.trim().isEmpty ? 'Please Enter Remarks.' : null,
                         decoration: InputDecoration(
                             hintStyle: const TextStyle(color: Colors.black26),
                             contentPadding: EdgeInsets.symmetric(
@@ -585,27 +628,12 @@ class _ScandataState extends State<Scandata> {
                                             : isClicked3
                                                 ? "HOD/HOS"
                                                 : '';
+                                isClicked3? _formKey1.currentState!.validate():();
                                 if (_formKey.currentState!.validate()) {
                                   setState(() {
                                     spinner = true;
                                   });
 
-                                  // List<RecentData> recentData = Get.find<RecentListApiController>().recentData.value;
-                                  //
-                                  // bool isContains = false;
-                                  //
-                                  // for (var sub in recentData) {
-                                  //   if (sub.isprogress == true) {
-                                  //
-                                  //     isContains = sub.admissionNo != Studentdetail.admnNo;
-                                  //     print("..............sub.admissionNo.....${sub.admissionNo}");
-                                  //     print("..............Studentdetail.admnNo.....${Studentdetail.admnNo}");
-                                  //     print("..............vebebeb.....${isContains}");
-                                  //   }
-                                  // }
-                                  //
-                                  // isContains ?
-                                  // playAlarm(Studentdetail.admnNo ?? "1/22");
                                   StudentAddModel sentData = StudentAddModel(
                                     academicYear: Get.find<UserAuthController>()
                                             .userData
@@ -624,10 +652,9 @@ class _ScandataState extends State<Scandata> {
                                     profilePic: Studentdetail.profileImage,
                                     instID: Studentdetail.instID,
                                     remarks: _Remarkscontroller.text,
-                                    role:selectedName.role ,
+                                    role: selectedName.role,
                                     sentTo: selectedName.sId,
-                                    sentToName:selectedName.name,
-
+                                    sentToName: selectedName.name,
                                     sentBy: Get.find<UserAuthController>()
                                             .userData
                                             .value
@@ -643,6 +670,8 @@ class _ScandataState extends State<Scandata> {
                                         "Sent to ${type[0].toUpperCase()}${type.substring(1, type.length)}",
                                     appType: type,
                                   );
+                                  print(
+                                      "--------frvbrg----------${selectedName.name}");
                                   await Get.find<Studentmodelcontroller>()
                                       .sendStudentData(data: sentData);
 
@@ -711,10 +740,8 @@ playAlarm(String admissionId) async {
     fadeDuration: 5.0,
     // warningNotificationOnKill: Platform.Android,
     notificationSettings: const NotificationSettings(
-
       title: 'Student Tracking Alert',
       body: '',
-
     ),
   );
   Alarm.set(alarmSettings: alarmSettings);
