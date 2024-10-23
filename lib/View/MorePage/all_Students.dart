@@ -39,9 +39,9 @@ class _AllStudentsState extends State<AllStudents> {
 
   @override
   Widget build(BuildContext context) {
-    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
+    // _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
       Get.find<RecentListApiController>().fetchRecentList();
-    });
+    // });
     // Get.find<RecentListApiController>().fetchRecentList();
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
@@ -51,91 +51,91 @@ class _AllStudentsState extends State<AllStudents> {
             List<RecentData> inProgressList = controller.inProgressData.value;
             return Column(
               children: [
-                SizedBox(
-                  height: 60,
-                  child: Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Padding(
-                            padding: EdgeInsets.only(left: 20),
-                            child: Icon(
-                              Icons.arrow_back_outlined,
-                              size: 30,
-                            )),
-                      ),
-                      Spacer(
-                        flex: 2,
-                      ),
-                      Text(
-                        "Add Students",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      ),
-                      Spacer(
-                        flex: 3,
-                      ),
-                    ],
-                  ),
-                ),
-                // Container(
+                // SizedBox(
                 //   height: 60,
                 //   child: Row(
                 //     children: [
-                //       Padding(
-                //           padding: EdgeInsets.only(left: 18),
-                //           child: GestureDetector(
-                //             onTap: () {
-                //               Navigator.of(context).pop();
-                //             },
+                //       InkWell(
+                //         onTap: () {
+                //           Navigator.pop(context);
+                //         },
+                //         child: Padding(
+                //             padding: EdgeInsets.only(left: 20),
                 //             child: Icon(
                 //               Icons.arrow_back_outlined,
                 //               size: 30,
-                //             ),
-                //           )),
-                //       Spacer(
-                //         flex: 3,
+                //             )),
                 //       ),
-                //       const Text(
+                //       Spacer(
+                //         flex: 2,
+                //       ),
+                //       Text(
                 //         "Add Students",
                 //         style: TextStyle(
                 //             fontSize: 18, fontWeight: FontWeight.w600),
                 //       ),
                 //       Spacer(
-                //         flex: 2,
+                //         flex: 3,
                 //       ),
-                //       Padding(
-                //           padding: EdgeInsets.only(right: 20),
-                //           child: InkWell(
-                //             radius: 20,
-                //             onTap: () {
-                //               Get.find<RecentListApiController>()
-                //                   .fetchRecentList();
-                //               print("mjjmjjj...KASb....");
-                //             },
-                //             child: Row(
-                //               children: [
-                //                 Icon(
-                //                   Icons.refresh_outlined,
-                //                   size: 22,
-                //                   color: Colorutils.userdetailcolor,
-                //                 ),
-                //                 Text(
-                //                   "Refresh",
-                //                   style: TextStyle(
-                //                       fontSize: 13,
-                //                       fontWeight: FontWeight.w600,
-                //                       fontStyle: FontStyle.italic,
-                //                       color: Colorutils.userdetailcolor),
-                //                 )
-                //               ],
-                //             ),
-                //           ))
                 //     ],
                 //   ),
                 // ),
+                Container(
+                  height: 60,
+                  child: Row(
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.only(left: 18),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Icon(
+                              Icons.arrow_back_outlined,
+                              size: 30,
+                            ),
+                          )),
+                      Spacer(
+                        flex: 3,
+                      ),
+                      const Text(
+                        "Add Students",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                      Spacer(
+                        flex: 2,
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: InkWell(
+                            radius: 20,
+                            onTap: () {
+                              Get.find<RecentListApiController>()
+                                  .fetchRecentList();
+                              print("mjjmjjj...KASb....");
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.refresh_outlined,
+                                  size: 22,
+                                  color: Colorutils.userdetailcolor,
+                                ),
+                                Text(
+                                  "Refresh",
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      fontStyle: FontStyle.italic,
+                                      color: Colorutils.userdetailcolor),
+                                )
+                              ],
+                            ),
+                          ))
+                    ],
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(left: 12, right: 12),
                   child: Container(
@@ -711,7 +711,7 @@ class _TrackingContainerState extends State<TrackingContainer> {
           color: (widget.inProgressList.status?.length == 1 &&  remainingTime < 0||
                   widget.inProgressList.status?.length == 3 && remainingTime < 0||
                   widget.inProgressList.status?.length == 4 &&  remainingTime <0)
-              ?Colors.red.withOpacity(0.2)
+              ?Colors.red.withOpacity(0.1)
               : Colors.white,
         ),
         child: Column(
@@ -722,6 +722,7 @@ class _TrackingContainerState extends State<TrackingContainer> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+
                   CircleAvatar(
                     radius: 22,
                     backgroundColor: Colorutils.chatcolor.withOpacity(0.2),

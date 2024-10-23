@@ -141,20 +141,22 @@ class Statuses {
   String? sentByToken;
   String? visitStatus;
   String? addedOn;
+  String? remark;
 
   Statuses(
       {this.sentBy,
       this.sentById,
       this.sentByToken,
       this.visitStatus,
-      this.addedOn});
+      this.addedOn,this.remark
+      });
 
   Statuses.fromJson(Map<String, dynamic> json) {
     sentBy = json['sent_by'];
     sentById = json['sent_by_id'];
     sentByToken = json['sent_by_token'];
     visitStatus = json['visit_status'];
-    addedOn = json['Added_on'];
+    addedOn = json['Added_on']; remark = json['remark'];
   }
 
   Map<String, dynamic> toJson() {
@@ -163,7 +165,7 @@ class Statuses {
     data['sent_by_id'] = this.sentById;
     data['sent_by_token'] = this.sentByToken;
     data['visit_status'] = this.visitStatus;
-    data['Added_on'] = this.addedOn;
+    data['Added_on'] = this.addedOn;data['remark'] = this.remark;
     return data;
   }
 }

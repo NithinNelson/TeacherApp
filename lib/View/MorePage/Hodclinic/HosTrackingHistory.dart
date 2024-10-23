@@ -24,13 +24,14 @@ class Hostrackinghistory extends StatefulWidget {
 
 class _HostrackinghistoryState extends State<Hostrackinghistory> {
   TextEditingController controller1 = TextEditingController();
+  TextEditingController controller2= TextEditingController();
 
   bool ontap = false;
 
   @override
   Widget build(BuildContext context) {
-    controller1 =
-        TextEditingController(text: widget.progressCompletedList.remarks);
+    controller1 = TextEditingController(text:"SENDER REMARK : ${widget.progressCompletedList.status?[0].remark}" );
+    controller2 = TextEditingController(text:"UPDATED REMARK : ${widget.progressCompletedList.remarks}" );
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       body: SafeArea(
@@ -1645,48 +1646,99 @@ class _HostrackinghistoryState extends State<Hostrackinghistory> {
                       ),
                     ),
                     ontap == true
-                        ? Padding(
-                      padding:
-                      const EdgeInsets.only(left: 10, right: 10),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Container(
-                          child: TextFormField(
-                            controller: controller1,
-                            readOnly: true,
-                            decoration: InputDecoration(
-                                hintStyle:
-                                TextStyle(color: Colors.black26),
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 10.0),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(15.0),
+                        ? Column(
+                          children: [
+                            Padding(
+                                                  padding:
+                                                  const EdgeInsets.only(left: 10, right: 10),
+                                                  child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Container(
+                              child: TextFormField(
+                                controller: controller1,
+                                readOnly: true,
+                                decoration: InputDecoration(
+                                    hintStyle:
+                                    TextStyle(color: Colors.black26),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 10.0),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(15.0),
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colorutils.chatcolor,
+                                          width: 1.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(15)),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colorutils.chatcolor,
+                                          width: 1.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(15.0)),
+                                    ),
+                                    fillColor: Colorutils.chatcolor
+                                        .withOpacity(0.2),
+                                    filled: true),
+                                maxLines: 5,
+                              ),
+                              height: 80,
+                            ),
+                                                  ),
+                                                ),
+                            (widget.progressCompletedList.status!.length ==2||widget.progressCompletedList.status!.length ==3||widget.progressCompletedList.status!.length ==4)?
+                            Padding(
+                              padding:
+                              const EdgeInsets.only(left: 10, right: 10),
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 20),
+                                child: Container(
+                                  child: TextFormField(
+
+                                    controller: controller2,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontStyle: FontStyle.italic),
+                                    readOnly: true,
+                                    decoration: InputDecoration(
+                                        hintStyle:
+                                        TextStyle(color: Colors.black26),
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 10.0, horizontal: 10.0),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(15.0),
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colorutils.chatcolor,
+                                              width: 1.0),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(15)),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colorutils.chatcolor,
+                                              width: 1.0),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(15.0)),
+                                        ),
+                                        fillColor: Colorutils.chatcolor
+                                            .withOpacity(0.2),
+                                        filled: true),
+                                    maxLines: 5,
                                   ),
+                                  height: 80,
                                 ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colorutils.chatcolor,
-                                      width: 1.0),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(15)),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colorutils.chatcolor,
-                                      width: 1.0),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(15.0)),
-                                ),
-                                fillColor: Colorutils.chatcolor
-                                    .withOpacity(0.2),
-                                filled: true),
-                            maxLines: 5,
-                          ),
-                          height: 80,
-                        ),
-                      ),
-                    )
+                              ),
+                            ):SizedBox()
+                          ],
+                        )
                         : SizedBox()
               ],
             ),
