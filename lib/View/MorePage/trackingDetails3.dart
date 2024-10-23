@@ -141,7 +141,13 @@ class _trackingDetails3State extends State<trackingDetails3> {
                                                             .visitStatus ==
                                                         "Reached Class"
                                                 ? Colors.green.withOpacity(0.3)
-                                                : Colorutils.clinicHOd,
+                                                : widget.progressCompletedList.visitStatus == "Sent to Isolation Room" ||
+                                    widget.progressCompletedList
+                                        .visitStatus ==
+                                        "Sent to Hospital" ||
+                                    widget.progressCompletedList.visitStatus == "Sent Home"
+                                    ? Colors.grey
+                                    : Colorutils.clinicHOd,
                               ),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
@@ -177,7 +183,9 @@ class _trackingDetails3State extends State<trackingDetails3> {
                                                                   .visitStatus ==
                                                               "Reached Class"
                                                       ? Colorutils.userdetailcolor
-                                                      : Colors.blue,
+                                                      : widget.progressCompletedList.visitStatus == "Sent to Isolation Room" || widget.progressCompletedList.visitStatus == "Sent to Hospital" || widget.progressCompletedList.visitStatus == "Sent Home"
+                                          ? Colorutils.white
+                                          : Colors.blue,
                                     ))),
                               )),
                         ],

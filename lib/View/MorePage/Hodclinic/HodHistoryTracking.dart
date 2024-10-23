@@ -725,7 +725,7 @@ class Container2 extends StatelessWidget {
                         style: TextStyle(fontSize: 12),
                       ),
                       Text(
-                        "${Reachedstatus("${Studentdata2.status?[1].visitStatus}")}",
+                        "Reached ${Reachedstatus("${Studentdata2.status?[0].visitStatus}")}",
                         style: TextStyle(fontSize: 12),
                       ),
                     ],
@@ -939,7 +939,7 @@ class _Container3State extends State<Container3> {
                 ),
                 SizedBox(height: 5.0),
                 Padding(
-                  padding: EdgeInsets.only(left: 40, right: 30),
+                  padding: EdgeInsets.only(left: 40, right: 40),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -949,7 +949,7 @@ class _Container3State extends State<Container3> {
                         style: TextStyle(fontSize: 12),
                       ),
                       Text(
-                        "${Reachedstatus("${widget.Studentdata3.status?[1].visitStatus}")}",
+                        "Reached ${Reachedstatus("${widget.Studentdata3.status?[0].visitStatus}")}",
                         style: TextStyle(fontSize: 12),
                       ),
                     ],

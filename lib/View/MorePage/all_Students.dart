@@ -40,7 +40,7 @@ class _AllStudentsState extends State<AllStudents> {
   @override
   Widget build(BuildContext context) {
     // _timer = Timer.periodic(Duration(seconds: 6), (timer) {
-      Get.find<RecentListApiController>().fetchRecentList();
+    Get.find<RecentListApiController>().fetchRecentList();
     // });
     // Get.find<RecentListApiController>().fetchRecentList();
     return Scaffold(
@@ -80,11 +80,9 @@ class _AllStudentsState extends State<AllStudents> {
                       Padding(
                           padding: EdgeInsets.only(right: 20),
                           child: InkWell(
-                             radius: 20,
-
+                            radius: 20,
                             onTap: () {
-                              Get.find<
-                                  RecentListApiController>()
+                              Get.find<RecentListApiController>()
                                   .fetchRecentList();
                               print("mjjmjjj...KASb....");
                             },
@@ -92,12 +90,16 @@ class _AllStudentsState extends State<AllStudents> {
                               children: [
                                 Icon(
                                   Icons.refresh_outlined,
-                                  size: 22,color: Colorutils.userdetailcolor,
+                                  size: 22,
+                                  color: Colorutils.userdetailcolor,
                                 ),
                                 Text(
                                   "Refresh",
                                   style: TextStyle(
-                                      fontSize: 13, fontWeight: FontWeight.w600,fontStyle: FontStyle.italic,color: Colorutils.userdetailcolor),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      fontStyle: FontStyle.italic,
+                                      color: Colorutils.userdetailcolor),
                                 )
                               ],
                             ),
@@ -549,28 +551,23 @@ class _TrackingContainerState extends State<TrackingContainer> {
     endTime = widget.startTime.add(Duration(seconds: countdownDuration));
     if (widget.inProgressList.status?.length == 1) {
       startTimer1(); // Start the timer when the screen is initialized
-    }
-
-    else if (widget.inProgressList.status?.length == 3 || widget.inProgressList.status!.length == 4 ){
+    } else if (widget.inProgressList.status?.length == 3 ||
+        widget.inProgressList.status!.length == 4) {
       startTimer1();
-    }
-    else if (widget.inProgressList.status?.length == 2 ) {
+    } else if (widget.inProgressList.status?.length == 2) {
       stopAlarm((widget.inProgressList.admissionNo ?? "1/22"));
     }
   }
-
 
   @override
   void didUpdateWidget(covariant TrackingContainer oldWidget) {
     endTime = widget.startTime.add(Duration(seconds: countdownDuration));
     if (widget.inProgressList.status?.length == 1) {
       startTimer1(); // Start the timer when the screen is initialized
-    }
-
-    else if (widget.inProgressList.status?.length == 3 || widget.inProgressList.status!.length == 4 ){
+    } else if (widget.inProgressList.status?.length == 3 ||
+        widget.inProgressList.status!.length == 4) {
       startTimer1();
-    }
-    else if (widget.inProgressList.status?.length == 2 ) {
+    } else if (widget.inProgressList.status?.length == 2) {
       stopAlarm((widget.inProgressList.admissionNo ?? "1/22"));
     }
     super.didUpdateWidget(oldWidget);
@@ -679,7 +676,7 @@ class _TrackingContainerState extends State<TrackingContainer> {
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: Colors.white,
+          color:Colors.white,
         ),
         child: Column(
           children: [
@@ -744,7 +741,11 @@ class _TrackingContainerState extends State<TrackingContainer> {
                                                         .visitStatus ==
                                                     "Reached Class"
                                             ? Colors.green.withOpacity(0.3)
-                                            :  Colorutils.clinicHOd,
+                                            : widget.inProgressList
+                                                            .visitStatus ==
+                                                        "Sent to Isolation Room"
+                                                ? Colors.grey
+                                                : Colorutils.clinicHOd,
                           ),
                           child: Padding(
                             padding: EdgeInsets.symmetric(
@@ -777,7 +778,11 @@ class _TrackingContainerState extends State<TrackingContainer> {
                                                       widget.inProgressList
                                                               .visitStatus ==
                                                           "Reached Class"
-                                                  ? Colorutils.userdetailcolor
+                                                  ? Colorutils.userdetailcolor:
+                                  widget.inProgressList
+                                      .visitStatus ==
+                                      "Sent to Isolation Room"
+                                      ? Colorutils.white
                                                   : Colors.blue,
                                 ))),
                           )),
@@ -969,4 +974,3 @@ stopAlarm(String admissionId) async {
   await Alarm.init();
   Alarm.stop(id);
 }
-

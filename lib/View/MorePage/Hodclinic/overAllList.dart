@@ -472,7 +472,7 @@ Spacer(),
 
                         remainingTime > 0
                             ? "${formatTime(remainingTime)}" " Min Left"
-                            : "Not Yet Reached":"Student Reached the Class",
+                            : "Not Yet Reached":"Student Reached",
                         gradient: const LinearGradient(
                           colors: [
                             Colorutils.gradientColor1,

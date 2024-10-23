@@ -136,25 +136,30 @@ class _trackingDetailsState extends State<trackingDetails> {
                                         widget.inProgressList.visitStatus ==
                                             "Reached Clinic"
                                     ? Colors.red.withOpacity(0.2)
-                                    : widget.inProgressList.visitStatus ==
-                                                "Sent to Washroom" ||
+                                    : widget.inProgressList.visitStatus == "Sent to Washroom" ||
                                             widget.inProgressList.visitStatus ==
                                                 "Reached Washroom"
                                         ? Colorutils.washroomcolor2
                                         : widget.inProgressList.visitStatus ==
                                                     "Sent to Counsellor" ||
-                                                widget.inProgressList
-                                                        .visitStatus ==
+                                                widget.inProgressList.visitStatus ==
                                                     "Reached Counsellor"
                                             ? Colorutils.councellorcolor2
-                                            : widget.inProgressList
-                                                            .visitStatus ==
+                                            : widget.inProgressList.visitStatus ==
                                                         "Back to Class" ||
-                                                    widget.inProgressList
-                                                            .visitStatus ==
+                                                    widget.inProgressList.visitStatus ==
                                                         "Reached Class"
                                                 ? Colors.green.withOpacity(0.3)
-                                                : Colorutils.clinicHOd,
+                                                : widget.inProgressList.visitStatus ==
+                                                            "Sent to Isolation Room" ||
+                                                        widget.inProgressList
+                                                                .visitStatus ==
+                                                            "Sent to Hospital" ||
+                                                        widget.inProgressList
+                                                                .visitStatus ==
+                                                            "Sent Home"
+                                                    ? Colors.grey
+                                                    : Colorutils.clinicHOd,
                               ),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
@@ -183,14 +188,15 @@ class _trackingDetailsState extends State<trackingDetails> {
                                                               "Reached Counsellor"
                                                       ? Colorutils
                                                           .councellorcolor
-                                                      : widget.inProgressList
-                                                                      .visitStatus ==
+                                                      : widget.inProgressList.visitStatus ==
                                                                   "Back to Class" ||
                                                               widget.inProgressList
                                                                       .visitStatus ==
                                                                   "Reached Class"
                                                           ? Colorutils.userdetailcolor
-                                                          : Colors.blue,
+                                                          : widget.inProgressList.visitStatus == "Sent to Isolation Room" || widget.inProgressList.visitStatus == "Sent to Hospital"  || widget.inProgressList.visitStatus == "Sent Home"
+                                                              ? Colorutils.white
+                                                              : Colors.blue,
                                         ))),
                               )),
                         ],
@@ -320,7 +326,9 @@ class _trackingDetailsState extends State<trackingDetails> {
                                   child: Container(
                                     child: TextFormField(
                                       controller: controller1,
-                                      style: TextStyle(fontSize: 14,fontStyle: FontStyle.italic),
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontStyle: FontStyle.italic),
                                       readOnly: true,
                                       decoration: InputDecoration(
                                           hintStyle:
@@ -615,16 +623,16 @@ class _Container1State extends State<Container1> {
                         "${widget.inProgressData.status?[0].visitStatus}",
                         style: TextStyle(fontSize: 12),
                       ),
-                      widget.inProgressData.visitStatus != 'Sent to Washroom'?
-                      Text(
-                        "Reached "
-                        "${Reachedstatus("${widget.inProgressData.status?[0].visitStatus}")}",
-                        style: TextStyle(fontSize: 12),
-                      ):
-                      Text(
-                        "Reached Classroom",
-                        style: TextStyle(fontSize: 12),
-                      ),
+                      widget.inProgressData.visitStatus != 'Sent to Washroom'
+                          ? Text(
+                              "Reached "
+                              "${Reachedstatus("${widget.inProgressData.status?[0].visitStatus}")}",
+                              style: TextStyle(fontSize: 12),
+                            )
+                          : Text(
+                              "Reached Class",
+                              style: TextStyle(fontSize: 12),
+                            ),
                     ],
                   ),
                 ),
@@ -980,7 +988,7 @@ class _Container3State extends State<Container3> {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 50, right: 50),
+                  padding: EdgeInsets.only(left: 60, right: 60),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -1080,7 +1088,7 @@ class _Container3State extends State<Container3> {
                         style: TextStyle(fontSize: 12),
                       ),
                       Text(
-                        "${Reachedstatus("${widget.inProgressData.status?[1].visitStatus}")}",
+                        "Reached ${Reachedstatus("${widget.inProgressData.status?[0].visitStatus}")}",
                         style: TextStyle(fontSize: 12),
                       ),
                     ],
@@ -2045,6 +2053,14 @@ String Converteddate(String Date) {
 
 String Reachedstatus(String status) {
   List<String> parts = status.split(' ');
+  if (parts.length == 3) {
+    return parts[2];
+  }
+  return status;
+}
+
+String Reachedstatus2(String status) {
+  List<String> parts = status.split('/');
   if (parts.length == 3) {
     return parts[2];
   }
