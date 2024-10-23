@@ -123,14 +123,8 @@ class _ObsResultState extends State<LeaveApply> {
           body: GestureDetector(
             onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
             child: Container(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.98,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
+              height: MediaQuery.of(context).size.height * 0.98,
+              width: MediaQuery.of(context).size.width,
               child: Stack(
                 children: [
                   AppBarBackground(),

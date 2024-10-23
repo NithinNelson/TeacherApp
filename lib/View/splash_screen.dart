@@ -14,6 +14,9 @@ import 'package:teacherapp/View/RoleNavigation/choice_page.dart';
 import 'package:teacherapp/View/Login_page/login.dart';
 import 'package:teacherapp/View/RoleNavigation/hos_listing.dart';
 
+import '../Services/controller_handling.dart';
+import '../Services/shared_preferences.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -63,13 +66,10 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const DrawerScreen()));
         }
       } else {
-        TeacherAppPopUps.submitFailed(
-          title: "Error",
-          message: "Not fined role",
-          actionName: "Close",
-          iconData: Icons.cancel_outlined,
-          iconColor: Colors.red,
-        );
+        HandleControllers.deleteAllGetControllers();
+        await SharedPrefs().removeLoginData();
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginPage()), (_) => false);
+        HandleControllers.createGetControllers();
       }
     } else {
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const LoginPage()));

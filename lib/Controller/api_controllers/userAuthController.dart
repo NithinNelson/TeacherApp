@@ -55,8 +55,8 @@ class UserAuthController extends GetxController {
         print(".......${resp['error']['message']}");
         TeacherAppPopUps.submitFailed(
           title: "Failed",
-          message: "Something went wrong.",
-          actionName: "Try again",
+          message: "${resp['error']['message'] ?? 'Something went wrong.'}",
+          actionName: "Close",
           iconData: Icons.error_outline,
           iconColor: Colorutils.svguicolour2,
         );
@@ -66,8 +66,8 @@ class UserAuthController extends GetxController {
       print("-----------login error-----------");
       TeacherAppPopUps.submitFailed(
         title: "Failed",
-        message: "Invalid credentials. Please check your Username/Password and try again.",
-        actionName: "Try again",
+        message: "Something went wrong.",
+        actionName: "Close",
         iconData: Icons.error_outline,
         iconColor: Colorutils.svguicolour2,
       );
@@ -100,8 +100,8 @@ class UserAuthController extends GetxController {
       } else {
         TeacherAppPopUps.submitFailed(
           title: "Failed",
-          message: "Something went wrong.",
-          actionName: "Try again",
+          message: "${resp['error']['message'] ?? 'Something went wrong.'}",
+          actionName: "Close",
           iconData: Icons.error_outline,
           iconColor: Colorutils.svguicolour2,
         );
@@ -112,7 +112,7 @@ class UserAuthController extends GetxController {
       TeacherAppPopUps.submitFailed(
         title: "Failed",
         message: "Something went wrong.",
-        actionName: "Try again",
+        actionName: "Close",
         iconData: Icons.error_outline,
         iconColor: Colorutils.svguicolour2,
       );

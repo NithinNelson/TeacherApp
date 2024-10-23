@@ -249,109 +249,92 @@ class _LoginPageState extends State<LoginPage> {
                                         _passwordController?.text.trim() != ""
                                             ? _passwordController?.text.trim()
                                             : null;
-                                    if (user != null && psw != null) {
-                                      context.loaderOverlay.show();
-                                      await userAuthController.fetchUserData(
-                                        username: user,
-                                        password: psw,
-                                      );
-                                      context.loaderOverlay.hide();
-                                      if (userAuthController.isLoaded.value) {
-                                        UserRole? userRole =
-                                            userAuthController.userRole.value;
-                                        if (userRole != null) {
-                                          if (userRole == UserRole.leader) {
-                                            List<String>? rolIds =
-                                                userAuthController.userData
-                                                        .value.roleIds ??
-                                                    [];
-                                            if((rolIds.contains("rolepri12") || rolIds.contains("role12123")) && !rolIds.contains("role121234")) {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          const HosListing()));
-                                            } else {
-                                              userAuthController
-                                                  .setSelectedHosData(
-                                                hosName: userAuthController
-                                                        .userData.value.name ??
-                                                    '--',
-                                                hosId: userAuthController
-                                                        .userData
-                                                        .value
-                                                        .userId ??
-                                                    '--',
-                                                isHos: true,
-                                              );
+                                    if(user != null) {
+                                      if(psw != null) {
+                                        context.loaderOverlay.show();
+                                        await userAuthController.fetchUserData(
+                                          username: user,
+                                          password: psw,
+                                        );
+                                        context.loaderOverlay.hide();
+                                        if (userAuthController.isLoaded.value) {
+                                          UserRole? userRole =
+                                              userAuthController.userRole.value;
+                                          if (userRole != null) {
+                                            if (userRole == UserRole.leader) {
+                                              List<String>? rolIds =
+                                                  userAuthController.userData
+                                                      .value.roleIds ??
+                                                      [];
+                                              if((rolIds.contains("rolepri12") || rolIds.contains("role12123")) && !rolIds.contains("role121234")) {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                        const HosListing()));
+                                              } else {
+                                                userAuthController
+                                                    .setSelectedHosData(
+                                                  hosName: userAuthController
+                                                      .userData.value.name ??
+                                                      '--',
+                                                  hosId: userAuthController
+                                                      .userData
+                                                      .value
+                                                      .userId ??
+                                                      '--',
+                                                  isHos: true,
+                                                );
+                                                Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                        const DrawerScreen()));
+                                              }
+                                            }
+                                            if (userRole ==
+                                                UserRole.bothTeacherAndLeader) {
                                               Navigator.pushReplacement(
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          const DrawerScreen()));
+                                                      const ChoicePage()));
                                             }
+                                            if (userRole == UserRole.teacher) {
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                      const DrawerScreen()));
+                                            }
+                                          } else {
+                                            TeacherAppPopUps.submitFailed(
+                                              title: "Failed",
+                                              message: "You are not an authorized user.",
+                                              actionName: "Close",
+                                              iconData: Icons.error_outline,
+                                              iconColor: Colorutils.svguicolour2,
+                                            );
                                           }
-                                          if (userRole ==
-                                              UserRole.bothTeacherAndLeader) {
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const ChoicePage()));
-                                          }
-                                          if (userRole == UserRole.teacher) {
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const DrawerScreen()));
-                                          }
-                                        } else {
-                                          TeacherAppPopUps.submitFailed(
-                                            title: "Failed",
-                                            message: "You are not an authorized user.",
-                                            actionName: "Try again",
-                                            iconData: Icons.error_outline,
-                                            iconColor: Colorutils.svguicolour2,
-                                          );
                                         }
+                                      } else {
+                                        TeacherAppPopUps.submitFailed(
+                                          title: "Invalid Password",
+                                          message: "Please Enter your Password.",
+                                          actionName: "Close",
+                                          iconData: Icons.error_outline,
+                                          iconColor: Colorutils.svguicolour2,
+                                        );
                                       }
-                                    } else if (user == null && psw == null) {
-                                      TeacherAppPopUps.submitFailed(
-                                        title: "Failed",
-                                        message: "Please Enter the Username/Password!",
-                                        actionName: "Try again",
-                                        iconData: Icons.error_outline,
-                                        iconColor: Colorutils.svguicolour2,
-                                      );
-                                    } else if (user == null && psw != null) {
-                                      TeacherAppPopUps.submitFailed(
-                                        title: "Failed",
-                                        message: "Please Enter the Username!",
-                                        actionName: "Try again",
-                                        iconData: Icons.error_outline,
-                                        iconColor: Colorutils.svguicolour2,
-                                      );
-                                    } else if (user != null && psw == null) {
-                                      TeacherAppPopUps.submitFailed(
-                                        title: "Failed",
-                                        message: "Please Enter the Password!",
-                                        actionName: "Try again",
-                                        iconData: Icons.error_outline,
-                                        iconColor: Colorutils.svguicolour2,
-                                      );
                                     } else {
                                       TeacherAppPopUps.submitFailed(
-                                        title: "Failed",
-                                        message:
-                                            "Invalid Username/Password! Please Try Again",
-                                        actionName: "Try again",
+                                        title: "Invalid Username",
+                                        message: "Please Enter the valid Username.",
+                                        actionName: "Close",
                                         iconData: Icons.error_outline,
                                         iconColor: Colorutils.svguicolour2,
                                       );
                                     }
-                                    // _usernameController?.clear();
-                                    // _passwordController?.clear();
                                   },
                                 );
                               },

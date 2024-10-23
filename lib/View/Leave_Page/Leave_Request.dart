@@ -77,34 +77,38 @@ class _LeaveRequestState extends State<LeaveRequest> {
                     ),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(
+                Padding(
+                  padding: EdgeInsets.only(
                     left: 10.w,
                     top: 120.h,
                     right: 10.w,
                   ),
-                  // width: 550.w,
-                  // height: ScreenUtil().screenHeight ,
-                  decoration: BoxDecoration(
-                    color: Colorutils.Whitecolor,
-                    // Container color
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ).r,
+                  child: Container(
+                    // margin: EdgeInsets.only(
+                    //   left: 10.w,
+                    //   top: 120.h,
+                    //   right: 10.w,
+                    // ),
+                    // width: 550.w,
+                    // height: ScreenUtil().screenHeight ,
+                    decoration: BoxDecoration(
+                      color: Colorutils.Whitecolor,
+                      // Container color
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ).r,
 
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colorutils.userdetailcolor.withOpacity(0.2),
-                        // Shadow color
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        offset: Offset(0, 1), // Shadow position
-                      ),
-                    ],
-                  ),
-                  child: SingleChildScrollView(
-                    physics: const NeverScrollableScrollPhysics(),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colorutils.userdetailcolor.withOpacity(0.2),
+                          // Shadow color
+                          spreadRadius: 1,
+                          blurRadius: 1,
+                          offset: const Offset(0, 1), // Shadow position
+                        ),
+                      ],
+                    ),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -115,7 +119,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Leave Apply',
+                                  'Leave Apply ${View.of(context).viewInsets.bottom}',
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600),
@@ -237,7 +241,6 @@ class _LeaveRequestState extends State<LeaveRequest> {
                           Container(
                             margin: EdgeInsets.only(left: 15.w, right: 15.w),
                             child: TextFormField(
-
                             controller: _searchController,
                               onChanged: (value) {
                                 leaveRequestController.filterList(text: value);
@@ -289,11 +292,7 @@ class _LeaveRequestState extends State<LeaveRequest> {
                                   height: ScreenUtil().screenHeight * 0.7,
                                   child: SingleChildScrollView(
                                     padding: EdgeInsets.only(
-                                            bottom: View.of(context)
-                                                    .viewInsets
-                                                    .bottom +
-                                                15)
-                                        .w,
+                                            bottom: View.of(context).viewInsets.bottom + 150).w,
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [

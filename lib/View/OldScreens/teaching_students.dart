@@ -95,10 +95,12 @@ class _StudentListViewState extends State<StudentListView> {
   var lateidreason = '';
 
   getlateattendance()async{
-    final prefs = await SharedPreferences.getInstance();
-    final bool? repeat = prefs.getBool('lateattendance');
-    lateattendence = repeat!;
-    print('late attendance pref--->$lateattendence');
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final bool? repeat = prefs.getBool('lateattendance');
+      lateattendence = repeat!;
+      print('late attendance pref--->$lateattendence');
+    } catch(e) {}
   }
 
   // void onListen() async {
@@ -224,6 +226,7 @@ class _StudentListViewState extends State<StudentListView> {
     });
     request.headers.addAll(headers);
 
+    print("--------url---------${ApiConstants.baseUrl + ApiConstants.studentListApi}");
     print('-----new----bodyyy${request.body}');
 
     http.StreamedResponse response = await request.send();
@@ -832,20 +835,20 @@ class _StudentListViewState extends State<StudentListView> {
                                             widget.images.toString(),
                                             afterAttendanceTaken == null
                                                 ?_searchController.text.isNotEmpty
-                                                ? newResult[index]["mother_details"]["mother_name"].toString() : ourStudentList[index]["mother_details"]
+                                                ? newResult[index]["mother_details"]["mother_name"] ?? '--' : ourStudentList[index]["mother_details"]
                                             ["mother_name"]
                                                 : _searchController.text.isNotEmpty
-                                                ? newResult[index]["feeDetails"]["mother_details"]["mother_name"].toString() : afterAttendanceTaken[index]
-                                            ["feeDetails"]["mother_details"]["mother_name"],
+                                                ? newResult[index]["feeDetails"]["mother_details"]["mother_name"] ?? '--' : afterAttendanceTaken[index]
+                                            ["feeDetails"]["mother_details"]["mother_name"] ?? '--',
                                             afterAttendanceTaken == null
                                                 ?_searchController.text.isNotEmpty
-                                                ? newResult[index]["mother_details"]["mother_mobile"].toString() : ourStudentList[index]["mother_details"]
-                                            ["mother_mobile"]
+                                                ? newResult[index]["mother_details"]["mother_mobile"] ?? '--' : ourStudentList[index]["mother_details"]
+                                            ["mother_mobile"] ?? '--'
                                                 :_searchController.text.isNotEmpty
-                                                ? newResult[index]["feeDetails"]["mother_details"]["mother_mobile"].toString() :  afterAttendanceTaken[index]
+                                                ? newResult[index]["feeDetails"]["mother_details"]["mother_mobile"] ?? '--' :  afterAttendanceTaken[index]
                                             ["feeDetails"]
                                             ["mother_details"]
-                                            ["mother_mobile"],
+                                            ["mother_mobile"] ?? '--',
                                             afterAttendanceTaken == null
                                                 ?_searchController.text.isNotEmpty
                                                 ? newResult[index].containsKey("mother_details") : ourStudentList[index].containsKey("mother_details")
@@ -943,9 +946,9 @@ class _StudentListViewState extends State<StudentListView> {
                                         ["feeDetails"]
                                         ["mother_details"].isNotEmpty && afterAttendanceTaken[index]
                                         ["feeDetails"]
-                                        ["mother_details"]["mother_name"].isNotEmpty && afterAttendanceTaken[index]
+                                        ["mother_details"]["mother_name"].toString().isNotEmpty && afterAttendanceTaken[index]
                                         ["feeDetails"]
-                                        ["mother_details"]["mother_mobile"].isNotEmpty){
+                                        ["mother_details"]["mother_mobile"].toString().isNotEmpty){
                                           Dialogbox(
                                             context,
                                             _searchController.text.isNotEmpty
@@ -1029,20 +1032,20 @@ class _StudentListViewState extends State<StudentListView> {
                                             widget.images.toString(),
                                             afterAttendanceTaken == null
                                                 ?_searchController.text.isNotEmpty
-                                                ? newResult[index]["mother_details"]["mother_name"] : ourStudentList[index]["mother_details"]
-                                            ["mother_name"]
+                                                ? newResult[index]["mother_details"]["mother_name"] ?? '--' : ourStudentList[index]["mother_details"]
+                                            ["mother_name"] ?? '--'
                                                 : _searchController.text.isNotEmpty
-                                                ? newResult[index]["feeDetails"]["mother_details"]["mother_name"] : afterAttendanceTaken[index]
-                                            ["feeDetails"]["mother_details"]["mother_name"],
+                                                ? newResult[index]["feeDetails"]["mother_details"]["mother_name"] ?? '--' : afterAttendanceTaken[index]
+                                            ["feeDetails"]["mother_details"]["mother_name"] ?? '--',
                                             afterAttendanceTaken == null
                                                 ?_searchController.text.isNotEmpty
-                                                ? newResult[index]["mother_details"]["mother_mobile"] : ourStudentList[index]["mother_details"]
-                                            ["mother_mobile"]
+                                                ? newResult[index]["mother_details"]["mother_mobile"] ?? '--' : ourStudentList[index]["mother_details"]
+                                            ["mother_mobile"] ?? '--'
                                                 :_searchController.text.isNotEmpty
-                                                ? newResult[index]["feeDetails"]["mother_details"]["mother_mobile"] :  afterAttendanceTaken[index]
+                                                ? newResult[index]["feeDetails"]["mother_details"]["mother_mobile"] ?? '--' :  afterAttendanceTaken[index]
                                             ["feeDetails"]
                                             ["mother_details"]
-                                            ["mother_mobile"],
+                                            ["mother_mobile"] ?? '--',
                                             afterAttendanceTaken == null
                                                 ?_searchController.text.isNotEmpty
                                                 ? newResult[index].containsKey("mother_details") : ourStudentList[index].containsKey("mother_details")
@@ -1229,20 +1232,20 @@ class _StudentListViewState extends State<StudentListView> {
                                             widget.images.toString(),
                                             afterAttendanceTaken == null
                                                 ?_searchController.text.isNotEmpty
-                                                ? newResult[index]["mother_details"]["mother_name"].toString() : ourStudentList[index]["mother_details"]
-                                            ["mother_name"]
+                                                ? newResult[index]["mother_details"]["mother_name"] ?? '--' : ourStudentList[index]["mother_details"]
+                                            ["mother_name"] ?? '--'
                                                 : _searchController.text.isNotEmpty
-                                                ? newResult[index]["feeDetails"]["mother_details"]["mother_name"].toString() : afterAttendanceTaken[index]
-                                            ["feeDetails"]["mother_details"]["mother_name"],
+                                                ? newResult[index]["feeDetails"]["mother_details"]["mother_name"] ?? '--' : afterAttendanceTaken[index]
+                                            ["feeDetails"]["mother_details"]["mother_name"] ?? '--',
                                             afterAttendanceTaken == null
                                                 ?_searchController.text.isNotEmpty
-                                                ? newResult[index]["mother_details"]["mother_mobile"].toString() : ourStudentList[index]["mother_details"]
-                                            ["mother_mobile"]
+                                                ? newResult[index]["mother_details"]["mother_mobile"] ?? '--' : ourStudentList[index]["mother_details"]
+                                            ["mother_mobile"] ?? '--'
                                                 :_searchController.text.isNotEmpty
-                                                ? newResult[index]["feeDetails"]["mother_details"]["mother_mobile"].toString() :  afterAttendanceTaken[index]
+                                                ? newResult[index]["feeDetails"]["mother_details"]["mother_mobile"] ?? '--' :  afterAttendanceTaken[index]
                                             ["feeDetails"]
                                             ["mother_details"]
-                                            ["mother_mobile"],
+                                            ["mother_mobile"] ?? '--',
                                             afterAttendanceTaken == null
                                                 ?_searchController.text.isNotEmpty
                                                 ? newResult[index].containsKey("mother_details") : ourStudentList[index].containsKey("mother_details")
@@ -1434,20 +1437,20 @@ class _StudentListViewState extends State<StudentListView> {
                                             widget.images.toString(),
                                             afterAttendanceTaken == null
                                                 ?_searchController.text.isNotEmpty
-                                                ? newResult[index]["mother_details"]["mother_name"].toString() : ourStudentList[index]["mother_details"]
-                                            ["mother_name"]
+                                                ? newResult[index]["mother_details"]["mother_name"] ?? '--' : ourStudentList[index]["mother_details"]
+                                            ["mother_name"] ?? '--'
                                                 : _searchController.text.isNotEmpty
-                                                ? newResult[index]["feeDetails"]["mother_details"]["mother_name"].toString() : afterAttendanceTaken[index]
-                                            ["feeDetails"]["mother_details"]["mother_name"],
+                                                ? newResult[index]["feeDetails"]["mother_details"]["mother_name"] ?? '--' : afterAttendanceTaken[index]
+                                            ["feeDetails"]["mother_details"]["mother_name"] ?? '--',
                                             afterAttendanceTaken == null
                                                 ?_searchController.text.isNotEmpty
-                                                ? newResult[index]["mother_details"]["mother_mobile"].toString() : ourStudentList[index]["mother_details"]
-                                            ["mother_mobile"]
+                                                ? newResult[index]["mother_details"]["mother_mobile"] ?? '--' : ourStudentList[index]["mother_details"]
+                                            ["mother_mobile"] ?? '--'
                                                 :_searchController.text.isNotEmpty
-                                                ? newResult[index]["feeDetails"]["mother_details"]["mother_mobile"].toString() :  afterAttendanceTaken[index]
+                                                ? newResult[index]["feeDetails"]["mother_details"]["mother_mobile"] ?? '--' :  afterAttendanceTaken[index]
                                             ["feeDetails"]
                                             ["mother_details"]
-                                            ["mother_mobile"],
+                                            ["mother_mobile"] ?? '--',
                                             afterAttendanceTaken == null
                                                 ?_searchController.text.isNotEmpty
                                                 ? newResult[index].containsKey("mother_details") : ourStudentList[index].containsKey("mother_details")
