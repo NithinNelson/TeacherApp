@@ -84,6 +84,7 @@ class RecentData {
   String? visitStatus;
   String? remarks;
   String? admissionNo;
+  String? profile;
   bool? isprogress;
   List<Statuses>? status;
 
@@ -93,8 +94,10 @@ class RecentData {
       this.classs,
       this.batch,
       this.visitDate,
-      this.visitStatus, this.remarks,
+      this.visitStatus,
+      this.remarks,
       this.admissionNo,
+      this.profile,
       this.isprogress,
       this.status});
 
@@ -107,6 +110,7 @@ class RecentData {
     visitStatus = json['visit_status'];
     remarks = json['remarks'];
     admissionNo = json['admission_no'];
+    profile = json['profile_pic'];
 
     isprogress = json['isprogress'];
     if (json['status'] != null) {
@@ -127,6 +131,7 @@ class RecentData {
     data['visit_status'] = this.visitStatus;
     data['remarks'] = this.remarks;
     data['admission_no'] = this.admissionNo;
+    data['profile_pic'] = this.profile;
     data['isprogress'] = this.isprogress;
     if (this.status != null) {
       data['status'] = this.status!.map((v) => v.toJson()).toList();
@@ -148,15 +153,16 @@ class Statuses {
       this.sentById,
       this.sentByToken,
       this.visitStatus,
-      this.addedOn,this.remark
-      });
+      this.addedOn,
+      this.remark});
 
   Statuses.fromJson(Map<String, dynamic> json) {
     sentBy = json['sent_by'];
     sentById = json['sent_by_id'];
     sentByToken = json['sent_by_token'];
     visitStatus = json['visit_status'];
-    addedOn = json['Added_on']; remark = json['remark'];
+    addedOn = json['Added_on'];
+    remark = json['remark'];
   }
 
   Map<String, dynamic> toJson() {
@@ -165,7 +171,8 @@ class Statuses {
     data['sent_by_id'] = this.sentById;
     data['sent_by_token'] = this.sentByToken;
     data['visit_status'] = this.visitStatus;
-    data['Added_on'] = this.addedOn;data['remark'] = this.remark;
+    data['Added_on'] = this.addedOn;
+    data['remark'] = this.remark;
     return data;
   }
 }

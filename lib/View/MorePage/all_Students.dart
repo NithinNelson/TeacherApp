@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:alarm/alarm.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -424,12 +425,37 @@ class listcontainer extends StatelessWidget {
                 const EdgeInsets.only(left: 5, top: 8, bottom: 8, right: 12),
             child: Row(
               children: [
+                // CircleAvatar(
+                //   radius: 22,
+                //   backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(8.0),
+                //     child: SvgPicture.asset("assets/images/profileOne.svg"),
+                //   ),
+                // ),
                 CircleAvatar(
-                  radius: 22,
-                  backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SvgPicture.asset("assets/images/profileOne.svg"),
+                  radius: 25.r,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(90.h),
+                    child: CachedNetworkImage(
+                      imageUrl: "${progressCompletedList.profile}",
+                      placeholder: (context, url) => CircleAvatar(
+                        radius: 25.r,
+                        backgroundColor: Colorutils.chatcolor.withOpacity(0.1),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SvgPicture.asset("assets/images/profileOne.svg"),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => CircleAvatar(
+                        radius: 25.r,
+                        backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SvgPicture.asset("assets/images/profileOne.svg"),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -723,12 +749,37 @@ class _TrackingContainerState extends State<TrackingContainer> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
 
+                  // CircleAvatar(
+                  //   radius: 22,
+                  //   backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(8.0),
+                  //     child: SvgPicture.asset("assets/images/profileOne.svg"),
+                  //   ),
+                  // ),
                   CircleAvatar(
-                    radius: 22,
-                    backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SvgPicture.asset("assets/images/profileOne.svg"),
+                    radius: 25.r,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(90.h),
+                      child: CachedNetworkImage(
+                        imageUrl: "${widget.inProgressList.profile}",
+                        placeholder: (context, url) => CircleAvatar(
+                          radius: 25.r,
+                          backgroundColor: Colorutils.chatcolor.withOpacity(0.1),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SvgPicture.asset("assets/images/profileOne.svg"),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => CircleAvatar(
+                          radius: 25.r,
+                          backgroundColor: Colorutils.chatcolor.withOpacity(0.1),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SvgPicture.asset("assets/images/profileOne.svg"),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(

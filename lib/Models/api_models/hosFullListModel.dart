@@ -6,7 +6,8 @@ class HosfullListModel {
   HosfullListModel({this.status, this.count, this.data});
 
   HosfullListModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'] != null ? new Status.fromJson(json['status']) : null;
+    status =
+        json['status'] != null ? new Status.fromJson(json['status']) : null;
     count = json['count'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
@@ -54,7 +55,9 @@ class Data {
     message = json['message'];
     if (json['data'] != null) {
       data = <Datas>[];
-      json['data'].forEach((v) { data!.add(new Datas.fromJson(v)); });
+      json['data'].forEach((v) {
+        data!.add(new Datas.fromJson(v));
+      });
     }
     status = json['status'];
   }
@@ -79,42 +82,58 @@ class Datas {
   String? visitStatus;
   String? remarks;
   String? sendToName;
+  String? profile;
   bool? isprogress;
   List<Statuss>? status;
 
-  Datas({this.id, this.studentName, this.classs, this.batch, this.visitDate, this.visitStatus,this.remarks,this.sendToName, this.isprogress, this.status});
+  Datas(
+      {this.id,
+      this.studentName,
+      this.classs,
+      this.batch,
+      this.profile,
+      this.visitDate,
+      this.visitStatus,
+      this.remarks,
+      this.sendToName,
+      this.isprogress,
+      this.status});
 
   Datas.fromJson(Map<String, dynamic> json) {
-  id = json['id'];
-  studentName = json['student_name'];
-  classs = json['class'];
-  batch = json['batch'];
-  visitDate = json['visit_date'];
-  visitStatus = json['visit_status'];
-  remarks = json['remarks'];
-  sendToName = json['send_to_name'];
-  isprogress = json['isprogress'];
-  if (json['status'] != null) {
-  status = <Statuss>[];
-  json['status'].forEach((v) { status!.add(new Statuss.fromJson(v)); });
-  }
+    id = json['id'];
+    studentName = json['student_name'];
+    classs = json['class'];
+    batch = json['batch'];
+    visitDate = json['visit_date'];
+    visitStatus = json['visit_status'];
+    remarks = json['remarks'];
+    sendToName = json['send_to_name'];
+    profile = json['profile_pic'];
+    isprogress = json['isprogress'];
+    if (json['status'] != null) {
+      status = <Statuss>[];
+      json['status'].forEach((v) {
+        status!.add(new Statuss.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
-  final Map<String, dynamic> data = new Map<String, dynamic>();
-  data['id'] = this.id;
-  data['student_name'] = this.studentName;
-  data['class'] = this.classs;
-  data['batch'] = this.batch;
-  data['visit_date'] = this.visitDate;
-  data['visit_status'] = this.visitStatus;
-  data['remarks'] = this.remarks;
-  data['send_to_name'] = this.sendToName;
-  data['isprogress'] = this.isprogress;
-  if (this.status != null) {
-  data['status'] = this.status!.map((v) => v.toJson()).toList();
-  }
-  return data;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['student_name'] = this.studentName;
+    data['class'] = this.classs;
+    data['batch'] = this.batch;
+    data['visit_date'] = this.visitDate;
+    data['visit_status'] = this.visitStatus;
+    data['profile_pic'] = this.profile;
+    data['remarks'] = this.remarks;
+    data['send_to_name'] = this.sendToName;
+    data['isprogress'] = this.isprogress;
+    if (this.status != null) {
+      data['status'] = this.status!.map((v) => v.toJson()).toList();
+    }
+    return data;
   }
 }
 
@@ -126,14 +145,21 @@ class Statuss {
   String? addedOn;
   String? remark;
 
-  Statuss({this.sentBy, this.sentById, this.sentByToken, this.visitStatus, this.addedOn, String? remark});
+  Statuss(
+      {this.sentBy,
+      this.sentById,
+      this.sentByToken,
+      this.visitStatus,
+      this.addedOn,
+      String? remark});
 
   Statuss.fromJson(Map<String, dynamic> json) {
     sentBy = json['sent_by'];
     sentById = json['sent_by_id'];
     sentByToken = json['sent_by_token'];
     visitStatus = json['visit_status'];
-    addedOn = json['Added_on']; remark = json['remark'];
+    addedOn = json['Added_on'];
+    remark = json['remark'];
   }
 
   Map<String, dynamic> toJson() {
@@ -142,7 +168,8 @@ class Statuss {
     data['sent_by_id'] = this.sentById;
     data['sent_by_token'] = this.sentByToken;
     data['visit_status'] = this.visitStatus;
-    data['Added_on'] = this.addedOn;data['remark'] = this.remark;
+    data['Added_on'] = this.addedOn;
+    data['remark'] = this.remark;
     return data;
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -96,13 +97,30 @@ class _trackingDetailsState extends State<trackingDetails> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+
                       CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child:
-                              SvgPicture.asset("assets/images/profileOne.svg"),
+                        radius: 25.r,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(90.h),
+                          child: CachedNetworkImage(
+                            imageUrl: "${widget.inProgressList.profile}",
+                            placeholder: (context, url) => CircleAvatar(
+                              radius: 25.r,
+                              backgroundColor: Colorutils.chatcolor.withOpacity(0.1),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SvgPicture.asset("assets/images/profileOne.svg"),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => CircleAvatar(
+                              radius: 25.r,
+                              backgroundColor: Colorutils.chatcolor.withOpacity(0.1),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SvgPicture.asset("assets/images/profileOne.svg"),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                       SizedBox(

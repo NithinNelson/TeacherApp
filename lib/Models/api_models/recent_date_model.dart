@@ -6,7 +6,8 @@ class TrackingDateModel {
   TrackingDateModel({this.status, this.count, this.data});
 
   TrackingDateModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'] != null ? new Status.fromJson(json['status']) : null;
+    status =
+        json['status'] != null ? new Status.fromJson(json['status']) : null;
     count = json['count'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
@@ -54,7 +55,9 @@ class Data {
     message = json['message'];
     if (json['data'] != null) {
       data = <ListItem>[];
-      json['data'].forEach((v) { data!.add(new ListItem.fromJson(v)); });
+      json['data'].forEach((v) {
+        data!.add(new ListItem.fromJson(v));
+      });
     }
     status = json['status'];
   }
@@ -78,40 +81,55 @@ class ListItem {
   String? visitDate;
   String? visitStatus;
   String? remarks;
+  String? profile;
   bool? isprogress;
   List<DataStatus>? status;
 
-  ListItem({this.id, this.studentName, this.classs, this.batch, this.visitDate, this.visitStatus,this.remarks, this.isprogress, this.status});
+  ListItem(
+      {this.id,
+      this.studentName,
+      this.classs,
+      this.batch,
+      this.visitDate,
+      this.visitStatus,
+      this.profile,
+      this.remarks,
+      this.isprogress,
+      this.status});
 
   ListItem.fromJson(Map<String, dynamic> json) {
-  id = json['id'];
-  studentName = json['student_name'];
-  classs = json['class'];
-  batch = json['batch'];
-  visitDate = json['visit_date'];
-  visitStatus = json['visit_status'];
-  remarks = json['remarks'];
-  isprogress = json['isprogress'];
-  if (json['status'] != null) {
-  status = <DataStatus>[];
-  json['status'].forEach((v) { status!.add(new DataStatus.fromJson(v)); });
-  }
+    id = json['id'];
+    studentName = json['student_name'];
+    classs = json['class'];
+    batch = json['batch'];
+    visitDate = json['visit_date'];
+    visitStatus = json['visit_status'];
+    remarks = json['remarks'];
+    profile = json['profile_pic'];
+    isprogress = json['isprogress'];
+    if (json['status'] != null) {
+      status = <DataStatus>[];
+      json['status'].forEach((v) {
+        status!.add(new DataStatus.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
-  final Map<String, dynamic> data = new Map<String, dynamic>();
-  data['id'] = this.id;
-  data['student_name'] = this.studentName;
-  data['class'] = this.classs;
-  data['batch'] = this.batch;
-  data['visit_date'] = this.visitDate;
-  data['visit_status'] = this.visitStatus;
-  data['remarks'] = this.remarks;
-  data['isprogress'] = this.isprogress;
-  if (this.status != null) {
-  data['status'] = this.status!.map((v) => v.toJson()).toList();
-  }
-  return data;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['student_name'] = this.studentName;
+    data['class'] = this.classs;
+    data['batch'] = this.batch;
+    data['visit_date'] = this.visitDate;
+    data['visit_status'] = this.visitStatus;
+    data['remarks'] = this.remarks;
+    data['profile_pic'] = this.profile;
+    data['isprogress'] = this.isprogress;
+    if (this.status != null) {
+      data['status'] = this.status!.map((v) => v.toJson()).toList();
+    }
+    return data;
   }
 }
 
@@ -123,14 +141,21 @@ class DataStatus {
   String? addedOn;
   String? remark;
 
-  DataStatus({this.sentBy, this.sentById, this.sentByToken, this.visitStatus, this.addedOn,this.remark});
+  DataStatus(
+      {this.sentBy,
+      this.sentById,
+      this.sentByToken,
+      this.visitStatus,
+      this.addedOn,
+      this.remark});
 
   DataStatus.fromJson(Map<String, dynamic> json) {
     sentBy = json['sent_by'];
     sentById = json['sent_by_id'];
     sentByToken = json['sent_by_token'];
     visitStatus = json['visit_status'];
-    addedOn = json['Added_on'];   remark = json['remark'];
+    addedOn = json['Added_on'];
+    remark = json['remark'];
   }
 
   Map<String, dynamic> toJson() {
@@ -139,7 +164,8 @@ class DataStatus {
     data['sent_by_id'] = this.sentById;
     data['sent_by_token'] = this.sentByToken;
     data['visit_status'] = this.visitStatus;
-    data['Added_on'] = this.addedOn;  data['remark'] = this.remark;
+    data['Added_on'] = this.addedOn;
+    data['remark'] = this.remark;
     return data;
   }
 }
