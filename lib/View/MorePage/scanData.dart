@@ -74,322 +74,322 @@ class _ScandataState extends State<Scandata> {
           builder: (Qrcontroller controller) {
             QrclinicModel Studentdetail = controller.studentqrdata.value;
             return SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    height: 60,
-                    child: Row(
-                      children: [
-                        Padding(
-                            padding: EdgeInsets.only(left: 18),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Icon(
-                                Icons.arrow_back_outlined,
-                                size: 30,
-                              ),
-                            )),
-                        Spacer(
-                          flex: 2,
-                        ),
-                        Text(
-                          "Add Students",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w600),
-                        ),
-                        Spacer(
-                          flex: 3,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 10, right: 10, bottom: 8, top: 4),
-                    child: Container(
-                      height: 90.h,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 5, right: 3),
-                        child: Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CircleAvatar(
-                              radius: 32.r,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(90.h),
-                                child: CachedNetworkImage(
-                                  imageUrl: "${Studentdetail.profileImage}",
-                                  placeholder: (context, url) => Text(
-                                    Studentdetail.studentName
-                                            ?.substring(0, 1) ??
-                                        '',
-                                    style: TextStyle(
-                                        color: Color(0xFFB1BFFF),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  errorWidget: (context, url, error) => Text(
-                                    Studentdetail.studentName
-                                            ?.substring(0, 1) ??
-                                        '',
-                                    style: TextStyle(
-                                        color: Color(0xFFB1BFFF),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Container(
-                              width: 230.w,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 6,
-                                  bottom: 6,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                        width: 230.w,
-                                        child: SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Text(
-                                              "${Studentdetail.studentName?.trim()}",
-                                              style: GoogleFonts.inter(
-                                                  textStyle: TextStyle(
-                                                      fontSize: 15.sp,
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w600))),
-                                        )),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Text(
-                                      "Grade ${Studentdetail.batch?.split("/")[0]}"
-                                      "-"
-                                      "${Studentdetail.batch?.split("/")[1]}",
-                                      style: TextStyle(fontSize: 14),
-                                    ),
-                                    Text(
-                                      "${Studentdetail.admnNo}",
-                                      style: TextStyle(
-                                          fontSize: 14, color: Colors.grey),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Spacer(),
-                            Container(
-                              height: 80.h,
-                              child: QrImageView(
-                                data: "${Studentdetail.classCode}",
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 18, right: 18),
-                    child: Container(
-                      height: 50,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Container(
+                      height: 60,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          Padding(
+                              padding: EdgeInsets.only(left: 18),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Icon(
+                                  Icons.arrow_back_outlined,
+                                  size: 30,
+                                ),
+                              )),
+                          Spacer(
+                            flex: 2,
+                          ),
                           Text(
-                            'Send To',
+                            "Add Students",
                             style: TextStyle(
-                                fontSize: 16.w, fontWeight: FontWeight.bold),
+                                fontSize: 18, fontWeight: FontWeight.w600),
+                          ),
+                          Spacer(
+                            flex: 3,
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isClicked = true;
-                            isClicked1 = false;
-                            isClicked2 = false;
-                            isClicked3 = false;
-                          });
-                        },
-                        child: Container(
-                          height: 70,
-                          width: 80,
-                          child: Column(
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 10, right: 10, bottom: 8, top: 4),
+                      child: Container(
+                        height: 90.h,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 5, right: 3),
+                          child: Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                  height: 45,
-                                  width: 45,
-                                  child: isClicked
-                                      ? Image.asset(
-                                          "assets/images/2Clinic Selected.png")
-                                      : Image.asset(
-                                          "assets/images/1Clinic .png")),
-                              SizedBox(
-                                height: 5,
+                              CircleAvatar(
+                                radius: 32.r,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(90.h),
+                                  child: CachedNetworkImage(
+                                    imageUrl: "${Studentdetail.profileImage}",
+                                    placeholder: (context, url) => Text(
+                                      Studentdetail.studentName
+                                              ?.substring(0, 1) ??
+                                          '',
+                                      style: TextStyle(
+                                          color: Color(0xFFB1BFFF),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    errorWidget: (context, url, error) => Text(
+                                      Studentdetail.studentName
+                                              ?.substring(0, 1) ??
+                                          '',
+                                      style: TextStyle(
+                                          color: Color(0xFFB1BFFF),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                  ),
+                                ),
                               ),
-                              Text(
-                                "Clinic",
-                                style: TextStyle(fontSize: 13),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Container(
+                                width: 230.w,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 6,
+                                    bottom: 6,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                          width: 230.w,
+                                          child: SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Text(
+                                                "${Studentdetail.studentName?.trim()}",
+                                                style: GoogleFonts.inter(
+                                                    textStyle: TextStyle(
+                                                        fontSize: 15.sp,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.w600))),
+                                          )),
+                                      const SizedBox(
+                                        height: 3,
+                                      ),
+                                      Text(
+                                        "Grade ${Studentdetail.batch?.split("/")[0]}"
+                                        "-"
+                                        "${Studentdetail.batch?.split("/")[1]}",
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                      Text(
+                                        "${Studentdetail.admnNo}",
+                                        style: TextStyle(
+                                            fontSize: 14, color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Spacer(),
+                              Container(
+                                height: 80.h,
+                                child: QrImageView(
+                                  data: "${Studentdetail.classCode}",
+                                ),
                               )
                             ],
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isClicked1 = true;
-                          });
-                        },
-                        child: Container(
-                          height: 70,
-                          width: 80,
-                          child: Column(
-                            children: [
-                              GestureDetector(
-                                child: Container(
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 18, right: 18),
+                      child: Container(
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Send To',
+                              style: TextStyle(
+                                  fontSize: 16.w, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isClicked = true;
+                              isClicked1 = false;
+                              isClicked2 = false;
+                              isClicked3 = false;
+                            });
+                          },
+                          child: Container(
+                            height: 70,
+                            width: 80,
+                            child: Column(
+                              children: [
+                                Container(
                                     height: 45,
                                     width: 45,
-                                    child: isClicked1
+                                    child: isClicked
                                         ? Image.asset(
-                                            "assets/images/2Washroom selecetd.png")
+                                            "assets/images/2Clinic Selected.png")
                                         : Image.asset(
-                                            "assets/images/1Washroom.png")),
-                                onTap: () {
-                                  setState(() {
-                                    isClicked1 = true;
-                                    isClicked = false;
-                                    isClicked2 = false;
-                                    isClicked3 = false;
-                                  });
-                                },
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Washroom",
-                                style: TextStyle(fontSize: 13),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isClicked2 = true;
-                            isClicked = false;
-                            isClicked1 = false;
-                            isClicked3 = false;
-                          });
-                        },
-                        child: Container(
-                          height: 70,
-                          width: 80,
-                          child: Column(
-                            children: [
-                              Container(
-                                  height: 45,
-                                  width: 45,
-                                  child: isClicked2
-                                      ? Image.asset(
-                                          "assets/images/2Counsellor selected.png")
-                                      : Image.asset(
-                                          "assets/images/1Counsellor.png")),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Counsellor",
-                                style: TextStyle(fontSize: 13),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isClicked2 = false;
-                            isClicked = false;
-                            isClicked1 = false;
-                            isClicked3 = true;
-                          });
-                        },
-                        child: Container(
-                          height: 70,
-                          width: 80,
-                          child: Column(
-                            children: [
-                              Container(
-                                  height: 45,
-                                  width: 45,
-                                  child: isClicked3
-                                      ? Image.asset(
-                                          "assets/images/Counsellor (2).png")
-                                      : Image.asset(
-                                          "assets/images/Counsellor (1).png")),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "HOD/HOS",
-                                style: TextStyle(fontSize: 13),
-                              )
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  isClicked3
-                      ? Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 18, top: 8),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Select HOD/HOS',
-                                    style: TextStyle(
-                                        fontSize: 16.w,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
+                                            "assets/images/1Clinic .png")),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  "Clinic",
+                                  style: TextStyle(fontSize: 13),
+                                )
+                              ],
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 15.w, right: 15.w, top: 5.h),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Form(
-                                    key: _formKey1,
-                                    child: Expanded(
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isClicked1 = true;
+                            });
+                          },
+                          child: Container(
+                            height: 70,
+                            width: 80,
+                            child: Column(
+                              children: [
+                                GestureDetector(
+                                  child: Container(
+                                      height: 45,
+                                      width: 45,
+                                      child: isClicked1
+                                          ? Image.asset(
+                                              "assets/images/2Washroom selecetd.png")
+                                          : Image.asset(
+                                              "assets/images/1Washroom.png")),
+                                  onTap: () {
+                                    setState(() {
+                                      isClicked1 = true;
+                                      isClicked = false;
+                                      isClicked2 = false;
+                                      isClicked3 = false;
+                                    });
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  "Washroom",
+                                  style: TextStyle(fontSize: 13),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isClicked2 = true;
+                              isClicked = false;
+                              isClicked1 = false;
+                              isClicked3 = false;
+                            });
+                          },
+                          child: Container(
+                            height: 70,
+                            width: 80,
+                            child: Column(
+                              children: [
+                                Container(
+                                    height: 45,
+                                    width: 45,
+                                    child: isClicked2
+                                        ? Image.asset(
+                                            "assets/images/2Counsellor selected.png")
+                                        : Image.asset(
+                                            "assets/images/1Counsellor.png")),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  "Counsellor",
+                                  style: TextStyle(fontSize: 13),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isClicked2 = false;
+                              isClicked = false;
+                              isClicked1 = false;
+                              isClicked3 = true;
+                            });
+                          },
+                          child: Container(
+                            height: 70,
+                            width: 80,
+                            child: Column(
+                              children: [
+                                Container(
+                                    height: 45,
+                                    width: 45,
+                                    child: isClicked3
+                                        ? Image.asset(
+                                            "assets/images/Counsellor (2).png")
+                                        : Image.asset(
+                                            "assets/images/Counsellor (1).png")),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  "HOD/HOS",
+                                  style: TextStyle(fontSize: 13),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    isClicked3
+                        ? Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 18, top: 8),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Select HOD/HOS',
+                                      style: TextStyle(
+                                          fontSize: 16.w,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: 15.w, right: 15.w, top: 5.h),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Expanded(
                                       child: Padding(
                                         padding: EdgeInsets.only(
                                             left: 8.w,
@@ -467,114 +467,111 @@ class _ScandataState extends State<Scandata> {
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
+                              // Padding(
+                              //   padding: EdgeInsets.only(
+                              //       left: 10.w, right: 15.w, top: 20.h),
+                              //   child: GetX<Hierarchcontroller>(
+                              //     builder: (Hierarchcontroller controller) {
+                              //       return DropdownButtonFormField(
+                              //         decoration: InputDecoration(
+                              //             hintStyle: TextStyle(
+                              //                 color:
+                              //                     Colors.black.withOpacity(0.3)),
+                              //             contentPadding: EdgeInsets.symmetric(
+                              //                 vertical: 15.0, horizontal: 20.0),
+                              //             hintText: " Select a HOD/HOS ",
+                              //             counterText: "",
+                              //             border: OutlineInputBorder(
+                              //               borderRadius: BorderRadius.all(
+                              //                 Radius.circular(10.0),
+                              //               ),
+                              //             ),
+                              //             enabledBorder: OutlineInputBorder(
+                              //               borderSide: BorderSide(
+                              //                 color: Colorutils.chatcolor,
+                              //                 width: 1.0,
+                              //               ),
+                              //               borderRadius: BorderRadius.all(
+                              //                   Radius.circular(10.0)),
+                              //             ),
+                              //             focusedBorder: OutlineInputBorder(
+                              //               borderSide: BorderSide(
+                              //                 color: Colorutils.chatcolor,
+                              //                 width: 1.0,
+                              //               ),
+                              //               borderRadius: BorderRadius.all(
+                              //                   Radius.circular(10.0)),
+                              //             ),
+                              //             fillColor: Colorutils.chatcolor
+                              //                 .withOpacity(0.5),
+                              //             filled: true),
+                              //
+                              //         padding: const EdgeInsets.only(
+                              //                 left: 10, right: 5)
+                              //             .w,
+                              //         hint: const Text(" Select a HOD/HOS "),
+                              //         validator: (dynamic value) =>
+                              //             value == null ? 'Field Required' : null,
+                              //         items: controller.hosdata
+                              //             .map<DropdownMenuItem<dynamic>>((item) {
+                              //           print(
+                              //               "....bendcncdn........${controller.hosdata}");
+                              //           return DropdownMenuItem<dynamic>(
+                              //             value: item.sId,
+                              //             child: Text(
+                              //               item.name?.toUpperCase() ?? '--',
+                              //               overflow: TextOverflow.ellipsis,
+                              //               maxLines: 1,
+                              //             ),
+                              //           );
+                              //         }).toList(),
+                              //         value: _hosNameSelected.value,
+                              //         isExpanded: false,
+                              //         // onChanged: (dynamic newVal) {
+                              //         //   newValue=newVal.s
+                              //         //   _hosNameSelected.value = newVal;
+                              //         //   print(".........._hosNameSelected.value.........${newVal}");
+                              //         // },
+                              //         onChanged: (dynamic newVal) {
+                              //           // String selectedId = newVal.split('-')[1];
+                              //
+                              //           _hosNameSelected.value = newVal;
+                              //           print(
+                              //               "...............Selected ID: ${_hosNameSelected.value} ");
+                              //         },
+                              //       );
+                              //     },
+                              //   ),
+                              // ),
+                            ],
+                          )
+                        : SizedBox(),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 18, right: 18),
+                      child: Container(
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Remarks',
+                              style: TextStyle(
+                                  fontSize: 16.w, fontWeight: FontWeight.bold),
                             ),
-                            // Padding(
-                            //   padding: EdgeInsets.only(
-                            //       left: 10.w, right: 15.w, top: 20.h),
-                            //   child: GetX<Hierarchcontroller>(
-                            //     builder: (Hierarchcontroller controller) {
-                            //       return DropdownButtonFormField(
-                            //         decoration: InputDecoration(
-                            //             hintStyle: TextStyle(
-                            //                 color:
-                            //                     Colors.black.withOpacity(0.3)),
-                            //             contentPadding: EdgeInsets.symmetric(
-                            //                 vertical: 15.0, horizontal: 20.0),
-                            //             hintText: " Select a HOD/HOS ",
-                            //             counterText: "",
-                            //             border: OutlineInputBorder(
-                            //               borderRadius: BorderRadius.all(
-                            //                 Radius.circular(10.0),
-                            //               ),
-                            //             ),
-                            //             enabledBorder: OutlineInputBorder(
-                            //               borderSide: BorderSide(
-                            //                 color: Colorutils.chatcolor,
-                            //                 width: 1.0,
-                            //               ),
-                            //               borderRadius: BorderRadius.all(
-                            //                   Radius.circular(10.0)),
-                            //             ),
-                            //             focusedBorder: OutlineInputBorder(
-                            //               borderSide: BorderSide(
-                            //                 color: Colorutils.chatcolor,
-                            //                 width: 1.0,
-                            //               ),
-                            //               borderRadius: BorderRadius.all(
-                            //                   Radius.circular(10.0)),
-                            //             ),
-                            //             fillColor: Colorutils.chatcolor
-                            //                 .withOpacity(0.5),
-                            //             filled: true),
-                            //
-                            //         padding: const EdgeInsets.only(
-                            //                 left: 10, right: 5)
-                            //             .w,
-                            //         hint: const Text(" Select a HOD/HOS "),
-                            //         validator: (dynamic value) =>
-                            //             value == null ? 'Field Required' : null,
-                            //         items: controller.hosdata
-                            //             .map<DropdownMenuItem<dynamic>>((item) {
-                            //           print(
-                            //               "....bendcncdn........${controller.hosdata}");
-                            //           return DropdownMenuItem<dynamic>(
-                            //             value: item.sId,
-                            //             child: Text(
-                            //               item.name?.toUpperCase() ?? '--',
-                            //               overflow: TextOverflow.ellipsis,
-                            //               maxLines: 1,
-                            //             ),
-                            //           );
-                            //         }).toList(),
-                            //         value: _hosNameSelected.value,
-                            //         isExpanded: false,
-                            //         // onChanged: (dynamic newVal) {
-                            //         //   newValue=newVal.s
-                            //         //   _hosNameSelected.value = newVal;
-                            //         //   print(".........._hosNameSelected.value.........${newVal}");
-                            //         // },
-                            //         onChanged: (dynamic newVal) {
-                            //           // String selectedId = newVal.split('-')[1];
-                            //
-                            //           _hosNameSelected.value = newVal;
-                            //           print(
-                            //               "...............Selected ID: ${_hosNameSelected.value} ");
-                            //         },
-                            //       );
-                            //     },
-                            //   ),
-                            // ),
                           ],
-                        )
-                      : SizedBox(),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 18, right: 18),
-                    child: Container(
-                      height: 50,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Remarks',
-                            style: TextStyle(
-                                fontSize: 16.w, fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: 20.w,
-                      top: 5.h,
-                      right: 20.w,
-                      bottom: 5.h,
-                    ),
-                    child: Form(
-                      key: _formKey,
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: 20.w,
+                        top: 5.h,
+                        right: 20.w,
+                        bottom: 5.h,
+                      ),
                       child: TextFormField(
                         maxLength: 100,
                         controller: _Remarkscontroller,
@@ -608,105 +605,106 @@ class _ScandataState extends State<Scandata> {
                         maxLines: 5,
                       ),
                     ),
-                  ),
-                  Center(
-                    child: spinner
-                        ? Container(
-                            margin: EdgeInsets.only(top: 15.h),
-                            child: Center(child: spinkitNew))
-                        : Padding(
-                            padding: EdgeInsets.only(top: 25.h),
-                            child: GestureDetector(
-                              onTap: () async {
-                                onTaped = false;
-                                String type = isClicked
-                                    ? "clinic"
-                                    : isClicked1
-                                        ? "washroom"
-                                        : isClicked2
-                                            ? "counsellor"
-                                            : isClicked3
-                                                ? "HOD/HOS"
-                                                : '';
-                                isClicked3? _formKey1.currentState!.validate():();
-                                if (_formKey.currentState!.validate()) {
-                                  setState(() {
-                                    spinner = true;
-                                  });
+                    Center(
+                      child: spinner
+                          ? Container(
+                              margin: EdgeInsets.only(top: 15.h),
+                              child: Center(child: spinkitNew))
+                          : Padding(
+                              padding: EdgeInsets.only(top: 25.h),
+                              child: GestureDetector(
+                                onTap: () async {
+                                  onTaped = false;
+                                  String type = isClicked
+                                      ? "clinic"
+                                      : isClicked1
+                                          ? "washroom"
+                                          : isClicked2
+                                              ? "counsellor"
+                                              : isClicked3
+                                                  ? "HOD/HOS"
+                                                  : '';
 
-                                  StudentAddModel sentData = StudentAddModel(
-                                    academicYear: Get.find<UserAuthController>()
-                                            .userData
-                                            .value
-                                            .academicYear ??
-                                        '',
-                                    admnNo: Studentdetail.admnNo,
-                                    age: Studentdetail.age,
-                                    batchDetails: Studentdetail.batch,
-                                    dob: Studentdetail.dob,
-                                    studentName: Studentdetail.studentName,
-                                    fatherEmail: Studentdetail.fatherEmail,
-                                    fatherName: Studentdetail.fatherName,
-                                    fatherPhone: Studentdetail.fatherPhone,
-                                    gender: Studentdetail.gender,
-                                    profilePic: Studentdetail.profileImage,
-                                    instID: Studentdetail.instID,
-                                    remarks: _Remarkscontroller.text,
-                                    role: selectedName.role,
-                                    sentTo: selectedName.sId,
-                                    sentToName: selectedName.name,
-                                    sentBy: Get.find<UserAuthController>()
-                                            .userData
-                                            .value
-                                            .name ??
-                                        '',
-                                    sentById: Get.find<UserAuthController>()
-                                            .userData
-                                            .value
-                                            .userId ??
-                                        '',
-                                    sentByToken: ' ',
-                                    visitStatus:
-                                        "Sent to ${type[0].toUpperCase()}${type.substring(1, type.length)}",
-                                    appType: type,
-                                  );
-                                  print(
-                                      "--------frvbrg----------${selectedName.name}");
-                                  await Get.find<Studentmodelcontroller>()
-                                      .sendStudentData(data: sentData);
+                                  if (_formKey.currentState!.validate() ) {
+                                    setState(() {
+                                      spinner = true;
 
-                                  await Get.find<RecentListApiController>()
-                                      .fetchRecentList();
-                                  // playAlarm(Studentdetail.admnNo ?? "1/22");
-                                }
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  left: 20.w,
-                                  top: 5.h,
-                                  right: 20.w,
-                                  bottom: 5.h,
-                                ),
-                                child: Container(
-                                    height: 50.h,
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: Colorutils.userdetailcolor,
-                                      borderRadius: const BorderRadius.all(
-                                              Radius.circular(15))
-                                          .r,
-                                    ),
-                                    child: const Center(
-                                      child: Text(
-                                        'SEND',
-                                        style: TextStyle(color: Colors.white),
+                                    });
+
+                                    StudentAddModel sentData = StudentAddModel(
+                                      academicYear: Get.find<UserAuthController>()
+                                              .userData
+                                              .value
+                                              .academicYear ??
+                                          '',
+                                      admnNo: Studentdetail.admnNo,
+                                      age: Studentdetail.age,
+                                      batchDetails: Studentdetail.batch,
+                                      dob: Studentdetail.dob,
+                                      studentName: Studentdetail.studentName,
+                                      fatherEmail: Studentdetail.fatherEmail,
+                                      fatherName: Studentdetail.fatherName,
+                                      fatherPhone: Studentdetail.fatherPhone,
+                                      gender: Studentdetail.gender,
+                                      profilePic: Studentdetail.profileImage,
+                                      instID: Studentdetail.instID,
+                                      remarks: _Remarkscontroller.text,
+                                      role: selectedName.role,
+                                      sentTo: selectedName.sId,
+                                      sentToName: selectedName.name,
+                                      sentBy: Get.find<UserAuthController>()
+                                              .userData
+                                              .value
+                                              .name ??
+                                          '',
+                                      sentById: Get.find<UserAuthController>()
+                                              .userData
+                                              .value
+                                              .userId ??
+                                          '',
+                                      sentByToken: ' ',
+                                      visitStatus:
+                                          "Sent to ${type[0].toUpperCase()}${type.substring(1, type.length)}",
+                                      appType: type,
+                                    );
+                                    print(
+                                        "--------frvbrg----------${selectedName.name}");
+                                    await Get.find<Studentmodelcontroller>()
+                                        .sendStudentData(data: sentData);
+
+                                    await Get.find<RecentListApiController>()
+                                        .fetchRecentList();
+                                    // playAlarm(Studentdetail.admnNo ?? "1/22");
+                                  }
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 20.w,
+                                    top: 5.h,
+                                    right: 20.w,
+                                    bottom: 5.h,
+                                  ),
+                                  child: Container(
+                                      height: 50.h,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: Colorutils.userdetailcolor,
+                                        borderRadius: const BorderRadius.all(
+                                                Radius.circular(15))
+                                            .r,
                                       ),
-                                    )),
+                                      child: const Center(
+                                        child: Text(
+                                          'SEND',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      )),
+                                ),
                               ),
                             ),
-                          ),
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
             );
           },

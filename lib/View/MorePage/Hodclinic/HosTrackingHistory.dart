@@ -1673,6 +1673,9 @@ class _HostrackinghistoryState extends State<Hostrackinghistory> {
                               child: TextFormField(
                                 controller: controller1,
                                 readOnly: true,
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    ),
                                 decoration: InputDecoration(
                                     hintStyle:
                                     TextStyle(color: Colors.black26),
@@ -1717,8 +1720,8 @@ class _HostrackinghistoryState extends State<Hostrackinghistory> {
 
                                     controller: controller2,
                                     style: TextStyle(
-                                        fontSize: 14,
-                                        fontStyle: FontStyle.italic),
+                                        fontSize: 12,
+                                       ),
                                     readOnly: true,
                                     decoration: InputDecoration(
                                         hintStyle:

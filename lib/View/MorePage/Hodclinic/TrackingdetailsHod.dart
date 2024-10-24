@@ -343,7 +343,7 @@ class _TrackingdetailshodState extends State<Trackingdetailshod> {
                                     child: TextFormField(
                                       controller: controller1,
                                       style: TextStyle(
-                                          fontSize: 14, fontStyle: FontStyle.italic),
+                                          fontSize: 12,),
                                       readOnly: true,
                                       decoration: InputDecoration(
                                           hintStyle: TextStyle(color: Colors.black26),
@@ -388,8 +388,8 @@ class _TrackingdetailshodState extends State<Trackingdetailshod> {
 
                                     controller: controller2,
                                     style: TextStyle(
-                                        fontSize: 14,
-                                        fontStyle: FontStyle.italic),
+                                        fontSize: 12,
+                                       ),
                                     readOnly: true,
                                     decoration: InputDecoration(
                                         hintStyle:

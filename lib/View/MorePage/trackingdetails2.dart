@@ -1727,7 +1727,7 @@ class _trackingDetails2State extends State<trackingDetails2> {
                             child: TextFormField(
                               controller: controller1,
                               style: TextStyle(
-                                  fontSize: 14, fontStyle: FontStyle.italic),
+                                  fontSize: 12,),
                               readOnly: true,
                               decoration: InputDecoration(
                                   hintStyle: TextStyle(color: Colors.black26),
@@ -1769,8 +1769,8 @@ class _trackingDetails2State extends State<trackingDetails2> {
 
                             controller: controller2,
                             style: TextStyle(
-                                fontSize: 14,
-                                fontStyle: FontStyle.italic),
+                                fontSize: 12,
+                                ),
                             readOnly: true,
                             decoration: InputDecoration(
                                 hintStyle:
