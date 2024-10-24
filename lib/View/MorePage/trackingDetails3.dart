@@ -1735,7 +1735,7 @@ class _trackingDetails3State extends State<trackingDetails3> {
                               child: TextFormField(
                                 controller: controller1,
                                 style: TextStyle(
-                                    fontSize: 14, fontStyle: FontStyle.italic),
+                                    fontSize: 12,),
                                 readOnly: true,
                                 decoration: InputDecoration(
                                     hintStyle: TextStyle(color: Colors.black26),
@@ -1768,21 +1768,17 @@ class _trackingDetails3State extends State<trackingDetails3> {
                                               ),
                             (widget.progressCompletedList.status!.length ==5||widget.progressCompletedList.status!.length ==2||widget.progressCompletedList.status!.length ==3||widget.progressCompletedList.status!.length ==4)?
                             Padding(
-                              padding:
-                              const EdgeInsets.only(left: 10, right: 10),
+                              padding: const EdgeInsets.only(left: 10, right: 10),
                               child: Padding(
                                 padding: const EdgeInsets.only(bottom: 20),
                                 child: Container(
                                   child: TextFormField(
-
                                     controller: controller2,
                                     style: TextStyle(
-                                        fontSize: 14,
-                                        fontStyle: FontStyle.italic),
+                                      fontSize: 12,),
                                     readOnly: true,
                                     decoration: InputDecoration(
-                                        hintStyle:
-                                        TextStyle(color: Colors.black26),
+                                        hintStyle: TextStyle(color: Colors.black26),
                                         contentPadding: EdgeInsets.symmetric(
                                             vertical: 10.0, horizontal: 10.0),
                                         border: OutlineInputBorder(
@@ -1792,20 +1788,17 @@ class _trackingDetails3State extends State<trackingDetails3> {
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Colorutils.chatcolor,
-                                              width: 1.0),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(15)),
+                                              color: Colorutils.chatcolor, width: 1.0),
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(15)),
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Colorutils.chatcolor,
-                                              width: 1.0),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(15.0)),
+                                              color: Colorutils.chatcolor, width: 1.0),
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(15.0)),
                                         ),
-                                        fillColor: Colorutils.chatcolor
-                                            .withOpacity(0.2),
+                                        fillColor: Colorutils.chatcolor.withOpacity(0.2),
                                         filled: true),
                                     maxLines: 5,
                                   ),

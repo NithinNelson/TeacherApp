@@ -347,7 +347,11 @@ class _listcontainerState extends State<listcontainer> {
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: Colors.white,
+          color: (widget.Sendtrackingdata.status?.length == 1 &&  remainingTime < 0||
+              widget.Sendtrackingdata.status?.length == 3 && remainingTime < 0||
+              widget.Sendtrackingdata.status?.length == 4 &&  remainingTime <0)
+              ?Colors.red.withOpacity(0.1)
+              : Colors.white,
         ),
         child: Column(
           children: [

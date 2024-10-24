@@ -350,8 +350,8 @@ class _trackingDetailsState extends State<trackingDetails> {
 
                                           controller: controller1,
                                           style: TextStyle(
-                                              fontSize: 14,
-                                              fontStyle: FontStyle.italic),
+                                              fontSize: 12,
+                                              ),
                                           readOnly: true,
                                           decoration: InputDecoration(
                                               hintStyle:
@@ -397,8 +397,8 @@ class _trackingDetailsState extends State<trackingDetails> {
 
                                         controller: controller2,
                                         style: TextStyle(
-                                            fontSize: 14,
-                                            fontStyle: FontStyle.italic),
+                                            fontSize: 12,
+                                           ),
                                         readOnly: true,
                                         decoration: InputDecoration(
                                             hintStyle:

@@ -433,163 +433,172 @@ class TeacherAppPopUps {
       AlertDialog(
 
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: BorderRadius.all(Radius.circular(25.0)),
         ),
 
-        title: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  onTap: (){
-                    Get.back();
-                  },
-                  child: Container(
-                    child: Icon(Icons.clear),
-                  ),
-                ),
-              ],
-            ),
-            Container(
-                height:40,width:40,child: Image.asset("assets/images/Warning.png")),
-            if(title != null)
-              SizedBox(height: 10.w),
-            if(title != null)
-              Text(
-                title,
-                style: TextStyle(fontSize: 22.sp,fontWeight: FontWeight.bold),
-
-              ),
-          ],
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style:TextStyle(fontSize: 13,color: Colors.black),
-            ),
-
-            SizedBox(height: 25,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Left Avatar (Lucas)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10,),
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Colorutils.chatcolor.withOpacity(0.3),
-                        radius: 18,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SvgPicture.asset("assets/images/profileOne.svg"),
-                        ),
-                      ),
-
-
-                    ],
-                  ),
-                ),
-
-                // Dashed Line with Time Text in the Middle
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(10, (index) {
-                        return Container(
-                          margin: EdgeInsets.symmetric(horizontal: 2),
-                          width: 8,
-                          height: 8,
-
-                        );
-                      }),
+        title: Container(
+          padding: EdgeInsets.all(0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: (){
+                      Get.back();
+                    },
+                    child: Container(
+                      child: Icon(Icons.clear),
                     ),
-                    Stack(
+                  ),
+                ],
+              ),
+              Container(
+                  height:40,width:40,child: Image.asset("assets/images/Warning.png")),
+              if(title != null)
+                SizedBox(height: 10.w),
+              if(title != null)
+                Text(
+                  title,
+                  style: TextStyle(fontSize: 22.sp,fontWeight: FontWeight.bold),
+          
+                ),
+            ],
+          ),
+        ),
+        content: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            width: double.infinity,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style:TextStyle(fontSize: 13,color: Colors.black),
+                ),
 
-                      children: [
-
-                        Container(
-                          width: 170.w,
-                          height: 8,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Colorutils.late1,Colorutils.late2], // Define your gradient colors here
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-
+                SizedBox(height: 25,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // Left Avatar (Lucas)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10,),
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colorutils.chatcolor.withOpacity(0.3),
+                            radius: 18,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SvgPicture.asset("assets/images/profileOne.svg"),
                             ),
                           ),
-                        ),
+
+
+                        ],
+                      ),
+                    ),
+
+                    // Dashed Line with Time Text in the Middle
+                    Column(
+                      children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(11, (index) {
+                          children: List.generate(10, (index) {
                             return Container(
-                              margin: EdgeInsets.symmetric(horizontal: 5),
-                              width: 3,
-                              height: 10,
-                              color: Colors.white,
+                              margin: EdgeInsets.symmetric(horizontal: 2),
+                              width: 8,
+                              height: 8,
 
                             );
                           }),
                         ),
+                        Stack(
 
+                          children: [
+
+                            Container(
+                              width: 170.w,
+                              height: 8,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [Colorutils.late1,Colorutils.late2], // Define your gradient colors here
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(11, (index) {
+                                return Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 5),
+                                  width: 3,
+                                  height: 10,
+                                  color: Colors.white,
+
+                                );
+                              }),
+                            ),
+
+                          ],
+                        ),
+
+                        SizedBox(height: 4),
+                        Text(
+                          timeText,
+                          style: TextStyle(color: Colors.orange, fontSize: 14),
+                        ),
                       ],
                     ),
 
-                    SizedBox(height: 4),
-                    Text(
-                      timeText,
-                      style: TextStyle(color: Colors.orange, fontSize: 14),
+                    // Right Avatar (You)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10,),
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colorutils.chatcolor.withOpacity(0.3),
+                            radius: 18,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SvgPicture.asset("assets/images/profileOne.svg"),
+                            ),
+                          ),
+
+
+                        ],
+                      ),
                     ),
+
                   ],
                 ),
-
-                // Right Avatar (You)
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 10,),
-                  child: Column(
+                  padding: EdgeInsets.only( right: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CircleAvatar(
-                        backgroundColor: Colorutils.chatcolor.withOpacity(0.3),
-                        radius: 18,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SvgPicture.asset("assets/images/profileOne.svg"),
-                        ),
+                      Container(
+
+                        child: Text(sendername,
+
+                            style: TextStyle(color: Colors.grey,fontSize: 10)),
+                        width: 150,
                       ),
-
-
+                      Text("You",
+                          style: TextStyle(color: Colors.grey,fontSize: 12)),
                     ],
                   ),
                 ),
 
               ],
             ),
-            Padding(
-              padding: EdgeInsets.only( right: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-
-                    child: Text(sendername,
-
-                        style: TextStyle(color: Colors.grey,fontSize: 10)),
-                    width: 150,
-                  ),
-                  Text("You",
-                      style: TextStyle(color: Colors.grey,fontSize: 12)),
-                ],
-              ),
-            ),
-
-          ],
+          ),
         ),
 
         actionsAlignment: MainAxisAlignment.center,
