@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,13 +26,15 @@ class HosHistoryTracking extends StatefulWidget {
 
 class _HosHistoryTrackingState extends State<HosHistoryTracking> {
   TextEditingController controller1 = TextEditingController();
+  TextEditingController controller2 = TextEditingController();
 
   bool ontap = false;
 
   @override
   Widget build(BuildContext context) {
-    controller1 =
-        TextEditingController(text: widget.Studentdats.remarks);
+
+    controller1 = TextEditingController(text:"SENDER REMARK : ${widget.Studentdats.status?[0].remark}" );
+    controller2 = TextEditingController(text:"UPDATED REMARK : ${widget.Studentdats.remarks}" );
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       body: SafeArea(
@@ -85,13 +88,28 @@ class _HosHistoryTrackingState extends State<HosHistoryTracking> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             CircleAvatar(
-                              radius: 20,
-                              backgroundColor:
-                              Colorutils.chatcolor.withOpacity(0.2),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SvgPicture.asset(
-                                    "assets/images/profileOne.svg"),
+                              radius: 25.r,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(90.h),
+                                child: CachedNetworkImage(
+                                  imageUrl: "${widget.Studentdats.profile}",
+                                  placeholder: (context, url) => CircleAvatar(
+                                    radius: 25.r,
+                                    backgroundColor: Colorutils.chatcolor.withOpacity(0.1),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SvgPicture.asset("assets/images/profileOne.svg"),
+                                    ),
+                                  ),
+                                  errorWidget: (context, url, error) => CircleAvatar(
+                                    radius: 25.r,
+                                    backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SvgPicture.asset("assets/images/profileOne.svg"),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                             SizedBox(
@@ -256,48 +274,99 @@ class _HosHistoryTrackingState extends State<HosHistoryTracking> {
               ),
             ),
             ontap == true
-                ? Padding(
-              padding:
-              const EdgeInsets.only(left: 10, right: 10),
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Container(
-                  child: TextFormField(
-controller: controller1,
-                    readOnly: true,
-                    decoration: InputDecoration(
-                        hintStyle:
-                        TextStyle(color: Colors.black26),
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 10.0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15.0),
+                ? Column(
+                  children: [
+                    Padding(
+                                  padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
+                                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Container(
+                      child: TextFormField(
+                    controller: controller1,
+                        readOnly: true,
+                        decoration: InputDecoration(
+                            hintStyle:
+                            TextStyle(color: Colors.black26),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 10.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(15.0),
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colorutils.chatcolor,
+                                  width: 1.0),
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(15)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colorutils.chatcolor,
+                                  width: 1.0),
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(15.0)),
+                            ),
+                            fillColor: Colorutils.chatcolor
+                                .withOpacity(0.2),
+                            filled: true),
+                        maxLines: 5,
+                      ),
+                      height: 80,
+                    ),
+                                  ),
+                                ),
+                    (widget.Studentdats.status!.length ==2||widget.Studentdats.status!.length ==3||widget.Studentdats.status!.length ==4)?
+                    Padding(
+                      padding:
+                      const EdgeInsets.only(left: 10, right: 10),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Container(
+                          child: TextFormField(
+
+                            controller: controller2,
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontStyle: FontStyle.italic),
+                            readOnly: true,
+                            decoration: InputDecoration(
+                                hintStyle:
+                                TextStyle(color: Colors.black26),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 10.0),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(15.0),
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colorutils.chatcolor,
+                                      width: 1.0),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(15)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colorutils.chatcolor,
+                                      width: 1.0),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(15.0)),
+                                ),
+                                fillColor: Colorutils.chatcolor
+                                    .withOpacity(0.2),
+                                filled: true),
+                            maxLines: 5,
                           ),
+                          height: 80,
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colorutils.chatcolor,
-                              width: 1.0),
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(15)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colorutils.chatcolor,
-                              width: 1.0),
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(15.0)),
-                        ),
-                        fillColor: Colorutils.chatcolor
-                            .withOpacity(0.2),
-                        filled: true),
-                    maxLines: 5,
-                  ),
-                  height: 80,
-                ),
-              ),
-            )
+                      ),
+                    ):SizedBox()
+                  ],
+                )
                 : SizedBox()
 
           ],

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,13 +48,12 @@ class _OveralllistState extends State<Overalllist> {
             builder: (Hosallstudentslistcontroller controller) {
           List<Datas> sendStudentsData = controller.recentData.value;
           return Expanded(
-
             child: RefreshIndicator(
               color: Colorutils.userdetailcolor,
               backgroundColor: Colors.white,
               onRefresh: () async =>
-              await Get.find<Hosallstudentslistcontroller>()
-                  .fetchAllStudentDateList(),
+                  await Get.find<Hosallstudentslistcontroller>()
+                      .fetchAllStudentDateList(),
               child: Column(
                 children: [
                   Container(
@@ -67,8 +67,8 @@ class _OveralllistState extends State<Overalllist> {
                       children: [
                         // Left arrow button
                         InkWell(
-                          onTap: () async{
-                            setState(()  {
+                          onTap: () async {
+                            setState(() {
                               initDate = subtractOneMonth(initDate);
                               currentMonth =
                                   DateFormat('MMMM yyyy').format(initDate);
@@ -83,8 +83,8 @@ class _OveralllistState extends State<Overalllist> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: Colors.white,
-                                  border:
-                                      Border.all(color: Colors.grey, width: 0.2),
+                                  border: Border.all(
+                                      color: Colors.grey, width: 0.2),
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.grey.withOpacity(0.1),
@@ -128,8 +128,8 @@ class _OveralllistState extends State<Overalllist> {
                               width: 30,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  border:
-                                      Border.all(color: Colors.grey, width: 0.2),
+                                  border: Border.all(
+                                      color: Colors.grey, width: 0.2),
                                   color: Colors.white,
                                   boxShadow: [
                                     BoxShadow(
@@ -183,22 +183,30 @@ class _OveralllistState extends State<Overalllist> {
                       dayStructure: DayStructure.dayNumDayStr,
                     ),
                   ),
-                  sendStudentsData.isEmpty?
-                      Padding(
-                        padding: const EdgeInsets.only(top: 150),
-                        child: Center(child: Text( "No Tracking Data on selected Date.",style: TextStyle(color: Colors.red,fontStyle: FontStyle.italic),),),
-                      )
-                  :Expanded(
-                      child: ListView.builder(
-                          itemCount: sendStudentsData.length,
-                          itemBuilder: (context, index) => Padding(
-                            padding: const EdgeInsets.only(top: 3),
-                            child: listcontainer(
-                                Sendtrackingdata: sendStudentsData[index],
-                                startTime: DateTime.parse(
-                                        "${sendStudentsData[index].status?.last.addedOn}")
-                                    .toLocal()),
-                          )))
+                  sendStudentsData.isEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 150),
+                          child: Center(
+                            child: Text(
+                              "No Tracking Data on selected Date.",
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontStyle: FontStyle.italic),
+                            ),
+                          ),
+                        )
+                      : Expanded(
+                          child: ListView.builder(
+                              itemCount: sendStudentsData.length,
+                              itemBuilder: (context, index) => Padding(
+                                    padding: const EdgeInsets.only(top: 3),
+                                    child: listcontainer(
+                                        Sendtrackingdata:
+                                            sendStudentsData[index],
+                                        startTime: DateTime.parse(
+                                                "${sendStudentsData[index].status?.last.addedOn}")
+                                            .toLocal()),
+                                  )))
                 ],
               ),
             ),
@@ -272,6 +280,16 @@ class _listcontainerState extends State<listcontainer> {
       //   startTimer();      });
     }
   }
+  @override
+  void didUpdateWidget(covariant listcontainer oldWidget) {
+    endTime = widget.startTime.add(Duration(seconds: countdownDuration));
+    if (widget.Sendtrackingdata.status?.length == 1 ||
+        widget.Sendtrackingdata.status?.length == 3) {
+      startTimer();
+      // WidgetsBinding.instance.addPostFrameCallback((_) {
+      //   startTimer();      });
+    }    super.didUpdateWidget(oldWidget);
+  }
 
   String? startTimer() {
     int remainingTime = endTime.difference(DateTime.now()).inSeconds;
@@ -279,7 +297,7 @@ class _listcontainerState extends State<listcontainer> {
     bool text = false;
 
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      print("rebuild...brbggh.....$timer.............");
+      print("rebuild...brbgvsdfsgh.....$timer.............");
       setState(() {
         // if (DateTime.now().isBefore(endTime)) {
         //   text = false;
@@ -313,7 +331,7 @@ class _listcontainerState extends State<listcontainer> {
 
   @override
   void dispose() {
-    timer.cancel(); // Cancel the timer when the widget is disposed
+    timer.cancel();
     super.dispose();
   }
 
@@ -340,11 +358,28 @@ class _listcontainerState extends State<listcontainer> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   CircleAvatar(
-                    radius: 22,
-                    backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SvgPicture.asset("assets/images/profileOne.svg"),
+                    radius: 25.r,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(90.h),
+                      child: CachedNetworkImage(
+                        imageUrl: "${widget.Sendtrackingdata.profile}",
+                        placeholder: (context, url) => CircleAvatar(
+                          radius: 25.r,
+                          backgroundColor: Colorutils.chatcolor.withOpacity(0.1),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SvgPicture.asset("assets/images/profileOne.svg"),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => CircleAvatar(
+                          radius: 25.r,
+                          backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SvgPicture.asset("assets/images/profileOne.svg"),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -358,8 +393,7 @@ class _listcontainerState extends State<listcontainer> {
                         width: 200.w,
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
-                          child: Text(
-                              "${widget.Sendtrackingdata.studentName}",
+                          child: Text("${widget.Sendtrackingdata.studentName}",
                               style: GoogleFonts.inter(
                                   textStyle: TextStyle(
                                       fontSize: 16.sp,
@@ -390,7 +424,7 @@ class _listcontainerState extends State<listcontainer> {
                           )),
                     ],
                   ),
-Spacer(),
+                  Spacer(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -464,15 +498,21 @@ Spacer(),
                   children: [
                     Expanded(
                       child: CustomLinearProgressIndicator(
-                        value:(remainingTime > 0 && (widget.Sendtrackingdata.status?.length==1 ||widget.Sendtrackingdata.status?.length==3 ))? progress:10,
+                        value: (remainingTime > 0 &&
+                                (widget.Sendtrackingdata.status?.length == 1 ||
+                                    widget.Sendtrackingdata.status?.length ==
+                                        3))
+                            ? progress
+                            : 10,
                         backgroundColor: Colors.white,
                         textColor: Colors.white,
                         borderRadius: BorderRadius.circular(15),
-                        text: (widget.Sendtrackingdata.status?.length==1 || widget.Sendtrackingdata.status?.length==3)?
-
-                        remainingTime > 0
-                            ? "${formatTime(remainingTime)}" " Min Left"
-                            : "Not Yet Reached":"Student Reached",
+                        text: (widget.Sendtrackingdata.status?.length == 1 ||
+                                widget.Sendtrackingdata.status?.length == 3)
+                            ? remainingTime > 0
+                                ? "${formatTime(remainingTime)}" " Min Left"
+                                : "Not Yet Reached"
+                            : "Student Reached",
                         gradient: const LinearGradient(
                           colors: [
                             Colorutils.gradientColor1,
@@ -490,12 +530,10 @@ Spacer(),
                               context,
                               MaterialPageRoute(
                                   builder: (context) => HosHistoryTracking(
-                                        Studentdats: widget.Sendtrackingdata,
+                                      Studentdats: widget.Sendtrackingdata,
                                       startTime: DateTime.parse(
-                                          "${widget.Sendtrackingdata.status?.last.addedOn
-                                          }")
-                                          .toLocal()
-                                      )));
+                                              "${widget.Sendtrackingdata.status?.last.addedOn}")
+                                          .toLocal())));
                         },
                         child: CircleAvatar(
                           radius: 20,
