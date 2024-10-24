@@ -303,7 +303,13 @@ class UserAuthController extends GetxController {
   Future<void> setFirebaseToken() async {
     String? fcmToken;
     try {
-      fcmToken = await FirebaseMessaging.instance.getToken();
+      FirebaseMessaging messaging = FirebaseMessaging.instance;
+      fcmToken = await messaging.getToken();
+      messaging.requestPermission(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
       if(fcmToken != null) {
         print("--------fcm token-----------$fcmToken");
         Map<String, dynamic> resp = await ApiServices.fcmTokenSent(fcmToken: fcmToken, emailId: userData.value.username ?? '');

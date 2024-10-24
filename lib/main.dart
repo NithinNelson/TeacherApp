@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:teacherapp/Services/fcm_service.dart';
 import 'package:teacherapp/Utils/Colors.dart';
 import 'Services/controller_handling.dart';
 import 'Services/shared_preferences.dart';
@@ -34,6 +35,8 @@ Future<void> main() async {
     ]
   );
   WidgetsFlutterBinding.ensureInitialized();
+  await Get.putAsync(() => FcmService().init());
+  Get.put(() => FcmService().handleBackground());
   final sharedPrefs = SharedPrefs();
   await sharedPrefs.initialize();
   runApp(const MyApp());
