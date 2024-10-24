@@ -31,6 +31,7 @@ import '../Controller/reaction_controller/reaction_controller.dart';
 import '../Controller/ui_controllers/keyboardController.dart';
 import '../Controller/ui_controllers/page_controller.dart';
 import '../Controller/ui_controllers/textFieldController.dart';
+import '../View/MorePage/Hodclinic/TrackingPageHod.dart';
 
 class HandleControllers {
   static createGetControllers() {
@@ -65,7 +66,7 @@ class HandleControllers {
     Get.put(Hosstudentupdatecontroller());
     Get.put(Hosallstudentslistcontroller());
     Get.put(Ownhistorycontroller());
-    Get.put(Popupcontoller());
+    Get.put(Popupcontoller());  Get.put(UpdateController());
   }
 
   static deleteAllGetControllers() {
@@ -99,6 +100,6 @@ class HandleControllers {
     Get.delete<Hosstudentupdatecontroller>();
     Get.delete<Hosallstudentslistcontroller>();
     Get.delete<Ownhistorycontroller>();
-    Get.delete<Popupcontoller>();
+    Get.delete<Popupcontoller>();Get.delete<UpdateController>();
   }
 }

@@ -31,9 +31,12 @@ class Trackingdetailshod extends StatefulWidget {
   const Trackingdetailshod(
       {super.key, required this.sendStudentList, required this.starttime});
 
+
+
   @override
   State<Trackingdetailshod> createState() => _TrackingdetailshodState();
 }
+
 
 class _TrackingdetailshodState extends State<Trackingdetailshod> {
   TextEditingController controller1 = TextEditingController();
@@ -44,385 +47,391 @@ class _TrackingdetailshodState extends State<Trackingdetailshod> {
   Widget build(BuildContext context) {
     controller1 = TextEditingController(text:"SENDER REMARK : ${widget.sendStudentList.status?[0].remark}" );
     controller2 = TextEditingController(text:"UPDATED REMARK : ${widget.sendStudentList.remarks}" );
+    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TrackingpageHod()))
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              height: 60,
-              child: Row(
-                children: [
-                  Padding(
-                      padding: EdgeInsets.only(left: 18),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Icon(
-                          Icons.arrow_back_outlined,
-                          size: 30,
-                        ),
-                      )),
-                  Spacer(
-                    flex: 2,
-                  ),
-                  const Text(
-                    "Tracking",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
-                  Spacer(
-                    flex: 3,
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 12, right: 12, bottom: 8, top: 4),
-              child: Container(
-                // height: 70.h,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.white,
-                ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8, right: 12, top: 8, bottom: 3),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          // CircleAvatar(
-                          //   radius: 20,
-                          //   backgroundColor:
-                          //       Colorutils.chatcolor.withOpacity(0.2),
-                          //   child: Padding(
-                          //     padding: const EdgeInsets.all(8.0),
-                          //     child: SvgPicture.asset(
-                          //         "assets/images/profileOne.svg"),
-                          //   ),
-                          // ),
-                          CircleAvatar(
-                            radius: 25.r,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(90.h),
-                              child: CachedNetworkImage(
-                                imageUrl: "${widget.sendStudentList.profilePic}",
-                                placeholder: (context, url) => CircleAvatar(
-                                  radius: 25.r,
-                                  backgroundColor: Colorutils.chatcolor.withOpacity(0.1),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SvgPicture.asset("assets/images/profileOne.svg"),
-                                  ),
-                                ),
-                                errorWidget: (context, url, error) => CircleAvatar(
-                                  radius: 25.r,
-                                  backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SvgPicture.asset("assets/images/profileOne.svg"),
-                                  ),
-                                ),
-                              ),
+        child: GetBuilder<UpdateController>(
+          builder: (_) {
+
+            return Column(
+              children: [
+                Container(
+                  height: 60,
+                  child: Row(
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.only(left: 18),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Icon(
+                              Icons.arrow_back_outlined,
+                              size: 30,
                             ),
-                          ),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          )),
+                      Spacer(
+                        flex: 2,
+                      ),
+                      const Text(
+                        "Tracking",
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                      Spacer(
+                        flex: 3,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 12, right: 12, bottom: 8, top: 4),
+                  child: Container(
+                    // height: 70.h,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 8, right: 12, top: 8, bottom: 3),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Container(
-                                width: 200.w,
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Text(
-                                      "${widget.sendStudentList.studentName}",
-                                      style: GoogleFonts.inter(
-                                          textStyle: TextStyle(
-                                              fontSize: 16.sp,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w600))),
+                              // CircleAvatar(
+                              //   radius: 20,
+                              //   backgroundColor:
+                              //       Colorutils.chatcolor.withOpacity(0.2),
+                              //   child: Padding(
+                              //     padding: const EdgeInsets.all(8.0),
+                              //     child: SvgPicture.asset(
+                              //         "assets/images/profileOne.svg"),
+                              //   ),
+                              // ),
+                              CircleAvatar(
+                                radius: 25.r,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(90.h),
+                                  child: CachedNetworkImage(
+                                    imageUrl: "${widget.sendStudentList.profilePic}",
+                                    placeholder: (context, url) => CircleAvatar(
+                                      radius: 25.r,
+                                      backgroundColor: Colorutils.chatcolor.withOpacity(0.1),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SvgPicture.asset("assets/images/profileOne.svg"),
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) => CircleAvatar(
+                                      radius: 25.r,
+                                      backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SvgPicture.asset("assets/images/profileOne.svg"),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                               SizedBox(
-                                height: 5.h,
+                                width: 10.w,
                               ),
-                              Container(
-                                  // width: 130.w,
-                                  // height: 18.h,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: Colorutils.clinicHOd,
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 1.h, horizontal: 10.w),
-                                    child: Text("Sent From Teacher",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.inter(
-                                            textStyle: TextStyle(
-                                          fontSize: 13.sp,
-                                          color: Colors.blue,
-                                        ))),
-                                  )),
-                            ],
-                          ),
-                          Spacer(),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    "Sent :",
-
-                                    // "Sent : ${widget.sendStudentList.visitDate}",
-                                    style: GoogleFonts.inter(
-                                      textStyle: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold),
+                                  Container(
+                                    width: 200.w,
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Text(
+                                          "${widget.sendStudentList.studentName}",
+                                          style: GoogleFonts.inter(
+                                              textStyle: TextStyle(
+                                                  fontSize: 16.sp,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600))),
                                     ),
                                   ),
-                                  Text(
-                                    " ${widget.sendStudentList.visitDate}",
-                                    style: GoogleFonts.inter(
-                                      textStyle: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                  SizedBox(
+                                    height: 5.h,
                                   ),
+                                  Container(
+                                      // width: 130.w,
+                                      // height: 18.h,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4),
+                                        color: Colorutils.clinicHOd,
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 1.h, horizontal: 10.w),
+                                        child: Text("Sent From Teacher",
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.inter(
+                                                textStyle: TextStyle(
+                                              fontSize: 13.sp,
+                                              color: Colors.blue,
+                                            ))),
+                                      )),
                                 ],
                               ),
-                              SizedBox(
-                                height: 8.h,
-                              ),
-                              Container(
-                                  child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                              Spacer(),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text(
-                                    "From : ",
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "Sent :",
 
-                                    // "Sent : ${widget.sendStudentList.visitDate}",
-                                    style: GoogleFonts.inter(
-                                      textStyle: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  Text(
-                                      "Grade "
-                                      "${widget.sendStudentList.classs}"
-                                      " "
-                                      "${widget.sendStudentList.batch}",
-                                      style: GoogleFonts.inter(
+                                        // "Sent : ${widget.sendStudentList.visitDate}",
+                                        style: GoogleFonts.inter(
+                                          textStyle: TextStyle(
+                                              fontSize: 12.sp,
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      Text(
+                                        " ${widget.sendStudentList.visitDate}",
+                                        style: GoogleFonts.inter(
                                           textStyle: TextStyle(
                                               fontSize: 12.sp,
                                               color: Colors.black,
-                                              fontWeight: FontWeight.bold))),
-                                ],
-                              )),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 55, bottom: 3),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.circle,
-                            color: Colors.blue,
-                            size: 8,
-                          ),
-                          SizedBox(
-                            width: 1,
-                          ),
-                          Container(
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Text(
-                                  "${widget.sendStudentList.status?.first.sentBy?.toUpperCase()}",
-                                  style: GoogleFonts.inter(
-                                      textStyle: TextStyle(
-                                    fontSize: 11.sp,
-                                    color: Colors.blue,
-                                  ))),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Column(
-              children: [
-                if (widget.sendStudentList.status?.length == 1)
-                  Container1(
-                    sendDetails1: widget.sendStudentList,
-                    startTime1: widget.starttime,
-                  ),
-                if (widget.sendStudentList.status?.length == 2)
-                  Container2(
-                    sendDetails2: widget.sendStudentList,
-                    startTime2: widget.starttime,
-                  ),
-                if (widget.sendStudentList.status?.length == 3)
-                  Container3(
-                    sendDetails3: widget.sendStudentList,
-                    startTime3: widget.starttime,
-                  ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 18, right: 18),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        ontap = !ontap;
-                      });
-                    },
-                    child: Container(
-                      height: 40,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            "Remarks",
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colorutils.userdetailcolor,
-                                fontStyle: FontStyle.italic),
-                          ),
-                          SizedBox(
-                            width: 2,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: Icon(
-                              ontap == true
-                                  ? Icons.arrow_drop_down
-                                  : Icons.arrow_drop_up,
-                              // Change icon based on ontap value
-                              color: Colorutils.userdetailcolor,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                ontap == true
-                    ? Column(
-                      children: [
-                        Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 20),
-                              child: Container(
-                                child: TextFormField(
-                                  controller: controller1,
-                                  style: TextStyle(
-                                      fontSize: 14, fontStyle: FontStyle.italic),
-                                  readOnly: true,
-                                  decoration: InputDecoration(
-                                      hintStyle: TextStyle(color: Colors.black26),
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 10.0, horizontal: 10.0),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(15.0),
+                                              fontWeight: FontWeight.bold),
                                         ),
                                       ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colorutils.chatcolor,
-                                            width: 1.0),
-                                        borderRadius:
-                                            BorderRadius.all(Radius.circular(15)),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colorutils.chatcolor,
-                                            width: 1.0),
-                                        borderRadius:
-                                            BorderRadius.all(Radius.circular(15.0)),
-                                      ),
-                                      fillColor:
-                                          Colorutils.chatcolor.withOpacity(0.2),
-                                      filled: true),
-                                  maxLines: 5,
-                                ),
-                                height: 80,
-                              ),
-                            ),
-                          ),
-                        (widget.sendStudentList.status!.length ==2||widget.sendStudentList.status!.length ==3||widget.sendStudentList.status!.length ==4)?
-                        Padding(
-                          padding:
-                          const EdgeInsets.only(left: 10, right: 10),
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
-                            child: Container(
-                              child: TextFormField(
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 8.h,
+                                  ),
+                                  Container(
+                                      child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "From : ",
 
-                                controller: controller2,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontStyle: FontStyle.italic),
-                                readOnly: true,
-                                decoration: InputDecoration(
-                                    hintStyle:
-                                    TextStyle(color: Colors.black26),
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 10.0, horizontal: 10.0),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(15.0),
+                                        // "Sent : ${widget.sendStudentList.visitDate}",
+                                        style: GoogleFonts.inter(
+                                          textStyle: TextStyle(
+                                              fontSize: 12.sp,
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colorutils.chatcolor,
-                                          width: 1.0),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(15)),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colorutils.chatcolor,
-                                          width: 1.0),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(15.0)),
-                                    ),
-                                    fillColor: Colorutils.chatcolor
-                                        .withOpacity(0.2),
-                                    filled: true),
-                                maxLines: 5,
+                                      Text(
+                                          "Grade "
+                                          "${widget.sendStudentList.classs}"
+                                          " "
+                                          "${widget.sendStudentList.batch}",
+                                          style: GoogleFonts.inter(
+                                              textStyle: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold))),
+                                    ],
+                                  )),
+                                ],
                               ),
-                              height: 80,
-                            ),
+                            ],
                           ),
-                        ):SizedBox()
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 55, bottom: 3),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.circle,
+                                color: Colors.blue,
+                                size: 8,
+                              ),
+                              SizedBox(
+                                width: 1,
+                              ),
+                              Container(
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Text(
+                                      "${widget.sendStudentList.status?.first.sentBy?.toUpperCase()}",
+                                      style: GoogleFonts.inter(
+                                          textStyle: TextStyle(
+                                        fontSize: 11.sp,
+                                        color: Colors.blue,
+                                      ))),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
-                    )
-                    : SizedBox()
+                    ),
+                  ),
+                ),
+                Column(
+                  children: [
+                    if (widget.sendStudentList.status?.length == 1)
+                      Container1(
+                        sendDetails1: widget.sendStudentList,
+                        startTime1: widget.starttime,
+                      ),
+                    if (widget.sendStudentList.status?.length == 2)
+                      Container2(
+                        sendDetails2: widget.sendStudentList,
+                        startTime2: widget.starttime,
+                      ),
+                    if (widget.sendStudentList.status?.length == 3)
+                      Container3(
+                        sendDetails3: widget.sendStudentList,
+                        startTime3: widget.starttime,
+                      ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 18, right: 18),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            ontap = !ontap;
+                          });
+                        },
+                        child: Container(
+                          height: 40,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                "Remarks",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colorutils.userdetailcolor,
+                                    fontStyle: FontStyle.italic),
+                              ),
+                              SizedBox(
+                                width: 2,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Icon(
+                                  ontap == true
+                                      ? Icons.arrow_drop_down
+                                      : Icons.arrow_drop_up,
+                                  // Change icon based on ontap value
+                                  color: Colorutils.userdetailcolor,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    ontap == true
+                        ? Column(
+                          children: [
+                            Padding(
+                                padding: const EdgeInsets.only(left: 10, right: 10),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Container(
+                                    child: TextFormField(
+                                      controller: controller1,
+                                      style: TextStyle(
+                                          fontSize: 14, fontStyle: FontStyle.italic),
+                                      readOnly: true,
+                                      decoration: InputDecoration(
+                                          hintStyle: TextStyle(color: Colors.black26),
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 10.0, horizontal: 10.0),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(15.0),
+                                            ),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colorutils.chatcolor,
+                                                width: 1.0),
+                                            borderRadius:
+                                                BorderRadius.all(Radius.circular(15)),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colorutils.chatcolor,
+                                                width: 1.0),
+                                            borderRadius:
+                                                BorderRadius.all(Radius.circular(15.0)),
+                                          ),
+                                          fillColor:
+                                              Colorutils.chatcolor.withOpacity(0.2),
+                                          filled: true),
+                                      maxLines: 5,
+                                    ),
+                                    height: 80,
+                                  ),
+                                ),
+                              ),
+                            (widget.sendStudentList.status!.length ==2||widget.sendStudentList.status!.length ==3||widget.sendStudentList.status!.length ==4)?
+                            Padding(
+                              padding:
+                              const EdgeInsets.only(left: 10, right: 10),
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 20),
+                                child: Container(
+                                  child: TextFormField(
+
+                                    controller: controller2,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontStyle: FontStyle.italic),
+                                    readOnly: true,
+                                    decoration: InputDecoration(
+                                        hintStyle:
+                                        TextStyle(color: Colors.black26),
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 10.0, horizontal: 10.0),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(15.0),
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colorutils.chatcolor,
+                                              width: 1.0),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(15)),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colorutils.chatcolor,
+                                              width: 1.0),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(15.0)),
+                                        ),
+                                        fillColor: Colorutils.chatcolor
+                                            .withOpacity(0.2),
+                                        filled: true),
+                                    maxLines: 5,
+                                  ),
+                                  height: 80,
+                                ),
+                              ),
+                            ):SizedBox()
+                          ],
+                        )
+                        : SizedBox()
+                  ],
+                ),
               ],
-            ),
-          ],
+            );
+          }
         ),
       ),
     );
@@ -720,6 +729,7 @@ class _Container1State extends State<Container1> {
 
                         // await Get.find<RecentListApiController>()
                         //     .fetchRecentList();
+
                       },
                       label: Center(
                         child: const Text(
@@ -1011,6 +1021,7 @@ class _Container2State extends State<Container2> {
 
                               // await Get.find<RecentListApiController>()
                               //     .fetchRecentList();
+
                             },
                             label: Center(
                               child: const Text(

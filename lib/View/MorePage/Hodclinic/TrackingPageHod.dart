@@ -54,7 +54,6 @@ class _TrackingpageHodState extends State<TrackingpageHod>
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     Get.find<Hosstudentlistcontroller>().fetchHosStudentList(DateTime.now());
@@ -302,35 +301,25 @@ class _trackingcontainerState extends State<trackingcontainer> {
     super.initState();
 
     endTime = widget.startTime.add(Duration(seconds: countdownDuration));
-    // (widget.index1 == 0 && widget.sendStudentList.status?.length == 1 ) ? WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   print("fjidjdff = ${widget.index1}");
-    //   TeacherAppPopUps.Trackingpop(
-    //       title: "Student Coming!",
-    //       message:
-    //       "${widget.sendStudentList.studentName} ,${" from Grade"
-    //           " "
-    //           "${widget.sendStudentList.classs}"
-    //           " "
-    //           "${widget.sendStudentList.batch}"} on way, Sent By ${widget.sendStudentList.status?.first.sentBy}",
-    //       actionName: "Track",
-    //       iconColor: Colors.green,
-    //       timeText: '', sendername:"${widget.sendStudentList.studentName}");
-    // }): WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   print("fjidjdff = ${widget.index1}");
-    //   widget.index1 == 0?  TeacherAppPopUps.Trackingpoplate(
-    //       title: "Late Alert",
-    //       message:
-    //       "${widget.sendStudentList.studentName} ${"has not reached yet."}",
-    //       actionName: "Track",
-    //       iconColor: Colors.green,
-    //       timeText: '', sendername: '${widget.sendStudentList.studentName}'):();
-    // });
+
 
     if (widget.sendStudentList.status?.length == 1 ||
         widget.sendStudentList.status?.length == 3) {
       startTimer();
     }
   }
+  @override
+  void didUpdateWidget(covariant trackingcontainer oldWidget) {
+    endTime = widget.startTime.add(Duration(seconds: countdownDuration));
+
+
+    if (widget.sendStudentList.status?.length == 1 ||
+        widget.sendStudentList.status?.length == 3) {
+      startTimer();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
 
   String? startTimer() {
     int remainingTime = endTime.difference(DateTime.now()).inSeconds;
@@ -386,7 +375,6 @@ class _trackingcontainerState extends State<trackingcontainer> {
 
   @override
   Widget build(BuildContext context) {
-
     int remainingTime = endTime.difference(DateTime.now()).inSeconds;
 
     double progress = (countdownDuration - remainingTime) / countdownDuration;
@@ -395,16 +383,16 @@ class _trackingcontainerState extends State<trackingcontainer> {
       padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8, top: 4),
       child: GestureDetector(
         onTap: () async {
-          await Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => Trackingdetailshod(
-                    sendStudentList: widget.sendStudentList,
-                    starttime: DateTime.parse(
-                            "${widget.sendStudentList.status?.last.addedOn}")
-                        .toLocal(),
-                  ))).then((val) {
-            setState(() {
-
-            });
+          await Navigator.of(context)
+              .push(MaterialPageRoute(
+                  builder: (context) => Trackingdetailshod(
+                        sendStudentList: widget.sendStudentList,
+                        starttime: DateTime.parse(
+                                "${widget.sendStudentList.status?.last.addedOn}")
+                            .toLocal(),
+                      )))
+              .then((val) {
+            setState(() {});
           });
         },
         child: Container(
@@ -412,7 +400,14 @@ class _trackingcontainerState extends State<trackingcontainer> {
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: Colors.white,
+            color: (widget.sendStudentList.status?.length == 1 &&
+                        remainingTime < 0 ||
+                    widget.sendStudentList.status?.length == 3 &&
+                        remainingTime < 0 ||
+                    widget.sendStudentList.status?.length == 4 &&
+                        remainingTime < 0)
+                ? Colors.red.withOpacity(0.1)
+                : Colors.white,
           ),
           child: Column(
             children: [
@@ -438,18 +433,22 @@ class _trackingcontainerState extends State<trackingcontainer> {
                           imageUrl: "${widget.sendStudentList.profilePic}",
                           placeholder: (context, url) => CircleAvatar(
                             radius: 25.r,
-                            backgroundColor: Colorutils.chatcolor.withOpacity(0.1),
+                            backgroundColor:
+                                Colorutils.chatcolor.withOpacity(0.1),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset("assets/images/profileOne.svg"),
+                              child: SvgPicture.asset(
+                                  "assets/images/profileOne.svg"),
                             ),
                           ),
                           errorWidget: (context, url, error) => CircleAvatar(
                             radius: 25.r,
-                            backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
+                            backgroundColor:
+                                Colorutils.chatcolor.withOpacity(0.2),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset("assets/images/profileOne.svg"),
+                              child: SvgPicture.asset(
+                                  "assets/images/profileOne.svg"),
                             ),
                           ),
                         ),
@@ -681,18 +680,22 @@ class _TrackingContainerState extends State<TrackingContainer> {
                           imageUrl: "${widget.sendStudentsData.profile}",
                           placeholder: (context, url) => CircleAvatar(
                             radius: 25.r,
-                            backgroundColor: Colorutils.chatcolor.withOpacity(0.1),
+                            backgroundColor:
+                                Colorutils.chatcolor.withOpacity(0.1),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset("assets/images/profileOne.svg"),
+                              child: SvgPicture.asset(
+                                  "assets/images/profileOne.svg"),
                             ),
                           ),
                           errorWidget: (context, url, error) => CircleAvatar(
                             radius: 25.r,
-                            backgroundColor: Colorutils.chatcolor.withOpacity(0.2),
+                            backgroundColor:
+                                Colorutils.chatcolor.withOpacity(0.2),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset("assets/images/profileOne.svg"),
+                              child: SvgPicture.asset(
+                                  "assets/images/profileOne.svg"),
                             ),
                           ),
                         ),
@@ -922,4 +925,9 @@ String formatTime(int seconds) {
   int minutes = seconds ~/ 60; // Calculate minutes
   int remainingSeconds = seconds % 60; // Calculate remaining seconds
   return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}'; // Format as mm:ss
+}
+class UpdateController extends GetxController{
+  uiUpdate(){
+    update();
+}
 }

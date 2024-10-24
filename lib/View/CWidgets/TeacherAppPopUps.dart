@@ -9,8 +9,10 @@ import 'package:teacherapp/Utils/Colors.dart';
 import 'package:teacherapp/Utils/font_util.dart';
 import 'package:teacherapp/View/Login_page/login.dart';
 
+import '../../Controller/api_controllers/hosStudentListController.dart';
 import '../../Controller/ui_controllers/page_controller.dart';
 import '../../Services/controller_handling.dart';
+import '../MorePage/Hodclinic/TrackingPageHod.dart';
 import '../MorePage/more_page.dart';
 
 class TeacherAppPopUps {
@@ -80,8 +82,67 @@ class TeacherAppPopUps {
       ),
     );
   }
-
   static submitFailedTwoBack({
+    String? title,
+    required String message,
+    required String actionName,
+    required IconData iconData,
+    required Color iconColor,
+  }) {
+    return Get.dialog(
+      AlertDialog(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        ),
+        title: Column(
+          children: [
+            Icon(
+              iconData,
+              color: iconColor,
+              size: 50.w,
+            ),
+            if(title != null)
+              SizedBox(height: 10.w),
+            if(title != null)
+              Text(
+                title,
+                style: TeacherAppFonts.interW600_18sp_textWhite.copyWith(
+                  color: Colors.black,
+                ),
+              ),
+          ],
+        ),
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 16.sp),
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          FilledButton(
+            onPressed: () {
+              Get.back();
+              Get.back();
+            },
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.all(Colorutils.letters1),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  actionName,
+                  style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static submitFailedTwoBackforupdate({
     String? title,
     required String message,
     required String actionName,
@@ -163,6 +224,7 @@ class TeacherAppPopUps {
                 GestureDetector(
                   onTap: (){
                    Get.back();
+
                   },
                   child: Container(
                     child: Icon(Icons.clear),

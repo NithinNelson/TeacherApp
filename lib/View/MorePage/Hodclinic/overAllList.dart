@@ -280,6 +280,16 @@ class _listcontainerState extends State<listcontainer> {
       //   startTimer();      });
     }
   }
+  @override
+  void didUpdateWidget(covariant listcontainer oldWidget) {
+    endTime = widget.startTime.add(Duration(seconds: countdownDuration));
+    if (widget.Sendtrackingdata.status?.length == 1 ||
+        widget.Sendtrackingdata.status?.length == 3) {
+      startTimer();
+      // WidgetsBinding.instance.addPostFrameCallback((_) {
+      //   startTimer();      });
+    }    super.didUpdateWidget(oldWidget);
+  }
 
   String? startTimer() {
     int remainingTime = endTime.difference(DateTime.now()).inSeconds;
@@ -287,7 +297,7 @@ class _listcontainerState extends State<listcontainer> {
     bool text = false;
 
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      print("rebuild...brbggh.....$timer.............");
+      print("rebuild...brbgvsdfsgh.....$timer.............");
       setState(() {
         // if (DateTime.now().isBefore(endTime)) {
         //   text = false;
@@ -321,7 +331,7 @@ class _listcontainerState extends State<listcontainer> {
 
   @override
   void dispose() {
-    timer.cancel(); // Cancel the timer when the widget is disposed
+    timer.cancel();
     super.dispose();
   }
 

@@ -27,12 +27,13 @@ class Hosstudentupdatecontroller extends GetxController {
     try {
       Map<String, dynamic> resp = await ApiServices.getSubmitHosdata(data: data);
       if (resp['status']['code'] == 200) {
-        TeacherAppPopUps.submitFailedTwoBack (
+        TeacherAppPopUps.submitFailedTwoBackforupdate (
             title: resp["status"]["message"],
             message: resp["data"]["message"],
             actionName: "Ok",
             iconData: Icons.check_circle_outline,
             iconColor: Colors.green);
+
 
       }
       else {
