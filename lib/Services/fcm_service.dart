@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/state_manager.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class FcmService extends GetxService {
   //pre-config
@@ -11,7 +14,8 @@ class FcmService extends GetxService {
     'NotificationName', // name
     description: '',
     importance: Importance.max,
-    playSound: true,
+    // playSound: true,
+    // sound: RawResourceAndroidNotificationSound("alarm"),
     enableVibration: true,
   );
 
@@ -33,6 +37,7 @@ class FcmService extends GetxService {
 
     // Determine if the sound should be played
     bool playSound = sound != null && sound.isNotEmpty; // Play sound only if it is "alarm"
+    String channelId = 'notification_id_${sound ?? 'default'}';
 
     flutterLocalNotificationsPlugin.show(
       notification.hashCode,
@@ -40,13 +45,14 @@ class FcmService extends GetxService {
       notification.body,
       NotificationDetails(
         android: AndroidNotificationDetails(
-          channel.id,
+          channelId,
           channel.name,
           color: Colors.yellow,
           importance: Importance.max,
           playSound: playSound, // Use the boolean value to set this
           sound: playSound ? RawResourceAndroidNotificationSound(sound) : null,
           icon: '@mipmap/ic_launcher',
+          enableVibration: true,
         ),
       ),
     );
@@ -70,6 +76,7 @@ class FcmService extends GetxService {
 
   handleForeground() {
     //Foreground Handler
+    requestPermission();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print("------gbfgb--------${message.data}");
       RemoteNotification? notification = message.notification;
@@ -83,9 +90,9 @@ class FcmService extends GetxService {
   Future<FcmService> init() async {
     print('$runtimeType is ready!');
 
-    await Firebase.initializeApp(
-      //options: DefaultFirebaseOptions.currentPlatform,
-    );
+    // await Firebase.initializeApp(
+    //   //options: DefaultFirebaseOptions.currentPlatform,
+    // );
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>()
@@ -95,5 +102,42 @@ class FcmService extends GetxService {
     //Token
     //getToken();
     return this;
+  }
+
+  Future<void> requestPermission() async {
+    // Check for Android permissions
+    if (Platform.isAndroid) {
+      var status = await Permission.notification.status;
+      // var audio = await Permission.audio.status;
+
+      if (status.isDenied) {
+        // Request notification permission
+        await Permission.notification.request();
+      }
+
+      // if (audio.isDenied) {
+      //   // Request audio permission
+      //   var result = await Permission.audio.request();
+      //   if (result.isGranted) {
+      //     print("Audio permission granted");
+      //   } else {
+      //     print("Audio permission denied");
+      //   }
+      // }
+    }
+
+    // Request permission for iOS
+    if (Platform.isIOS) {
+      final bool? result = await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(
+          alert: true, badge: true, sound: true);
+      if (result == true) {
+        print("Permission granted");
+      } else {
+        print("Permission denied");
+      }
+    }
   }
 }
